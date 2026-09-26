@@ -626,9 +626,10 @@ ul, ol {
   background: linear-gradient(
     90deg,
     #FAF9F6 0%,
-    rgba(250, 249, 246, 0.85) 35%,
-    rgba(250, 249, 246, 0.25) 65%,
-    transparent 90%
+    #FAF9F6 38%,
+    rgba(250, 249, 246, 0.75) 60%,
+    rgba(250, 249, 246, 0.2) 82%,
+    transparent 96%
   );
 }
 
@@ -637,8 +638,9 @@ ul, ol {
     background: linear-gradient(
       90deg,
       #FAF9F6 0%,
-      rgba(250, 249, 246, 0.75) 45%,
-      transparent 85%
+      #FAF9F6 30%,
+      rgba(250, 249, 246, 0.75) 60%,
+      transparent 90%
     );
   }
 }
@@ -682,11 +684,6 @@ ul, ol {
   line-height: 1.2;
   margin-bottom: 0.5rem;
   text-transform: lowercase;
-}
-
-.hero-v2-title .text-accent-brown {
-  color: #8B5A1D;
-  display: inline;
 }
 
 @media (min-width: 768px) {
