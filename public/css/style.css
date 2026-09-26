@@ -566,27 +566,28 @@ ul, ol {
 .hero-section-v2 {
   position: relative;
   background-color: var(--bg-primary);
-  padding-top: calc(var(--header-height-mobile) + 2.5rem);
-  padding-bottom: 4rem;
-  min-height: 440px;
-  display: flex;
-  align-items: center;
+  padding-top: calc(var(--header-height-mobile) + 1.25rem);
+  padding-bottom: 2.5rem;
+  min-height: auto;
+  display: block;
   overflow: hidden;
 }
 
 @media (min-width: 768px) {
   .hero-section-v2 {
-    padding-top: calc(var(--header-height-mobile) + 3.5rem);
-    padding-bottom: 5.5rem;
-    min-height: 540px;
+    padding-top: calc(var(--header-height-mobile) + 2.5rem);
+    padding-bottom: 3.5rem;
+    min-height: 480px;
+    display: flex;
+    align-items: center;
   }
 }
 
 @media (min-width: 1024px) {
   .hero-section-v2 {
-    padding-top: calc(var(--header-height-desktop) + 4rem);
-    padding-bottom: 7rem;
-    min-height: 640px;
+    padding-top: calc(var(--header-height-desktop) + 3rem);
+    padding-bottom: 4.5rem;
+    min-height: 560px;
   }
 }
 
