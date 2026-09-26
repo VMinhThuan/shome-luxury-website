@@ -1,80 +1,11 @@
-<!-- Quick Floating Contact Speed-Dial Widget (Matching Screenshot Exactly) -->
+<!-- Quick Floating Contact Widget -->
 <div class="quick-contact-widget" id="quickContactWidget">
-  <!-- Backdrop when menu is expanded -->
-  <div class="quick-contact-backdrop" id="quickContactBackdrop"></div>
-
-  <!-- Expanded Speed Dial Menu -->
-  <div class="quick-contact-menu" id="quickContactMenu">
-    <!-- Connecting Gold Arc Accent -->
-    <div class="quick-contact-arc"></div>
-
-    <!-- Header Pill -->
-    <div class="quick-contact-pill header-pill">
-      <span class="pill-text">Liên hệ nhanh</span>
-      <button class="pill-close-btn" id="quickContactCloseHeader" aria-label="Đóng menu">
-        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#D4AF37" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-          <line x1="18" y1="6" x2="6" y2="18"></line>
-          <line x1="6" y1="6" x2="18" y2="18"></line>
-        </svg>
-      </button>
-    </div>
-
-    <!-- Option 1: Phone Call -->
-    <a href="tel:0799997700" class="quick-contact-pill option-pill call-pill">
-      <div class="pill-icon-circle phone-circle">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="#FFFFFF">
-          <path d="M6.62 10.79a15.053 15.053 0 006.59 6.59l2.2-2.2a1.003 1.003 0 011.02-.24c1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/>
-        </svg>
-      </div>
-      <span class="pill-text">0799997700</span>
-    </a>
-
-    <!-- Option 2: Zalo Chat -->
-    <a href="https://zalo.me/0799997700" target="_blank" rel="noopener noreferrer" class="quick-contact-pill option-pill zalo-pill">
-      <div class="pill-icon-circle zalo-circle">
-        <svg width="26" height="26" viewBox="0 0 48 48" fill="none">
-          <circle cx="24" cy="24" r="23" fill="url(#zaloGrad)"/>
-          <text x="50%" y="60%" text-anchor="middle" fill="#FFFFFF" font-size="13" font-weight="900" font-family="Arial, sans-serif">Zalo</text>
-          <defs>
-            <linearGradient id="zaloGrad" x1="0" y1="0" x2="48" y2="48" gradientUnits="userSpaceOnUse">
-              <stop stop-color="#0099FF"/>
-              <stop offset="1" stop-color="#0055FF"/>
-            </linearGradient>
-          </defs>
-        </svg>
-      </div>
-      <span class="pill-text">Chat Zalo</span>
-    </a>
-
-    <!-- Option 3: Messenger -->
-    <a href="https://m.me/shomeluxury" target="_blank" rel="noopener noreferrer" class="quick-contact-pill option-pill messenger-pill">
-      <div class="pill-icon-circle messenger-circle">
-        <svg width="26" height="26" viewBox="0 0 24 24">
-          <defs>
-            <linearGradient id="msgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" stop-color="#00C6FF"/>
-              <stop offset="50%" stop-color="#0072FF"/>
-              <stop offset="100%" stop-color="#A800E0"/>
-            </linearGradient>
-          </defs>
-          <circle cx="12" cy="12" r="11.5" fill="url(#msgGrad)"/>
-          <path d="M12 4.5C7.86 4.5 4.5 7.54 4.5 11.28c0 2.12 1.08 4.02 2.78 5.26V19l2.25-1.24c.78.22 1.62.34 2.47.34 4.14 0 7.5-3.04 7.5-6.78S16.14 4.5 12 4.5zm.75 9.12l-1.91-2.04-3.73 2.04 4.1-4.35 1.95 2.04 3.69-2.04-4.1 4.35z" fill="#FFFFFF"/>
-        </svg>
-      </div>
-      <span class="pill-text">Messenger</span>
-    </a>
-  </div>
-
-  <!-- Main Floating Trigger Button (+) / (X) -->
-  <button class="quick-contact-trigger" id="quickContactTrigger" aria-label="Menu liên hệ nhanh" aria-expanded="false">
+  <!-- Main Floating Trigger Button (Contact Icon) -->
+  <button class="quick-contact-trigger trigger-consult-modal" id="quickContactTrigger" aria-label="Liên hệ tư vấn">
     <div class="trigger-ring"></div>
     <div class="trigger-icon-wrap">
-      <svg class="icon-plus" width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
+      <svg class="icon-plus" width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
         <path d="M6.62 10.79a15.053 15.053 0 006.59 6.59l2.2-2.2a1.003 1.003 0 011.02-.24c1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/>
-      </svg>
-      <svg class="icon-close" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#111111" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">
-        <line x1="18" y1="6" x2="6" y2="18"></line>
-        <line x1="6" y1="6" x2="18" y2="18"></line>
       </svg>
     </div>
   </button>
