@@ -214,17 +214,18 @@ ul, ol {
 }
 
 .logo-slogan {
-  font-size: 1.45rem;
+  font-family: 'Great Vibes', cursive;
+  font-size: 1.6rem;
   color: #EDE8DF;
   white-space: nowrap;
-  font-weight: 500;
+  font-weight: 400;
   line-height: 1;
 }
 
 @media (max-width: 1023px) {
   .logo-slogan {
     display: inline-block !important;
-    font-size: 1.1rem;
+    font-size: 1.25rem;
   }
   .logo-divider {
     display: inline-block !important;
