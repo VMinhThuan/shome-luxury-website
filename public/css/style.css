@@ -1042,6 +1042,14 @@ ul, ol {
   gap: 0.85rem;
 }
 
+@media (min-width: 768px) {
+  .capacity-cards-list {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.25rem;
+  }
+}
+
 .capacity-card-v2 {
   position: relative;
   width: 100%;
@@ -1078,6 +1086,19 @@ ul, ol {
   }
 }
 
+@media (min-width: 768px) {
+  .capacity-card-overlay {
+    width: 48%;
+    padding: 1rem 0.35rem 1rem 0.95rem;
+  }
+}
+
+@media (min-width: 1200px) {
+  .capacity-card-overlay {
+    padding: 1.35rem 0.5rem 1.35rem 1.25rem;
+  }
+}
+
 .capacity-card-icon {
   color: #C89B4B;
   margin-bottom: 0.15rem;
@@ -1100,7 +1121,14 @@ ul, ol {
 
 @media (min-width: 768px) {
   .capacity-card-title {
-    font-size: 1.5rem;
+    font-size: 1.05rem;
+    line-height: 1.25;
+  }
+}
+
+@media (min-width: 1200px) {
+  .capacity-card-title {
+    font-size: 1.35rem;
   }
 }
 
@@ -1115,6 +1143,19 @@ ul, ol {
 @media (min-width: 400px) {
   .capacity-card-desc {
     font-size: 0.78125rem;
+  }
+}
+
+@media (min-width: 768px) {
+  .capacity-card-desc {
+    font-size: 0.72rem;
+    max-width: 100%;
+  }
+}
+
+@media (min-width: 1200px) {
+  .capacity-card-desc {
+    font-size: 0.82rem;
   }
 }
 
@@ -1880,6 +1921,24 @@ ul, ol {
   text-align: center;
   font-size: 0.75rem;
   color: #888888;
+}
+
+@media (min-width: 992px) {
+  .site-footer > .container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3.5rem;
+    align-items: start;
+  }
+
+  .footer-brand-section {
+    border-top: none;
+    padding-top: 0;
+  }
+
+  .footer-bottom {
+    grid-column: 1 / -1;
+  }
 }
 
 .bottom-bar-container {
