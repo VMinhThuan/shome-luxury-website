@@ -6,7 +6,7 @@ module.exports = [
     date: "29/06/2024",
     category: "Tuyển dụng",
     isHot: false,
-    thumbnail: "/images/factory_workers.jpg",
+    thumbnail: "/images/job_tho_lap_dat.jpg",
     summary: "Do nhu cầu mở rộng thị trường Công ty TNHH kiến trúc và nội thất Shome Luxury cần tuyển: Thợ lắp đặt nội thất. Với mục tiêu trở thành công ty hàng đầu trong lĩnh vực Thiết kế sản xuất và Thi công lắp đặt nội thất...",
     location: "Hà Nội",
     workType: "Toàn thời gian",
@@ -70,7 +70,7 @@ module.exports = [
         <p class="article-intro">Do nhu cầu mở rộng thị trường Công ty TNHH kiến trúc và nội thất Shome Luxury cần tuyển: Thợ lắp đặt nội thất. Với mục tiêu trở thành công ty hàng đầu trong lĩnh vực Thiết kế sản xuất và Thi công lắp đặt nội thất, chúng tôi mong rằng sẽ được hợp tác đội ngũ Nhân viên Lắp ráp Nội thất có tinh thần trách nhiệm, nhiệt tình năng động và có tâm huyết với nghề, với công việc, nhiệm vụ được giao.</p>
         <p class="article-position"><strong>Vị trí tuyển dụng:</strong> Thợ lắp đặt nội thất</p>
         <div class="article-image-box">
-          <img src="/images/factory_workers.jpg" alt="Tuyển dụng thợ lắp đặt nội thất Shome Luxury" class="article-main-img" />
+          <img src="/images/job_tho_lap_dat.jpg" alt="Tuyển dụng thợ lắp đặt nội thất Shome Luxury" class="article-main-img" />
         </div>
 
         <div class="ftoc-box">
@@ -115,7 +115,7 @@ module.exports = [
 
         <h2 id="ftoc-heading-4" class="article-heading">Thông tin liên hệ</h2>
         <div class="article-contact-block">
-          <div class="contact-line"><strong>𝐒𝐇𝐎𝐌𝐄 𝐋𝐔𝐗𝐔𝐑𝐘 – 𝐍𝐎̣̂𝐈 𝐓𝐇𝐀̂́𝐓 & 𝐊𝐈𝐄̂́𝐍 𝐓𝐑𝐔́𝐂</strong></div>
+          <div class="contact-line"><strong>𝐒𝐇𝐎𝐌𝐄 𝐋𝐔𝐗𝐔𝐑𝐘 – 𝐍𝐎̣̂𝐈 𝐓𝐇𝐀̂́𝐓 & 𝐊𝐈𝐄̂́𝐍 𝐓𝐑Ｕ́𝐂</strong></div>
           <div class="contact-line"><strong>𝐕𝐚̆𝐧 𝐩𝐡𝐨̀𝐧𝐠:</strong> Tầng 15 – Chung cư Thăng Long Capital Hà Nội, Hanoi, Vietnam</div>
           <div class="contact-line"><strong>𝐗𝐮̛𝐨̛̉𝐧𝐠 𝐬𝐚̉𝐧 𝐱𝐮𝐚̂́𝐭:</strong> CS1: Làng nghề Chàng Sơn – Thạch Thất – Hà Nội</div>
           <div class="contact-line indent">CS2: Làng nghề Hữu Bằng – Thạch Thất – Hà Nội</div>
@@ -134,7 +134,7 @@ module.exports = [
     date: "15/07/2024",
     category: "Tuyển dụng",
     isHot: true,
-    thumbnail: "/images/project_villa.jpg",
+    thumbnail: "/images/job_giam_sat_thi_cong.jpg",
     summary: "Tham gia vào đội ngũ Shomeluxury – Nơi các dự án biến giấc mơ thành hiện thực! Chúng tôi đang tìm kiếm các kỹ sư giám sát thi công đầy nhiệt huyết và tận tụy...",
     location: "Hà Nội",
     workType: "Toàn thời gian",
@@ -180,7 +180,7 @@ module.exports = [
         id: "ftoc-heading-4",
         title: "Thông tin liên hệ",
         contactInfo: {
-          company: "𝐒𝐇𝐎𝐌𝐄 𝐋𝐔𝐗𝐔𝐑𝐘 – 𝐍𝐎̣̂𝐈 𝐓𝐇𝐀̂́𝐓 & 𝐊𝐈𝐄̂́𝐍 𝐓𝐑𝐔́𝐂",
+          company: "𝐒𝐇𝐎𝐌E 𝐋𝐔𝐗𝐔𝐑𝐘 – 𝐍𝐎̣̂𝐈 𝐓𝐇𝐀̂́𝐓 & 𝐊𝐈Ế𝐍 𝐓𝐑𝐔́𝐂",
           office: "Tầng 15 – Chung cư Thăng Long Capital Hà Nội, Hanoi, Vietnam",
           factories: [
             "CS1: Làng nghề Chàng Sơn – Thạch Thất – Hà Nội",
@@ -198,7 +198,7 @@ module.exports = [
         <p class="article-intro"><strong>Tham gia vào đội ngũ Shomeluxury – Nơi các dự án biến giấc mơ thành hiện thực!</strong> Chúng tôi đang tìm kiếm các kỹ sư giám sát thi công đầy nhiệt huyết và tận tụy, những người có khả năng quản lý và giám sát chặt chẽ các công trình xây dựng và nội thất từ khâu lên ý tưởng đến hoàn thiện. Là một phần của Shomeluxury, bạn sẽ chịu trách nhiệm đảm bảo mọi chi tiết kỹ thuật đều được tuân thủ, giám sát tiến độ và chất lượng công trình, đồng thời đưa ra các giải pháp kỹ thuật hiệu quả. Chúng tôi cam kết cung cấp một môi trường làm việc năng động, thử thách cùng với cơ hội nâng cao nghiệp vụ và phát triển sự nghiệp vượt trội. Hãy gia nhập Shomeluxury, nơi bạn không chỉ xây dựng công trình mà còn xây dựng sự nghiệp thành công.</p>
         
         <div class="article-image-box">
-          <img src="/images/project_villa.jpg" alt="Tuyển dụng giám sát thi công Shome Luxury" class="article-main-img" />
+          <img src="/images/job_giam_sat_thi_cong.jpg" alt="Tuyển dụng giám sát thi công Shome Luxury" class="article-main-img" />
         </div>
 
         <div class="ftoc-box">
@@ -243,7 +243,7 @@ module.exports = [
 
         <h2 id="ftoc-heading-4" class="article-heading">Thông tin liên hệ</h2>
         <div class="article-contact-block">
-          <div class="contact-line"><strong>𝐒𝐇𝐎𝐌𝐄 𝐋𝐔𝐗𝐔𝐑𝐘 – 𝐍𝐎̣̂𝐈 𝐓𝐇𝐀̂́𝐓 & 𝐊𝐈𝐄̂́𝐍 𝐓𝐑𝐔́𝐂</strong></div>
+          <div class="contact-line"><strong>𝐒𝐇𝐎𝐌𝐄 𝐋𝐔𝐗𝐔𝐑𝐘 – 𝐍𝐎̣̂𝐈 𝐓𝐇𝐀̂́𝐓 & 𝐊𝐈Ế𝐍 𝐓𝐑Ｕ́𝐂</strong></div>
           <div class="contact-line"><strong>𝐕𝐚̆𝐧 𝐩𝐡𝐨̀𝐧𝐠:</strong> Tầng 15 – Chung cư Thăng Long Capital Hà Nội, Hanoi, Vietnam</div>
           <div class="contact-line"><strong>𝐗𝐮̛𝐨̛̉𝐧𝐠 𝐬𝐚̉𝐧 𝐱𝐮𝐚̂́𝐭:</strong> CS1: Làng nghề Chàng Sơn – Thạch Thất – Hà Nội</div>
           <div class="contact-line indent">CS2: Làng nghề Hữu Bằng – Thạch Thất – Hà Nội</div>
@@ -262,7 +262,7 @@ module.exports = [
     date: "10/06/2024",
     category: "Tuyển dụng",
     isHot: true,
-    thumbnail: "/images/anh_san_pham_1.png",
+    thumbnail: "/images/job_thiet_ke_noi_that.jpg",
     summary: "Gia nhập đội ngũ Shomeluxury, nơi các ý tưởng sáng tạo được trân trọng và phát triển. Với mục tiêu trở thành thương hiệu uy tín trong thiết kế nội thất...",
     location: "Hà Nội",
     workType: "Toàn thời gian",
@@ -304,7 +304,7 @@ module.exports = [
         id: "ftoc-heading-4",
         title: "Thông tin liên hệ",
         contactInfo: {
-          company: "𝐒𝐇𝐎𝐌𝐄 𝐋𝐔𝐗𝐔𝐑𝐘 – 𝐍𝐎̣̂𝐈 𝐓𝐇𝐀̂́𝐓 & 𝐊𝐈𝐄̂́𝐍 𝐓𝐑𝐔́𝐂",
+          company: "𝐒𝐇𝐎𝐌𝐄 𝐋𝐔𝐗𝐔𝐑𝐘 – 𝐍𝐎̣̂𝐈 𝐓𝐇𝐀̂́𝐓 & 𝐊𝐈Ế𝐍 𝐓𝐑Ｕ́𝐂",
           office: "Tầng 15 – Chung cư Thăng Long Capital Hà Nội",
           factories: ["CS1: Chàng Sơn", "CS2: Hữu Bằng", "CS3: Canh Nậu"],
           phone: "079999 7700",
@@ -317,7 +317,7 @@ module.exports = [
       <div class="old-web-article">
         <p class="article-intro">Gia nhập đội ngũ Shomeluxury, nơi các ý tưởng sáng tạo được trân trọng và phát triển. Với mục tiêu khẳng định vị thế dẫn đầu trong thiết kế & thi công nội thất cao cấp, chúng tôi mong muốn chào đón các kiến trúc sư, nhà thiết kế có nhiệt huyết và tài năng.</p>
         <div class="article-image-box">
-          <img src="/images/anh_san_pham_1.png" alt="Tuyển dụng thiết kế nội thất" class="article-main-img" />
+          <img src="/images/job_thiet_ke_noi_that.jpg" alt="Tuyển dụng thiết kế nội thất" class="article-main-img" />
         </div>
         <div class="ftoc-box">
           <div class="ftoc-header"><span class="ftoc-icon">☰</span><span class="ftoc-title">Xem nhanh</span></div>
@@ -349,7 +349,7 @@ module.exports = [
         </ul>
         <h2 id="ftoc-heading-4" class="article-heading">Thông tin liên hệ</h2>
         <div class="article-contact-block">
-          <div class="contact-line"><strong>𝐒𝐇𝐎𝐌𝐄 𝐋UXURY – 𝐍𝐎̣̂𝐈 𝐓𝐇𝐀̂́𝐓 & 𝐊𝐈𝐄̂́𝐍 𝐓𝐑𝐔́𝐂</strong></div>
+          <div class="contact-line"><strong>𝐒𝐇𝐎𝐌𝐄 𝐋UXURY – 𝐍𝐎̣̂𝐈 𝐓𝐇𝐀̂́𝐓 & 𝐊𝐈Ế𝐍 𝐓𝐑Ｕ́𝐂</strong></div>
           <div class="contact-line">SĐT / Zalo: 079999 7700 | Email: shomeluxurydesign@gmail.com</div>
         </div>
       </div>
@@ -362,7 +362,7 @@ module.exports = [
     date: "20/06/2024",
     category: "Tuyển dụng",
     isHot: false,
-    thumbnail: "/images/service_arch.jpg",
+    thumbnail: "/images/job_nhan_vien_du_toan.jpg",
     summary: "Công ty TNHH kiến trúc và nội thất Shomeluxury cần tuyển: Nhân viên dự toán nội thất bóc tách khối lượng và lập hồ sơ báo giá...",
     location: "Hà Nội",
     workType: "Toàn thời gian",
@@ -405,7 +405,7 @@ module.exports = [
         id: "ftoc-heading-4",
         title: "Thông tin liên hệ",
         contactInfo: {
-          company: "𝐒𝐇𝐎𝐌𝐄 𝐋𝐔𝐗𝐔𝐑𝐘 – 𝐍𝐎̣̂𝐈 𝐓𝐇𝐀̂́𝐓 & 𝐊𝐈𝐄̂́𝐍 𝐓𝐑𝐔́𝐂",
+          company: "𝐒𝐇𝐎𝐌𝐄 𝐋𝐔𝐗𝐔𝐑𝐘 – 𝐍𝐎̣̂𝐈 𝐓𝐇𝐀̂́𝐓 & 𝐊𝐈Ế𝐍 𝐓𝐑Ｕ́𝐂",
           office: "Tầng 15 – Chung cư Thăng Long Capital Hà Nội",
           factories: ["CS1: Chàng Sơn", "CS2: Hữu Bằng", "CS3: Canh Nậu"],
           phone: "079999 7700",
@@ -418,7 +418,7 @@ module.exports = [
       <div class="old-web-article">
         <p class="article-intro">Công ty TNHH kiến trúc và nội thất Shomeluxury tuyển dụng Nhân viên Dự toán Nội thất & Kiến trúc với mong muốn bổ sung nhân sự cẩn thận, Am hiểu sâu về báo giá vật liệu xây dựng và gỗ công nghiệp.</p>
         <div class="article-image-box">
-          <img src="/images/service_arch.jpg" alt="Tuyển dụng dự toán nội thất" class="article-main-img" />
+          <img src="/images/job_nhan_vien_du_toan.jpg" alt="Tuyển dụng dự toán nội thất" class="article-main-img" />
         </div>
         <div class="ftoc-box">
           <div class="ftoc-header"><span class="ftoc-icon">☰</span><span class="ftoc-title">Xem nhanh</span></div>
@@ -448,7 +448,7 @@ module.exports = [
         </ul>
         <h2 id="ftoc-heading-4" class="article-heading">Thông tin liên hệ</h2>
         <div class="article-contact-block">
-          <div class="contact-line"><strong>𝐒𝐇𝐎𝐌𝐄 𝐋UXURY – 𝐍𝐎̣̂𝐈 𝐓𝐇𝐀̂́𝐓 & 𝐊𝐈𝐄̂́𝐍 𝐓𝐑𝐔́𝐂</strong></div>
+          <div class="contact-line"><strong>𝐒𝐇𝐎𝐌𝐄 𝐋UXURY – 𝐍𝐎̣̂𝐈 𝐓𝐇𝐀̂́𝐓 & 𝐊𝐈Ế𝐍 𝐓𝐑Ｕ́𝐂</strong></div>
           <div class="contact-line">SĐT / Zalo: 079999 7700 | Email: shomeluxurydesign@gmail.com</div>
         </div>
       </div>
@@ -461,7 +461,7 @@ module.exports = [
     date: "05/07/2024",
     category: "Tuyển dụng",
     isHot: false,
-    thumbnail: "/images/project_apartment.jpg",
+    thumbnail: "/images/job_nhan_vien_kinh_doanh.jpg",
     summary: "Cơ hội gia nhập đội ngũ kinh doanh tại Shome Luxury, chuyên giải pháp tư vấn thiết kế & thi công nội thất biệt thự, nhà phố, căn hộ...",
     location: "Hà Nội",
     workType: "Toàn thời gian",
@@ -504,7 +504,7 @@ module.exports = [
         id: "ftoc-heading-4",
         title: "Thông tin liên hệ",
         contactInfo: {
-          company: "𝐒𝐇𝐎𝐌𝐄 𝐋𝐔𝐗𝐔𝐑𝐘 – 𝐍𝐎̣̂𝐈 𝐓𝐇𝐀̂́𝐓 & 𝐊𝐈𝐄̂́𝐍 𝐓𝐑𝐔́𝐂",
+          company: "𝐒𝐇𝐎𝐌𝐄 𝐋𝐔𝐗𝐔𝐑𝐘 – 𝐍𝐎̣̂𝐈 𝐓𝐇𝐀̂́𝐓 & 𝐊𝐈Ế𝐍 𝐓𝐑Ｕ́𝐂",
           office: "Tầng 15 – Chung cư Thăng Long Capital Hà Nội",
           factories: ["CS1: Chàng Sơn", "CS2: Hữu Bằng", "CS3: Canh Nậu"],
           phone: "079999 7700",
@@ -517,7 +517,7 @@ module.exports = [
       <div class="old-web-article">
         <p class="article-intro">Công ty TNHH kiến trúc và nội thất Shomeluxury tuyển dụng Nhân viên Kinh doanh năng động, khát khao thu nhập đột phá trong lĩnh vực thiết kế và thi công nội thất cao cấp.</p>
         <div class="article-image-box">
-          <img src="/images/project_apartment.jpg" alt="Tuyển dụng nhân viên kinh doanh nội thất" class="article-main-img" />
+          <img src="/images/job_nhan_vien_kinh_doanh.jpg" alt="Tuyển dụng nhân viên kinh doanh nội thất" class="article-main-img" />
         </div>
         <div class="ftoc-box">
           <div class="ftoc-header"><span class="ftoc-icon">☰</span><span class="ftoc-title">Xem nhanh</span></div>
@@ -546,7 +546,7 @@ module.exports = [
         </ul>
         <h2 id="ftoc-heading-4" class="article-heading">Thông tin liên hệ</h2>
         <div class="article-contact-block">
-          <div class="contact-line"><strong>𝐒𝐇𝐎𝐌𝐄 𝐋UXURY – 𝐍𝐎̣̂𝐈 𝐓𝐇𝐀̂́𝐓 & 𝐊𝐈𝐄̂́𝐍 𝐓𝐑𝐔́𝐂</strong></div>
+          <div class="contact-line"><strong>𝐒𝐇𝐎𝐌𝐄 𝐋UXURY – 𝐍𝐎̣̂𝐈 𝐓𝐇𝐀̂́𝐓 & 𝐊𝐈Ế𝐍 𝐓𝐑Ｕ́𝐂</strong></div>
           <div class="contact-line">SĐT / Zalo: 079999 7700 | Email: shomeluxurydesign@gmail.com</div>
         </div>
       </div>
@@ -559,7 +559,7 @@ module.exports = [
     date: "12/07/2024",
     category: "Tuyển dụng",
     isHot: false,
-    thumbnail: "/images/cnc_machine.jpg",
+    thumbnail: "/images/job_ky_thuat_cnc.jpg",
     summary: "Công ty TNHH kiến trúc và nội thất Shome Luxury cần tuyển: Kỹ thuật viên lập trình CNC nội thất vận hành máy cắt tự động tại xưởng...",
     location: "Hà Nội",
     workType: "Toàn thời gian",
@@ -601,7 +601,7 @@ module.exports = [
         id: "ftoc-heading-4",
         title: "Thông tin liên hệ",
         contactInfo: {
-          company: "𝐒𝐇𝐎𝐌𝐄 𝐋𝐔𝐗𝐔𝐑Y – 𝐍𝐎̣̂𝐈 𝐓𝐇𝐀̂́𝐓 & 𝐊𝐈𝐄̂́𝐍 𝐓𝐑𝐔́𝐂",
+          company: "𝐒𝐇𝐎𝐌𝐄 𝐋𝐔𝐗𝐔𝐑Y – 𝐍𝐎̣̂𝐈 𝐓𝐇𝐀̂́𝐓 & 𝐊𝐈Ế𝐍 𝐓𝐑Ｕ́𝐂",
           office: "Tầng 15 – Chung cư Thăng Long Capital Hà Nội",
           factories: ["CS1: Chàng Sơn", "CS2: Hữu Bằng", "CS3: Canh Nậu"],
           phone: "079999 7700",
@@ -614,7 +614,7 @@ module.exports = [
       <div class="old-web-article">
         <p class="article-intro">Công ty TNHH kiến trúc và nội thất Shomeluxury tuyển dụng Kỹ thuật viên lập trình và vận hành máy CNC gỗ công nghiệp làm việc tại xưởng sản xuất hiện đại Thạch Thất - Hà Nội.</p>
         <div class="article-image-box">
-          <img src="/images/cnc_machine.jpg" alt="Tuyển dụng lập trình CNC nội thất" class="article-main-img" />
+          <img src="/images/job_ky_thuat_cnc.jpg" alt="Tuyển dụng lập trình CNC nội thất" class="article-main-img" />
         </div>
         <div class="ftoc-box">
           <div class="ftoc-header"><span class="ftoc-icon">☰</span><span class="ftoc-title">Xem nhanh</span></div>
@@ -643,7 +643,7 @@ module.exports = [
         </ul>
         <h2 id="ftoc-heading-4" class="article-heading">Thông tin liên hệ</h2>
         <div class="article-contact-block">
-          <div class="contact-line"><strong>𝐒𝐇𝐎𝐌𝐄 𝐋UXURY – 𝐍𝐎̣̂𝐈 𝐓𝐇𝐀̂́𝐓 & 𝐊𝐈𝐄̂́𝐍 𝐓𝐑𝐔́𝐂</strong></div>
+          <div class="contact-line"><strong>𝐒𝐇𝐎𝐌𝐄 𝐋UXURY – 𝐍𝐎̣̂𝐈 𝐓𝐇𝐀̂́𝐓 & 𝐊𝐈Ế𝐍 𝐓𝐑Ｕ́𝐂</strong></div>
           <div class="contact-line">SĐT / Zalo: 079999 7700 | Email: shomeluxurydesign@gmail.com</div>
         </div>
       </div>
