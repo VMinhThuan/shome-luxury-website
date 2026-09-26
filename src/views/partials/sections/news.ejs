@@ -1,0 +1,26 @@
+<section class="news-section section-padding" id="tin-tuc">
+  <div class="container">
+    <div style="margin-bottom: 3.5rem;">
+      <span class="eyebrow">Cảm hứng & Kiến thức</span>
+      <h2 class="section-title font-serif">Góc cảm hứng kiến trúc</h2>
+    </div>
+
+    <div class="news-grid">
+      <% news.forEach(item => { %>
+        <article class="news-card">
+          <div class="news-img">
+            <img src="<%= item.image %>" alt="<%= item.title %>" loading="lazy" width="600" height="400" />
+          </div>
+          <div class="news-content">
+            <div class="news-meta">
+              <span class="news-category"><%= item.category %></span>
+              <span><%= item.date %></span>
+            </div>
+            <h3 class="news-title font-serif"><%= item.title %></h3>
+            <p class="news-excerpt"><%= item.excerpt %></p>
+          </div>
+        </article>
+      <% }); %>
+    </div>
+  </div>
+</section>

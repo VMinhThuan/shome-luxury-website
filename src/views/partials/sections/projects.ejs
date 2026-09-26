@@ -1,0 +1,35 @@
+<section class="projects-section section-padding" id="du-an-noi-bat">
+  <div class="container">
+    <div class="projects-header">
+      <div>
+        <span class="eyebrow">Công trình tiêu biểu</span>
+        <h2 class="section-title font-serif">Dự án nổi bật</h2>
+      </div>
+
+      <div class="project-filter-tabs">
+        <button class="filter-btn active" data-filter="all">Tất cả</button>
+        <button class="filter-btn" data-filter="chung-cu">Chung cư</button>
+        <button class="filter-btn" data-filter="nha-pho">Nhà phố</button>
+        <button class="filter-btn" data-filter="biet-thu">Biệt thự</button>
+        <button class="filter-btn" data-filter="van-phong">Văn phòng</button>
+      </div>
+    </div>
+
+    <div class="projects-grid">
+      <% projects.forEach(project => { %>
+        <article class="project-card" data-category="<%= project.categorySlug %>">
+          <img src="<%= project.image %>" alt="<%= project.title %>" class="project-img" loading="lazy" width="800" height="500" />
+          <div class="project-overlay">
+            <span class="project-category"><%= project.category %></span>
+            <h3 class="project-name font-serif"><%= project.title %></h3>
+            <div class="project-meta">
+              <span>Diện tích: <%= project.area %></span>
+              <span>•</span>
+              <span><%= project.location %></span>
+            </div>
+          </div>
+        </article>
+      <% }); %>
+    </div>
+  </div>
+</section>

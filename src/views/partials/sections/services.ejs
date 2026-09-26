@@ -1,0 +1,32 @@
+<section class="services-section section-padding" id="dich-vu">
+  <div class="container">
+    <div class="services-header">
+      <span class="eyebrow">Dịch vụ của Luxury Home</span>
+      <h2 class="section-title font-serif">Giải pháp tổng thể nâng tầm không gian</h2>
+      <p class="section-subtitle" style="margin: 0 auto;">
+        Đồng hành cùng gia chủ từ ý tưởng sơ phác đến thi công lắp đặt hoàn thiện.
+      </p>
+    </div>
+
+    <div class="services-grid">
+      <% services.forEach(service => { %>
+        <article class="service-card">
+          <div class="service-img-wrapper">
+            <img src="<%= service.image %>" alt="<%= service.title %>" loading="lazy" width="600" height="450" />
+          </div>
+          <div class="service-content">
+            <h3 class="service-title font-serif"><%= service.title %></h3>
+            <p class="service-desc"><%= service.description %></p>
+            <a href="<%= service.link %>" class="service-link">
+              Khám phá
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+                <polyline points="12 5 19 12 12 19"></polyline>
+              </svg>
+            </a>
+          </div>
+        </article>
+      <% }); %>
+    </div>
+  </div>
+</section>

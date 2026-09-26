@@ -1,0 +1,21 @@
+<section class="process-section section-padding" id="quy-trinh">
+  <div class="container">
+    <div style="margin-bottom: 3.5rem; text-align: center;">
+      <span class="eyebrow">Chuyên nghiệp & Minh bạch</span>
+      <h2 class="section-title font-serif">Quy trình làm việc</h2>
+      <p class="section-subtitle" style="margin: 0 auto;">
+        6 bước tiêu chuẩn kiểm soát chất lượng nghiêm ngặt từ khởi tạo ý tưởng đến nghiệm thu thực tế.
+      </p>
+    </div>
+
+    <div class="process-grid">
+      <% processSteps.forEach(item => { %>
+        <div class="process-step">
+          <div class="step-num"><%= item.step %></div>
+          <h3 class="step-title"><%= item.title %></h3>
+          <p class="step-desc"><%= item.desc %></p>
+        </div>
+      <% }); %>
+    </div>
+  </div>
+</section>

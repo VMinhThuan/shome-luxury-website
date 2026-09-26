@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
+  <title><%= title %></title>
+  <meta name="description" content="LUXURY HOME - Thương hiệu hàng đầu về thiết kế kiến trúc, thiết kế & thi công nội thất gỗ công nghiệp cao cấp với xưởng sản xuất trực tiếp quy mô lớn." />
+  <meta name="keywords" content="Luxury Home, thiet ke noi that, thiet ke kien truc, thi cong noi that, xuong san xuat go, bao gia noi that" />
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="<%= title %>" />
+  <meta property="og:description" content="Thiết kế & thi công nội thất kiến trúc cao cấp Luxury Home." />
+  <meta property="og:image" content="/images/hero_sofa_light.jpg" />
+  <meta property="og:type" content="website" />
+
+  <meta name="theme-color" content="#171717" />
+
+  <!-- Performance Preload Resource Hints -->
+  <link rel="preload" href="/css/style.css" as="style" />
+  <link rel="preload" href="/js/main.js" as="script" />
+  <link rel="preload" href="/images/shome-logo.png" as="image" />
+
+  <!-- CSS Stylesheet -->
+  <link rel="stylesheet" href="/css/style.css" />
+  <script src="/js/main.js" defer></script>
+</head>
+<body>
+
+  <!-- Header -->
+  <%- include("partials/header") %>
+
+  <!-- Mobile Drawer -->
+  <%- include("partials/mobile-drawer") %>
+
+  <!-- Main Content -->
+  <main id="main-content">
+    <!-- 01 Hero -->
+    <%- include("partials/sections/hero") %>
+
+    <!-- 02 USP -->
+    <%- include("partials/sections/usp") %>
+
+    <!-- 03 Quy trình sản xuất chuyên nghiệp (Video Card) -->
+    <%- include("partials/sections/video-workshop") %>
+
+    <!-- 04 Năng lực sản xuất (Trang thiết bị hiện đại) -->
+    <%- include("partials/sections/factory-capacity") %>
+
+    <!-- 05 Từ tâm huyết của đội ngũ Luxury Home -->
+    <%- include("partials/sections/workshop-heart") %>
+
+    <!-- 06 Hình ảnh xưởng thực tế (SẢN PHẨM THỰC TẾ) -->
+    <%- include("partials/sections/factory-gallery") %>
+
+    <!-- 07 Banner CTA Biến ý tưởng thành không gian sống -->
+    <%- include("partials/sections/cta") %>
+
+    <!-- 08 Dịch vụ (Giải pháp tổng thể) - Tạm ẩn -->
+    <!-- include("partials/sections/services") -->
+
+    <!-- 09 Dự án nổi bật - Tạm ẩn -->
+    <!-- include("partials/sections/projects") -->
+
+    <!-- 10 Quy trình làm việc - Tạm ẩn -->
+    <!-- include("partials/sections/process") -->
+
+    <!-- 11 Tin tức - Tạm ẩn -->
+    <!-- include("partials/sections/news") -->
+  </main>
+
+  <!-- Footer -->
+  <%- include("partials/footer") %>
+
+  <!-- Consult Modal & Floating Contact -->
+  <%- include("partials/consult-modal") %>
+</body>
+</html>
