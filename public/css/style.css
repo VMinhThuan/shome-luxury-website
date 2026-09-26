@@ -148,14 +148,14 @@ ul, ol {
 }
 
 .section-padding {
-  padding-top: 2rem;
-  padding-bottom: 2rem;
+  padding-top: 0.75rem;
+  padding-bottom: 0.75rem;
 }
 
 @media (min-width: 992px) {
   .section-padding {
-    padding-top: 6rem;
-    padding-bottom: 6rem;
+    padding-top: 2rem;
+    padding-bottom: 2rem;
   }
 }
 
