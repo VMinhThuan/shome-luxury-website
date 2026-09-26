@@ -1,8 +1,10 @@
 const express = require("express");
 const router = express.Router();
 const homeController = require("../controllers/homeController");
+const recruitmentController = require("../controllers/recruitmentController");
 
 router.get("/", homeController.getHomePage);
+router.get("/tuyen-dung", recruitmentController.getRecruitmentPage);
 
 // API endpoint for form submission if needed
 router.post("/api/contact", (req, res) => {

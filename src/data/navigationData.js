@@ -63,7 +63,7 @@ module.exports = [
   {
     id: "careers",
     label: "Tuyển dụng",
-    href: "#tuyen-dung"
+    href: "/tuyen-dung"
   },
   {
     id: "news",

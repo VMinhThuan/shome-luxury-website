@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no, viewport-fit=cover" />
+  <title><%= title %></title>
+  <meta name="description" content="Tuyển dụng SHOME LUXURY - Khám phá cơ hội nghề nghiệp trong ngành thiết kế kiến trúc và thi công nội thất gỗ công nghiệp cao cấp." />
+  <meta name="theme-color" content="#171717" />
+
+  <!-- Performance Preload Resource Hints -->
+  <link rel="preload" href="/css/style.css?v=1.2.8" as="style" />
+  <link rel="preload" href="/js/main.js?v=1.2.8" as="script" />
+  <link rel="preload" href="/images/shome-logo.png" as="image" />
+  <link rel="preload" href="/images/banner-tuyendung.png" as="image" />
+
+  <!-- Google Fonts for Great Vibes -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet">
+
+  <!-- CSS Stylesheet -->
+  <link rel="stylesheet" href="/css/style.css?v=1.2.8" />
+  <script src="/js/main.js?v=1.2.8" defer></script>
+</head>
+<body class="page-recruitment">
+
+  <!-- Header -->
+  <%- include("partials/header") %>
+
+  <main class="main-content">
+    <div class="container">
+      <!-- Recruitment Hero Banner -->
+      <section class="recruitment-banner-card">
+        <img src="/images/banner-tuyendung.png" alt="Tuyển dụng SHOME LUXURY" class="recruitment-banner-bg" width="1200" height="500" />
+        
+        <div class="recruitment-banner-overlay">
+          <div class="recruitment-banner-text">
+            <span class="recruitment-eyebrow">SHOME LUXURY</span>
+            
+            <h1 class="recruitment-hero-title">
+              <span class="script-title">Tuyển dụng</span>
+              <span class="serif-sub">cùng kiến tạo<br>giá trị!</span>
+            </h1>
+
+            <p class="recruitment-hero-subtext">
+              GIA NHẬP SHOME LUXURY, NƠI TÀI NĂNG ĐƯỢC TRÂN TRỌNG VÀ PHÁT TRIỂN MỖI NGÀY
+            </p>
+          </div>
+
+          <div class="recruitment-banner-badge">
+            KIẾN TẠO CUỘC SỐNG TINH TẾ
+          </div>
+        </div>
+      </section>
+
+      <!-- Recruitment Positions Section -->
+      <section class="recruitment-jobs-section" id="cac-vi-tri-tuyen-dung">
+        <div class="recruitment-header">
+          <h2 class="gallery-v2-title">Vị trí đang tuyển dụng</h2>
+          <p class="section-v2-desc" style="font-size: 0.875rem; color: #666666; margin: 0 0 0.5rem 0;">
+            Khám phá cơ hội nghề nghiệp tại SHOME LUXURY
+          </p>
+          <div class="gallery-v2-line"></div>
+        </div>
+
+        <div class="recruitment-jobs-grid">
+          <% jobs.forEach(job => { %>
+            <div class="job-card-v2" data-job='<%- JSON.stringify(job).replace(/'/g, "&#39;") %>'>
+              <div class="job-card-thumb">
+                <img src="<%= job.thumbnail %>" alt="<%= job.title %>" loading="lazy" width="400" height="250" />
+              </div>
+              <div class="job-card-body">
+                <h3 class="job-card-title">
+                  <%= job.title %>
+                </h3>
+                <p class="job-card-summary"><%= job.summary %></p>
+                
+                <div class="job-card-footer">
+                  <div class="job-card-meta">
+                    <span class="meta-item">
+                      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                        <circle cx="12" cy="10" r="3"></circle>
+                      </svg>
+                      <%= job.location %>
+                    </span>
+                    <span class="meta-item">
+                      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect>
+                        <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>
+                      </svg>
+                      <%= job.workType %>
+                    </span>
+                  </div>
+
+                  <button class="btn-job-xem-them open-job-modal" data-job-id="<%= job.id %>">
+                    Xem thêm
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                      <line x1="5" y1="12" x2="19" y2="12"></line>
+                      <polyline points="12 5 19 12 12 19"></polyline>
+                    </svg>
+                  </button>
+                </div>
+              </div>
+            </div>
+          <% }); %>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <!-- Job Detail & Application Modal Popup -->
+  <div class="modal-overlay" id="jobModalOverlay" aria-hidden="true">
+    <div class="modal-card job-modal-card">
+      <button class="modal-close-btn" id="closeJobModal" aria-label="Đóng popup">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="18" y1="6" x2="6" y2="18"></line>
+          <line x1="6" y1="6" x2="18" y2="18"></line>
+        </svg>
+      </button>
+
+      <div class="job-modal-content" id="jobModalBody">
+        <!-- Content will be injected dynamically via JS -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <%- include("partials/footer") %>
+
+  <!-- Script for Job Modal Interaction -->
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const modalOverlay = document.getElementById("jobModalOverlay");
+      const closeBtn = document.getElementById("closeJobModal");
+      const modalBody = document.getElementById("jobModalBody");
+      const openBtns = document.querySelectorAll(".open-job-modal");
+
+      openBtns.forEach(btn => {
+        btn.addEventListener("click", function (e) {
+          e.preventDefault();
+          const card = this.closest(".job-card-v2");
+          if (!card) return;
+          const rawJob = card.getAttribute("data-job");
+          if (!rawJob) return;
+
+          try {
+            const job = JSON.parse(rawJob);
+            modalBody.innerHTML = `
+              <div class="job-modal-header">
+                <span class="job-modal-badge">${job.isHot ? '🔥 ĐANG HOT' : 'TUYỂN DỤNG'}</span>
+                <h2 class="job-modal-title">${job.title}</h2>
+                <div class="job-modal-quick-info">
+                  <span>💰 <strong>Mức lương:</strong> ${job.salary}</span>
+                  <span>📍 <strong>Địa điểm:</strong> ${job.location}</span>
+                  <span>💼 <strong>Hình thức:</strong> ${job.workType}</span>
+                  <span>⏳ <strong>Hạn nộp:</strong> ${job.deadline}</span>
+                </div>
+              </div>
+
+              <div class="job-modal-section">
+                <h3>📌 Mô tả công việc</h3>
+                <ul>
+                  ${job.description.map(item => `<li>${item}</li>`).join('')}
+                </ul>
+              </div>
+
+              <div class="job-modal-section">
+                <h3>🎯 Yêu cầu ứng viên</h3>
+                <ul>
+                  ${job.requirements.map(item => `<li>${item}</li>`).join('')}
+                </ul>
+              </div>
+
+              <div class="job-modal-section">
+                <h3>🎁 Quyền lợi được hưởng</h3>
+                <ul>
+                  ${job.benefits.map(item => `<li>${item}</li>`).join('')}
+                </ul>
+              </div>
+
+              <div class="job-modal-apply-box">
+                <div class="apply-info">
+                  <h4>Gửi hồ sơ ứng tuyển ngay</h4>
+                  <p>Email tiếp nhận: <strong>shomeluxurydesign@gmail.com</strong></p>
+                  <p>Hotline / Zalo tuyển dụng: <strong>0978 288 333</strong></p>
+                </div>
+                <a href="mailto:shomeluxurydesign@gmail.com?subject=Ứng tuyển ${encodeURIComponent(job.title)}" class="btn-cta-gold">
+                  Nộp hồ sơ qua Email
+                </a>
+              </div>
+            `;
+
+            modalOverlay.classList.add("active");
+            document.body.style.overflow = "hidden";
+          } catch (err) {
+            console.error("Error parsing job data:", err);
+          }
+        });
+      });
+
+      function closeModal() {
+        modalOverlay.classList.remove("active");
+        document.body.style.overflow = "";
+      }
+
+      if (closeBtn) closeBtn.addEventListener("click", closeModal);
+      if (modalOverlay) {
+        modalOverlay.addEventListener("click", function (e) {
+          if (e.target === modalOverlay) closeModal();
+        });
+      }
+    });
+  </script>
+
+</body>
+</html>
