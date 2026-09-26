@@ -1577,25 +1577,26 @@ ul, ol {
 }
 
 .cta-banner-title {
-  font-size: 1.35rem;
-  font-weight: 700;
-  color: #C89B4B;
-  line-height: 1.2;
-  margin-bottom: 0.2rem;
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #FFFFFF;
+  line-height: 1.3;
+  margin-bottom: 0.35rem;
   font-family: var(--font-sans);
-  text-transform: uppercase;
 }
 
 @media (min-width: 768px) {
   .cta-banner-title {
-    font-size: 1.85rem;
+    font-size: 1.75rem;
   }
 }
 
-.cta-banner-desc {
-  font-size: 0.875rem;
-  color: #FFFFFF;
-  font-weight: 500;
+.cta-banner-desc,
+.cta-banner-subtext {
+  font-size: 0.75rem;
+  color: #C89B4B;
+  font-weight: 600;
+  letter-spacing: 0.05em;
   margin-bottom: 0.75rem;
   line-height: 1.35;
 }
