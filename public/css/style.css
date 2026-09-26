@@ -2558,6 +2558,16 @@ ol {
   background-color: #FAFAFA;
 }
 
+.page-recruitment .main-content {
+  padding-top: calc(var(--header-height-mobile) + 0.75rem);
+}
+
+@media (min-width: 1024px) {
+  .page-recruitment .main-content {
+    padding-top: calc(var(--header-height-desktop) + 1.25rem);
+  }
+}
+
 .recruitment-banner-card {
   position: relative;
   width: 100%;

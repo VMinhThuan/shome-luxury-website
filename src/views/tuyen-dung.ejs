@@ -8,8 +8,8 @@
   <meta name="theme-color" content="#171717" />
 
   <!-- Performance Preload Resource Hints -->
-  <link rel="preload" href="/css/style.css?v=1.3.5" as="style" />
-  <link rel="preload" href="/js/main.js?v=1.3.5" as="script" />
+  <link rel="preload" href="/css/style.css?v=1.3.6" as="style" />
+  <link rel="preload" href="/js/main.js?v=1.3.6" as="script" />
   <link rel="preload" href="/images/shome-logo.png" as="image" />
   <link rel="preload" href="/images/banner-tuyendung.png" as="image" />
 
@@ -19,8 +19,8 @@
   <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet">
 
   <!-- CSS Stylesheet -->
-  <link rel="stylesheet" href="/css/style.css?v=1.3.5" />
-  <script src="/js/main.js?v=1.3.5" defer></script>
+  <link rel="stylesheet" href="/css/style.css?v=1.3.6" />
+  <script src="/js/main.js?v=1.3.6" defer></script>
 </head>
 <body class="page-recruitment">
 
@@ -65,47 +65,12 @@
           <div class="gallery-v2-line"></div>
         </div>
 
-        <div class="recruitment-jobs-grid">
-          <% jobs.forEach(job => { %>
-            <div class="job-card-v2" data-job-id="<%= job.id %>">
-              <div class="job-card-thumb">
-                <img src="<%= job.thumbnail %>" alt="<%= job.title %>" loading="lazy" width="400" height="250" />
-              </div>
-              <div class="job-card-body">
-                <h3 class="job-card-title">
-                  <%= job.title %>
-                </h3>
-                <p class="job-card-summary"><%= job.summary %></p>
-                
-                <div class="job-card-footer">
-                  <div class="job-card-meta">
-                    <span class="meta-item">
-                      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
-                        <circle cx="12" cy="10" r="3"></circle>
-                      </svg>
-                      <%= job.location %>
-                    </span>
-                    <span class="meta-item">
-                      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-                        <rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect>
-                        <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>
-                      </svg>
-                      <%= job.workType %>
-                    </span>
-                  </div>
-
-                  <button class="btn-job-xem-them open-job-modal" data-job-id="<%= job.id %>">
-                    Xem thêm
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                      <line x1="5" y1="12" x2="19" y2="12"></line>
-                      <polyline points="12 5 19 12 12 19"></polyline>
-                    </svg>
-                  </button>
-                </div>
-              </div>
-            </div>
-          <% }); %>
+        <!-- Dynamic Jobs Grid Loaded via Backend API /api/recruitment -->
+        <div class="recruitment-jobs-grid" id="recruitmentJobsGrid">
+          <div class="job-modal-loading" style="grid-column: 1 / -1; padding: 3rem 0;">
+            <div class="modal-spinner-ring"></div>
+            <span>Đang kết nối API Backend để tải danh sách các vị trí tuyển dụng...</span>
+          </div>
         </div>
       </section>
     </div>
@@ -130,15 +95,147 @@
   <!-- Footer -->
   <%- include("partials/footer") %>
 
-  <!-- Script: FE fetches full recruitment post data from BE API (/api/recruitment/:id) -->
+  <!-- FE Script: Calls Backend APIs (/api/recruitment & /api/recruitment/:id) -->
   <script>
     document.addEventListener("DOMContentLoaded", function () {
+      const jobsGrid = document.getElementById("recruitmentJobsGrid");
       const modalOverlay = document.getElementById("jobModalOverlay");
       const closeBtn = document.getElementById("closeJobModal");
       const modalBody = document.getElementById("jobModalBody");
-      const openBtns = document.querySelectorAll(".open-job-modal");
 
-      // Render job post data retrieved from BE API into modal
+      // 1. Fetch recruitment list from Backend API /api/recruitment
+      async function fetchRecruitmentJobsList() {
+        try {
+          console.log("[FE] Fetching jobs list from Backend API: GET /api/recruitment");
+          const response = await fetch("/api/recruitment");
+          const result = await response.json();
+
+          if (result.success && Array.isArray(result.data)) {
+            renderJobsGrid(result.data);
+          } else {
+            jobsGrid.innerHTML = `
+              <div style="grid-column: 1 / -1; text-align: center; color: #c0392b; padding: 2rem;">
+                <p>⚠️ Không thể tải danh sách bài tuyển dụng từ máy chủ API.</p>
+              </div>
+            `;
+          }
+        } catch (err) {
+          console.error("API Error fetching jobs list:", err);
+          jobsGrid.innerHTML = `
+            <div style="grid-column: 1 / -1; text-align: center; color: #c0392b; padding: 2rem;">
+              <p>⚠️ Lỗi kết nối API Backend khi tải danh sách tuyển dụng.</p>
+            </div>
+          `;
+        }
+      }
+
+      // Render job cards into grid dynamically
+      function renderJobsGrid(jobs) {
+        if (!jobs || jobs.length === 0) {
+          jobsGrid.innerHTML = '<p style="grid-column: 1 / -1; text-align: center;">Hiện chưa có vị trí tuyển dụng mới.</p>';
+          return;
+        }
+
+        jobsGrid.innerHTML = jobs.map(job => `
+          <div class="job-card-v2" data-job-id="${job.id}">
+            <div class="job-card-thumb">
+              <img src="${job.thumbnail}" alt="${job.title}" loading="lazy" width="400" height="250" />
+            </div>
+            <div class="job-card-body">
+              <h3 class="job-card-title">${job.title}</h3>
+              <p class="job-card-summary">${job.summary || ''}</p>
+              
+              <div class="job-card-footer">
+                <div class="job-card-meta">
+                  <span class="meta-item">
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                      <circle cx="12" cy="10" r="3"></circle>
+                    </svg>
+                    ${job.location || 'Hà Nội'}
+                  </span>
+                  <span class="meta-item">
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                      <rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect>
+                      <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>
+                    </svg>
+                    ${job.workType || 'Toàn thời gian'}
+                  </span>
+                </div>
+
+                <button class="btn-job-xem-them open-job-modal" data-job-id="${job.id}">
+                  Xem thêm
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                    <polyline points="12 5 19 12 12 19"></polyline>
+                  </svg>
+                </button>
+              </div>
+            </div>
+          </div>
+        `).join('');
+
+        // Attach event listeners to newly rendered "Xem thêm" buttons & card clicks
+        const openBtns = jobsGrid.querySelectorAll(".open-job-modal");
+        openBtns.forEach(btn => {
+          btn.addEventListener("click", function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+            const jobId = this.getAttribute("data-job-id");
+            if (jobId) fetchAndShowJobDetail(jobId);
+          });
+        });
+
+        const cards = jobsGrid.querySelectorAll(".job-card-v2");
+        cards.forEach(card => {
+          card.addEventListener("click", function (e) {
+            if (e.target.closest(".open-job-modal")) return;
+            const jobId = this.getAttribute("data-job-id");
+            if (jobId) fetchAndShowJobDetail(jobId);
+          });
+        });
+
+        // Check if deep link URL is present (/tuyen-dung/:id)
+        checkDeepLinkUrl();
+      }
+
+      // 2. Fetch single job post detail from Backend API GET /api/recruitment/:id
+      async function fetchAndShowJobDetail(jobId) {
+        console.log("[FE] Fetching single job detail from Backend API: GET /api/recruitment/" + jobId);
+        modalOverlay.classList.add("active");
+        document.body.style.overflow = "hidden";
+
+        modalBody.innerHTML = `
+          <div class="job-modal-loading">
+            <div class="modal-spinner-ring"></div>
+            <span>Đang tải thông tin chi tiết bài tuyển dụng từ máy chủ API...</span>
+          </div>
+        `;
+
+        try {
+          const response = await fetch(`/api/recruitment/${jobId}`);
+          const result = await response.json();
+
+          if (result.success && result.data) {
+            renderJobDetailModal(result.data);
+          } else {
+            modalBody.innerHTML = `
+              <div class="job-modal-loading" style="color: #c0392b;">
+                <p>⚠️ Không tìm thấy chi tiết bài tuyển dụng (${result.message || ''}).</p>
+              </div>
+            `;
+          }
+        } catch (err) {
+          console.error("API Error fetching job detail:", err);
+          modalBody.innerHTML = `
+            <div class="job-modal-loading" style="color: #c0392b;">
+              <p>⚠️ Lỗi kết nối API khi tải chi tiết bài tuyển dụng.</p>
+            </div>
+          `;
+        }
+      }
+
+      // Render detailed job post inside modal
       function renderJobDetailModal(job) {
         let sectionsHtml = "";
 
@@ -214,52 +311,6 @@
         `;
       }
 
-      // Fetch job post data from Backend API /api/recruitment/:id
-      async function fetchAndShowJob(jobId) {
-        modalOverlay.classList.add("active");
-        document.body.style.overflow = "hidden";
-
-        modalBody.innerHTML = `
-          <div class="job-modal-loading">
-            <div class="modal-spinner-ring"></div>
-            <span>Đang tải thông tin chi tiết bài tuyển dụng từ máy chủ...</span>
-          </div>
-        `;
-
-        try {
-          const response = await fetch(`/api/recruitment/${jobId}`);
-          const result = await response.json();
-
-          if (result.success && result.data) {
-            renderJobDetailModal(result.data);
-          } else {
-            modalBody.innerHTML = `
-              <div class="job-modal-loading" style="color: #c0392b;">
-                <p>⚠️ không thể tải bài viết tuyển dụng (${result.message || 'Không tìm thấy bài viết'}).</p>
-              </div>
-            `;
-          }
-        } catch (err) {
-          console.error("API Fetch error:", err);
-          modalBody.innerHTML = `
-            <div class="job-modal-loading" style="color: #c0392b;">
-              <p>⚠️ Đã xảy ra lỗi kết nối khi tải bài viết từ máy chủ API.</p>
-            </div>
-          `;
-        }
-      }
-
-      // Attach click events
-      openBtns.forEach(btn => {
-        btn.addEventListener("click", function (e) {
-          e.preventDefault();
-          const jobId = this.getAttribute("data-job-id");
-          if (jobId) {
-            fetchAndShowJob(jobId);
-          }
-        });
-      });
-
       function closeModal() {
         modalOverlay.classList.remove("active");
         document.body.style.overflow = "";
@@ -272,14 +323,16 @@
         });
       }
 
-      // Check if URL has deep-link path /tuyen-dung/:id
-      const pathParts = window.location.pathname.split("/").filter(Boolean);
-      if (pathParts.length >= 2 && pathParts[0] === "tuyen-dung") {
-        const urlJobId = pathParts[1];
-        if (urlJobId) {
-          fetchAndShowJob(urlJobId);
+      function checkDeepLinkUrl() {
+        const pathParts = window.location.pathname.split("/").filter(Boolean);
+        if (pathParts.length >= 2 && pathParts[0] === "tuyen-dung") {
+          const urlJobId = pathParts[1];
+          if (urlJobId) fetchAndShowJobDetail(urlJobId);
         }
       }
+
+      // Trigger initial Backend API fetch for recruitment jobs list
+      fetchRecruitmentJobsList();
     });
   </script>
 
