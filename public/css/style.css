@@ -367,14 +367,17 @@ ul, ol {
   color: var(--text-on-dark);
   z-index: 2001;
   transform: translateX(100%);
-  transition: transform var(--transition-normal);
+  visibility: hidden;
+  box-shadow: none;
+  transition: transform var(--transition-normal), visibility var(--transition-normal);
   display: flex;
   flex-direction: column;
-  box-shadow: -10px 0 40px rgba(0,0,0,0.8);
 }
 
 .mobile-drawer.active {
   transform: translateX(0);
+  visibility: visible;
+  box-shadow: -10px 0 40px rgba(0, 0, 0, 0.8);
 }
 
 .drawer-header {
