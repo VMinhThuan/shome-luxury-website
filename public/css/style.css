@@ -212,14 +212,14 @@ ul, ol {
   line-height: 1;
 }
 
-@media (max-width: 576px) {
+@media (max-width: 1023px) {
   .logo-slogan,
   .logo-divider {
     display: none !important;
   }
   .logo-img {
     height: 30px;
-    max-width: 140px;
+    max-width: 145px;
   }
   .brand-logo-wrapper {
     gap: 0.35rem;
