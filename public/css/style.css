@@ -732,7 +732,7 @@ ul, ol {
   position: relative;
   z-index: 10;
   margin-top: -2.25rem;
-  padding-bottom: 1.5rem;
+  padding-bottom: 0.375rem;
 }
 
 .usp-floating-card {
@@ -811,8 +811,8 @@ ul, ol {
 /* 7. PROCESS & WORKSHOP VIDEO - MATCHING REFERENCE IMAGE 2 */
 .process-header-section {
   background-color: var(--bg-primary);
-  padding-top: 1rem;
-  padding-bottom: 0;
+  padding-top: 0.375rem;
+  padding-bottom: 0.375rem;
 }
 
 .process-v2-header {
@@ -1051,8 +1051,8 @@ ul, ol {
   position: relative;
   background-color: var(--bg-primary);
   overflow: hidden;
-  padding-top: 0.4rem;
-  padding-bottom: 1.25rem;
+  padding-top: 0.375rem;
+  padding-bottom: 0.375rem;
 }
 
 .capacity-bg-decor {
@@ -1242,8 +1242,8 @@ ul, ol {
 /* Workshop Heart Section - Matching Screenshot Exactly */
 .workshop-heart-section {
   background-color: var(--bg-primary);
-  padding-top: 0.5rem;
-  padding-bottom: 1.5rem;
+  padding-top: 0.375rem;
+  padding-bottom: 0.375rem;
 }
 
 .workshop-heart-card {
@@ -1344,8 +1344,8 @@ ul, ol {
 /* Factory Gallery V2 - Matching Screenshot 2 Exactly */
 .factory-gallery-v2-section {
   background-color: var(--bg-primary);
-  padding-top: 0.5rem;
-  padding-bottom: 1.25rem;
+  padding-top: 0.375rem;
+  padding-bottom: 0.375rem;
 }
 
 .gallery-v2-header {
@@ -1540,8 +1540,8 @@ ul, ol {
 /* CTA Banner V2 - Matching Bottom of Screenshot 2 */
 .cta-banner-v2-section {
   background-color: var(--bg-primary);
-  padding-top: 0.4rem;
-  padding-bottom: 1.5rem;
+  padding-top: 0.375rem;
+  padding-bottom: 0.75rem;
 }
 
 .cta-banner-card {
