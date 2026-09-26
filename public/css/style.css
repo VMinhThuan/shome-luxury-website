@@ -2559,140 +2559,31 @@ ol {
 }
 
 .page-recruitment .main-content {
-  padding-top: calc(var(--header-height-mobile) + 0.75rem);
+  padding-top: var(--header-height-mobile);
 }
 
 @media (min-width: 1024px) {
   .page-recruitment .main-content {
-    padding-top: calc(var(--header-height-desktop) + 1.25rem);
+    padding-top: var(--header-height-desktop);
   }
 }
 
 .recruitment-banner-card {
-  position: relative;
   width: 100%;
-  border-radius: 14px;
+  margin-top: 0.5rem;
+  margin-bottom: 1.75rem;
+  border-radius: 12px;
   overflow: hidden;
-  margin-top: 0.75rem;
-  margin-bottom: 2rem;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
-  background-color: #1A1A1A;
-  aspect-ratio: 16 / 7;
-  min-height: 220px;
-}
-
-@media (min-width: 768px) {
-  .recruitment-banner-card {
-    aspect-ratio: 21 / 8;
-    min-height: 320px;
-  }
-}
-
-.recruitment-banner-bg {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: center;
-  display: block;
-}
-
-.recruitment-banner-overlay {
-  position: absolute;
-  inset: 0;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.12);
   background: transparent;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  padding: 1.25rem 1.5rem;
-  z-index: 2;
 }
 
-@media (min-width: 768px) {
-  .recruitment-banner-overlay {
-    padding: 2.25rem 3.5rem;
-  }
-}
-
-.recruitment-eyebrow {
-  font-size: clamp(0.6rem, 1.1vw, 0.75rem);
-  letter-spacing: 0.18em;
-  color: #A09585;
-  font-weight: 600;
-  text-transform: uppercase;
-  margin-bottom: 0.15rem;
+.recruitment-banner-img {
+  width: 100%;
+  height: auto;
   display: block;
-}
-
-.recruitment-hero-title {
-  margin: 0;
-  line-height: 1;
-}
-
-.recruitment-hero-title .script-title {
-  font-family: 'Great Vibes', cursive;
-  color: #FFFFFF;
-  font-size: clamp(2.2rem, 5.5vw, 4rem);
-  font-weight: 400;
-  line-height: 0.85;
-  margin-bottom: 0.1rem;
-  display: block;
-  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.4);
-}
-
-.recruitment-hero-title .serif-sub {
-  font-family: var(--font-sans);
-  color: #C89B4B;
-  font-size: clamp(1.05rem, 2.8vw, 2.05rem);
-  font-weight: 800;
-  text-transform: lowercase;
-  line-height: 1.15;
-  display: block;
-}
-
-.recruitment-hero-subtext {
-  color: #B5B0A8;
-  font-size: clamp(0.525rem, 1vw, 0.6875rem);
-  font-weight: 500;
-  letter-spacing: 0.08em;
-  line-height: 1.45;
-  text-transform: uppercase;
-  max-width: 360px;
-  margin-top: 0.6rem;
-}
-
-.recruitment-banner-badge {
-  position: absolute;
-  right: 1.25rem;
-  bottom: 1rem;
-  color: #D5C7B2;
-  font-size: clamp(0.48rem, 0.85vw, 0.6rem);
-  letter-spacing: 0.14em;
-  font-weight: 600;
-  text-transform: uppercase;
-  text-align: right;
-  line-height: 1.35;
-  display: flex;
-  align-items: flex-end;
-  gap: 6px;
-  background: none;
-  backdrop-filter: none;
-  border: none;
-  padding: 0;
-}
-
-@media (min-width: 576px) {
-  .recruitment-banner-badge {
-    right: 1.75rem;
-    bottom: 1.25rem;
-  }
-}
-
-.badge-line {
-  display: inline-block;
-  width: 22px;
-  height: 1.5px;
-  background-color: #C89B4B;
-  margin-bottom: 3px;
+  border-radius: 12px;
+  object-fit: cover;
 }
 
 /* Recruitment Jobs Grid */
