@@ -21,9 +21,9 @@ app.set("views", path.join(__dirname, "src/views"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Static directory with 7-day browser HTTP caching & ETag support
+// Static directory with fresh HTTP caching & ETag support
 app.use(express.static(path.join(__dirname, "public"), {
-  maxAge: "7d",
+  maxAge: "1h",
   etag: true,
   lastModified: true
 }));
