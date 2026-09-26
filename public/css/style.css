@@ -612,10 +612,10 @@ ul, ol {
   inset: 0;
   background: linear-gradient(
     90deg,
-    rgba(250, 249, 246, 0.6) 0%,
-    rgba(250, 249, 246, 0.25) 25%,
-    rgba(250, 249, 246, 0.05) 50%,
-    transparent 75%
+    #FAF9F6 0%,
+    rgba(250, 249, 246, 0.75) 35%,
+    rgba(250, 249, 246, 0.2) 65%,
+    transparent 90%
   );
 }
 
@@ -623,9 +623,9 @@ ul, ol {
   .hero-v2-fade-overlay {
     background: linear-gradient(
       90deg,
-      rgba(250, 249, 246, 0.5) 0%,
-      rgba(250, 249, 246, 0.18) 30%,
-      transparent 65%
+      #FAF9F6 0%,
+      rgba(250, 249, 246, 0.65) 40%,
+      transparent 85%
     );
   }
 }
@@ -643,11 +643,10 @@ ul, ol {
 
 .hero-script-eyebrow {
   font-size: 1.85rem;
-  color: #9E6B1D;
+  color: #7D5B1E;
   line-height: 1.1;
   margin-bottom: 0.1rem;
-  font-weight: 700;
-  text-shadow: 0 1px 3px rgba(255, 255, 255, 0.9);
+  font-weight: 600;
 }
 
 @media (min-width: 480px) {
@@ -665,12 +664,11 @@ ul, ol {
 .hero-v2-title {
   font-family: var(--font-sans);
   font-size: 1.85rem;
-  font-weight: 800;
-  color: #0A0A0A;
+  font-weight: 700;
+  color: #111111;
   line-height: 1.2;
   margin-bottom: 0.5rem;
   text-transform: lowercase;
-  text-shadow: 0 1px 2px rgba(255, 255, 255, 0.8);
 }
 
 @media (min-width: 768px) {
@@ -681,9 +679,9 @@ ul, ol {
 
 .hero-v2-sub-eyebrow {
   font-size: 0.75rem;
-  font-weight: 800;
-  letter-spacing: 0.14em;
-  color: #8E621B;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  color: #7D5B1E;
   text-transform: uppercase;
 }
 
@@ -702,11 +700,11 @@ ul, ol {
 }
 
 .usp-floating-card {
-  background: linear-gradient(180deg, #FFFFFF 0%, #FAF6EE 100%);
+  background-color: #FFFFFF;
   border-radius: var(--radius-card);
   padding: 1.25rem 0.75rem;
-  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.08);
-  border: 1.5px solid rgba(200, 155, 75, 0.28);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+  border: 1px solid rgba(0, 0, 0, 0.05);
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   align-items: flex-start;
@@ -728,17 +726,16 @@ ul, ol {
 }
 
 .usp-v2-icon {
-  width: 44px;
-  height: 44px;
+  width: 42px;
+  height: 42px;
   border-radius: 50%;
-  border: 1.8px solid #C89B4B;
+  border: 1.5px solid #C89B4B;
   color: #C89B4B;
   display: flex;
   align-items: center;
   justify-content: center;
   margin-bottom: 0.5rem;
-  background-color: rgba(200, 155, 75, 0.08);
-  box-shadow: 0 4px 12px rgba(200, 155, 75, 0.15);
+  background-color: rgba(200, 155, 75, 0.04);
 }
 
 @media (min-width: 768px) {
