@@ -335,6 +335,7 @@ ol {
 }
 
 .btn-header-consult {
+  display: none !important;
   background-color: #C89B4B !important;
   color: #111111 !important;
   font-weight: 700 !important;
@@ -342,13 +343,18 @@ ol {
   border: none !important;
   border-radius: 20px !important;
   padding: 0.5rem 1.15rem !important;
-  display: inline-flex !important;
   align-items: center !important;
   gap: 6px !important;
   cursor: pointer !important;
   transition: all 0.2s ease !important;
   white-space: nowrap !important;
   box-shadow: 0 4px 12px rgba(200, 155, 75, 0.25) !important;
+}
+
+@media (min-width: 768px) {
+  .btn-header-consult {
+    display: inline-flex !important;
+  }
 }
 
 .btn-header-consult svg {
@@ -359,13 +365,6 @@ ol {
   background-color: #E2B25E !important;
   transform: translateY(-1px) !important;
   box-shadow: 0 6px 18px rgba(200, 155, 75, 0.4) !important;
-}
-
-@media (max-width: 575px) {
-  .btn-header-consult {
-    padding: 0.4rem 0.75rem !important;
-    font-size: 0.75rem !important;
-  }
 }
 
 .desktop-only {
