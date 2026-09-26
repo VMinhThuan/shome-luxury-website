@@ -8,7 +8,7 @@
 @font-face {
   font-family: 'NVN Motherland Signature';
   src: url('https://db.onlinewebfonts.com/t/6a8d458bb5852341196e6bd04864c70c.woff2') format('woff2'),
-       url('https://db.onlinewebfonts.com/t/6a8d458bb5852341196e6bd04864c70c.woff') format('woff');
+    url('https://db.onlinewebfonts.com/t/6a8d458bb5852341196e6bd04864c70c.woff') format('woff');
   font-weight: normal;
   font-style: normal;
   font-display: swap;
@@ -16,37 +16,50 @@
 
 :root {
   /* Color Palette */
-  --bg-primary: #FAF9F6;        /* Warm Ivory / Off-white */
-  --bg-secondary: #F4F0E8;      /* Warm Cream */
-  --bg-dark: #1C1C1C;           /* Near Black Charcoal */
-  --bg-dark-surface: #242424;   /* Elevated Dark Card */
-  --bg-dark-lighter: #2C2C2C;   /* Input / Sub-surface Dark */
-  
-  --text-primary: #1D1D1D;      /* Deep Charcoal Text */
-  --text-secondary: #66615B;    /* Warm Gray Text */
-  --text-muted: #8E8A83;        /* Muted Gray Text */
-  --text-on-dark: #F6F2E9;      /* Warm Off-white on dark */
-  --text-on-dark-muted: #ABA49B;/* Secondary on dark */
-  
-  --accent-gold: #C89B4B;       /* Champagne Gold */
-  --accent-gold-hover: #D2A653; /* Lighter Gold */
-  --accent-gold-dark: #A8813C;  /* Deep Gold */
+  --bg-primary: #FAF9F6;
+  /* Warm Ivory / Off-white */
+  --bg-secondary: #F4F0E8;
+  /* Warm Cream */
+  --bg-dark: #1C1C1C;
+  /* Near Black Charcoal */
+  --bg-dark-surface: #242424;
+  /* Elevated Dark Card */
+  --bg-dark-lighter: #2C2C2C;
+  /* Input / Sub-surface Dark */
+
+  --text-primary: #1D1D1D;
+  /* Deep Charcoal Text */
+  --text-secondary: #66615B;
+  /* Warm Gray Text */
+  --text-muted: #8E8A83;
+  /* Muted Gray Text */
+  --text-on-dark: #F6F2E9;
+  /* Warm Off-white on dark */
+  --text-on-dark-muted: #ABA49B;
+  /* Secondary on dark */
+
+  --accent-gold: #C89B4B;
+  /* Champagne Gold */
+  --accent-gold-hover: #D2A653;
+  /* Lighter Gold */
+  --accent-gold-dark: #A8813C;
+  /* Deep Gold */
   --accent-gold-alpha: rgba(200, 155, 75, 0.15);
-  
+
   --border-light: rgba(29, 29, 29, 0.08);
   --border-dark: rgba(246, 242, 233, 0.1);
   --border-gold: rgba(200, 155, 75, 0.35);
-  
+
   /* Typography */
   --font-serif: 'Cormorant Garamond', Georgia, serif;
   --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
   --font-script: 'NVN Motherland Signature', 'Great Vibes', 'Alex Brush', 'Dancing Script', cursive;
-  
+
   /* Spacing & Layout */
   --container-max: 1480px;
   --header-height-mobile: 68px;
   --header-height-desktop: 84px;
-  
+
   /* Radii & Transitions */
   --radius-sm: 6px;
   --radius-md: 10px;
@@ -56,13 +69,16 @@
 }
 
 /* 2. RESET & BASE STYLES */
-*, *::before, *::after {
+*,
+*::before,
+*::after {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
 }
 
-html, body {
+html,
+body {
   width: 100%;
   max-width: 100%;
   overflow-x: hidden !important;
@@ -111,7 +127,10 @@ img {
   object-fit: cover;
 }
 
-button, input, select, textarea {
+button,
+input,
+select,
+textarea {
   font-family: inherit;
   font-size: inherit;
   border: none;
@@ -123,7 +142,8 @@ button {
   cursor: pointer;
 }
 
-ul, ol {
+ul,
+ol {
   list-style: none;
 }
 
@@ -208,11 +228,36 @@ ul, ol {
 }
 
 .logo-divider {
-  display: none !important;
+  width: 1px;
+  height: 26px;
+  background-color: rgba(255, 255, 255, 0.4);
+  margin: 0 0.5rem;
+  display: inline-block;
 }
 
 .logo-slogan {
-  display: none !important;
+  font-family: 'Great Vibes', cursive;
+  font-size: 2.1rem;
+  color: #EDE8DF;
+  white-space: nowrap;
+  font-weight: 400;
+  line-height: 1;
+  display: inline-block;
+}
+
+@media (max-width: 1023px) {
+  .logo-slogan {
+    font-size: 1.65rem;
+  }
+
+  .logo-divider {
+    height: 20px;
+    margin: 0 0.25rem;
+  }
+
+  .brand-logo-wrapper {
+    gap: 0.4rem;
+  }
 }
 
 /* Desktop Nav */
@@ -226,11 +271,11 @@ ul, ol {
     align-items: center;
     gap: 2rem;
   }
-  
+
   .nav-item {
     position: relative;
   }
-  
+
   .nav-link {
     font-size: 0.9375rem;
     font-weight: 500;
@@ -240,8 +285,9 @@ ul, ol {
     align-items: center;
     gap: 0.35rem;
   }
-  
-  .nav-link:hover, .nav-item.active .nav-link {
+
+  .nav-link:hover,
+  .nav-item.active .nav-link {
     color: var(--accent-gold);
   }
 
@@ -259,22 +305,22 @@ ul, ol {
     visibility: hidden;
     transform: translateY(10px);
     transition: all var(--transition-fast);
-    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
   }
-  
+
   .nav-item:hover .desktop-dropdown {
     opacity: 1;
     visibility: visible;
     transform: translateY(0);
   }
-  
+
   .dropdown-link {
     display: block;
     padding: 0.625rem 1.25rem;
     font-size: 0.875rem;
     color: var(--text-on-dark-muted);
   }
-  
+
   .dropdown-link:hover {
     color: var(--accent-gold);
     background-color: rgba(200, 155, 75, 0.08);
@@ -436,7 +482,8 @@ ul, ol {
   flex: 1;
 }
 
-.mobile-menu-link:hover, .mobile-menu-item.active > .mobile-menu-row > .mobile-menu-link {
+.mobile-menu-link:hover,
+.mobile-menu-item.active>.mobile-menu-row>.mobile-menu-link {
   color: var(--accent-gold);
 }
 
@@ -450,7 +497,7 @@ ul, ol {
   transition: transform var(--transition-fast);
 }
 
-.mobile-menu-item.open > .mobile-menu-row > .accordion-toggle {
+.mobile-menu-item.open>.mobile-menu-row>.accordion-toggle {
   transform: rotate(90deg);
 }
 
@@ -464,7 +511,7 @@ ul, ol {
   margin-bottom: 0.5rem;
 }
 
-.mobile-menu-item.open > .mobile-submenu-l2 {
+.mobile-menu-item.open>.mobile-submenu-l2 {
   display: block;
 }
 
@@ -477,7 +524,8 @@ ul, ol {
   justify-content: space-between;
 }
 
-.l2-link:hover, .l2-item.open > .mobile-menu-row > .l2-link {
+.l2-link:hover,
+.l2-item.open>.mobile-menu-row>.l2-link {
   color: var(--accent-gold);
 }
 
@@ -489,7 +537,7 @@ ul, ol {
   margin-bottom: 0.5rem;
 }
 
-.l2-item.open > .mobile-submenu-l3 {
+.l2-item.open>.mobile-submenu-l3 {
   display: block;
 }
 
@@ -610,25 +658,21 @@ ul, ol {
 .hero-v2-fade-overlay {
   position: absolute;
   inset: 0;
-  background: linear-gradient(
-    90deg,
-    #FAF9F6 0%,
-    #FAF9F6 38%,
-    rgba(250, 249, 246, 0.75) 60%,
-    rgba(250, 249, 246, 0.2) 82%,
-    transparent 96%
-  );
+  background: linear-gradient(90deg,
+      #FAF9F6 0%,
+      #FAF9F6 38%,
+      rgba(250, 249, 246, 0.75) 60%,
+      rgba(250, 249, 246, 0.2) 82%,
+      transparent 96%);
 }
 
 @media (max-width: 767px) {
   .hero-v2-fade-overlay {
-    background: linear-gradient(
-      90deg,
-      #FAF9F6 0%,
-      #FAF9F6 30%,
-      rgba(250, 249, 246, 0.75) 60%,
-      transparent 90%
-    );
+    background: linear-gradient(90deg,
+        #FAF9F6 0%,
+        #FAF9F6 30%,
+        rgba(250, 249, 246, 0.75) 60%,
+        transparent 90%);
   }
 }
 
@@ -777,6 +821,7 @@ ul, ol {
   .usp-v2-title {
     font-size: 1rem;
   }
+
   .usp-v2-sub {
     font-size: 0.875rem;
   }
@@ -999,7 +1044,7 @@ ul, ol {
 .project-overlay {
   position: absolute;
   inset: 0;
-  background: linear-gradient(to top, rgba(0,0,0,0.85), transparent 60%);
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.85), transparent 60%);
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
@@ -1748,7 +1793,7 @@ ul, ol {
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
 }
 
 .fb-card-body {
@@ -1772,7 +1817,7 @@ ul, ol {
   height: 44px;
   border-radius: 50%;
   border: 2px solid #FFFFFF;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
   overflow: hidden;
   flex-shrink: 0;
   margin-top: -20px;
@@ -2232,8 +2277,17 @@ ul, ol {
 }
 
 @keyframes ringPulse {
-  0%, 100% { transform: scale(1); opacity: 0.8; }
-  50% { transform: scale(1.06); opacity: 1; }
+
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 0.8;
+  }
+
+  50% {
+    transform: scale(1.06);
+    opacity: 1;
+  }
 }
 
 .trigger-icon-wrap {
@@ -2412,7 +2466,7 @@ ul, ol {
 .modal-backdrop {
   position: fixed;
   inset: 0;
-  background-color: rgba(0,0,0,0.75);
+  background-color: rgba(0, 0, 0, 0.75);
   z-index: 3000;
   display: flex;
   align-items: center;
@@ -2450,7 +2504,9 @@ ul, ol {
   margin-bottom: 1rem;
 }
 
-.form-input, .form-select, .form-textarea {
+.form-input,
+.form-select,
+.form-textarea {
   width: 100%;
   padding: 0.75rem 1rem;
   background-color: var(--bg-dark-surface);
