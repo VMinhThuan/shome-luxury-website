@@ -875,8 +875,12 @@ ol {
   margin-bottom: 0.25rem;
 }
 
+.process-v2-header {
+  margin-bottom: 0.85rem;
+}
+
 .process-v2-title {
-  font-size: 1.65rem;
+  font-size: 1.5rem;
   font-weight: 700;
   color: #7D5B1E;
   margin-bottom: 0.25rem;
@@ -885,7 +889,7 @@ ol {
 
 @media (min-width: 768px) {
   .process-v2-title {
-    font-size: 2.75rem;
+    font-size: clamp(1.75rem, 2.8vw, 2.25rem);
   }
 }
 
@@ -893,29 +897,77 @@ ol {
   font-size: 0.84375rem;
   color: #66615B;
   line-height: 1.45;
-  max-width: 640px;
+  max-width: 680px;
+  margin-bottom: 0.5rem;
 }
 
 .workshop-video-card-v2 {
   position: relative;
-  border-radius: 10px;
+  border-radius: 12px;
   overflow: hidden;
-  aspect-ratio: 16/10;
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+  aspect-ratio: 16 / 9;
+  max-height: 340px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
   cursor: pointer;
   background-color: var(--bg-dark);
   margin-bottom: 0;
+  border: 1px solid rgba(200, 155, 75, 0.25);
+}
+
+@media (min-width: 768px) {
+  .workshop-video-card-v2 {
+    aspect-ratio: 21 / 9;
+    max-height: 480px;
+  }
+}
+
+@media (min-width: 1200px) {
+  .workshop-video-card-v2 {
+    aspect-ratio: 2.35 / 1;
+    max-height: 520px;
+  }
 }
 
 .workshop-video-card-v2 img {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  object-position: center 35%;
   transition: transform var(--transition-normal);
 }
 
 .workshop-video-card-v2:hover img {
   transform: scale(1.03);
+}
+
+.video-play-btn-wrap {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.video-play-btn {
+  width: clamp(48px, 5.5vw, 68px);
+  height: clamp(48px, 5.5vw, 68px);
+  border-radius: 50%;
+  background: rgba(200, 155, 75, 0.9);
+  color: #171717;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-left: 3px;
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(4px);
+  transition: transform 0.3s ease, background-color 0.3s ease;
+}
+
+.workshop-video-card-v2:hover .video-play-btn {
+  transform: scale(1.12);
+  background: #D4AF37;
 }
 
 .video-card-v2-overlay {
@@ -924,31 +976,36 @@ ol {
   left: 0;
   right: 0;
   width: 100%;
-  padding: 0.65rem 1rem;
-  background: linear-gradient(to top, rgba(0, 0, 0, 0.88) 0%, rgba(0, 0, 0, 0.3) 70%, transparent 100%);
+  padding: 0.85rem 1.25rem;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.9) 0%, rgba(0, 0, 0, 0.35) 65%, transparent 100%);
   display: flex;
   align-items: center;
   justify-content: space-between;
   color: #FFFFFF;
-  z-index: 2;
+  z-index: 3;
 }
 
 .video-v2-title {
-  font-size: 0.8125rem;
-  font-weight: 500;
-  letter-spacing: 0.01em;
+  font-size: clamp(0.8rem, 1.1vw, 1.05rem);
+  font-weight: 600;
+  letter-spacing: 0.02em;
   text-align: left;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.8);
 }
 
 .video-v2-duration {
   font-size: 0.75rem;
-  font-weight: 500;
-  background-color: rgba(0, 0, 0, 0.65);
-  border: 1px solid rgba(255, 255, 255, 0.25);
-  padding: 0.2rem 0.55rem;
-  border-radius: 4px;
+  font-weight: 600;
+  color: #C89B4B;
+  background-color: rgba(0, 0, 0, 0.75);
+  border: 1px solid rgba(200, 155, 75, 0.4);
+  padding: 0.25rem 0.65rem;
+  border-radius: 20px;
   margin-left: auto;
   white-space: nowrap;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
 }
 
 /* 8. OTHER SECTIONS */
