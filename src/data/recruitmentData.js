@@ -52,7 +52,7 @@ module.exports = [
         id: "ftoc-heading-4",
         title: "Thông tin liên hệ",
         contactInfo: {
-          company: "𝐒𝐇𝐎𝐌𝐄 𝐋𝐔𝐗𝐔𝐑𝐘 – 𝐍𝐎̣̂𝐈 𝐓𝐇𝐀̂́𝐓 & 𝐊𝐈𝐄̂́𝐍 𝐓𝐑𝐔́𝐂",
+          company: "SHOME LUXURY – NỘI THẤT & KIẾN TRÚC",
           office: "Tầng 15 – Chung cư Thăng Long Capital Hà Nội, Hanoi, Vietnam",
           factories: [
             "CS1: Làng nghề Chàng Sơn – Thạch Thất – Hà Nội",
@@ -115,14 +115,13 @@ module.exports = [
 
         <h2 id="ftoc-heading-4" class="article-heading">Thông tin liên hệ</h2>
         <div class="article-contact-block">
-          <div class="contact-line"><strong>𝐒𝐇𝐎𝐌𝐄 𝐋𝐔𝐗𝐔𝐑𝐘 – 𝐍𝐎̣̂𝐈 𝐓𝐇𝐀̂́𝐓 & 𝐊𝐈𝐄̂́𝐍 𝐓𝐑Ｕ́𝐂</strong></div>
-          <div class="contact-line"><strong>𝐕𝐚̆𝐧 𝐩𝐡𝐨̀𝐧𝐠:</strong> Tầng 15 – Chung cư Thăng Long Capital Hà Nội, Hanoi, Vietnam</div>
-          <div class="contact-line"><strong>𝐗𝐮̛𝐨̛̉𝐧𝐠 𝐬𝐚̉𝐧 𝐱𝐮𝐚̂́𝐭:</strong> CS1: Làng nghề Chàng Sơn – Thạch Thất – Hà Nội</div>
+          <div class="contact-line"><strong>Văn phòng:</strong> Tầng 15 – Chung cư Thăng Long Capital Hà Nội, Hanoi, Vietnam</div>
+          <div class="contact-line"><strong>Xưởng sản xuất:</strong> CS1: Làng nghề Chàng Sơn – Thạch Thất – Hà Nội</div>
           <div class="contact-line indent">CS2: Làng nghề Hữu Bằng – Thạch Thất – Hà Nội</div>
-          <div class="contact-line indent">CS3: Làng nghề Canh nậu – Thạch Thất – Hà Nội</div>
-          <div class="contact-line">Liên hệ thiết kế thi công Sđt & Zalo : <strong>079999 7700</strong></div>
-          <div class="contact-line"><strong>𝐆𝐦𝐚𝐢𝐥:</strong> shomeluxurydesign@gmail.com</div>
-          <div class="contact-line"><strong>𝐖𝐞𝐛𝐬𝐢𝐭𝐞:</strong> <a href="https://shomeluxury.com" target="_blank" rel="noopener">https://shomeluxury.com</a></div>
+          <div class="contact-line indent">CS3: Làng nghề Canh Nậu – Thạch Thất – Hà Nội</div>
+          <div class="contact-line">Liên hệ thiết kế thi công SĐT & Zalo: <strong>079999 7700</strong></div>
+          <div class="contact-line"><strong>Gmail:</strong> shomeluxurydesign@gmail.com</div>
+          <div class="contact-line"><strong>Website:</strong> <a href="https://shomeluxury.com" target="_blank" rel="noopener">https://shomeluxury.com</a></div>
         </div>
       </div>
     `
@@ -180,7 +179,7 @@ module.exports = [
         id: "ftoc-heading-4",
         title: "Thông tin liên hệ",
         contactInfo: {
-          company: "𝐒𝐇𝐎𝐌E 𝐋𝐔𝐗𝐔𝐑𝐘 – 𝐍𝐎̣̂𝐈 𝐓𝐇𝐀̂́𝐓 & 𝐊𝐈Ế𝐍 𝐓𝐑𝐔́𝐂",
+          company: "SHOME LUXURY – NỘI THẤT & KIẾN TRÚC",
           office: "Tầng 15 – Chung cư Thăng Long Capital Hà Nội, Hanoi, Vietnam",
           factories: [
             "CS1: Làng nghề Chàng Sơn – Thạch Thất – Hà Nội",
@@ -243,14 +242,13 @@ module.exports = [
 
         <h2 id="ftoc-heading-4" class="article-heading">Thông tin liên hệ</h2>
         <div class="article-contact-block">
-          <div class="contact-line"><strong>𝐒𝐇𝐎𝐌𝐄 𝐋𝐔𝐗𝐔𝐑𝐘 – 𝐍𝐎̣̂𝐈 𝐓𝐇𝐀̂́𝐓 & 𝐊𝐈Ế𝐍 𝐓𝐑Ｕ́𝐂</strong></div>
-          <div class="contact-line"><strong>𝐕𝐚̆𝐧 𝐩𝐡𝐨̀𝐧𝐠:</strong> Tầng 15 – Chung cư Thăng Long Capital Hà Nội, Hanoi, Vietnam</div>
-          <div class="contact-line"><strong>𝐗𝐮̛𝐨̛̉𝐧𝐠 𝐬𝐚̉𝐧 𝐱𝐮𝐚̂́𝐭:</strong> CS1: Làng nghề Chàng Sơn – Thạch Thất – Hà Nội</div>
+          <div class="contact-line"><strong>Văn phòng:</strong> Tầng 15 – Chung cư Thăng Long Capital Hà Nội, Hanoi, Vietnam</div>
+          <div class="contact-line"><strong>Xưởng sản xuất:</strong> CS1: Làng nghề Chàng Sơn – Thạch Thất – Hà Nội</div>
           <div class="contact-line indent">CS2: Làng nghề Hữu Bằng – Thạch Thất – Hà Nội</div>
-          <div class="contact-line indent">CS3: Làng nghề Canh nậu – Thạch Thất – Hà Nội</div>
-          <div class="contact-line">Liên hệ thiết kế thi công Sđt & Zalo : <strong>079999 7700</strong></div>
-          <div class="contact-line"><strong>𝐆𝐦𝐚𝐢𝐥:</strong> shomeluxurydesign@gmail.com</div>
-          <div class="contact-line"><strong>𝐖𝐞b:</strong> <a href="https://shomeluxury.com" target="_blank" rel="noopener">https://shomeluxury.com</a></div>
+          <div class="contact-line indent">CS3: Làng nghề Canh Nậu – Thạch Thất – Hà Nội</div>
+          <div class="contact-line">Liên hệ thiết kế thi công SĐT & Zalo: <strong>079999 7700</strong></div>
+          <div class="contact-line"><strong>Gmail:</strong> shomeluxurydesign@gmail.com</div>
+          <div class="contact-line"><strong>Website:</strong> <a href="https://shomeluxury.com" target="_blank" rel="noopener">https://shomeluxury.com</a></div>
         </div>
       </div>
     `
@@ -304,7 +302,7 @@ module.exports = [
         id: "ftoc-heading-4",
         title: "Thông tin liên hệ",
         contactInfo: {
-          company: "𝐒𝐇𝐎𝐌𝐄 𝐋𝐔𝐗𝐔𝐑𝐘 – 𝐍𝐎̣̂𝐈 𝐓𝐇𝐀̂́𝐓 & 𝐊𝐈Ế𝐍 𝐓𝐑Ｕ́𝐂",
+          company: "SHOME LUXURY – NỘI THẤT & KIẾN TRÚC",
           office: "Tầng 15 – Chung cư Thăng Long Capital Hà Nội",
           factories: ["CS1: Chàng Sơn", "CS2: Hữu Bằng", "CS3: Canh Nậu"],
           phone: "079999 7700",
@@ -349,7 +347,6 @@ module.exports = [
         </ul>
         <h2 id="ftoc-heading-4" class="article-heading">Thông tin liên hệ</h2>
         <div class="article-contact-block">
-          <div class="contact-line"><strong>𝐒𝐇𝐎𝐌𝐄 𝐋UXURY – 𝐍𝐎̣̂𝐈 𝐓𝐇𝐀̂́𝐓 & 𝐊𝐈Ế𝐍 𝐓𝐑Ｕ́𝐂</strong></div>
           <div class="contact-line">SĐT / Zalo: 079999 7700 | Email: shomeluxurydesign@gmail.com</div>
         </div>
       </div>
@@ -405,7 +402,7 @@ module.exports = [
         id: "ftoc-heading-4",
         title: "Thông tin liên hệ",
         contactInfo: {
-          company: "𝐒𝐇𝐎𝐌𝐄 𝐋𝐔𝐗𝐔𝐑𝐘 – 𝐍𝐎̣̂𝐈 𝐓𝐇𝐀̂́𝐓 & 𝐊𝐈Ế𝐍 𝐓𝐑Ｕ́𝐂",
+          company: "SHOME LUXURY – NỘI THẤT & KIẾN TRÚC",
           office: "Tầng 15 – Chung cư Thăng Long Capital Hà Nội",
           factories: ["CS1: Chàng Sơn", "CS2: Hữu Bằng", "CS3: Canh Nậu"],
           phone: "079999 7700",
@@ -448,7 +445,6 @@ module.exports = [
         </ul>
         <h2 id="ftoc-heading-4" class="article-heading">Thông tin liên hệ</h2>
         <div class="article-contact-block">
-          <div class="contact-line"><strong>𝐒𝐇𝐎𝐌𝐄 𝐋UXURY – 𝐍𝐎̣̂𝐈 𝐓𝐇𝐀̂́𝐓 & 𝐊𝐈Ế𝐍 𝐓𝐑Ｕ́𝐂</strong></div>
           <div class="contact-line">SĐT / Zalo: 079999 7700 | Email: shomeluxurydesign@gmail.com</div>
         </div>
       </div>
@@ -504,7 +500,7 @@ module.exports = [
         id: "ftoc-heading-4",
         title: "Thông tin liên hệ",
         contactInfo: {
-          company: "𝐒𝐇𝐎𝐌𝐄 𝐋𝐔𝐗𝐔𝐑𝐘 – 𝐍𝐎̣̂𝐈 𝐓𝐇𝐀̂́𝐓 & 𝐊𝐈Ế𝐍 𝐓𝐑Ｕ́𝐂",
+          company: "SHOME LUXURY – NỘI THẤT & KIẾN TRÚC",
           office: "Tầng 15 – Chung cư Thăng Long Capital Hà Nội",
           factories: ["CS1: Chàng Sơn", "CS2: Hữu Bằng", "CS3: Canh Nậu"],
           phone: "079999 7700",
@@ -546,7 +542,6 @@ module.exports = [
         </ul>
         <h2 id="ftoc-heading-4" class="article-heading">Thông tin liên hệ</h2>
         <div class="article-contact-block">
-          <div class="contact-line"><strong>𝐒𝐇𝐎𝐌𝐄 𝐋UXURY – 𝐍𝐎̣̂𝐈 𝐓𝐇𝐀̂́𝐓 & 𝐊𝐈Ế𝐍 𝐓𝐑Ｕ́𝐂</strong></div>
           <div class="contact-line">SĐT / Zalo: 079999 7700 | Email: shomeluxurydesign@gmail.com</div>
         </div>
       </div>
@@ -601,7 +596,7 @@ module.exports = [
         id: "ftoc-heading-4",
         title: "Thông tin liên hệ",
         contactInfo: {
-          company: "𝐒𝐇𝐎𝐌𝐄 𝐋𝐔𝐗𝐔𝐑Y – 𝐍𝐎̣̂𝐈 𝐓𝐇𝐀̂́𝐓 & 𝐊𝐈Ế𝐍 𝐓𝐑Ｕ́𝐂",
+          company: "SHOME LUXURY – NỘI THẤT & KIẾN TRÚC",
           office: "Tầng 15 – Chung cư Thăng Long Capital Hà Nội",
           factories: ["CS1: Chàng Sơn", "CS2: Hữu Bằng", "CS3: Canh Nậu"],
           phone: "079999 7700",
@@ -643,7 +638,6 @@ module.exports = [
         </ul>
         <h2 id="ftoc-heading-4" class="article-heading">Thông tin liên hệ</h2>
         <div class="article-contact-block">
-          <div class="contact-line"><strong>𝐒𝐇𝐎𝐌𝐄 𝐋UXURY – 𝐍𝐎̣̂𝐈 𝐓𝐇𝐀̂́𝐓 & 𝐊𝐈Ế𝐍 𝐓𝐑Ｕ́𝐂</strong></div>
           <div class="contact-line">SĐT / Zalo: 079999 7700 | Email: shomeluxurydesign@gmail.com</div>
         </div>
       </div>

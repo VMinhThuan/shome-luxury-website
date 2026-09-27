@@ -8,8 +8,8 @@
   <meta name="theme-color" content="#171717" />
 
   <!-- Performance Preload Resource Hints -->
-  <link rel="preload" href="/css/style.css?v=1.6.5" as="style" />
-  <link rel="preload" href="/js/main.js?v=1.6.5" as="script" />
+  <link rel="preload" href="/css/style.css?v=1.6.6" as="style" />
+  <link rel="preload" href="/js/main.js?v=1.6.6" as="script" />
   <link rel="preload" href="/images/shome-logo.png" as="image" />
   <link rel="preload" href="/images/banner-tuyendung.png" as="image" />
 
@@ -19,8 +19,8 @@
   <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Montserrat:wght@600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 
   <!-- CSS Stylesheet -->
-  <link rel="stylesheet" href="/css/style.css?v=1.6.5" />
-  <script src="/js/main.js?v=1.6.5" defer></script>
+  <link rel="stylesheet" href="/css/style.css?v=1.6.6" />
+  <script src="/js/main.js?v=1.6.6" defer></script>
 </head>
 <body class="page-recruitment">
 
@@ -271,15 +271,15 @@
         } else {
           sectionsHtml = `
             <div class="job-modal-section">
-              <h3>📌 Mô tả công việc</h3>
+              <h3>Mô tả công việc</h3>
               <ul>${(job.description || []).map(i => `<li>${i}</li>`).join('')}</ul>
             </div>
             <div class="job-modal-section">
-              <h3>🎯 Yêu cầu ứng viên</h3>
+              <h3>Yêu cầu ứng viên</h3>
               <ul>${(job.requirements || []).map(i => `<li>${i}</li>`).join('')}</ul>
             </div>
             <div class="job-modal-section">
-              <h3>🎁 Quyền lợi được hưởng</h3>
+              <h3>Quyền lợi được hưởng</h3>
               <ul>${(job.benefits || []).map(i => `<li>${i}</li>`).join('')}</ul>
             </div>
           `;
@@ -287,20 +287,20 @@
 
         modalBody.innerHTML = `
           <div class="job-modal-header">
-            <span class="job-modal-badge">${job.isHot ? '🔥 ĐANG HOT' : 'TUYỂN DỤNG'}</span>
+            <span class="job-modal-badge">${job.isHot ? 'ĐANG HOT' : 'TUYỂN DỤNG'}</span>
             <h2 class="job-modal-title">${job.title}</h2>
             
             <div class="old-web-meta">
-              <span>✍️ <strong>Viết bởi:</strong> ${job.author || 'Lê Sang'}</span>
-              <span>📅 <strong>Ngày đăng:</strong> ${job.date || '29/06/2024'}</span>
-              <span>📂 <strong>Danh mục:</strong> ${job.category || 'Tuyển dụng'}</span>
+              <span><strong>Viết bởi:</strong> ${job.author || 'Lê Sang'}</span>
+              <span><strong>Ngày đăng:</strong> ${job.date || '29/06/2024'}</span>
+              <span><strong>Danh mục:</strong> ${job.category || 'Tuyển dụng'}</span>
             </div>
 
             <div class="job-modal-quick-info">
-              <span>💰 <strong>Mức lương:</strong> ${job.salary || 'Thỏa thuận'}</span>
-              <span>📍 <strong>Địa điểm:</strong> ${job.location || 'Hà Nội'}</span>
-              <span>💼 <strong>Hình thức:</strong> ${job.workType || 'Toàn thời gian'}</span>
-              <span>⏳ <strong>Hạn nộp:</strong> ${job.deadline || '30/10/2026'}</span>
+              <span><strong>Mức lương:</strong> ${job.salary || 'Thỏa thuận'}</span>
+              <span><strong>Địa điểm:</strong> ${job.location || 'Hà Nội'}</span>
+              <span><strong>Hình thức:</strong> ${job.workType || 'Toàn thời gian'}</span>
+              <span><strong>Hạn nộp:</strong> ${job.deadline || '30/10/2026'}</span>
             </div>
           </div>
 
