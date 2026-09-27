@@ -227,37 +227,9 @@ ol {
   }
 }
 
-.logo-divider {
-  width: 1px;
-  height: 26px;
-  background-color: rgba(255, 255, 255, 0.4);
-  margin: 0 0.5rem;
-  display: inline-block;
-}
-
+.logo-divider,
 .logo-slogan {
-  font-family: 'Great Vibes', cursive;
-  font-size: 2.1rem;
-  color: #EDE8DF;
-  white-space: nowrap;
-  font-weight: 400;
-  line-height: 1;
-  display: inline-block;
-}
-
-@media (max-width: 1023px) {
-  .logo-slogan {
-    font-size: 1.65rem;
-  }
-
-  .logo-divider {
-    height: 20px;
-    margin: 0 0.25rem;
-  }
-
-  .brand-logo-wrapper {
-    gap: 0.4rem;
-  }
+  display: none !important;
 }
 
 /* Desktop Nav */
