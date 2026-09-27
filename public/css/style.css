@@ -227,9 +227,30 @@ ol {
   }
 }
 
-.logo-divider,
+.logo-divider {
+  display: inline-block;
+  width: 1px;
+  height: 20px;
+  background-color: var(--accent-gold);
+  opacity: 0.6;
+  margin: 0 0.4rem;
+}
+
 .logo-slogan {
-  display: none !important;
+  display: inline-block;
+  font-family: var(--font-script);
+  font-size: clamp(0.95rem, 3.2vw, 1.25rem);
+  color: #FFFFFF;
+  font-weight: 400;
+  line-height: 1.2;
+  white-space: nowrap;
+}
+
+@media (min-width: 1024px) {
+  .logo-divider,
+  .logo-slogan {
+    display: none !important;
+  }
 }
 
 /* Desktop Nav */
@@ -2579,8 +2600,15 @@ ol {
   margin: 0;
   box-shadow: none;
   background-color: #1A1A1A;
-  aspect-ratio: 16 / 7;
-  min-height: 220px;
+  aspect-ratio: 16 / 9;
+  min-height: 240px;
+}
+
+@media (min-width: 576px) {
+  .recruitment-banner-card {
+    aspect-ratio: 16 / 7.5;
+    min-height: 270px;
+  }
 }
 
 @media (min-width: 768px) {
@@ -2617,12 +2645,18 @@ ol {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  padding: 1rem 1.25rem;
+  padding: 0.85rem 1rem;
   z-index: 2;
   width: 100%;
   max-width: var(--container-max);
   margin-left: auto;
   margin-right: auto;
+}
+
+@media (min-width: 576px) {
+  .recruitment-banner-overlay {
+    padding: 1.5rem 1.75rem;
+  }
 }
 
 @media (min-width: 768px) {
@@ -2638,29 +2672,35 @@ ol {
 }
 
 .recruitment-banner-text {
-  margin-top: 1.4rem;
+  margin-top: 0.2rem;
 }
 
 @media (min-width: 576px) {
   .recruitment-banner-text {
-    margin-top: 1.8rem;
+    margin-top: 0.75rem;
+  }
+}
+
+@media (min-width: 768px) {
+  .recruitment-banner-text {
+    margin-top: 1.2rem;
   }
 }
 
 @media (min-width: 1024px) {
   .recruitment-banner-text {
-    margin-top: 2.2rem;
+    margin-top: 1.5rem;
   }
 }
 
 .recruitment-eyebrow {
   font-family: 'Montserrat', var(--font-sans);
-  font-size: clamp(0.6rem, 1vw, 0.8rem);
+  font-size: clamp(0.52rem, 1vw, 0.78rem);
   letter-spacing: 0.14em;
   color: #C89B4B;
   font-weight: 700;
   text-transform: uppercase;
-  margin-bottom: 0.2rem;
+  margin-bottom: 0.1rem;
   display: block;
 }
 
@@ -2672,22 +2712,22 @@ ol {
 .recruitment-hero-title .script-title {
   font-family: var(--font-script);
   color: #FFFFFF;
-  font-size: clamp(2.2rem, 4.8vw, 3.8rem);
+  font-size: clamp(1.65rem, 4.2vw, 3.8rem);
   font-weight: 400;
   line-height: 0.95;
-  margin-bottom: 0.15rem;
+  margin-bottom: 0.1rem;
   display: block;
-  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.4);
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
 }
 
 .recruitment-hero-title .serif-sub {
   font-family: 'Montserrat', var(--font-sans);
   color: #FFFFFF;
-  font-size: clamp(1.15rem, 2.5vw, 2.25rem);
+  font-size: clamp(0.85rem, 2.3vw, 2.25rem);
   font-weight: 800;
   text-transform: uppercase;
   letter-spacing: -0.01em;
-  line-height: 1.15;
+  line-height: 1.12;
   display: block;
 }
 
@@ -2699,13 +2739,27 @@ ol {
 .recruitment-hero-subtext {
   font-family: var(--font-sans);
   color: #B5B0A8;
-  font-size: clamp(0.55rem, 0.85vw, 0.75rem);
-  font-weight: 700;
-  letter-spacing: 0.12em;
-  line-height: 1.45;
+  font-size: clamp(0.48rem, 0.8vw, 0.75rem);
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  line-height: 1.4;
   text-transform: uppercase;
-  max-width: 420px;
-  margin-top: 0.65rem;
+  max-width: 52%;
+  margin-top: 0.35rem;
+}
+
+@media (min-width: 576px) {
+  .recruitment-hero-subtext {
+    max-width: 60%;
+    margin-top: 0.5rem;
+  }
+}
+
+@media (min-width: 768px) {
+  .recruitment-hero-subtext {
+    max-width: 420px;
+    margin-top: 0.65rem;
+  }
 }
 
 .recruitment-banner-badge {
