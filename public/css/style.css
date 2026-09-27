@@ -2668,35 +2668,30 @@ ol {
 }
 
 .recruitment-banner-text {
-  margin-top: 0.2rem;
-}
-
-@media (min-width: 576px) {
-  .recruitment-banner-text {
-    margin-top: 0.75rem;
-  }
+  margin-top: 0;
+  max-width: 58%;
 }
 
 @media (min-width: 768px) {
   .recruitment-banner-text {
-    margin-top: 1.2rem;
+    max-width: 46%;
   }
 }
 
-@media (min-width: 1024px) {
+@media (min-width: 1200px) {
   .recruitment-banner-text {
-    margin-top: 1.5rem;
+    max-width: 44%;
   }
 }
 
 .recruitment-eyebrow {
   font-family: 'Montserrat', var(--font-sans);
-  font-size: clamp(0.52rem, 1vw, 0.78rem);
-  letter-spacing: 0.14em;
+  font-size: clamp(0.55rem, 0.9vw, 0.85rem);
+  letter-spacing: 0.16em;
   color: #C89B4B;
   font-weight: 700;
   text-transform: uppercase;
-  margin-bottom: 0.1rem;
+  margin-bottom: 0.2rem;
   display: block;
 }
 
@@ -2708,23 +2703,24 @@ ol {
 .recruitment-hero-title .script-title {
   font-family: var(--font-script);
   color: #FFFFFF;
-  font-size: clamp(1.65rem, 4.2vw, 3.8rem);
+  font-size: clamp(1.65rem, 3.6vw, 3.4rem);
   font-weight: 400;
-  line-height: 0.95;
-  margin-bottom: 0.1rem;
+  line-height: 1.0;
+  margin-bottom: 0.15rem;
   display: block;
-  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.6);
 }
 
 .recruitment-hero-title .serif-sub {
   font-family: 'Montserrat', var(--font-sans);
   color: #FFFFFF;
-  font-size: clamp(0.85rem, 2.3vw, 2.25rem);
+  font-size: clamp(0.85rem, 1.9vw, 1.85rem);
   font-weight: 800;
   text-transform: uppercase;
-  letter-spacing: -0.01em;
-  line-height: 1.12;
+  letter-spacing: 0.01em;
+  line-height: 1.15;
   display: block;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.6);
 }
 
 .recruitment-hero-title .serif-sub .text-accent-brown {
@@ -2734,34 +2730,27 @@ ol {
 
 .recruitment-hero-subtext {
   font-family: var(--font-sans);
-  color: #B5B0A8;
-  font-size: clamp(0.48rem, 0.8vw, 0.75rem);
+  color: #D5D0C8;
+  font-size: clamp(0.48rem, 0.8vw, 0.78rem);
   font-weight: 600;
-  letter-spacing: 0.08em;
-  line-height: 1.4;
+  letter-spacing: 0.06em;
+  line-height: 1.45;
   text-transform: uppercase;
-  max-width: 52%;
-  margin-top: 0.35rem;
-}
-
-@media (min-width: 576px) {
-  .recruitment-hero-subtext {
-    max-width: 60%;
-    margin-top: 0.5rem;
-  }
+  max-width: 100%;
+  margin-top: 0.5rem;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.7);
 }
 
 @media (min-width: 768px) {
   .recruitment-hero-subtext {
-    max-width: 420px;
-    margin-top: 0.65rem;
+    margin-top: 0.85rem;
   }
 }
 
 .recruitment-banner-badge {
   position: absolute;
-  right: 1.25rem;
-  bottom: 1rem;
+  right: 1rem;
+  bottom: 0.85rem;
   color: #D5C7B2;
   font-size: clamp(0.48rem, 0.75vw, 0.62rem);
   letter-spacing: 0.14em;
@@ -2772,23 +2761,33 @@ ol {
   display: flex;
   align-items: flex-end;
   gap: 6px;
-  background: none;
-  backdrop-filter: none;
-  border: none;
-  padding: 0;
+  z-index: 3;
 }
 
-@media (min-width: 576px) {
-  .recruitment-banner-badge {
-    right: 1.75rem;
-    bottom: 1.25rem;
-  }
+.badge-word {
+  display: block;
 }
 
-@media (min-width: 1024px) {
+@media (min-width: 768px) {
   .recruitment-banner-badge {
-    right: 2.25rem;
+    right: 2rem;
     bottom: 1.5rem;
+    color: #FFFFFF;
+    font-size: clamp(0.75rem, 1.1vw, 0.95rem);
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    align-items: center;
+    gap: 10px;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.8);
+  }
+
+  .badge-word {
+    display: inline;
+    margin-right: 0.35em;
+  }
+
+  .badge-word:last-child {
+    margin-right: 0;
   }
 }
 
@@ -2798,6 +2797,14 @@ ol {
   height: 1.5px;
   background-color: #C89B4B;
   margin-bottom: 3px;
+}
+
+@media (min-width: 768px) {
+  .badge-line {
+    width: 36px;
+    height: 2px;
+    margin-bottom: 0;
+  }
 }
 
 /* Recruitment Jobs Grid - Optimized 3-column layout on Desktop */
