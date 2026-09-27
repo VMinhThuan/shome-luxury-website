@@ -2709,8 +2709,8 @@ ol {
   box-shadow: none;
   background-color: #1A1A1A;
   height: 50vh;
-  min-height: 320px;
-  max-height: 460px;
+  min-height: 340px;
+  max-height: 480px;
 }
 
 @media (min-width: 768px) {
@@ -2768,7 +2768,7 @@ ol {
   color: #FFFFFF;
   font-weight: 700;
   text-transform: uppercase;
-  margin: 0 0 16px 0;
+  margin: 0 0 clamp(20px, 5.5vw, 26px) 0;
   display: block;
   position: relative;
   z-index: 3;
@@ -2793,7 +2793,7 @@ ol {
   display: block;
   width: max-content;
   max-width: 100%;
-  margin: 2px 0 18px 0;
+  margin: 0 0 clamp(24px, 7vw, 30px) 0;
   text-shadow: 0 2px 10px rgba(0, 0, 0, 0.7);
   position: relative;
   z-index: 2;
@@ -2808,7 +2808,7 @@ ol {
   text-transform: uppercase;
   letter-spacing: 0.01em;
   display: block;
-  margin: 0 0 8px 0;
+  margin: 0 0 clamp(10px, 3vw, 14px) 0;
   text-shadow: 0 2px 10px rgba(0, 0, 0, 0.7);
 }
 
