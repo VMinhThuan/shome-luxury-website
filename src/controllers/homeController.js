@@ -3,6 +3,7 @@ const navigationData = require("../data/navigationData");
 exports.getHomePage = (req, res) => {
   const pageData = {
     title: "LUXURY HOME | Thiết Kế & Thi Công Nội Thất, Kiến Trúc Cao Cấp",
+    headerSlogan: "Nâng tầm cuộc sống",
     navigation: navigationData,
     usps: [
       {

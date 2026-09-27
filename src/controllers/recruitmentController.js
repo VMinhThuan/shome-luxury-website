@@ -5,6 +5,7 @@ const recruitmentData = require("../data/recruitmentData");
 exports.getRecruitmentPage = (req, res) => {
   const pageData = {
     title: "Tuyển Dụng | SHOME LUXURY - Cùng Kiến Tạo Giá Trị",
+    headerSlogan: "Kiến tạo không gian sống đẳng cấp",
     navigation: navigationData,
     jobs: recruitmentData
   };
