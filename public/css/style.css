@@ -2654,12 +2654,13 @@ ol {
 }
 
 .recruitment-eyebrow {
-  font-size: clamp(0.55rem, 1.1vw, 0.75rem);
-  letter-spacing: 0.18em;
-  color: #A09585;
-  font-weight: 600;
+  font-family: 'Montserrat', var(--font-sans);
+  font-size: clamp(0.6rem, 1vw, 0.8rem);
+  letter-spacing: 0.14em;
+  color: #C89B4B;
+  font-weight: 700;
   text-transform: uppercase;
-  margin-bottom: 0.15rem;
+  margin-bottom: 0.2rem;
   display: block;
 }
 
@@ -2669,35 +2670,42 @@ ol {
 }
 
 .recruitment-hero-title .script-title {
-  font-family: 'Great Vibes', cursive;
+  font-family: var(--font-script);
   color: #FFFFFF;
-  font-size: clamp(2rem, 4vw, 3.6rem);
+  font-size: clamp(2.2rem, 4.8vw, 3.8rem);
   font-weight: 400;
-  line-height: 0.88;
-  margin-bottom: 0.1rem;
+  line-height: 0.95;
+  margin-bottom: 0.15rem;
   display: block;
   text-shadow: 0 2px 10px rgba(0, 0, 0, 0.4);
 }
 
 .recruitment-hero-title .serif-sub {
-  font-family: var(--font-sans);
-  color: #C89B4B;
-  font-size: clamp(1rem, 2.2vw, 1.85rem);
+  font-family: 'Montserrat', var(--font-sans);
+  color: #FFFFFF;
+  font-size: clamp(1.15rem, 2.5vw, 2.25rem);
   font-weight: 800;
-  text-transform: lowercase;
+  text-transform: uppercase;
+  letter-spacing: -0.01em;
   line-height: 1.15;
   display: block;
 }
 
+.recruitment-hero-title .serif-sub .text-accent-brown {
+  color: #C89B4B;
+  display: inline;
+}
+
 .recruitment-hero-subtext {
+  font-family: var(--font-sans);
   color: #B5B0A8;
-  font-size: clamp(0.5rem, 0.85vw, 0.72rem);
-  font-weight: 500;
-  letter-spacing: 0.08em;
+  font-size: clamp(0.55rem, 0.85vw, 0.75rem);
+  font-weight: 700;
+  letter-spacing: 0.12em;
   line-height: 1.45;
   text-transform: uppercase;
-  max-width: 400px;
-  margin-top: 0.6rem;
+  max-width: 420px;
+  margin-top: 0.65rem;
 }
 
 .recruitment-banner-badge {
