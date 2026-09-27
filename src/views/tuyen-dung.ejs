@@ -8,8 +8,8 @@
   <meta name="theme-color" content="#171717" />
 
   <!-- Performance Preload Resource Hints -->
-  <link rel="preload" href="/css/style.css?v=1.4.4" as="style" />
-  <link rel="preload" href="/js/main.js?v=1.4.4" as="script" />
+  <link rel="preload" href="/css/style.css?v=1.4.5" as="style" />
+  <link rel="preload" href="/js/main.js?v=1.4.5" as="script" />
   <link rel="preload" href="/images/shome-logo.png" as="image" />
   <link rel="preload" href="/images/banner-tuyendung.png" as="image" />
 
@@ -19,8 +19,8 @@
   <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet">
 
   <!-- CSS Stylesheet -->
-  <link rel="stylesheet" href="/css/style.css?v=1.4.4" />
-  <script src="/js/main.js?v=1.4.4" defer></script>
+  <link rel="stylesheet" href="/css/style.css?v=1.4.5" />
+  <script src="/js/main.js?v=1.4.5" defer></script>
 </head>
 <body class="page-recruitment">
 
@@ -28,14 +28,12 @@
   <%- include("partials/header") %>
 
   <main class="main-content">
-    <div class="container">
-      <!-- Recruitment Hero Banner -->
-      <section class="recruitment-banner-card">
+    <!-- Recruitment Hero Banner (Full Width & Attached directly under Header) -->
+    <section class="recruitment-banner-section">
+      <div class="recruitment-banner-card">
         <img src="/images/banner-tuyendung.png" alt="Tuyển dụng SHOME LUXURY" class="recruitment-banner-bg" width="1200" height="500" />
         
         <div class="recruitment-banner-overlay">
-          <div class="banner-circle-gold"></div>
-          
           <div class="recruitment-banner-text">
             <span class="recruitment-eyebrow">SHOME LUXURY</span>
             
@@ -55,8 +53,10 @@
             KIẾN TẠO<br>CUỘC SỐNG<br>TINH TẾ <span class="badge-line"></span>
           </div>
         </div>
-      </section>
+      </div>
+    </section>
 
+    <div class="container">
       <!-- Recruitment Positions Section -->
       <section class="recruitment-jobs-section" id="cac-vi-tri-tuyen-dung">
         <div class="recruitment-header">

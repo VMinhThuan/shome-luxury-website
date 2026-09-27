@@ -2534,12 +2534,39 @@ ol {
 }
 
 .page-recruitment .main-content {
-  padding-top: calc(var(--header-height-mobile) + 1rem);
+  padding-top: var(--header-height-mobile);
 }
 
 @media (min-width: 1024px) {
   .page-recruitment .main-content {
-    padding-top: calc(var(--header-height-desktop) + 1.25rem);
+    padding-top: var(--header-height-desktop);
+  }
+}
+
+.recruitment-banner-section {
+  width: 100%;
+  padding-left: 0.75rem;
+  padding-right: 0.75rem;
+  margin-top: 0.25rem;
+  margin-bottom: 1.75rem;
+}
+
+@media (min-width: 768px) {
+  .recruitment-banner-section {
+    padding-left: 1.25rem;
+    padding-right: 1.25rem;
+    margin-top: 0.35rem;
+  }
+}
+
+@media (min-width: 1200px) {
+  .recruitment-banner-section {
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+    max-width: var(--container-max);
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 0.5rem;
   }
 }
 
@@ -2548,8 +2575,8 @@ ol {
   width: 100%;
   border-radius: 14px;
   overflow: hidden;
-  margin-top: 0.5rem;
-  margin-bottom: 2rem;
+  margin-top: 0;
+  margin-bottom: 0;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
   background-color: #1A1A1A;
   aspect-ratio: 16 / 7;
@@ -2567,7 +2594,6 @@ ol {
   .recruitment-banner-card {
     aspect-ratio: 2.6 / 1;
     max-height: 380px;
-    margin-top: 0.75rem;
   }
 }
 
@@ -2579,35 +2605,9 @@ ol {
   display: block;
 }
 
+/* Remove CSS circle since image artwork already contains 3D gold sphere */
 .banner-circle-gold {
-  position: absolute;
-  top: 0.85rem;
-  left: 1rem;
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  background: radial-gradient(circle at 35% 35%, #F5D38A 0%, #C89B4B 60%, #8E651B 100%);
-  box-shadow: 0 3px 12px rgba(200, 155, 75, 0.4);
-  z-index: 3;
-}
-
-@media (min-width: 768px) {
-  .banner-circle-gold {
-    top: 1.25rem;
-    left: 1.75rem;
-    width: 46px;
-    height: 46px;
-    box-shadow: 0 6px 20px rgba(200, 155, 75, 0.5);
-  }
-}
-
-@media (min-width: 1024px) {
-  .banner-circle-gold {
-    top: 1.5rem;
-    left: 2.25rem;
-    width: 52px;
-    height: 52px;
-  }
+  display: none !important;
 }
 
 .recruitment-banner-overlay {
@@ -2617,7 +2617,7 @@ ol {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  padding: 1.25rem 1.5rem;
+  padding: 1rem 1.25rem;
   z-index: 2;
 }
 
@@ -2630,6 +2630,22 @@ ol {
 @media (min-width: 1024px) {
   .recruitment-banner-overlay {
     padding: 2.5rem 3.5rem;
+  }
+}
+
+.recruitment-banner-text {
+  margin-top: 1.4rem;
+}
+
+@media (min-width: 576px) {
+  .recruitment-banner-text {
+    margin-top: 1.8rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .recruitment-banner-text {
+    margin-top: 2.2rem;
   }
 }
 
