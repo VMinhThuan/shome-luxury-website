@@ -2688,17 +2688,23 @@ ol {
 
 .recruitment-banner-text {
   margin-top: 0;
-  max-width: 48%;
+  max-width: 54%;
+}
+
+@media (min-width: 768px) {
+  .recruitment-banner-text {
+    max-width: 46%;
+  }
 }
 
 .recruitment-eyebrow {
   font-family: 'Montserrat', var(--font-sans);
-  font-size: clamp(0.42rem, 1.05vw, 0.82rem);
-  letter-spacing: 0.14em;
+  font-size: clamp(0.48rem, 0.95vw, 0.85rem);
+  letter-spacing: 0.16em;
   color: #C89B4B;
   font-weight: 700;
   text-transform: uppercase;
-  margin-bottom: 0.1rem;
+  margin-bottom: 0.35rem;
   display: block;
 }
 
@@ -2710,10 +2716,10 @@ ol {
 .recruitment-hero-title .script-title {
   font-family: var(--font-script);
   color: #FFFFFF;
-  font-size: clamp(1.35rem, 3.8vw, 3.5rem);
+  font-size: clamp(1.6rem, 3.6vw, 3.6rem);
   font-weight: 400;
-  line-height: 0.95;
-  margin-bottom: 0.05rem;
+  line-height: 1.0;
+  margin-bottom: clamp(0.75rem, 1.8vw, 1.85rem);
   display: block;
   text-shadow: 0 2px 10px rgba(0, 0, 0, 0.6);
 }
@@ -2721,39 +2727,45 @@ ol {
 .recruitment-hero-title .serif-sub {
   font-family: 'Montserrat', var(--font-sans);
   color: #C89B4B;
-  font-size: clamp(0.68rem, 2.15vw, 2.1rem);
+  font-size: clamp(0.85rem, 2.1vw, 2.1rem);
   font-weight: 800;
   text-transform: uppercase;
-  letter-spacing: -0.01em;
-  line-height: 1.1;
+  letter-spacing: 0.01em;
+  line-height: 1.12;
   display: block;
+  margin-bottom: clamp(0.75rem, 1.5vw, 1.5rem);
   text-shadow: 0 2px 10px rgba(0, 0, 0, 0.6);
+}
+
+.recruitment-hero-title .serif-sub .text-accent-brown {
+  color: #C89B4B;
+  display: inline;
 }
 
 .recruitment-hero-subtext {
   font-family: var(--font-sans);
-  color: #D5D0C8;
-  font-size: clamp(0.38rem, 0.9vw, 0.78rem);
+  color: #E5E0D8;
+  font-size: clamp(0.42rem, 0.85vw, 0.78rem);
   font-weight: 600;
   letter-spacing: 0.05em;
-  line-height: 1.38;
+  line-height: 1.45;
   text-transform: uppercase;
   max-width: 100%;
-  margin-top: 0.35rem;
-  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.7);
+  margin-top: 0;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.8);
 }
 
 .recruitment-banner-badge {
   position: absolute;
-  right: 4%;
-  bottom: 6%;
+  right: 1.25rem;
+  bottom: 1rem;
   color: #D5C7B2;
-  font-size: clamp(0.38rem, 0.85vw, 0.68rem);
-  letter-spacing: 0.12em;
+  font-size: clamp(0.48rem, 0.75vw, 0.62rem);
+  letter-spacing: 0.14em;
   font-weight: 600;
   text-transform: uppercase;
   text-align: right;
-  line-height: 1.3;
+  line-height: 1.35;
   display: flex;
   align-items: flex-end;
   gap: 6px;
@@ -2764,12 +2776,43 @@ ol {
   display: block;
 }
 
+@media (min-width: 768px) {
+  .recruitment-banner-badge {
+    right: 2.25rem;
+    bottom: 1.75rem;
+    color: #FFFFFF;
+    font-size: clamp(0.75rem, 1.1vw, 0.95rem);
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    align-items: center;
+    gap: 10px;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.8);
+  }
+
+  .badge-word {
+    display: inline;
+    margin-right: 0.35em;
+  }
+
+  .badge-word:last-child {
+    margin-right: 0;
+  }
+}
+
 .badge-line {
   display: inline-block;
-  width: clamp(14px, 2vw, 28px);
+  width: 22px;
   height: 1.5px;
   background-color: #C89B4B;
   margin-bottom: 3px;
+}
+
+@media (min-width: 768px) {
+  .badge-line {
+    width: 36px;
+    height: 2px;
+    margin-bottom: 0;
+  }
 }
 
 @media (min-width: 768px) {
