@@ -2708,13 +2708,15 @@ ol {
   margin: 0;
   box-shadow: none;
   background-color: #1A1A1A;
-  aspect-ratio: 1.65 / 1;
-  min-height: 220px;
+  height: 50vh;
+  min-height: 320px;
+  max-height: 460px;
 }
 
 @media (min-width: 768px) {
   .recruitment-banner-card {
     aspect-ratio: 1755 / 760;
+    height: auto;
     min-height: auto;
     max-height: 420px;
   }
@@ -2873,11 +2875,11 @@ ol {
 .recruitment-banner-badge {
   position: absolute;
   right: 1.25rem;
-  bottom: 1rem;
-  color: #D5C7B2;
-  font-size: clamp(0.48rem, 0.75vw, 0.62rem);
-  letter-spacing: 0.14em;
-  font-weight: 600;
+  bottom: 1.25rem;
+  color: #FFFFFF;
+  font-size: clamp(8.5px, 2.3vw, 11px);
+  letter-spacing: 0.16em;
+  font-weight: 700;
   text-transform: uppercase;
   text-align: right;
   line-height: 1.35;
@@ -2885,6 +2887,7 @@ ol {
   align-items: flex-end;
   gap: 6px;
   z-index: 3;
+  text-shadow: 0 1px 6px rgba(0, 0, 0, 0.95), 0 0 3px rgba(0, 0, 0, 0.9);
 }
 
 .badge-word {
@@ -2916,10 +2919,11 @@ ol {
 
 .badge-line {
   display: inline-block;
-  width: 22px;
-  height: 1.5px;
+  width: 24px;
+  height: 2px;
   background-color: #C89B4B;
   margin-bottom: 3px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.8);
 }
 
 @media (min-width: 768px) {
