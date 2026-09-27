@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const homeController = require("../controllers/homeController");
 const recruitmentController = require("../controllers/recruitmentController");
+const uploadController = require("../controllers/uploadController");
 
 // Page Routes
 router.get("/", homeController.getHomePage);
@@ -13,6 +14,10 @@ router.get("/api/recruitment", recruitmentController.getAllJobsApi);
 router.get("/api/recruitment/:id", recruitmentController.getJobByIdApi);
 router.get("/api/jobs", recruitmentController.getAllJobsApi);
 router.get("/api/jobs/:id", recruitmentController.getJobByIdApi);
+
+// Cloudinary Image Upload Endpoints (POST /api/upload & POST /api/recruitment/upload)
+router.post("/api/upload", uploadController.uploadSingleMiddleware, uploadController.handleImageUpload);
+router.post("/api/recruitment/upload", uploadController.uploadSingleMiddleware, uploadController.handleImageUpload);
 
 // API endpoint for contact form submission
 router.post("/api/contact", (req, res) => {
