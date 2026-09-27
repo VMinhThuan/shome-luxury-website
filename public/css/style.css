@@ -2597,36 +2597,15 @@ ol {
   margin: 0;
   box-shadow: none;
   background-color: #1A1A1A;
-  aspect-ratio: 16 / 9;
-  min-height: 240px;
-}
-
-@media (min-width: 576px) {
-  .recruitment-banner-card {
-    aspect-ratio: 16 / 7.5;
-    min-height: 270px;
-  }
-}
-
-@media (min-width: 768px) {
-  .recruitment-banner-card {
-    aspect-ratio: 21 / 8;
-    min-height: 320px;
-  }
-}
-
-@media (min-width: 1024px) {
-  .recruitment-banner-card {
-    aspect-ratio: 2.6 / 1;
-    max-height: 420px;
-  }
+  aspect-ratio: 1755 / 760;
+  min-height: auto;
 }
 
 .recruitment-banner-bg {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: center right;
+  object-position: left center;
   display: block;
 }
 
@@ -2642,7 +2621,7 @@ ol {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  padding: 0.85rem 1rem;
+  padding: 3% 4%;
   z-index: 2;
   width: 100%;
   max-width: var(--container-max);
@@ -2650,49 +2629,19 @@ ol {
   margin-right: auto;
 }
 
-@media (min-width: 576px) {
-  .recruitment-banner-overlay {
-    padding: 1.5rem 1.75rem;
-  }
-}
-
-@media (min-width: 768px) {
-  .recruitment-banner-overlay {
-    padding: 2rem 2rem;
-  }
-}
-
-@media (min-width: 1024px) {
-  .recruitment-banner-overlay {
-    padding: 2.5rem 2.5rem;
-  }
-}
-
 .recruitment-banner-text {
   margin-top: 0;
-  max-width: 58%;
-}
-
-@media (min-width: 768px) {
-  .recruitment-banner-text {
-    max-width: 46%;
-  }
-}
-
-@media (min-width: 1200px) {
-  .recruitment-banner-text {
-    max-width: 44%;
-  }
+  max-width: 48%;
 }
 
 .recruitment-eyebrow {
   font-family: 'Montserrat', var(--font-sans);
-  font-size: clamp(0.55rem, 0.9vw, 0.85rem);
-  letter-spacing: 0.16em;
+  font-size: clamp(0.42rem, 1.05vw, 0.82rem);
+  letter-spacing: 0.14em;
   color: #C89B4B;
   font-weight: 700;
   text-transform: uppercase;
-  margin-bottom: 0.2rem;
+  margin-bottom: 0.1rem;
   display: block;
 }
 
@@ -2704,61 +2653,50 @@ ol {
 .recruitment-hero-title .script-title {
   font-family: var(--font-script);
   color: #FFFFFF;
-  font-size: clamp(1.65rem, 3.6vw, 3.4rem);
+  font-size: clamp(1.35rem, 3.8vw, 3.5rem);
   font-weight: 400;
-  line-height: 1.0;
-  margin-bottom: 0.15rem;
+  line-height: 0.95;
+  margin-bottom: 0.05rem;
   display: block;
   text-shadow: 0 2px 10px rgba(0, 0, 0, 0.6);
 }
 
 .recruitment-hero-title .serif-sub {
   font-family: 'Montserrat', var(--font-sans);
-  color: #FFFFFF;
-  font-size: clamp(0.85rem, 1.9vw, 1.85rem);
+  color: #C89B4B;
+  font-size: clamp(0.68rem, 2.15vw, 2.1rem);
   font-weight: 800;
   text-transform: uppercase;
-  letter-spacing: 0.01em;
-  line-height: 1.15;
+  letter-spacing: -0.01em;
+  line-height: 1.1;
   display: block;
   text-shadow: 0 2px 10px rgba(0, 0, 0, 0.6);
-}
-
-.recruitment-hero-title .serif-sub .text-accent-brown {
-  color: #C89B4B;
-  display: inline;
 }
 
 .recruitment-hero-subtext {
   font-family: var(--font-sans);
   color: #D5D0C8;
-  font-size: clamp(0.48rem, 0.8vw, 0.78rem);
+  font-size: clamp(0.38rem, 0.9vw, 0.78rem);
   font-weight: 600;
-  letter-spacing: 0.06em;
-  line-height: 1.45;
+  letter-spacing: 0.05em;
+  line-height: 1.38;
   text-transform: uppercase;
   max-width: 100%;
-  margin-top: 0.5rem;
+  margin-top: 0.35rem;
   text-shadow: 0 1px 4px rgba(0, 0, 0, 0.7);
-}
-
-@media (min-width: 768px) {
-  .recruitment-hero-subtext {
-    margin-top: 0.85rem;
-  }
 }
 
 .recruitment-banner-badge {
   position: absolute;
-  right: 1rem;
-  bottom: 0.85rem;
+  right: 4%;
+  bottom: 6%;
   color: #D5C7B2;
-  font-size: clamp(0.48rem, 0.75vw, 0.62rem);
-  letter-spacing: 0.14em;
+  font-size: clamp(0.38rem, 0.85vw, 0.68rem);
+  letter-spacing: 0.12em;
   font-weight: 600;
   text-transform: uppercase;
   text-align: right;
-  line-height: 1.35;
+  line-height: 1.3;
   display: flex;
   align-items: flex-end;
   gap: 6px;
@@ -2769,32 +2707,9 @@ ol {
   display: block;
 }
 
-@media (min-width: 768px) {
-  .recruitment-banner-badge {
-    right: 2rem;
-    bottom: 1.5rem;
-    color: #FFFFFF;
-    font-size: clamp(0.75rem, 1.1vw, 0.95rem);
-    font-weight: 700;
-    letter-spacing: 0.16em;
-    align-items: center;
-    gap: 10px;
-    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.8);
-  }
-
-  .badge-word {
-    display: inline;
-    margin-right: 0.35em;
-  }
-
-  .badge-word:last-child {
-    margin-right: 0;
-  }
-}
-
 .badge-line {
   display: inline-block;
-  width: 22px;
+  width: clamp(14px, 2vw, 28px);
   height: 1.5px;
   background-color: #C89B4B;
   margin-bottom: 3px;
