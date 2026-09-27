@@ -309,7 +309,9 @@ ol {
   }
 
   .dropdown-link {
-    display: block;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
     padding: 0.625rem 1.25rem;
     font-size: 0.9375rem;
     color: var(--text-on-dark-muted);
@@ -319,6 +321,41 @@ ol {
   .dropdown-link:hover {
     color: var(--accent-gold);
     background-color: rgba(200, 155, 75, 0.08);
+  }
+
+  /* Sub-Dropdown Level 2 Flyout */
+  .dropdown-sub {
+    position: relative;
+  }
+
+  .dropdown-sub > .dropdown-link::after {
+    content: '▸';
+    margin-left: 0.5rem;
+    font-size: 0.8rem;
+    color: var(--accent-gold);
+  }
+
+  .dropdown-sub-menu {
+    position: absolute;
+    top: 0;
+    left: 100%;
+    min-width: 250px;
+    background-color: var(--bg-dark-surface);
+    border: 1px solid var(--border-dark);
+    border-radius: var(--radius-sm);
+    padding: 0.75rem 0;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateX(10px);
+    transition: all var(--transition-fast);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    z-index: 10;
+  }
+
+  .dropdown-sub:hover > .dropdown-sub-menu {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(0);
   }
 }
 

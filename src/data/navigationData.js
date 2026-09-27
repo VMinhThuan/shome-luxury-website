@@ -5,68 +5,111 @@ module.exports = [
     href: "/"
   },
   {
-    id: "architecture",
-    label: "Thiết kế kiến trúc",
-    href: "#thiet-ke-kien-truc",
-    children: [
-      { id: "arch-cap4", label: "Thiết kế kiến trúc nhà cấp 4", href: "#" },
-      { id: "arch-pho", label: "Thiết kế kiến trúc nhà phố", href: "#" },
-      { id: "arch-biettu", label: "Thiết kế kiến trúc biệt thự", href: "#" },
-      { id: "arch-villa", label: "Thiết kế kiến trúc villa", href: "#" }
-    ]
-  },
-  {
-    id: "interior",
-    label: "Thiết kế nội thất",
-    href: "#thiet-ke-noi-that",
-    children: [
-      { id: "int-chungcu", label: "Thiết kế nội thất chung cư", href: "#" },
-      { id: "int-nhapho", label: "Thiết kế nội thất nhà phố", href: "#" },
-      { id: "int-biettu", label: "Thiết kế nội thất biệt thự", href: "#" },
-      { id: "int-vanphong", label: "Thiết kế nội thất văn phòng", href: "#" }
-    ]
-  },
-  {
-    id: "factory",
-    label: "Xưởng sản xuất",
-    href: "#xuong-san-xuat"
-  },
-  {
-    id: "pricing",
-    label: "Báo giá",
-    href: "#bao-gia",
+    id: "thiet-ke-cong-trinh",
+    label: "Thiết kế công trình",
+    href: "#thiet-ke-cong-trinh",
     children: [
       {
-        id: "pricing-interior",
-        label: "Báo giá thiết kế nội thất",
-        href: "#",
+        id: "thiet-ke-kien-truc",
+        label: "Thiết kế kiến trúc",
+        href: "#thiet-ke-kien-truc",
         children: [
-          { id: "p-int-chungcu", label: "Báo giá nội thất chung cư", href: "#" },
-          { id: "p-int-nhapho", label: "Báo giá nội thất nhà phố", href: "#" },
-          { id: "p-int-biettu", label: "Báo giá nội thất biệt thự", href: "#" },
-          { id: "p-int-vanphong", label: "Báo giá nội thất văn phòng", href: "#" }
+          { id: "tk-kt-biet-thu", label: "Thiết kế kiến trúc biệt thự", href: "#" },
+          { id: "tk-kt-nha-pho", label: "Thiết kế kiến trúc nhà phố", href: "#" },
+          { id: "tk-kt-van-phong", label: "Thiết kế kiến trúc văn phòng", href: "#" },
+          { id: "tk-kt-villa", label: "Thiết kế kiến trúc villa", href: "#" }
         ]
       },
       {
-        id: "pricing-architecture",
-        label: "Báo giá thiết kế kiến trúc",
-        href: "#",
+        id: "thiet-ke-noi-that",
+        label: "Thiết kế nội thất",
+        href: "#thiet-ke-noi-that",
         children: [
-          { id: "p-arch-cap4", label: "Báo giá kiến trúc nhà cấp 4", href: "#" },
-          { id: "p-arch-nhapho", label: "Báo giá kiến trúc nhà phố", href: "#" },
-          { id: "p-arch-biettu", label: "Báo giá kiến trúc biệt thự", href: "#" },
-          { id: "p-arch-villa", label: "Báo giá kiến trúc villa", href: "#" }
+          { id: "tk-nt-chung-cu", label: "Thiết kế nội thất chung cư", href: "#" },
+          { id: "tk-nt-nha-pho", label: "Thiết kế nội thất nhà phố", href: "#" },
+          { id: "tk-nt-biet-thu", label: "Thiết kế nội thất biệt thự", href: "#" },
+          { id: "tk-nt-van-phong", label: "Thiết kế nội thất văn phòng", href: "#" }
         ]
       }
     ]
   },
   {
-    id: "careers",
+    id: "thi-cong-cong-trinh",
+    label: "Thi công công trình",
+    href: "#thi-cong-cong-trinh",
+    children: [
+      {
+        id: "thi-cong-kien-truc",
+        label: "Thi công kiến trúc",
+        href: "#thi-cong-kien-truc",
+        children: [
+          { id: "tc-kt-biet-thu", label: "Thi công kiến trúc biệt thự", href: "#" },
+          { id: "tc-kt-nha-pho", label: "Thi công kiến trúc nhà phố", href: "#" }
+        ]
+      },
+      {
+        id: "thi-cong-noi-that",
+        label: "Thi công nội thất",
+        href: "#thi-cong-noi-that",
+        children: [
+          { id: "tc-nt-chung-cu", label: "Thi công nội thất chung cư", href: "#" },
+          { id: "tc-nt-nha-pho", label: "Thi công nội thất nhà phố", href: "#" },
+          { id: "tc-nt-biet-thu", label: "Thi công nội thất biệt thự", href: "#" },
+          { id: "tc-nt-van-phong", label: "Thi công nội thất văn phòng", href: "#" }
+        ]
+      }
+    ]
+  },
+  {
+    id: "xuong-san-xuat",
+    label: "Xưởng sản xuất",
+    href: "#xuong-san-xuat"
+  },
+  {
+    id: "bao-gia",
+    label: "Báo giá",
+    href: "#bao-gia",
+    children: [
+      {
+        id: "bao-gia-thiet-ke-noi-that",
+        label: "Báo giá thiết kế nội thất",
+        href: "#",
+        children: [
+          { id: "bg-nt-chung-cu", label: "Báo giá nội thất chung cư", href: "#" },
+          { id: "bg-nt-nha-pho", label: "Báo giá nội thất nhà phố", href: "#" },
+          { id: "bg-nt-biet-thu", label: "Báo giá nội thất biệt thự", href: "#" },
+          { id: "bg-nt-van-phong", label: "Báo giá nội thất văn phòng", href: "#" }
+        ]
+      },
+      {
+        id: "bao-gia-thiet-ke-kien-truc",
+        label: "Báo giá thiết kế kiến trúc",
+        href: "#",
+        children: [
+          { id: "bg-kt-nha-cap-4", label: "Báo giá kiến trúc nhà cấp 4", href: "#" },
+          { id: "bg-kt-nha-pho", label: "Báo giá kiến trúc nhà phố", href: "#" },
+          { id: "bg-kt-biet-thu", label: "Báo giá kiến trúc biệt thự", href: "#" },
+          { id: "bg-kt-villa", label: "Báo giá kiến trúc villa", href: "#" }
+        ]
+      },
+      {
+        id: "bao-gia-thi-cong-noi-that",
+        label: "Báo giá thi công nội thất",
+        href: "#",
+        children: [
+          { id: "bg-tc-tron-goi", label: "Báo giá thi công trọn gói", href: "#" },
+          { id: "bg-tc-go-cong-nghiep", label: "Báo giá thi công gỗ công nghiệp", href: "#" }
+        ]
+      }
+    ]
+  },
+  {
+    id: "tuyen-dung",
     label: "Tuyển dụng",
     href: "/tuyen-dung"
   },
   {
-    id: "news",
+    id: "tin-tuc",
     label: "Tin tức",
     href: "#tin-tuc"
   }
