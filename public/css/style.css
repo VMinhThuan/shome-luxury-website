@@ -2559,7 +2559,15 @@ ol {
 @media (min-width: 768px) {
   .recruitment-banner-card {
     aspect-ratio: 21 / 8;
-    min-height: 320px;
+    min-height: 300px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .recruitment-banner-card {
+    aspect-ratio: 2.6 / 1;
+    max-height: 380px;
+    margin-top: 0.75rem;
   }
 }
 
@@ -2567,7 +2575,7 @@ ol {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: center;
+  object-position: center right;
   display: block;
 }
 
@@ -2585,11 +2593,20 @@ ol {
 
 @media (min-width: 768px) {
   .banner-circle-gold {
-    top: 1.5rem;
-    left: 2rem;
-    width: 54px;
-    height: 54px;
+    top: 1.25rem;
+    left: 1.75rem;
+    width: 46px;
+    height: 46px;
     box-shadow: 0 6px 20px rgba(200, 155, 75, 0.5);
+  }
+}
+
+@media (min-width: 1024px) {
+  .banner-circle-gold {
+    top: 1.5rem;
+    left: 2.25rem;
+    width: 52px;
+    height: 52px;
   }
 }
 
@@ -2606,7 +2623,13 @@ ol {
 
 @media (min-width: 768px) {
   .recruitment-banner-overlay {
-    padding: 2.25rem 3.5rem;
+    padding: 2rem 3rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .recruitment-banner-overlay {
+    padding: 2.5rem 3.5rem;
   }
 }
 
@@ -2628,9 +2651,9 @@ ol {
 .recruitment-hero-title .script-title {
   font-family: 'Great Vibes', cursive;
   color: #FFFFFF;
-  font-size: clamp(2.2rem, 5.5vw, 4rem);
+  font-size: clamp(2rem, 4vw, 3.6rem);
   font-weight: 400;
-  line-height: 0.85;
+  line-height: 0.88;
   margin-bottom: 0.1rem;
   display: block;
   text-shadow: 0 2px 10px rgba(0, 0, 0, 0.4);
@@ -2639,7 +2662,7 @@ ol {
 .recruitment-hero-title .serif-sub {
   font-family: var(--font-sans);
   color: #C89B4B;
-  font-size: clamp(1.05rem, 2.8vw, 2.05rem);
+  font-size: clamp(1rem, 2.2vw, 1.85rem);
   font-weight: 800;
   text-transform: lowercase;
   line-height: 1.15;
@@ -2648,12 +2671,12 @@ ol {
 
 .recruitment-hero-subtext {
   color: #B5B0A8;
-  font-size: clamp(0.5rem, 1vw, 0.6875rem);
+  font-size: clamp(0.5rem, 0.85vw, 0.72rem);
   font-weight: 500;
   letter-spacing: 0.08em;
   line-height: 1.45;
   text-transform: uppercase;
-  max-width: 360px;
+  max-width: 400px;
   margin-top: 0.6rem;
 }
 
@@ -2662,7 +2685,7 @@ ol {
   right: 1.25rem;
   bottom: 1rem;
   color: #D5C7B2;
-  font-size: clamp(0.48rem, 0.85vw, 0.6rem);
+  font-size: clamp(0.48rem, 0.75vw, 0.62rem);
   letter-spacing: 0.14em;
   font-weight: 600;
   text-transform: uppercase;
@@ -2684,6 +2707,13 @@ ol {
   }
 }
 
+@media (min-width: 1024px) {
+  .recruitment-banner-badge {
+    right: 2.25rem;
+    bottom: 1.5rem;
+  }
+}
+
 .badge-line {
   display: inline-block;
   width: 22px;
@@ -2692,7 +2722,7 @@ ol {
   margin-bottom: 3px;
 }
 
-/* Recruitment Jobs Grid */
+/* Recruitment Jobs Grid - Optimized 3-column layout on Desktop */
 .recruitment-jobs-section {
   padding-bottom: 3.5rem;
 }
@@ -2707,14 +2737,21 @@ ol {
   gap: 1.25rem;
 }
 
-@media (min-width: 768px) {
+@media (min-width: 640px) {
   .recruitment-jobs-grid {
     grid-template-columns: repeat(2, 1fr);
+    gap: 1.25rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .recruitment-jobs-grid {
+    grid-template-columns: repeat(3, 1fr);
     gap: 1.5rem;
   }
 }
 
-/* Job Card Styling */
+/* Job Card Styling - Refined Desktop Layout */
 .job-card-v2 {
   background-color: #FFFFFF;
   border: 1px solid #EAEAEA;
@@ -2724,14 +2761,24 @@ ol {
   flex-direction: row;
   align-items: center;
   gap: 1rem;
-  transition: all 0.25s ease;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03);
+}
+
+@media (min-width: 1024px) {
+  .job-card-v2 {
+    flex-direction: column;
+    align-items: stretch;
+    padding: 1.15rem;
+    border-radius: 14px;
+    gap: 0.85rem;
+  }
 }
 
 .job-card-v2:hover {
   border-color: #C89B4B;
-  transform: translateY(-2px);
-  box-shadow: 0 8px 25px rgba(200, 155, 75, 0.15);
+  transform: translateY(-4px);
+  box-shadow: 0 10px 30px rgba(200, 155, 75, 0.14);
 }
 
 .job-card-thumb {
@@ -2745,9 +2792,18 @@ ol {
 
 @media (min-width: 576px) {
   .job-card-thumb {
-    flex: 0 0 120px;
-    width: 120px;
-    height: 120px;
+    flex: 0 0 115px;
+    width: 115px;
+    height: 115px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .job-card-thumb {
+    flex: none;
+    width: 100%;
+    height: 160px;
+    border-radius: 10px;
   }
 }
 
@@ -2755,11 +2811,11 @@ ol {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: transform 0.35s ease;
+  transition: transform 0.4s ease;
 }
 
 .job-card-v2:hover .job-card-thumb img {
-  transform: scale(1.08);
+  transform: scale(1.06);
 }
 
 .job-card-body {
@@ -2790,6 +2846,13 @@ ol {
   }
 }
 
+@media (min-width: 1024px) {
+  .job-card-title {
+    font-size: 0.95rem;
+    margin-bottom: 0.4rem;
+  }
+}
+
 .job-tag-hot {
   color: #D9381E;
   font-weight: 800;
@@ -2815,6 +2878,7 @@ ol {
   flex-wrap: wrap;
   gap: 0.5rem;
   margin-top: auto;
+  padding-top: 0.35rem;
 }
 
 .job-card-meta {
@@ -2833,7 +2897,7 @@ ol {
 }
 
 .btn-job-xem-them {
-  background: none;
+  background: rgba(200, 155, 75, 0.1);
   border: none;
   color: #7D5B1E;
   font-weight: 700;
@@ -2842,14 +2906,16 @@ ol {
   display: inline-flex;
   align-items: center;
   gap: 4px;
-  padding: 0;
-  transition: all 0.2s ease;
+  padding: 0.35rem 0.85rem;
+  border-radius: 20px;
+  transition: all 0.25s ease;
   margin-left: auto;
 }
 
 .btn-job-xem-them:hover {
-  color: #C89B4B;
-  transform: translateX(3px);
+  background: #C89B4B;
+  color: #FFFFFF;
+  transform: translateY(-1px);
 }
 
 /* Job Detail Modal */
