@@ -2740,11 +2740,26 @@ ol {
 
 /* Recruitment Jobs Grid - Optimized 3-column layout on Desktop */
 .recruitment-jobs-section {
+  padding-top: 1rem;
   padding-bottom: 3.5rem;
 }
 
+@media (min-width: 768px) {
+  .recruitment-jobs-section {
+    padding-top: 1.5rem;
+  }
+}
+
 .recruitment-header {
-  margin-bottom: 1.5rem;
+  margin-top: 0.25rem;
+  margin-bottom: 1.25rem;
+}
+
+@media (min-width: 768px) {
+  .recruitment-header {
+    margin-top: 0.5rem;
+    margin-bottom: 1.5rem;
+  }
 }
 
 .recruitment-jobs-grid {
@@ -2932,6 +2947,31 @@ ol {
   background: #C89B4B;
   color: #FFFFFF;
   transform: translateY(-1px);
+}
+
+/* Job Detail Modal Overlay */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.75);
+  backdrop-filter: blur(5px);
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.modal-overlay.active {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
 }
 
 /* Job Detail Modal */
