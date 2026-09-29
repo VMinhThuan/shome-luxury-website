@@ -161,13 +161,11 @@ document.addEventListener('DOMContentLoaded', () => {
   // 5. STICKY HEADER ON SCROLL
   const header = document.querySelector('.site-header');
   if (header) {
-    window.addEventListener('scroll', () => {
-      if (window.scrollY > 50) {
-        header.classList.add('scrolled');
-      } else {
-        header.classList.remove('scrolled');
-      }
-    });
+    const updateHeaderScrollState = () => {
+      header.classList.toggle('scrolled', window.scrollY > 50);
+    };
+    updateHeaderScrollState();
+    window.addEventListener('scroll', updateHeaderScrollState, { passive: true });
   }
 
   // 6. FACTORY GALLERY SLIDER (3 SLIDES INTERACTIVE & TOUCH SWIPE)
