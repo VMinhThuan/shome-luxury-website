@@ -2327,7 +2327,12 @@ ol {
     grid-row: 1 / span 4;
     align-self: center;
     margin: 0;
-    max-width: 720px;
+    width: 100%;
+    max-width: none;
+  }
+
+  .footer-value-list {
+    width: 100%;
   }
 
   .footer-map-card {
