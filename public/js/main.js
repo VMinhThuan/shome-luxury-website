@@ -287,4 +287,101 @@ document.addEventListener('DOMContentLoaded', () => {
     });
     observer.observe(footerActionBar);
   }
+
+  // 9. PROJECT SHOWCASE LOAD MORE & AJAX HANDLING
+  const btnLoadMore = document.getElementById('btn-load-more');
+  const projectListContainer = document.getElementById('project-list-container');
+  const loadMoreWrapper = document.getElementById('load-more-wrapper');
+
+  function renderProjectCardHtml(project) {
+    const attrs = [];
+    if (project.area) attrs.push(`Diện tích: ${project.area}`);
+    if (project.style) attrs.push(`Phong cách: ${project.style}`);
+    const attrText = attrs.join('   |   ');
+    const projectDetailUrl = `/cong-trinh/${project.slug}`;
+
+    const imageHtml = project.thumbnail
+      ? `<img src="${project.thumbnail}" alt="${project.title}" class="project-card-img" loading="lazy" />`
+      : `<div class="project-card-placeholder">
+          <div class="placeholder-content">
+            <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2">
+              <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+              <polyline points="9 22 9 12 15 12 15 22"></polyline>
+            </svg>
+            <span class="placeholder-brand">LUXURY HOME</span>
+            <span class="placeholder-sub">SHOWCASE CÔNG TRÌNH</span>
+          </div>
+        </div>`;
+
+    return `
+      <article class="project-showcase-card">
+        <a href="${projectDetailUrl}" class="project-card-image-link" aria-label="${project.title}">
+          <div class="project-card-image-wrapper">
+            ${imageHtml}
+          </div>
+        </a>
+
+        <div class="project-card-info-bar">
+          <div class="project-card-meta-left">
+            <h2 class="project-card-title">
+              <a href="${projectDetailUrl}">${project.title}</a>
+            </h2>
+            ${attrText ? `<div class="project-card-attributes">${attrText}</div>` : ''}
+          </div>
+
+          <div class="project-card-action-right">
+            <a href="${projectDetailUrl}" class="project-card-arrow-btn" aria-label="Xem chi tiết ${project.title}">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+                <polyline points="12 5 19 12 12 19"></polyline>
+              </svg>
+            </a>
+          </div>
+        </div>
+      </article>
+    `;
+  }
+
+  if (btnLoadMore && projectListContainer) {
+    btnLoadMore.addEventListener('click', async () => {
+      const currentPage = parseInt(btnLoadMore.getAttribute('data-page'), 10) || 1;
+      const totalPages = parseInt(btnLoadMore.getAttribute('data-total-pages'), 10) || 1;
+      const category = btnLoadMore.getAttribute('data-category') || '';
+      const nextPage = currentPage + 1;
+
+      if (nextPage > totalPages) return;
+
+      const btnText = btnLoadMore.querySelector('.btn-text');
+      const btnSpinner = btnLoadMore.querySelector('.btn-spinner');
+
+      if (btnText) btnText.style.display = 'none';
+      if (btnSpinner) btnSpinner.style.display = 'inline-block';
+      btnLoadMore.disabled = true;
+
+      try {
+        const res = await fetch(`/api/projects?category=${category}&page=${nextPage}&limit=8`);
+        const json = await res.json();
+
+        if (json.success && json.data && json.data.length > 0) {
+          json.data.forEach(project => {
+            const tempDiv = document.createElement('div');
+            tempDiv.innerHTML = renderProjectCardHtml(project).trim();
+            projectListContainer.appendChild(tempDiv.firstChild);
+          });
+
+          btnLoadMore.setAttribute('data-page', nextPage);
+
+          if (nextPage >= json.pagination.totalPages) {
+            if (loadMoreWrapper) loadMoreWrapper.style.display = 'none';
+          }
+        }
+      } catch (err) {
+        console.error('Failed loading more projects:', err);
+      } finally {
+        if (btnText) btnText.style.display = 'inline-block';
+        if (btnSpinner) btnSpinner.style.display = 'none';
+        btnLoadMore.disabled = false;
+      }
+    });
+  }
 });

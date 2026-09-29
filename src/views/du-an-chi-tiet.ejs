@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no, viewport-fit=cover" />
+  <title><%= title %></title>
+  <meta name="description" content="<%= project.excerpt ? project.excerpt.replace(/<[^>]*>?/gm, '').substring(0, 160) : project.title %>" />
+  <meta name="theme-color" content="#171717" />
+
+  <!-- CSS Stylesheet -->
+  <link rel="stylesheet" href="/css/style.css?v=1.6.7" />
+  <script src="/js/main.js?v=1.6.7" defer></script>
+</head>
+<body>
+
+  <!-- Header -->
+  <%- include("partials/header") %>
+
+  <!-- Mobile Drawer -->
+  <%- include("partials/mobile-drawer") %>
+
+  <!-- Main Content -->
+  <main id="main-content" class="project-detail-page">
+    <div class="container">
+      <!-- Breadcrumb -->
+      <nav class="breadcrumb-nav" aria-label="Breadcrumb">
+        <a href="/">Trang chủ</a>
+        <span class="breadcrumb-separator">/</span>
+        <a href="/thiet-ke-cong-trinh">Công trình</a>
+        <span class="breadcrumb-separator">/</span>
+        <span class="breadcrumb-current"><%= project.title %></span>
+      </nav>
+
+      <!-- Project Detail Header -->
+      <header class="project-detail-header">
+        <h1 class="project-detail-title"><%= project.title %></h1>
+        
+        <div class="project-meta-grid">
+          <% if (project.investor) { %>
+            <div class="meta-item">
+              <span class="meta-label">Chủ đầu tư:</span>
+              <span class="meta-value"><%= project.investor %></span>
+            </div>
+          <% } %>
+          <% if (project.location) { %>
+            <div class="meta-item">
+              <span class="meta-label">Địa điểm:</span>
+              <span class="meta-value"><%= project.location %></span>
+            </div>
+          <% } %>
+          <% if (project.area) { %>
+            <div class="meta-item">
+              <span class="meta-label">Diện tích:</span>
+              <span class="meta-value"><%= project.area %></span>
+            </div>
+          <% } %>
+          <% if (project.style) { %>
+            <div class="meta-item">
+              <span class="meta-label">Phong cách:</span>
+              <span class="meta-value"><%= project.style %></span>
+            </div>
+          <% } %>
+        </div>
+      </header>
+
+      <!-- Main Thumbnail -->
+      <% if (project.thumbnail) { %>
+        <div class="project-detail-hero-image">
+          <img src="<%= project.thumbnail %>" alt="<%= project.title %>" class="hero-img" />
+        </div>
+      <% } %>
+
+      <!-- Project Content -->
+      <article class="project-detail-content entry-content">
+        <% if (project.excerpt) { %>
+          <div class="project-excerpt-box">
+            <%- project.excerpt %>
+          </div>
+        <% } %>
+
+        <% if (project.content) { %>
+          <div class="project-body-content">
+            <%- project.content %>
+          </div>
+        <% } %>
+
+        <% if (project.gallery && project.gallery.length > 0) { %>
+          <div class="project-gallery-grid">
+            <% project.gallery.forEach((imgUrl, idx) => { %>
+              <div class="gallery-item">
+                <img src="<%= imgUrl %>" alt="<%= project.title %> - <%= idx + 1 %>" loading="lazy" />
+              </div>
+            <% }); %>
+          </div>
+        <% } %>
+      </article>
+
+      <!-- CTA Section -->
+      <section class="project-detail-cta">
+        <div class="cta-inner-box">
+          <h2 class="cta-heading">Biến ý tưởng của bạn thành không gian sống đẳng cấp</h2>
+          <p class="cta-sub">Liên hệ ngay với đội ngũ kiến trúc sư Luxury Home để nhận tư vấn và báo giá miễn phí.</p>
+          <button class="btn btn-primary trigger-consult-modal">Nhận tư vấn thiết kế ngay</button>
+        </div>
+      </section>
+
+      <!-- Related Projects -->
+      <% if (relatedProjects && relatedProjects.length > 0) { %>
+        <section class="related-projects-section">
+          <h2 class="section-title">DỰ ÁN LIÊN QUAN</h2>
+          <div class="project-list-vertical">
+            <% relatedProjects.forEach(relProj => { %>
+              <%- include("partials/project-card", { project: relProj }) %>
+            <% }); %>
+          </div>
+        </section>
+      <% } %>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <%- include("partials/footer") %>
+
+  <!-- Consult Modal -->
+  <%- include("partials/consult-modal") %>
+
+</body>
+</html>

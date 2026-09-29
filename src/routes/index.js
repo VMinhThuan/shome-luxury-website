@@ -5,13 +5,44 @@ const recruitmentController = require("../controllers/recruitmentController");
 const uploadController = require("../controllers/uploadController");
 const categoryController = require("../controllers/categoryController");
 const projectController = require("../controllers/projectController");
+const projectShowcaseController = require("../controllers/projectShowcaseController");
 const authController = require("../controllers/authController");
 const { authenticateAdmin } = require("../middleware/auth");
 
-// Page Routes
+// Page Routes - Homepage & Recruitment
 router.get("/", homeController.getHomePage);
 router.get("/tuyen-dung", recruitmentController.getRecruitmentPage);
 router.get("/tuyen-dung/:id", recruitmentController.getRecruitmentPage);
+
+// Frontend Page Routes - Public Showcase & Category Pages
+const createShowcaseHandler = (categoryCode) => (req, res, next) => {
+  req.params.categoryCode = categoryCode;
+  return projectShowcaseController.renderShowcasePage(req, res, next);
+};
+
+// Overview Showcase Route
+router.get("/thiet-ke-cong-trinh", createShowcaseHandler("thiet-ke-cong-trinh"));
+
+// Architecture Showcase Routes
+router.get("/thiet-ke-kien-truc", createShowcaseHandler("thiet-ke-kien-truc"));
+router.get("/thiet-ke-kien-truc/nha-cap-4", createShowcaseHandler("tk-kt-nha-cap-4"));
+router.get("/thiet-ke-kien-truc/nha-pho", createShowcaseHandler("tk-kt-nha-pho"));
+router.get("/thiet-ke-kien-truc/biet-thu", createShowcaseHandler("tk-kt-biet-thu"));
+router.get("/thiet-ke-kien-truc/villa", createShowcaseHandler("tk-kt-villa"));
+
+// Interior Showcase Routes
+router.get("/thiet-ke-noi-that", createShowcaseHandler("thiet-ke-noi-that"));
+router.get("/thiet-ke-noi-that/chung-cu", createShowcaseHandler("tk-nt-chung-cu"));
+router.get("/thiet-ke-noi-that/nha-pho", createShowcaseHandler("tk-nt-nha-pho"));
+router.get("/thiet-ke-noi-that/biet-thu", createShowcaseHandler("tk-nt-biet-thu"));
+router.get("/thiet-ke-noi-that/van-phong", createShowcaseHandler("tk-nt-van-phong"));
+
+// Construction Route
+router.get("/thi-cong-cong-trinh", createShowcaseHandler("thi-cong-cong-trinh"));
+
+// Project Detail Page Routes (support both /cong-trinh/:slug and /san-pham/:slug)
+router.get("/cong-trinh/:slug", projectShowcaseController.renderDetailPage.bind(projectShowcaseController));
+router.get("/san-pham/:slug", projectShowcaseController.renderDetailPage.bind(projectShowcaseController));
 
 // Auth Route
 router.post("/api/auth/login", authController.login.bind(authController));

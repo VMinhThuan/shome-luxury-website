@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title><%= title %></title>
+  <link rel="stylesheet" href="/css/style.css?v=1.6.7" />
+  <script src="/js/main.js?v=1.6.7" defer></script>
+</head>
+<body>
+  <%- include("partials/header") %>
+  <%- include("partials/mobile-drawer") %>
+
+  <main id="main-content" class="error-page-main">
+    <div class="container text-center section-padding" style="min-height: 50vh; display: flex; flex-direction: column; justify-content: center; align-items: center;">
+      <h1 class="display-1" style="font-size: 4rem; color: var(--accent-gold);">404</h1>
+      <h2 style="margin-bottom: 1rem;">Không Tìm Thấy Trang</h2>
+      <p style="color: var(--text-secondary); margin-bottom: 2rem;">Nội dung bạn đang tìm kiếm không tồn tại hoặc đã được di chuyển.</p>
+      <a href="/" class="btn btn-primary">Trở về Trang chủ</a>
+    </div>
+  </main>
+
+  <%- include("partials/footer") %>
+  <%- include("partials/consult-modal") %>
+</body>
+</html>

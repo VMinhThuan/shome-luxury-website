@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no, viewport-fit=cover" />
+  <title><%= title %></title>
+  <meta name="description" content="Khám phá các công trình thiết kế kiến trúc và nội thất đẳng cấp do Luxury Home thực hiện." />
+  <meta name="keywords" content="Luxury Home, thiet ke noi that, thiet ke kien truc, du an thuc te, biet thu, nha pho, chung cu" />
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="<%= title %>" />
+  <meta property="og:description" content="Tuyển tập công trình kiến trúc & nội thất sang trọng Luxury Home." />
+  <meta property="og:type" content="website" />
+  <meta name="theme-color" content="#171717" />
+
+  <!-- CSS Stylesheet -->
+  <link rel="stylesheet" href="/css/style.css?v=1.6.7" />
+  <script src="/js/main.js?v=1.6.7" defer></script>
+</head>
+<body>
+
+  <!-- Header -->
+  <%- include("partials/header") %>
+
+  <!-- Mobile Drawer -->
+  <%- include("partials/mobile-drawer") %>
+
+  <!-- Main Content -->
+  <main id="main-content" class="showcase-page-main">
+    <!-- Showcase Hero & Filters -->
+    <section class="project-showcase-hero">
+      <div class="container">
+        <div class="showcase-header-text">
+          <span class="eyebrow-text">─── <%= pageConfig.eyebrow %> ───</span>
+          <h1 class="showcase-title">
+            <span class="title-main"><%= pageConfig.titleMain %></span>
+            <% if (pageConfig.titleScript) { %>
+              <span class="title-script font-script"><%= pageConfig.titleScript %></span>
+            <% } %>
+          </h1>
+          <% if (pageConfig.description) { %>
+            <p class="showcase-subtitle"><%= pageConfig.description %></p>
+          <% } %>
+        </div>
+
+        <!-- Filter Pills -->
+        <% if (pageConfig.filters && pageConfig.filters.length > 0) { %>
+          <nav class="filter-pills-wrapper" aria-label="Category Filters">
+            <div class="filter-pills-container">
+              <% pageConfig.filters.forEach(f => { %>
+                <% const isActive = activeCategoryCode === f.categoryCode; %>
+                <a href="<%= f.href %>" 
+                   class="filter-pill <%= isActive ? 'active' : '' %>"
+                   data-category="<%= f.categoryCode %>">
+                  <%= f.label %>
+                </a>
+              <% }); %>
+            </div>
+          </nav>
+        <% } %>
+      </div>
+    </section>
+
+    <!-- Vertical Project List Section -->
+    <section class="project-showcase-section">
+      <div class="container">
+        <div id="project-list-container" class="project-list-vertical" data-category="<%= activeCategoryCode %>">
+          <% if (initialProjects && initialProjects.length > 0) { %>
+            <% initialProjects.forEach(project => { %>
+              <%- include("partials/project-card", { project }) %>
+            <% }); %>
+          <% } else { %>
+            <div class="empty-state-box">
+              <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                <circle cx="12" cy="12" r="10"></circle>
+                <line x1="12" y1="8" x2="12" y2="12"></line>
+                <line x1="12" y1="16" x2="12.01" y2="16"></line>
+              </svg>
+              <p class="empty-state-title">Chưa có công trình</p>
+              <p class="empty-state-desc">Hiện chưa có công trình trong danh mục này.</p>
+            </div>
+          <% } %>
+        </div>
+
+        <!-- Load More Wrapper -->
+        <div id="load-more-wrapper" class="load-more-wrapper" style="<%= (initialPagination && initialPagination.totalPages > 1) ? '' : 'display: none;' %>">
+          <button id="btn-load-more" class="btn-load-more" data-page="1" data-total-pages="<%= initialPagination ? initialPagination.totalPages : 1 %>" data-category="<%= activeCategoryCode %>">
+            <span class="btn-text">XEM THÊM CÔNG TRÌNH</span>
+            <span class="btn-spinner" style="display: none;">
+              <svg class="spinner" width="20" height="20" viewBox="0 0 50 50">
+                <circle class="path" cx="25" cy="25" r="20" fill="none" stroke-width="5"></circle>
+              </svg>
+            </span>
+          </button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <%- include("partials/footer") %>
+
+  <!-- Consult Modal -->
+  <%- include("partials/consult-modal") %>
+
+</body>
+</html>
