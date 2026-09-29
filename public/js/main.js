@@ -30,8 +30,25 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   // 2. MULTI-LEVEL ACCORDION MENU
-  // Level 1 & Level 2 toggle buttons
   const accordionToggles = document.querySelectorAll('.accordion-toggle');
+
+  function closeAccordionItem(item) {
+    item.classList.remove('open');
+    const itemToggle = item.querySelector(':scope > .mobile-menu-row > .accordion-toggle');
+    if (itemToggle) {
+      itemToggle.setAttribute('aria-expanded', 'false');
+      itemToggle.setAttribute('aria-label', itemToggle.getAttribute('aria-label').replace(/^Đóng/, 'Mở'));
+    }
+
+    item.querySelectorAll('.open').forEach(openItem => {
+      openItem.classList.remove('open');
+      const nestedToggle = openItem.querySelector(':scope > .mobile-menu-row > .accordion-toggle');
+      if (nestedToggle) {
+        nestedToggle.setAttribute('aria-expanded', 'false');
+        nestedToggle.setAttribute('aria-label', nestedToggle.getAttribute('aria-label').replace(/^Đóng/, 'Mở'));
+      }
+    });
+  }
 
   accordionToggles.forEach(toggle => {
     toggle.addEventListener('click', (e) => {
@@ -43,9 +60,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
       const isAlreadyOpen = currentItem.classList.contains('open');
 
-      // Optional: close siblings if wanted, but keeping independent accordions feels natural
-      currentItem.classList.toggle('open');
-      toggle.setAttribute('aria-expanded', !isAlreadyOpen);
+      // A drawer has one active branch at a time: opening one item closes every other branch.
+      document.querySelectorAll('.mobile-menu-item.open, .l2-item.open').forEach(item => {
+        if (item !== currentItem && !item.contains(currentItem)) closeAccordionItem(item);
+      });
+
+      if (isAlreadyOpen) {
+        closeAccordionItem(currentItem);
+      } else {
+        currentItem.classList.add('open');
+        toggle.setAttribute('aria-expanded', 'true');
+        toggle.setAttribute('aria-label', toggle.getAttribute('aria-label').replace(/^Mở/, 'Đóng'));
+      }
     });
   });
 

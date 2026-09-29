@@ -3,27 +3,10 @@
 
 <!-- Mobile Navigation Drawer -->
 <aside class="mobile-drawer" id="mobileDrawer" aria-hidden="true">
-  <!-- Drawer Header -->
-  <div class="drawer-header">
-    <div class="brand-logo-wrapper">
-      <a href="/" class="brand-logo" aria-label="LUXURY HOME">
-        <img src="/images/shome-logo.png" alt="LUXURY HOME" class="logo-img" width="130" height="38" />
-      </a>
-      <span class="logo-divider"></span>
-      <span class="logo-slogan font-script">Nâng tầm cuộc sống</span>
-    </div>
-    <button class="drawer-close-btn" id="drawerCloseBtn" aria-label="Đóng Menu">
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-        <line x1="18" y1="6" x2="6" y2="18"></line>
-        <line x1="6" y1="6" x2="18" y2="18"></line>
-      </svg>
-    </button>
-  </div>
-
   <!-- Search Bar -->
   <div class="drawer-search-container">
     <div class="drawer-search-box">
-      <input type="text" class="drawer-search-input" placeholder="Tìm kiếm..." aria-label="Tìm kiếm trên website" />
+      <input type="search" class="drawer-search-input" placeholder="Nhập từ khóa" aria-label="Tìm kiếm trên website" />
       <span class="drawer-search-icon">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
           <circle cx="11" cy="11" r="8"></circle>
@@ -41,7 +24,7 @@
           <div class="mobile-menu-row">
             <a href="<%= item.href %>" class="mobile-menu-link"><%= item.label %></a>
             <% if (item.children) { %>
-              <button class="accordion-toggle" aria-expanded="false" aria-label="Mở <%= item.label %>">
+              <button class="accordion-toggle" aria-expanded="false" aria-controls="submenu-<%= item.id %>" aria-label="Mở <%= item.label %>">
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                   <polyline points="9 18 15 12 9 6"></polyline>
                 </svg>
@@ -50,13 +33,13 @@
           </div>
 
           <% if (item.children) { %>
-            <ul class="mobile-submenu-l2">
+            <ul class="mobile-submenu-l2" id="submenu-<%= item.id %>">
               <% item.children.forEach(subItem => { %>
                 <li class="l2-item">
                   <div class="mobile-menu-row">
                     <a href="<%= subItem.href %>" class="l2-link"><%= subItem.label %></a>
                     <% if (subItem.children) { %>
-                      <button class="accordion-toggle" aria-expanded="false" aria-label="Mở <%= subItem.label %>">
+                      <button class="accordion-toggle" aria-expanded="false" aria-controls="submenu-<%= subItem.id %>" aria-label="Mở <%= subItem.label %>">
                         <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                           <polyline points="9 18 15 12 9 6"></polyline>
                         </svg>
@@ -65,7 +48,7 @@
                   </div>
 
                   <% if (subItem.children) { %>
-                    <ul class="mobile-submenu-l3">
+                    <ul class="mobile-submenu-l3" id="submenu-<%= subItem.id %>">
                       <% subItem.children.forEach(nestedItem => { %>
                         <li class="l3-item">
                           <a href="<%= nestedItem.href %>" class="l3-link"><%= nestedItem.label %></a>
@@ -82,12 +65,4 @@
     </ul>
   </nav>
 
-  <!-- Drawer Footer -->
-  <div class="drawer-footer">
-    <div class="drawer-contact-info">
-      <div>Hotline: <a href="tel:0988888888">0988.888.888</a></div>
-      <div>Email: <a href="mailto:contact@luxuryhome.vn">contact@luxuryhome.vn</a></div>
-    </div>
-    <button class="btn btn-primary trigger-consult-modal" style="width: 100%;">Đặt lịch ngay</button>
-  </div>
 </aside>
