@@ -14,8 +14,8 @@
   <meta name="theme-color" content="#171717" />
 
   <!-- CSS Stylesheet -->
-  <link rel="stylesheet" href="/css/style.css?v=1.6.8" />
-  <script src="/js/main.js?v=1.6.8" defer></script>
+  <link rel="stylesheet" href="/css/style.css?v=1.6.9" />
+  <script src="/js/main.js?v=1.6.9" defer></script>
 </head>
 <body>
 
@@ -82,22 +82,15 @@
           <% } %>
         </div>
 
-        <!-- Client-side pagination: every page change fetches /api/projects -->
-        <nav id="project-pagination" class="project-pagination" aria-label="Phân trang công trình"
+        <!-- Infinite-scroll sentinel: the next page is fetched as this enters view. -->
+        <div id="project-load-sentinel" class="project-infinite-loader" aria-live="polite"
              data-page="<%= initialPagination ? initialPagination.page : 1 %>"
              data-total-pages="<%= initialPagination ? initialPagination.totalPages : 0 %>"
              data-category="<%= activeCategoryCode %>"
              style="<%= (initialPagination && initialPagination.totalPages > 1) ? '' : 'display: none;' %>">
-          <button type="button" class="pagination-button" data-pagination-action="prev" aria-label="Trang trước">
-            <span aria-hidden="true">←</span> Trước
-          </button>
-          <span id="pagination-status" class="pagination-status" aria-live="polite">
-            Trang <%= initialPagination ? initialPagination.page : 1 %> / <%= initialPagination ? initialPagination.totalPages : 1 %>
-          </span>
-          <button type="button" class="pagination-button" data-pagination-action="next" aria-label="Trang sau">
-            Sau <span aria-hidden="true">→</span>
-          </button>
-        </nav>
+          <span class="infinite-loader-spinner" aria-hidden="true"></span>
+          <span class="infinite-loader-text">Đang tải thêm công trình...</span>
+        </div>
       </div>
     </section>
   </main>

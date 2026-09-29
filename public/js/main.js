@@ -288,10 +288,9 @@ document.addEventListener('DOMContentLoaded', () => {
     observer.observe(footerActionBar);
   }
 
-  // 9. PROJECT SHOWCASE PAGINATION & API HANDLING
-  const projectPagination = document.getElementById('project-pagination');
+  // 9. PROJECT SHOWCASE INFINITE SCROLL & API HANDLING
+  const projectLoadSentinel = document.getElementById('project-load-sentinel');
   const projectListContainer = document.getElementById('project-list-container');
-  const paginationStatus = document.getElementById('pagination-status');
 
   const mockProjectImages = [
     '/images/project_apartment.jpg',
@@ -395,32 +394,22 @@ document.addEventListener('DOMContentLoaded', () => {
     `;
   }
 
-  if (projectPagination && projectListContainer) {
-    const prevButton = projectPagination.querySelector('[data-pagination-action="prev"]');
-    const nextButton = projectPagination.querySelector('[data-pagination-action="next"]');
+  if (projectLoadSentinel && projectListContainer) {
     let isLoading = false;
+    let observer;
 
-    function updatePagination(page, totalPages) {
-      projectPagination.dataset.page = String(page);
-      projectPagination.dataset.totalPages = String(totalPages);
-      if (paginationStatus) paginationStatus.textContent = `Trang ${page} / ${totalPages}`;
-      if (prevButton) prevButton.disabled = page <= 1;
-      if (nextButton) nextButton.disabled = page >= totalPages;
-      projectPagination.style.display = totalPages > 1 ? '' : 'none';
-    }
-
-    async function loadProjectPage(page) {
-      const totalPages = parseInt(projectPagination.dataset.totalPages, 10) || 1;
-      const category = projectPagination.dataset.category || '';
-      if (isLoading || page < 1 || page > totalPages) return;
+    async function loadNextProjectPage() {
+      const currentPage = parseInt(projectLoadSentinel.dataset.page, 10) || 1;
+      const totalPages = parseInt(projectLoadSentinel.dataset.totalPages, 10) || 1;
+      const category = projectLoadSentinel.dataset.category || '';
+      const nextPage = currentPage + 1;
+      if (isLoading || nextPage > totalPages) return;
 
       isLoading = true;
-      if (prevButton) prevButton.disabled = true;
-      if (nextButton) nextButton.disabled = true;
       projectListContainer.setAttribute('aria-busy', 'true');
 
       try {
-        const params = new URLSearchParams({ category, page: String(page), limit: '4' });
+        const params = new URLSearchParams({ category, page: String(nextPage), limit: '4' });
         const response = await fetch(`/api/projects?${params.toString()}`, {
           headers: { Accept: 'application/json' }
         });
@@ -429,23 +418,29 @@ document.addEventListener('DOMContentLoaded', () => {
         const json = await response.json();
         if (!json.success) throw new Error('API did not return a successful response');
 
-        projectListContainer.innerHTML = (json.data || []).length
-          ? json.data.map(renderProjectCardHtml).join('')
-          : '<div class="empty-state-box"><p class="empty-state-title">Chưa có công trình</p><p class="empty-state-desc">Hiện chưa có công trình trong danh mục này.</p></div>';
-        updatePagination(json.pagination.page, json.pagination.totalPages);
-        projectListContainer.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        if (json.data && json.data.length) {
+          projectListContainer.insertAdjacentHTML('beforeend', json.data.map(renderProjectCardHtml).join(''));
+        }
+
+        projectLoadSentinel.dataset.page = String(json.pagination.page);
+        projectLoadSentinel.dataset.totalPages = String(json.pagination.totalPages);
+        if (json.pagination.page >= json.pagination.totalPages || !json.data || !json.data.length) {
+          observer?.disconnect();
+          projectLoadSentinel.style.display = 'none';
+        }
       } catch (err) {
-        console.error('Failed loading project page:', err);
-        updatePagination(parseInt(projectPagination.dataset.page, 10) || 1, totalPages);
-        if (paginationStatus) paginationStatus.textContent = 'Không thể tải trang, vui lòng thử lại';
+        console.error('Failed loading more projects:', err);
+        projectLoadSentinel.querySelector('.infinite-loader-text').textContent = 'Không thể tải thêm công trình';
+        observer?.disconnect();
       } finally {
         isLoading = false;
         projectListContainer.removeAttribute('aria-busy');
       }
     }
 
-    prevButton?.addEventListener('click', () => loadProjectPage((parseInt(projectPagination.dataset.page, 10) || 1) - 1));
-    nextButton?.addEventListener('click', () => loadProjectPage((parseInt(projectPagination.dataset.page, 10) || 1) + 1));
-    updatePagination(parseInt(projectPagination.dataset.page, 10) || 1, parseInt(projectPagination.dataset.totalPages, 10) || 1);
+    observer = new IntersectionObserver(entries => {
+      if (entries.some(entry => entry.isIntersecting)) loadNextProjectPage();
+    }, { rootMargin: '320px 0px' });
+    observer.observe(projectLoadSentinel);
   }
 });

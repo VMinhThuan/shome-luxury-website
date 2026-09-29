@@ -19,7 +19,6 @@ const PAGE_CONFIGS = {
     description: 'Sáng tạo giải pháp kiến trúc độc bản, tối ưu ánh sáng tự nhiên và công năng sử dụng theo phong cách Modern Luxury.',
     categoryCode: 'thiet-ke-kien-truc',
     filters: [
-      { label: 'Tất cả', categoryCode: 'thiet-ke-kien-truc', href: '/thiet-ke-kien-truc' },
       { label: 'Nhà cấp 4', categoryCode: 'tk-kt-nha-cap-4', href: '/thiet-ke-kien-truc/nha-cap-4' },
       { label: 'Nhà phố', categoryCode: 'tk-kt-nha-pho', href: '/thiet-ke-kien-truc/nha-pho' },
       { label: 'Biệt thự', categoryCode: 'tk-kt-biet-thu', href: '/thiet-ke-kien-truc/biet-thu' },
@@ -34,7 +33,6 @@ const PAGE_CONFIGS = {
     categoryCode: 'tk-kt-nha-cap-4',
     parentCode: 'thiet-ke-kien-truc',
     filters: [
-      { label: 'Tất cả', categoryCode: 'thiet-ke-kien-truc', href: '/thiet-ke-kien-truc' },
       { label: 'Nhà cấp 4', categoryCode: 'tk-kt-nha-cap-4', href: '/thiet-ke-kien-truc/nha-cap-4' },
       { label: 'Nhà phố', categoryCode: 'tk-kt-nha-pho', href: '/thiet-ke-kien-truc/nha-pho' },
       { label: 'Biệt thự', categoryCode: 'tk-kt-biet-thu', href: '/thiet-ke-kien-truc/biet-thu' },
@@ -49,7 +47,6 @@ const PAGE_CONFIGS = {
     categoryCode: 'tk-kt-nha-pho',
     parentCode: 'thiet-ke-kien-truc',
     filters: [
-      { label: 'Tất cả', categoryCode: 'thiet-ke-kien-truc', href: '/thiet-ke-kien-truc' },
       { label: 'Nhà cấp 4', categoryCode: 'tk-kt-nha-cap-4', href: '/thiet-ke-kien-truc/nha-cap-4' },
       { label: 'Nhà phố', categoryCode: 'tk-kt-nha-pho', href: '/thiet-ke-kien-truc/nha-pho' },
       { label: 'Biệt thự', categoryCode: 'tk-kt-biet-thu', href: '/thiet-ke-kien-truc/biet-thu' },
@@ -64,7 +61,6 @@ const PAGE_CONFIGS = {
     categoryCode: 'tk-kt-biet-thu',
     parentCode: 'thiet-ke-kien-truc',
     filters: [
-      { label: 'Tất cả', categoryCode: 'thiet-ke-kien-truc', href: '/thiet-ke-kien-truc' },
       { label: 'Nhà cấp 4', categoryCode: 'tk-kt-nha-cap-4', href: '/thiet-ke-kien-truc/nha-cap-4' },
       { label: 'Nhà phố', categoryCode: 'tk-kt-nha-pho', href: '/thiet-ke-kien-truc/nha-pho' },
       { label: 'Biệt thự', categoryCode: 'tk-kt-biet-thu', href: '/thiet-ke-kien-truc/biet-thu' },
@@ -79,7 +75,6 @@ const PAGE_CONFIGS = {
     categoryCode: 'tk-kt-villa',
     parentCode: 'thiet-ke-kien-truc',
     filters: [
-      { label: 'Tất cả', categoryCode: 'thiet-ke-kien-truc', href: '/thiet-ke-kien-truc' },
       { label: 'Nhà cấp 4', categoryCode: 'tk-kt-nha-cap-4', href: '/thiet-ke-kien-truc/nha-cap-4' },
       { label: 'Nhà phố', categoryCode: 'tk-kt-nha-pho', href: '/thiet-ke-kien-truc/nha-pho' },
       { label: 'Biệt thự', categoryCode: 'tk-kt-biet-thu', href: '/thiet-ke-kien-truc/biet-thu' },
@@ -93,7 +88,6 @@ const PAGE_CONFIGS = {
     description: 'Không gian sống tinh tế, được kiến tạo từ phong cách và câu chuyện riêng của mỗi gia chủ.',
     categoryCode: 'thiet-ke-noi-that',
     filters: [
-      { label: 'Tất cả', categoryCode: 'thiet-ke-noi-that', href: '/thiet-ke-noi-that' },
       { label: 'Chung cư', categoryCode: 'tk-nt-chung-cu', href: '/thiet-ke-noi-that/chung-cu' },
       { label: 'Nhà phố', categoryCode: 'tk-nt-nha-pho', href: '/thiet-ke-noi-that/nha-pho' },
       { label: 'Biệt thự', categoryCode: 'tk-nt-biet-thu', href: '/thiet-ke-noi-that/biet-thu' },
@@ -108,7 +102,6 @@ const PAGE_CONFIGS = {
     categoryCode: 'tk-nt-chung-cu',
     parentCode: 'thiet-ke-noi-that',
     filters: [
-      { label: 'Tất cả', categoryCode: 'thiet-ke-noi-that', href: '/thiet-ke-noi-that' },
       { label: 'Chung cư', categoryCode: 'tk-nt-chung-cu', href: '/thiet-ke-noi-that/chung-cu' },
       { label: 'Nhà phố', categoryCode: 'tk-nt-nha-pho', href: '/thiet-ke-noi-that/nha-pho' },
       { label: 'Biệt thự', categoryCode: 'tk-nt-biet-thu', href: '/thiet-ke-noi-that/biet-thu' },
@@ -123,7 +116,6 @@ const PAGE_CONFIGS = {
     categoryCode: 'tk-nt-nha-pho',
     parentCode: 'thiet-ke-noi-that',
     filters: [
-      { label: 'Tất cả', categoryCode: 'thiet-ke-noi-that', href: '/thiet-ke-noi-that' },
       { label: 'Chung cư', categoryCode: 'tk-nt-chung-cu', href: '/thiet-ke-noi-that/chung-cu' },
       { label: 'Nhà phố', categoryCode: 'tk-nt-nha-pho', href: '/thiet-ke-noi-that/nha-pho' },
       { label: 'Biệt thự', categoryCode: 'tk-nt-biet-thu', href: '/thiet-ke-noi-that/biet-thu' },
@@ -138,7 +130,6 @@ const PAGE_CONFIGS = {
     categoryCode: 'tk-nt-biet-thu',
     parentCode: 'thiet-ke-noi-that',
     filters: [
-      { label: 'Tất cả', categoryCode: 'thiet-ke-noi-that', href: '/thiet-ke-noi-that' },
       { label: 'Chung cư', categoryCode: 'tk-nt-chung-cu', href: '/thiet-ke-noi-that/chung-cu' },
       { label: 'Nhà phố', categoryCode: 'tk-nt-nha-pho', href: '/thiet-ke-noi-that/nha-pho' },
       { label: 'Biệt thự', categoryCode: 'tk-nt-biet-thu', href: '/thiet-ke-noi-that/biet-thu' },
@@ -153,7 +144,6 @@ const PAGE_CONFIGS = {
     categoryCode: 'tk-nt-van-phong',
     parentCode: 'thiet-ke-noi-that',
     filters: [
-      { label: 'Tất cả', categoryCode: 'thiet-ke-noi-that', href: '/thiet-ke-noi-that' },
       { label: 'Chung cư', categoryCode: 'tk-nt-chung-cu', href: '/thiet-ke-noi-that/chung-cu' },
       { label: 'Nhà phố', categoryCode: 'tk-nt-nha-pho', href: '/thiet-ke-noi-that/nha-pho' },
       { label: 'Biệt thự', categoryCode: 'tk-nt-biet-thu', href: '/thiet-ke-noi-that/biet-thu' },

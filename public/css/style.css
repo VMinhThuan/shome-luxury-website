@@ -54,6 +54,7 @@
   --font-serif: 'Cormorant Garamond', Georgia, serif;
   --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
   --font-script: 'NVN Motherland Signature', 'Great Vibes', 'Alex Brush', 'Dancing Script', cursive;
+  --font-header-slogan: 'Great Vibes', cursive;
 
   /* Spacing & Layout */
   --container-max: 1480px;
@@ -113,6 +114,15 @@ body {
 body.drawer-open {
   overflow: hidden !important;
   touch-action: none;
+}
+
+/* The drawer provides its own consultation CTA. Hide the floating call button
+   while it is open so it cannot overlap the drawer footer on small screens. */
+body.drawer-open .quick-contact-widget {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transform: scale(0.85);
 }
 
 a {
@@ -239,7 +249,7 @@ ol {
 
 .logo-slogan {
   display: inline-block;
-  font-family: var(--font-script);
+  font-family: var(--font-header-slogan);
   font-size: clamp(0.95rem, 3.2vw, 1.25rem);
   color: #FFFFFF;
   font-weight: 400;
@@ -2399,7 +2409,7 @@ ol {
   bottom: 24px;
   right: 20px;
   z-index: 2500;
-  transition: bottom 0.35s cubic-bezier(0.34, 1.56, 0.64, 1), transform 0.35s ease;
+  transition: bottom 0.35s cubic-bezier(0.34, 1.56, 0.64, 1), transform 0.35s ease, opacity 0.2s ease, visibility 0.2s ease;
 }
 
 .quick-contact-widget.at-footer {
@@ -3819,7 +3829,7 @@ ol {
   transform: translateX(3px);
 }
 
-/* Empty State & Pagination */
+/* Empty State & Infinite Scroll */
 .empty-state-box {
   padding: 4rem 1.5rem;
   text-align: center;
@@ -3843,59 +3853,30 @@ ol {
   font-size: 0.95rem;
 }
 
-.project-pagination {
-  display: inline-flex;
+.project-infinite-loader {
+  display: flex;
   align-items: center;
   justify-content: center;
-  gap: 1rem;
+  gap: 0.7rem;
   width: 100%;
-  margin-top: 3rem;
-}
-
-.pagination-button {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  justify-content: center;
-  min-width: 112px;
-  padding: 0.75rem 1.15rem;
-  border-radius: 999px;
-  background-color: transparent;
-  color: var(--text-primary);
-  border: 1.5px solid var(--accent-gold-dark);
-  font-weight: 700;
-  font-size: 0.9rem;
-  letter-spacing: 0.08em;
-  transition: all var(--transition-fast);
-}
-
-.pagination-button:hover:not(:disabled) {
-  background-color: var(--accent-gold-dark);
-  color: #FFFFFF;
-}
-
-.pagination-button:disabled {
-  cursor: not-allowed;
-  opacity: 0.4;
-}
-
-.pagination-status {
-  min-width: 104px;
+  min-height: 72px;
+  margin-top: 2rem;
   color: var(--text-secondary);
   font-size: 0.9rem;
   font-weight: 600;
-  text-align: center;
 }
 
-@media (max-width: 479px) {
-  .project-pagination {
-    gap: 0.55rem;
-  }
+.infinite-loader-spinner {
+  width: 18px;
+  height: 18px;
+  border: 2px solid rgba(168, 129, 60, 0.25);
+  border-top-color: var(--accent-gold-dark);
+  border-radius: 50%;
+  animation: project-loader-spin 0.8s linear infinite;
+}
 
-  .pagination-button {
-    min-width: auto;
-    padding: 0.7rem 0.85rem;
-  }
+@keyframes project-loader-spin {
+  to { transform: rotate(360deg); }
 }
 
 /* Project Detail Page Styles */
