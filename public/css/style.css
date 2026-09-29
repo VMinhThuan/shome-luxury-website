@@ -2086,15 +2086,18 @@ ol {
 
 .map-link-btn {
   position: absolute;
-  top: 10px;
-  left: 10px;
+  right: 14px;
+  bottom: 14px;
+  left: 14px;
   z-index: 10;
-  background: #111111;
-  color: #FFFFFF;
-  padding: 6px 14px;
-  border-radius: 8px;
+  justify-content: center;
+  background: linear-gradient(135deg, #E6B856, #B98028);
+  color: #171717;
+  padding: 0.72rem 1rem;
+  border-radius: 999px;
   font-size: 0.8125rem;
   font-weight: 700;
+  text-transform: uppercase;
   text-decoration: none;
   display: inline-flex;
   align-items: center;
@@ -2103,8 +2106,10 @@ ol {
   transition: background 0.2s ease, transform 0.2s ease;
 }
 
+.map-link-btn svg { width: 20px; height: 20px; }
+
 .map-link-btn:hover {
-  background: #252525;
+  background: linear-gradient(135deg, #F2CA76, #C99139);
   transform: translateY(-1px);
 }
 
@@ -2158,6 +2163,26 @@ ol {
   color: #BBBBBB;
 }
 
+.footer-contact-details li {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+}
+
+.footer-social-icon {
+  display: grid;
+  width: 30px;
+  height: 30px;
+  flex: 0 0 30px;
+  place-items: center;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #F1C668, #B78029);
+  color: #191919;
+}
+
+.footer-social-icon svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.footer-social-icon svg[fill="currentColor"] { fill: currentColor; stroke: none; }
+
 .footer-contact-details a {
   color: #DDDDDD;
   text-decoration: none;
@@ -2188,6 +2213,35 @@ ol {
   line-height: 1.45;
   margin: 0;
 }
+
+.footer-value-list {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+.footer-value-item {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  color: #E3E0DB;
+  font: 600 0.7rem/1.35 var(--font-menu);
+  text-transform: uppercase;
+}
+
+.footer-value-icon {
+  display: grid;
+  width: 44px;
+  height: 44px;
+  flex: 0 0 44px;
+  place-items: center;
+  border: 1.5px solid var(--accent-gold);
+  border-radius: 50%;
+  color: #E6B856;
+}
+
+.footer-value-icon svg { width: 25px; height: 25px; fill: none; stroke: currentColor; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
 
 .footer-top-grid {
   display: flex;
@@ -2790,12 +2844,16 @@ ol {
 }
 
 @media (max-width: 639px) {
-  .quick-contact-widget { right: 12px; bottom: max(12px, env(safe-area-inset-bottom)); }
-  .quick-contact-bar { gap: 0.3rem; padding: 0.35rem; }
+  .quick-contact-widget {
+    right: 12px;
+    bottom: max(12px, env(safe-area-inset-bottom));
+    left: 12px;
+  }
+  .quick-contact-bar { justify-content: space-between; gap: 0.3rem; padding: 0.35rem; }
   .quick-contact-action { min-width: 40px; height: 40px; }
-  .quick-contact-call { padding: 0; width: 40px; }
+  .quick-contact-call { margin-right: auto; padding: 0 0.65rem 0 0.15rem; width: auto; }
   .quick-contact-call-icon { width: 40px; height: 40px; }
-  .quick-contact-phone { display: none; }
+  .quick-contact-phone { display: inline; font-size: 0.75rem; }
 }
 
 @media (prefers-reduced-motion: reduce) {
