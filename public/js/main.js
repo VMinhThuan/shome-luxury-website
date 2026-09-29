@@ -395,6 +395,8 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   if (projectLoadSentinel && projectListContainer) {
+    const minimumLoaderDuration = 1000;
+    const requestTimeout = 3000;
     let isLoading = false;
     let observer;
 
@@ -406,20 +408,40 @@ document.addEventListener('DOMContentLoaded', () => {
       if (isLoading || nextPage > totalPages) return;
 
       isLoading = true;
+      const loadingStartedAt = performance.now();
+      const controller = new AbortController();
+      const timeoutId = window.setTimeout(() => controller.abort(), requestTimeout);
       projectListContainer.setAttribute('aria-busy', 'true');
+      projectLoadSentinel.dataset.loading = 'true';
 
       try {
         const params = new URLSearchParams({ category, page: String(nextPage), limit: '4' });
         const response = await fetch(`/api/projects?${params.toString()}`, {
-          headers: { Accept: 'application/json' }
+          headers: { Accept: 'application/json' },
+          signal: controller.signal
         });
         if (!response.ok) throw new Error(`API returned ${response.status}`);
 
         const json = await response.json();
+        window.clearTimeout(timeoutId);
         if (!json.success) throw new Error('API did not return a successful response');
 
+        // Avoid a distracting flash on a fast API while keeping page loading bounded.
+        const remainingLoaderTime = minimumLoaderDuration - (performance.now() - loadingStartedAt);
+        if (remainingLoaderTime > 0) {
+          await new Promise(resolve => window.setTimeout(resolve, remainingLoaderTime));
+        }
+
         if (json.data && json.data.length) {
+          const existingCardCount = projectListContainer.querySelectorAll('.project-showcase-card').length;
           projectListContainer.insertAdjacentHTML('beforeend', json.data.map(renderProjectCardHtml).join(''));
+          projectListContainer.querySelectorAll('.project-showcase-card').forEach((card, index) => {
+            if (index >= existingCardCount) {
+              card.classList.add('is-loading-in');
+              card.style.setProperty('--card-reveal-delay', `${(index - existingCardCount) * 80}ms`);
+              card.addEventListener('animationend', () => card.classList.remove('is-loading-in'), { once: true });
+            }
+          });
         }
 
         projectLoadSentinel.dataset.page = String(json.pagination.page);
@@ -430,17 +452,22 @@ document.addEventListener('DOMContentLoaded', () => {
         }
       } catch (err) {
         console.error('Failed loading more projects:', err);
-        projectLoadSentinel.querySelector('.infinite-loader-text').textContent = 'Không thể tải thêm công trình';
+        const errorText = err.name === 'AbortError'
+          ? 'Kết nối chậm, vui lòng cuộn lại để thử lại'
+          : 'Không thể tải thêm công trình';
+        projectLoadSentinel.querySelector('.infinite-loader-text').textContent = errorText;
         observer?.disconnect();
       } finally {
+        window.clearTimeout(timeoutId);
         isLoading = false;
+        delete projectLoadSentinel.dataset.loading;
         projectListContainer.removeAttribute('aria-busy');
       }
     }
 
     observer = new IntersectionObserver(entries => {
       if (entries.some(entry => entry.isIntersecting)) loadNextProjectPage();
-    }, { rootMargin: '320px 0px' });
+    }, { rootMargin: '900px 0px' });
     observer.observe(projectLoadSentinel);
   }
 });
