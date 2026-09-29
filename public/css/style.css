@@ -3645,6 +3645,28 @@ ol {
   }
 }
 
+/* Project showcase: three cards per row on desktop, one per row on touch layouts. */
+@media (min-width: 1024px) {
+  .project-showcase-section .project-list-vertical {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1.5rem;
+  }
+
+  .project-showcase-section .project-card-image-wrapper {
+    aspect-ratio: 4 / 3;
+  }
+
+  .project-showcase-section .project-card-info-bar {
+    padding: 1.1rem 1.15rem;
+  }
+
+  .project-showcase-section .project-card-arrow-btn {
+    width: 40px;
+    height: 40px;
+  }
+}
+
 /* Project Card Layout Matching Reference Image */
 .project-showcase-card {
   display: flex;

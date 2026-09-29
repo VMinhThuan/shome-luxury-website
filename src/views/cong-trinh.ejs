@@ -14,7 +14,7 @@
   <meta name="theme-color" content="#171717" />
 
   <!-- CSS Stylesheet -->
-  <link rel="stylesheet" href="/css/style.css?v=1.6.9" />
+  <link rel="stylesheet" href="/css/style.css?v=1.7.0" />
   <script src="/js/main.js?v=1.6.9" defer></script>
 </head>
 <body>
@@ -43,21 +43,6 @@
           <% } %>
         </div>
 
-        <!-- Filter Pills -->
-        <% if (pageConfig.filters && pageConfig.filters.length > 0) { %>
-          <nav class="filter-pills-wrapper" aria-label="Category Filters">
-            <div class="filter-pills-container">
-              <% pageConfig.filters.forEach(f => { %>
-                <% const isActive = activeCategoryCode === f.categoryCode; %>
-                <a href="<%= f.href %>" 
-                   class="filter-pill <%= isActive ? 'active' : '' %>"
-                   data-category="<%= f.categoryCode %>">
-                  <%= f.label %>
-                </a>
-              <% }); %>
-            </div>
-          </nav>
-        <% } %>
       </div>
     </section>
 
