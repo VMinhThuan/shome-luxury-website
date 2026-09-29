@@ -2206,6 +2206,17 @@ ol {
   gap: 1rem;
 }
 
+/* Keep the footer compact on phones once its final text block ends. */
+@media (max-width: 639px) {
+  .site-footer {
+    padding-bottom: 0.5rem;
+  }
+
+  .footer-slogan-block {
+    margin-bottom: 0;
+  }
+}
+
 @media (min-width: 640px) and (max-width: 991px) {
   .footer-top-grid {
     display: grid;
