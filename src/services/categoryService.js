@@ -54,22 +54,38 @@ class CategoryService {
   }
 
   /**
-   * Get category ID and all descendant category IDs recursively.
-   * Enables Descendant Category Filtering!
+   * Get category ID and all descendant category IDs in a single DB query (In-memory tree traversal).
+   * Enables Descendant Category Filtering with maximum performance!
    */
   async getAllDescendantCategoryIds(idOrSlug) {
-    const rootCat = await this.getCategoryByIdOrSlug(idOrSlug);
+    const allCategories = await Category.find().select('_id parentId slug code').lean();
+    if (!allCategories || allCategories.length === 0) return [];
+
+    const rootCat = allCategories.find(c =>
+      c._id.toString() === idOrSlug ||
+      c.slug === idOrSlug ||
+      c.code === idOrSlug
+    );
     if (!rootCat) return [];
 
+    const childrenMap = {};
+    allCategories.forEach(cat => {
+      if (cat.parentId) {
+        const pId = cat.parentId.toString();
+        if (!childrenMap[pId]) childrenMap[pId] = [];
+        childrenMap[pId].push(cat._id);
+      }
+    });
+
     const resultIds = [rootCat._id];
-    const queue = [rootCat._id];
+    const queue = [rootCat._id.toString()];
 
     while (queue.length > 0) {
-      const parentId = queue.shift();
-      const children = await Category.find({ parentId }).select('_id').lean();
-      for (const child of children) {
-        resultIds.push(child._id);
-        queue.push(child._id);
+      const parentIdStr = queue.shift();
+      const children = childrenMap[parentIdStr] || [];
+      for (const childId of children) {
+        resultIds.push(childId);
+        queue.push(childId.toString());
       }
     }
 

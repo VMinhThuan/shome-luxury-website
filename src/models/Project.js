@@ -72,4 +72,7 @@ const projectSchema = new mongoose.Schema({
   timestamps: true
 });
 
+projectSchema.index({ status: 1, categoryIds: 1, createdAt: -1 });
+projectSchema.index({ status: 1, featured: 1, createdAt: -1 });
+
 module.exports = mongoose.models.Project || mongoose.model('Project', projectSchema);

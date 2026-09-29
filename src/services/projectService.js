@@ -79,15 +79,19 @@ class ProjectService {
       }
     }
 
-    const totalItems = await Project.countDocuments(filter);
-    const totalPages = Math.ceil(totalItems / limit);
+    // Execute count and query in parallel for 2x performance
+    const [totalItems, projects] = await Promise.all([
+      Project.countDocuments(filter),
+      Project.find(filter)
+        .select('title slug investor location area style excerpt status featured categoryIds thumbnail gallery createdAt')
+        .populate('categoryIds', 'name slug code isLeaf')
+        .sort(sortOption)
+        .skip(skip)
+        .limit(limit)
+        .lean()
+    ]);
 
-    const projects = await Project.find(filter)
-      .populate('categoryIds', 'name slug code isLeaf')
-      .sort(sortOption)
-      .skip(skip)
-      .limit(limit)
-      .lean();
+    const totalPages = Math.ceil(totalItems / limit);
 
     return {
       projects,
