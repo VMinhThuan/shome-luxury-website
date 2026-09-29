@@ -63,26 +63,32 @@
         </div>
       </header>
 
-      <!-- Use a local mock until the project has an image from the backend. -->
-      <% const detailMockImages = ['/images/project_apartment.jpg', '/images/project_villa.jpg', '/images/hero_interior.jpg']; %>
+      <% const detailMockImages = ['/images/project_apartment.jpg', '/images/project_villa.jpg', '/images/hero_interior.jpg', '/images/hero_sofa_light.jpg', '/images/service_interior.jpg']; %>
       <% const detailImageSrc = project.thumbnail || detailMockImages[(project.title || '').length % detailMockImages.length]; %>
-      <div class="project-detail-hero-image">
-        <img src="<%= detailImageSrc %>" alt="<%= project.title %>" class="hero-img" data-detail-image loading="eager"
-             onerror="this.onerror=null;this.src='/images/project_apartment.jpg';" />
-      </div>
-
-      <!-- The legacy excerpt/content duplicated the metadata above and rendered an unrelated location list, so it is intentionally omitted. -->
-      <% if (project.gallery && project.gallery.length > 0) { %>
-        <article class="project-detail-content entry-content">
-          <div class="project-gallery-grid">
-            <% project.gallery.forEach((imgUrl, idx) => { %>
-              <div class="gallery-item">
-                <img src="<%= imgUrl %>" alt="<%= project.title %> - <%= idx + 1 %>" loading="lazy" />
-              </div>
-            <% }); %>
-          </div>
-        </article>
-      <% } %>
+      <% const projectGallery = project.gallery && project.gallery.length ? project.gallery : detailMockImages; %>
+      <% const galleryImages = [...new Set([detailImageSrc, ...projectGallery].filter(Boolean))]; %>
+      <section class="project-showcase-gallery" data-project-gallery tabindex="0" aria-label="Thư viện ảnh công trình <%= project.title %>">
+        <div class="project-gallery-stage">
+          <img src="<%= galleryImages[0] %>" alt="<%= project.title %> - ảnh 1" class="hero-img" data-detail-image loading="eager"
+               onerror="this.onerror=null;this.src='/images/project_apartment.jpg';" />
+          <div class="project-gallery-stage-shade" aria-hidden="true"></div>
+          <div class="project-gallery-count" aria-live="polite"><span data-gallery-current>01</span><span>/</span><span data-gallery-total><%= String(galleryImages.length).padStart(2, '0') %></span></div>
+          <button class="project-gallery-control previous" type="button" data-gallery-prev aria-label="Ảnh trước">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="15 18 9 12 15 6"></polyline></svg>
+          </button>
+          <button class="project-gallery-control next" type="button" data-gallery-next aria-label="Ảnh tiếp theo">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="9 18 15 12 9 6"></polyline></svg>
+          </button>
+        </div>
+        <div class="project-gallery-thumbnails" data-gallery-thumbnails role="list" aria-label="Chọn ảnh công trình">
+          <% galleryImages.forEach((imgUrl, idx) => { %>
+            <button class="project-gallery-thumbnail <%= idx === 0 ? 'is-active' : '' %>" type="button" data-gallery-thumb data-index="<%= idx %>" aria-label="Xem ảnh <%= idx + 1 %>" aria-current="<%= idx === 0 ? 'true' : 'false' %>" role="listitem">
+              <img src="<%= imgUrl %>" alt="<%= project.title %> - thumbnail <%= idx + 1 %>" loading="lazy" />
+            </button>
+          <% }); %>
+        </div>
+        <p class="project-gallery-hint">Vuốt hoặc dùng phím mũi tên để xem ảnh</p>
+      </section>
 
       <!-- CTA Section -->
       <section class="project-detail-cta">

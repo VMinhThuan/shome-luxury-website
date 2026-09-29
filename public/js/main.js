@@ -334,11 +334,88 @@ document.addEventListener('DOMContentLoaded', () => {
     return project.thumbnail || mockProjectImages[charSum % mockProjectImages.length];
   }
 
+  function getProjectGalleryImages(project, charSum) {
+    const primaryImage = getProjectImage(project, charSum);
+    const projectGallery = Array.isArray(project.gallery) && project.gallery.length
+      ? project.gallery
+      : mockProjectImages;
+    return [primaryImage, ...projectGallery];
+  }
+
   // Detail pages are server-rendered for a fast first paint, then hydrate from
   // the public API. This makes the API request visible in Network and keeps
   // the displayed metadata in sync with the backend.
   const detailPage = document.querySelector('.project-detail-page[data-project-slug]');
   if (detailPage) {
+    const gallery = detailPage.querySelector('[data-project-gallery]');
+    let galleryImages = Array.from(gallery?.querySelectorAll('[data-gallery-thumb] img') || []).map(image => image.currentSrc || image.src);
+    let activeGalleryIndex = 0;
+    let touchStartX = 0;
+
+    function updateGallery(images, projectTitle) {
+      if (!gallery || !images.length) return;
+      galleryImages = [...new Set(images.filter(Boolean))];
+      activeGalleryIndex = 0;
+      const thumbnails = gallery.querySelector('[data-gallery-thumbnails]');
+      thumbnails.replaceChildren();
+
+      galleryImages.forEach((src, index) => {
+        const button = document.createElement('button');
+        button.type = 'button';
+        button.className = 'project-gallery-thumbnail';
+        button.dataset.galleryThumb = '';
+        button.dataset.index = String(index);
+        button.setAttribute('aria-label', `Xem ảnh ${index + 1}`);
+        button.setAttribute('role', 'listitem');
+        const image = document.createElement('img');
+        image.src = src;
+        image.alt = `${projectTitle} - thumbnail ${index + 1}`;
+        image.loading = 'lazy';
+        button.append(image);
+        thumbnails.append(button);
+      });
+      selectGalleryImage(0);
+    }
+
+    function selectGalleryImage(index) {
+      if (!galleryImages.length) return;
+      activeGalleryIndex = (index + galleryImages.length) % galleryImages.length;
+      const heroImage = gallery.querySelector('[data-detail-image]');
+      const projectTitle = detailPage.querySelector('[data-project-field="title"]')?.textContent || 'Công trình Luxury Home';
+      heroImage.src = galleryImages[activeGalleryIndex];
+      heroImage.alt = `${projectTitle} - ảnh ${activeGalleryIndex + 1}`;
+      gallery.querySelector('[data-gallery-current]').textContent = String(activeGalleryIndex + 1).padStart(2, '0');
+      gallery.querySelector('[data-gallery-total]').textContent = String(galleryImages.length).padStart(2, '0');
+      gallery.querySelectorAll('.project-gallery-control').forEach(control => {
+        control.hidden = galleryImages.length < 2;
+      });
+      gallery.querySelectorAll('[data-gallery-thumb]').forEach((thumbnail, thumbnailIndex) => {
+        const isActive = thumbnailIndex === activeGalleryIndex;
+        thumbnail.classList.toggle('is-active', isActive);
+        thumbnail.setAttribute('aria-current', String(isActive));
+        if (isActive) thumbnail.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'nearest' });
+      });
+    }
+
+    if (gallery) {
+      selectGalleryImage(0);
+      gallery.addEventListener('click', event => {
+        const thumbnail = event.target.closest('[data-gallery-thumb]');
+        if (thumbnail) selectGalleryImage(Number(thumbnail.dataset.index));
+        if (event.target.closest('[data-gallery-prev]')) selectGalleryImage(activeGalleryIndex - 1);
+        if (event.target.closest('[data-gallery-next]')) selectGalleryImage(activeGalleryIndex + 1);
+      });
+      gallery.addEventListener('keydown', event => {
+        if (event.key === 'ArrowLeft') { event.preventDefault(); selectGalleryImage(activeGalleryIndex - 1); }
+        if (event.key === 'ArrowRight') { event.preventDefault(); selectGalleryImage(activeGalleryIndex + 1); }
+      });
+      gallery.addEventListener('touchstart', event => { touchStartX = event.changedTouches[0].screenX; }, { passive: true });
+      gallery.addEventListener('touchend', event => {
+        const distance = event.changedTouches[0].screenX - touchStartX;
+        if (Math.abs(distance) > 45) selectGalleryImage(activeGalleryIndex + (distance < 0 ? 1 : -1));
+      }, { passive: true });
+    }
+
     const slug = detailPage.dataset.projectSlug;
     if (slug) {
       fetch(`/api/projects/${encodeURIComponent(slug)}`, { headers: { Accept: 'application/json' } })
@@ -354,12 +431,8 @@ document.addEventListener('DOMContentLoaded', () => {
             if (project[field]) element.textContent = project[field];
           });
 
-          const heroImage = detailPage.querySelector('[data-detail-image]');
-          if (heroImage) {
-            const charSum = (project.title || '').split('').reduce((sum, ch) => sum + ch.charCodeAt(0), 0);
-            heroImage.src = getProjectImage(project, charSum);
-            heroImage.alt = project.title || 'Công trình Luxury Home';
-          }
+          const charSum = (project.title || '').split('').reduce((sum, ch) => sum + ch.charCodeAt(0), 0);
+          updateGallery(getProjectGalleryImages(project, charSum), project.title || 'Công trình Luxury Home');
         })
         .catch(err => console.error('Failed loading project detail:', err));
     }
