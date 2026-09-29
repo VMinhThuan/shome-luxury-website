@@ -7,11 +7,6 @@ const routes = require("./src/routes");
 const app = express();
 const PORT = process.env.PORT || 3030;
 
-// Connect to MongoDB
-connectDB().catch(err => {
-  console.error("Failed connecting to MongoDB on startup:", err.message);
-});
-
 // Performance & Security Settings
 app.disable("x-powered-by");
 app.set("view cache", true);
@@ -33,6 +28,20 @@ app.use(express.static(path.join(__dirname, "public"), {
   etag: true,
   lastModified: true
 }));
+
+// Serverless DB Connection Middleware (Ensures MongoDB is connected before routes run)
+app.use(async (req, res, next) => {
+  try {
+    await connectDB();
+    next();
+  } catch (err) {
+    console.error("MongoDB Connection Middleware Error:", err.message);
+    return res.status(500).json({
+      success: false,
+      message: `Database Connection Error: ${err.message}`
+    });
+  }
+});
 
 // Routes
 app.use("/", routes);

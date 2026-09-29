@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-09-29T01:41:18.506Z",
+  "timestamp": "2026-09-29T04:00:01.513Z",
   "mode": "REAL_IMPORT",
   "sourceFile": "/Users/vuthuan/shome-luxury-web/shomeluxury.WordPress.2026-09-28.xml",
   "stats": {
@@ -13110,7 +13110,7 @@
   },
   "errors": [],
   "importResults": {
-    "insertedCount": 0,
+    "insertedCount": 297,
     "updatedCount": 0,
     "totalProcessed": 297
   }
