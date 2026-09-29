@@ -179,11 +179,11 @@ class ProjectShowcaseController {
       const categoryCode = req.params.categoryCode || 'thiet-ke-cong-trinh';
       const config = PAGE_CONFIGS[categoryCode] || PAGE_CONFIGS['thiet-ke-cong-trinh'];
 
-      // SSR fetch initial 8 items
+      // SSR fetch initial 4 items (per user request: 4 items per page)
       const initialData = await projectService.getProjects({
         category: categoryCode,
         page: 1,
-        limit: 8
+        limit: 4
       });
 
       const pageTitle = `${config.titleMain} ${config.titleScript} | LUXURY HOME`.trim();

@@ -300,6 +300,15 @@ document.addEventListener('DOMContentLoaded', () => {
     const attrText = attrs.join('   |   ');
     const projectDetailUrl = `/cong-trinh/${project.slug}`;
 
+    const quotes = [
+      { title: 'KIẾN TẠO<br>TỔ ẤM HOÀN MỸ', desc: 'Nơi hạnh phúc bắt đầu từ những điều giản dị' },
+      { title: 'SỐNG ĐẸP<br>MỖI NGÀY', desc: 'Không gian phản chiếu phong cách sống của bạn' },
+      { title: 'KHÔNG GIAN<br>TRUYỀN CẢM HƯNG', desc: 'Mỗi góc nhỏ đều kể một câu chuyện' },
+      { title: 'TINH GIẢN CHO CUỘC SỐNG<br>TRỌN VẸN', desc: 'Sống thoải mái trong không gian gia đình riêng cho bạn' }
+    ];
+    const charSum = (project.title || '').split('').reduce((sum, ch) => sum + ch.charCodeAt(0), 0);
+    const selectedQuote = quotes[charSum % quotes.length];
+
     const imageHtml = project.thumbnail
       ? `<img src="${project.thumbnail}" alt="${project.title}" class="project-card-img" loading="lazy" />`
       : `<div class="project-card-placeholder">
@@ -318,6 +327,11 @@ document.addEventListener('DOMContentLoaded', () => {
         <a href="${projectDetailUrl}" class="project-card-image-link" aria-label="${project.title}">
           <div class="project-card-image-wrapper">
             ${imageHtml}
+            <div class="project-card-quote-overlay">
+              <div class="quote-title">${selectedQuote.title}</div>
+              <div class="quote-line"></div>
+              <div class="quote-desc">${selectedQuote.desc}</div>
+            </div>
           </div>
         </a>
 
@@ -359,7 +373,7 @@ document.addEventListener('DOMContentLoaded', () => {
       btnLoadMore.disabled = true;
 
       try {
-        const res = await fetch(`/api/projects?category=${category}&page=${nextPage}&limit=8`);
+        const res = await fetch(`/api/projects?category=${category}&page=${nextPage}&limit=4`);
         const json = await res.json();
 
         if (json.success && json.data && json.data.length > 0) {
