@@ -173,7 +173,8 @@ class ProjectShowcaseController {
       const initialData = await projectService.getProjects({
         category: categoryCode,
         page: 1,
-        limit: 4
+        limit: 4,
+        compact: true
       });
 
       const pageTitle = `${config.titleMain} ${config.titleScript} | LUXURY HOME`.trim();

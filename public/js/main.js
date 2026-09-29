@@ -492,8 +492,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   if (projectLoadSentinel && projectListContainer) {
-    const minimumLoaderDuration = 1000;
-    const requestTimeout = 3000;
+    const requestTimeout = 8000;
     let isLoading = false;
     let observer;
 
@@ -505,7 +504,6 @@ document.addEventListener('DOMContentLoaded', () => {
       if (isLoading || nextPage > totalPages) return;
 
       isLoading = true;
-      const loadingStartedAt = performance.now();
       const controller = new AbortController();
       const timeoutId = window.setTimeout(() => controller.abort(), requestTimeout);
       projectListContainer.setAttribute('aria-busy', 'true');
@@ -522,12 +520,6 @@ document.addEventListener('DOMContentLoaded', () => {
         const json = await response.json();
         window.clearTimeout(timeoutId);
         if (!json.success) throw new Error('API did not return a successful response');
-
-        // Avoid a distracting flash on a fast API while keeping page loading bounded.
-        const remainingLoaderTime = minimumLoaderDuration - (performance.now() - loadingStartedAt);
-        if (remainingLoaderTime > 0) {
-          await new Promise(resolve => window.setTimeout(resolve, remainingLoaderTime));
-        }
 
         if (json.data && json.data.length) {
           const existingCardCount = projectListContainer.querySelectorAll('.project-showcase-card').length;
@@ -564,7 +556,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     observer = new IntersectionObserver(entries => {
       if (entries.some(entry => entry.isIntersecting)) loadNextProjectPage();
-    }, { rootMargin: '900px 0px' });
+    }, { rootMargin: '200px 0px' });
     observer.observe(projectLoadSentinel);
   }
 });

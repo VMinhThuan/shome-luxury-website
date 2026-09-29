@@ -79,16 +79,24 @@ class ProjectService {
       }
     }
 
-    // Execute count and query in parallel for 2x performance
+    const listFields = options.compact
+      ? 'title slug investor location area style thumbnail createdAt'
+      : 'title slug investor location area style excerpt status featured categoryIds thumbnail gallery createdAt';
+    let projectsQuery = Project.find(filter)
+      .select(listFields)
+      .sort(sortOption)
+      .skip(skip)
+      .limit(limit)
+      .lean();
+
+    if (!options.compact) {
+      projectsQuery = projectsQuery.populate('categoryIds', 'name slug code isLeaf');
+    }
+
+    // Execute count and query in parallel for a faster response.
     const [totalItems, projects] = await Promise.all([
       Project.countDocuments(filter),
-      Project.find(filter)
-        .select('title slug investor location area style excerpt status featured categoryIds thumbnail gallery createdAt')
-        .populate('categoryIds', 'name slug code isLeaf')
-        .sort(sortOption)
-        .skip(skip)
-        .limit(limit)
-        .lean()
+      projectsQuery
     ]);
 
     const totalPages = Math.ceil(totalItems / limit);
