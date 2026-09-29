@@ -2327,33 +2327,7 @@ ol {
     grid-row: 1 / span 4;
     align-self: center;
     margin: 0;
-    width: 100%;
-    max-width: none;
-    text-align: right;
-  }
-
-  .footer-slogan-title {
-    font-size: clamp(1.45rem, 2.15vw, 2.25rem);
-    letter-spacing: 0.055em;
-    margin-bottom: 0.7rem;
-  }
-
-  .footer-slogan-desc {
-    max-width: 900px;
-    margin-left: auto;
-    font-size: 1rem;
-  }
-
-  .footer-value-list {
-    width: 100%;
-    gap: 1.5rem;
-    margin-top: 2rem;
-  }
-
-  .footer-value-item {
-    justify-content: flex-end;
-    font-size: 0.75rem;
-    text-align: left;
+    max-width: 720px;
   }
 
   .footer-map-card {
