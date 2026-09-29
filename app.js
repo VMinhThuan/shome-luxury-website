@@ -1,16 +1,22 @@
 const express = require("express");
 const path = require("path");
 const compression = require("compression");
+const connectDB = require("./src/config/db");
 const routes = require("./src/routes");
 
 const app = express();
 const PORT = process.env.PORT || 3030;
 
+// Connect to MongoDB
+connectDB().catch(err => {
+  console.error("Failed connecting to MongoDB on startup:", err.message);
+});
+
 // Performance & Security Settings
 app.disable("x-powered-by");
 app.set("view cache", true);
 
-// Enable Gzip / Brotli compression for text responses (HTML, CSS, JS, SVG)
+// Enable Gzip / Brotli compression for text responses
 app.use(compression({ threshold: 0 }));
 
 // Set view engine to EJS
@@ -30,6 +36,16 @@ app.use(express.static(path.join(__dirname, "public"), {
 
 // Routes
 app.use("/", routes);
+
+// Global Error Handler Middleware
+app.use((err, req, res, next) => {
+  console.error("[Global Error Handler]:", err);
+  const status = err.status || (err.name === 'ValidationError' ? 400 : 500);
+  return res.status(status).json({
+    success: false,
+    message: err.message || "Internal Server Error"
+  });
+});
 
 // Start Server when run directly
 if (require.main === module) {

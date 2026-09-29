@@ -1,0 +1,75 @@
+const mongoose = require('mongoose');
+
+const projectSchema = new mongoose.Schema({
+  title: {
+    type: String,
+    required: true,
+    trim: true
+  },
+  slug: {
+    type: String,
+    required: true,
+    unique: true,
+    trim: true
+  },
+  investor: {
+    type: String,
+    default: null,
+    trim: true
+  },
+  location: {
+    type: String,
+    default: null,
+    trim: true
+  },
+  area: {
+    type: String,
+    default: null,
+    trim: true
+  },
+  style: {
+    type: String,
+    default: null,
+    trim: true
+  },
+  excerpt: {
+    type: String,
+    default: ''
+  },
+  content: {
+    type: String,
+    default: ''
+  },
+  status: {
+    type: String,
+    enum: ['published', 'draft', 'private', 'trash'],
+    default: 'published',
+    index: true
+  },
+  featured: {
+    type: Boolean,
+    default: false,
+    index: true
+  },
+  categoryIds: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Category',
+    index: true
+  }],
+  thumbnail: {
+    type: String,
+    default: null
+  },
+  gallery: [{
+    type: String
+  }],
+  legacy: {
+    wordpressId: { type: Number, index: true },
+    oldUrl: { type: String },
+    originalTitle: { type: String }
+  }
+}, {
+  timestamps: true
+});
+
+module.exports = mongoose.models.Project || mongoose.model('Project', projectSchema);

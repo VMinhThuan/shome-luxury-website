@@ -250,7 +250,7 @@ ol {
 @media (min-width: 1024px) {
   .logo-divider,
   .logo-slogan {
-    display: none !important;
+    display: inline-block;
   }
 }
 

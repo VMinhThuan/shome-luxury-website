@@ -3,11 +3,39 @@ const router = express.Router();
 const homeController = require("../controllers/homeController");
 const recruitmentController = require("../controllers/recruitmentController");
 const uploadController = require("../controllers/uploadController");
+const categoryController = require("../controllers/categoryController");
+const projectController = require("../controllers/projectController");
+const authController = require("../controllers/authController");
+const { authenticateAdmin } = require("../middleware/auth");
 
 // Page Routes
 router.get("/", homeController.getHomePage);
 router.get("/tuyen-dung", recruitmentController.getRecruitmentPage);
-router.get("/tuyen-dung/:id", recruitmentController.getRecruitmentPage); // Direct deep link support
+router.get("/tuyen-dung/:id", recruitmentController.getRecruitmentPage);
+
+// Auth Route
+router.post("/api/auth/login", authController.login.bind(authController));
+
+// Public Category API Endpoints
+router.get("/api/categories", categoryController.getCategories.bind(categoryController));
+router.get("/api/categories/:idOrSlug", categoryController.getCategoryByIdOrSlug.bind(categoryController));
+
+// Admin Category CRUD API Endpoints
+router.post("/api/admin/categories", authenticateAdmin, categoryController.createCategory.bind(categoryController));
+router.put("/api/admin/categories/:id", authenticateAdmin, categoryController.updateCategory.bind(categoryController));
+router.delete("/api/admin/categories/:id", authenticateAdmin, categoryController.deleteCategory.bind(categoryController));
+
+// Public Project API Endpoints (Search, Pagination, Descendant Filtering, Status & Featured Filtering, Sorting)
+router.get("/api/projects", projectController.getProjects.bind(projectController));
+router.get("/api/projects/:idOrSlug", projectController.getProjectByIdOrSlug.bind(projectController));
+
+// Admin Project CRUD & Gallery API Endpoints
+router.post("/api/admin/projects", authenticateAdmin, projectController.createProject.bind(projectController));
+router.put("/api/admin/projects/:id", authenticateAdmin, projectController.updateProject.bind(projectController));
+router.delete("/api/admin/projects/:id", authenticateAdmin, projectController.deleteProject.bind(projectController));
+router.put("/api/admin/projects/:id/thumbnail", authenticateAdmin, projectController.updateThumbnail.bind(projectController));
+router.post("/api/admin/projects/:id/gallery", authenticateAdmin, projectController.addToGallery.bind(projectController));
+router.delete("/api/admin/projects/:id/gallery", authenticateAdmin, projectController.removeFromGallery.bind(projectController));
 
 // Backend API Routes for Recruitment Data
 router.get("/api/recruitment", recruitmentController.getAllJobsApi);

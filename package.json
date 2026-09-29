@@ -13,9 +13,17 @@
   "type": "commonjs",
   "description": "",
   "dependencies": {
+    "bcryptjs": "^3.0.3",
+    "cloudinary": "^2.11.0",
     "compression": "^1.8.2",
+    "dotenv": "^18.0.4",
     "ejs": "^6.0.1",
-    "express": "^5.2.1"
+    "express": "^5.2.1",
+    "fast-xml-parser": "^5.11.1",
+    "jsonwebtoken": "^9.0.3",
+    "mongodb": "^6.21.0",
+    "mongoose": "^8.24.4",
+    "multer": "^2.4.0"
   },
   "devDependencies": {
     "nodemon": "^3.1.14"

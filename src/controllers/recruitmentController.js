@@ -16,7 +16,7 @@ exports.getRecruitmentPage = (req, res) => {
   const formattedJobs = recruitmentData.map(formatJobItem);
   const pageData = {
     title: "Tuyển Dụng | SHOME LUXURY - Cùng Kiến Tạo Giá Trị",
-    headerSlogan: "Kiến tạo không gian sống đẳng cấp",
+    headerSlogan: "Nâng tầm cuộc sống",
     navigation: navigationData,
     jobs: formattedJobs
   };
