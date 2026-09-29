@@ -4434,3 +4434,37 @@ ol {
   margin-bottom: 2rem;
   letter-spacing: 0.05em;
 }
+
+/* Related projects use a compact responsive grid instead of the main vertical showcase list. */
+.related-projects-section .project-list-vertical {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+}
+
+.related-projects-section .project-card-image-wrapper {
+  aspect-ratio: 4 / 3;
+}
+
+@media (min-width: 640px) {
+  .related-projects-section .project-list-vertical {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1.25rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .related-projects-section .project-list-vertical {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1.5rem;
+  }
+
+  .related-projects-section .project-card-info-bar {
+    padding: 1rem 1.1rem;
+  }
+
+  .related-projects-section .project-card-arrow-btn {
+    width: 40px;
+    height: 40px;
+  }
+}
