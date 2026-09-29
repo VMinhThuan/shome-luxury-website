@@ -295,9 +295,9 @@ document.addEventListener('DOMContentLoaded', () => {
   if (quickContactBackdrop) quickContactBackdrop.addEventListener('click', closeQuickContact);
   if (quickContactCloseHeader) quickContactCloseHeader.addEventListener('click', closeQuickContact);
 
-  // 8. AUTO-POSITION (+) FAB WIDGET ABOVE FOOTER 3 PILLS WHEN SCROLLING TO FOOTER
-  const footerActionBar = document.querySelector('.footer-action-bar');
-  if (quickContactWidget && footerActionBar) {
+  // Keep the contact bar from covering footer information.
+  const siteFooter = document.querySelector('.site-footer');
+  if (quickContactWidget && siteFooter) {
     const observer = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
@@ -309,7 +309,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }, {
       threshold: 0.05
     });
-    observer.observe(footerActionBar);
+    observer.observe(siteFooter);
   }
 
   // 9. PROJECT SHOWCASE INFINITE SCROLL & API HANDLING
