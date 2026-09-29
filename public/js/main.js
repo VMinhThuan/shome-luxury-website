@@ -311,6 +311,37 @@ document.addEventListener('DOMContentLoaded', () => {
     return project.thumbnail || mockProjectImages[charSum % mockProjectImages.length];
   }
 
+  // Detail pages are server-rendered for a fast first paint, then hydrate from
+  // the public API. This makes the API request visible in Network and keeps
+  // the displayed metadata in sync with the backend.
+  const detailPage = document.querySelector('.project-detail-page[data-project-slug]');
+  if (detailPage) {
+    const slug = detailPage.dataset.projectSlug;
+    if (slug) {
+      fetch(`/api/projects/${encodeURIComponent(slug)}`, { headers: { Accept: 'application/json' } })
+        .then(response => {
+          if (!response.ok) throw new Error(`API returned ${response.status}`);
+          return response.json();
+        })
+        .then(json => {
+          if (!json.success || !json.data) throw new Error('API did not return project data');
+          const project = json.data;
+          detailPage.querySelectorAll('[data-project-field]').forEach(element => {
+            const field = element.dataset.projectField;
+            if (project[field]) element.textContent = project[field];
+          });
+
+          const heroImage = detailPage.querySelector('[data-detail-image]');
+          if (heroImage) {
+            const charSum = (project.title || '').split('').reduce((sum, ch) => sum + ch.charCodeAt(0), 0);
+            heroImage.src = getProjectImage(project, charSum);
+            heroImage.alt = project.title || 'Công trình Luxury Home';
+          }
+        })
+        .catch(err => console.error('Failed loading project detail:', err));
+    }
+  }
+
   function renderProjectCardHtml(project) {
     const attrs = [];
     if (project.area) attrs.push(`Diện tích: ${project.area}`);

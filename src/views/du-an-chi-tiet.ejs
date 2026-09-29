@@ -8,8 +8,8 @@
   <meta name="theme-color" content="#171717" />
 
   <!-- CSS Stylesheet -->
-  <link rel="stylesheet" href="/css/style.css?v=1.6.7" />
-  <script src="/js/main.js?v=1.6.7" defer></script>
+  <link rel="stylesheet" href="/css/style.css?v=1.6.8" />
+  <script src="/js/main.js?v=1.6.8" defer></script>
 </head>
 <body>
 
@@ -20,7 +20,7 @@
   <%- include("partials/mobile-drawer") %>
 
   <!-- Main Content -->
-  <main id="main-content" class="project-detail-page">
+  <main id="main-content" class="project-detail-page" data-project-slug="<%= project.slug %>">
     <div class="container">
       <!-- Breadcrumb -->
       <nav class="breadcrumb-nav" aria-label="Breadcrumb">
@@ -33,58 +33,47 @@
 
       <!-- Project Detail Header -->
       <header class="project-detail-header">
-        <h1 class="project-detail-title"><%= project.title %></h1>
+        <h1 class="project-detail-title" data-project-field="title"><%= project.title %></h1>
         
         <div class="project-meta-grid">
           <% if (project.investor) { %>
             <div class="meta-item">
               <span class="meta-label">Chủ đầu tư:</span>
-              <span class="meta-value"><%= project.investor %></span>
+              <span class="meta-value" data-project-field="investor"><%= project.investor %></span>
             </div>
           <% } %>
           <% if (project.location) { %>
             <div class="meta-item">
               <span class="meta-label">Địa điểm:</span>
-              <span class="meta-value"><%= project.location %></span>
+              <span class="meta-value" data-project-field="location"><%= project.location %></span>
             </div>
           <% } %>
           <% if (project.area) { %>
             <div class="meta-item">
               <span class="meta-label">Diện tích:</span>
-              <span class="meta-value"><%= project.area %></span>
+              <span class="meta-value" data-project-field="area"><%= project.area %></span>
             </div>
           <% } %>
           <% if (project.style) { %>
             <div class="meta-item">
               <span class="meta-label">Phong cách:</span>
-              <span class="meta-value"><%= project.style %></span>
+              <span class="meta-value" data-project-field="style"><%= project.style %></span>
             </div>
           <% } %>
         </div>
       </header>
 
-      <!-- Main Thumbnail -->
-      <% if (project.thumbnail) { %>
-        <div class="project-detail-hero-image">
-          <img src="<%= project.thumbnail %>" alt="<%= project.title %>" class="hero-img" />
-        </div>
-      <% } %>
+      <!-- Use a local mock until the project has an image from the backend. -->
+      <% const detailMockImages = ['/images/project_apartment.jpg', '/images/project_villa.jpg', '/images/hero_interior.jpg']; %>
+      <% const detailImageSrc = project.thumbnail || detailMockImages[(project.title || '').length % detailMockImages.length]; %>
+      <div class="project-detail-hero-image">
+        <img src="<%= detailImageSrc %>" alt="<%= project.title %>" class="hero-img" data-detail-image loading="eager"
+             onerror="this.onerror=null;this.src='/images/project_apartment.jpg';" />
+      </div>
 
-      <!-- Project Content -->
-      <article class="project-detail-content entry-content">
-        <% if (project.excerpt) { %>
-          <div class="project-excerpt-box">
-            <%- project.excerpt %>
-          </div>
-        <% } %>
-
-        <% if (project.content) { %>
-          <div class="project-body-content">
-            <%- project.content %>
-          </div>
-        <% } %>
-
-        <% if (project.gallery && project.gallery.length > 0) { %>
+      <!-- The legacy excerpt/content duplicated the metadata above and rendered an unrelated location list, so it is intentionally omitted. -->
+      <% if (project.gallery && project.gallery.length > 0) { %>
+        <article class="project-detail-content entry-content">
           <div class="project-gallery-grid">
             <% project.gallery.forEach((imgUrl, idx) => { %>
               <div class="gallery-item">
@@ -92,8 +81,8 @@
               </div>
             <% }); %>
           </div>
-        <% } %>
-      </article>
+        </article>
+      <% } %>
 
       <!-- CTA Section -->
       <section class="project-detail-cta">
