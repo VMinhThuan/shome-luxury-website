@@ -248,9 +248,9 @@ ol {
 }
 
 @media (min-width: 1024px) {
-  .logo-divider,
-  .logo-slogan {
-    display: inline-block;
+  .site-header .logo-divider,
+  .site-header .logo-slogan {
+    display: none;
   }
 }
 
