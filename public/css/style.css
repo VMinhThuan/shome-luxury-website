@@ -3819,7 +3819,7 @@ ol {
   transform: translateX(3px);
 }
 
-/* Empty State & Load More */
+/* Empty State & Pagination */
 .empty-state-box {
   padding: 4rem 1.5rem;
   text-align: center;
@@ -3843,17 +3843,23 @@ ol {
   font-size: 0.95rem;
 }
 
-.load-more-wrapper {
-  margin-top: 3rem;
-  text-align: center;
-}
-
-.btn-load-more {
+.project-pagination {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 0.85rem 2.5rem;
-  border-radius: 30px;
+  gap: 1rem;
+  width: 100%;
+  margin-top: 3rem;
+}
+
+.pagination-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  justify-content: center;
+  min-width: 112px;
+  padding: 0.75rem 1.15rem;
+  border-radius: 999px;
   background-color: transparent;
   color: var(--text-primary);
   border: 1.5px solid var(--accent-gold-dark);
@@ -3863,9 +3869,33 @@ ol {
   transition: all var(--transition-fast);
 }
 
-.btn-load-more:hover {
+.pagination-button:hover:not(:disabled) {
   background-color: var(--accent-gold-dark);
   color: #FFFFFF;
+}
+
+.pagination-button:disabled {
+  cursor: not-allowed;
+  opacity: 0.4;
+}
+
+.pagination-status {
+  min-width: 104px;
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-align: center;
+}
+
+@media (max-width: 479px) {
+  .project-pagination {
+    gap: 0.55rem;
+  }
+
+  .pagination-button {
+    min-width: auto;
+    padding: 0.7rem 0.85rem;
+  }
 }
 
 /* Project Detail Page Styles */

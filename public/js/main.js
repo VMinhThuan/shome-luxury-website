@@ -288,17 +288,35 @@ document.addEventListener('DOMContentLoaded', () => {
     observer.observe(footerActionBar);
   }
 
-  // 9. PROJECT SHOWCASE LOAD MORE & AJAX HANDLING
-  const btnLoadMore = document.getElementById('btn-load-more');
+  // 9. PROJECT SHOWCASE PAGINATION & API HANDLING
+  const projectPagination = document.getElementById('project-pagination');
   const projectListContainer = document.getElementById('project-list-container');
-  const loadMoreWrapper = document.getElementById('load-more-wrapper');
+  const paginationStatus = document.getElementById('pagination-status');
+
+  const mockProjectImages = [
+    '/images/project_apartment.jpg',
+    '/images/project_villa.jpg',
+    '/images/hero_interior.jpg',
+    '/images/hero_sofa_light.jpg',
+    '/images/service_interior.jpg'
+  ];
+
+  function escapeHtml(value) {
+    return String(value || '').replace(/[&<>'\"]/g, char => ({
+      '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;'
+    }[char]));
+  }
+
+  function getProjectImage(project, charSum) {
+    return project.thumbnail || mockProjectImages[charSum % mockProjectImages.length];
+  }
 
   function renderProjectCardHtml(project) {
     const attrs = [];
     if (project.area) attrs.push(`Diện tích: ${project.area}`);
     if (project.style) attrs.push(`Phong cách: ${project.style}`);
     const attrText = attrs.join('   |   ');
-    const projectDetailUrl = `/cong-trinh/${project.slug}`;
+    const projectDetailUrl = `/cong-trinh/${encodeURIComponent(project.slug || '')}`;
 
     const quotes = [
       { title: 'KIẾN TẠO<br>TỔ ẤM HOÀN MỸ', desc: 'Nơi hạnh phúc bắt đầu từ những điều giản dị' },
@@ -309,22 +327,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const charSum = (project.title || '').split('').reduce((sum, ch) => sum + ch.charCodeAt(0), 0);
     const selectedQuote = quotes[charSum % quotes.length];
 
-    const imageHtml = project.thumbnail
-      ? `<img src="${project.thumbnail}" alt="${project.title}" class="project-card-img" loading="lazy" />`
-      : `<div class="project-card-placeholder">
-          <div class="placeholder-content">
-            <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2">
-              <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
-              <polyline points="9 22 9 12 15 12 15 22"></polyline>
-            </svg>
-            <span class="placeholder-brand">LUXURY HOME</span>
-            <span class="placeholder-sub">SHOWCASE CÔNG TRÌNH</span>
-          </div>
-        </div>`;
+    const safeTitle = escapeHtml(project.title);
+    const imageHtml = `<img src="${escapeHtml(getProjectImage(project, charSum))}" alt="${safeTitle}" class="project-card-img" loading="lazy" onerror="this.onerror=null;this.src='/images/project_apartment.jpg';" />`;
 
     return `
       <article class="project-showcase-card">
-        <a href="${projectDetailUrl}" class="project-card-image-link" aria-label="${project.title}">
+        <a href="${projectDetailUrl}" class="project-card-image-link" aria-label="${safeTitle}">
           <div class="project-card-image-wrapper">
             ${imageHtml}
             <div class="project-card-quote-overlay">
@@ -338,13 +346,13 @@ document.addEventListener('DOMContentLoaded', () => {
         <div class="project-card-info-bar">
           <div class="project-card-meta-left">
             <h2 class="project-card-title">
-              <a href="${projectDetailUrl}">${project.title}</a>
+              <a href="${projectDetailUrl}">${safeTitle}</a>
             </h2>
-            ${attrText ? `<div class="project-card-attributes">${attrText}</div>` : ''}
+            ${attrText ? `<div class="project-card-attributes">${escapeHtml(attrText)}</div>` : ''}
           </div>
 
           <div class="project-card-action-right">
-            <a href="${projectDetailUrl}" class="project-card-arrow-btn" aria-label="Xem chi tiết ${project.title}">
+            <a href="${projectDetailUrl}" class="project-card-arrow-btn" aria-label="Xem chi tiết ${safeTitle}">
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
                 <line x1="5" y1="12" x2="19" y2="12"></line>
                 <polyline points="12 5 19 12 12 19"></polyline>
@@ -356,46 +364,57 @@ document.addEventListener('DOMContentLoaded', () => {
     `;
   }
 
-  if (btnLoadMore && projectListContainer) {
-    btnLoadMore.addEventListener('click', async () => {
-      const currentPage = parseInt(btnLoadMore.getAttribute('data-page'), 10) || 1;
-      const totalPages = parseInt(btnLoadMore.getAttribute('data-total-pages'), 10) || 1;
-      const category = btnLoadMore.getAttribute('data-category') || '';
-      const nextPage = currentPage + 1;
+  if (projectPagination && projectListContainer) {
+    const prevButton = projectPagination.querySelector('[data-pagination-action="prev"]');
+    const nextButton = projectPagination.querySelector('[data-pagination-action="next"]');
+    let isLoading = false;
 
-      if (nextPage > totalPages) return;
+    function updatePagination(page, totalPages) {
+      projectPagination.dataset.page = String(page);
+      projectPagination.dataset.totalPages = String(totalPages);
+      if (paginationStatus) paginationStatus.textContent = `Trang ${page} / ${totalPages}`;
+      if (prevButton) prevButton.disabled = page <= 1;
+      if (nextButton) nextButton.disabled = page >= totalPages;
+      projectPagination.style.display = totalPages > 1 ? '' : 'none';
+    }
 
-      const btnText = btnLoadMore.querySelector('.btn-text');
-      const btnSpinner = btnLoadMore.querySelector('.btn-spinner');
+    async function loadProjectPage(page) {
+      const totalPages = parseInt(projectPagination.dataset.totalPages, 10) || 1;
+      const category = projectPagination.dataset.category || '';
+      if (isLoading || page < 1 || page > totalPages) return;
 
-      if (btnText) btnText.style.display = 'none';
-      if (btnSpinner) btnSpinner.style.display = 'inline-block';
-      btnLoadMore.disabled = true;
+      isLoading = true;
+      if (prevButton) prevButton.disabled = true;
+      if (nextButton) nextButton.disabled = true;
+      projectListContainer.setAttribute('aria-busy', 'true');
 
       try {
-        const res = await fetch(`/api/projects?category=${category}&page=${nextPage}&limit=4`);
-        const json = await res.json();
+        const params = new URLSearchParams({ category, page: String(page), limit: '4' });
+        const response = await fetch(`/api/projects?${params.toString()}`, {
+          headers: { Accept: 'application/json' }
+        });
+        if (!response.ok) throw new Error(`API returned ${response.status}`);
 
-        if (json.success && json.data && json.data.length > 0) {
-          json.data.forEach(project => {
-            const tempDiv = document.createElement('div');
-            tempDiv.innerHTML = renderProjectCardHtml(project).trim();
-            projectListContainer.appendChild(tempDiv.firstChild);
-          });
+        const json = await response.json();
+        if (!json.success) throw new Error('API did not return a successful response');
 
-          btnLoadMore.setAttribute('data-page', nextPage);
-
-          if (nextPage >= json.pagination.totalPages) {
-            if (loadMoreWrapper) loadMoreWrapper.style.display = 'none';
-          }
-        }
+        projectListContainer.innerHTML = (json.data || []).length
+          ? json.data.map(renderProjectCardHtml).join('')
+          : '<div class="empty-state-box"><p class="empty-state-title">Chưa có công trình</p><p class="empty-state-desc">Hiện chưa có công trình trong danh mục này.</p></div>';
+        updatePagination(json.pagination.page, json.pagination.totalPages);
+        projectListContainer.scrollIntoView({ behavior: 'smooth', block: 'start' });
       } catch (err) {
-        console.error('Failed loading more projects:', err);
+        console.error('Failed loading project page:', err);
+        updatePagination(parseInt(projectPagination.dataset.page, 10) || 1, totalPages);
+        if (paginationStatus) paginationStatus.textContent = 'Không thể tải trang, vui lòng thử lại';
       } finally {
-        if (btnText) btnText.style.display = 'inline-block';
-        if (btnSpinner) btnSpinner.style.display = 'none';
-        btnLoadMore.disabled = false;
+        isLoading = false;
+        projectListContainer.removeAttribute('aria-busy');
       }
-    });
+    }
+
+    prevButton?.addEventListener('click', () => loadProjectPage((parseInt(projectPagination.dataset.page, 10) || 1) - 1));
+    nextButton?.addEventListener('click', () => loadProjectPage((parseInt(projectPagination.dataset.page, 10) || 1) + 1));
+    updatePagination(parseInt(projectPagination.dataset.page, 10) || 1, parseInt(projectPagination.dataset.totalPages, 10) || 1);
   }
 });

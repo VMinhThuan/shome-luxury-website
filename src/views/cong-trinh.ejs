@@ -14,8 +14,8 @@
   <meta name="theme-color" content="#171717" />
 
   <!-- CSS Stylesheet -->
-  <link rel="stylesheet" href="/css/style.css?v=1.6.7" />
-  <script src="/js/main.js?v=1.6.7" defer></script>
+  <link rel="stylesheet" href="/css/style.css?v=1.6.8" />
+  <script src="/js/main.js?v=1.6.8" defer></script>
 </head>
 <body>
 
@@ -82,17 +82,22 @@
           <% } %>
         </div>
 
-        <!-- Load More Wrapper -->
-        <div id="load-more-wrapper" class="load-more-wrapper" style="<%= (initialPagination && initialPagination.totalPages > 1) ? '' : 'display: none;' %>">
-          <button id="btn-load-more" class="btn-load-more" data-page="1" data-total-pages="<%= initialPagination ? initialPagination.totalPages : 1 %>" data-category="<%= activeCategoryCode %>">
-            <span class="btn-text">XEM THÊM CÔNG TRÌNH</span>
-            <span class="btn-spinner" style="display: none;">
-              <svg class="spinner" width="20" height="20" viewBox="0 0 50 50">
-                <circle class="path" cx="25" cy="25" r="20" fill="none" stroke-width="5"></circle>
-              </svg>
-            </span>
+        <!-- Client-side pagination: every page change fetches /api/projects -->
+        <nav id="project-pagination" class="project-pagination" aria-label="Phân trang công trình"
+             data-page="<%= initialPagination ? initialPagination.page : 1 %>"
+             data-total-pages="<%= initialPagination ? initialPagination.totalPages : 0 %>"
+             data-category="<%= activeCategoryCode %>"
+             style="<%= (initialPagination && initialPagination.totalPages > 1) ? '' : 'display: none;' %>">
+          <button type="button" class="pagination-button" data-pagination-action="prev" aria-label="Trang trước">
+            <span aria-hidden="true">←</span> Trước
           </button>
-        </div>
+          <span id="pagination-status" class="pagination-status" aria-live="polite">
+            Trang <%= initialPagination ? initialPagination.page : 1 %> / <%= initialPagination ? initialPagination.totalPages : 1 %>
+          </span>
+          <button type="button" class="pagination-button" data-pagination-action="next" aria-label="Trang sau">
+            Sau <span aria-hidden="true">→</span>
+          </button>
+        </nav>
       </div>
     </section>
   </main>

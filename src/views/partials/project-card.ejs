@@ -4,6 +4,13 @@
   if (project.style) attrs.push(`Phong cách: ${project.style}`);
   const attrText = attrs.join('   |   ');
   const projectDetailUrl = `/cong-trinh/${project.slug}`;
+  const mockImages = [
+    '/images/project_apartment.jpg',
+    '/images/project_villa.jpg',
+    '/images/hero_interior.jpg',
+    '/images/hero_sofa_light.jpg',
+    '/images/service_interior.jpg'
+  ];
 %>
 
 <%
@@ -16,25 +23,14 @@
   const charSum = (project.title || '').split('').reduce((sum, ch) => sum + ch.charCodeAt(0), 0);
   const selectedQuote = quotes[charSum % quotes.length];
   const titleLines = selectedQuote.title.split('\n');
+  const imageSrc = project.thumbnail || mockImages[charSum % mockImages.length];
 %>
 
 <article class="project-showcase-card">
   <a href="<%= projectDetailUrl %>" class="project-card-image-link" aria-label="<%= project.title %>">
     <div class="project-card-image-wrapper">
-      <% if (project.thumbnail) { %>
-        <img src="<%= project.thumbnail %>" alt="<%= project.title %>" class="project-card-img" loading="lazy" />
-      <% } else { %>
-        <div class="project-card-placeholder">
-          <div class="placeholder-content">
-            <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2">
-              <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
-              <polyline points="9 22 9 12 15 12 15 22"></polyline>
-            </svg>
-            <span class="placeholder-brand">LUXURY HOME</span>
-            <span class="placeholder-sub">SHOWCASE CÔNG TRÌNH</span>
-          </div>
-        </div>
-      <% } %>
+      <img src="<%= imageSrc %>" alt="<%= project.title %>" class="project-card-img" loading="lazy"
+           onerror="this.onerror=null;this.src='/images/project_apartment.jpg';" />
 
       <!-- Typography Quote Overlay matching Reference Image -->
       <div class="project-card-quote-overlay">
