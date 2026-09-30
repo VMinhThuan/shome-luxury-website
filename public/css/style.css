@@ -2216,15 +2216,19 @@ ol {
   margin: 0 0 0.85rem 0;
   display: flex;
   flex-direction: column;
-  gap: 0.45rem;
+  gap: 0.75rem;
   font-size: 0.875rem;
   color: #BBBBBB;
+}
+
+.footer-contact-col {
+  margin-top: 1rem;
 }
 
 .footer-contact-details li {
   display: flex;
   align-items: center;
-  gap: 0.65rem;
+  gap: 0.75rem;
 }
 
 .footer-social-icon {
@@ -2466,6 +2470,7 @@ ol {
 
   .footer-contact-col {
     grid-column: 3;
+    margin-top: 0;
   }
 
   .footer-map-card {
