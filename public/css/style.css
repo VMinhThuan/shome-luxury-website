@@ -3045,7 +3045,7 @@ ol {
   .quick-contact-widget {
     position: fixed !important;
     right: 0 !important;
-    top: 58% !important;
+    top: 50% !important;
     left: auto !important;
     bottom: auto !important;
     transform: translateY(-50%) !important;
@@ -3064,11 +3064,11 @@ ol {
     flex-direction: column !important;
     align-items: center !important;
     justify-content: center !important;
-    gap: 15px !important;
-    width: 58px !important;
+    gap: 14px !important;
+    width: 60px !important;
     height: 270px !important;
-    min-width: 58px !important;
-    max-width: 58px !important;
+    min-width: 60px !important;
+    max-width: 60px !important;
     min-height: 270px !important;
     max-height: 270px !important;
     padding: 0 !important;
@@ -3194,30 +3194,30 @@ ol {
 /* Desktop Scaling (>= 1024px) */
 @media (min-width: 1024px) {
   .quick-contact-bar {
-    width: 64px !important;
-    height: 300px !important;
-    min-width: 64px !important;
-    max-width: 64px !important;
-    min-height: 300px !important;
-    max-height: 300px !important;
-    gap: 18px !important;
-    border-top-left-radius: 35px !important;
-    border-bottom-left-radius: 35px !important;
+    width: 68px !important;
+    height: 295px !important;
+    min-width: 68px !important;
+    max-width: 68px !important;
+    min-height: 295px !important;
+    max-height: 295px !important;
+    gap: 16px !important;
+    border-top-left-radius: 34px !important;
+    border-bottom-left-radius: 34px !important;
   }
 
   .quick-contact-bar::before {
-    top: -16px !important;
-    width: 16px !important;
-    height: 16px !important;
-    border-bottom-right-radius: 16px !important;
+    top: -15px !important;
+    width: 15px !important;
+    height: 15px !important;
+    border-bottom-right-radius: 15px !important;
     box-shadow: 4px 4px 0 4px #303030 !important;
   }
 
   .quick-contact-bar::after {
-    bottom: -16px !important;
-    width: 16px !important;
-    height: 16px !important;
-    border-top-right-radius: 16px !important;
+    bottom: -15px !important;
+    width: 15px !important;
+    height: 15px !important;
+    border-top-right-radius: 15px !important;
     box-shadow: 4px -4px 0 4px #303030 !important;
   }
 
