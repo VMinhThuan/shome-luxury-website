@@ -4482,20 +4482,32 @@ ol {
 .booking-process-list h3 { margin: 0 0 .1rem; color: #24170f; font: 800 .93rem/1.25 var(--font-sans); }
 .booking-process-list p { margin: 0; color: #5f5348; font-size: .72rem; line-height: 1.42; }
 
-.booking-estimate { padding: 3.75rem 0; background: linear-gradient(90deg, rgba(24,24,24,.84), rgba(24,24,24,.34)), url('/images/hero_interior.jpg') center / cover; color: #fff; }
-.booking-estimate > .container { display: flex; justify-content: flex-end; }
-.booking-estimate > .container > div { max-width: 510px; }
-.booking-estimate span { color: #f1ca78; font: 700 .75rem var(--font-menu); letter-spacing: .1em; text-transform: uppercase; }
-.booking-estimate h2 { margin: .45rem 0 1.25rem; font: 700 clamp(1.8rem, 4vw, 3.1rem)/1.05 var(--font-serif); }
-.booking-estimate a { display: inline-flex; align-items: center; gap: .65rem; padding: .75rem 1rem; border-radius: 999px; background: var(--accent-gold); color: #1c1c1c; font: 700 .78rem var(--font-menu); }
+.booking-estimate { position: relative; overflow: hidden; padding: 3.5rem 0; color: #30241b; background: linear-gradient(90deg, rgba(255,253,247,.96) 0%, rgba(255,253,247,.89) 41%, rgba(255,253,247,.06) 72%), url('/images/booking-estimate-visual.png') center / cover; }
+.booking-estimate > .container { display: flex; align-items: center; min-height: 290px; }
+.booking-estimate-copy { max-width: 420px; }
+.booking-estimate span { color: #9b6c2b; font: 700 .72rem var(--font-menu); letter-spacing: .12em; text-transform: uppercase; }
+.booking-estimate h2 { margin: .35rem 0 .7rem; font: 700 clamp(2rem, 8vw, 3.5rem)/.98 var(--font-serif); }
+.booking-estimate h2 em { color: #b47b31; font-style: normal; }
+.booking-estimate p { margin: 0; max-width: 350px; color: #625449; font-size: .82rem; line-height: 1.55; }
+.booking-estimate ul { display: flex; flex-wrap: wrap; gap: .45rem .9rem; margin: 1rem 0 1.25rem; color: #76552b; font-size: .68rem; font-weight: 700; }
+.booking-estimate li { display: flex; align-items: center; gap: .3rem; }
+.booking-estimate li::before { width: 5px; height: 5px; border-radius: 50%; background: #bd8740; content: ''; }
+.booking-estimate a, .booking-faq-copy > a { display: inline-flex; align-items: center; gap: .65rem; padding: .76rem 1rem; border-radius: 999px; background: #b98032; color: #fffdf8; font: 700 .75rem var(--font-menu); box-shadow: 0 8px 18px rgba(105,67,24,.18); }
+.booking-estimate a strong, .booking-faq-copy > a strong { font-size: 1.1rem; line-height: .8; }
 
+.booking-faq { position: relative; overflow: hidden; background: linear-gradient(rgba(250,246,237,.86), rgba(250,246,237,.94)), url('/images/booking-faq-interior.png') center / cover; }
 .booking-faq-grid { display: grid; gap: 1.75rem; }
-.booking-faq-list { display: grid; gap: .6rem; }
-.booking-faq details { border-bottom: 1px solid var(--border-light); background: #fff; border-radius: 8px; padding: 0 .9rem; }
-.booking-faq summary { display: flex; align-items: center; justify-content: space-between; min-height: 53px; cursor: pointer; color: var(--text-primary); font-size: .85rem; font-weight: 700; list-style: none; }
-.booking-faq summary::after { content: '+'; color: var(--accent-gold-dark); font-size: 1.25rem; }
+.booking-faq-copy { max-width: 350px; }
+.booking-faq-copy .booking-eyebrow { display: inline-block; color: #a37332; font: 700 .72rem var(--font-menu); letter-spacing: .13em; text-transform: uppercase; }
+.booking-faq-copy h2 { margin: .35rem 0 .6rem; font-size: clamp(2rem, 8vw, 3.3rem); }
+.booking-faq-copy > p { margin: 0 0 1.2rem; color: #625449; font-size: .85rem; line-height: 1.55; }
+.booking-faq-list { display: grid; gap: .65rem; }
+.booking-faq details { border: 1px solid rgba(122,84,38,.11); background: rgba(255,255,255,.86); border-radius: 12px; padding: 0 .95rem; box-shadow: 0 8px 20px rgba(87,61,28,.06); }
+.booking-faq summary { display: flex; align-items: center; min-height: 60px; cursor: pointer; color: #251910; font: 800 .86rem/1.35 var(--font-sans); list-style: none; }
+.booking-faq summary i { display: grid; width: 32px; height: 32px; flex: 0 0 32px; place-items: center; margin-right: .7rem; border-radius: 50%; background: linear-gradient(135deg, #eac986, #b57c2e); color: #fffdf7; font: 700 1.1rem/1 var(--font-serif); font-style: normal; }
+.booking-faq summary::after { margin-left: auto; color: #a97531; content: '+'; font: 400 2rem/1 var(--font-serif); }
 .booking-faq details[open] summary::after { content: '−'; }
-.booking-faq details p { margin: 0 0 .85rem; color: var(--text-secondary); font-size: .8rem; line-height: 1.5; }
+.booking-faq details p { margin: -.1rem 0 1rem 2.7rem; color: #625449; font-size: .77rem; line-height: 1.55; }
 
 .booking-testimonial { background: linear-gradient(180deg, #f5ecdc, #e8d4ab); }
 .booking-testimonial figure { display: grid; grid-template-columns: 90px 1fr; gap: .9rem; max-width: 640px; margin: 1.5rem auto 0; padding: .8rem; border-radius: 12px; background: rgba(255,255,255,.78); }
@@ -4510,6 +4522,8 @@ ol {
   .booking-process-section { padding: 5.5rem 0; }
   .booking-process-section > .container { max-width: 900px; }
   .booking-process-list { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .9rem; }
+  .booking-estimate { padding: 5rem 0; }
+  .booking-estimate > .container { min-height: 350px; }
   .booking-faq-grid { grid-template-columns: minmax(0, .85fr) minmax(400px, 1.15fr); align-items: start; }
 }
 
