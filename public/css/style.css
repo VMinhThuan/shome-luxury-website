@@ -52,10 +52,11 @@
   --border-dark: rgba(246, 242, 233, 0.1);
   --border-gold: rgba(200, 155, 75, 0.35);
 
-  /* Typography */
-  --font-serif: 'Cormorant Garamond', Georgia, serif;
-  --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  /* Typography - Matching lanha.vn Montserrat design system */
+  --font-serif: 'Montserrat', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-sans: 'Montserrat', 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
   --font-menu: 'Montserrat', Arial, Helvetica, sans-serif;
+  --font-heading: 'Montserrat', -apple-system, BlinkMacSystemFont, sans-serif;
   --font-script: 'NVN Motherland Signature', 'Great Vibes', 'Alex Brush', 'Dancing Script', cursive;
   --font-header-slogan: 'Great Vibes', cursive;
 
@@ -788,24 +789,23 @@ ol {
 }
 
 .hero-v2-title {
-  font-family: 'Montserrat', var(--font-sans);
-  font-size: 1.85rem;
-  font-weight: 800;
-  color: #111111;
-  line-height: 1.15;
+  font-family: var(--font-heading);
+  font-size: clamp(1.85rem, 5vw, 2.85rem);
+  font-weight: 700;
+  color: #2B2E31;
+  line-height: 1.25;
   margin-bottom: 0.5rem;
-  text-transform: uppercase;
   letter-spacing: -0.01em;
 }
 
 .hero-v2-title .text-accent-brown {
-  color: #8B5A1D;
+  color: #b47b31;
   display: inline;
 }
 
 @media (min-width: 768px) {
   .hero-v2-title {
-    font-size: 3.1rem;
+    font-size: clamp(2.2rem, 4.5vw, 2.85rem);
   }
 }
 
@@ -1289,16 +1289,18 @@ ol {
 }
 
 .capacity-v2-title {
-  font-size: 1.75rem;
+  font-family: var(--font-heading);
+  font-size: clamp(1.4rem, 4.5vw, 2.1rem);
   font-weight: 700;
-  color: #7D5B1E;
-  margin-bottom: 0.25rem;
-  line-height: 1.2;
+  color: #2B2E31;
+  margin-bottom: 0.35rem;
+  line-height: 1.25;
+  letter-spacing: -0.01em;
 }
 
 @media (min-width: 768px) {
   .capacity-v2-title {
-    font-size: 2.5rem;
+    font-size: clamp(1.75rem, 3.5vw, 2.2rem);
   }
 }
 
@@ -1570,16 +1572,18 @@ ol {
 }
 
 .gallery-v2-title {
-  font-size: 1.75rem;
+  font-family: var(--font-heading);
+  font-size: clamp(1.4rem, 4.5vw, 2.1rem);
   font-weight: 700;
-  color: #7D5B1E;
-  margin-bottom: 0.25rem;
-  line-height: 1.2;
+  color: #2B2E31;
+  margin-bottom: 0.35rem;
+  line-height: 1.25;
+  letter-spacing: -0.01em;
 }
 
 @media (min-width: 768px) {
   .gallery-v2-title {
-    font-size: 2.25rem;
+    font-size: clamp(1.75rem, 3.5vw, 2.2rem);
   }
 }
 
@@ -1810,24 +1814,28 @@ ol {
 }
 
 .btn-cta-gold {
-  background-color: #C89B4B;
-  color: #111111;
+  background-color: #F4C414;
+  color: #1D1D1D;
   font-weight: 700;
-  font-size: 0.8125rem;
+  font-size: 0.88rem;
+  font-family: var(--font-menu);
   border: none;
-  border-radius: 20px;
-  padding: 0.5rem 1.1rem;
+  border-radius: 999px;
+  padding: 0.65rem 1.4rem;
   display: inline-flex;
   align-items: center;
-  gap: 6px;
+  gap: 8px;
   cursor: pointer;
-  transition: all 0.2s ease;
+  box-shadow: 0 4px 14px rgba(244, 196, 20, 0.3);
+  transition: all 0.22s ease;
   width: fit-content;
+  text-decoration: none;
 }
 
 .btn-cta-gold:hover {
-  background-color: #E2B25E;
-  transform: translateY(-1px);
+  background-color: #EAA824;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(244, 196, 20, 0.4);
 }
 
 .cta-banner-media {
