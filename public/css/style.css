@@ -3038,7 +3038,6 @@ ol {
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25) !important;
   }
 }
-}
 
 /* Desktop & Tablet (>= 768px) - Vertical 4-Button Floating Bar Fixed on Viewport Right Edge */
 @media (min-width: 768px) {
