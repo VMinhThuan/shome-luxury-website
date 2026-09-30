@@ -5085,11 +5085,7 @@ ol {
 }
 
 .booking-process-kicker::before {
-  width: 34px;
-  height: 2px;
-  border-radius: 99px;
-  background: #c89b4b;
-  content: '';
+  display: none !important;
 }
 
 .booking-process-heading h2 {
@@ -5322,21 +5318,11 @@ ol {
 }
 
 .booking-faq-header .faq-line {
-  display: inline-block;
-  width: 32px;
-  height: 2px;
-  border-radius: 99px;
-  background: #bd8740;
+  display: none !important;
 }
 
 .booking-faq-header .faq-all-link {
-  color: #9b6c2b;
-  font: 700 .75rem/1 var(--font-menu);
-  text-decoration: none;
-  display: inline-flex;
-  align-items: center;
-  gap: .35rem;
-  white-space: nowrap;
+  display: none !important;
 }
 
 .booking-faq-list {
