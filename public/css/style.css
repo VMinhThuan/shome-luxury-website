@@ -5119,13 +5119,13 @@ ol {
   position: relative;
   overflow: hidden;
   color: #fff;
-  padding: 1.75rem 0;
+  padding: 1.5rem 0 1rem;
   background: linear-gradient(180deg, rgba(20, 17, 14, .95) 0%, rgba(28, 24, 20, .9) 100%), url('/images/booking-process-interior.png') center / cover;
 }
 
 @media (min-width: 1024px) {
   .booking-process-section {
-    padding: 2.5rem 0 2.75rem;
+    padding: 2rem 0 1.25rem;
   }
 }
 
@@ -5301,20 +5301,20 @@ ol {
 .booking-estimate {
   position: relative;
   overflow: hidden;
-  padding: 2.25rem 0;
+  padding: 1.25rem 0;
   color: #30241b;
   background:
     linear-gradient(90deg, rgba(255, 253, 247, 0.98) 0%, rgba(255, 253, 247, 0.92) 50%, rgba(255, 253, 247, 0.3) 85%),
     url('/images/booking-estimate-visual.png') 75% center / cover;
-  min-height: 380px;
+  min-height: 340px;
   display: flex;
   align-items: center;
 }
 
 @media (min-width: 1024px) {
   .booking-estimate {
-    padding: 2.75rem 0;
-    min-height: 420px;
+    padding: 1.5rem 0;
+    min-height: 360px;
   }
 }
 
@@ -5380,13 +5380,13 @@ ol {
 .booking-faq {
   position: relative;
   overflow: hidden;
-  padding: 2.25rem 0;
+  padding: 1.5rem 0 1rem;
   background: linear-gradient(180deg, rgba(250, 246, 237, .92) 0%, rgba(247, 242, 233, .97) 100%), url('/images/booking-faq-interior.png') center / cover;
 }
 
 @media (min-width: 1024px) {
   .booking-faq {
-    padding: 2.75rem 0;
+    padding: 1.75rem 0 1.25rem;
   }
 }
 
@@ -5484,20 +5484,20 @@ ol {
 /* 5. SECTION "Ý KIẾN KHÁCH HÀNG" (TESTIMONIAL SECTION) */
 .booking-testimonial {
   position: relative;
-  padding: 2.25rem 0;
+  padding: 1.25rem 0 1rem;
   background: linear-gradient(180deg, #f7f2ea 0%, #f0e7da 100%);
   overflow: hidden;
 }
 
 @media (min-width: 1024px) {
   .booking-testimonial {
-    padding: 2.75rem 0;
+    padding: 1.5rem 0 1.25rem;
   }
 }
 
 .testimonial-heading {
   text-align: center;
-  margin-bottom: 1.75rem;
+  margin-bottom: 1rem;
 }
 
 .testimonial-kicker {
@@ -5673,7 +5673,7 @@ ol {
   align-items: center;
   justify-content: center;
   gap: 1rem;
-  margin-top: 1.25rem;
+  margin-top: 0.75rem;
 }
 
 .testimonial-nav button {
