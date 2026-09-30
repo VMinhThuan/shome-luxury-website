@@ -2792,27 +2792,58 @@ ol {
   box-shadow: 0 3px 10px rgba(0, 114, 255, 0.4);
 }
 
-/* Always-visible quick contact widget */
+/* Always-visible quick contact widget - Matching lanha.vn (Image 1) */
 @media (min-width: 768px) {
   .quick-contact-widget {
     position: fixed;
-    right: 20px;
-    bottom: 24px;
+    right: 0 !important;
+    top: 50%;
+    transform: translateY(-50%);
     z-index: 1900;
+    margin: 0;
+    padding: 0;
   }
 
   .quick-contact-bar {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 0.55rem;
-    padding: 0.65rem 0.5rem;
-    border-radius: 30px;
-    background-color: var(--surface-charcoal-gray); /* #303030 matching header and footer */
-    border: 1px solid rgba(255, 255, 255, 0.15);
-    box-shadow: 0 10px 32px rgba(0, 0, 0, 0.45);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
+    gap: 0.9rem;
+    padding: 1.1rem 0.65rem 1.1rem 0.85rem;
+    border-radius: 36px 0 0 36px;
+    background-color: #000000 !important; /* Solid black container matching Image 1 */
+    border: 1.5px solid rgba(255, 255, 255, 0.25);
+    border-right: none !important;
+    box-shadow: -8px 4px 30px rgba(0, 0, 0, 0.55);
+    position: relative;
+  }
+
+  /* Top Concave Inverted Corner Curve (Image 1) */
+  .quick-contact-bar::before {
+    content: '';
+    position: absolute;
+    top: -24px;
+    right: 0;
+    width: 24px;
+    height: 24px;
+    background: transparent;
+    border-bottom-right-radius: 24px;
+    box-shadow: 8px 8px 0 8px #000000;
+    pointer-events: none;
+  }
+
+  /* Bottom Concave Inverted Corner Curve (Image 1) */
+  .quick-contact-bar::after {
+    content: '';
+    position: absolute;
+    bottom: -24px;
+    right: 0;
+    width: 24px;
+    height: 24px;
+    background: transparent;
+    border-top-right-radius: 24px;
+    box-shadow: 8px -8px 0 8px #000000;
+    pointer-events: none;
   }
 
   .quick-contact-action {
@@ -2826,25 +2857,50 @@ ol {
     background: transparent !important;
     box-shadow: none !important;
     text-decoration: none;
-    transition: all 0.22s ease;
+    transition: all 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     position: relative;
+    border: none;
+    cursor: pointer;
   }
 
   .quick-contact-action:hover {
-    background: rgba(255, 255, 255, 0.15) !important;
-    color: #e5bf88;
-    transform: scale(1.12);
+    transform: scale(1.18);
+  }
+
+  .quick-contact-messenger:hover {
+    background: rgba(0, 132, 255, 0.25) !important;
+    color: #0084FF !important;
+    box-shadow: 0 0 16px rgba(0, 132, 255, 0.5) !important;
+  }
+
+  .quick-contact-zalo:hover {
+    background: rgba(0, 104, 255, 0.25) !important;
+    color: #0068FF !important;
+    box-shadow: 0 0 16px rgba(0, 104, 255, 0.5) !important;
+  }
+
+  .quick-contact-consult:hover {
+    background: rgba(200, 155, 75, 0.25) !important;
+    color: #C89B4B !important;
+    box-shadow: 0 0 16px rgba(200, 155, 75, 0.5) !important;
+  }
+
+  .quick-contact-call:hover {
+    background: rgba(200, 155, 75, 0.25) !important;
+    color: #C89B4B !important;
+    box-shadow: 0 0 18px rgba(200, 155, 75, 0.6) !important;
   }
 
   .quick-contact-action svg {
-    width: 22px;
-    height: 22px;
+    width: 24px;
+    height: 24px;
     color: #ffffff;
     fill: none;
     stroke: currentColor;
     stroke-width: 2;
     stroke-linecap: round;
     stroke-linejoin: round;
+    transition: transform 0.25s ease;
   }
 
   .quick-contact-zalo svg,
@@ -2866,12 +2922,12 @@ ol {
     border-radius: 50%;
   }
 
-  /* Blinking / pulsing ripple animation for call icon ("hiệu ứng nháy nháy") */
+  /* Blinking / pulsing ripple animation for call icon */
   .quick-contact-call-icon::before,
   .quick-contact-call-icon::after {
     position: absolute;
     inset: -3px;
-    border: 2px solid rgba(229, 191, 136, 0.85);
+    border: 2px solid rgba(200, 155, 75, 0.85);
     border-radius: 50%;
     content: '';
     animation: quick-call-pulse 2.2s ease-out infinite;
@@ -2908,7 +2964,11 @@ ol {
 
 @media (max-width: 767px) {
   body {
-    padding-bottom: calc(56px + env(safe-area-inset-bottom, 0px));
+    padding-bottom: 0 !important;
+  }
+
+  .site-footer {
+    padding-bottom: calc(64px + env(safe-area-inset-bottom, 0px)) !important;
   }
 
   .quick-contact-widget {
@@ -2949,13 +3009,20 @@ ol {
     background: transparent !important;
     box-shadow: none !important;
     color: #1a1a1a;
-    transition: opacity 0.15s ease, transform 0.15s ease;
+    transition: opacity 0.15s ease, transform 0.15s ease, color 0.2s ease;
+    border: none;
+    cursor: pointer;
   }
 
   .quick-contact-action:active {
-    opacity: 0.6;
+    opacity: 0.7;
     transform: scale(0.92);
   }
+
+  .quick-contact-messenger:active { color: #0084FF; }
+  .quick-contact-zalo:active { color: #0068FF; }
+  .quick-contact-consult:active { color: #C89B4B; }
+  .quick-contact-call:active { color: #C89B4B; }
 
   .quick-contact-call {
     width: auto;
@@ -2982,7 +3049,7 @@ ol {
     stroke-width: 2;
     stroke-linecap: round;
     stroke-linejoin: round;
-    animation: none;
+    animation: quick-call-wiggle 3s ease-in-out infinite;
   }
 
   .quick-contact-phone {
