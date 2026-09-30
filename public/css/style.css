@@ -917,12 +917,14 @@ ol {
 }
 
 .process-v2-eyebrow {
-  font-size: 0.78125rem;
+  font-family: 'Montserrat', sans-serif !important;
+  font-size: clamp(1.15rem, 2vw, 1.6875rem);
   font-weight: 700;
-  letter-spacing: 0.14em;
-  color: #7D5B1E;
+  letter-spacing: -0.01em;
+  color: #2B2E31 !important;
   text-transform: uppercase;
-  margin-bottom: 0.25rem;
+  margin-bottom: 0.35rem;
+  display: block;
 }
 
 .process-v2-header {
@@ -933,14 +935,18 @@ ol {
 .process-v2-header .gallery-v2-eyebrow {
   display: block;
   margin-bottom: 10px;
+  font-size: clamp(1.15rem, 2vw, 1.6875rem);
+  color: #2B2E31 !important;
+  font-weight: 700;
 }
 
 .process-v2-title {
+  font-family: 'Montserrat', sans-serif !important;
   font-size: 1.5rem;
-  font-weight: 700;
-  color: #7D5B1E;
+  font-weight: 800;
+  color: #2B2E31 !important;
   margin-bottom: 10px;
-  line-height: 1.2;
+  line-height: 1.25;
 }
 
 @media (min-width: 768px) {
@@ -950,11 +956,12 @@ ol {
 }
 
 .process-v2-desc {
-  font-size: 0.84375rem;
-  color: #66615B;
-  line-height: 1.45;
-  max-width: 680px;
-  margin-bottom: 12px;
+  font-family: 'Montserrat', sans-serif !important;
+  font-size: 1.05rem;
+  color: #444444;
+  line-height: 1.6;
+  max-width: 720px;
+  margin-bottom: 14px;
 }
 
 .process-v2-header .gallery-v2-line {
@@ -1280,19 +1287,21 @@ ol {
 }
 
 .capacity-v2-eyebrow {
-  font-size: 0.78125rem;
+  font-family: 'Montserrat', sans-serif !important;
+  font-size: clamp(1.15rem, 2vw, 1.6875rem);
   font-weight: 700;
-  letter-spacing: 0.14em;
-  color: #7D5B1E;
+  letter-spacing: -0.01em;
+  color: #2B2E31 !important;
   text-transform: uppercase;
-  margin-bottom: 0.25rem;
+  margin-bottom: 0.35rem;
+  display: block;
 }
 
 .capacity-v2-title {
-  font-family: var(--font-heading);
-  font-size: clamp(1.4rem, 4.5vw, 2.1rem);
-  font-weight: 700;
-  color: #2B2E31;
+  font-family: 'Montserrat', sans-serif !important;
+  font-size: clamp(1.5rem, 3.5vw, 2.25rem);
+  font-weight: 800;
+  color: #2B2E31 !important;
   margin-bottom: 0.35rem;
   line-height: 1.25;
   letter-spacing: -0.01em;
@@ -1563,19 +1572,21 @@ ol {
 }
 
 .gallery-v2-eyebrow {
-  font-size: 0.78125rem;
+  font-family: 'Montserrat', sans-serif !important;
+  font-size: clamp(1.15rem, 2vw, 1.6875rem);
   font-weight: 700;
-  letter-spacing: 0.14em;
-  color: #7D5B1E;
+  letter-spacing: -0.01em;
+  color: #2B2E31 !important;
   text-transform: uppercase;
-  margin-bottom: 0.25rem;
+  margin-bottom: 0.35rem;
+  display: block;
 }
 
 .gallery-v2-title {
-  font-family: var(--font-heading);
-  font-size: clamp(1.4rem, 4.5vw, 2.1rem);
-  font-weight: 700;
-  color: #2B2E31;
+  font-family: 'Montserrat', sans-serif !important;
+  font-size: clamp(1.5rem, 3.5vw, 2.25rem);
+  font-weight: 800;
+  color: #2B2E31 !important;
   margin-bottom: 0.35rem;
   line-height: 1.25;
   letter-spacing: -0.01em;
@@ -1943,24 +1954,32 @@ ol {
   margin: 0;
 }
 
-/* Facebook Fanpage Card - 100% Full Width Matching Screenshot */
-.fb-fanpage-card {
-  display: flex;
-  flex-direction: column;
+/* Facebook Fanpage Plugin Container */
+.footer-fb-block {
   width: 100%;
-  height: 220px;
+}
+
+.fb-plugin-wrapper {
+  width: 100%;
+  height: 280px;
   background: #FFFFFF;
-  border-radius: 10px;
+  border-radius: 14px;
   overflow: hidden;
-  text-decoration: none;
   box-shadow: 0 4px 18px rgba(0, 0, 0, 0.25);
-  margin-bottom: 0;
+  border: 1px solid rgba(255, 255, 255, 0.1);
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-.fb-fanpage-card:hover {
+.fb-plugin-wrapper:hover {
   transform: translateY(-2px);
   box-shadow: 0 6px 22px rgba(0, 0, 0, 0.35);
+}
+
+.fb-plugin-wrapper iframe {
+  width: 100% !important;
+  height: 100% !important;
+  border: 0;
+  display: block;
 }
 
 .fb-card-cover {
