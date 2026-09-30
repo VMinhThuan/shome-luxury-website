@@ -50,7 +50,7 @@ module.exports = [
   {
     id: "bao-gia",
     label: "Báo giá",
-    href: "/#bao-gia"
+    href: "/dat-lich-ngay"
   },
   {
     id: "tuyen-dung",
