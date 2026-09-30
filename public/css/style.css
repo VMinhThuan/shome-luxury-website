@@ -2398,7 +2398,7 @@ ol {
 @media (min-width: 992px) {
   .footer-top-grid {
     display: grid;
-    grid-template-columns: minmax(260px, 0.8fr) minmax(300px, 1.1fr) minmax(300px, 1.1fr);
+    grid-template-columns: minmax(260px, 0.85fr) minmax(300px, 1.15fr) minmax(300px, 1.15fr);
     column-gap: 1.5rem;
     row-gap: 1.25rem;
     align-items: start;
@@ -2407,32 +2407,38 @@ ol {
   .footer-brand-section {
     grid-column: 1 / -1;
     display: grid;
-    grid-template-columns: minmax(260px, 0.85fr) minmax(0, 1.85fr);
+    grid-template-columns: minmax(260px, 0.85fr) minmax(300px, 1.15fr) minmax(300px, 1.15fr);
     column-gap: 1.5rem;
-    row-gap: 0.45rem;
-    padding-top: 1rem;
+    row-gap: 1.25rem;
+    padding-top: 1.5rem;
+    margin-top: 1.5rem;
     border-top: 1px solid rgba(255, 255, 255, 0.1);
+    align-items: start;
   }
 
-  .footer-operated-eyebrow,
-  .footer-logo-wrapper,
-  .footer-company-sub,
-  .footer-contact-details {
+  .footer-brand-col {
     grid-column: 1;
-    margin-bottom: 0;
   }
 
-  .footer-slogan-block {
+  .footer-slogan-col {
     grid-column: 2;
-    grid-row: 1 / span 4;
-    align-self: center;
-    margin: 0;
-    width: 100%;
-    max-width: none;
   }
 
-  .footer-value-list {
+  .footer-values-col {
+    grid-column: 3;
+  }
+
+  .footer-values-col .footer-value-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.85rem;
     width: 100%;
+  }
+
+  .footer-value-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
   }
 
   .footer-map-card {
@@ -2865,111 +2871,111 @@ ol {
 /* Quick Contact Side Bar - Viewport Centered Flush Right Edge with Concave Curves (Matching lanha.vn) */
 @media (min-width: 768px) {
   .quick-contact-widget {
-    position: fixed;
+    position: fixed !important;
     right: 0 !important;
     top: 50% !important;
     transform: translateY(-50%) !important;
     bottom: auto !important;
-    z-index: 9999;
-    margin: 0;
-    padding: 0;
-    width: auto;
-    pointer-events: auto;
+    z-index: 9999 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    width: auto !important;
+    pointer-events: auto !important;
   }
 
   .quick-contact-bar {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 12px;
-    width: 58px; /* Sleek compact width matching reference */
-    padding: 16px 0;
-    background-color: var(--surface-charcoal-gray) !important; /* #303030 */
-    border-top-left-radius: 24px;
-    border-bottom-left-radius: 24px;
-    border-top-right-radius: 0;
-    border-bottom-right-radius: 0;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 14px !important;
+    width: 76px !important; /* Exact 76px target width */
+    padding: 22px 0 !important; /* Total height ~302px within 280-330px target */
+    background-color: #303030 !important; /* Charcoal dark background matching reference */
+    border-top-left-radius: 30px !important;
+    border-bottom-left-radius: 30px !important;
+    border-top-right-radius: 0 !important;
+    border-bottom-right-radius: 0 !important;
     border: none !important;
-    box-shadow: none !important;
-    position: relative;
+    box-shadow: -4px 0 20px rgba(0, 0, 0, 0.25) !important;
+    position: relative !important;
     margin-right: 0 !important;
   }
 
   /* Top Concave Transition Curve to Right Viewport Edge */
   .quick-contact-bar::before {
-    content: '';
-    position: absolute;
-    top: -18px;
-    right: 0;
-    width: 18px;
-    height: 18px;
-    background: transparent;
-    border-bottom-right-radius: 18px;
-    box-shadow: 5px 5px 0 5px #303030;
-    pointer-events: none;
+    content: '' !important;
+    position: absolute !important;
+    top: -22px !important;
+    right: 0 !important;
+    width: 22px !important;
+    height: 22px !important;
+    background: transparent !important;
+    border-bottom-right-radius: 22px !important;
+    box-shadow: 7px 7px 0 7px #303030 !important;
+    pointer-events: none !important;
   }
 
   /* Bottom Concave Transition Curve to Right Viewport Edge */
   .quick-contact-bar::after {
-    content: '';
-    position: absolute;
-    bottom: -18px;
-    right: 0;
-    width: 18px;
-    height: 18px;
-    background: transparent;
-    border-top-right-radius: 18px;
-    box-shadow: 5px -5px 0 5px #303030;
-    pointer-events: none;
+    content: '' !important;
+    position: absolute !important;
+    bottom: -22px !important;
+    right: 0 !important;
+    width: 22px !important;
+    height: 22px !important;
+    background: transparent !important;
+    border-top-right-radius: 22px !important;
+    box-shadow: 7px -7px 0 7px #303030 !important;
+    pointer-events: none !important;
   }
 
-  /* Action Buttons - Pure transparent click area, pure white icons */
+  /* Action Buttons - 60px x 54px click area, 27px pure white icons */
   .quick-contact-action {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 48px;
-    height: 42px;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    width: 60px !important;
+    height: 54px !important;
     border-radius: 0 !important;
     background: transparent !important;
     border: none !important;
     box-shadow: none !important;
     color: #ffffff !important;
-    text-decoration: none;
-    transition: transform 0.2s ease, opacity 0.2s ease;
-    position: relative;
-    cursor: pointer;
-    padding: 0;
-    margin: 0;
+    text-decoration: none !important;
+    transition: transform 0.2s ease, opacity 0.2s ease !important;
+    position: relative !important;
+    cursor: pointer !important;
+    padding: 0 !important;
+    margin: 0 !important;
   }
 
   .quick-contact-action:hover {
-    transform: scale(1.1);
-    opacity: 0.88;
+    transform: scale(1.1) !important;
+    opacity: 0.9 !important;
     background: transparent !important;
     box-shadow: none !important;
   }
 
   .quick-contact-action svg {
-    width: 23px;
-    height: 23px;
+    width: 27px !important;
+    height: 27px !important;
     color: #ffffff !important;
-    fill: #ffffff;
-    stroke: none;
-    transition: transform 0.2s ease;
+    fill: #ffffff !important;
+    stroke: none !important;
+    transition: transform 0.2s ease !important;
   }
 
   .quick-contact-call-icon {
-    width: auto;
-    height: auto;
+    width: auto !important;
+    height: auto !important;
     background: transparent !important;
     border: none !important;
     border-radius: 0 !important;
     box-shadow: none !important;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
   }
 
   /* Hide old gold circles and pulsing rings */
@@ -2981,11 +2987,11 @@ ol {
 
   .quick-contact-call svg,
   .quick-contact-consult svg {
-    fill: none;
+    fill: none !important;
     stroke: #ffffff !important;
-    stroke-width: 2;
-    stroke-linecap: round;
-    stroke-linejoin: round;
+    stroke-width: 2 !important;
+    stroke-linecap: round !important;
+    stroke-linejoin: round !important;
   }
 
   .quick-contact-zalo svg,
@@ -2999,40 +3005,40 @@ ol {
   }
 }
 
-/* Tablet Scaling Adjustment */
-@media (min-width: 768px) and (max-width: 1024px) {
+/* Tablet Scaling (768px - 1023px) */
+@media (min-width: 768px) and (max-width: 1023px) {
   .quick-contact-bar {
-    width: 66px;
-    padding: 18px 0;
-    gap: 14px;
-    border-top-left-radius: 28px;
-    border-bottom-left-radius: 28px;
+    width: 68px !important;
+    padding: 18px 0 !important;
+    gap: 12px !important;
+    border-top-left-radius: 24px !important;
+    border-bottom-left-radius: 24px !important;
   }
 
   .quick-contact-bar::before {
-    top: -20px;
-    width: 20px;
-    height: 20px;
-    border-bottom-right-radius: 20px;
-    box-shadow: 6px 6px 0 6px #303030;
+    top: -18px !important;
+    width: 18px !important;
+    height: 18px !important;
+    border-bottom-right-radius: 18px !important;
+    box-shadow: 5px 5px 0 5px #303030 !important;
   }
 
   .quick-contact-bar::after {
-    bottom: -20px;
-    width: 20px;
-    height: 20px;
-    border-top-right-radius: 20px;
-    box-shadow: 6px -6px 0 6px #303030;
+    bottom: -18px !important;
+    width: 18px !important;
+    height: 18px !important;
+    border-top-right-radius: 18px !important;
+    box-shadow: 5px -5px 0 5px #303030 !important;
   }
 
   .quick-contact-action {
-    width: 52px;
-    height: 46px;
+    width: 52px !important;
+    height: 48px !important;
   }
 
   .quick-contact-action svg {
-    width: 24px;
-    height: 24px;
+    width: 25px !important;
+    height: 25px !important;
   }
 }
 
@@ -5396,13 +5402,22 @@ ol {
 
 .testimonial-heading {
   text-align: center;
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.75rem;
+}
+
+.testimonial-kicker {
+  display: inline-block;
+  color: #c89b4b;
+  font: 700 0.72rem var(--font-menu);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  margin-bottom: 0.35rem;
 }
 
 .testimonial-heading h2 {
   margin: 0;
   color: #20170f;
-  font: 700 clamp(1.8rem, 6vw, 2.8rem)/1.1 var(--font-serif);
+  font: 700 clamp(1.35rem, 4.5vw, 2.2rem)/1.2 var(--font-serif);
 }
 
 .testimonial-heading h2 em {
@@ -5410,15 +5425,15 @@ ol {
   font-family: var(--font-script);
   font-weight: 400;
   font-style: normal;
-  font-size: 1.2em;
-  display: block;
-  margin-bottom: 0.15rem;
+  font-size: 1.15em;
+  margin-left: 0.25rem;
+  display: inline-block;
 }
 
 .testimonial-heading p {
-  margin: 0.2rem 0 0;
+  margin: 0.35rem 0 0;
   color: #6a5d50;
-  font: 500 0.82rem var(--font-sans);
+  font: 400 0.82rem/1.4 var(--font-sans);
 }
 
 .testimonial-slider-wrapper {
