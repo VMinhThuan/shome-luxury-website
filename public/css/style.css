@@ -232,11 +232,15 @@ ol {
   align-items: center;
   justify-content: space-between;
   height: var(--header-height-mobile);
+  padding-left: 24px !important;
+  padding-right: 24px !important;
 }
 
 @media (min-width: 1024px) {
   .header-container {
     height: var(--header-height-desktop);
+    padding-left: 32px !important;
+    padding-right: 32px !important;
   }
 }
 
@@ -244,6 +248,8 @@ ol {
   display: flex;
   align-items: center;
   gap: 0.75rem;
+  flex: 0 0 auto;
+  margin-right: clamp(0.75rem, 2vw, 2rem);
 }
 
 .brand-logo {
@@ -259,7 +265,7 @@ ol {
 
 @media (min-width: 1024px) {
   .logo-img {
-    height: 46px;
+    height: 44px;
   }
 }
 
@@ -300,21 +306,25 @@ ol {
   .desktop-nav {
     display: flex;
     align-items: center;
-    gap: 2rem;
+    justify-content: center;
+    gap: clamp(0.6rem, 1.3vw, 1.75rem);
+    flex: 1 1 auto;
   }
 
   .nav-item {
     position: relative;
+    flex-shrink: 0;
   }
 
   .nav-link {
-    font-size: 1.05rem;
+    font-size: clamp(0.85rem, 1.02vw, 0.98rem);
     font-weight: 600;
     color: rgba(255, 255, 255, 0.92);
-    padding: 0.5rem 0;
+    padding: 0.5rem 0.2rem;
     display: flex;
     align-items: center;
     gap: 0.35rem;
+    white-space: nowrap !important;
   }
 
   .nav-link:hover,
@@ -402,6 +412,7 @@ ol {
   display: flex;
   align-items: center;
   gap: 0.75rem;
+  flex: 0 0 auto;
 }
 
 .btn-header-consult {
@@ -409,10 +420,10 @@ ol {
   background-color: #C89B4B !important;
   color: #111111 !important;
   font-weight: 700 !important;
-  font-size: 0.8125rem !important;
+  font-size: clamp(0.78rem, 0.9vw, 0.85rem) !important;
   border: none !important;
   border-radius: 20px !important;
-  padding: 0.5rem 1.15rem !important;
+  padding: 0.5rem 1rem !important;
   align-items: center !important;
   gap: 6px !important;
   cursor: pointer !important;
