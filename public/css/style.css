@@ -3002,15 +3002,15 @@ ol {
     align-items: center;
     justify-content: space-around;
     width: 100%;
-    height: 56px;
-    padding: 0;
+    height: 58px;
+    padding: 0 0.5rem;
     padding-bottom: env(safe-area-inset-bottom, 0px);
     margin: 0;
     border: 0;
-    border-top: 1px solid rgba(0, 0, 0, 0.12);
+    border-top: 1.5px solid #C89B4B !important; /* Gold border matching screenshot */
     border-radius: 0;
-    background: #ffffff;
-    box-shadow: 0 -4px 18px rgba(0, 0, 0, 0.08);
+    background: #303030 !important; /* Dark charcoal background matching footer */
+    box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.35);
   }
 
   .quick-contact-action {
@@ -3025,8 +3025,8 @@ ol {
     border-radius: 0;
     background: transparent !important;
     box-shadow: none !important;
-    color: #1a1a1a;
-    transition: opacity 0.15s ease, transform 0.15s ease, color 0.2s ease;
+    color: #C89B4B !important;
+    transition: opacity 0.15s ease, transform 0.15s ease;
     border: none;
     cursor: pointer;
   }
@@ -3035,11 +3035,6 @@ ol {
     opacity: 0.7;
     transform: scale(0.92);
   }
-
-  .quick-contact-messenger:active { color: #0084FF; }
-  .quick-contact-zalo:active { color: #0068FF; }
-  .quick-contact-consult:active { color: #C89B4B; }
-  .quick-contact-call:active { color: #C89B4B; }
 
   .quick-contact-call {
     width: auto;
@@ -3051,6 +3046,9 @@ ol {
     height: auto;
     background: transparent;
     border-radius: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
   .quick-contact-call-icon::before,
@@ -3059,14 +3057,11 @@ ol {
   }
 
   .quick-contact-call-icon svg {
-    width: 24px;
-    height: 24px;
-    fill: none;
-    stroke: currentColor;
-    stroke-width: 2;
-    stroke-linecap: round;
-    stroke-linejoin: round;
-    animation: quick-call-wiggle 3s ease-in-out infinite;
+    width: 28px;
+    height: 28px;
+    fill: #C89B4B !important;
+    stroke: none;
+    color: #C89B4B !important;
   }
 
   .quick-contact-phone {
@@ -3074,20 +3069,36 @@ ol {
   }
 
   .quick-contact-action svg {
-    width: 24px;
-    height: 24px;
-    color: #1a1a1a;
-    fill: none;
-    stroke: currentColor;
-    stroke-width: 2;
-    stroke-linecap: round;
-    stroke-linejoin: round;
+    width: 28px;
+    height: 28px;
+    color: #C89B4B !important;
+    fill: #C89B4B !important;
   }
 
-  .quick-contact-zalo svg,
-  .quick-contact-messenger svg {
-    fill: currentColor;
+  .quick-contact-zalo svg {
+    width: 32px;
+    height: 32px;
+    fill: #C89B4B !important;
     stroke: none;
+  }
+
+  /* Round Gold Circle Badges for Messenger and Consult icons (matching reference image 100%) */
+  .quick-contact-messenger svg,
+  .quick-contact-consult svg {
+    background-color: #C89B4B !important;
+    color: #303030 !important;
+    fill: #303030 !important;
+    border-radius: 50%;
+    padding: 5px;
+    width: 34px !important;
+    height: 34px !important;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  }
+
+  .quick-contact-consult svg {
+    stroke: #303030 !important;
+    stroke-width: 2;
+    fill: none !important;
   }
 }
 
