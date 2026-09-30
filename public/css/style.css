@@ -2424,21 +2424,15 @@ ol {
     grid-column: 2;
   }
 
-  .footer-values-col {
-    grid-column: 3;
-  }
-
-  .footer-values-col .footer-value-list {
+  .footer-slogan-col .footer-value-list {
     display: flex;
-    flex-direction: column;
+    flex-wrap: wrap;
     gap: 0.85rem;
-    width: 100%;
+    margin-top: 1.1rem;
   }
 
-  .footer-value-item {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
+  .footer-contact-col {
+    grid-column: 3;
   }
 
   .footer-map-card {
@@ -2872,176 +2866,235 @@ ol {
 
 /* Quick Contact Side Bar - Flush Right Edge with Smooth Concave Transitions (Matching Image 1) */
 /* Quick Contact Side Bar - Viewport Centered Flush Right Edge with Concave Curves (Matching lanha.vn) */
-@media (min-width: 768px) {
-  .quick-contact-widget {
-    position: fixed !important;
-    right: 0 !important;
-    top: 50% !important;
-    transform: translateY(-50%) !important;
-    bottom: auto !important;
-    z-index: 9999 !important;
-    margin: 0 !important;
-    padding: 0 !important;
-    width: auto !important;
-    pointer-events: auto !important;
-  }
+/* Floating Action Bar - Base / Mobile (<= 767px) */
+.quick-contact-bar {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 13px !important;
+  width: 54px !important;
+  height: 250px !important;
+  min-width: 54px !important;
+  max-width: 54px !important;
+  min-height: 250px !important;
+  max-height: 250px !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  background-color: #303030 !important;
+  border-top-left-radius: 26px !important;
+  border-bottom-left-radius: 26px !important;
+  border-top-right-radius: 0 !important;
+  border-bottom-right-radius: 0 !important;
+  border: none !important;
+  box-shadow: -4px 0 16px rgba(0, 0, 0, 0.25) !important;
+  position: relative !important;
+  margin-right: 0 !important;
+}
 
+.quick-contact-bar::before {
+  content: '' !important;
+  position: absolute !important;
+  top: -12px !important;
+  right: 0 !important;
+  width: 12px !important;
+  height: 12px !important;
+  background: transparent !important;
+  border-bottom-right-radius: 12px !important;
+  box-shadow: 3px 3px 0 3px #303030 !important;
+  pointer-events: none !important;
+}
+
+.quick-contact-bar::after {
+  content: '' !important;
+  position: absolute !important;
+  bottom: -12px !important;
+  right: 0 !important;
+  width: 12px !important;
+  height: 12px !important;
+  background: transparent !important;
+  border-top-right-radius: 12px !important;
+  box-shadow: 3px -3px 0 3px #303030 !important;
+  pointer-events: none !important;
+}
+
+.quick-contact-action {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 40px !important;
+  height: 40px !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  color: #ffffff !important;
+  text-decoration: none !important;
+  transition: transform 0.2s ease, opacity 0.2s ease !important;
+  position: relative !important;
+  cursor: pointer !important;
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+.quick-contact-action:hover {
+  transform: scale(1.1) !important;
+  opacity: 0.9 !important;
+  background: transparent !important;
+}
+
+.quick-contact-action svg {
+  width: 21px !important;
+  height: 21px !important;
+  max-width: 21px !important;
+  max-height: 21px !important;
+  color: #ffffff !important;
+  fill: #ffffff !important;
+  stroke: none !important;
+  transition: transform 0.2s ease !important;
+}
+
+.quick-contact-zalo svg {
+  width: 23px !important;
+  height: 23px !important;
+  max-width: 23px !important;
+  max-height: 23px !important;
+  fill: #ffffff !important;
+}
+
+.quick-contact-call-icon {
+  width: auto !important;
+  height: auto !important;
+  background: transparent !important;
+  border: none !important;
+  border-radius: 0 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+.quick-contact-call-icon::before,
+.quick-contact-call-icon::after {
+  display: none !important;
+  animation: none !important;
+}
+
+.quick-contact-call svg,
+.quick-contact-consult svg {
+  fill: none !important;
+  stroke: #ffffff !important;
+  stroke-width: 2 !important;
+  stroke-linecap: round !important;
+  stroke-linejoin: round !important;
+}
+
+.quick-contact-zalo svg,
+.quick-contact-messenger svg {
+  fill: #ffffff !important;
+  stroke: none !important;
+}
+
+.quick-contact-phone {
+  display: none !important;
+}
+
+/* Tablet (768px - 1023px) */
+@media (min-width: 768px) and (max-width: 1023px) {
   .quick-contact-bar {
-    display: flex !important;
-    flex-direction: column !important;
-    align-items: center !important;
-    justify-content: center !important;
-    gap: 14px !important;
-    width: 76px !important; /* Exact 76px target width */
-    padding: 22px 0 !important; /* Total height ~302px within 280-330px target */
-    background-color: #303030 !important; /* Charcoal dark background matching reference */
-    border-top-left-radius: 30px !important;
-    border-bottom-left-radius: 30px !important;
-    border-top-right-radius: 0 !important;
-    border-bottom-right-radius: 0 !important;
-    border: none !important;
-    box-shadow: -4px 0 20px rgba(0, 0, 0, 0.25) !important;
-    position: relative !important;
-    margin-right: 0 !important;
+    width: 58px !important;
+    height: 270px !important;
+    min-width: 58px !important;
+    max-width: 58px !important;
+    min-height: 270px !important;
+    max-height: 270px !important;
+    gap: 15px !important;
+    border-top-left-radius: 28px !important;
+    border-bottom-left-radius: 28px !important;
   }
 
-  /* Top Concave Transition Curve to Right Viewport Edge */
   .quick-contact-bar::before {
-    content: '' !important;
-    position: absolute !important;
-    top: -22px !important;
-    right: 0 !important;
-    width: 22px !important;
-    height: 22px !important;
-    background: transparent !important;
-    border-bottom-right-radius: 22px !important;
-    box-shadow: 7px 7px 0 7px #303030 !important;
-    pointer-events: none !important;
+    top: -14px !important;
+    width: 14px !important;
+    height: 14px !important;
+    border-bottom-right-radius: 14px !important;
+    box-shadow: 4px 4px 0 4px #303030 !important;
   }
 
-  /* Bottom Concave Transition Curve to Right Viewport Edge */
   .quick-contact-bar::after {
-    content: '' !important;
-    position: absolute !important;
-    bottom: -22px !important;
-    right: 0 !important;
-    width: 22px !important;
-    height: 22px !important;
-    background: transparent !important;
-    border-top-right-radius: 22px !important;
-    box-shadow: 7px -7px 0 7px #303030 !important;
-    pointer-events: none !important;
+    bottom: -14px !important;
+    width: 14px !important;
+    height: 14px !important;
+    border-top-right-radius: 14px !important;
+    box-shadow: 4px -4px 0 4px #303030 !important;
   }
 
-  /* Action Buttons - 60px x 54px click area, 27px pure white icons */
   .quick-contact-action {
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    width: 60px !important;
-    height: 54px !important;
-    border-radius: 0 !important;
-    background: transparent !important;
-    border: none !important;
-    box-shadow: none !important;
-    color: #ffffff !important;
-    text-decoration: none !important;
-    transition: transform 0.2s ease, opacity 0.2s ease !important;
-    position: relative !important;
-    cursor: pointer !important;
-    padding: 0 !important;
-    margin: 0 !important;
-  }
-
-  .quick-contact-action:hover {
-    transform: scale(1.1) !important;
-    opacity: 0.9 !important;
-    background: transparent !important;
-    box-shadow: none !important;
+    width: 44px !important;
+    height: 44px !important;
   }
 
   .quick-contact-action svg {
-    width: 27px !important;
-    height: 27px !important;
-    color: #ffffff !important;
-    fill: #ffffff !important;
-    stroke: none !important;
-    transition: transform 0.2s ease !important;
+    width: 23px !important;
+    height: 23px !important;
+    max-width: 23px !important;
+    max-height: 23px !important;
   }
 
-  .quick-contact-call-icon {
-    width: auto !important;
-    height: auto !important;
-    background: transparent !important;
-    border: none !important;
-    border-radius: 0 !important;
-    box-shadow: none !important;
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-  }
-
-  /* Hide old gold circles and pulsing rings */
-  .quick-contact-call-icon::before,
-  .quick-contact-call-icon::after {
-    display: none !important;
-    animation: none !important;
-  }
-
-  .quick-contact-call svg,
-  .quick-contact-consult svg {
-    fill: none !important;
-    stroke: #ffffff !important;
-    stroke-width: 2 !important;
-    stroke-linecap: round !important;
-    stroke-linejoin: round !important;
-  }
-
-  .quick-contact-zalo svg,
-  .quick-contact-messenger svg {
-    fill: #ffffff !important;
-    stroke: none !important;
-  }
-
-  .quick-contact-phone {
-    display: none !important;
+  .quick-contact-zalo svg {
+    width: 25px !important;
+    height: 25px !important;
+    max-width: 25px !important;
+    max-height: 25px !important;
   }
 }
 
-/* Tablet Scaling (768px - 1023px) */
-@media (min-width: 768px) and (max-width: 1023px) {
+/* Desktop (>= 1024px) */
+@media (min-width: 1024px) {
   .quick-contact-bar {
-    width: 68px !important;
-    padding: 18px 0 !important;
-    gap: 12px !important;
-    border-top-left-radius: 24px !important;
-    border-bottom-left-radius: 24px !important;
+    width: 64px !important;
+    height: 300px !important;
+    min-width: 64px !important;
+    max-width: 64px !important;
+    min-height: 300px !important;
+    max-height: 300px !important;
+    gap: 18px !important;
+    border-top-left-radius: 35px !important;
+    border-bottom-left-radius: 35px !important;
   }
 
   .quick-contact-bar::before {
-    top: -18px !important;
-    width: 18px !important;
-    height: 18px !important;
-    border-bottom-right-radius: 18px !important;
-    box-shadow: 5px 5px 0 5px #303030 !important;
+    top: -16px !important;
+    width: 16px !important;
+    height: 16px !important;
+    border-bottom-right-radius: 16px !important;
+    box-shadow: 4px 4px 0 4px #303030 !important;
   }
 
   .quick-contact-bar::after {
-    bottom: -18px !important;
-    width: 18px !important;
-    height: 18px !important;
-    border-top-right-radius: 18px !important;
-    box-shadow: 5px -5px 0 5px #303030 !important;
+    bottom: -16px !important;
+    width: 16px !important;
+    height: 16px !important;
+    border-top-right-radius: 16px !important;
+    box-shadow: 4px -4px 0 4px #303030 !important;
   }
 
   .quick-contact-action {
-    width: 52px !important;
+    width: 48px !important;
     height: 48px !important;
   }
 
   .quick-contact-action svg {
     width: 25px !important;
     height: 25px !important;
+    max-width: 25px !important;
+    max-height: 25px !important;
+  }
+
+  .quick-contact-zalo svg {
+    width: 27px !important;
+    height: 27px !important;
+    max-width: 27px !important;
+    max-height: 27px !important;
   }
 }
 
@@ -3091,142 +3144,6 @@ ol {
 @media (max-width: 767px) {
   body {
     padding-bottom: 0 !important;
-  }
-
-  .site-footer {
-    padding-bottom: calc(64px + env(safe-area-inset-bottom, 0px)) !important;
-  }
-
-  .quick-contact-widget {
-    position: fixed;
-    inset: auto 0 0 0;
-    width: 100%;
-    z-index: 1900;
-    margin: 0;
-    padding: 0;
-  }
-
-  .quick-contact-bar {
-    display: flex;
-    align-items: center;
-    justify-content: space-around;
-    width: 100%;
-    height: 58px;
-    padding: 0 0.5rem;
-    padding-bottom: env(safe-area-inset-bottom, 0px);
-    margin: 0;
-    border: 0;
-    border-top: 1.5px solid #C89B4B !important;
-    /* Gold border matching screenshot */
-    border-radius: 0;
-    background: #303030 !important;
-    /* Dark charcoal background matching footer */
-    box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.35);
-  }
-
-  .quick-contact-action {
-    flex: 1 1 25%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 100%;
-    min-width: 0;
-    padding: 0;
-    margin: 0;
-    border-radius: 0;
-    background: transparent !important;
-    box-shadow: none !important;
-    color: #C89B4B !important;
-    transition: opacity 0.15s ease, transform 0.15s ease;
-    border: none;
-    cursor: pointer;
-  }
-
-  .quick-contact-action:active {
-    opacity: 0.7;
-    transform: scale(0.92);
-  }
-
-  .quick-contact-call {
-    width: auto;
-    padding: 0;
-  }
-
-  .quick-contact-call-icon {
-    width: auto;
-    height: auto;
-    background: transparent;
-    border-radius: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  .quick-contact-call-icon::before,
-  .quick-contact-call-icon::after {
-    display: none;
-  }
-
-  .quick-contact-call-icon svg {
-    width: 28px;
-    height: 28px;
-    fill: #C89B4B !important;
-    stroke: none;
-    color: #C89B4B !important;
-    animation: quick-call-wiggle 3s ease-in-out infinite;
-  }
-
-  .quick-contact-phone {
-    display: none;
-  }
-
-  .quick-contact-action svg {
-    width: 28px;
-    height: 28px;
-    color: #C89B4B !important;
-    fill: #C89B4B !important;
-    transition: transform 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.25s ease, filter 0.25s ease;
-  }
-
-  .quick-contact-zalo svg {
-    width: 32px;
-    height: 32px;
-    fill: #C89B4B !important;
-    stroke: none;
-    animation: zalo-pulse 3.2s ease-in-out infinite;
-  }
-
-  /* Round Gold Circle Badges for Messenger and Consult icons */
-  .quick-contact-messenger svg {
-    background-color: #C89B4B !important;
-    color: #303030 !important;
-    fill: #303030 !important;
-    border-radius: 50%;
-    padding: 5px;
-    width: 34px !important;
-    height: 34px !important;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
-    animation: messenger-bounce 3.5s ease-in-out infinite;
-  }
-
-  .quick-contact-consult svg {
-    background-color: #C89B4B !important;
-    color: #303030 !important;
-    fill: none !important;
-    stroke: #303030 !important;
-    stroke-width: 2;
-    border-radius: 50%;
-    padding: 5px;
-    width: 34px !important;
-    height: 34px !important;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
-    animation: consult-float 3s ease-in-out infinite;
-  }
-
-  /* Tap / Click Highlight Effects for All 4 Buttons */
-  .quick-contact-action:active svg {
-    transform: scale(0.85);
-    filter: brightness(1.25);
   }
 }
 
