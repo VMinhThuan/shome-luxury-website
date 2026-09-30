@@ -2895,6 +2895,7 @@ ol {
    ================================================== */
 
 /* Mobile (<= 767px) - 4-Button Horizontal Bar Fixed to Screen Bottom */
+@media (max-width: 767px) {
   .site-footer {
     padding-bottom: 0.5rem !important;
   }
@@ -3036,6 +3037,7 @@ ol {
     height: 34px !important;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25) !important;
   }
+}
 }
 
 /* Desktop & Tablet (>= 768px) - Vertical 4-Button Floating Bar Fixed on Viewport Right Edge */
