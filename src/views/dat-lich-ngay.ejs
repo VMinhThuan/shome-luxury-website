@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title><%= title %></title>
+  <meta name="description" content="Đăng ký nhận tư vấn và dự toán thiết kế, thi công nội thất miễn phí từ Luxury Home." />
+  <link rel="stylesheet" href="/css/style.css?v=1.8.0" />
+  <script src="/js/main.js?v=1.8.0" defer></script>
+</head>
+<body>
+  <%- include("partials/header") %>
+  <%- include("partials/mobile-drawer") %>
+
+  <main id="main-content" class="booking-page">
+    <section class="booking-hero">
+      <div class="container booking-hero-grid">
+        <div class="booking-hero-copy">
+          <span class="booking-eyebrow">Luxury Home · Tư vấn chuyên sâu</span>
+          <h1>Nhận dự toán <em>miễn phí</em></h1>
+          <p>Để lại thông tin, chuyên gia SHOME sẽ liên hệ tư vấn trong 24h.</p>
+          <div class="booking-hero-points">
+            <span>✓ Dự toán rõ ràng</span><span>✓ Không phát sinh</span><span>✓ Bảo mật thông tin</span>
+          </div>
+        </div>
+
+        <form class="booking-form-card" id="bookingForm">
+          <h2>Đăng ký tư vấn</h2>
+          <p>Nhận phương án phù hợp với không gian của bạn.</p>
+          <label><span>Loại căn hộ</span><select name="service"><option value="Thiết kế nội thất">Thiết kế nội thất</option><option value="Thiết kế kiến trúc">Thiết kế kiến trúc</option><option value="Thi công trọn gói">Thi công trọn gói</option></select></label>
+          <label><span>Diện tích (m²)</span><input name="message" type="text" placeholder="Ví dụ: 120m²" /></label>
+          <label><span>Ngân sách dự kiến</span><select name="budget"><option value="">Chọn ngân sách</option><option>Dưới 300 triệu</option><option>300 – 700 triệu</option><option>Trên 700 triệu</option></select></label>
+          <label><span>Số điện thoại *</span><input name="phone" type="tel" placeholder="Nhập số điện thoại" required /></label>
+          <label class="booking-name-field"><span>Họ và tên</span><input name="fullname" type="text" placeholder="Nguyễn Văn A" required /></label>
+          <button class="booking-submit" type="submit">Gửi thông tin <span>→</span></button>
+          <p class="booking-form-status" aria-live="polite"></p>
+        </form>
+      </div>
+    </section>
+
+    <section class="booking-process-section">
+      <div class="container">
+        <div class="booking-section-heading"><span>Quy trình</span><h2>Thiết kế &amp; thi công</h2><p>Đồng hành minh bạch · Chuyên nghiệp</p></div>
+        <div class="booking-process-list">
+          <article><b>01</b><div><h3>Tư vấn &amp; khảo sát</h3><p>Lắng nghe nhu cầu, khảo sát thực tế không gian.</p></div></article>
+          <article><b>02</b><div><h3>Thiết kế 2D/3D</h3><p>Lên phương án bố trí, phối cảnh chi tiết theo nhu cầu.</p></div></article>
+          <article><b>03</b><div><h3>Thi công sản xuất</h3><p>Sản xuất tại xưởng, thi công đúng tiến độ.</p></div></article>
+          <article><b>04</b><div><h3>Nghiệm thu bàn giao</h3><p>Kiểm tra, hoàn thiện và bảo hành dài lâu.</p></div></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="booking-estimate"><div class="container"><div><span>Báo giá chi tiết</span><h2>Rõ ràng từ ý tưởng<br>đến không gian của bạn</h2><a href="#bookingForm">Nhận dự toán miễn phí <span>→</span></a></div></div></section>
+
+    <section class="booking-faq"><div class="container booking-faq-grid"><div><span class="booking-eyebrow">Giải đáp nhanh</span><h2>Câu hỏi thường gặp</h2><p>Những thông tin khách hàng quan tâm trước khi bắt đầu một không gian mới.</p></div><div class="booking-faq-list"><details open><summary>Báo giá hoàn thiện gồm những gì?</summary><p>Báo giá thể hiện rõ vật liệu, khối lượng, hạng mục thi công và tiến độ dự kiến.</p></details><details><summary>Có phát sinh chi phí không?</summary><p>Luxury Home tư vấn minh bạch ngay từ đầu; mọi thay đổi đều được xác nhận trước.</p></details><details><summary>Có bảo hành không?</summary><p>Công trình được bảo hành theo từng hạng mục và chính sách đã cam kết.</p></details><details><summary>Có được chỉnh sửa thiết kế không?</summary><p>Đội ngũ thiết kế đồng hành điều chỉnh phương án đến khi phù hợp với nhu cầu.</p></details></div></div></section>
+
+    <section class="booking-testimonial"><div class="container"><div class="booking-section-heading"><span>Khách hàng nói gì</span><h2>Niềm tin tạo nên không gian sống</h2></div><figure><img src="/images/project_apartment.jpg" alt="Không gian khách hàng Luxury Home" loading="lazy" /><blockquote>“Tôi hài lòng vì đội ngũ nắm rõ nhu cầu và đề xuất phương án rất sát thực tế.”</blockquote><figcaption><strong>Anh Vũ</strong><br>Khách hàng tại Hà Nội</figcaption></figure></div></section>
+  </main>
+
+  <%- include("partials/footer") %>
+  <%- include("partials/consult-modal") %>
+  <script>
+    document.getElementById('bookingForm')?.addEventListener('submit', async event => {
+      event.preventDefault();
+      const form = event.currentTarget;
+      const button = form.querySelector('button');
+      const status = form.querySelector('.booking-form-status');
+      button.disabled = true; button.textContent = 'Đang gửi…';
+      try {
+        const data = Object.fromEntries(new FormData(form));
+        const response = await fetch('/api/contact', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data) });
+        const result = await response.json();
+        status.textContent = result.message || 'Thông tin đã được gửi thành công.';
+        form.reset();
+      } catch { status.textContent = 'Chưa thể gửi thông tin. Vui lòng thử lại sau.'; }
+      finally { button.disabled = false; button.innerHTML = 'Gửi thông tin <span>→</span>'; }
+    });
+  </script>
+</body>
+</html>

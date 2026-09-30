@@ -135,3 +135,11 @@ exports.getHomePage = (req, res) => {
 
   res.render("index", pageData);
 };
+
+exports.getBookingPage = (req, res) => {
+  res.render("dat-lich-ngay", {
+    title: "Nhận dự toán miễn phí | LUXURY HOME",
+    headerSlogan: "Nâng tầm cuộc sống",
+    navigation: navigationData
+  });
+};
