@@ -5614,10 +5614,11 @@ ol {
   }
 
   .booking-hero-grid {
-    grid-template-columns: minmax(0, 1fr) minmax(360px, 430px);
+    grid-template-columns: minmax(0, 1fr) minmax(320px, 410px);
     max-width: var(--container-max);
-    gap: 3.5rem;
+    gap: clamp(1.5rem, 3vw, 3.5rem);
     align-items: center;
+    padding-right: 76px;
   }
 
   .booking-process-section {
