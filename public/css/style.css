@@ -2331,11 +2331,52 @@ ol {
   }
 }
 
-/* 3-Pill Action Bar Inside Footer (Matching Reference Screenshot 100%) */
+/* 4-Action Bar Inside Footer (Below Value List Badges - Matching Reference Images 1 & 3) */
 .footer-action-bar {
-  margin-top: 1.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
   width: 100%;
-  font-family: var(--font-menu);
+  padding: 0.85rem 0.5rem;
+  margin-top: 1.5rem;
+  border-top: 1.5px solid #C89B4B;
+  background-color: #303030;
+}
+
+.footer-action-item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.footer-action-item:hover {
+  transform: scale(1.12);
+}
+
+.footer-action-call svg {
+  width: 28px;
+  height: 28px;
+  fill: #C89B4B;
+}
+
+.footer-action-zalo svg {
+  width: 34px;
+  height: 34px;
+}
+
+.footer-action-messenger svg,
+.footer-action-consult svg {
+  background-color: #C89B4B;
+  color: #303030;
+  border-radius: 50%;
+  padding: 5px;
+  width: 34px;
+  height: 34px;
 }
 
 .footer-bottom {
@@ -2817,14 +2858,14 @@ ol {
 }
 
 /* Quick Contact Side Bar - Flush Right Edge with Smooth Concave Transitions (Matching Image 1) */
+/* Quick Contact Side Bar - Viewport Centered Flush Right Edge with Concave Curves (Matching lanha.vn) */
 @media (min-width: 768px) {
   .quick-contact-widget {
     position: fixed;
     right: 0 !important;
-    bottom: 90px !important;
-    /* Positioned near bottom-right matching reference image */
-    top: auto !important;
-    transform: none !important;
+    top: 50% !important;
+    transform: translateY(-50%) !important;
+    bottom: auto !important;
     z-index: 9999;
     margin: 0;
     padding: 0;
@@ -2837,14 +2878,12 @@ ol {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 0.75rem;
-    width: 58px;
-    /* Compact width matching reference image */
-    padding: 1.1rem 0;
-    background-color: var(--surface-charcoal-gray) !important;
-    /* #303030 */
-    border-top-left-radius: 28px;
-    border-bottom-left-radius: 28px;
+    gap: 16px;
+    width: 76px; /* Compact width 76px matching reference image */
+    padding: 22px 0;
+    background-color: var(--surface-charcoal-gray) !important; /* #303030 */
+    border-top-left-radius: 32px;
+    border-bottom-left-radius: 32px;
     border-top-right-radius: 0;
     border-bottom-right-radius: 0;
     border: none !important;
@@ -2857,13 +2896,13 @@ ol {
   .quick-contact-bar::before {
     content: '';
     position: absolute;
-    top: -20px;
+    top: -22px;
     right: 0;
-    width: 20px;
-    height: 20px;
+    width: 22px;
+    height: 22px;
     background: transparent;
-    border-bottom-right-radius: 20px;
-    box-shadow: 6px 6px 0 6px #303030;
+    border-bottom-right-radius: 22px;
+    box-shadow: 7px 7px 0 7px #303030;
     pointer-events: none;
   }
 
@@ -2871,13 +2910,13 @@ ol {
   .quick-contact-bar::after {
     content: '';
     position: absolute;
-    bottom: -20px;
+    bottom: -22px;
     right: 0;
-    width: 20px;
-    height: 20px;
+    width: 22px;
+    height: 22px;
     background: transparent;
-    border-top-right-radius: 20px;
-    box-shadow: 6px -6px 0 6px #303030;
+    border-top-right-radius: 22px;
+    box-shadow: 7px -7px 0 7px #303030;
     pointer-events: none;
   }
 
@@ -2886,8 +2925,8 @@ ol {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 44px;
-    height: 44px;
+    width: 60px;
+    height: 54px;
     border-radius: 0 !important;
     background: transparent !important;
     border: none !important;
@@ -2902,15 +2941,15 @@ ol {
   }
 
   .quick-contact-action:hover {
-    transform: scale(1.1);
+    transform: scale(1.08);
     opacity: 0.88;
     background: transparent !important;
     box-shadow: none !important;
   }
 
   .quick-contact-action svg {
-    width: 23px;
-    height: 23px;
+    width: 27px;
+    height: 27px;
     color: #ffffff !important;
     fill: #ffffff;
     stroke: none;
@@ -2959,37 +2998,37 @@ ol {
 /* Tablet Scaling Adjustment */
 @media (min-width: 768px) and (max-width: 1024px) {
   .quick-contact-bar {
-    width: 52px;
-    padding: 0.9rem 0;
-    gap: 0.6rem;
-    border-top-left-radius: 24px;
-    border-bottom-left-radius: 24px;
+    width: 66px;
+    padding: 18px 0;
+    gap: 14px;
+    border-top-left-radius: 28px;
+    border-bottom-left-radius: 28px;
   }
 
   .quick-contact-bar::before {
-    top: -18px;
-    width: 18px;
-    height: 18px;
-    border-bottom-right-radius: 18px;
-    box-shadow: 5px 5px 0 5px #303030;
+    top: -20px;
+    width: 20px;
+    height: 20px;
+    border-bottom-right-radius: 20px;
+    box-shadow: 6px 6px 0 6px #303030;
   }
 
   .quick-contact-bar::after {
-    bottom: -18px;
-    width: 18px;
-    height: 18px;
-    border-top-right-radius: 18px;
-    box-shadow: 5px -5px 0 5px #303030;
+    bottom: -20px;
+    width: 20px;
+    height: 20px;
+    border-top-right-radius: 20px;
+    box-shadow: 6px -6px 0 6px #303030;
   }
 
   .quick-contact-action {
-    width: 40px;
-    height: 40px;
+    width: 52px;
+    height: 46px;
   }
 
   .quick-contact-action svg {
-    width: 21px;
-    height: 21px;
+    width: 24px;
+    height: 24px;
   }
 }
 
