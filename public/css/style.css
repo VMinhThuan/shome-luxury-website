@@ -2797,8 +2797,9 @@ ol {
   .quick-contact-widget {
     position: fixed;
     right: 0 !important;
-    top: 50%;
-    transform: translateY(-50%);
+    bottom: 90px !important; /* Positioned near bottom-right matching reference image */
+    top: auto !important;
+    transform: none !important;
     z-index: 9999;
     margin: 0;
     padding: 0;
@@ -2811,12 +2812,12 @@ ol {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 1.25rem;
-    width: 80px;
-    padding: 1.75rem 0;
-    background-color: var(--surface-charcoal-gray) !important; /* #303030 matching header & footer */
-    border-top-left-radius: 40px;
-    border-bottom-left-radius: 40px;
+    gap: 0.75rem;
+    width: 58px; /* Compact width matching reference image */
+    padding: 1.1rem 0;
+    background-color: var(--surface-charcoal-gray) !important; /* #303030 */
+    border-top-left-radius: 28px;
+    border-bottom-left-radius: 28px;
     border-top-right-radius: 0;
     border-bottom-right-radius: 0;
     border: none !important;
@@ -2829,13 +2830,13 @@ ol {
   .quick-contact-bar::before {
     content: '';
     position: absolute;
-    top: -30px;
+    top: -20px;
     right: 0;
-    width: 30px;
-    height: 30px;
+    width: 20px;
+    height: 20px;
     background: transparent;
-    border-bottom-right-radius: 30px;
-    box-shadow: 10px 10px 0 10px #303030;
+    border-bottom-right-radius: 20px;
+    box-shadow: 6px 6px 0 6px #303030;
     pointer-events: none;
   }
 
@@ -2843,13 +2844,13 @@ ol {
   .quick-contact-bar::after {
     content: '';
     position: absolute;
-    bottom: -30px;
+    bottom: -20px;
     right: 0;
-    width: 30px;
-    height: 30px;
+    width: 20px;
+    height: 20px;
     background: transparent;
-    border-top-right-radius: 30px;
-    box-shadow: 10px -10px 0 10px #303030;
+    border-top-right-radius: 20px;
+    box-shadow: 6px -6px 0 6px #303030;
     pointer-events: none;
   }
 
@@ -2858,8 +2859,8 @@ ol {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 56px;
-    height: 56px;
+    width: 44px;
+    height: 44px;
     border-radius: 0 !important;
     background: transparent !important;
     border: none !important;
@@ -2874,15 +2875,15 @@ ol {
   }
 
   .quick-contact-action:hover {
-    transform: scale(1.08);
-    opacity: 0.85;
+    transform: scale(1.1);
+    opacity: 0.88;
     background: transparent !important;
     box-shadow: none !important;
   }
 
   .quick-contact-action svg {
-    width: 30px;
-    height: 30px;
+    width: 23px;
+    height: 23px;
     color: #ffffff !important;
     fill: #ffffff;
     stroke: none;
@@ -2931,37 +2932,37 @@ ol {
 /* Tablet Scaling Adjustment */
 @media (min-width: 768px) and (max-width: 1024px) {
   .quick-contact-bar {
-    width: 70px;
-    padding: 1.25rem 0;
-    gap: 1rem;
-    border-top-left-radius: 32px;
-    border-bottom-left-radius: 32px;
+    width: 52px;
+    padding: 0.9rem 0;
+    gap: 0.6rem;
+    border-top-left-radius: 24px;
+    border-bottom-left-radius: 24px;
   }
 
   .quick-contact-bar::before {
-    top: -24px;
-    width: 24px;
-    height: 24px;
-    border-bottom-right-radius: 24px;
-    box-shadow: 8px 8px 0 8px #303030;
+    top: -18px;
+    width: 18px;
+    height: 18px;
+    border-bottom-right-radius: 18px;
+    box-shadow: 5px 5px 0 5px #303030;
   }
 
   .quick-contact-bar::after {
-    bottom: -24px;
-    width: 24px;
-    height: 24px;
-    border-top-right-radius: 24px;
-    box-shadow: 8px -8px 0 8px #303030;
+    bottom: -18px;
+    width: 18px;
+    height: 18px;
+    border-top-right-radius: 18px;
+    box-shadow: 5px -5px 0 5px #303030;
   }
 
   .quick-contact-action {
-    width: 48px;
-    height: 48px;
+    width: 40px;
+    height: 40px;
   }
 
   .quick-contact-action svg {
-    width: 26px;
-    height: 26px;
+    width: 21px;
+    height: 21px;
   }
 }
 
