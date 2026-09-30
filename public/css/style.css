@@ -2895,9 +2895,8 @@ ol {
    ================================================== */
 
 /* Mobile (<= 767px) - 4-Button Horizontal Bar Fixed to Screen Bottom */
-@media (max-width: 767px) {
   .site-footer {
-    padding-bottom: calc(64px + env(safe-area-inset-bottom, 0px)) !important;
+    padding-bottom: 0.5rem !important;
   }
 
   .quick-contact-widget {
