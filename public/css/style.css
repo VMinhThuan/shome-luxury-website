@@ -2922,10 +2922,10 @@ ol {
   }
 
   .quick-contact-widget.at-footer {
-    opacity: 0 !important;
-    visibility: hidden !important;
-    pointer-events: none !important;
-    transform: translateY(100%) !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+    pointer-events: auto !important;
+    transform: translateY(0) !important;
   }
 
   .quick-contact-bar {
@@ -5430,9 +5430,7 @@ ol {
   align-items: center;
   justify-content: flex-start;
   margin-bottom: 1.5rem;
-  max-width: 1000px;
-  margin-left: auto;
-  margin-right: auto;
+  width: 100%;
 }
 
 .booking-faq-header h2 {
@@ -5445,10 +5443,17 @@ ol {
 
 .booking-faq-list {
   display: grid;
-  gap: .75rem;
-  max-width: 1000px;
-  margin: 0 auto;
+  grid-template-columns: 1fr;
+  gap: 1rem;
   width: 100%;
+}
+
+@media (min-width: 768px) {
+  .booking-faq-list {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.25rem 1.5rem;
+    align-items: start;
+  }
 }
 
 .booking-faq details {
@@ -5776,4 +5781,24 @@ ol {
     width: 40px;
     height: 40px;
   }
+}
+/* Footer Social Links with Clickable Icons & Labels */
+.footer-social-link {
+  display: flex !important;
+  align-items: center !important;
+  gap: 0.75rem !important;
+  color: #DDDDDD !important;
+  text-decoration: none !important;
+  transition: color 0.2s ease, transform 0.2s ease !important;
+  width: 100%;
+  cursor: pointer !important;
+}
+
+.footer-social-link:hover {
+  color: #C89B4B !important;
+}
+
+.footer-social-link:hover .footer-social-icon {
+  transform: scale(1.1);
+  box-shadow: 0 0 12px rgba(241, 198, 104, 0.5);
 }

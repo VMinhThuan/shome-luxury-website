@@ -295,21 +295,9 @@ document.addEventListener('DOMContentLoaded', () => {
   if (quickContactBackdrop) quickContactBackdrop.addEventListener('click', closeQuickContact);
   if (quickContactCloseHeader) quickContactCloseHeader.addEventListener('click', closeQuickContact);
 
-  // Keep the contact bar from covering footer information.
-  const siteFooter = document.querySelector('.site-footer');
-  if (quickContactWidget && siteFooter) {
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          quickContactWidget.classList.add('at-footer');
-        } else {
-          quickContactWidget.classList.remove('at-footer');
-        }
-      });
-    }, {
-      threshold: 0.01
-    });
-    observer.observe(siteFooter);
+  // Quick contact bar stays permanently fixed on scroll (never hides at footer)
+  if (quickContactWidget) {
+    quickContactWidget.classList.remove('at-footer');
   }
 
   // 9. PROJECT SHOWCASE INFINITE SCROLL & API HANDLING
