@@ -127,7 +127,7 @@ exports.getHomePage = (req, res) => {
         title: "Quy trình quản lý chất lượng thi công tại xưởng sản xuất",
         date: "10 Tháng 09, 2026",
         category: "Kỹ thuật",
-        image: "/images/factory_cnc.jpg",
+        image: "/images/sanxuat/1790821090608_6043215661779559246_6043215661779559246_c5b7a93c081c9ae283738868f4486898.jpg",
         excerpt: "Tiêu chuẩn kiểm định khắt khe từng mối ghép CNC và sơn phủ melamine trước khi xuất xưởng."
       }
     ]
