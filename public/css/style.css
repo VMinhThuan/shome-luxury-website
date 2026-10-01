@@ -338,7 +338,8 @@ ol {
     position: absolute;
     top: 100%;
     left: 0;
-    min-width: 260px;
+    min-width: auto;
+    width: max-content;
     background-color: var(--bg-dark-surface);
     border: 1px solid var(--border-dark);
     border-radius: var(--radius-sm);
@@ -360,16 +361,17 @@ ol {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 0.625rem 1.25rem;
-    font-size: 0.9375rem;
-    color: rgba(255, 255, 255, 0.9);
+    gap: 1.25rem;
+    padding: 0.7rem 1.35rem;
+    font-size: 1.05rem;
+    color: rgba(255, 255, 255, 0.95);
     font-weight: 500;
     white-space: nowrap;
   }
 
   .dropdown-link:hover {
     color: var(--accent-gold);
-    background-color: rgba(200, 155, 75, 0.08);
+    background-color: rgba(200, 155, 75, 0.1);
   }
 
   /* Sub-Dropdown Level 2 Flyout */
@@ -379,8 +381,8 @@ ol {
 
   .dropdown-sub>.dropdown-link::after {
     content: '▸';
-    margin-left: 0.5rem;
-    font-size: 0.8rem;
+    margin-left: 0.75rem;
+    font-size: 0.85rem;
     color: var(--accent-gold);
   }
 
@@ -388,7 +390,7 @@ ol {
     position: absolute;
     top: 0;
     left: 100%;
-    min-width: 390px;
+    min-width: auto;
     width: max-content;
     background-color: var(--bg-dark-surface);
     border: 1px solid var(--border-dark);
@@ -6001,8 +6003,7 @@ button,
 .modal-box button[type="submit"],
 .booking-form button[type="submit"],
 form button[type="submit"],
-.quick-contact-trigger,
-.quick-contact-action {
+.quick-contact-trigger {
   background: linear-gradient(135deg, #F5D38A 0%, #C89B4B 50%, #B78029 100%) !important;
   color: #111111 !important;
   font-weight: 700 !important;
@@ -6054,7 +6055,6 @@ h4 em,
 .footer-social-icon,
 .booking-process-icon,
 .usp-icon,
-.capacity-card-icon,
 .address-title svg,
 .user-stars,
 .testimonial-gold-quote,
@@ -6095,4 +6095,120 @@ hr,
 .slider-dots .dot.active,
 .pagination .page-item.active {
   background: #C89B4B !important;
+}
+
+/* Restore Original Clean Style for Quick Contact Actions & Capacity Card Icons */
+.quick-contact-action {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  color: #C89B4B !important;
+}
+
+.capacity-card-icon {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  color: #C89B4B !important;
+}
+
+.capacity-card-icon svg {
+  stroke: #C89B4B !important;
+  fill: none !important;
+}
+
+/* ==========================================================================
+   ACTION BAR ENHANCEMENTS: CURVED EDGES & CONTINUOUS PHONE SHAKE
+   ========================================================================== */
+
+/* 1. Continuous Phone Shake Animation (Desktop & Mobile) */
+@keyframes continuousPhoneRinging {
+  0% { transform: rotate(0deg) scale(1); }
+  3% { transform: rotate(-16deg) scale(1.15); }
+  6% { transform: rotate(16deg) scale(1.15); }
+  9% { transform: rotate(-16deg) scale(1.15); }
+  12% { transform: rotate(16deg) scale(1.15); }
+  15% { transform: rotate(-12deg) scale(1.1); }
+  18% { transform: rotate(12deg) scale(1.1); }
+  21% { transform: rotate(0deg) scale(1); }
+  100% { transform: rotate(0deg) scale(1); }
+}
+
+.quick-contact-call,
+.footer-action-call,
+.quick-contact-call svg,
+.footer-action-call svg,
+.quick-contact-call-icon,
+a[href^="tel:"] svg {
+  animation: continuousPhoneRinging 2.2s infinite ease-in-out !important;
+  transform-origin: center center !important;
+  display: inline-block !important;
+}
+
+/* 2. Desktop Action Bar Smooth Concave Curved Edges (Matching Photo 1) */
+@media (min-width: 768px) {
+  .quick-contact-bar {
+    background-color: #1A1A1A !important;
+    border-top-left-radius: 28px !important;
+    border-bottom-left-radius: 28px !important;
+    border-top-right-radius: 0 !important;
+    border-bottom-right-radius: 0 !important;
+    border: none !important;
+    box-shadow: -6px 0 24px rgba(0, 0, 0, 0.45) !important;
+    padding: 1.25rem 0.65rem !important;
+  }
+
+  .quick-contact-bar::before {
+    content: "" !important;
+    position: absolute !important;
+    top: -16px !important;
+    right: 0 !important;
+    width: 16px !important;
+    height: 16px !important;
+    background: transparent !important;
+    border-bottom-right-radius: 16px !important;
+    box-shadow: 4px 4px 0 4px #1A1A1A !important;
+    pointer-events: none !important;
+  }
+
+  .quick-contact-bar::after {
+    content: "" !important;
+    position: absolute !important;
+    bottom: -16px !important;
+    right: 0 !important;
+    width: 16px !important;
+    height: 16px !important;
+    background: transparent !important;
+    border-top-right-radius: 16px !important;
+    box-shadow: 4px -4px 0 4px #1A1A1A !important;
+    pointer-events: none !important;
+  }
+
+  .quick-contact-action {
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    color: #C89B4B !important;
+  }
+}
+
+/* 3. Restore Mobile Action Bar Original Dark Style (Matching Photo 2 Request) */
+@media (max-width: 767px) {
+  .quick-contact-bar,
+  .footer-action-bar {
+    background: #303030 !important;
+    background-color: #303030 !important;
+    border: none !important;
+    border-top: 1.5px solid #C89B4B !important;
+    box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.35) !important;
+  }
+
+  .quick-contact-action,
+  .footer-action-item {
+    background: transparent !important;
+    background-color: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    color: #C89B4B !important;
+  }
 }
