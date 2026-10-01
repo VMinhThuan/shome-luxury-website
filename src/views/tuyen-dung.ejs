@@ -8,7 +8,7 @@
   <meta name="theme-color" content="#171717" />
 
   <!-- Performance Preload Resource Hints -->
-  <link rel="preload" href="/css/style.css?v=5.0.0" as="style" />
+  <link rel="preload" href="/css/style.css?v=5.1.0" as="style" />
   <link rel="preload" href="/js/main.js?v=1.7.6" as="script" />
   <link rel="preload" href="/images/shome-logo.png" as="image" />
   <link rel="preload" href="/images/banner-tuyendung.png" as="image" />
@@ -19,7 +19,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Montserrat:wght@600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 
   <!-- CSS Stylesheet -->
-  <link rel="stylesheet" href="/css/style.css?v=5.0.0" />
+  <link rel="stylesheet" href="/css/style.css?v=5.1.0" />
   <script src="/js/main.js?v=1.7.6" defer></script>
 </head>
 <body class="page-recruitment">
@@ -79,7 +79,7 @@
         <div class="recruitment-jobs-grid" id="recruitmentJobsGrid">
           <div class="job-modal-loading" style="grid-column: 1 / -1; padding: 3rem 0;">
             <div class="modal-spinner-ring"></div>
-            <span>Đang kết nối API Backend để tải danh sách các vị trí tuyển dụng...</span>
+            <span>Đang tải danh sách các vị trí tuyển dụng...</span>
           </div>
         </div>
       </section>
@@ -125,7 +125,7 @@
           } else {
             jobsGrid.innerHTML = `
               <div style="grid-column: 1 / -1; text-align: center; color: #c0392b; padding: 2rem;">
-                <p>⚠️ Không thể tải danh sách bài tuyển dụng từ máy chủ API.</p>
+                <p>⚠️ Không thể tải danh sách bài tuyển dụng.</p>
               </div>
             `;
           }
@@ -133,7 +133,7 @@
           console.error("API Error fetching jobs list:", err);
           jobsGrid.innerHTML = `
             <div style="grid-column: 1 / -1; text-align: center; color: #c0392b; padding: 2rem;">
-              <p>⚠️ Lỗi kết nối API Backend khi tải danh sách tuyển dụng.</p>
+              <p>⚠️ Lỗi kết nối khi tải danh sách tuyển dụng.</p>
             </div>
           `;
         }
@@ -218,7 +218,7 @@
         modalBody.innerHTML = `
           <div class="job-modal-loading">
             <div class="modal-spinner-ring"></div>
-            <span>Đang tải thông tin chi tiết bài tuyển dụng từ máy chủ API...</span>
+            <span>Đang tải thông tin chi tiết bài tuyển dụng...</span>
           </div>
         `;
 
@@ -239,7 +239,7 @@
           console.error("API Error fetching job detail:", err);
           modalBody.innerHTML = `
             <div class="job-modal-loading" style="color: #c0392b;">
-              <p>⚠️ Lỗi kết nối API khi tải chi tiết bài tuyển dụng.</p>
+              <p>⚠️ Lỗi kết nối khi tải chi tiết bài tuyển dụng.</p>
             </div>
           `;
         }

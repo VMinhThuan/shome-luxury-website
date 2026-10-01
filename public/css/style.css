@@ -6318,3 +6318,9 @@ a[href^="tel:"] svg {
     color: #C89B4B !important;
   }
 }
+
+
+/* Hide video play button & duration timestamp */
+.video-play-btn-wrap, .video-v2-duration {
+  display: none !important;
+}
