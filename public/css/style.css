@@ -2383,7 +2383,7 @@ ol {
   padding: 0.75rem 0.5rem;
   margin-top: 1rem;
   border-top: 1px solid rgba(200, 155, 75, 0.35);
-  background-color: #505050;
+  background-color: #303030;
 }
 
 @media (min-width: 768px) {
@@ -2952,7 +2952,7 @@ ol {
     border: 0 !important;
     border-top: 1.5px solid #C89B4B !important;
     border-radius: 0 !important;
-    background: #505050 !important;
+    background: #303030 !important;
     box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.35) !important;
     position: relative !important;
   }
@@ -3028,8 +3028,8 @@ ol {
 
   .quick-contact-messenger svg {
     background-color: #C89B4B !important;
-    color: #505050 !important;
-    fill: #505050 !important;
+    color: #303030 !important;
+    fill: #303030 !important;
     border-radius: 50% !important;
     padding: 5px !important;
     width: 34px !important;
@@ -3039,9 +3039,9 @@ ol {
 
   .quick-contact-consult svg {
     background-color: #C89B4B !important;
-    color: #505050 !important;
+    color: #303030 !important;
     fill: none !important;
-    stroke: #505050 !important;
+    stroke: #303030 !important;
     stroke-width: 2 !important;
     border-radius: 50% !important;
     padding: 5px !important;
@@ -3084,7 +3084,7 @@ ol {
     max-height: 270px !important;
     padding: 0 !important;
     margin: 0 !important;
-    background-color: #505050 !important;
+    background-color: #303030 !important;
     border-top-left-radius: 30px !important;
     border-bottom-left-radius: 30px !important;
     border-top-right-radius: 0 !important;
@@ -3104,7 +3104,7 @@ ol {
     height: 14px !important;
     background: transparent !important;
     border-bottom-right-radius: 14px !important;
-    box-shadow: 4px 4px 0 4px #505050 !important;
+    box-shadow: 4px 4px 0 4px #303030 !important;
     pointer-events: none !important;
   }
 
@@ -3117,7 +3117,7 @@ ol {
     height: 14px !important;
     background: transparent !important;
     border-top-right-radius: 14px !important;
-    box-shadow: 4px -4px 0 4px #505050 !important;
+    box-shadow: 4px -4px 0 4px #303030 !important;
     pointer-events: none !important;
   }
 
@@ -3166,7 +3166,7 @@ ol {
   }
 
   .quick-contact-zalo svg text {
-    fill: #505050 !important;
+    fill: #303030 !important;
   }
 
   .quick-contact-call-icon {
@@ -3229,7 +3229,7 @@ ol {
     width: 15px !important;
     height: 15px !important;
     border-bottom-right-radius: 15px !important;
-    box-shadow: 4px 4px 0 4px #505050 !important;
+    box-shadow: 4px 4px 0 4px #303030 !important;
   }
 
   .quick-contact-bar::after {
@@ -3237,7 +3237,7 @@ ol {
     width: 15px !important;
     height: 15px !important;
     border-top-right-radius: 15px !important;
-    box-shadow: 4px -4px 0 4px #505050 !important;
+    box-shadow: 4px -4px 0 4px #303030 !important;
   }
 
   .quick-contact-action {
@@ -6143,21 +6143,31 @@ hr,
 }
 
 .quick-contact-call,
-.footer-action-call,
+.quick-contact-call-icon {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 100% !important;
+  height: 100% !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
 .quick-contact-call svg,
+.quick-contact-call-icon svg,
 .footer-action-call svg,
-.quick-contact-call-icon,
 a[href^="tel:"] svg {
   animation: continuousPhoneRinging 2.2s infinite ease-in-out !important;
   transform-origin: center center !important;
-  display: inline-block !important;
+  display: block !important;
+  margin: 0 auto !important;
 }
 
 /* 2. Desktop Action Bar Smooth Concave Curved Edges - Softer Lighter Gray Tone */
 @media (min-width: 768px) {
   .quick-contact-bar {
-    background-color: #505050 !important;
-    background: #505050 !important;
+    background-color: #303030 !important;
+    background: #303030 !important;
     border-top-left-radius: 28px !important;
     border-bottom-left-radius: 28px !important;
     border-top-right-radius: 0 !important;
@@ -6176,7 +6186,7 @@ a[href^="tel:"] svg {
     height: 16px !important;
     background: transparent !important;
     border-bottom-right-radius: 16px !important;
-    box-shadow: 4px 4px 0 4px #505050 !important;
+    box-shadow: 4px 4px 0 4px #303030 !important;
     pointer-events: none !important;
   }
 
@@ -6189,7 +6199,7 @@ a[href^="tel:"] svg {
     height: 16px !important;
     background: transparent !important;
     border-top-right-radius: 16px !important;
-    box-shadow: 4px -4px 0 4px #505050 !important;
+    box-shadow: 4px -4px 0 4px #303030 !important;
     pointer-events: none !important;
   }
 
@@ -6205,8 +6215,8 @@ a[href^="tel:"] svg {
 @media (max-width: 767px) {
   .quick-contact-bar,
   .footer-action-bar {
-    background: #505050 !important;
-    background-color: #505050 !important;
+    background: #303030 !important;
+    background-color: #303030 !important;
     border: none !important;
     border-top: 1.5px solid #C89B4B !important;
     box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.3) !important;
