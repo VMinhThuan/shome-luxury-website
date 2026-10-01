@@ -6324,3 +6324,144 @@ a[href^="tel:"] svg {
 .video-play-btn-wrap, .video-v2-duration {
   display: none !important;
 }
+
+
+/* ==========================================================================
+   FOOTER UNIFIED 3-COLUMN GRID ALIGNMENT (PERFECT VERTICAL MATCH)
+   ========================================================================== */
+
+/* Logo Image Height */
+.footer-logo-wrapper {
+  margin-bottom: 0.5rem;
+  max-width: 220px;
+  display: flex;
+  align-items: center;
+}
+
+.footer-logo-img {
+  width: auto !important;
+  max-height: 48px !important;
+  height: 48px !important;
+  object-fit: contain !important;
+  display: block !important;
+}
+
+/* Base Card Block Reset */
+.footer-info-block,
+.footer-fb-block,
+.footer-map-block {
+  width: 100% !important;
+  height: 320px !important;
+  min-height: 320px !important;
+  max-height: 320px !important;
+  box-sizing: border-box !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+.footer-info-block {
+  background: rgba(255, 255, 255, 0.03) !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  border-radius: 14px !important;
+  padding: 1.25rem !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: space-between !important;
+  overflow: hidden !important;
+}
+
+.fb-plugin-wrapper,
+.footer-map-card {
+  width: 100% !important;
+  height: 320px !important;
+  min-height: 320px !important;
+  max-height: 320px !important;
+  overflow: hidden !important;
+  border-radius: 14px !important;
+  box-sizing: border-box !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+.fb-plugin-wrapper iframe,
+.footer-map-card iframe {
+  width: 100% !important;
+  height: 320px !important;
+  max-height: 320px !important;
+  min-height: 320px !important;
+  margin: 0 !important;
+}
+
+.footer-contact-col {
+  display: flex !important;
+  flex-direction: column !important;
+}
+
+.footer-contact-details {
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: space-between !important;
+  gap: 0.85rem !important;
+  flex: 1 !important;
+  margin-top: 0.6rem !important;
+  margin-bottom: 0 !important;
+}
+
+/* UNIFIED DESKTOP GRID (100% Vertical Edge-to-Edge Alignment) */
+@media (min-width: 992px) {
+  .footer-top-grid,
+  .footer-brand-section {
+    display: grid !important;
+    grid-template-columns: minmax(240px, 0.85fr) minmax(320px, 1.25fr) minmax(260px, 0.9fr) !important;
+    column-gap: 1.5rem !important;
+    row-gap: 1.25rem !important;
+    align-items: stretch !important;
+    width: 100% !important;
+  }
+
+  .footer-info-block {
+    grid-column: 1 !important;
+  }
+
+  .footer-fb-block {
+    grid-column: 2 !important;
+  }
+
+  .footer-map-block {
+    grid-column: 3 !important;
+  }
+
+  .footer-brand-section {
+    grid-column: 1 / -1 !important;
+    padding-top: 1.5rem !important;
+    margin-top: 1.5rem !important;
+    border-top: 1px solid rgba(255, 255, 255, 0.1) !important;
+  }
+
+  .footer-brand-col {
+    grid-column: 1 !important;
+    height: 100% !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: space-between !important;
+    margin: 0 !important;
+  }
+
+  .footer-slogan-col {
+    grid-column: 2 !important;
+    height: 100% !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: space-between !important;
+    margin: 0 !important;
+  }
+
+  .footer-contact-col {
+    grid-column: 3 !important;
+    height: 100% !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: space-between !important;
+    margin-top: 0 !important;
+  }
+}
