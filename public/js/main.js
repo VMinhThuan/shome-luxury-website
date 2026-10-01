@@ -547,4 +547,19 @@ document.addEventListener('DOMContentLoaded', () => {
     }, { rootMargin: '200px 0px' });
     observer.observe(projectLoadSentinel);
   }
+
+  // Mail link handler: Copies email to clipboard and prompts user
+  document.querySelectorAll("a[href^='mailto:']").forEach(link => {
+    link.addEventListener("click", function(e) {
+      const email = this.getAttribute("href").replace("mailto:", "").split("?")[0];
+      if (email) {
+        if (navigator.clipboard) {
+          navigator.clipboard.writeText(email).then(() => {
+            alert("Đã sao chép email: " + email + " vào khay nhớ tạm!");
+          }).catch(() => {});
+        }
+      }
+    });
+  });
+
 });
