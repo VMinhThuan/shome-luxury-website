@@ -3343,12 +3343,37 @@ ol {
   position: relative;
 }
 
-.modal-close {
-  position: absolute;
-  top: 1rem;
-  right: 1rem;
-  color: var(--text-muted);
-  font-size: 1.5rem;
+.modal-close,
+.modal-close-btn {
+  position: absolute !important;
+  top: 1rem !important;
+  right: 1rem !important;
+  width: 36px !important;
+  height: 36px !important;
+  min-width: 36px !important;
+  min-height: 36px !important;
+  border-radius: 50% !important;
+  background: var(--accent-gold-gradient, #C89B4B) !important;
+  border: none !important;
+  color: #1A1A1A !important;
+  font-size: 1.35rem !important;
+  font-weight: 700 !important;
+  line-height: 1 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  cursor: pointer !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25) !important;
+  transition: transform 0.25 ease, opacity 0.2s ease !important;
+  z-index: 10 !important;
+}
+
+.modal-close:hover,
+.modal-close-btn:hover {
+  transform: scale(1.1) rotate(90deg) !important;
+  opacity: 0.9 !important;
 }
 
 .form-group {
@@ -6163,43 +6188,50 @@ a[href^="tel:"] svg {
   margin: 0 auto !important;
 }
 
-/* 2. Desktop Action Bar Smooth Concave Curved Edges - Softer Lighter Gray Tone */
+/* 2. Desktop Action Bar Smooth Organic Concave Silhouette */
 @media (min-width: 768px) {
   .quick-contact-bar {
     background-color: #303030 !important;
     background: #303030 !important;
-    border-top-left-radius: 28px !important;
-    border-bottom-left-radius: 28px !important;
+    border-top-left-radius: 32px !important;
+    border-bottom-left-radius: 32px !important;
     border-top-right-radius: 0 !important;
     border-bottom-right-radius: 0 !important;
     border: none !important;
-    box-shadow: -6px 0 24px rgba(0, 0, 0, 0.35) !important;
-    padding: 1.25rem 0.65rem !important;
+    box-shadow: -8px 0 24px rgba(0, 0, 0, 0.3) !important;
+    padding: 1.25rem 0 !important;
+    width: 64px !important;
+    min-width: 64px !important;
+    max-width: 64px !important;
+    height: 280px !important;
+    min-height: 280px !important;
+    max-height: 280px !important;
   }
 
   .quick-contact-bar::before {
     content: "" !important;
     position: absolute !important;
-    top: -16px !important;
+    top: -20px !important;
     right: 0 !important;
-    width: 16px !important;
-    height: 16px !important;
+    width: 20px !important;
+    height: 20px !important;
     background: transparent !important;
-    border-bottom-right-radius: 16px !important;
-    box-shadow: 4px 4px 0 4px #303030 !important;
+    border-bottom-right-radius: 20px !important;
+    box-shadow: 6px 6px 0 6px #303030 !important;
     pointer-events: none !important;
   }
 
   .quick-contact-bar::after {
     content: "" !important;
     position: absolute !important;
-    bottom: -16px !important;
+    top: auto !important;
+    bottom: -20px !important;
     right: 0 !important;
-    width: 16px !important;
-    height: 16px !important;
+    width: 20px !important;
+    height: 20px !important;
     background: transparent !important;
-    border-top-right-radius: 16px !important;
-    box-shadow: 4px -4px 0 4px #303030 !important;
+    border-top-right-radius: 20px !important;
+    box-shadow: 6px -6px 0 6px #303030 !important;
     pointer-events: none !important;
   }
 
@@ -6208,6 +6240,36 @@ a[href^="tel:"] svg {
     border: none !important;
     box-shadow: none !important;
     color: #C89B4B !important;
+  }
+}
+
+@media (min-width: 1024px) {
+  .quick-contact-bar {
+    width: 68px !important;
+    min-width: 68px !important;
+    max-width: 68px !important;
+    height: 300px !important;
+    min-height: 300px !important;
+    max-height: 300px !important;
+    border-top-left-radius: 34px !important;
+    border-bottom-left-radius: 34px !important;
+  }
+
+  .quick-contact-bar::before {
+    top: -22px !important;
+    width: 22px !important;
+    height: 22px !important;
+    border-bottom-right-radius: 22px !important;
+    box-shadow: 8px 8px 0 8px #303030 !important;
+  }
+
+  .quick-contact-bar::after {
+    bottom: -22px !important;
+    top: auto !important;
+    width: 22px !important;
+    height: 22px !important;
+    border-top-right-radius: 22px !important;
+    box-shadow: 8px -8px 0 8px #303030 !important;
   }
 }
 
