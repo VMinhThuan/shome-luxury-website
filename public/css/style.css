@@ -3075,22 +3075,22 @@ ol {
     flex-direction: column !important;
     align-items: center !important;
     justify-content: center !important;
-    gap: 14px !important;
+    gap: 6px !important;
     width: 60px !important;
-    height: 270px !important;
+    height: 215px !important;
     min-width: 60px !important;
     max-width: 60px !important;
-    min-height: 270px !important;
-    max-height: 270px !important;
-    padding: 0 !important;
+    min-height: 215px !important;
+    max-height: 215px !important;
+    padding: 0.6rem 0 !important;
     margin: 0 !important;
     background-color: #303030 !important;
-    border-top-left-radius: 30px !important;
-    border-bottom-left-radius: 30px !important;
+    border-top-left-radius: 28px !important;
+    border-bottom-left-radius: 28px !important;
     border-top-right-radius: 0 !important;
     border-bottom-right-radius: 0 !important;
     border: none !important;
-    box-shadow: -4px 0 20px rgba(0, 0, 0, 0.25) !important;
+    box-shadow: -6px 0 20px rgba(0, 0, 0, 0.25) !important;
     position: relative !important;
     margin-right: 0 !important;
   }
@@ -6188,36 +6188,38 @@ a[href^="tel:"] svg {
   margin: 0 auto !important;
 }
 
-/* 2. Desktop Action Bar Smooth Organic Concave Silhouette */
+/* 2. Desktop Action Bar Compact Organic Concave Silhouette */
 @media (min-width: 768px) {
   .quick-contact-bar {
     background-color: #303030 !important;
     background: #303030 !important;
-    border-top-left-radius: 32px !important;
-    border-bottom-left-radius: 32px !important;
+    border-top-left-radius: 28px !important;
+    border-bottom-left-radius: 28px !important;
     border-top-right-radius: 0 !important;
     border-bottom-right-radius: 0 !important;
     border: none !important;
-    box-shadow: -8px 0 24px rgba(0, 0, 0, 0.3) !important;
-    padding: 1.25rem 0 !important;
-    width: 64px !important;
-    min-width: 64px !important;
-    max-width: 64px !important;
-    height: 280px !important;
-    min-height: 280px !important;
-    max-height: 280px !important;
+    box-shadow: -6px 0 20px rgba(0, 0, 0, 0.3) !important;
+    padding: 0.6rem 0 !important;
+    gap: 6px !important;
+    width: 62px !important;
+    min-width: 62px !important;
+    max-width: 62px !important;
+    height: 215px !important;
+    min-height: 215px !important;
+    max-height: 215px !important;
+    justify-content: center !important;
   }
 
   .quick-contact-bar::before {
     content: "" !important;
     position: absolute !important;
-    top: -20px !important;
+    top: -18px !important;
     right: 0 !important;
-    width: 20px !important;
-    height: 20px !important;
+    width: 18px !important;
+    height: 18px !important;
     background: transparent !important;
-    border-bottom-right-radius: 20px !important;
-    box-shadow: 6px 6px 0 6px #303030 !important;
+    border-bottom-right-radius: 18px !important;
+    box-shadow: 5px 5px 0 5px #303030 !important;
     pointer-events: none !important;
   }
 
@@ -6225,13 +6227,13 @@ a[href^="tel:"] svg {
     content: "" !important;
     position: absolute !important;
     top: auto !important;
-    bottom: -20px !important;
+    bottom: -18px !important;
     right: 0 !important;
-    width: 20px !important;
-    height: 20px !important;
+    width: 18px !important;
+    height: 18px !important;
     background: transparent !important;
-    border-top-right-radius: 20px !important;
-    box-shadow: 6px -6px 0 6px #303030 !important;
+    border-top-right-radius: 18px !important;
+    box-shadow: 5px -5px 0 5px #303030 !important;
     pointer-events: none !important;
   }
 
@@ -6240,36 +6242,46 @@ a[href^="tel:"] svg {
     border: none !important;
     box-shadow: none !important;
     color: #C89B4B !important;
+    flex: 0 0 auto !important;
+    height: 44px !important;
+    width: 44px !important;
   }
 }
 
 @media (min-width: 1024px) {
   .quick-contact-bar {
-    width: 68px !important;
-    min-width: 68px !important;
-    max-width: 68px !important;
-    height: 300px !important;
-    min-height: 300px !important;
-    max-height: 300px !important;
-    border-top-left-radius: 34px !important;
-    border-bottom-left-radius: 34px !important;
+    width: 66px !important;
+    min-width: 66px !important;
+    max-width: 66px !important;
+    height: 230px !important;
+    min-height: 230px !important;
+    max-height: 230px !important;
+    padding: 0.75rem 0 !important;
+    gap: 8px !important;
+    border-top-left-radius: 30px !important;
+    border-bottom-left-radius: 30px !important;
   }
 
   .quick-contact-bar::before {
-    top: -22px !important;
-    width: 22px !important;
-    height: 22px !important;
-    border-bottom-right-radius: 22px !important;
-    box-shadow: 8px 8px 0 8px #303030 !important;
+    top: -18px !important;
+    width: 18px !important;
+    height: 18px !important;
+    border-bottom-right-radius: 18px !important;
+    box-shadow: 5px 5px 0 5px #303030 !important;
   }
 
   .quick-contact-bar::after {
-    bottom: -22px !important;
+    bottom: -18px !important;
     top: auto !important;
-    width: 22px !important;
-    height: 22px !important;
-    border-top-right-radius: 22px !important;
-    box-shadow: 8px -8px 0 8px #303030 !important;
+    width: 18px !important;
+    height: 18px !important;
+    border-top-right-radius: 18px !important;
+    box-shadow: 5px -5px 0 5px #303030 !important;
+  }
+
+  .quick-contact-action {
+    height: 46px !important;
+    width: 46px !important;
   }
 }
 
