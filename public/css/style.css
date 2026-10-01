@@ -6293,3 +6293,105 @@ a[href^="tel:"] svg {
     color: #C89B4B !important;
   }
 }
+
+
+
+/* Footer Equal Height Columns & Logo Height Alignment */
+.footer-logo-wrapper {
+  margin-bottom: 0.5rem;
+  max-width: 220px;
+  display: flex;
+  align-items: center;
+}
+
+.footer-logo-img {
+  width: auto !important;
+  max-height: 48px !important;
+  height: 48px !important;
+  object-fit: contain !important;
+  display: block !important;
+}
+
+/* Row 1: 3 Equal Height Cards (Address, FB, Map) */
+.footer-info-block,
+.footer-fb-block,
+.footer-map-block {
+  height: 315px !important;
+  min-height: 315px !important;
+  max-height: 315px !important;
+  box-sizing: border-box !important;
+}
+
+.footer-info-block {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 14px;
+  padding: 1.2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  overflow: hidden;
+}
+
+.fb-plugin-wrapper,
+.footer-map-card {
+  height: 315px !important;
+  min-height: 315px !important;
+  max-height: 315px !important;
+  overflow: hidden !important;
+  border-radius: 14px !important;
+  box-sizing: border-box !important;
+}
+
+.fb-plugin-wrapper iframe,
+.footer-map-card iframe {
+  height: 315px !important;
+  max-height: 315px !important;
+  min-height: 315px !important;
+}
+
+/* Row 2: 3 Equal Height Columns (Brand, Slogan, Contact) */
+.footer-contact-details {
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: space-between !important;
+  gap: 0.85rem !important;
+  height: 100% !important;
+  margin-top: 0.5rem !important;
+}
+
+@media (min-width: 992px) {
+  .footer-top-grid {
+    display: grid !important;
+    grid-template-columns: minmax(260px, 0.9fr) minmax(300px, 1.1fr) minmax(300px, 1.1fr) !important;
+    column-gap: 1.5rem !important;
+    row-gap: 1.25rem !important;
+    align-items: stretch !important;
+  }
+
+  .footer-brand-section {
+    grid-column: 1 / -1 !important;
+    display: grid !important;
+    grid-template-columns: minmax(250px, 0.9fr) minmax(320px, 1.2fr) minmax(260px, 0.9fr) !important;
+    column-gap: 1.5rem !important;
+    row-gap: 1.25rem !important;
+    padding-top: 1.5rem !important;
+    margin-top: 1.5rem !important;
+    border-top: 1px solid rgba(255, 255, 255, 0.1) !important;
+    align-items: stretch !important;
+  }
+
+  .footer-brand-col,
+  .footer-slogan-col,
+  .footer-contact-col {
+    height: 100% !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: space-between !important;
+  }
+
+  .footer-contact-col {
+    grid-column: 3 !important;
+    margin-top: 0 !important;
+  }
+}
