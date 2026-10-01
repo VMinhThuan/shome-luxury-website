@@ -41,6 +41,7 @@
   /* Secondary on dark */
 
   --accent-gold: #C89B4B;
+  --accent-gold-gradient: linear-gradient(135deg, #F5D38A 0%, #C89B4B 50%, #B78029 100%);
   /* Champagne Gold */
   --accent-gold-hover: #D2A653;
   /* Lighter Gold */
@@ -794,7 +795,7 @@ ol {
 
 .hero-script-eyebrow {
   font-size: 1.55rem;
-  color: #7D5B1E;
+  color: #C89B4B;
   line-height: 1.35;
   margin-bottom: 0.65rem;
   font-weight: 400;
@@ -825,7 +826,7 @@ ol {
 }
 
 .hero-v2-title .text-accent-brown {
-  color: #b47b31;
+  color: #C89B4B;
   display: inline;
 }
 
@@ -839,7 +840,7 @@ ol {
   font-size: 0.75rem;
   font-weight: 700;
   letter-spacing: 0.12em;
-  color: #7D5B1E;
+  color: #C89B4B;
   text-transform: uppercase;
 }
 
@@ -947,7 +948,7 @@ ol {
   font-size: clamp(1.15rem, 2vw, 1.6875rem);
   font-weight: 700;
   letter-spacing: 0.14em;
-  color: #7D5B1E;
+  color: #C89B4B;
   text-transform: uppercase;
   margin-bottom: 0.35rem;
   display: block;
@@ -962,7 +963,7 @@ ol {
   display: block;
   margin-bottom: 10px;
   font-size: clamp(1.15rem, 2vw, 1.6875rem);
-  color: #7D5B1E;
+  color: #C89B4B;
   font-weight: 700;
 }
 
@@ -970,7 +971,7 @@ ol {
   font-family: 'Montserrat', sans-serif !important;
   font-size: 1.5rem;
   font-weight: 800;
-  color: #7D5B1E;
+  color: #C89B4B;
   margin-bottom: 10px;
   line-height: 1.25;
 }
@@ -1078,7 +1079,7 @@ ol {
 
 .workshop-video-card-v2:hover .video-play-btn {
   transform: scale(1.12);
-  background: #D4AF37;
+  background: #C89B4B;
 }
 
 /* 5. VIDEO OVERLAY & CAPTION SAFETY */
@@ -1317,7 +1318,7 @@ ol {
   font-size: clamp(1.15rem, 2vw, 1.6875rem);
   font-weight: 700;
   letter-spacing: 0.14em;
-  color: #7D5B1E;
+  color: #C89B4B;
   text-transform: uppercase;
   margin-bottom: 0.35rem;
   display: block;
@@ -1517,7 +1518,7 @@ ol {
 
 .workshop-heart-script {
   font-size: 1.7rem;
-  color: #7D5B1E;
+  color: #C89B4B;
   margin-bottom: 0.2rem;
   line-height: 1.1;
   font-family: var(--font-script);
@@ -1602,7 +1603,7 @@ ol {
   font-size: clamp(1.15rem, 2vw, 1.6875rem);
   font-weight: 700;
   letter-spacing: 0.14em;
-  color: #7D5B1E;
+  color: #C89B4B;
   text-transform: uppercase;
   margin-bottom: 0.35rem;
   display: block;
@@ -1693,7 +1694,7 @@ ol {
   padding: 4px 12px;
   font-size: 0.72rem;
   font-weight: 700;
-  color: #7D5B1E;
+  color: #C89B4B;
   letter-spacing: 0.08em;
   display: inline-flex;
   align-items: center;
@@ -1851,7 +1852,7 @@ ol {
 }
 
 .btn-cta-gold {
-  background-color: #F4C414;
+  background: linear-gradient(135deg, #F5D38A 0%, #C89B4B 50%, #B78029 100%);
   color: #1D1D1D;
   font-weight: 700;
   font-size: 0.88rem;
@@ -1870,7 +1871,7 @@ ol {
 }
 
 .btn-cta-gold:hover {
-  background-color: #EAA824;
+  background: linear-gradient(135deg, #F8E0A3 0%, #D4A340 50%, #C89B4B 100%);
   transform: translateY(-2px);
   box-shadow: 0 6px 18px rgba(244, 196, 20, 0.4);
 }
@@ -2520,14 +2521,14 @@ ol {
 
 /* Call Pill Specifics */
 .pill-call {
-  border: 1.5px solid #a87635;
+  border: 1.5px solid #C89B4B;
 }
 
 .call-icon {
   width: 32px;
   height: 32px;
   border-radius: 50%;
-  background: #a87635;
+  background: #C89B4B;
   color: #FFFFFF;
   display: flex;
   align-items: center;
@@ -2536,7 +2537,7 @@ ol {
 }
 
 .call-title {
-  color: #a87635;
+  color: #C89B4B;
 }
 
 .call-sub {
@@ -2546,7 +2547,7 @@ ol {
 
 .call-arrow {
   background: #fbf5eb;
-  color: #a87635;
+  color: #C89B4B;
 }
 
 /* Zalo Pill Specifics */
@@ -2689,7 +2690,7 @@ ol {
   width: 58px;
   height: 58px;
   border-radius: 50%;
-  background: radial-gradient(circle at 35% 35%, #F5D38A 0%, #C89B4B 55%, #8E651B 100%);
+  background: radial-gradient(circle at 35% 35%, #F5D38A 0%, #C89B4B 55%, #B78029 100%);
   border: none;
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
   cursor: pointer;
@@ -2857,7 +2858,7 @@ ol {
 .pill-close-btn {
   background: transparent;
   border: none;
-  color: #D4AF37;
+  color: #C89B4B;
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -2884,7 +2885,7 @@ ol {
 }
 
 .pill-icon-circle.phone-circle {
-  background: radial-gradient(circle at 35% 35%, #F5D38A 0%, #C89B4B 60%, #8E651B 100%);
+  background: radial-gradient(circle at 35% 35%, #F5D38A 0%, #C89B4B 60%, #B78029 100%);
   box-shadow: 0 3px 10px rgba(200, 155, 75, 0.45);
 }
 
@@ -3837,7 +3838,7 @@ ol {
 .btn-job-xem-them {
   background: rgba(200, 155, 75, 0.1);
   border: none;
-  color: #7D5B1E;
+  color: #C89B4B;
   font-weight: 700;
   font-size: 0.78125rem;
   cursor: pointer;
@@ -3919,7 +3920,7 @@ ol {
 
 .job-modal-badge {
   background: rgba(200, 155, 75, 0.15);
-  color: #7D5B1E;
+  color: #C89B4B;
   font-weight: 700;
   font-size: 0.7rem;
   padding: 0.25rem 0.6rem;
@@ -3957,7 +3958,7 @@ ol {
 .job-modal-section h3 {
   font-size: 0.9375rem;
   font-weight: 700;
-  color: #7D5B1E;
+  color: #C89B4B;
   margin-bottom: 0.5rem;
   border-bottom: 1px solid #EEEEEE;
   padding-bottom: 0.35rem;
@@ -4047,7 +4048,7 @@ ol {
   align-items: center;
   gap: 0.5rem;
   font-weight: 700;
-  color: #7D5B1E;
+  color: #C89B4B;
   font-size: 0.9375rem;
   margin-bottom: 0.5rem;
 }
@@ -4063,7 +4064,7 @@ ol {
 }
 
 .ftoc-list a {
-  color: #7D5B1E;
+  color: #C89B4B;
   font-weight: 500;
   text-decoration: underline;
   transition: color 0.2s ease;
@@ -4076,7 +4077,7 @@ ol {
 .article-heading {
   font-size: 1.1rem;
   font-weight: 700;
-  color: #7D5B1E;
+  color: #C89B4B;
   margin-top: 1.5rem;
   margin-bottom: 0.75rem;
   padding-bottom: 0.35rem;
@@ -4117,7 +4118,7 @@ ol {
 }
 
 .article-contact-block a {
-  color: #7D5B1E;
+  color: #C89B4B;
   font-weight: 600;
   text-decoration: underline;
 }
@@ -4129,7 +4130,7 @@ ol {
   justify-content: center;
   min-height: 240px;
   gap: 1rem;
-  color: #7D5B1E;
+  color: #C89B4B;
   font-weight: 500;
 }
 
@@ -4973,7 +4974,7 @@ ol {
   margin-top: 0.75rem;
   margin-bottom: 0.35rem;
   padding-top: 0.15rem;
-  color: #e5bf88;
+  color: #F5D38A;
   font-family: var(--font-script);
   font-size: 1.25em;
   font-weight: 400;
@@ -5158,14 +5159,14 @@ ol {
 
 .booking-process-heading h2 {
   margin: .25rem 0 .35rem;
-  color: #e5bf88;
+  color: #F5D38A;
   font: 400 clamp(2rem, 5vw, 3.5rem)/1.2 var(--font-script);
   letter-spacing: .01em;
   text-shadow: 0 2px 10px rgba(0, 0, 0, .4);
 }
 
 .booking-process-heading h2 i {
-  color: #e5bf88;
+  color: #F5D38A;
   font: inherit;
   font-size: .95em;
 }
@@ -5247,7 +5248,7 @@ ol {
   flex: 0 0 38px;
   place-items: center;
   border-radius: 50%;
-  background: linear-gradient(135deg, #e3ba7b, #b57c2e);
+  background: linear-gradient(135deg, #F5D38A, #C89B4B);
   color: #ffffff;
   box-shadow: 0 3px 8px rgba(181, 124, 46, .25);
   font: 700 .8rem var(--font-menu);
@@ -5330,7 +5331,7 @@ ol {
 }
 
 .booking-estimate-header h2 em {
-  color: #b47b31;
+  color: #C89B4B;
   font-style: normal;
   font-weight: 700;
 }
@@ -5389,7 +5390,7 @@ ol {
   place-items: center;
   border-radius: 8px;
   background: rgba(189, 135, 64, 0.15);
-  color: #b47b31;
+  color: #C89B4B;
 }
 
 .booking-estimate-features .feat-icon svg {
@@ -5515,7 +5516,7 @@ ol {
   place-items: center;
   margin-right: 1rem;
   border-radius: 50%;
-  background: linear-gradient(135deg, #e3ba7b, #b57c2e);
+  background: linear-gradient(135deg, #F5D38A, #C89B4B);
   color: #ffffff;
   font: 700 .85rem/1 var(--font-menu);
   font-style: normal;
@@ -5524,7 +5525,7 @@ ol {
 
 .booking-faq summary::after {
   margin-left: auto;
-  color: #9b6c2b;
+  color: #C89B4B;
   content: '+';
   font: 400 1.6rem/1 var(--font-serif);
   transition: transform 0.2s ease;
@@ -5709,7 +5710,7 @@ ol {
   flex: 0 0 48px;
   place-items: center;
   border-radius: 50%;
-  background: linear-gradient(135deg, #e7bf88, #b98032);
+  background: linear-gradient(135deg, #F5D38A, #C89B4B);
   color: #ffffff;
   font: 700 0.95rem var(--font-menu);
   box-shadow: 0 3px 8px rgba(185, 128, 50, 0.25);
@@ -5722,7 +5723,7 @@ ol {
 }
 
 .user-stars {
-  color: #e5a438;
+  color: #C89B4B;
   font-size: 0.9rem;
   letter-spacing: 0.12em;
 }
@@ -5812,7 +5813,7 @@ ol {
   border-radius: 50%;
   border: 1px solid rgba(185, 128, 50, 0.25);
   background: #ffffff;
-  color: #9b6c2b;
+  color: #C89B4B;
   cursor: pointer;
   font: 700 1.3rem/1 var(--font-sans);
   display: grid;
@@ -5821,7 +5822,7 @@ ol {
 }
 
 .testimonial-nav button:hover {
-  background: #9b6c2b;
+  background: #C89B4B;
   color: #ffffff;
 }
 
@@ -5843,7 +5844,7 @@ ol {
 .slider-dots .dot.active {
   width: 24px;
   border-radius: 99px;
-  background: #b98032;
+  background: #C89B4B;
 }
 
 .related-projects-section .project-card-image-wrapper {
@@ -5908,4 +5909,190 @@ ol {
 .footer-social-link:hover .footer-social-icon {
   transform: scale(1.1);
   box-shadow: 0 0 12px rgba(241, 198, 104, 0.5);
+}
+
+/* Mobile Responsive spacing for Footer Contact Items */
+@media (max-width: 991px) {
+  .site-footer {
+    padding-bottom: 80px !important;
+  }
+
+  .footer-contact-col {
+    margin-top: 0.65rem !important;
+  }
+
+  .footer-contact-details {
+    gap: 0.55rem !important;
+    margin-bottom: 0.5rem !important;
+  }
+
+  .footer-social-link {
+    gap: 0.65rem !important;
+    font-size: 0.85rem !important;
+  }
+
+  .footer-social-icon {
+    width: 28px !important;
+    height: 28px !important;
+    flex: 0 0 28px !important;
+  }
+}
+
+/* Global All Buttons Brand Gold Theme (Matching Logo) */
+button,
+.btn,
+.btn-primary,
+.btn-cta-gold,
+.btn-header-consult,
+.btn-job-xem-them,
+.filter-btn.active,
+.testimonial-nav button,
+.modal-box button[type="submit"],
+.booking-form button[type="submit"],
+form button[type="submit"],
+.btn-cta-gold {
+  background: linear-gradient(135deg, #F5D38A 0%, #C89B4B 50%, #B78029 100%) !important;
+  color: #111111 !important;
+  font-weight: 700 !important;
+  border: 1px solid #C89B4B !important;
+  box-shadow: 0 4px 14px rgba(200, 155, 75, 0.3) !important;
+  transition: all 0.25s ease !important;
+}
+
+button:hover,
+.btn:hover,
+.btn-primary:hover,
+.btn-cta-gold:hover,
+.btn-header-consult:hover,
+.btn-job-xem-them:hover,
+.filter-btn.active:hover,
+.testimonial-nav button:hover,
+.modal-box button[type="submit"]:hover,
+.booking-form button[type="submit"]:hover,
+form button[type="submit"]:hover {
+  background: linear-gradient(135deg, #F8E0A3 0%, #D4A340 50%, #C89B4B 100%) !important;
+  color: #000000 !important;
+  transform: translateY(-2px) !important;
+  box-shadow: 0 6px 20px rgba(200, 155, 75, 0.45) !important;
+}
+
+button svg,
+.btn svg,
+.btn-primary svg,
+.btn-cta-gold svg,
+.btn-header-consult svg {
+  stroke: #111111 !important;
+  fill: none;
+}
+
+/* ==========================================================================
+   GLOBAL BRAND GOLD OVERRIDES - LOGO ACCENT COLOR (#C89B4B)
+   ========================================================================== */
+
+/* 1. All Buttons & Triggers */
+button,
+.btn,
+.btn-primary,
+.btn-cta-gold,
+.btn-header-consult,
+.btn-job-xem-them,
+.filter-btn.active,
+.testimonial-nav button,
+.modal-box button[type="submit"],
+.booking-form button[type="submit"],
+form button[type="submit"],
+.quick-contact-trigger,
+.quick-contact-action {
+  background: linear-gradient(135deg, #F5D38A 0%, #C89B4B 50%, #B78029 100%) !important;
+  color: #111111 !important;
+  font-weight: 700 !important;
+  border: 1px solid #C89B4B !important;
+  box-shadow: 0 4px 14px rgba(200, 155, 75, 0.3) !important;
+}
+
+button:hover,
+.btn:hover,
+.btn-primary:hover,
+.btn-cta-gold:hover,
+.btn-header-consult:hover,
+.btn-job-xem-them:hover,
+.filter-btn.active:hover,
+.testimonial-nav button:hover,
+.modal-box button[type="submit"]:hover,
+.booking-form button[type="submit"]:hover,
+form button[type="submit"]:hover,
+.quick-contact-trigger:hover {
+  background: linear-gradient(135deg, #F8E0A3 0%, #D4A340 50%, #C89B4B 100%) !important;
+  color: #000000 !important;
+  transform: translateY(-2px) !important;
+  box-shadow: 0 6px 20px rgba(200, 155, 75, 0.45) !important;
+}
+
+/* 2. All Headings & Accent Emphasized Text */
+h1 em,
+h2 em,
+h3 em,
+h4 em,
+.hero-title em,
+.booking-hero h1 em,
+.booking-estimate h2 em,
+.booking-process-kicker,
+.testimonial-kicker,
+.testimonial-heading h2 em,
+.eyebrow,
+.section-kicker,
+.highlight-gold,
+.text-gold,
+.gold-text {
+  color: #C89B4B !important;
+  font-style: normal;
+}
+
+/* 3. All Icons & Badges */
+.feat-icon,
+.user-avatar-badge,
+.footer-social-icon,
+.booking-process-icon,
+.usp-icon,
+.capacity-card-icon,
+.address-title svg,
+.user-stars,
+.testimonial-gold-quote,
+.trigger-ring {
+  background: linear-gradient(135deg, #F5D38A 0%, #C89B4B 50%, #B78029 100%) !important;
+  color: #111111 !important;
+  border-color: #C89B4B !important;
+}
+
+.user-stars {
+  background: transparent !important;
+  color: #C89B4B !important;
+}
+
+.testimonial-gold-quote {
+  background: transparent !important;
+  color: #C89B4B !important;
+}
+
+.address-title svg {
+  background: transparent !important;
+  stroke: #C89B4B !important;
+}
+
+/* 4. All Underlines, Borders & Dividers */
+hr,
+.border-gold,
+.line-gold,
+.title-underline,
+.booking-process-heading::after,
+.booking-faq summary::after,
+.booking-faq details[open] summary::after {
+  color: #C89B4B !important;
+  border-color: #C89B4B !important;
+}
+
+/* 5. Active Tabs & Pagination Dots */
+.slider-dots .dot.active,
+.pagination .page-item.active {
+  background: #C89B4B !important;
 }

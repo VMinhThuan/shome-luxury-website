@@ -290,38 +290,63 @@
       const dots = document.querySelectorAll('.slider-dots .dot');
       const prevBtn = document.querySelector('.testimonial-nav .nav-prev');
       const nextBtn = document.querySelector('.testimonial-nav .nav-next');
-      let currentIndex = 0;
+
+      function getStepWidth() {
+        if (!cards.length) return 0;
+        const cardWidth = cards[0].offsetWidth;
+        const style = window.getComputedStyle(slider);
+        const gap = parseFloat(style.gap) || 24;
+        return cardWidth + gap;
+      }
+
+      function updateDots() {
+        const step = getStepWidth();
+        if (!step) return;
+        const scrollPos = slider.scrollLeft;
+        const maxScroll = slider.scrollWidth - slider.clientWidth;
+        let activeIndex = Math.round(scrollPos / step);
+        if (scrollPos >= maxScroll - 10) {
+          activeIndex = cards.length - 1;
+        }
+        activeIndex = Math.max(0, Math.min(cards.length - 1, activeIndex));
+        dots.forEach((dot, idx) => {
+          dot.classList.toggle('active', idx === activeIndex);
+        });
+      }
 
       function scrollToCard(index) {
         if (index < 0) index = cards.length - 1;
         if (index >= cards.length) index = 0;
-        currentIndex = index;
-        cards[index].scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'start' });
+        const step = getStepWidth();
+        const maxScroll = slider.scrollWidth - slider.clientWidth;
+        const targetLeft = Math.min(index * step, maxScroll);
+        slider.scrollTo({ left: targetLeft, behavior: 'smooth' });
         updateDots();
       }
 
-      function updateDots() {
-        dots.forEach((dot, idx) => {
-          dot.classList.toggle('active', idx === currentIndex);
-        });
-      }
+      prevBtn?.addEventListener('click', () => {
+        const step = getStepWidth();
+        const currentIdx = Math.round(slider.scrollLeft / step);
+        scrollToCard(currentIdx - 1);
+      });
 
-      prevBtn?.addEventListener('click', () => scrollToCard(currentIndex - 1));
-      nextBtn?.addEventListener('click', () => scrollToCard(currentIndex + 1));
+      nextBtn?.addEventListener('click', () => {
+        const step = getStepWidth();
+        const currentIdx = Math.round(slider.scrollLeft / step);
+        scrollToCard(currentIdx + 1);
+      });
 
       dots.forEach((dot, idx) => {
         dot.addEventListener('click', () => scrollToCard(idx));
       });
 
+      let scrollTimeout;
       slider.addEventListener('scroll', () => {
-        const scrollPos = slider.scrollLeft;
-        const cardWidth = slider.clientWidth;
-        const idx = Math.round(scrollPos / cardWidth);
-        if (idx !== currentIndex && idx >= 0 && idx < cards.length) {
-          currentIndex = idx;
-          updateDots();
-        }
+        window.clearTimeout(scrollTimeout);
+        scrollTimeout = window.setTimeout(updateDots, 60);
       }, { passive: true });
+
+      updateDots();
     })();
   </script>
 </body>
