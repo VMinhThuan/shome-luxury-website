@@ -6188,104 +6188,115 @@ a[href^="tel:"] svg {
   margin: 0 auto !important;
 }
 
-/* 2. Desktop Action Bar Compact Organic Concave Silhouette */
+
+
+/* 2. Desktop Action Bar - Exact Bezier Curve Clip-Path Shape */
 @media (min-width: 768px) {
+  .quick-contact-widget {
+    position: fixed !important;
+    right: 0 !important;
+    top: 50% !important;
+    left: auto !important;
+    bottom: auto !important;
+    transform: translateY(-50%) !important;
+    z-index: 9999 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    width: auto !important;
+    height: auto !important;
+    pointer-events: auto !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+  }
+
   .quick-contact-bar {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 12px !important;
+    width: 64px !important;
+    min-width: 64px !important;
+    max-width: 64px !important;
+    height: 310px !important;
+    min-height: 310px !important;
+    max-height: 310px !important;
+    padding: 44px 0 !important;
+    margin: 0 !important;
+    margin-right: 0 !important;
     background-color: #303030 !important;
     background: #303030 !important;
-    border-top-left-radius: 28px !important;
-    border-bottom-left-radius: 28px !important;
-    border-top-right-radius: 0 !important;
-    border-bottom-right-radius: 0 !important;
     border: none !important;
-    box-shadow: -6px 0 20px rgba(0, 0, 0, 0.3) !important;
-    padding: 0.6rem 0 !important;
-    gap: 6px !important;
-    width: 62px !important;
-    min-width: 62px !important;
-    max-width: 62px !important;
-    height: 215px !important;
-    min-height: 215px !important;
-    max-height: 215px !important;
-    justify-content: center !important;
+    border-radius: 0 !important;
+    box-shadow: -8px 0 24px rgba(0, 0, 0, 0.35) !important;
+    position: relative !important;
+    clip-path: url(#actionBarClip) !important;
+    -webkit-clip-path: url(#actionBarClip) !important;
   }
 
-  .quick-contact-bar::before {
-    content: "" !important;
-    position: absolute !important;
-    top: -18px !important;
-    right: 0 !important;
-    width: 18px !important;
-    height: 18px !important;
-    background: transparent !important;
-    border-bottom-right-radius: 18px !important;
-    box-shadow: 5px 5px 0 5px #303030 !important;
-    pointer-events: none !important;
-  }
-
+  .quick-contact-bar::before,
   .quick-contact-bar::after {
-    content: "" !important;
-    position: absolute !important;
-    top: auto !important;
-    bottom: -18px !important;
-    right: 0 !important;
-    width: 18px !important;
-    height: 18px !important;
-    background: transparent !important;
-    border-top-right-radius: 18px !important;
-    box-shadow: 5px -5px 0 5px #303030 !important;
-    pointer-events: none !important;
+    display: none !important;
   }
 
   .quick-contact-action {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    width: 44px !important;
+    height: 44px !important;
+    flex: 0 0 44px !important;
     background: transparent !important;
     border: none !important;
     box-shadow: none !important;
     color: #C89B4B !important;
-    flex: 0 0 auto !important;
-    height: 44px !important;
-    width: 44px !important;
+    position: relative !important;
+    cursor: pointer !important;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+
+  .quick-contact-action:hover {
+    transform: scale(1.12) !important;
+    opacity: 0.95 !important;
+    background: transparent !important;
   }
 }
 
 @media (min-width: 1024px) {
   .quick-contact-bar {
-    width: 66px !important;
-    min-width: 66px !important;
-    max-width: 66px !important;
-    height: 230px !important;
-    min-height: 230px !important;
-    max-height: 230px !important;
-    padding: 0.75rem 0 !important;
-    gap: 8px !important;
-    border-top-left-radius: 30px !important;
-    border-bottom-left-radius: 30px !important;
-  }
-
-  .quick-contact-bar::before {
-    top: -18px !important;
-    width: 18px !important;
-    height: 18px !important;
-    border-bottom-right-radius: 18px !important;
-    box-shadow: 5px 5px 0 5px #303030 !important;
-  }
-
-  .quick-contact-bar::after {
-    bottom: -18px !important;
-    top: auto !important;
-    width: 18px !important;
-    height: 18px !important;
-    border-top-right-radius: 18px !important;
-    box-shadow: 5px -5px 0 5px #303030 !important;
+    width: 68px !important;
+    min-width: 68px !important;
+    max-width: 68px !important;
+    height: 330px !important;
+    min-height: 330px !important;
+    max-height: 330px !important;
+    padding: 48px 0 !important;
+    gap: 14px !important;
   }
 
   .quick-contact-action {
-    height: 46px !important;
     width: 46px !important;
+    height: 46px !important;
+    flex: 0 0 46px !important;
+  }
+
+  .quick-contact-action svg {
+    width: 36px !important;
+    height: 36px !important;
+    max-width: 36px !important;
+    max-height: 36px !important;
+  }
+
+  .quick-contact-zalo svg {
+    width: 38px !important;
+    height: 38px !important;
+    max-width: 38px !important;
+    max-height: 38px !important;
   }
 }
 
-/* 3. Mobile Action Bar - Softer Lighter Gray Tone */
+/* 3. Mobile Action Bar - Horizontal Fixed Bottom Bar */
 @media (max-width: 767px) {
   .quick-contact-bar,
   .footer-action-bar {
@@ -6294,6 +6305,8 @@ a[href^="tel:"] svg {
     border: none !important;
     border-top: 1.5px solid #C89B4B !important;
     box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.3) !important;
+    clip-path: none !important;
+    -webkit-clip-path: none !important;
   }
 
   .quick-contact-action,
@@ -6303,107 +6316,5 @@ a[href^="tel:"] svg {
     border: none !important;
     box-shadow: none !important;
     color: #C89B4B !important;
-  }
-}
-
-
-
-/* Footer Equal Height Columns & Logo Height Alignment */
-.footer-logo-wrapper {
-  margin-bottom: 0.5rem;
-  max-width: 220px;
-  display: flex;
-  align-items: center;
-}
-
-.footer-logo-img {
-  width: auto !important;
-  max-height: 48px !important;
-  height: 48px !important;
-  object-fit: contain !important;
-  display: block !important;
-}
-
-/* Row 1: 3 Equal Height Cards (Address, FB, Map) */
-.footer-info-block,
-.footer-fb-block,
-.footer-map-block {
-  height: 315px !important;
-  min-height: 315px !important;
-  max-height: 315px !important;
-  box-sizing: border-box !important;
-}
-
-.footer-info-block {
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 14px;
-  padding: 1.2rem;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  overflow: hidden;
-}
-
-.fb-plugin-wrapper,
-.footer-map-card {
-  height: 315px !important;
-  min-height: 315px !important;
-  max-height: 315px !important;
-  overflow: hidden !important;
-  border-radius: 14px !important;
-  box-sizing: border-box !important;
-}
-
-.fb-plugin-wrapper iframe,
-.footer-map-card iframe {
-  height: 315px !important;
-  max-height: 315px !important;
-  min-height: 315px !important;
-}
-
-/* Row 2: 3 Equal Height Columns (Brand, Slogan, Contact) */
-.footer-contact-details {
-  display: flex !important;
-  flex-direction: column !important;
-  justify-content: space-between !important;
-  gap: 0.85rem !important;
-  height: 100% !important;
-  margin-top: 0.5rem !important;
-}
-
-@media (min-width: 992px) {
-  .footer-top-grid {
-    display: grid !important;
-    grid-template-columns: minmax(260px, 0.9fr) minmax(300px, 1.1fr) minmax(300px, 1.1fr) !important;
-    column-gap: 1.5rem !important;
-    row-gap: 1.25rem !important;
-    align-items: stretch !important;
-  }
-
-  .footer-brand-section {
-    grid-column: 1 / -1 !important;
-    display: grid !important;
-    grid-template-columns: minmax(250px, 0.9fr) minmax(320px, 1.2fr) minmax(260px, 0.9fr) !important;
-    column-gap: 1.5rem !important;
-    row-gap: 1.25rem !important;
-    padding-top: 1.5rem !important;
-    margin-top: 1.5rem !important;
-    border-top: 1px solid rgba(255, 255, 255, 0.1) !important;
-    align-items: stretch !important;
-  }
-
-  .footer-brand-col,
-  .footer-slogan-col,
-  .footer-contact-col {
-    height: 100% !important;
-    display: flex !important;
-    flex-direction: column !important;
-    justify-content: space-between !important;
-  }
-
-  .footer-contact-col {
-    grid-column: 3 !important;
-    margin-top: 0 !important;
   }
 }
