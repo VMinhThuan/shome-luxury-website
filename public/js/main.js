@@ -156,6 +156,53 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
+  // Custom Luxury Dropdown Interactivity
+  const customDropdowns = document.querySelectorAll('.custom-dropdown');
+  customDropdowns.forEach(dropdown => {
+    const toggle = dropdown.querySelector('.custom-dropdown-toggle');
+    const selectedText = dropdown.querySelector('.custom-dropdown-selected');
+    const items = dropdown.querySelectorAll('.custom-dropdown-item');
+    const hiddenInput = dropdown.querySelector('input[type="hidden"]');
+
+    if (toggle) {
+      toggle.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const isOpen = dropdown.classList.contains('open');
+        document.querySelectorAll('.custom-dropdown.open').forEach(d => {
+          if (d !== dropdown) d.classList.remove('open');
+        });
+        dropdown.classList.toggle('open', !isOpen);
+        toggle.setAttribute('aria-expanded', !isOpen);
+      });
+    }
+
+    items.forEach(item => {
+      item.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const val = item.getAttribute('data-value');
+        if (hiddenInput) hiddenInput.value = val;
+        if (selectedText) selectedText.textContent = val;
+
+        items.forEach(i => {
+          const isSel = i === item;
+          i.classList.toggle('selected', isSel);
+          i.setAttribute('aria-selected', isSel);
+        });
+
+        dropdown.classList.remove('open');
+        if (toggle) toggle.setAttribute('aria-expanded', 'false');
+      });
+    });
+  });
+
+  document.addEventListener('click', () => {
+    document.querySelectorAll('.custom-dropdown.open').forEach(d => {
+      d.classList.remove('open');
+      const toggle = d.querySelector('.custom-dropdown-toggle');
+      if (toggle) toggle.setAttribute('aria-expanded', 'false');
+    });
+  });
+
   if (consultForm) {
     consultForm.addEventListener('submit', async (e) => {
       e.preventDefault();
