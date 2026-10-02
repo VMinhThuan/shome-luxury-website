@@ -3060,10 +3060,10 @@ ol {
   .quick-contact-widget {
     position: fixed !important;
     right: 0 !important;
-    top: 38% !important;
+    top: auto !important;
+    bottom: 75px !important;
     left: auto !important;
-    bottom: auto !important;
-    transform: translateY(-50%) !important;
+    transform: none !important;
     z-index: 9999 !important;
     margin: 0 !important;
     padding: 0 !important;
@@ -3086,15 +3086,14 @@ ol {
     max-width: 60px !important;
     min-height: auto !important;
     max-height: none !important;
-    padding: 16px 8px !important;
+    padding: 18px 8px !important;
     margin: 0 !important;
-    background-color: #000000 !important;
+    background-color: #262626 !important;
     border-top-left-radius: 36px !important;
     border-bottom-left-radius: 36px !important;
     border-top-right-radius: 0 !important;
     border-bottom-right-radius: 0 !important;
-    border: 1.5px solid rgba(200, 155, 75, 0.5) !important;
-    border-right: none !important;
+    border: none !important;
     box-shadow: -6px 0 24px rgba(0, 0, 0, 0.45) !important;
     position: relative !important;
     margin-right: 0 !important;
@@ -3109,7 +3108,7 @@ ol {
     height: 14px !important;
     background: transparent !important;
     border-bottom-right-radius: 14px !important;
-    box-shadow: 4px 4px 0 4px #000000 !important;
+    box-shadow: 4px 4px 0 4px #262626 !important;
     pointer-events: none !important;
   }
 
@@ -3122,7 +3121,7 @@ ol {
     height: 14px !important;
     background: transparent !important;
     border-top-right-radius: 14px !important;
-    box-shadow: 4px -4px 0 4px #000000 !important;
+    box-shadow: 4px -4px 0 4px #262626 !important;
     pointer-events: none !important;
   }
 
@@ -3180,13 +3179,12 @@ ol {
     max-width: 68px !important;
     min-height: auto !important;
     max-height: none !important;
-    padding: 20px 10px !important;
+    padding: 22px 10px !important;
     gap: 14px !important;
     border-top-left-radius: 38px !important;
     border-bottom-left-radius: 38px !important;
-    background-color: #000000 !important;
-    border: 1.5px solid rgba(200, 155, 75, 0.5) !important;
-    border-right: none !important;
+    background-color: #262626 !important;
+    border: none !important;
   }
 
   .quick-contact-bar::before {
@@ -3198,7 +3196,7 @@ ol {
     height: 15px !important;
     background: transparent !important;
     border-bottom-right-radius: 15px !important;
-    box-shadow: 4px 4px 0 4px #000000 !important;
+    box-shadow: 4px 4px 0 4px #262626 !important;
     pointer-events: none !important;
   }
 
@@ -3211,7 +3209,7 @@ ol {
     height: 15px !important;
     background: transparent !important;
     border-top-right-radius: 15px !important;
-    box-shadow: 4px -4px 0 4px #000000 !important;
+    box-shadow: 4px -4px 0 4px #262626 !important;
     pointer-events: none !important;
   }
 
