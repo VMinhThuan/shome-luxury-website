@@ -596,7 +596,6 @@ document.addEventListener('DOMContentLoaded', () => {
     if (project.propertyType) attrs.push(`Loại hình: ${project.propertyType}`);
     if (project.style) attrs.push(`Phong cách: ${project.style}`);
     if (Number.isFinite(Number(project.cost))) attrs.push(`Chi phí: ${formatProjectCost(project.cost)}`);
-    const attrText = attrs.join('   |   ');
     const projectDetailUrl = `/cong-trinh/${encodeURIComponent(project.slug || '')}`;
 
     const quotes = [
@@ -629,7 +628,7 @@ document.addEventListener('DOMContentLoaded', () => {
             <h2 class="project-card-title">
               <a href="${projectDetailUrl}">${safeTitle}</a>
             </h2>
-            ${attrText ? `<div class="project-card-attributes">${escapeHtml(attrText)}</div>` : ''}
+            ${attrs.length ? `<div class="project-card-attributes">${attrs.map((attribute, index) => `${index ? '<span class="project-card-attribute-separator" aria-hidden="true">|</span>' : ''}<span class="project-card-attribute">${escapeHtml(attribute)}</span>`).join('')}</div>` : ''}
           </div>
 
           <div class="project-card-action-right">

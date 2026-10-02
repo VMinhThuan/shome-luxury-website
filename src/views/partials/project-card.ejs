@@ -4,7 +4,6 @@
   if (project.propertyType) attrs.push(`Loại hình: ${project.propertyType}`);
   if (project.style) attrs.push(`Phong cách: ${project.style}`);
   if (Number.isFinite(Number(project.cost))) attrs.push(`Chi phí: ${Math.round(Number(project.cost) / 1000000).toLocaleString('vi-VN')} triệu`);
-  const attrText = attrs.join('   |   ');
   const projectDetailUrl = `/cong-trinh/${project.slug}`;
   const mockImages = [
     '/images/project_apartment.jpg',
@@ -51,9 +50,12 @@
       <h2 class="project-card-title">
         <a href="<%= projectDetailUrl %>"><%= project.title %></a>
       </h2>
-      <% if (attrText) { %>
+      <% if (attrs.length) { %>
         <div class="project-card-attributes">
-          <%= attrText %>
+          <% attrs.forEach((attribute, index) => { %>
+            <% if (index > 0) { %><span class="project-card-attribute-separator" aria-hidden="true">|</span><% } %>
+            <span class="project-card-attribute"><%= attribute %></span>
+          <% }); %>
         </div>
       <% } %>
     </div>
