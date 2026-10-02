@@ -4347,7 +4347,8 @@ ol {
   background-repeat: repeat-y;
   background-position: center top;
   background-size: 100% auto;
-  min-height: 80vh;
+  height: auto;
+  min-height: 0;
 }
 
 @media (min-width: 1024px) {
@@ -4478,29 +4479,30 @@ ol {
 
 /* Project List Section */
 .project-showcase-section {
-  /* Desktop content starts 46px from every section edge. */
-  padding-top: 46px;
-  padding-bottom: 46px;
+  height: auto;
+  min-height: 0;
+  padding: 0;
+}
+
+.project-showcase-section > .container {
+  padding: 46px;
 }
 
 @media (max-width: 767px) {
-  .project-showcase-section {
-    /* Preserve a balanced rhythm without creating oversized mobile gaps. */
-    padding-top: 24px;
-    padding-bottom: 24px;
+  .project-showcase-section > .container {
+    padding: 24px;
   }
 }
 
 .project-list-vertical {
   display: flex;
   flex-direction: column;
-  /* Matches the desktop container's 40px side inset. */
-  gap: 2.5rem;
+  gap: 46px;
 }
 
 @media (min-width: 992px) {
   .project-list-vertical {
-    gap: 2.5rem;
+    gap: 46px;
   }
 }
 
@@ -4510,7 +4512,7 @@ ol {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
     column-gap: 1.5rem;
-    row-gap: 2.5rem;
+    row-gap: 46px;
   }
 
   .project-showcase-section .project-card-image-wrapper {
