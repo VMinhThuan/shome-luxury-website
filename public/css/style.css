@@ -4814,20 +4814,63 @@ ol {
 
 .project-meta-grid {
   display: flex;
-  flex-wrap: wrap;
-  gap: 1.5rem 2.5rem;
-  padding: 1.25rem 1.5rem;
-  background-color: var(--bg-secondary);
-  border-radius: var(--radius-sm);
-  margin-bottom: 2rem;
-  border-left: 3px solid var(--accent-gold-dark);
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.55rem;
 }
 
 .meta-item {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
-  font-size: 0.95rem;
+  gap: 0.55rem;
+  font-size: clamp(0.85rem, 1.35vw, 1rem);
+  line-height: 1.35;
+}
+
+.project-meta-overlay {
+  position: absolute;
+  z-index: 2;
+  top: clamp(1rem, 3vw, 2.25rem);
+  right: clamp(1rem, 7vw, 6rem);
+  left: clamp(1rem, 7vw, 6rem);
+  padding: clamp(1rem, 2.2vw, 1.6rem) clamp(1.15rem, 3vw, 2.25rem);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  border-left: 4px solid var(--accent-gold);
+  border-radius: 20px;
+  background: rgba(250, 249, 246, 0.82);
+  box-shadow: 0 14px 32px rgba(0, 0, 0, 0.18);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+.project-meta-heading {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin: 0 0 0.45rem;
+  color: var(--text-primary);
+  font: 700 clamp(1rem, 1.8vw, 1.25rem)/1.2 var(--font-menu);
+}
+
+.project-meta-heading span {
+  width: 0.72rem;
+  height: 0.72rem;
+  flex: 0 0 0.72rem;
+  background: var(--accent-gold);
+  box-shadow: 0 0 0 3px rgba(200, 155, 75, 0.16);
+}
+
+.project-meta-overlay .meta-item::before {
+  content: '';
+  width: 0;
+  height: 0;
+  border-top: 0.32rem solid transparent;
+  border-bottom: 0.32rem solid transparent;
+  border-left: 0.48rem solid var(--text-primary);
+}
+
+.project-meta-overlay .meta-label::after {
+  content: ':';
 }
 
 .meta-label {
