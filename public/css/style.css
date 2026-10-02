@@ -3060,7 +3060,7 @@ ol {
   .quick-contact-widget {
     position: fixed !important;
     right: 0 !important;
-    top: 50% !important;
+    top: 38% !important;
     left: auto !important;
     bottom: auto !important;
     transform: translateY(-50%) !important;
@@ -3093,7 +3093,8 @@ ol {
     border-bottom-left-radius: 36px !important;
     border-top-right-radius: 0 !important;
     border-bottom-right-radius: 0 !important;
-    border: none !important;
+    border: 1.5px solid rgba(200, 155, 75, 0.5) !important;
+    border-right: none !important;
     box-shadow: -6px 0 24px rgba(0, 0, 0, 0.45) !important;
     position: relative !important;
     margin-right: 0 !important;
@@ -3184,6 +3185,8 @@ ol {
     border-top-left-radius: 38px !important;
     border-bottom-left-radius: 38px !important;
     background-color: #000000 !important;
+    border: 1.5px solid rgba(200, 155, 75, 0.5) !important;
+    border-right: none !important;
   }
 
   .quick-contact-bar::before {
