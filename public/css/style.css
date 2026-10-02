@@ -3060,7 +3060,7 @@ ol {
   .quick-contact-widget {
     position: fixed !important;
     right: 0 !important;
-    top: 58% !important;
+    top: 50% !important;
     left: auto !important;
     bottom: auto !important;
     transform: translateY(-50%) !important;
@@ -3089,12 +3089,12 @@ ol {
     padding: 16px 8px !important;
     margin: 0 !important;
     background-color: #000000 !important;
-    border-top-left-radius: 28px !important;
-    border-bottom-left-radius: 0 !important;
+    border-top-left-radius: 36px !important;
+    border-bottom-left-radius: 36px !important;
     border-top-right-radius: 0 !important;
     border-bottom-right-radius: 0 !important;
     border: none !important;
-    box-shadow: -4px 0 20px rgba(0, 0, 0, 0.4) !important;
+    box-shadow: -6px 0 24px rgba(0, 0, 0, 0.45) !important;
     position: relative !important;
     margin-right: 0 !important;
   }
@@ -3113,7 +3113,16 @@ ol {
   }
 
   .quick-contact-bar::after {
-    display: none !important;
+    content: '' !important;
+    position: absolute !important;
+    bottom: -14px !important;
+    right: 0 !important;
+    width: 14px !important;
+    height: 14px !important;
+    background: transparent !important;
+    border-top-right-radius: 14px !important;
+    box-shadow: 4px -4px 0 4px #000000 !important;
+    pointer-events: none !important;
   }
 
   .quick-contact-action {
@@ -3172,21 +3181,35 @@ ol {
     max-height: none !important;
     padding: 20px 10px !important;
     gap: 14px !important;
-    border-top-left-radius: 32px !important;
-    border-bottom-left-radius: 0 !important;
+    border-top-left-radius: 38px !important;
+    border-bottom-left-radius: 38px !important;
     background-color: #000000 !important;
   }
 
   .quick-contact-bar::before {
+    content: '' !important;
+    position: absolute !important;
     top: -15px !important;
+    right: 0 !important;
     width: 15px !important;
     height: 15px !important;
+    background: transparent !important;
     border-bottom-right-radius: 15px !important;
     box-shadow: 4px 4px 0 4px #000000 !important;
+    pointer-events: none !important;
   }
 
   .quick-contact-bar::after {
-    display: none !important;
+    content: '' !important;
+    position: absolute !important;
+    bottom: -15px !important;
+    right: 0 !important;
+    width: 15px !important;
+    height: 15px !important;
+    background: transparent !important;
+    border-top-right-radius: 15px !important;
+    box-shadow: 4px -4px 0 4px #000000 !important;
+    pointer-events: none !important;
   }
 
   .quick-contact-action {
