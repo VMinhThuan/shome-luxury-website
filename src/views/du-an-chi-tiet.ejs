@@ -8,8 +8,8 @@
   <meta name="theme-color" content="#171717" />
 
   <!-- CSS Stylesheet -->
-  <link rel="stylesheet" href="/css/style.css?v=6.0.9" />
-  <script src="/js/main.js?v=1.8.2" defer></script>
+  <link rel="stylesheet" href="/css/style.css?v=6.1.0" />
+  <script src="/js/main.js?v=1.8.3" defer></script>
 </head>
 <body>
 
@@ -63,6 +63,12 @@
               <span class="meta-value" data-project-field="area"><%= project.area %></span>
             </div>
           <% } %>
+          <% if (project.propertyType) { %>
+            <div class="meta-item">
+              <span class="meta-label">Loại hình</span>
+              <span class="meta-value" data-project-field="propertyType"><%= project.propertyType %></span>
+            </div>
+          <% } %>
           <% if (Number.isFinite(Number(project.cost))) { %>
             <div class="meta-item">
               <span class="meta-label">Chi phí</span>
@@ -97,15 +103,6 @@
               <img src="<%= imgUrl %>" alt="<%= project.title %> - thumbnail <%= idx + 1 %>" loading="lazy" />
             </button>
           <% }); %>
-        </div>
-      </section>
-
-      <!-- CTA Section -->
-      <section class="project-detail-cta">
-        <div class="cta-inner-box">
-          <h2 class="cta-heading">Biến ý tưởng của bạn thành không gian sống đẳng cấp</h2>
-          <p class="cta-sub">Liên hệ ngay với đội ngũ kiến trúc sư S-Home Luxury để nhận tư vấn và báo giá miễn phí.</p>
-          <button class="btn btn-primary trigger-consult-modal">Nhận tư vấn thiết kế ngay</button>
         </div>
       </section>
 

@@ -33,6 +33,19 @@ const projectSchema = new mongoose.Schema({
     min: [200000000, 'Chi phí tối thiểu là 200 triệu đồng'],
     max: [500000000, 'Chi phí tối đa là 500 triệu đồng']
   },
+  propertyType: {
+    type: String,
+    default: null,
+    enum: [
+      'Căn hộ 1 PN',
+      'Căn hộ 2 PN',
+      'Căn hộ 3 PN',
+      'Nhà phố',
+      'Biệt thự',
+      'Villa',
+      'Văn phòng'
+    ]
+  },
   style: {
     type: String,
     default: null,

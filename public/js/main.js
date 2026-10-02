@@ -404,8 +404,6 @@ document.addEventListener('DOMContentLoaded', () => {
     let dragOffsetX = 0;
     let dragPointerId = null;
     let dragPreviewIndex = null;
-    let galleryAutoplayTimer = null;
-    let isGalleryTransitioning = false;
 
     function updateGallery(images, projectTitle) {
       if (!gallery || !images.length) return;
@@ -429,7 +427,7 @@ document.addEventListener('DOMContentLoaded', () => {
         button.append(image);
         thumbnails.append(button);
       });
-      selectGalleryImage(0, false, true);
+      selectGalleryImage(0, true);
     }
 
     function updateGalleryUi() {
@@ -448,7 +446,7 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     }
 
-    function selectGalleryImage(index, animate = true, force = false) {
+    function selectGalleryImage(index, force = false) {
       if (!galleryImages.length) return;
       const nextGalleryIndex = (index + galleryImages.length) % galleryImages.length;
       const heroImage = gallery.querySelector('[data-detail-image]');
@@ -457,37 +455,10 @@ document.addEventListener('DOMContentLoaded', () => {
         updateGalleryUi();
         return;
       }
-      if (isGalleryTransitioning) return;
-
-      const applyNextImage = () => {
-        activeGalleryIndex = nextGalleryIndex;
-        heroImage.src = galleryImages[activeGalleryIndex];
-        heroImage.alt = `${projectTitle} - ảnh ${activeGalleryIndex + 1}`;
-        heroImage.classList.remove('is-gallery-fading-out', 'is-gallery-entering');
-        updateGalleryUi();
-
-        if (!animate) {
-          isGalleryTransitioning = false;
-          return;
-        }
-
-        void heroImage.offsetWidth;
-        heroImage.classList.add('is-gallery-entering');
-        window.setTimeout(() => {
-          heroImage.classList.remove('is-gallery-entering');
-          isGalleryTransitioning = false;
-        }, 380);
-      };
-
-      if (!animate) {
-        applyNextImage();
-        return;
-      }
-
-      isGalleryTransitioning = true;
-      heroImage.classList.remove('is-gallery-entering');
-      heroImage.classList.add('is-gallery-fading-out');
-      window.setTimeout(applyNextImage, 130);
+      activeGalleryIndex = nextGalleryIndex;
+      heroImage.src = galleryImages[activeGalleryIndex];
+      heroImage.alt = `${projectTitle} - ảnh ${activeGalleryIndex + 1}`;
+      updateGalleryUi();
     }
 
     if (gallery) {
@@ -503,30 +474,6 @@ document.addEventListener('DOMContentLoaded', () => {
         if (event.key === 'ArrowRight') { event.preventDefault(); selectGalleryImage(activeGalleryIndex + 1); }
       });
 
-      const stopGalleryAutoplay = () => {
-        if (galleryAutoplayTimer) window.clearInterval(galleryAutoplayTimer);
-        galleryAutoplayTimer = null;
-      };
-
-      const startGalleryAutoplay = () => {
-        stopGalleryAutoplay();
-        if (galleryImages.length < 2) return;
-        galleryAutoplayTimer = window.setInterval(() => {
-          if (!isGalleryTransitioning) selectGalleryImage(activeGalleryIndex + 1);
-        }, 4500);
-      };
-
-      gallery.addEventListener('mouseenter', stopGalleryAutoplay);
-      gallery.addEventListener('mouseleave', startGalleryAutoplay);
-      gallery.addEventListener('focusin', stopGalleryAutoplay);
-      gallery.addEventListener('focusout', event => {
-        if (!gallery.contains(event.relatedTarget)) startGalleryAutoplay();
-      });
-      document.addEventListener('visibilitychange', () => {
-        if (document.hidden) stopGalleryAutoplay();
-        else if (!gallery.matches(':hover')) startGalleryAutoplay();
-      });
-      startGalleryAutoplay();
       const stage = gallery.querySelector('.project-gallery-stage');
       if (stage) {
         const heroImage = stage.querySelector('[data-detail-image]');
@@ -646,8 +593,9 @@ document.addEventListener('DOMContentLoaded', () => {
   function renderProjectCardHtml(project) {
     const attrs = [];
     if (project.area) attrs.push(`Diện tích: ${project.area}`);
-    if (Number.isFinite(Number(project.cost))) attrs.push(`Chi phí: ${formatProjectCost(project.cost)}`);
+    if (project.propertyType) attrs.push(`Loại hình: ${project.propertyType}`);
     if (project.style) attrs.push(`Phong cách: ${project.style}`);
+    if (Number.isFinite(Number(project.cost))) attrs.push(`Chi phí: ${formatProjectCost(project.cost)}`);
     const attrText = attrs.join('   |   ');
     const projectDetailUrl = `/cong-trinh/${encodeURIComponent(project.slug || '')}`;
 

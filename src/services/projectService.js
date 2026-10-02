@@ -33,6 +33,7 @@ class ProjectService {
         { investor: searchRegex },
         { location: searchRegex },
         { area: searchRegex },
+        { propertyType: searchRegex },
         { style: searchRegex },
         { excerpt: searchRegex },
         { content: searchRegex }
@@ -80,8 +81,8 @@ class ProjectService {
     }
 
     const listFields = options.compact
-      ? 'title slug investor location area cost style thumbnail createdAt'
-      : 'title slug investor location area cost style excerpt status featured categoryIds thumbnail gallery createdAt';
+      ? 'title slug investor location area propertyType cost style thumbnail createdAt'
+      : 'title slug investor location area propertyType cost style excerpt status featured categoryIds thumbnail gallery createdAt';
     let projectsQuery = Project.find(filter)
       .select(listFields)
       .sort(sortOption)

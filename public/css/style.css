@@ -4967,16 +4967,6 @@ ol {
   transform: translateX(var(--gallery-drag-offset, 0px)) scale(1.018);
 }
 
-.project-gallery-stage>img.is-gallery-entering {
-  animation: project-gallery-image-enter 0.36s cubic-bezier(0.22, 1, 0.36, 1);
-}
-
-.project-gallery-stage>.hero-img.is-gallery-fading-out {
-  opacity: 0.22;
-  transform: scale(0.99);
-  transition: opacity 0.12s ease, transform 0.12s ease;
-}
-
 .project-gallery-drag-preview {
   position: absolute;
   inset: 0;
@@ -4993,15 +4983,6 @@ ol {
 
 .project-gallery-stage.is-settling>img {
   transition: transform 0.38s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.2s ease;
-}
-
-@keyframes project-gallery-image-enter {
-  from { opacity: 0.18; transform: scale(1.025); }
-  to { opacity: 1; transform: translateX(0) scale(1); }
-}
-
-.project-gallery-stage:not(.is-dragging):not(.is-settling):hover>.hero-img {
-  transform: scale(1.025);
 }
 
 .project-gallery-stage-shade {
@@ -5178,32 +5159,6 @@ ol {
   margin-bottom: 2rem;
   font-style: italic;
   color: var(--text-secondary);
-}
-
-.project-detail-cta {
-  margin-bottom: 4rem;
-}
-
-.cta-inner-box {
-  padding: 3rem 2rem;
-  background: linear-gradient(135deg, #1C1C1C 0%, #292929 100%);
-  color: #FFFFFF;
-  border-radius: var(--radius-card);
-  text-align: center;
-  border: 1px solid var(--border-gold);
-}
-
-.cta-heading {
-  font-size: clamp(1.4rem, 2.5vw, 2rem);
-  font-weight: 700;
-  margin-bottom: 0.75rem;
-  color: #FFFFFF;
-}
-
-.cta-sub {
-  font-size: 1rem;
-  color: var(--text-on-dark-muted);
-  margin-bottom: 1.75rem;
 }
 
 .related-projects-section {
