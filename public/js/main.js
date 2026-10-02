@@ -386,6 +386,12 @@ document.addEventListener('DOMContentLoaded', () => {
     return [primaryImage, ...projectGallery];
   }
 
+  function formatProjectCost(cost) {
+    const numericCost = Number(cost);
+    if (!Number.isFinite(numericCost)) return '';
+    return `${Math.round(numericCost / 1000000).toLocaleString('vi-VN')} triệu`;
+  }
+
   // Detail pages are server-rendered for a fast first paint, then hydrate from
   // the public API. This makes the API request visible in Network and keeps
   // the displayed metadata in sync with the backend.
@@ -508,6 +514,10 @@ document.addEventListener('DOMContentLoaded', () => {
           const project = json.data;
           detailPage.querySelectorAll('[data-project-field]').forEach(element => {
             const field = element.dataset.projectField;
+            if (field === 'cost') {
+              if (Number.isFinite(Number(project.cost))) element.textContent = formatProjectCost(project.cost);
+              return;
+            }
             if (project[field]) element.textContent = project[field];
           });
 
@@ -521,6 +531,7 @@ document.addEventListener('DOMContentLoaded', () => {
   function renderProjectCardHtml(project) {
     const attrs = [];
     if (project.area) attrs.push(`Diện tích: ${project.area}`);
+    if (Number.isFinite(Number(project.cost))) attrs.push(`Chi phí: ${formatProjectCost(project.cost)}`);
     if (project.style) attrs.push(`Phong cách: ${project.style}`);
     const attrText = attrs.join('   |   ');
     const projectDetailUrl = `/cong-trinh/${encodeURIComponent(project.slug || '')}`;

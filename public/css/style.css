@@ -5178,7 +5178,8 @@ ol {
 .related-projects-section .project-list-vertical {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 1rem;
+  column-gap: 1rem;
+  row-gap: 72px;
 }
 
 /* News page */
@@ -6328,14 +6329,16 @@ ol {
 @media (min-width: 640px) {
   .related-projects-section .project-list-vertical {
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 1.25rem;
+    column-gap: 1.25rem;
+    row-gap: 72px;
   }
 }
 
 @media (min-width: 1024px) {
   .related-projects-section .project-list-vertical {
     grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 1.5rem;
+    column-gap: 1.5rem;
+    row-gap: 72px;
   }
 
   .related-projects-section .project-card-info-bar {

@@ -1,6 +1,7 @@
 <%
   const attrs = [];
   if (project.area) attrs.push(`Diện tích: ${project.area}`);
+  if (Number.isFinite(Number(project.cost))) attrs.push(`Chi phí: ${Math.round(Number(project.cost) / 1000000).toLocaleString('vi-VN')} triệu`);
   if (project.style) attrs.push(`Phong cách: ${project.style}`);
   const attrText = attrs.join('   |   ');
   const projectDetailUrl = `/cong-trinh/${project.slug}`;

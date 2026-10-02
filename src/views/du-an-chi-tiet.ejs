@@ -85,6 +85,12 @@
               <span class="meta-value" data-project-field="area"><%= project.area %></span>
             </div>
           <% } %>
+          <% if (Number.isFinite(Number(project.cost))) { %>
+            <div class="meta-item">
+              <span class="meta-label">Chi phí</span>
+              <span class="meta-value" data-project-field="cost" data-project-cost><%= Math.round(Number(project.cost) / 1000000).toLocaleString('vi-VN') %> triệu</span>
+            </div>
+          <% } %>
           <% if (project.style) { %>
             <div class="meta-item">
               <span class="meta-label">Phong cách thiết kế</span>
