@@ -3038,16 +3038,18 @@ ol {
   }
 
   .quick-contact-consult svg {
-    background-color: #C89B4B !important;
-    color: #303030 !important;
+    background-color: transparent !important;
+    color: #C89B4B !important;
     fill: none !important;
-    stroke: #303030 !important;
+    stroke: #C89B4B !important;
     stroke-width: 2 !important;
+    stroke-linecap: round !important;
+    stroke-linejoin: round !important;
     border-radius: 50% !important;
-    padding: 5px !important;
-    width: 34px !important;
-    height: 34px !important;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25) !important;
+    padding: 0 !important;
+    width: 28px !important;
+    height: 28px !important;
+    box-shadow: none !important;
   }
 }
 
@@ -3127,9 +3129,10 @@ ol {
     justify-content: center !important;
     width: 44px !important;
     height: 44px !important;
-    border-radius: 0 !important;
+    border-radius: 50% !important;
     background: transparent !important;
     border: none !important;
+    outline: none !important;
     box-shadow: none !important;
     color: #ffffff !important;
     text-decoration: none !important;
@@ -3140,10 +3143,14 @@ ol {
     margin: 0 !important;
   }
 
-  .quick-contact-action:hover {
+  .quick-contact-action:hover,
+  .quick-contact-action:focus,
+  .quick-contact-action:active {
     transform: scale(1.1) !important;
     opacity: 0.9 !important;
     background: transparent !important;
+    border-radius: 50% !important;
+    outline: none !important;
   }
 
   .quick-contact-action svg {
@@ -6426,20 +6433,31 @@ a[href^="tel:"] svg {
     width: 44px !important;
     height: 44px !important;
     flex: 0 0 44px !important;
+    border-radius: 50% !important;
     background: transparent !important;
+    background-color: transparent !important;
     border: none !important;
+    outline: none !important;
     box-shadow: none !important;
     color: #C89B4B !important;
     position: relative !important;
     cursor: pointer !important;
     padding: 0 !important;
     margin: 0 !important;
+    -webkit-tap-highlight-color: transparent !important;
   }
 
-  .quick-contact-action:hover {
+  .quick-contact-action:hover,
+  .quick-contact-action:focus,
+  .quick-contact-action:focus-visible,
+  .quick-contact-action:active {
     transform: scale(1.12) !important;
     opacity: 0.95 !important;
     background: transparent !important;
+    background-color: transparent !important;
+    border-radius: 50% !important;
+    outline: none !important;
+    box-shadow: none !important;
   }
 }
 
