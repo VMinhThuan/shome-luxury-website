@@ -443,6 +443,8 @@ document.addEventListener('DOMContentLoaded', () => {
       heroImage.classList.remove('is-gallery-entering');
       void heroImage.offsetWidth;
       heroImage.classList.add('is-gallery-entering');
+      const infoBackground = detailPage.querySelector('[data-project-info-background]');
+      if (infoBackground) infoBackground.src = galleryImages[activeGalleryIndex];
       gallery.querySelector('[data-gallery-current]').textContent = String(activeGalleryIndex + 1).padStart(2, '0');
       gallery.querySelector('[data-gallery-total]').textContent = String(galleryImages.length).padStart(2, '0');
       gallery.querySelectorAll('.project-gallery-control').forEach(control => {
