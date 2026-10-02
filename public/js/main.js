@@ -145,6 +145,15 @@ document.addEventListener('DOMContentLoaded', () => {
     consultModal.addEventListener('click', (e) => {
       if (e.target === consultModal) closeConsultModal();
     });
+
+    const modalInputs = consultModal.querySelectorAll('input, select, textarea');
+    modalInputs.forEach(input => {
+      input.addEventListener('focus', () => {
+        setTimeout(() => {
+          input.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }, 300);
+      });
+    });
   }
 
   if (consultForm) {
@@ -369,7 +378,7 @@ document.addEventListener('DOMContentLoaded', () => {
       if (!galleryImages.length) return;
       activeGalleryIndex = (index + galleryImages.length) % galleryImages.length;
       const heroImage = gallery.querySelector('[data-detail-image]');
-      const projectTitle = detailPage.querySelector('[data-project-field="title"]')?.textContent || 'Công trình Luxury Home';
+      const projectTitle = detailPage.querySelector('[data-project-field="title"]')?.textContent || 'Công trình S-Home Luxury';
       heroImage.src = galleryImages[activeGalleryIndex];
       heroImage.alt = `${projectTitle} - ảnh ${activeGalleryIndex + 1}`;
       gallery.querySelector('[data-gallery-current]').textContent = String(activeGalleryIndex + 1).padStart(2, '0');
@@ -420,7 +429,7 @@ document.addEventListener('DOMContentLoaded', () => {
           });
 
           const charSum = (project.title || '').split('').reduce((sum, ch) => sum + ch.charCodeAt(0), 0);
-          updateGallery(getProjectGalleryImages(project, charSum), project.title || 'Công trình Luxury Home');
+          updateGallery(getProjectGalleryImages(project, charSum), project.title || 'Công trình S-Home Luxury');
         })
         .catch(err => console.error('Failed loading project detail:', err));
     }
