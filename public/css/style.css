@@ -7304,3 +7304,26 @@ html {
   color: #a8813c;
   font-weight: 700;
 }
+
+/* Header menu: a standalone three-line mark, not a gold button. */
+.hamburger-btn,
+.hamburger-btn:hover,
+.hamburger-btn:focus-visible {
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+  color: var(--accent-gold) !important;
+  transform: none !important;
+}
+
+.hamburger-btn svg {
+  width: 28px !important;
+  height: 28px !important;
+  stroke: var(--accent-gold) !important;
+  fill: none !important;
+}
+
+.hamburger-btn:focus-visible {
+  outline: 2px solid var(--accent-gold) !important;
+  outline-offset: 3px !important;
+}
