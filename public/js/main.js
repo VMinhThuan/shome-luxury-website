@@ -404,6 +404,8 @@ document.addEventListener('DOMContentLoaded', () => {
     let dragOffsetX = 0;
     let dragPointerId = null;
     let dragPreviewIndex = null;
+    let galleryAutoplayTimer = null;
+    let isGalleryTransitioning = false;
 
     function updateGallery(images, projectTitle) {
       if (!gallery || !images.length) return;
@@ -427,7 +429,7 @@ document.addEventListener('DOMContentLoaded', () => {
         button.append(image);
         thumbnails.append(button);
       });
-      selectGalleryImage(0);
+      selectGalleryImage(0, false, true);
     }
 
     function updateGalleryUi() {
@@ -446,20 +448,46 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     }
 
-    function selectGalleryImage(index) {
+    function selectGalleryImage(index, animate = true, force = false) {
       if (!galleryImages.length) return;
-      const previousGalleryIndex = activeGalleryIndex;
-      const entryDirection = index > previousGalleryIndex ? 1 : -1;
-      activeGalleryIndex = (index + galleryImages.length) % galleryImages.length;
+      const nextGalleryIndex = (index + galleryImages.length) % galleryImages.length;
       const heroImage = gallery.querySelector('[data-detail-image]');
       const projectTitle = detailPage.querySelector('[data-project-field="title"]')?.textContent || 'Công trình S-Home Luxury';
-      heroImage.src = galleryImages[activeGalleryIndex];
-      heroImage.alt = `${projectTitle} - ảnh ${activeGalleryIndex + 1}`;
-      heroImage.style.setProperty('--gallery-entry-offset', `${entryDirection * 22}px`);
+      if (!force && nextGalleryIndex === activeGalleryIndex) {
+        updateGalleryUi();
+        return;
+      }
+      if (isGalleryTransitioning) return;
+
+      const applyNextImage = () => {
+        activeGalleryIndex = nextGalleryIndex;
+        heroImage.src = galleryImages[activeGalleryIndex];
+        heroImage.alt = `${projectTitle} - ảnh ${activeGalleryIndex + 1}`;
+        heroImage.classList.remove('is-gallery-fading-out', 'is-gallery-entering');
+        updateGalleryUi();
+
+        if (!animate) {
+          isGalleryTransitioning = false;
+          return;
+        }
+
+        void heroImage.offsetWidth;
+        heroImage.classList.add('is-gallery-entering');
+        window.setTimeout(() => {
+          heroImage.classList.remove('is-gallery-entering');
+          isGalleryTransitioning = false;
+        }, 380);
+      };
+
+      if (!animate) {
+        applyNextImage();
+        return;
+      }
+
+      isGalleryTransitioning = true;
       heroImage.classList.remove('is-gallery-entering');
-      void heroImage.offsetWidth;
-      heroImage.classList.add('is-gallery-entering');
-      updateGalleryUi();
+      heroImage.classList.add('is-gallery-fading-out');
+      window.setTimeout(applyNextImage, 130);
     }
 
     if (gallery) {
@@ -474,6 +502,31 @@ document.addEventListener('DOMContentLoaded', () => {
         if (event.key === 'ArrowLeft') { event.preventDefault(); selectGalleryImage(activeGalleryIndex - 1); }
         if (event.key === 'ArrowRight') { event.preventDefault(); selectGalleryImage(activeGalleryIndex + 1); }
       });
+
+      const stopGalleryAutoplay = () => {
+        if (galleryAutoplayTimer) window.clearInterval(galleryAutoplayTimer);
+        galleryAutoplayTimer = null;
+      };
+
+      const startGalleryAutoplay = () => {
+        stopGalleryAutoplay();
+        if (galleryImages.length < 2) return;
+        galleryAutoplayTimer = window.setInterval(() => {
+          if (!isGalleryTransitioning) selectGalleryImage(activeGalleryIndex + 1);
+        }, 4500);
+      };
+
+      gallery.addEventListener('mouseenter', stopGalleryAutoplay);
+      gallery.addEventListener('mouseleave', startGalleryAutoplay);
+      gallery.addEventListener('focusin', stopGalleryAutoplay);
+      gallery.addEventListener('focusout', event => {
+        if (!gallery.contains(event.relatedTarget)) startGalleryAutoplay();
+      });
+      document.addEventListener('visibilitychange', () => {
+        if (document.hidden) stopGalleryAutoplay();
+        else if (!gallery.matches(':hover')) startGalleryAutoplay();
+      });
+      startGalleryAutoplay();
       const stage = gallery.querySelector('.project-gallery-stage');
       if (stage) {
         const heroImage = stage.querySelector('[data-detail-image]');
