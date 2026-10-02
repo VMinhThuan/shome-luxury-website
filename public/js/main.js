@@ -403,7 +403,42 @@ document.addEventListener('DOMContentLoaded', () => {
     let dragStartX = 0;
     let dragOffsetX = 0;
     let dragPointerId = null;
-    let dragPreviewIndex = null;
+    let isGallerySliding = false;
+    let galleryAutoplayTimer = null;
+
+    const getGalleryStage = () => gallery?.querySelector('.project-gallery-stage');
+    const getHeroImage = () => gallery?.querySelector('[data-detail-image]');
+    const getPreviewImage = () => gallery?.querySelector('[data-gallery-drag-preview]');
+    const getProjectTitle = () => detailPage.querySelector('[data-project-field="title"]')?.textContent || 'Công trình S-Home Luxury';
+
+    function updateSlideImage(image, src, index) {
+      image.src = src;
+      image.alt = `${getProjectTitle()} - ảnh ${index + 1}`;
+    }
+
+    function resetSlidePosition() {
+      const stage = getGalleryStage();
+      const heroImage = getHeroImage();
+      const previewImage = getPreviewImage();
+      if (!stage || !heroImage || !previewImage) return;
+      stage.classList.remove('is-dragging', 'is-sliding');
+      heroImage.style.transform = 'translateX(0)';
+      previewImage.style.transform = 'translateX(100%)';
+      dragOffsetX = 0;
+    }
+
+    function stopGalleryAutoplay() {
+      if (galleryAutoplayTimer) window.clearInterval(galleryAutoplayTimer);
+      galleryAutoplayTimer = null;
+    }
+
+    function startGalleryAutoplay() {
+      stopGalleryAutoplay();
+      if (!gallery || galleryImages.length < 2) return;
+      galleryAutoplayTimer = window.setInterval(() => {
+        if (!isGallerySliding && dragPointerId === null) selectGalleryImage(activeGalleryIndex + 1, false, 1);
+      }, 4500);
+    }
 
     function updateGallery(images, projectTitle) {
       if (!gallery || !images.length) return;
@@ -428,6 +463,7 @@ document.addEventListener('DOMContentLoaded', () => {
         thumbnails.append(button);
       });
       selectGalleryImage(0, true);
+      startGalleryAutoplay();
     }
 
     function updateGalleryUi() {
@@ -446,32 +482,71 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     }
 
-    function selectGalleryImage(index, force = false) {
+    function selectGalleryImage(index, force = false, requestedDirection = null) {
       if (!galleryImages.length) return;
       const nextGalleryIndex = (index + galleryImages.length) % galleryImages.length;
-      const heroImage = gallery.querySelector('[data-detail-image]');
-      const projectTitle = detailPage.querySelector('[data-project-field="title"]')?.textContent || 'Công trình S-Home Luxury';
+      const stage = getGalleryStage();
+      const heroImage = getHeroImage();
+      const previewImage = getPreviewImage();
+      if (!stage || !heroImage || !previewImage) return;
       if (!force && nextGalleryIndex === activeGalleryIndex) {
         updateGalleryUi();
         return;
       }
-      activeGalleryIndex = nextGalleryIndex;
-      heroImage.src = galleryImages[activeGalleryIndex];
-      heroImage.alt = `${projectTitle} - ảnh ${activeGalleryIndex + 1}`;
-      updateGalleryUi();
+      if (force) {
+        activeGalleryIndex = nextGalleryIndex;
+        updateSlideImage(heroImage, galleryImages[activeGalleryIndex], activeGalleryIndex);
+        resetSlidePosition();
+        updateGalleryUi();
+        return;
+      }
+      if (isGallerySliding) return;
+
+      const direction = requestedDirection || (nextGalleryIndex > activeGalleryIndex ? 1 : -1);
+      isGallerySliding = true;
+      updateSlideImage(previewImage, galleryImages[nextGalleryIndex], nextGalleryIndex);
+      stage.classList.remove('is-dragging');
+      stage.classList.remove('is-sliding');
+      heroImage.style.transform = 'translateX(0)';
+      previewImage.style.transform = `translateX(${direction > 0 ? 100 : -100}%)`;
+
+      // Keep both images mounted and slide them together; this avoids a white flash.
+      void previewImage.offsetWidth;
+      stage.classList.add('is-sliding');
+      window.requestAnimationFrame(() => {
+        heroImage.style.transform = `translateX(${direction > 0 ? -100 : 100}%)`;
+        previewImage.style.transform = 'translateX(0)';
+      });
+
+      const completeSlide = event => {
+        if (event.target !== previewImage || event.propertyName !== 'transform') return;
+        previewImage.removeEventListener('transitionend', completeSlide);
+        activeGalleryIndex = nextGalleryIndex;
+        updateSlideImage(heroImage, galleryImages[activeGalleryIndex], activeGalleryIndex);
+        resetSlidePosition();
+        isGallerySliding = false;
+        updateGalleryUi();
+      };
+      previewImage.addEventListener('transitionend', completeSlide);
     }
 
     if (gallery) {
-      selectGalleryImage(0);
+      selectGalleryImage(0, true);
       gallery.addEventListener('click', event => {
         const thumbnail = event.target.closest('[data-gallery-thumb]');
         if (thumbnail) selectGalleryImage(Number(thumbnail.dataset.index));
-        if (event.target.closest('[data-gallery-prev]')) selectGalleryImage(activeGalleryIndex - 1);
-        if (event.target.closest('[data-gallery-next]')) selectGalleryImage(activeGalleryIndex + 1);
+        if (event.target.closest('[data-gallery-prev]')) selectGalleryImage(activeGalleryIndex - 1, false, -1);
+        if (event.target.closest('[data-gallery-next]')) selectGalleryImage(activeGalleryIndex + 1, false, 1);
       });
       gallery.addEventListener('keydown', event => {
-        if (event.key === 'ArrowLeft') { event.preventDefault(); selectGalleryImage(activeGalleryIndex - 1); }
-        if (event.key === 'ArrowRight') { event.preventDefault(); selectGalleryImage(activeGalleryIndex + 1); }
+        if (event.key === 'ArrowLeft') { event.preventDefault(); selectGalleryImage(activeGalleryIndex - 1, false, -1); }
+        if (event.key === 'ArrowRight') { event.preventDefault(); selectGalleryImage(activeGalleryIndex + 1, false, 1); }
+      });
+      gallery.addEventListener('mouseenter', stopGalleryAutoplay);
+      gallery.addEventListener('mouseleave', startGalleryAutoplay);
+      gallery.addEventListener('focusin', stopGalleryAutoplay);
+      gallery.addEventListener('focusout', event => {
+        if (!gallery.contains(event.relatedTarget)) startGalleryAutoplay();
       });
 
       const stage = gallery.querySelector('.project-gallery-stage');
@@ -484,25 +559,13 @@ document.addEventListener('DOMContentLoaded', () => {
           return (activeGalleryIndex + step + galleryImages.length) % galleryImages.length;
         }
 
-        function resetDragSlide() {
-          stage.classList.remove('is-dragging', 'is-settling');
-          stage.style.removeProperty('--gallery-drag-offset');
-          heroImage.style.removeProperty('transform');
-          dragPreview.style.removeProperty('transform');
-          dragPreview.removeAttribute('src');
-          dragPreviewIndex = null;
-          dragOffsetX = 0;
-        }
-
         stage.addEventListener('pointerdown', event => {
-          if (!event.isPrimary || (event.button !== undefined && event.button !== 0)) return;
+          if (isGallerySliding || galleryImages.length < 2 || !event.isPrimary || (event.button !== undefined && event.button !== 0)) return;
           if (event.target.closest('button')) return;
           event.preventDefault();
           dragPointerId = event.pointerId;
           dragStartX = event.clientX;
           dragOffsetX = 0;
-          dragPreviewIndex = null;
-          dragPreview.removeAttribute('src');
           stage.setPointerCapture?.(dragPointerId);
           stage.classList.add('is-dragging');
         });
@@ -510,18 +573,13 @@ document.addEventListener('DOMContentLoaded', () => {
         stage.addEventListener('pointermove', event => {
           if (event.pointerId !== dragPointerId) return;
           event.preventDefault();
-          dragOffsetX = Math.max(-100, Math.min(100, event.clientX - dragStartX));
-          stage.style.setProperty('--gallery-drag-offset', `${dragOffsetX}px`);
-
-          if (Math.abs(dragOffsetX) < 3 || galleryImages.length < 2) return;
-          const previewIndex = getDragIndex(dragOffsetX);
-          if (previewIndex !== dragPreviewIndex) {
-            dragPreviewIndex = previewIndex;
-            dragPreview.src = galleryImages[previewIndex];
-          }
-
           const stageWidth = stage.clientWidth;
+          dragOffsetX = Math.max(-stageWidth * 0.85, Math.min(stageWidth * 0.85, event.clientX - dragStartX));
+          if (Math.abs(dragOffsetX) < 3) return;
+          const previewIndex = getDragIndex(dragOffsetX);
+          updateSlideImage(dragPreview, galleryImages[previewIndex], previewIndex);
           const previewStart = dragOffsetX < 0 ? stageWidth : -stageWidth;
+          heroImage.style.transform = `translateX(${dragOffsetX}px)`;
           dragPreview.style.transform = `translateX(${previewStart + dragOffsetX}px)`;
         });
 
@@ -531,37 +589,42 @@ document.addEventListener('DOMContentLoaded', () => {
           if (stage.hasPointerCapture?.(dragPointerId)) stage.releasePointerCapture(dragPointerId);
           dragPointerId = null;
 
-          if (Math.abs(offset) < 3 || galleryImages.length < 2) {
-            resetDragSlide();
+          if (Math.abs(offset) < 3) {
+            resetSlidePosition();
             return;
           }
 
           const stageWidth = stage.clientWidth;
           const direction = offset < 0 ? 1 : -1;
           const targetIndex = getDragIndex(offset);
-          const shouldChange = Math.abs(offset) > 30;
+          const shouldChange = Math.abs(offset) > Math.min(80, stageWidth * 0.15);
 
           stage.classList.remove('is-dragging');
-          stage.classList.add('is-settling');
-          stage.style.removeProperty('--gallery-drag-offset');
-          heroImage.style.transform = `translateX(${shouldChange ? -direction * stageWidth : 0}px)`;
-          dragPreview.style.transform = `translateX(${shouldChange ? 0 : direction * stageWidth}px)`;
-
-          window.setTimeout(() => {
+          stage.classList.add('is-sliding');
+          isGallerySliding = true;
+          window.requestAnimationFrame(() => {
+            heroImage.style.transform = `translateX(${shouldChange ? -direction * 100 : 0}%)`;
+            dragPreview.style.transform = `translateX(${shouldChange ? 0 : direction * 100}%)`;
+          });
+          const finishDragSlide = transitionEvent => {
+            if (transitionEvent.target !== dragPreview || transitionEvent.propertyName !== 'transform') return;
+            dragPreview.removeEventListener('transitionend', finishDragSlide);
             if (shouldChange) {
               activeGalleryIndex = targetIndex;
-              heroImage.src = galleryImages[activeGalleryIndex];
-              heroImage.alt = `${detailPage.querySelector('[data-project-field="title"]')?.textContent || 'Công trình S-Home Luxury'} - ảnh ${activeGalleryIndex + 1}`;
+              updateSlideImage(heroImage, galleryImages[activeGalleryIndex], activeGalleryIndex);
               updateGalleryUi();
             }
-            resetDragSlide();
-          }, 390);
+            resetSlidePosition();
+            isGallerySliding = false;
+          };
+          dragPreview.addEventListener('transitionend', finishDragSlide);
         };
 
         stage.addEventListener('pointerup', finishDrag);
         stage.addEventListener('pointercancel', finishDrag);
         stage.addEventListener('dragstart', event => event.preventDefault());
       }
+      startGalleryAutoplay();
     }
 
     const slug = detailPage.dataset.projectSlug;
