@@ -430,19 +430,7 @@ document.addEventListener('DOMContentLoaded', () => {
       selectGalleryImage(0);
     }
 
-    function selectGalleryImage(index) {
-      if (!galleryImages.length) return;
-      const previousGalleryIndex = activeGalleryIndex;
-      const entryDirection = index > previousGalleryIndex ? 1 : -1;
-      activeGalleryIndex = (index + galleryImages.length) % galleryImages.length;
-      const heroImage = gallery.querySelector('[data-detail-image]');
-      const projectTitle = detailPage.querySelector('[data-project-field="title"]')?.textContent || 'Công trình S-Home Luxury';
-      heroImage.src = galleryImages[activeGalleryIndex];
-      heroImage.alt = `${projectTitle} - ảnh ${activeGalleryIndex + 1}`;
-      heroImage.style.setProperty('--gallery-entry-offset', `${entryDirection * 22}px`);
-      heroImage.classList.remove('is-gallery-entering');
-      void heroImage.offsetWidth;
-      heroImage.classList.add('is-gallery-entering');
+    function updateGalleryUi() {
       const infoBackground = detailPage.querySelector('[data-project-info-background]');
       if (infoBackground) infoBackground.src = galleryImages[activeGalleryIndex];
       gallery.querySelector('[data-gallery-current]').textContent = String(activeGalleryIndex + 1).padStart(2, '0');
@@ -456,6 +444,22 @@ document.addEventListener('DOMContentLoaded', () => {
         thumbnail.setAttribute('aria-current', String(isActive));
         if (isActive) thumbnail.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'nearest' });
       });
+    }
+
+    function selectGalleryImage(index) {
+      if (!galleryImages.length) return;
+      const previousGalleryIndex = activeGalleryIndex;
+      const entryDirection = index > previousGalleryIndex ? 1 : -1;
+      activeGalleryIndex = (index + galleryImages.length) % galleryImages.length;
+      const heroImage = gallery.querySelector('[data-detail-image]');
+      const projectTitle = detailPage.querySelector('[data-project-field="title"]')?.textContent || 'Công trình S-Home Luxury';
+      heroImage.src = galleryImages[activeGalleryIndex];
+      heroImage.alt = `${projectTitle} - ảnh ${activeGalleryIndex + 1}`;
+      heroImage.style.setProperty('--gallery-entry-offset', `${entryDirection * 22}px`);
+      heroImage.classList.remove('is-gallery-entering');
+      void heroImage.offsetWidth;
+      heroImage.classList.add('is-gallery-entering');
+      updateGalleryUi();
     }
 
     if (gallery) {
@@ -544,7 +548,12 @@ document.addEventListener('DOMContentLoaded', () => {
           dragPreview.style.transform = `translateX(${shouldChange ? 0 : direction * stageWidth}px)`;
 
           window.setTimeout(() => {
-            if (shouldChange) selectGalleryImage(targetIndex);
+            if (shouldChange) {
+              activeGalleryIndex = targetIndex;
+              heroImage.src = galleryImages[activeGalleryIndex];
+              heroImage.alt = `${detailPage.querySelector('[data-project-field="title"]')?.textContent || 'Công trình S-Home Luxury'} - ảnh ${activeGalleryIndex + 1}`;
+              updateGalleryUi();
+            }
             resetDragSlide();
           }, 390);
         };
