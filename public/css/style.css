@@ -6608,15 +6608,15 @@ html {
     display: flex !important;
     flex-direction: column !important;
     align-items: center !important;
-    justify-content: flex-end !important;
+    justify-content: center !important;
     gap: 8px !important;
-    width: 58px !important;
-    min-width: 58px !important;
-    max-width: 58px !important;
+    width: 50px !important;
+    min-width: 50px !important;
+    max-width: 50px !important;
     height: auto !important;
-    min-height: 0 !important;
+    min-height: 300px !important;
     max-height: none !important;
-    padding: 16px 0 12px 0 !important;
+    padding: 16px 0 !important;
     margin: 0 !important;
     margin-right: 0 !important;
     /* Match the dark-charcoal surface used by the site header. */
