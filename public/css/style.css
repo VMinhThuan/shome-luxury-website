@@ -6619,15 +6619,15 @@ html {
     background-color: var(--surface-charcoal-gray) !important;
     background: var(--surface-charcoal-gray) !important;
     border: none !important;
-    border-top-left-radius: 50px !important;
-    border-bottom-left-radius: 50px !important;
+    /* Two half-circle arcs joined by a straight centre section. */
+    border-radius: 0 !important;
     border-top-right-radius: 0 !important;
     border-bottom-right-radius: 0 !important;
     box-shadow: -4px -4px 20px rgba(0, 0, 0, 0.4) !important;
     position: relative !important;
     overflow: hidden !important;
-    clip-path: none !important;
-    -webkit-clip-path: none !important;
+    clip-path: url(#actionBarClip) !important;
+    -webkit-clip-path: url(#actionBarClip) !important;
   }
 
   .quick-contact-bar::before,
