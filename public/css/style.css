@@ -6697,9 +6697,9 @@ html {
 .footer-fb-block,
 .footer-map-block {
   width: 100% !important;
-  height: 320px !important;
-  min-height: 320px !important;
-  max-height: 320px !important;
+  height: 240px !important;
+  min-height: 240px !important;
+  max-height: 240px !important;
   box-sizing: border-box !important;
   margin: 0 !important;
   padding: 0 !important;
@@ -6718,7 +6718,7 @@ html {
   display: flex !important;
   flex-direction: column !important;
   justify-content: flex-start !important;
-  gap: 0.75rem !important;
+  gap: 0.5rem !important;
   overflow: visible !important;
   margin: 0 !important;
 }
@@ -6731,9 +6731,9 @@ html {
 .fb-plugin-wrapper,
 .footer-map-card {
   width: 100% !important;
-  height: 320px !important;
-  min-height: 320px !important;
-  max-height: 320px !important;
+  height: 240px !important;
+  min-height: 240px !important;
+  max-height: 240px !important;
   overflow: hidden !important;
   border-radius: 14px !important;
   box-sizing: border-box !important;
@@ -6745,9 +6745,9 @@ html {
 .fb-plugin-wrapper iframe,
 .footer-map-card iframe {
   width: 100% !important;
-  height: 320px !important;
-  max-height: 320px !important;
-  min-height: 320px !important;
+  height: 240px !important;
+  max-height: 240px !important;
+  min-height: 240px !important;
   margin: 0 !important;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif !important;
 }
