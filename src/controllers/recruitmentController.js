@@ -11,8 +11,25 @@ const formatJobItem = (job) => {
   };
 };
 
-// Render recruitment page
+// Render recruitment page or recruitment detail page
 exports.getRecruitmentPage = (req, res) => {
+  const jobId = req.params.id;
+
+  if (jobId) {
+    const rawJob = recruitmentData.find(j => j.id === jobId);
+    if (rawJob) {
+      const job = formatJobItem(rawJob);
+      const otherJobs = recruitmentData.filter(j => j.id !== jobId).slice(0, 4).map(formatJobItem);
+      return res.render("tuyen-dung-detail", {
+        title: `${job.title} | SHOME LUXURY`,
+        headerSlogan: "Nâng tầm cuộc sống",
+        navigation: navigationData,
+        job: job,
+        otherJobs: otherJobs
+      });
+    }
+  }
+
   const formattedJobs = recruitmentData.map(formatJobItem);
   const pageData = {
     title: "Tuyển Dụng | SHOME LUXURY - Cùng Kiến Tạo Giá Trị",

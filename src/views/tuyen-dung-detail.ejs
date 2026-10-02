@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title><%= title %></title>
+  <meta name="description" content="Chi tiết bài tuyển dụng <%= job.title %> tại SHOME LUXURY - Môi trường làm việc chuyên nghiệp, đãi ngộ hấp dẫn." />
+  <meta name="theme-color" content="#171717" />
+
+  <link rel="stylesheet" href="/css/style.css?v=6.1.0" />
+  <script src="/js/main.js?v=1.8.0" defer></script>
+</head>
+<body class="page-recruitment-detail">
+
+  <%- include("partials/header") %>
+  <%- include("partials/mobile-drawer") %>
+
+  <main id="main-content" class="recruitment-detail-main">
+    <div class="container">
+      <!-- Breadcrumbs & Back Button -->
+      <nav class="recruitment-breadcrumb" aria-label="Breadcrumb">
+        <a href="/">Trang chủ</a>
+        <span class="sep">/</span>
+        <a href="/tuyen-dung">Tuyển dụng</a>
+        <span class="sep">/</span>
+        <span class="current"><%= job.title %></span>
+      </nav>
+
+      <div class="recruitment-back-bar">
+        <a href="/tuyen-dung" class="btn-back-link">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="19" y1="12" x2="5" y2="12"></line>
+            <polyline points="12 19 5 12 12 5"></polyline>
+          </svg>
+          Quay lại danh sách tuyển dụng
+        </a>
+      </div>
+
+      <!-- Main Layout Grid -->
+      <div class="job-detail-grid">
+        <!-- Main Content Area -->
+        <article class="job-detail-content">
+          <!-- Job Header Information -->
+          <header class="job-detail-header">
+            <span class="job-detail-badge"><%= job.isHot ? 'ĐANG HOT' : 'TUYỂN DỤNG' %></span>
+            <h1 class="job-detail-title"><%= job.title %></h1>
+            
+            <div class="job-detail-meta">
+              <span><strong>Người đăng:</strong> <%= job.author || 'Lê Sang' %></span>
+              <span><strong>Ngày đăng:</strong> <%= job.date || '29/06/2024' %></span>
+              <span><strong>Danh mục:</strong> <%= job.category || 'Tuyển dụng' %></span>
+            </div>
+
+            <!-- Key Quick Info Bar -->
+            <div class="job-quick-info-grid">
+              <div class="quick-info-card">
+                <span class="info-icon">💰</span>
+                <div>
+                  <span class="info-label">Mức lương</span>
+                  <strong class="info-val text-accent"><%= job.salary || 'Thỏa thuận' %></strong>
+                </div>
+              </div>
+              <div class="quick-info-card">
+                <span class="info-icon">📍</span>
+                <div>
+                  <span class="info-label">Địa điểm</span>
+                  <strong class="info-val"><%= job.location || 'Hà Nội' %></strong>
+                </div>
+              </div>
+              <div class="quick-info-card">
+                <span class="info-icon">⌛</span>
+                <div>
+                  <span class="info-label">Hình thức</span>
+                  <strong class="info-val"><%= job.workType || 'Toàn thời gian' %></strong>
+                </div>
+              </div>
+              <div class="quick-info-card">
+                <span class="info-icon">📅</span>
+                <div>
+                  <span class="info-label">Hạn nộp hồ sơ</span>
+                  <strong class="info-val"><%= job.deadline || '30/10/2026' %></strong>
+                </div>
+              </div>
+            </div>
+          </header>
+
+          <!-- Main Job Article Body -->
+          <div class="job-article-body">
+            <% if (job.fullHtmlContent) { %>
+              <%- job.fullHtmlContent %>
+            <% } else if (job.sections && Array.isArray(job.sections)) { %>
+              <div class="old-web-article">
+                <p class="article-intro"><%= job.summary %></p>
+                <% if (job.thumbnail) { %>
+                  <div class="article-image-box">
+                    <img src="<%= job.thumbnail %>" alt="<%= job.title %>" class="article-main-img" />
+                  </div>
+                <% } %>
+                
+                <% job.sections.forEach(function(sec) { %>
+                  <h2 id="<%= sec.id || '' %>" class="article-heading"><%= sec.title %></h2>
+                  <% if (sec.items && sec.items.length) { %>
+                    <ul class="article-list">
+                      <% sec.items.forEach(function(item) { %>
+                        <li><%= item %></li>
+                      <% }); %>
+                    </ul>
+                  <% } %>
+                <% }); %>
+              </div>
+            <% } %>
+          </div>
+
+          <!-- Application Bottom Box -->
+          <div class="job-detail-apply-box">
+            <div class="apply-box-header">
+              <h3>Ứng tuyển vị trí <%= job.title %></h3>
+              <p>Hãy gửi CV của bạn để trở thành một phần của đại gia đình SHOME LUXURY!</p>
+            </div>
+
+            <div class="apply-box-contacts">
+              <div class="contact-item">
+                <span class="icon">✉️</span>
+                <div>
+                  <span class="label">Email nhận CV:</span>
+                  <strong>shomeluxurydesign@gmail.com</strong>
+                </div>
+              </div>
+              <div class="contact-item">
+                <span class="icon">📞</span>
+                <div>
+                  <span class="label">Hotline / Zalo Tuyển dụng:</span>
+                  <strong>079999 7700</strong>
+                </div>
+              </div>
+            </div>
+
+            <div class="apply-box-actions">
+              <a href="mailto:shomeluxurydesign@gmail.com?subject=Ứng tuyển <%= encodeURIComponent(job.title) %>" class="btn-cta-gold-full">
+                Nộp hồ sơ ngay qua Email
+              </a>
+              <a href="https://zalo.me/0799997700" target="_blank" rel="noopener" class="btn-cta-zalo">
+                Ứng tuyển qua Zalo
+              </a>
+            </div>
+          </div>
+        </article>
+
+        <!-- Right Sidebar Area -->
+        <aside class="job-detail-sidebar">
+          <!-- Sticky Apply Card -->
+          <div class="sidebar-apply-card">
+            <h3>Thông tin ứng tuyển</h3>
+            <p class="salary-highlight">Mức lương: <span><%= job.salary %></span></p>
+            
+            <a href="mailto:shomeluxurydesign@gmail.com?subject=Ứng tuyển <%= encodeURIComponent(job.title) %>" class="btn-apply-now">
+              Gửi CV Ứng tuyển
+            </a>
+
+            <div class="sidebar-contact-info">
+              <div class="info-row">
+                <span>Hotline/Zalo:</span>
+                <a href="tel:0799997700"><strong>079999 7700</strong></a>
+              </div>
+              <div class="info-row">
+                <span>Địa điểm làm việc:</span>
+                <strong><%= job.location || 'Hà Nội' %></strong>
+              </div>
+              <div class="info-row">
+                <span>Văn phòng chính:</span>
+                <strong>Tầng 15 – Thăng Long Capital, Hà Nội</strong>
+              </div>
+            </div>
+          </div>
+
+          <!-- Other Active Jobs Sidebar -->
+          <% if (otherJobs && otherJobs.length > 0) { %>
+            <div class="sidebar-other-jobs">
+              <h3>Vị trí tuyển dụng khác</h3>
+              <div class="other-jobs-list">
+                <% otherJobs.forEach(function(oJob) { %>
+                  <a href="/tuyen-dung/<%= oJob.id %>" class="other-job-card">
+                    <img src="<%= oJob.thumbnail %>" alt="<%= oJob.title %>" />
+                    <div class="other-job-info">
+                      <h4><%= oJob.title %></h4>
+                      <span class="other-job-salary"><%= oJob.salary %></span>
+                    </div>
+                  </a>
+                <% }); %>
+              </div>
+            </div>
+          <% } %>
+        </aside>
+      </div>
+    </div>
+  </main>
+
+  <%- include("partials/footer") %>
+
+</body>
+</html>
