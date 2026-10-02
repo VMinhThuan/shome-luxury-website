@@ -17,16 +17,28 @@
 
     <div class="projects-grid">
       <% projects.forEach(project => { %>
+        <%
+          const projectAttributes = [];
+          if (project.area) projectAttributes.push(`Diện tích: ${project.area}`);
+          if (project.propertyType) projectAttributes.push(`Loại hình: ${project.propertyType}`);
+          if (project.style) projectAttributes.push(`Phong cách: ${project.style}`);
+          if (Number.isFinite(Number(project.cost))) {
+            projectAttributes.push(`Chi phí: ${Math.round(Number(project.cost) / 1000000).toLocaleString('vi-VN')} triệu`);
+          }
+        %>
         <article class="project-card" data-category="<%= project.categorySlug %>">
           <img src="<%= project.image %>" alt="<%= project.title %>" class="project-img" loading="lazy" width="800" height="500" />
           <div class="project-overlay">
             <span class="project-category"><%= project.category %></span>
             <h3 class="project-name font-serif"><%= project.title %></h3>
-            <div class="project-meta">
-              <span>Diện tích: <%= project.area %></span>
-              <span>•</span>
-              <span><%= project.location %></span>
-            </div>
+            <% if (projectAttributes.length) { %>
+              <div class="project-meta">
+                <% projectAttributes.forEach((attribute, index) => { %>
+                  <% if (index > 0) { %><span aria-hidden="true">•</span><% } %>
+                  <span><%= attribute %></span>
+                <% }); %>
+              </div>
+            <% } %>
           </div>
         </article>
       <% }); %>
