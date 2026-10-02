@@ -403,6 +403,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let dragStartX = 0;
     let dragOffsetX = 0;
     let dragPointerId = null;
+    let dragPreviewIndex = null;
 
     function updateGallery(images, projectTitle) {
       if (!gallery || !images.length) return;
@@ -442,8 +443,6 @@ document.addEventListener('DOMContentLoaded', () => {
       heroImage.classList.remove('is-gallery-entering');
       void heroImage.offsetWidth;
       heroImage.classList.add('is-gallery-entering');
-      const infoBackground = detailPage.querySelector('[data-project-info-background]');
-      if (infoBackground) infoBackground.src = galleryImages[activeGalleryIndex];
       gallery.querySelector('[data-gallery-current]').textContent = String(activeGalleryIndex + 1).padStart(2, '0');
       gallery.querySelector('[data-gallery-total]').textContent = String(galleryImages.length).padStart(2, '0');
       gallery.querySelectorAll('.project-gallery-control').forEach(control => {
@@ -471,6 +470,24 @@ document.addEventListener('DOMContentLoaded', () => {
       });
       const stage = gallery.querySelector('.project-gallery-stage');
       if (stage) {
+        const heroImage = stage.querySelector('[data-detail-image]');
+        const dragPreview = stage.querySelector('[data-gallery-drag-preview]');
+
+        function getDragIndex(offset) {
+          const step = offset < 0 ? 1 : -1;
+          return (activeGalleryIndex + step + galleryImages.length) % galleryImages.length;
+        }
+
+        function resetDragSlide() {
+          stage.classList.remove('is-dragging', 'is-settling');
+          stage.style.removeProperty('--gallery-drag-offset');
+          heroImage.style.removeProperty('transform');
+          dragPreview.style.removeProperty('transform');
+          dragPreview.removeAttribute('src');
+          dragPreviewIndex = null;
+          dragOffsetX = 0;
+        }
+
         stage.addEventListener('pointerdown', event => {
           if (!event.isPrimary || (event.button !== undefined && event.button !== 0)) return;
           if (event.target.closest('button')) return;
@@ -478,6 +495,8 @@ document.addEventListener('DOMContentLoaded', () => {
           dragPointerId = event.pointerId;
           dragStartX = event.clientX;
           dragOffsetX = 0;
+          dragPreviewIndex = null;
+          dragPreview.removeAttribute('src');
           stage.setPointerCapture?.(dragPointerId);
           stage.classList.add('is-dragging');
         });
@@ -487,16 +506,45 @@ document.addEventListener('DOMContentLoaded', () => {
           event.preventDefault();
           dragOffsetX = Math.max(-100, Math.min(100, event.clientX - dragStartX));
           stage.style.setProperty('--gallery-drag-offset', `${dragOffsetX}px`);
+
+          if (Math.abs(dragOffsetX) < 3 || galleryImages.length < 2) return;
+          const previewIndex = getDragIndex(dragOffsetX);
+          if (previewIndex !== dragPreviewIndex) {
+            dragPreviewIndex = previewIndex;
+            dragPreview.src = galleryImages[previewIndex];
+          }
+
+          const stageWidth = stage.clientWidth;
+          const previewStart = dragOffsetX < 0 ? stageWidth : -stageWidth;
+          dragPreview.style.transform = `translateX(${previewStart + dragOffsetX}px)`;
         });
 
         const finishDrag = event => {
           if (event.pointerId !== dragPointerId) return;
           const offset = dragOffsetX;
-          stage.classList.remove('is-dragging');
-          stage.style.removeProperty('--gallery-drag-offset');
-          if (Math.abs(offset) > 30) selectGalleryImage(activeGalleryIndex + (offset < 0 ? 1 : -1));
           if (stage.hasPointerCapture?.(dragPointerId)) stage.releasePointerCapture(dragPointerId);
           dragPointerId = null;
+
+          if (Math.abs(offset) < 3 || galleryImages.length < 2) {
+            resetDragSlide();
+            return;
+          }
+
+          const stageWidth = stage.clientWidth;
+          const direction = offset < 0 ? 1 : -1;
+          const targetIndex = getDragIndex(offset);
+          const shouldChange = Math.abs(offset) > 30;
+
+          stage.classList.remove('is-dragging');
+          stage.classList.add('is-settling');
+          stage.style.removeProperty('--gallery-drag-offset');
+          heroImage.style.transform = `translateX(${shouldChange ? -direction * stageWidth : 0}px)`;
+          dragPreview.style.transform = `translateX(${shouldChange ? 0 : direction * stageWidth}px)`;
+
+          window.setTimeout(() => {
+            if (shouldChange) selectGalleryImage(targetIndex);
+            resetDragSlide();
+          }, 390);
         };
 
         stage.addEventListener('pointerup', finishDrag);
