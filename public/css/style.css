@@ -6485,6 +6485,16 @@ hr,
   color: #C89B4B !important;
 }
 
+/* The action artwork is deliberately standalone: no common circular badge. */
+.quick-contact-action .action-icon {
+  display: block !important;
+  color: #D6A23E !important;
+  background: transparent !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+}
+
 .capacity-card-icon {
   background: transparent !important;
   border: none !important;
@@ -6533,6 +6543,15 @@ a[href^="tel:"] svg {
   transform-origin: center center !important;
   display: block !important;
   margin: 0 auto !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .quick-contact-call svg,
+  .quick-contact-call-icon svg,
+  .footer-action-call svg,
+  a[href^="tel:"] svg {
+    animation: none !important;
+  }
 }
 
 
