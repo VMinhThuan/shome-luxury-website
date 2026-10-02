@@ -6614,9 +6614,9 @@ html {
     min-width: 50px !important;
     max-width: 50px !important;
     height: auto !important;
-    min-height: 300px !important;
+    min-height: 230px !important;
     max-height: none !important;
-    padding: 16px 0 !important;
+    padding: 12px 0 !important;
     margin: 0 !important;
     margin-right: 0 !important;
     /* Match the dark-charcoal surface used by the site header. */
