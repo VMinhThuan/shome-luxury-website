@@ -4505,12 +4505,12 @@ ol {
 .project-list-vertical {
   display: flex;
   flex-direction: column;
-  gap: 15px;
+  gap: 24px;
 }
 
 @media (min-width: 992px) {
 .project-list-vertical {
-  gap: 15px;
+  gap: 24px;
   }
 }
 
@@ -4520,7 +4520,7 @@ ol {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
     column-gap: 1.5rem;
-    row-gap: 15px;
+    row-gap: 24px;
   }
 
   .project-showcase-section .project-card-image-wrapper {
