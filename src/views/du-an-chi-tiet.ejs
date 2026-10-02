@@ -8,8 +8,8 @@
   <meta name="theme-color" content="#171717" />
 
   <!-- CSS Stylesheet -->
-  <link rel="stylesheet" href="/css/style.css?v=6.0.1" />
-  <script src="/js/main.js?v=1.7.7" defer></script>
+  <link rel="stylesheet" href="/css/style.css?v=6.0.2" />
+  <script src="/js/main.js?v=1.7.8" defer></script>
 </head>
 <body>
 
@@ -42,7 +42,7 @@
       <% const galleryImages = [...new Set([detailImageSrc, ...projectGallery].filter(Boolean))]; %>
       <section class="project-showcase-gallery" data-project-gallery tabindex="0" aria-label="Thư viện ảnh công trình <%= project.title %>">
         <div class="project-gallery-stage">
-          <img src="<%= galleryImages[0] %>" alt="<%= project.title %> - ảnh 1" class="hero-img" data-detail-image loading="eager"
+          <img src="<%= galleryImages[0] %>" alt="<%= project.title %> - ảnh 1" class="hero-img" data-detail-image loading="eager" draggable="false"
                onerror="this.onerror=null;this.src='/images/project_apartment.jpg';" />
           <div class="project-gallery-stage-shade" aria-hidden="true"></div>
           <div class="project-gallery-count" aria-live="polite"><span data-gallery-current>01</span><span>/</span><span data-gallery-total><%= String(galleryImages.length).padStart(2, '0') %></span></div>

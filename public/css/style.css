@@ -4930,6 +4930,8 @@ ol {
   box-shadow: 0 18px 40px rgba(0, 0, 0, 0.16);
   cursor: grab;
   touch-action: pan-y;
+  user-select: none;
+  -webkit-user-select: none;
 }
 
 .project-gallery-stage.is-dragging {
@@ -4941,6 +4943,9 @@ ol {
   height: 100%;
   object-fit: cover;
   transition: opacity 0.25s ease, transform 0.32s ease;
+  user-select: none;
+  -webkit-user-drag: none;
+  pointer-events: none;
 }
 
 .project-gallery-stage.is-dragging>img {

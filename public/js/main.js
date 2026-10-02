@@ -472,8 +472,9 @@ document.addEventListener('DOMContentLoaded', () => {
       const stage = gallery.querySelector('.project-gallery-stage');
       if (stage) {
         stage.addEventListener('pointerdown', event => {
-          if (event.button !== undefined && event.button !== 0) return;
+          if (!event.isPrimary || (event.button !== undefined && event.button !== 0)) return;
           if (event.target.closest('button')) return;
+          event.preventDefault();
           dragPointerId = event.pointerId;
           dragStartX = event.clientX;
           dragOffsetX = 0;
@@ -483,6 +484,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         stage.addEventListener('pointermove', event => {
           if (event.pointerId !== dragPointerId) return;
+          event.preventDefault();
           dragOffsetX = Math.max(-100, Math.min(100, event.clientX - dragStartX));
           stage.style.setProperty('--gallery-drag-offset', `${dragOffsetX}px`);
         });
@@ -492,13 +494,14 @@ document.addEventListener('DOMContentLoaded', () => {
           const offset = dragOffsetX;
           stage.classList.remove('is-dragging');
           stage.style.removeProperty('--gallery-drag-offset');
-          if (Math.abs(offset) > 55) selectGalleryImage(activeGalleryIndex + (offset < 0 ? 1 : -1));
+          if (Math.abs(offset) > 30) selectGalleryImage(activeGalleryIndex + (offset < 0 ? 1 : -1));
           if (stage.hasPointerCapture?.(dragPointerId)) stage.releasePointerCapture(dragPointerId);
           dragPointerId = null;
         };
 
         stage.addEventListener('pointerup', finishDrag);
         stage.addEventListener('pointercancel', finishDrag);
+        stage.addEventListener('dragstart', event => event.preventDefault());
       }
     }
 
