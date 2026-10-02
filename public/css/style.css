@@ -6580,12 +6580,13 @@ html {
   scrollbar-color: rgba(200, 155, 75, 0.45) #171717 !important;
 }
 
-/* 2. Desktop Action Bar - Docked at Bottom Right Corner (Matching Screenshot 2 100%) */
+/* 2. Desktop Action Bar - floats above the viewport bottom with two left curves */
 @media (min-width: 768px) {
   .quick-contact-widget {
     position: fixed !important;
     right: 0 !important;
-    bottom: 0 !important;
+    /* Keep a clear gap below the bar, as in the reference layout. */
+    bottom: clamp(72px, 8vh, 160px) !important;
     top: auto !important;
     left: auto !important;
     transform: none !important;
@@ -6617,8 +6618,8 @@ html {
     background-color: #000000 !important;
     background: #000000 !important;
     border: none !important;
-    border-top-left-radius: 28px !important;
-    border-bottom-left-radius: 0 !important;
+    border-top-left-radius: 34px !important;
+    border-bottom-left-radius: 34px !important;
     border-top-right-radius: 0 !important;
     border-bottom-right-radius: 0 !important;
     box-shadow: -4px -4px 20px rgba(0, 0, 0, 0.4) !important;
