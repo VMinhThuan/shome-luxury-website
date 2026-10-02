@@ -6488,6 +6488,10 @@ hr,
 /* The action artwork is deliberately standalone: no common circular badge. */
 .quick-contact-action .action-icon {
   display: block !important;
+  width: 30px !important;
+  height: 30px !important;
+  max-width: 30px !important;
+  max-height: 30px !important;
   color: #D6A23E !important;
   background: transparent !important;
   border: 0 !important;
@@ -6605,14 +6609,14 @@ html {
     flex-direction: column !important;
     align-items: center !important;
     justify-content: flex-end !important;
-    gap: 14px !important;
+    gap: 8px !important;
     width: 58px !important;
     min-width: 58px !important;
     max-width: 58px !important;
     height: auto !important;
-    min-height: 200px !important;
+    min-height: 0 !important;
     max-height: none !important;
-    padding: 24px 0 16px 0 !important;
+    padding: 16px 0 12px 0 !important;
     margin: 0 !important;
     margin-right: 0 !important;
     /* Match the dark-charcoal surface used by the site header. */
@@ -6639,9 +6643,9 @@ html {
     display: flex !important;
     align-items: center !important;
     justify-content: center !important;
-    width: 44px !important;
-    height: 44px !important;
-    flex: 0 0 44px !important;
+    width: 38px !important;
+    height: 38px !important;
+    flex: 0 0 38px !important;
     border-radius: 50% !important;
     background: transparent !important;
     background-color: transparent !important;
