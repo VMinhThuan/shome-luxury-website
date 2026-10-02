@@ -8,8 +8,8 @@
   <meta name="theme-color" content="#171717" />
 
   <!-- CSS Stylesheet -->
-  <link rel="stylesheet" href="/css/style.css?v=6.0.0" />
-  <script src="/js/main.js?v=1.7.6" defer></script>
+  <link rel="stylesheet" href="/css/style.css?v=6.0.1" />
+  <script src="/js/main.js?v=1.7.7" defer></script>
 </head>
 <body>
 
@@ -45,33 +45,6 @@
           <img src="<%= galleryImages[0] %>" alt="<%= project.title %> - ảnh 1" class="hero-img" data-detail-image loading="eager"
                onerror="this.onerror=null;this.src='/images/project_apartment.jpg';" />
           <div class="project-gallery-stage-shade" aria-hidden="true"></div>
-          <aside class="project-meta-grid project-meta-overlay" aria-label="Thông tin dự án">
-            <h2 class="project-meta-heading"><span aria-hidden="true"></span>Thông tin dự án</h2>
-            <% if (project.investor) { %>
-              <div class="meta-item">
-                <span class="meta-label">Chủ đầu tư</span>
-                <span class="meta-value" data-project-field="investor"><%= project.investor %></span>
-              </div>
-            <% } %>
-            <% if (project.location) { %>
-              <div class="meta-item">
-                <span class="meta-label">Địa điểm</span>
-                <span class="meta-value" data-project-field="location"><%= project.location %></span>
-              </div>
-            <% } %>
-            <% if (project.area) { %>
-              <div class="meta-item">
-                <span class="meta-label">Diện tích</span>
-                <span class="meta-value" data-project-field="area"><%= project.area %></span>
-              </div>
-            <% } %>
-            <% if (project.style) { %>
-              <div class="meta-item">
-                <span class="meta-label">Phong cách thiết kế</span>
-                <span class="meta-value" data-project-field="style"><%= project.style %></span>
-              </div>
-            <% } %>
-          </aside>
           <div class="project-gallery-count" aria-live="polite"><span data-gallery-current>01</span><span>/</span><span data-gallery-total><%= String(galleryImages.length).padStart(2, '0') %></span></div>
           <button class="project-gallery-control previous" type="button" data-gallery-prev aria-label="Ảnh trước">
             <svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="15 18 9 12 15 6"></polyline></svg>
@@ -88,6 +61,38 @@
           <% }); %>
         </div>
       </section>
+
+      <aside class="project-info-banner" aria-label="Thông tin dự án">
+        <img class="project-info-background" data-project-info-background src="<%= galleryImages[0] %>" alt="" aria-hidden="true" loading="lazy" />
+        <div class="project-info-scrim" aria-hidden="true"></div>
+        <div class="project-meta-grid">
+          <h2 class="project-meta-heading"><span aria-hidden="true"></span>Thông tin dự án</h2>
+          <% if (project.investor) { %>
+            <div class="meta-item">
+              <span class="meta-label">Chủ đầu tư</span>
+              <span class="meta-value" data-project-field="investor"><%= project.investor %></span>
+            </div>
+          <% } %>
+          <% if (project.location) { %>
+            <div class="meta-item">
+              <span class="meta-label">Địa điểm</span>
+              <span class="meta-value" data-project-field="location"><%= project.location %></span>
+            </div>
+          <% } %>
+          <% if (project.area) { %>
+            <div class="meta-item">
+              <span class="meta-label">Diện tích</span>
+              <span class="meta-value" data-project-field="area"><%= project.area %></span>
+            </div>
+          <% } %>
+          <% if (project.style) { %>
+            <div class="meta-item">
+              <span class="meta-label">Phong cách thiết kế</span>
+              <span class="meta-value" data-project-field="style"><%= project.style %></span>
+            </div>
+          <% } %>
+        </div>
+      </aside>
 
       <!-- CTA Section -->
       <section class="project-detail-cta">

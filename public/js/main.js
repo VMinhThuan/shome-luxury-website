@@ -394,7 +394,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const gallery = detailPage.querySelector('[data-project-gallery]');
     let galleryImages = Array.from(gallery?.querySelectorAll('[data-gallery-thumb] img') || []).map(image => image.currentSrc || image.src);
     let activeGalleryIndex = 0;
-    let touchStartX = 0;
+    let dragStartX = 0;
+    let dragOffsetX = 0;
+    let dragPointerId = null;
 
     function updateGallery(images, projectTitle) {
       if (!gallery || !images.length) return;
@@ -423,11 +425,19 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function selectGalleryImage(index) {
       if (!galleryImages.length) return;
+      const previousGalleryIndex = activeGalleryIndex;
+      const entryDirection = index > previousGalleryIndex ? 1 : -1;
       activeGalleryIndex = (index + galleryImages.length) % galleryImages.length;
       const heroImage = gallery.querySelector('[data-detail-image]');
       const projectTitle = detailPage.querySelector('[data-project-field="title"]')?.textContent || 'Công trình S-Home Luxury';
       heroImage.src = galleryImages[activeGalleryIndex];
       heroImage.alt = `${projectTitle} - ảnh ${activeGalleryIndex + 1}`;
+      heroImage.style.setProperty('--gallery-entry-offset', `${entryDirection * 22}px`);
+      heroImage.classList.remove('is-gallery-entering');
+      void heroImage.offsetWidth;
+      heroImage.classList.add('is-gallery-entering');
+      const infoBackground = detailPage.querySelector('[data-project-info-background]');
+      if (infoBackground) infoBackground.src = galleryImages[activeGalleryIndex];
       gallery.querySelector('[data-gallery-current]').textContent = String(activeGalleryIndex + 1).padStart(2, '0');
       gallery.querySelector('[data-gallery-total]').textContent = String(galleryImages.length).padStart(2, '0');
       gallery.querySelectorAll('.project-gallery-control').forEach(control => {
@@ -453,11 +463,37 @@ document.addEventListener('DOMContentLoaded', () => {
         if (event.key === 'ArrowLeft') { event.preventDefault(); selectGalleryImage(activeGalleryIndex - 1); }
         if (event.key === 'ArrowRight') { event.preventDefault(); selectGalleryImage(activeGalleryIndex + 1); }
       });
-      gallery.addEventListener('touchstart', event => { touchStartX = event.changedTouches[0].screenX; }, { passive: true });
-      gallery.addEventListener('touchend', event => {
-        const distance = event.changedTouches[0].screenX - touchStartX;
-        if (Math.abs(distance) > 45) selectGalleryImage(activeGalleryIndex + (distance < 0 ? 1 : -1));
-      }, { passive: true });
+      const stage = gallery.querySelector('.project-gallery-stage');
+      if (stage) {
+        stage.addEventListener('pointerdown', event => {
+          if (event.button !== undefined && event.button !== 0) return;
+          if (event.target.closest('button')) return;
+          dragPointerId = event.pointerId;
+          dragStartX = event.clientX;
+          dragOffsetX = 0;
+          stage.setPointerCapture?.(dragPointerId);
+          stage.classList.add('is-dragging');
+        });
+
+        stage.addEventListener('pointermove', event => {
+          if (event.pointerId !== dragPointerId) return;
+          dragOffsetX = Math.max(-100, Math.min(100, event.clientX - dragStartX));
+          stage.style.setProperty('--gallery-drag-offset', `${dragOffsetX}px`);
+        });
+
+        const finishDrag = event => {
+          if (event.pointerId !== dragPointerId) return;
+          const offset = dragOffsetX;
+          stage.classList.remove('is-dragging');
+          stage.style.removeProperty('--gallery-drag-offset');
+          if (Math.abs(offset) > 55) selectGalleryImage(activeGalleryIndex + (offset < 0 ? 1 : -1));
+          if (stage.hasPointerCapture?.(dragPointerId)) stage.releasePointerCapture(dragPointerId);
+          dragPointerId = null;
+        };
+
+        stage.addEventListener('pointerup', finishDrag);
+        stage.addEventListener('pointercancel', finishDrag);
+      }
     }
 
     const slug = detailPage.dataset.projectSlug;
