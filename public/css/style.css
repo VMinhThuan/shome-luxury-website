@@ -5017,7 +5017,7 @@ ol {
 
 .news-hero-image img { width: 100%; height: 100%; object-fit: cover; object-position: 62% center; }
 
-.news-content-section { padding: 1.2rem 0 3.8rem; background: #fbfaf7; }
+.news-content-section { padding: 1.2rem 0 1.25rem; background: #fbfaf7; }
 
 .news-categories {
   display: flex;
@@ -5064,7 +5064,7 @@ ol {
 .news-featured-meta a { display: inline-flex; align-items: center; gap: .3rem; margin-left: auto; color: #e6bf68; font-size: .62rem; font-weight: 700; }
 .news-featured-meta a i { display: inline-flex; justify-content: center; align-items: center; width: 21px; height: 21px; border-radius: 50%; color: #312617; background: #c89b4b; font-size: .8rem; font-style: normal; }
 
-.news-section-heading { display: flex; align-items: end; justify-content: space-between; gap: 1rem; margin: 2.3rem 0 1rem; }
+.news-section-heading { display: flex; align-items: end; justify-content: space-between; gap: 1rem; margin: 1.25rem 0 .8rem; }
 .news-section-heading h2 { margin-top: .18rem; color: #332d26; font-family: var(--font-serif); font-size: clamp(1.45rem, 2.5vw, 2.15rem); line-height: 1.1; letter-spacing: -.04em; }
 .news-section-heading > a { flex: 0 0 auto; color: #a8813c; font-size: .76rem; font-weight: 700; }
 .news-section-heading > a span { font-size: 1.1rem; }
@@ -5082,7 +5082,7 @@ ol {
 .news-list-meta span { color: #a8813c; }
 .news-list-meta a { margin-left: auto; color: #a8813c; font-weight: 700; }
 
-.news-booking-cta { display: flex; align-items: center; justify-content: space-between; gap: 1rem; margin-top: 2rem; padding: 1.5rem; overflow: hidden; border-radius: 13px; color: #fff; background: linear-gradient(115deg, #211e1a 0%, #30291e 100%); }
+.news-booking-cta { display: flex; align-items: center; justify-content: space-between; gap: 1rem; margin-top: 1rem; padding: 1.5rem; overflow: hidden; border-radius: 13px; color: #fff; background: linear-gradient(115deg, #211e1a 0%, #30291e 100%); }
 .news-booking-cta h2 { margin-top: .35rem; font-size: clamp(1.2rem, 2.6vw, 1.9rem); line-height: 1.2; letter-spacing: -.035em; }
 .news-booking-cta a { flex: 0 0 auto; display: inline-flex; align-items: center; gap: .55rem; padding: .75rem 1rem; border-radius: 999px; color: #2d2418; background: #e2bd70; font-size: .72rem; font-weight: 800; box-shadow: 0 7px 16px rgba(0,0,0,.17); }
 .news-booking-cta b { font-size: 1.1rem; }

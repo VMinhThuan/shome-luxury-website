@@ -165,28 +165,28 @@ exports.getNewsPage = (req, res) => {
       title: "Những chất liệu tạo điểm nhấn cho không gian đẳng cấp",
       excerpt: "Khám phá các vật liệu nội thất cao cấp giúp tăng thêm thẩm mỹ và tạo dấu ấn riêng cho ngôi nhà của bạn.",
       date: "05/11/2026",
-      image: "/images/anh_san_pham_1.png"
+      image: "/images/hero_sofa_sharp.jpg"
     },
     {
       category: "Kinh nghiệm",
       title: "Kinh nghiệm thi công nội thất trọn gói từ A đến Z",
       excerpt: "Những lưu ý quan trọng giúp bạn chủ động chi phí và tiến độ khi triển khai không gian mới.",
       date: "01/11/2026",
-      image: "/images/anh_san_pham_2.png"
+      image: "/images/hero_interior.jpg"
     },
     {
       category: "Xu hướng",
       title: "Những chất liệu tạo điểm nhấn cho không gian đẳng cấp",
       excerpt: "Tổng hợp vật liệu được yêu thích cho phong cách sống đương đại, sang trọng và bền đẹp.",
       date: "28/10/2026",
-      image: "/images/anh_san_pham_3.png"
+      image: "/images/hero_sofa_light.jpg"
     },
     {
       category: "Kinh nghiệm",
       title: "Kinh nghiệm thi công nội thất trọn gói từ A đến Z",
       excerpt: "Bí quyết lựa chọn đơn vị thiết kế thi công uy tín và kiểm soát chất lượng hiệu quả.",
       date: "25/10/2026",
-      image: "/images/booking-estimate-visual.png"
+      image: "/images/project_villa.jpg"
     }
   ];
 
