@@ -6615,15 +6615,17 @@ html {
     padding: 24px 0 16px 0 !important;
     margin: 0 !important;
     margin-right: 0 !important;
-    background-color: #000000 !important;
-    background: #000000 !important;
+    /* Match the dark-charcoal surface used by the site header. */
+    background-color: var(--surface-charcoal-gray) !important;
+    background: var(--surface-charcoal-gray) !important;
     border: none !important;
-    border-top-left-radius: 34px !important;
-    border-bottom-left-radius: 34px !important;
+    border-top-left-radius: 50px !important;
+    border-bottom-left-radius: 50px !important;
     border-top-right-radius: 0 !important;
     border-bottom-right-radius: 0 !important;
     box-shadow: -4px -4px 20px rgba(0, 0, 0, 0.4) !important;
     position: relative !important;
+    overflow: hidden !important;
     clip-path: none !important;
     -webkit-clip-path: none !important;
   }
