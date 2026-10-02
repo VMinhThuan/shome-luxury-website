@@ -60,6 +60,6 @@ module.exports = [
   {
     id: "tin-tuc",
     label: "Tin tức",
-    href: "/#tin-tuc"
+    href: "/tin-tuc"
   }
 ];

@@ -12,6 +12,7 @@ const { authenticateAdmin } = require("../middleware/auth");
 // Page Routes - Homepage & Recruitment
 router.get("/", homeController.getHomePage);
 router.get("/dat-lich-ngay", homeController.getBookingPage);
+router.get("/tin-tuc", homeController.getNewsPage);
 router.get("/tuyen-dung", recruitmentController.getRecruitmentPage);
 router.get("/tuyen-dung/:id", recruitmentController.getRecruitmentPage);
 

@@ -143,3 +143,56 @@ exports.getBookingPage = (req, res) => {
     navigation: navigationData
   });
 };
+
+exports.getNewsPage = (req, res) => {
+  const articles = [
+    {
+      category: "Xu hướng",
+      title: "Thiết kế phòng khách sang trọng với gam màu trung tính",
+      excerpt: "Gam màu trung tính mang đến sự tinh tế, hiện đại và bền vững theo thời gian cho không gian sống.",
+      date: "10/11/2026",
+      image: "/images/service_interior.jpg"
+    },
+    {
+      category: "Kinh nghiệm",
+      title: "Cân bằng công năng cho không gian sống thông minh",
+      excerpt: "Giải pháp thiết kế linh hoạt giúp tối ưu diện tích, mang đến trải nghiệm sống tiện nghi và thoải mái.",
+      date: "08/11/2026",
+      image: "/images/project_apartment.jpg"
+    },
+    {
+      category: "Xu hướng",
+      title: "Những chất liệu tạo điểm nhấn cho không gian đẳng cấp",
+      excerpt: "Khám phá các vật liệu nội thất cao cấp giúp tăng thêm thẩm mỹ và tạo dấu ấn riêng cho ngôi nhà của bạn.",
+      date: "05/11/2026",
+      image: "/images/anh_san_pham_1.png"
+    },
+    {
+      category: "Kinh nghiệm",
+      title: "Kinh nghiệm thi công nội thất trọn gói từ A đến Z",
+      excerpt: "Những lưu ý quan trọng giúp bạn chủ động chi phí và tiến độ khi triển khai không gian mới.",
+      date: "01/11/2026",
+      image: "/images/anh_san_pham_2.png"
+    },
+    {
+      category: "Xu hướng",
+      title: "Những chất liệu tạo điểm nhấn cho không gian đẳng cấp",
+      excerpt: "Tổng hợp vật liệu được yêu thích cho phong cách sống đương đại, sang trọng và bền đẹp.",
+      date: "28/10/2026",
+      image: "/images/anh_san_pham_3.png"
+    },
+    {
+      category: "Kinh nghiệm",
+      title: "Kinh nghiệm thi công nội thất trọn gói từ A đến Z",
+      excerpt: "Bí quyết lựa chọn đơn vị thiết kế thi công uy tín và kiểm soát chất lượng hiệu quả.",
+      date: "25/10/2026",
+      image: "/images/booking-estimate-visual.png"
+    }
+  ];
+
+  res.render("tin-tuc", {
+    title: "Tin tức nội thất & kiến trúc | SHOME LUXURY",
+    navigation: navigationData,
+    articles
+  });
+};

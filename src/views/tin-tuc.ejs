@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title><%= title %></title>
+  <meta name="description" content="Cập nhật xu hướng thiết kế, kinh nghiệm thi công và phong cách sống cùng SHOME LUXURY." />
+  <link rel="stylesheet" href="/css/style.css?v=6.1.0" />
+  <script src="/js/main.js?v=1.8.0" defer></script>
+</head>
+<body class="page-news">
+  <%- include("partials/header") %>
+  <%- include("partials/mobile-drawer") %>
+
+  <main id="main-content" class="news-page">
+    <section class="news-hero">
+      <div class="container news-hero-grid">
+        <div class="news-hero-copy">
+          <span class="news-kicker">SHOME LUXURY · JOURNAL</span>
+          <h1>Tin tức<br><em>&amp; Cảm hứng</em></h1>
+          <p>Cập nhật xu hướng thiết kế, kinh nghiệm thi công và những mẫu không gian đẹp nhất.</p>
+        </div>
+        <div class="news-hero-image">
+          <img src="/images/booking-luxury-interior.png" alt="Không gian nội thất sang trọng SHOME LUXURY" width="900" height="560" fetchpriority="high" />
+        </div>
+      </div>
+    </section>
+
+    <section class="news-content-section">
+      <div class="container">
+        <nav class="news-categories" aria-label="Danh mục tin tức">
+          <a class="is-active" href="#moi-nhat"><span>⌂</span>Nổi bật</a>
+          <a href="#moi-nhat"><span>⌁</span>Xu hướng</a>
+          <a href="#moi-nhat"><span>✧</span>Kinh nghiệm</a>
+          <a href="#moi-nhat"><span>♧</span>Phong cách sống</a>
+        </nav>
+
+        <article class="news-featured">
+          <img src="/images/hero_interior.jpg" alt="Xu hướng nội thất cao cấp 2026" width="900" height="480" />
+          <div class="news-featured-overlay"></div>
+          <div class="news-featured-copy">
+            <span class="news-label">BÀI VIẾT NỔI BẬT</span>
+            <h2>5 xu hướng nội thất<br>cao cấp năm 2026</h2>
+            <p>Khám phá những xu hướng nội thất nổi bật sẽ định hình không gian sống sang trọng trong năm 2026.</p>
+            <div class="news-featured-meta"><span>◷ 12/11/2026</span><span>⌁ Xu hướng</span><a href="#moi-nhat">Đọc tiếp →</a></div>
+          </div>
+        </article>
+
+        <div class="news-section-heading" id="moi-nhat">
+          <div><span>JOURNAL</span><h2>Bài viết mới nhất</h2></div>
+          <a href="#moi-nhat">Xem tất cả <span>→</span></a>
+        </div>
+
+        <div class="news-article-list">
+          <% articles.forEach((article) => { %>
+            <article class="news-list-card">
+              <a class="news-list-image" href="#moi-nhat" aria-label="<%= article.title %>"><img src="<%= article.image %>" alt="<%= article.title %>" width="300" height="190" loading="lazy" /></a>
+              <div class="news-list-body">
+                <span class="news-list-category"><%= article.category %></span>
+                <h3><a href="#moi-nhat"><%= article.title %></a></h3>
+                <p><%= article.excerpt %></p>
+                <div class="news-list-meta"><span>◷ <%= article.date %></span><span>◈ <%= article.category %></span><a href="#moi-nhat">Xem chi tiết →</a></div>
+              </div>
+            </article>
+          <% }); %>
+        </div>
+
+        <section class="news-booking-cta" aria-label="Đặt lịch tư vấn">
+          <div><span>SHOME LUXURY</span><h2>Sẵn sàng kiến tạo<br>không gian của bạn?</h2></div>
+          <a href="/dat-lich-ngay">Đặt lịch tư vấn <b>→</b></a>
+        </section>
+      </div>
+    </section>
+  </main>
+
+  <%- include("partials/footer") %>
+</body>
+</html>
