@@ -5,19 +5,26 @@ document.addEventListener('DOMContentLoaded', () => {
   const mobileDrawer = document.getElementById('mobileDrawer');
   const drawerBackdrop = document.getElementById('drawerBackdrop');
 
+  let isOpening = false;
+
   function openDrawer(e) {
     if (e) {
       e.preventDefault();
       e.stopPropagation();
     }
     if (!mobileDrawer || !drawerBackdrop) return;
+    isOpening = true;
     mobileDrawer.classList.add('active');
     drawerBackdrop.classList.add('active');
     document.body.classList.add('drawer-open');
     mobileDrawer.setAttribute('aria-hidden', 'false');
+    setTimeout(() => {
+      isOpening = false;
+    }, 300);
   }
 
   function closeDrawer(e) {
+    if (isOpening) return;
     if (e) {
       e.preventDefault();
       e.stopPropagation();
@@ -29,20 +36,15 @@ document.addEventListener('DOMContentLoaded', () => {
     mobileDrawer.setAttribute('aria-hidden', 'true');
   }
 
-  // Bind click & touchstart/pointerdown with tap handler
-  ['click', 'pointerdown'].forEach(eventType => {
-    if (hamburgerBtn) hamburgerBtn.addEventListener(eventType, openDrawer, { passive: false });
-    if (drawerCloseBtn) drawerCloseBtn.addEventListener(eventType, closeDrawer, { passive: false });
-    if (drawerBackdrop) drawerBackdrop.addEventListener(eventType, closeDrawer, { passive: false });
-  });
-
-  // Global event delegation fallback for hamburger button Taps
-  document.addEventListener('click', (e) => {
-    const btn = e.target.closest('#hamburgerBtn, .hamburger-btn');
-    if (btn && (!mobileDrawer || !mobileDrawer.classList.contains('active'))) {
-      openDrawer(e);
-    }
-  });
+  if (hamburgerBtn) {
+    hamburgerBtn.addEventListener('click', openDrawer);
+  }
+  if (drawerCloseBtn) {
+    drawerCloseBtn.addEventListener('click', closeDrawer);
+  }
+  if (drawerBackdrop) {
+    drawerBackdrop.addEventListener('click', closeDrawer);
+  }
 
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape' && mobileDrawer && mobileDrawer.classList.contains('active')) {
