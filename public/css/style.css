@@ -1983,8 +1983,8 @@ ol {
    FOOTER SECTION - MATCHING REFERENCE LAYOUT 100%
    ========================================================================== */
 .site-footer {
-  background-color: #171717;
-  color: #CCCCCC;
+  background-color: #FAF7F0;
+  color: #333333;
   padding-top: 1.75rem !important;
   padding-bottom: 1.25rem !important;
   border-top: 3.5px solid #C89B4B;
@@ -2029,7 +2029,7 @@ ol {
 
 .footer-address-line {
   font-size: 0.8rem;
-  color: #FFFFFF !important;
+  color: #333333 !important;
   margin: 0;
   line-height: 1.35;
 }
@@ -2048,7 +2048,7 @@ ol {
   align-items: flex-start;
   gap: 5px;
   font-size: 0.78rem;
-  color: #FFFFFF !important;
+  color: #333333 !important;
   line-height: 1.3;
 }
 
@@ -2067,8 +2067,8 @@ ol {
 
 /* Column 2: Facebook Fanpage Card */
 .fb-card-box {
-  background: #242526;
-  border: none !important;
+  background: #FFFFFF;
+  border: 1px solid #E5E0D8 !important;
   border-radius: 12px;
   overflow: hidden !important;
   display: flex;
@@ -2077,7 +2077,7 @@ ol {
   width: 100% !important;
   max-width: 100% !important;
   box-sizing: border-box !important;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
 }
 
 .fb-card-header {
@@ -2085,8 +2085,8 @@ ol {
   align-items: flex-start;
   gap: 12px;
   padding: 12px 14px;
-  background-color: #242526;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  background-color: #FAF7F0;
+  border-bottom: 1px solid #E5E0D8;
   flex-shrink: 0;
 }
 
@@ -2094,8 +2094,8 @@ ol {
   width: 52px;
   height: 52px;
   border-radius: 50%;
-  background-color: #111111;
-  border: 1.5px solid rgba(255, 255, 255, 0.2);
+  background-color: #FFFFFF;
+  border: 1.5px solid #C89B4B;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -2120,7 +2120,7 @@ ol {
 }
 
 .fb-page-title {
-  color: #FFFFFF;
+  color: #111111;
   font-size: 0.95rem;
   font-weight: 700;
   line-height: 1.25;
@@ -2132,7 +2132,7 @@ ol {
 }
 
 .fb-page-followers {
-  color: #B0B3B8;
+  color: #666666;
   font-size: 0.8rem;
   margin-bottom: 8px;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
@@ -2166,7 +2166,7 @@ ol {
   min-height: 0;
   overflow: hidden !important;
   position: relative;
-  background: #18191A;
+  background: #FFFFFF;
   width: 100% !important;
   max-width: 100% !important;
   box-sizing: border-box !important;
@@ -2187,14 +2187,15 @@ ol {
 
 /* Column 3: Map Location Card */
 .map-card-box {
-  background: #1F1F1F;
-  border: none !important;
+  background: #FFFFFF;
+  border: 1px solid #E5E0D8 !important;
   border-radius: 12px;
   overflow: hidden;
   display: flex;
   flex-direction: column;
   height: 235px;
   width: 100%;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
 }
 
 .map-card-header {
@@ -2202,8 +2203,8 @@ ol {
   align-items: center;
   justify-content: space-between;
   padding: 8px 10px;
-  background: #242424;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  background: #FAF7F0;
+  border-bottom: 1px solid #E5E0D8;
   flex-shrink: 0;
 }
 
@@ -2211,7 +2212,7 @@ ol {
   display: flex;
   align-items: center;
   gap: 6px;
-  color: #FFFFFF;
+  color: #111111;
   font-weight: 700;
   font-size: 0.78rem;
   font-family: var(--font-menu);
@@ -2260,7 +2261,7 @@ ol {
 .footer-company-title {
   font-size: 0.82rem;
   font-weight: 700;
-  color: #FFFFFF;
+  color: #111111;
   text-transform: uppercase;
   line-height: 1.3;
   margin: 0 0 0.25rem 0;
@@ -2269,7 +2270,7 @@ ol {
 
 .footer-company-desc {
   font-size: 0.76rem;
-  color: #AAAAAA;
+  color: #555555;
   line-height: 1.4;
   margin: 0 0 0.5rem 0;
 }
@@ -2277,7 +2278,7 @@ ol {
 .footer-social-heading {
   font-size: 0.7rem;
   font-weight: 700;
-  color: #888888;
+  color: #666666;
   letter-spacing: 0.06em;
   text-transform: uppercase;
   margin-bottom: 0.35rem;
@@ -2305,7 +2306,7 @@ ol {
 
 .social-circle-icon:hover {
   background: #C89B4B;
-  color: #171717;
+  color: #FFFFFF;
   transform: translateY(-2px);
 }
 
@@ -2313,7 +2314,7 @@ ol {
 .footer-trust-bar {
   margin-top: 1.75rem;
   padding-top: 1.25rem;
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  border-top: 1px solid #E5E0D8;
   display: grid;
   grid-template-columns: repeat(6, 1fr);
   gap: 0.5rem;
@@ -2325,7 +2326,7 @@ ol {
   justify-content: center;
   gap: 8px;
   padding: 0.4rem 0.25rem;
-  border-right: 1px solid rgba(255, 255, 255, 0.08);
+  border-right: 1px solid #E5E0D8;
 }
 
 .trust-badge-item:last-child {
@@ -2355,7 +2356,7 @@ ol {
 .badge-sub {
   font-size: 0.72rem;
   font-weight: 700;
-  color: #FFFFFF;
+  color: #222222;
   text-transform: uppercase;
   letter-spacing: 0.02em;
 }
@@ -2432,8 +2433,8 @@ ol {
   width: 100%;
   padding: 0.75rem 0.5rem;
   margin-top: 1rem;
-  border-top: 1px solid rgba(200, 155, 75, 0.35);
-  background-color: #303030;
+  border-top: 1px solid #E5E0D8;
+  background-color: #F3EFE6;
 }
 
 @media (min-width: 768px) {
@@ -2471,7 +2472,7 @@ ol {
 .footer-action-messenger svg,
 .footer-action-consult svg {
   background-color: #C89B4B;
-  color: #303030;
+  color: #FFFFFF;
   border-radius: 50%;
   padding: 5px;
   width: 34px;
@@ -2479,13 +2480,13 @@ ol {
 }
 
 .footer-bottom {
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  border-top: 1px solid #E5E0D8;
   margin-top: 1.25rem;
   padding-top: 1rem;
   padding-bottom: 0.5rem;
   text-align: center;
   font-size: 0.75rem;
-  color: #FFFFFF !important;
+  color: #666666 !important;
   opacity: 0.95;
 }
 
