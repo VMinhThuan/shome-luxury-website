@@ -8,15 +8,20 @@
 
     <!-- Equipment Cards List -->
     <div class="capacity-cards-list">
-      <% const equipmentCards = [
-        { image: '/images/cnc_machine.jpg', title: 'Máy cắt CNC\nhiện đại', description: 'Gia công chính xác cao, đáp ứng đa dạng nhu cầu sản xuất.', icon: 'home' },
-        { image: '/images/factory_cnc.jpg', title: 'Dây chuyền\ntự động', description: 'Tối ưu năng suất, đảm bảo chất lượng.', icon: 'machine' },
-        { image: '/images/factory_workers.jpg', title: 'Máy khoan – phay\nchính xác', description: 'Độ chính xác cao, đáp ứng các chi tiết.', icon: 'drill' }
-      ]; %>
+      <% const equipmentMedia = [
+        { image: '/images/cnc_machine.jpg', icon: 'home' },
+        { image: '/images/factory_cnc.jpg', icon: 'machine' },
+        { image: '/images/factory_workers.jpg', icon: 'drill' }
+      ];
+      const equipmentCards = (capacityItems || []).map((item, index) => ({
+        ...item,
+        ...equipmentMedia[index],
+        title: item.title.replace(' ', '\n')
+      })); %>
       <% equipmentCards.forEach(card => { %>
         <article class="capacity-card-v2">
           <!-- Khung dùng lại; chỉ cần thay image/title/description trong equipmentCards. -->
-          <img src="/images/Minimal%20Cream%20Wave%20UI%20Card%20Template.png" alt="" class="capacity-card-frame" aria-hidden="true" />
+          <img src="/images/Elegant%20Cream%20Wave%20Banner%20Template.png" alt="" class="capacity-card-frame" aria-hidden="true" />
           <img src="<%= card.image %>" alt="<%= card.title.replace(/\n/g, ' ') %> S-Home Luxury" class="capacity-card-media" loading="lazy" decoding="async" />
           <div class="capacity-card-overlay">
             <div class="capacity-card-icon" aria-hidden="true">
