@@ -52,10 +52,15 @@
       </h2>
       <% if (attrs.length) { %>
         <div class="project-card-attributes">
-          <% attrs.forEach((attribute, index) => { %>
-            <% if (index > 0) { %><span class="project-card-attribute-separator" aria-hidden="true">|</span><% } %>
-            <span class="project-card-attribute"><%= attribute %></span>
-          <% }); %>
+          <% for (let i = 0; i < attrs.length; i += 2) { %>
+            <span class="project-card-attribute"><%= attrs[i] %></span>
+            <% if (attrs[i + 1]) { %>
+              <span class="project-card-attribute-separator" aria-hidden="true">|</span>
+              <span class="project-card-attribute"><%= attrs[i + 1] %></span>
+            <% } else { %>
+              <span></span><span></span>
+            <% } %>
+          <% } %>
         </div>
       <% } %>
     </div>

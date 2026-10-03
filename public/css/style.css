@@ -4822,22 +4822,35 @@ ol {
 }
 
 .project-card-attributes {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: baseline;
-  column-gap: 0.35rem;
-  row-gap: 0.15rem;
-  font-size: 0.9rem;
+  display: grid;
+  grid-template-columns: auto auto auto;
+  align-items: center;
+  column-gap: 0.65rem;
+  row-gap: 0.35rem;
+  font-size: clamp(0.8rem, 1.1vw, 0.88rem);
   color: var(--text-secondary);
   font-weight: 500;
+  margin-top: 0.25rem;
+  width: max-content;
+  max-width: 100%;
 }
 
 .project-card-attribute {
   white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .project-card-attribute-separator {
-  flex: 0 0 auto;
+  color: rgba(29, 29, 29, 0.3);
+  font-size: 0.8rem;
+  font-weight: 300;
+  line-height: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  user-select: none;
+  height: 14px;
 }
 
 /* Right Circular Arrow Button */
@@ -7058,15 +7071,22 @@ hr,
 /* The action artwork is deliberately standalone: no common circular badge. */
 .quick-contact-action .action-icon {
   display: block !important;
-  width: 30px !important;
-  height: 30px !important;
-  max-width: 30px !important;
-  max-height: 30px !important;
+  width: 36px !important;
+  height: 36px !important;
+  max-width: 36px !important;
+  max-height: 36px !important;
   color: #D6A23E !important;
   background: transparent !important;
   border: 0 !important;
   border-radius: 0 !important;
   box-shadow: none !important;
+}
+
+.quick-contact-action .action-icon-zalo {
+  width: 40px !important;
+  height: 40px !important;
+  max-width: 40px !important;
+  max-height: 40px !important;
 }
 
 .capacity-card-icon {
@@ -7240,9 +7260,9 @@ html {
     display: flex !important;
     align-items: center !important;
     justify-content: center !important;
-    width: 38px !important;
-    height: 38px !important;
-    flex: 0 0 38px !important;
+    width: 44px !important;
+    height: 44px !important;
+    flex: 0 0 44px !important;
     border-radius: 50% !important;
     background: transparent !important;
     background-color: transparent !important;
