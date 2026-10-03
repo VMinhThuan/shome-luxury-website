@@ -2067,17 +2067,107 @@ ol {
 
 /* Column 2: Facebook Fanpage Card */
 .fb-card-box {
-  background: #1F1F1F;
+  background: #242526;
   border: 1px solid rgba(255, 255, 255, 0.12);
   border-radius: 12px;
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  height: 205px;
+  height: 235px;
   width: 100%;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
 }
 
-.fb-card-box iframe {
+.fb-card-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 12px 14px;
+  background-color: #242526;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  flex-shrink: 0;
+}
+
+.fb-avatar-wrap {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background-color: #111111;
+  border: 1.5px solid rgba(255, 255, 255, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  overflow: hidden;
+  padding: 6px;
+  box-sizing: border-box;
+}
+
+.fb-avatar-img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+}
+
+.fb-info-wrap {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  flex: 1;
+}
+
+.fb-page-title {
+  color: #FFFFFF;
+  font-size: 0.95rem;
+  font-weight: 700;
+  line-height: 1.25;
+  margin-bottom: 2px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+.fb-page-followers {
+  color: #B0B3B8;
+  font-size: 0.8rem;
+  margin-bottom: 8px;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+.fb-follow-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  background-color: #1877F2;
+  color: #FFFFFF !important;
+  font-size: 0.82rem;
+  font-weight: 600;
+  padding: 6px 14px;
+  border-radius: 6px;
+  text-decoration: none !important;
+  width: fit-content;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+.fb-follow-btn:hover {
+  background-color: #166FE5;
+  color: #FFFFFF !important;
+  transform: translateY(-1px);
+}
+
+.fb-card-body-wrapper {
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+  position: relative;
+  background: #18191A;
+}
+
+.fb-card-body-wrapper iframe {
   width: 100% !important;
   height: 100% !important;
   border: 0 !important;
@@ -2095,7 +2185,7 @@ ol {
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  height: 205px;
+  height: 235px;
   width: 100%;
 }
 
