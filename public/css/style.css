@@ -1559,7 +1559,7 @@ ol {
 
   .capacity-card-v2 {
     aspect-ratio: 1.5 / 1;
-    min-height: 360px;
+    min-height: clamp(360px, 27vw, 420px);
   }
 
   .capacity-card-media {
@@ -1586,7 +1586,7 @@ ol {
   }
 
   .capacity-card-title {
-    font-size: clamp(32px, 2.5vw, 48px);
+    font-size: clamp(32px, 2vw, 40px);
     line-height: 1.1;
     font-weight: 800;
     letter-spacing: -0.02em;
