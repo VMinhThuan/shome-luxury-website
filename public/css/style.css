@@ -114,6 +114,9 @@ body {
   width: 100%;
   max-width: 100%;
   overflow-x: hidden;
+  flex: 1 0 auto;
+  display: flex;
+  flex-direction: column;
 }
 
 body.drawer-open {
@@ -2146,6 +2149,7 @@ ol {
   padding-bottom: 1.25rem !important;
   border-top: 3.5px solid #C89B4B;
   font-family: var(--font-menu);
+  margin-top: auto !important;
 }
 
 .footer-top-grid {
@@ -4454,6 +4458,9 @@ ol {
   background: #FFFFFF;
   height: auto;
   min-height: 0;
+  flex: 1 0 auto;
+  display: flex;
+  flex-direction: column;
 }
 
 @media (min-width: 1024px) {
