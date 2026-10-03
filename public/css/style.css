@@ -2067,145 +2067,45 @@ ol {
 
 /* Column 2: Facebook Fanpage Card */
 .fb-card-box {
-  background: transparent !important;
+  background: #FFFFFF;
   border: none !important;
-  border-radius: 0 !important;
+  border-radius: 12px;
   overflow: hidden !important;
-  display: flex;
-  flex-direction: column;
+  display: block;
   height: 235px;
   width: 100% !important;
   max-width: 100% !important;
   box-sizing: border-box !important;
-  box-shadow: none !important;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
 }
 
-.fb-card-header {
-  display: flex;
-  align-items: flex-start;
-  gap: 12px;
-  padding: 0 0 10px 0;
-  background-color: transparent !important;
-  border-bottom: none !important;
-  flex-shrink: 0;
-}
-
-.fb-avatar-wrap {
-  width: 52px;
-  height: 52px;
-  border-radius: 50%;
-  background-color: #111111;
-  border: 1.5px solid rgba(255, 255, 255, 0.2);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-  overflow: hidden;
-  padding: 6px;
-  box-sizing: border-box;
-}
-
-.fb-avatar-img {
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-  display: block;
-}
-
-.fb-info-wrap {
-  display: flex;
-  flex-direction: column;
-  min-width: 0;
-  flex: 1;
-}
-
-.fb-page-title {
-  color: #FFFFFF;
-  font-size: 0.95rem;
-  font-weight: 700;
-  line-height: 1.25;
-  margin-bottom: 2px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-}
-
-.fb-page-followers {
-  color: #B0B3B8;
-  font-size: 0.8rem;
-  margin-bottom: 8px;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-}
-
-.fb-follow-btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 7px;
-  background-color: #1877F2;
-  color: #FFFFFF !important;
-  font-size: 0.82rem;
-  font-weight: 600;
-  padding: 6px 14px;
-  border-radius: 6px;
-  text-decoration: none !important;
-  width: fit-content;
-  transition: background-color 0.2s ease, transform 0.1s ease;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-}
-
-.fb-follow-btn:hover {
-  background-color: #166FE5;
-  color: #FFFFFF !important;
-  transform: translateY(-1px);
-}
-
-.fb-card-body-wrapper {
-  flex: 1;
-  min-height: 0;
-  overflow: hidden !important;
-  position: relative;
-  background: transparent !important;
+.fb-card-box iframe {
   width: 100% !important;
-  max-width: 100% !important;
-  box-sizing: border-box !important;
-  border-radius: 8px;
-}
-
-.fb-card-body-wrapper iframe {
-  width: 100% !important;
-  min-width: 100% !important;
-  max-width: 100% !important;
-  height: calc(100% + 72px) !important;
-  margin-top: -72px !important;
+  height: 100% !important;
   border: 0 !important;
   display: block !important;
-  pointer-events: auto !important;
-  touch-action: pan-y !important;
-  -webkit-overflow-scrolling: touch !important;
+  border-radius: 12px;
 }
 
 /* Column 3: Map Location Card */
 .map-card-box {
-  background: transparent !important;
+  background: #1F1F1F;
   border: none !important;
-  border-radius: 0 !important;
+  border-radius: 12px;
   overflow: hidden;
   display: flex;
   flex-direction: column;
   height: 235px;
   width: 100%;
-  box-shadow: none !important;
 }
 
 .map-card-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 0 10px 0;
-  background: transparent !important;
-  border-bottom: none !important;
+  padding: 8px 10px;
+  background: #242424;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
   flex-shrink: 0;
 }
 
@@ -2235,8 +2135,6 @@ ol {
   flex: 1;
   position: relative;
   min-height: 0;
-  border-radius: 8px;
-  overflow: hidden;
 }
 
 .map-card-iframe-wrapper iframe {
