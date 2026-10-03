@@ -511,6 +511,7 @@ document.addEventListener('DOMContentLoaded', () => {
           const targetLeft = thumbnail.offsetLeft - (parent.clientWidth / 2) + (thumbnail.clientWidth / 2);
           parent.scrollTo({ left: targetLeft, behavior: 'smooth' });
         }
+      });
     }
 
     function selectGalleryImage(index, force = false, requestedDirection = null) {
