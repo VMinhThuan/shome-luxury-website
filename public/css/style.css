@@ -1550,17 +1550,11 @@ ol {
   }
 }
 
-/* Desktop: 3 cards per row, preserving mobile card proportion & composition */
+/* Desktop: 3 cards per row aligned with standard website container margins */
 @media (min-width: 1200px) {
-  .capacity-section-v2 .container {
-    max-width: 1600px;
-    width: calc(100% - 64px);
-    margin: 0 auto;
-  }
-
   .capacity-cards-list {
     grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 24px;
+    gap: 20px;
   }
 
   .capacity-card-v2 {
@@ -1569,7 +1563,7 @@ ol {
     aspect-ratio: 2 / 1;
     min-height: auto;
     max-height: none;
-    border-radius: 28px;
+    border-radius: clamp(20px, 1.6vw, 26px);
     overflow: hidden;
   }
 
@@ -1609,7 +1603,7 @@ ol {
     left: 0;
     width: 60%;
     height: 100%;
-    padding: clamp(24px, 2.2vw, 36px);
+    padding: clamp(18px, 1.6vw, 28px);
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -1618,37 +1612,37 @@ ol {
   }
 
   .capacity-card-icon {
-    margin-bottom: clamp(14px, 1.2vw, 20px);
+    margin-bottom: clamp(8px, 0.8vw, 14px);
     color: #C89B4B;
   }
 
   .capacity-card-icon svg {
-    width: clamp(24px, 1.8vw, 30px);
-    height: clamp(24px, 1.8vw, 30px);
+    width: clamp(20px, 1.4vw, 26px);
+    height: clamp(20px, 1.4vw, 26px);
     display: block;
   }
 
   .capacity-card-title {
-    font-size: clamp(22px, 1.7vw, 34px);
-    line-height: 1.08;
+    font-size: clamp(18px, 1.45vw, 26px);
+    line-height: 1.1;
     font-weight: 700;
     letter-spacing: -0.02em;
-    margin: 0 0 clamp(12px, 1.1vw, 18px);
+    margin: 0 0 clamp(6px, 0.6vw, 10px);
     color: #111111;
     font-family: var(--font-sans);
     white-space: pre-line;
   }
 
   .capacity-card-desc {
-    font-size: clamp(13px, 0.95vw, 17px);
-    line-height: 1.45;
+    font-size: clamp(12px, 0.85vw, 14.5px);
+    line-height: 1.4;
     color: #66615B;
     margin: 0;
     max-width: 100%;
   }
 
   .capacity-card-dots {
-    margin-top: clamp(14px, 1.2vw, 22px);
+    margin-top: clamp(8px, 0.8vw, 14px);
   }
 }
 
