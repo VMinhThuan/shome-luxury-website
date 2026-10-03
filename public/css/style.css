@@ -422,7 +422,7 @@ ol {
   font-weight: 700 !important;
   font-size: clamp(0.78rem, 0.9vw, 0.85rem) !important;
   border: 1px solid #C89B4B !important;
-  border-radius: 24px !important;
+  border-radius: var(--radius-card, 10px) !important;
   padding: 0.55rem 1.25rem !important;
   align-items: center !important;
   justify-content: center !important;
