@@ -1,5 +1,4 @@
 <section class="capacity-section-v2" id="xuong-san-xuat">
-  <div class="capacity-bg-decor"></div>
   <div class="container">
     <!-- Header -->
     <div class="capacity-v2-header">
@@ -16,13 +15,16 @@
       const equipmentCards = (capacityItems || []).map((item, index) => ({
         ...item,
         ...equipmentMedia[index],
+        image: item.image || equipmentMedia[index]?.image,
         title: item.title
       })); %>
       <% equipmentCards.forEach(card => { %>
         <article class="capacity-card-v2">
           <!-- Khung dùng lại; chỉ cần thay image/title/description trong equipmentCards. -->
-          <img src="/images/Elegant%20Cream%20Wave%20Banner%20Template.png" alt="" class="capacity-card-frame" aria-hidden="true" />
-          <img src="<%= card.image %>" alt="<%= card.title.replace(/\n/g, ' ') %> S-Home Luxury" class="capacity-card-media" loading="lazy" decoding="async" />
+          <div class="capacity-card-media">
+            <img src="<%= card.image %>" alt="<%= card.title.replace(/\n/g, ' ') %> S-Home Luxury" loading="lazy" decoding="async" />
+          </div>
+          <div class="capacity-card-curve" aria-hidden="true"></div>
           <div class="capacity-card-overlay">
             <div class="capacity-card-icon" aria-hidden="true">
               <% if (card.icon === 'home') { %>
