@@ -415,7 +415,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const getGalleryStage = () => gallery?.querySelector('.project-gallery-stage');
     const getHeroImage = () => gallery?.querySelector('[data-detail-image]');
     const getPreviewImage = () => gallery?.querySelector('[data-gallery-drag-preview]');
-    const getProjectTitle = () => detailPage.querySelector('[data-project-field="title"]')?.textContent || 'Công trình S-Home Luxury';
+    const getProjectTitle = () => detailPage.querySelector('[data-project-field="title"]')?.textContent || 'Công trình Shome Luxury';
 
     function updateSlideImage(image, src, index) {
       image.src = src;
@@ -655,7 +655,7 @@ document.addEventListener('DOMContentLoaded', () => {
           });
 
           const charSum = (project.title || '').split('').reduce((sum, ch) => sum + ch.charCodeAt(0), 0);
-          updateGallery(getProjectGalleryImages(project, charSum), project.title || 'Công trình S-Home Luxury');
+          updateGallery(getProjectGalleryImages(project, charSum), project.title || 'Công trình Shome Luxury');
         })
         .catch(err => console.error('Failed loading project detail:', err));
     }

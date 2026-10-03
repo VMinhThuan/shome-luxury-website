@@ -29,16 +29,16 @@
   --surface-charcoal-gray: #303030;
   /* Header & footer reference dark charcoal from old site */
 
-  --text-primary: #1D1D1D;
-  /* Deep Charcoal Text */
-  --text-secondary: #66615B;
-  /* Warm Gray Text */
-  --text-muted: #8E8A83;
-  /* Muted Gray Text */
-  --text-on-dark: #F6F2E9;
-  /* Warm Off-white on dark */
-  --text-on-dark-muted: #ABA49B;
-  /* Secondary on dark */
+  --text-primary: #111111;
+  /* Deep Solid Black Text */
+  --text-secondary: #222222;
+  /* Solid Black Text */
+  --text-muted: #444444;
+  /* Dark Text */
+  --text-on-dark: #FFFFFF;
+  /* Crisp White on dark */
+  --text-on-dark-muted: #FFFFFF;
+  /* Crisp White on dark */
 
   --accent-gold: #C89B4B;
   --accent-gold-gradient: linear-gradient(135deg, #F5D38A 0%, #C89B4B 50%, #B78029 100%);
@@ -319,7 +319,7 @@ ol {
   }
 
   .nav-link {
-    font-size: clamp(0.76rem, 0.88vw, 0.88rem);
+    font-size: clamp(0.92rem, 1.05vw, 1.02rem);
     font-weight: 600;
     color: rgba(255, 255, 255, 0.92);
     padding: 0.45rem 0.15rem;
@@ -882,7 +882,7 @@ ol {
 }
 
 .hero-v2-sub-eyebrow {
-  font-size: 0.75rem;
+  font-size: 0.875rem;
   font-weight: 700;
   letter-spacing: 0.12em;
   color: #C89B4B;
@@ -891,7 +891,7 @@ ol {
 
 @media (min-width: 768px) {
   .hero-v2-sub-eyebrow {
-    font-size: 0.875rem;
+    font-size: 1rem;
   }
 }
 
@@ -1002,7 +1002,7 @@ ol {
 .recruitment-jobs-section,
 .related-projects-section,
 .cta-banner-v2-section {
-  background-color: #FAF4E8 !important;
+  background-color: #FAF7F0 !important;
 }
 
 .process-header-section,
@@ -1020,7 +1020,7 @@ ol {
 
 /* 7. PROCESS & WORKSHOP VIDEO - MATCHING REFERENCE IMAGE 2 */
 .process-header-section {
-  background-color: #FAF4E8 !important;
+  background-color: #FAF7F0 !important;
 }
 
 .process-v2-header {
@@ -1084,7 +1084,7 @@ ol {
 .workshop-video-card-v2 {
   position: relative;
   width: 100%;
-  aspect-ratio: 4 / 3;
+  aspect-ratio: 16 / 9 !important;
   border-radius: 10px;
   overflow: hidden;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
@@ -1096,7 +1096,7 @@ ol {
 
 @media (min-width: 768px) {
   .workshop-video-card-v2 {
-    aspect-ratio: 16 / 8;
+    aspect-ratio: 16 / 9 !important;
     border-radius: 12px;
     max-height: 420px;
   }
@@ -1104,7 +1104,7 @@ ol {
 
 @media (min-width: 1200px) {
   .workshop-video-card-v2 {
-    aspect-ratio: 2.35 / 1;
+    aspect-ratio: 16 / 9 !important;
     max-height: 480px;
   }
 }
@@ -1262,7 +1262,7 @@ ol {
 }
 
 .service-img-wrapper {
-  aspect-ratio: 4/3;
+  aspect-ratio: 16 / 9 !important;
   overflow: hidden;
 }
 
@@ -1338,7 +1338,7 @@ ol {
   position: relative;
   border-radius: var(--radius-card);
   overflow: hidden;
-  aspect-ratio: 16/10;
+  aspect-ratio: 16 / 9 !important;
   background-color: var(--bg-dark);
 }
 
@@ -1465,7 +1465,7 @@ ol {
 
 .equipment-card-image {
   width: 100%;
-  aspect-ratio: 16 / 10;
+  aspect-ratio: 16 / 9 !important;
   overflow: hidden;
   position: relative;
   background-color: #F8F6F0;
@@ -1538,7 +1538,7 @@ ol {
 }
 
 .workshop-heart-card {
-  background-color: #FFFFFF;
+  background-color: #FAF7F0;
   border-radius: 12px;
   border: 1px solid rgba(200, 155, 75, 0.25);
   overflow: hidden;
@@ -1547,7 +1547,7 @@ ol {
   align-items: stretch;
   position: relative;
   min-height: 165px;
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.04);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.03);
 }
 
 .workshop-heart-content {
@@ -1600,7 +1600,7 @@ ol {
 .workshop-heart-fade-overlay {
   position: absolute;
   inset: 0;
-  background: linear-gradient(90deg, #FAF4EB 0%, rgba(250, 244, 235, 0.45) 35%, transparent 65%);
+  background: linear-gradient(90deg, #FAF7F0 0%, rgba(250, 247, 240, 0.45) 35%, transparent 65%);
   z-index: 2;
 }
 
@@ -1686,7 +1686,7 @@ ol {
 .gallery-v2-slider-container {
   position: relative;
   width: 100%;
-  aspect-ratio: 16 / 10;
+  aspect-ratio: 16 / 9 !important;
   border-radius: 10px;
   overflow: hidden;
   box-shadow: 0 6px 20px rgba(0, 0, 0, 0.06);
@@ -1717,7 +1717,7 @@ ol {
 .gallery-v2-img-wrap {
   position: relative;
   width: 100%;
-  aspect-ratio: 16 / 10;
+  aspect-ratio: 16 / 9 !important;
   border-radius: 10px;
   overflow: hidden;
   box-shadow: 0 6px 20px rgba(0, 0, 0, 0.06);
@@ -2029,7 +2029,7 @@ ol {
 
 .footer-address-line {
   font-size: 0.8rem;
-  color: #CCCCCC;
+  color: #FFFFFF !important;
   margin: 0;
   line-height: 1.35;
 }
@@ -2048,7 +2048,7 @@ ol {
   align-items: flex-start;
   gap: 5px;
   font-size: 0.78rem;
-  color: #CCCCCC;
+  color: #FFFFFF !important;
   line-height: 1.3;
 }
 
@@ -2068,13 +2068,15 @@ ol {
 /* Column 2: Facebook Fanpage Card */
 .fb-card-box {
   background: #242526;
-  border: 1px solid rgba(255, 255, 255, 0.12);
+  border: none !important;
   border-radius: 12px;
-  overflow: hidden;
+  overflow: hidden !important;
   display: flex;
   flex-direction: column;
   height: 235px;
-  width: 100%;
+  width: 100% !important;
+  max-width: 100% !important;
+  box-sizing: border-box !important;
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
 }
 
@@ -2162,14 +2164,20 @@ ol {
 .fb-card-body-wrapper {
   flex: 1;
   min-height: 0;
-  overflow: hidden;
+  overflow: hidden !important;
   position: relative;
   background: #18191A;
+  width: 100% !important;
+  max-width: 100% !important;
+  box-sizing: border-box !important;
 }
 
 .fb-card-body-wrapper iframe {
   width: 100% !important;
-  height: 100% !important;
+  min-width: 100% !important;
+  max-width: 100% !important;
+  height: calc(100% + 72px) !important;
+  margin-top: -72px !important;
   border: 0 !important;
   display: block !important;
   pointer-events: auto !important;
@@ -2180,7 +2188,7 @@ ol {
 /* Column 3: Map Location Card */
 .map-card-box {
   background: #1F1F1F;
-  border: 1px solid rgba(255, 255, 255, 0.12);
+  border: none !important;
   border-radius: 12px;
   overflow: hidden;
   display: flex;
@@ -2477,7 +2485,8 @@ ol {
   padding-bottom: 0.5rem;
   text-align: center;
   font-size: 0.75rem;
-  color: #888888;
+  color: #FFFFFF !important;
+  opacity: 0.95;
 }
 
 /* Desktop 4-column grid layout */
@@ -6899,6 +6908,7 @@ hr,
   height: 28px !important;
   max-width: 28px !important;
   max-height: 28px !important;
+  margin: 0 auto !important;
   color: #D6A23E !important;
   background: transparent !important;
   border: 0 !important;
@@ -6907,10 +6917,10 @@ hr,
 }
 
 .quick-contact-action .action-icon-zalo {
-  width: 32px !important;
-  height: 32px !important;
-  max-width: 32px !important;
-  max-height: 32px !important;
+  width: 28px !important;
+  height: 28px !important;
+  max-width: 28px !important;
+  max-height: 28px !important;
 }
 
 .capacity-card-icon {
@@ -7764,4 +7774,171 @@ html {
 .hamburger-btn:focus-visible {
   outline: 2px solid var(--accent-gold) !important;
   outline-offset: 3px !important;
+}
+
+/* ==========================================================================
+   GLOBAL 16:9 ASPECT RATIO ENFORCEMENT FOR ALL INTERFACE IMAGES
+   ========================================================================== */
+.service-img-wrapper,
+.project-card,
+.project-card-image-wrapper,
+.equipment-card-image,
+.gallery-v2-slider-container,
+.gallery-v2-img-wrap,
+.workshop-video-card-v2,
+.news-list-image,
+.news-featured > img,
+.news-hero-image,
+.job-card-thumb,
+.booking-estimate-image-wrap,
+.project-gallery-stage,
+.project-gallery-thumbnail,
+.cta-banner-media,
+.article-image-box,
+.article-main-img {
+  aspect-ratio: 16 / 9 !important;
+}
+
+.service-img-wrapper img,
+.project-card img,
+.project-img,
+.project-card-img,
+.equipment-card-image img,
+.gallery-v2-img-wrap img,
+.workshop-video-card-v2 img,
+.news-list-image img,
+.news-hero-image img,
+.job-card-thumb img,
+.booking-estimate-img,
+.project-gallery-stage img,
+.project-gallery-thumbnail img,
+.cta-banner-media img,
+.article-main-img {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+}
+
+/* ==========================================================================
+   STANDARDIZED 3-TIER TYPOGRAPHY SYSTEM (CONTENT SECTIONS ONLY)
+   ========================================================================== */
+
+/* Tier 1: Content Body & Description Text & Eyebrows (Image 1 & Image 2) */
+main .section-v2-desc,
+main .gallery-v2-desc,
+main .process-v2-desc,
+main .hero-v2-sub-eyebrow,
+main .gallery-v2-eyebrow,
+main .capacity-v2-eyebrow,
+main .process-v2-eyebrow,
+main .eyebrow-text,
+main .recruitment-eyebrow,
+main .booking-eyebrow,
+main .eyebrow,
+main .capacity-card-desc,
+main .job-card-desc,
+.section-v2-desc,
+.gallery-v2-desc,
+.process-v2-desc,
+.hero-v2-sub-eyebrow,
+.gallery-v2-eyebrow,
+.capacity-v2-eyebrow,
+.process-v2-eyebrow,
+.eyebrow-text,
+.recruitment-eyebrow,
+.booking-eyebrow,
+.eyebrow {
+  font-size: 0.875rem !important;
+  line-height: 1.55 !important;
+}
+
+@media (min-width: 768px) {
+  main .section-v2-desc,
+  main .gallery-v2-desc,
+  main .process-v2-desc,
+  main .hero-v2-sub-eyebrow,
+  main .gallery-v2-eyebrow,
+  main .capacity-v2-eyebrow,
+  main .process-v2-eyebrow,
+  main .eyebrow-text,
+  main .recruitment-eyebrow,
+  main .booking-eyebrow,
+  main .eyebrow,
+  main .capacity-card-desc,
+  main .job-card-desc,
+  .section-v2-desc,
+  .gallery-v2-desc,
+  .process-v2-desc,
+  .hero-v2-sub-eyebrow,
+  .gallery-v2-eyebrow,
+  .capacity-v2-eyebrow,
+  .process-v2-eyebrow,
+  .eyebrow-text,
+  .recruitment-eyebrow,
+  .booking-eyebrow,
+  .eyebrow {
+    font-size: 1rem !important;
+  }
+}
+
+/* Tier 2: Calligraphy / Script Heading (Image 2) */
+main .hero-script-eyebrow,
+main .workshop-heart-script,
+main .process-v2-script,
+main .font-script-heading,
+.hero-script-eyebrow,
+.workshop-heart-script,
+.process-v2-script {
+  font-family: var(--font-script) !important;
+  font-size: 2.1rem !important;
+  line-height: 1.1 !important;
+  color: #C89B4B !important;
+}
+
+@media (min-width: 768px) {
+  main .hero-script-eyebrow,
+  main .workshop-heart-script,
+  main .process-v2-script,
+  main .font-script-heading,
+  .hero-script-eyebrow,
+  .workshop-heart-script,
+  .process-v2-script {
+    font-size: 2.85rem !important;
+  }
+}
+
+/* Tier 3: Main Title / Main Heading - Largest Text (Image 3) */
+main .hero-v2-title,
+main .gallery-v2-title,
+main .capacity-v2-title,
+main .process-v2-title,
+main .workshop-heart-title,
+main .section-v2-title,
+.hero-v2-title,
+.gallery-v2-title,
+.capacity-v2-title,
+.process-v2-title,
+.workshop-heart-title,
+.section-v2-title {
+  font-family: var(--font-heading) !important;
+  font-size: clamp(1.75rem, 5vw, 2.25rem) !important;
+  font-weight: 800 !important;
+  line-height: 1.2 !important;
+}
+
+@media (min-width: 768px) {
+  main .hero-v2-title,
+  main .gallery-v2-title,
+  main .capacity-v2-title,
+  main .process-v2-title,
+  main .workshop-heart-title,
+  main .section-v2-title,
+  .hero-v2-title,
+  .gallery-v2-title,
+  .capacity-v2-title,
+  .process-v2-title,
+  .workshop-heart-title,
+  .section-v2-title {
+    font-size: clamp(2.25rem, 3.5vw, 3.25rem) !important;
+  }
 }

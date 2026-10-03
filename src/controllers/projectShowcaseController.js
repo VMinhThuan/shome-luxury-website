@@ -8,7 +8,7 @@ const PAGE_CONFIGS = {
     eyebrow: 'DỰ ÁN TIÊU BIỂU',
     titleMain: 'THIẾT KẾ CÔNG TRÌNH',
     titleScript: '',
-    description: 'Tuyển tập các công trình kiến trúc & nội thất sang trọng do đội ngũ S-Home Luxury kiến tạo.',
+    description: 'Tuyển tập các công trình kiến trúc & nội thất sang trọng do đội ngũ Shome Luxury kiến tạo.',
     categoryCode: 'thiet-ke-cong-trinh',
     filters: []
   },

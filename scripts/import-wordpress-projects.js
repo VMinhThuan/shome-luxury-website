@@ -1,5 +1,5 @@
 /**
- * WordPress XML Data Migration Script for S-Home Luxury Backend
+ * WordPress XML Data Migration Script for Shome Luxury Backend
  * 
  * Usage:
  *   1. Dry Run (Analysis & Report only, NO MongoDB writes):
