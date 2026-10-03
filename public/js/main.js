@@ -5,27 +5,48 @@ document.addEventListener('DOMContentLoaded', () => {
   const mobileDrawer = document.getElementById('mobileDrawer');
   const drawerBackdrop = document.getElementById('drawerBackdrop');
 
-  function openDrawer() {
+  function openDrawer(e) {
+    if (e) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
+    if (!mobileDrawer || !drawerBackdrop) return;
     mobileDrawer.classList.add('active');
     drawerBackdrop.classList.add('active');
     document.body.classList.add('drawer-open');
     mobileDrawer.setAttribute('aria-hidden', 'false');
   }
 
-  function closeDrawer() {
+  function closeDrawer(e) {
+    if (e) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
+    if (!mobileDrawer || !drawerBackdrop) return;
     mobileDrawer.classList.remove('active');
     drawerBackdrop.classList.remove('active');
     document.body.classList.remove('drawer-open');
     mobileDrawer.setAttribute('aria-hidden', 'true');
   }
 
-  if (hamburgerBtn) hamburgerBtn.addEventListener('click', openDrawer);
-  if (drawerCloseBtn) drawerCloseBtn.addEventListener('click', closeDrawer);
-  if (drawerBackdrop) drawerBackdrop.addEventListener('click', closeDrawer);
+  // Bind click & touchstart/pointerdown with tap handler
+  ['click', 'pointerdown'].forEach(eventType => {
+    if (hamburgerBtn) hamburgerBtn.addEventListener(eventType, openDrawer, { passive: false });
+    if (drawerCloseBtn) drawerCloseBtn.addEventListener(eventType, closeDrawer, { passive: false });
+    if (drawerBackdrop) drawerBackdrop.addEventListener(eventType, closeDrawer, { passive: false });
+  });
+
+  // Global event delegation fallback for hamburger button Taps
+  document.addEventListener('click', (e) => {
+    const btn = e.target.closest('#hamburgerBtn, .hamburger-btn');
+    if (btn && (!mobileDrawer || !mobileDrawer.classList.contains('active'))) {
+      openDrawer(e);
+    }
+  });
 
   document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' && mobileDrawer.classList.contains('active')) {
-      closeDrawer();
+    if (e.key === 'Escape' && mobileDrawer && mobileDrawer.classList.contains('active')) {
+      closeDrawer(e);
     }
   });
 

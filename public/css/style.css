@@ -503,8 +503,10 @@ ol {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 44px;
-  height: 44px;
+  width: 48px;
+  height: 48px;
+  min-width: 48px;
+  min-height: 48px;
   color: var(--accent-gold);
   background: transparent;
   border: none;
@@ -512,6 +514,11 @@ ol {
   font-size: 1.5rem;
   cursor: pointer;
   padding: 0;
+  position: relative;
+  z-index: 1005;
+  touch-action: manipulation !important;
+  pointer-events: auto !important;
+  -webkit-tap-highlight-color: transparent;
 }
 
 @media (min-width: 1024px) {
@@ -521,6 +528,45 @@ ol {
 }
 
 /* 4. MOBILE NAVIGATION DRAWER */
+.drawer-header-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 1.25rem 0.75rem 1.25rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.drawer-brand-title {
+  font-family: var(--font-menu);
+  font-size: 1rem;
+  font-weight: 800;
+  color: var(--accent-gold);
+  letter-spacing: 0.05em;
+}
+
+.drawer-close-btn {
+  background: transparent;
+  border: none;
+  color: #CCCCCC;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  cursor: pointer;
+  padding: 0;
+  border-radius: 50%;
+  transition: all 0.2s ease;
+  touch-action: manipulation !important;
+  pointer-events: auto !important;
+}
+
+.drawer-close-btn:hover,
+.drawer-close-btn:active {
+  color: #FFFFFF;
+  background: rgba(255, 255, 255, 0.1);
+}
+
 .drawer-backdrop {
   position: fixed;
   inset: 0;
