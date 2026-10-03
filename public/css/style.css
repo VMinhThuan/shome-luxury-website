@@ -1423,271 +1423,111 @@ ol {
   border-radius: 2px;
 }
 
-.capacity-cards-list {
+.capacity-cards-grid {
   display: flex;
   flex-direction: column;
   gap: 24px;
+  margin-top: 1.5rem;
 }
 
 @media (min-width: 768px) {
-  .capacity-cards-list {
+  .capacity-cards-grid {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 24px;
   }
 }
 
-@media (min-width: 1200px) {
-  .capacity-cards-list {
+@media (min-width: 992px) {
+  .capacity-cards-grid {
     grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 24px;
   }
 }
 
-.capacity-card-v2 {
-  position: relative;
-  width: 100%;
-  aspect-ratio: 1774 / 887;
-  border: 1px solid #C89B4B;
-  border-radius: clamp(28px, 2vw, 32px);
+.capacity-equipment-card {
+  background: #FFFFFF;
+  border: 1.5px solid rgba(200, 155, 75, 0.45);
+  border-radius: 20px;
   overflow: hidden;
-  isolation: isolate;
-  box-shadow: none;
-  background: transparent;
-}
-
-.capacity-card-media {
-  position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  width: 60%;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+  transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+  display: flex;
+  flex-direction: column;
   height: 100%;
-  overflow: hidden;
-  z-index: 1;
 }
 
-.capacity-card-media img {
-  display: block;
+.capacity-equipment-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 28px rgba(200, 155, 75, 0.15);
+  border-color: rgba(200, 155, 75, 0.8);
+}
+
+.equipment-card-image {
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+  position: relative;
+  background-color: #F8F6F0;
+}
+
+.equipment-card-image img {
   width: 100%;
   height: 100%;
   object-fit: cover;
   object-position: center;
+  display: block;
+  transition: transform 0.5s ease;
 }
 
-/* Decorative layer only: it sits above the full-size image so no empty seam can appear at the curve. */
-.capacity-card-curve {
-  position: absolute;
-  top: -15%;
-  bottom: -15%;
-  left: 0;
-  width: 61%;
-  z-index: 2;
-  pointer-events: none;
-  background: #FCFAF5;
-  clip-path: ellipse(100% 70% at 0 50%);
+.capacity-equipment-card:hover .equipment-card-image img {
+  transform: scale(1.04);
 }
 
-.capacity-card-overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 55%;
-  height: 100%;
-  padding: clamp(1.2rem, 4vw, 4rem);
+.equipment-card-body {
+  padding: 1.25rem 1.5rem 1.5rem;
+  background-color: #FFFFFF;
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
-  z-index: 2;
-  box-sizing: border-box;
+  flex-grow: 1;
 }
 
-.capacity-card-icon {
-  color: #C89B4B;
-  margin-bottom: clamp(0.45rem, 1vw, 1rem);
+.equipment-header-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 8px;
 }
 
-.capacity-card-icon svg {
-  display: block;
-  width: clamp(19px, 2vw, 28px);
-  height: clamp(19px, 2vw, 28px);
+.equipment-icon-box {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 32px;
+  height: 32px;
 }
 
-.capacity-card-title {
-  font-size: clamp(1.35rem, 3vw, 3rem);
+.equipment-icon-box svg {
+  width: 28px;
+  height: 28px;
+  stroke: #C89B4B;
+}
+
+.equipment-card-title {
+  font-family: 'Montserrat', sans-serif !important;
+  font-size: clamp(1.15rem, 1.4vw, 1.35rem);
   font-weight: 700;
-  color: #111111;
-  line-height: 1.2;
-  margin: 0 0 clamp(0.45rem, 1vw, 1rem);
-  font-family: var(--font-sans);
-  white-space: pre-line;
-}
-
-.capacity-card-desc {
-  font-size: clamp(0.75rem, 1.45vw, 1.35rem);
-  color: #66615B;
+  color: #1A1A1A;
+  margin: 0;
   line-height: 1.3;
-  margin-bottom: 0.25rem;
-  max-width: min(100%, 28rem);
 }
 
-.capacity-card-dots {
-  display: grid;
-  grid-template-columns: repeat(3, 4px);
-  gap: 4px;
-  opacity: 0.45;
-  margin-top: auto;
-}
-
-.capacity-card-dots span {
-  width: 4px;
-  height: 4px;
-  border-radius: 50%;
-  background-color: var(--accent-gold);
-}
-
-/* Tablet only: retain the mobile visual language, with enough vertical room for all text. */
-@media (min-width: 768px) and (max-width: 1199px) {
-  .capacity-card-v2 {
-    aspect-ratio: 1.55 / 1;
-    min-height: 340px;
-  }
-
-  .capacity-card-media {
-    width: 46%;
-  }
-
-  .capacity-card-curve {
-    width: 59%;
-  }
-
-  .capacity-card-overlay {
-    width: 58%;
-    padding: 32px 20px 28px 30px;
-    justify-content: center;
-  }
-
-  .capacity-card-icon {
-    margin-bottom: 20px;
-  }
-
-  .capacity-card-icon svg {
-    width: 30px;
-    height: 30px;
-  }
-
-  .capacity-card-title {
-    font-size: clamp(30px, 3vw, 40px);
-    line-height: 1.1;
-    letter-spacing: -0.02em;
-    margin: 0 0 16px;
-  }
-
-  .capacity-card-desc {
-    font-size: clamp(16px, 1.35vw, 19px);
-    line-height: 1.45;
-    max-width: 90%;
-    margin: 0;
-  }
-
-  .capacity-card-dots {
-    margin-top: 20px;
-  }
-}
-
-/* Desktop: 3 cards per row aligned with standard website container margins */
-@media (min-width: 1200px) {
-  .capacity-cards-list {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 20px;
-  }
-
-  .capacity-card-v2 {
-    position: relative;
-    width: 100%;
-    aspect-ratio: 2 / 1;
-    min-height: auto;
-    max-height: none;
-    border-radius: clamp(20px, 1.6vw, 26px);
-    overflow: hidden;
-  }
-
-  .capacity-card-media {
-    position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    width: 60%;
-    height: 100%;
-    z-index: 1;
-  }
-
-  .capacity-card-media img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    object-position: center;
-    display: block;
-  }
-
-  .capacity-card-curve {
-    position: absolute;
-    top: -15%;
-    bottom: -15%;
-    left: 0;
-    width: 63%;
-    z-index: 2;
-    pointer-events: none;
-    background: #FCFAF5;
-    clip-path: ellipse(100% 70% at 0 50%);
-  }
-
-  .capacity-card-overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 60%;
-    height: 100%;
-    padding: clamp(18px, 1.6vw, 28px);
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    z-index: 3;
-    box-sizing: border-box;
-  }
-
-  .capacity-card-icon {
-    margin-bottom: clamp(8px, 0.8vw, 14px);
-    color: #C89B4B;
-  }
-
-  .capacity-card-icon svg {
-    width: clamp(20px, 1.4vw, 26px);
-    height: clamp(20px, 1.4vw, 26px);
-    display: block;
-  }
-
-  .capacity-card-title {
-    font-size: clamp(18px, 1.45vw, 26px);
-    line-height: 1.1;
-    font-weight: 700;
-    letter-spacing: -0.02em;
-    margin: 0 0 clamp(6px, 0.6vw, 10px);
-    color: #111111;
-    font-family: var(--font-sans);
-    white-space: pre-line;
-  }
-
-  .capacity-card-desc {
-    font-size: clamp(12px, 0.85vw, 14.5px);
-    line-height: 1.4;
-    color: #66615B;
-    margin: 0;
-    max-width: 100%;
-  }
-
-  .capacity-card-dots {
-    margin-top: clamp(8px, 0.8vw, 14px);
-  }
+.equipment-card-desc {
+  font-size: clamp(0.875rem, 1vw, 0.95rem);
+  color: #666666;
+  line-height: 1.5;
+  margin: 0;
 }
 
 /* Workshop Heart Section - Matching Screenshot Exactly */

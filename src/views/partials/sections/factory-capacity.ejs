@@ -5,39 +5,50 @@
       <h2 class="capacity-v2-title">Trang thiết bị hiện đại</h2>
     </div>
 
-    <!-- Equipment Cards List -->
-    <div class="capacity-cards-list">
+    <!-- Equipment Cards Grid -->
+    <div class="capacity-cards-grid">
       <% const equipmentMedia = [
-        { image: '/images/cnc_machine.jpg', icon: 'home' },
-        { image: '/images/factory_cnc.jpg', icon: 'machine' },
-        { image: '/images/factory_workers.jpg', icon: 'drill' }
+        { image: '/images/cnc_machine.jpg', icon: 'cnc' },
+        { image: '/images/auto_line.jpg', icon: 'autoline' },
+        { image: '/images/drill_machine.jpg', icon: 'drill' }
       ];
       const equipmentCards = (capacityItems || []).map((item, index) => ({
         ...item,
         ...equipmentMedia[index],
         image: item.image || equipmentMedia[index]?.image,
-        title: item.title
+        title: item.title,
+        description: item.description
       })); %>
       <% equipmentCards.forEach(card => { %>
-        <article class="capacity-card-v2">
-          <!-- Khung dùng lại; chỉ cần thay image/title/description trong equipmentCards. -->
-          <div class="capacity-card-media">
-            <img src="<%= card.image %>" alt="<%= card.title.replace(/\n/g, ' ') %> S-Home Luxury" loading="lazy" decoding="async" />
+        <article class="capacity-equipment-card">
+          <div class="equipment-card-image">
+            <img src="<%= card.image %>" alt="<%= card.title %> - S-Home Luxury" loading="lazy" decoding="async" />
           </div>
-          <div class="capacity-card-curve" aria-hidden="true"></div>
-          <div class="capacity-card-overlay">
-            <div class="capacity-card-icon" aria-hidden="true">
-              <% if (card.icon === 'home') { %>
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18M3 10l5-4 5 4 5-4 3 2.4V21H3V10z"/><path d="M9 21v-4a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v4"/></svg>
-              <% } else if (card.icon === 'machine') { %>
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="6" width="20" height="8" rx="2"/><circle cx="6" cy="18" r="2"/><circle cx="12" cy="18" r="2"/><circle cx="18" cy="18" r="2"/><path d="M6 14v2M12 14v2M18 14v2"/></svg>
-              <% } else { %>
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v10M9 6h6M7 12h10M5 22h14M8 18h8M10 14v4M14 14v4"/></svg>
-              <% } %>
+          <div class="equipment-card-body">
+            <div class="equipment-header-row">
+              <div class="equipment-icon-box" aria-hidden="true">
+                <% if (card.icon === 'cnc') { %>
+                  <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="#C89B4B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M3 21h18M3 10l5-4 5 4 5-4 3 2.4V21H3V10z"/>
+                    <path d="M9 21v-4a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v4"/>
+                  </svg>
+                <% } else if (card.icon === 'autoline') { %>
+                  <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="#C89B4B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="2" y="6" width="20" height="8" rx="2"/>
+                    <circle cx="6" cy="18" r="2"/>
+                    <circle cx="12" cy="18" r="2"/>
+                    <circle cx="18" cy="18" r="2"/>
+                    <path d="M6 14v2M12 14v2M18 14v2"/>
+                  </svg>
+                <% } else { %>
+                  <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="#C89B4B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M12 2v10M9 6h6M7 12h10M5 22h14M8 18h8M10 14v4M14 14v4"/>
+                  </svg>
+                <% } %>
+              </div>
+              <h3 class="equipment-card-title"><%= card.title %></h3>
             </div>
-            <h3 class="capacity-card-title"><%= card.title %></h3>
-            <p class="capacity-card-desc"><%= card.description %></p>
-            <div class="capacity-card-dots" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span><span></span></div>
+            <p class="equipment-card-desc"><%= card.description %></p>
           </div>
         </article>
       <% }); %>
