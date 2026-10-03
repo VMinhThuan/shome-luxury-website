@@ -1393,43 +1393,9 @@ ol {
   }
 }
 
-@media (min-width: 1024px) {
+@media (min-width: 1200px) {
   .capacity-cards-list {
     grid-template-columns: repeat(3, minmax(0, 1fr));
-  }
-
-  .capacity-card-overlay {
-    padding: clamp(1rem, 1.4vw, 1.5rem);
-  }
-
-  .capacity-card-icon {
-    margin-bottom: 0.45rem;
-  }
-
-  .capacity-card-icon svg {
-    width: 22px;
-    height: 22px;
-  }
-
-  .capacity-card-title {
-    font-size: clamp(1.1rem, 1.35vw, 1.5rem);
-    line-height: 1.12;
-    margin-bottom: 0.45rem;
-  }
-
-  .capacity-card-desc {
-    font-size: clamp(0.72rem, 0.78vw, 0.9rem);
-    line-height: 1.32;
-  }
-
-  .capacity-card-dots {
-    grid-template-columns: repeat(3, 3px);
-    gap: 3px;
-  }
-
-  .capacity-card-dots span {
-    width: 3px;
-    height: 3px;
   }
 }
 
@@ -1533,6 +1499,110 @@ ol {
   height: 4px;
   border-radius: 50%;
   background-color: var(--accent-gold);
+}
+
+/* Tablet only: retain the mobile visual language, with enough vertical room for all text. */
+@media (min-width: 768px) and (max-width: 1199px) {
+  .capacity-card-v2 {
+    aspect-ratio: 1.55 / 1;
+    min-height: 340px;
+  }
+
+  .capacity-card-media {
+    width: 46%;
+  }
+
+  .capacity-card-curve {
+    width: 59%;
+  }
+
+  .capacity-card-overlay {
+    width: 58%;
+    padding: 32px 20px 28px 30px;
+    justify-content: center;
+  }
+
+  .capacity-card-icon {
+    margin-bottom: 20px;
+  }
+
+  .capacity-card-icon svg {
+    width: 30px;
+    height: 30px;
+  }
+
+  .capacity-card-title {
+    font-size: clamp(30px, 3vw, 40px);
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    margin: 0 0 16px;
+  }
+
+  .capacity-card-desc {
+    font-size: clamp(16px, 1.35vw, 19px);
+    line-height: 1.45;
+    max-width: 90%;
+    margin: 0;
+  }
+
+  .capacity-card-dots {
+    margin-top: 20px;
+  }
+}
+
+/* Desktop: three balanced cards with content sized to the card, not to the viewport. */
+@media (min-width: 1200px) {
+  .capacity-cards-list {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 28px;
+  }
+
+  .capacity-card-v2 {
+    aspect-ratio: 1.5 / 1;
+    min-height: 360px;
+  }
+
+  .capacity-card-media {
+    width: 46%;
+  }
+
+  .capacity-card-curve {
+    width: 59%;
+  }
+
+  .capacity-card-overlay {
+    width: 58%;
+    padding: 42px 24px 36px 40px;
+    justify-content: center;
+  }
+
+  .capacity-card-icon {
+    margin-bottom: 24px;
+  }
+
+  .capacity-card-icon svg {
+    width: clamp(28px, 1.7vw, 34px);
+    height: clamp(28px, 1.7vw, 34px);
+  }
+
+  .capacity-card-title {
+    font-size: clamp(32px, 2.5vw, 48px);
+    line-height: 1.1;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    margin: 0 0 20px;
+  }
+
+  .capacity-card-desc {
+    font-size: clamp(16px, 1.15vw, 21px);
+    line-height: 1.45;
+    max-width: 90%;
+    margin: 0;
+  }
+
+  .capacity-card-dots {
+    margin-top: 24px;
+  }
 }
 
 /* Workshop Heart Section - Matching Screenshot Exactly */
