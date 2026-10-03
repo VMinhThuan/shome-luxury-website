@@ -16,7 +16,7 @@
       const equipmentCards = (capacityItems || []).map((item, index) => ({
         ...item,
         ...equipmentMedia[index],
-        title: item.title.replace(' ', '\n')
+        title: item.title
       })); %>
       <% equipmentCards.forEach(card => { %>
         <article class="capacity-card-v2">
