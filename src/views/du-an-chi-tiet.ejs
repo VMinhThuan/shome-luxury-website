@@ -24,10 +24,17 @@
     <div class="container">
       <!-- Breadcrumb -->
       <nav class="breadcrumb-nav" aria-label="Breadcrumb">
-        <a href="/">Trang chủ</a>
-        <span class="breadcrumb-separator">/</span>
-        <a href="/thiet-ke-cong-trinh">Công trình</a>
-        <span class="breadcrumb-separator">/</span>
+        <% if (typeof breadcrumbs !== 'undefined' && breadcrumbs && breadcrumbs.length) { %>
+          <% breadcrumbs.forEach(crumb => { %>
+            <a href="<%= crumb.href %>"><%= crumb.label %></a>
+            <span class="breadcrumb-separator">/</span>
+          <% }); %>
+        <% } else { %>
+          <a href="/">Trang chủ</a>
+          <span class="breadcrumb-separator">/</span>
+          <a href="/thiet-ke-cong-trinh">Công trình</a>
+          <span class="breadcrumb-separator">/</span>
+        <% } %>
         <span class="breadcrumb-current"><%= project.title %></span>
       </nav>
 

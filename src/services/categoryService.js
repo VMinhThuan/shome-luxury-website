@@ -130,6 +130,65 @@ class CategoryService {
     if (!category) throw new Error('Category not found');
     return category;
   }
+
+  /**
+   * Build category breadcrumbs hierarchy for a given set of categoryIds or primary category
+   */
+  async getCategoryBreadcrumbs(categoryIds) {
+    const CATEGORY_URL_MAP = {
+      'thiet-ke-cong-trinh': '/thiet-ke-cong-trinh',
+      'thiet-ke-kien-truc': '/thiet-ke-kien-truc',
+      'tk-kt-nha-cap-4': '/thiet-ke-kien-truc/nha-cap-4',
+      'tk-kt-nha-pho': '/thiet-ke-kien-truc/nha-pho',
+      'tk-kt-biet-thu': '/thiet-ke-kien-truc/biet-thu',
+      'tk-kt-villa': '/thiet-ke-kien-truc/villa',
+      'thiet-ke-noi-that': '/thiet-ke-noi-that',
+      'tk-nt-chung-cu': '/thiet-ke-noi-that/chung-cu',
+      'tk-nt-nha-pho': '/thiet-ke-noi-that/nha-pho',
+      'tk-nt-biet-thu': '/thiet-ke-noi-that/biet-thu',
+      'tk-nt-van-phong': '/thiet-ke-noi-that/van-phong',
+      'thi-cong-cong-trinh': '/thi-cong-cong-trinh'
+    };
+
+    const breadcrumbs = [{ label: 'Trang chủ', href: '/' }];
+
+    if (!categoryIds || !categoryIds.length) {
+      breadcrumbs.push({ label: 'Công trình', href: '/thiet-ke-cong-trinh' });
+      return breadcrumbs;
+    }
+
+    const allCats = await Category.find().lean();
+    const catMap = {};
+    allCats.forEach(c => { catMap[c._id.toString()] = c; });
+
+    let mainCat = categoryIds[0];
+    let catObj = typeof mainCat === 'object' ? mainCat : catMap[mainCat ? mainCat.toString() : ''];
+
+    if (catObj) {
+      const path = [];
+      let curr = catObj;
+      while (curr) {
+        path.unshift(curr);
+        if (curr.parentId && catMap[curr.parentId.toString()]) {
+          curr = catMap[curr.parentId.toString()];
+        } else {
+          curr = null;
+        }
+      }
+
+      // Filter out root container 'thiet-ke-cong-trinh' if there are sub-categories to avoid redundant breadcrumbs
+      const filteredPath = path.filter(c => c.code !== 'thiet-ke-cong-trinh' || path.length === 1);
+
+      filteredPath.forEach(c => {
+        const url = CATEGORY_URL_MAP[c.code] || `/${c.slug}`;
+        breadcrumbs.push({ label: c.name, href: url });
+      });
+    } else {
+      breadcrumbs.push({ label: 'Công trình', href: '/thiet-ke-cong-trinh' });
+    }
+
+    return breadcrumbs;
+  }
 }
 
 module.exports = new CategoryService();

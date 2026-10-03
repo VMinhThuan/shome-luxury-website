@@ -119,10 +119,10 @@ class ProjectService {
     let project = null;
 
     if (mongoose.Types.ObjectId.isValid(idOrSlug)) {
-      project = await Project.findById(idOrSlug).populate('categoryIds', 'name slug code isLeaf').lean();
+      project = await Project.findById(idOrSlug).populate('categoryIds', 'name slug code isLeaf parentId').lean();
     }
     if (!project) {
-      project = await Project.findOne({ slug: idOrSlug }).populate('categoryIds', 'name slug code isLeaf').lean();
+      project = await Project.findOne({ slug: idOrSlug }).populate('categoryIds', 'name slug code isLeaf parentId').lean();
     }
     return project;
   }

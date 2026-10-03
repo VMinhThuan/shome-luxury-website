@@ -226,11 +226,15 @@ class ProjectShowcaseController {
         relatedProjects = relatedResult.projects.filter(p => p.slug !== project.slug).slice(0, 3);
       }
 
+      // Fetch dynamic category breadcrumbs
+      const breadcrumbs = await categoryService.getCategoryBreadcrumbs(project.categoryIds);
+
       return res.render('du-an-chi-tiet', {
         title: `${project.title} | LUXURY HOME`,
         headerSlogan: 'Nâng tầm cuộc sống',
         navigation: navigationData,
         project,
+        breadcrumbs,
         relatedProjects
       });
     } catch (err) {
