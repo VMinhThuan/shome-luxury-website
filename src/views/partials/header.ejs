@@ -11,7 +11,7 @@
     <nav class="desktop-nav" aria-label="Main Navigation">
       <% navigation.forEach(item => { %>
         <div class="nav-item <%= item.children ? 'has-dropdown' : '' %>">
-          <a href="<%= item.href %>" class="nav-link">
+          <a href="<%= (item.children && item.children.length) ? 'javascript:void(0)' : item.href %>" class="nav-link">
             <%= item.label %>
             <% if (item.children) { %>
               <svg width="10" height="6" viewBox="0 0 10 6" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -24,7 +24,7 @@
             <div class="desktop-dropdown">
               <% item.children.forEach(subItem => { %>
                 <div class="<%= subItem.children ? 'dropdown-sub' : '' %>">
-                  <a href="<%= subItem.href %>" class="dropdown-link"><%= subItem.label %></a>
+                  <a href="<%= (subItem.children && subItem.children.length) ? 'javascript:void(0)' : subItem.href %>" class="dropdown-link"><%= subItem.label %></a>
 
                   <% if (subItem.children) { %>
                     <div class="dropdown-sub-menu">

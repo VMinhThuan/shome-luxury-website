@@ -22,7 +22,7 @@
       <% navigation.forEach(item => { %>
         <li class="mobile-menu-item">
           <div class="mobile-menu-row">
-            <a href="<%= item.href %>" class="mobile-menu-link"><%= item.label %></a>
+            <a href="<%= (item.children && item.children.length) ? 'javascript:void(0)' : item.href %>" class="mobile-menu-link"><%= item.label %></a>
             <% if (item.children) { %>
               <button class="accordion-toggle" aria-expanded="false" aria-controls="submenu-<%= item.id %>" aria-label="Mở <%= item.label %>">
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -37,7 +37,7 @@
               <% item.children.forEach(subItem => { %>
                 <li class="l2-item">
                   <div class="mobile-menu-row">
-                    <a href="<%= subItem.href %>" class="l2-link"><%= subItem.label %></a>
+                    <a href="<%= (subItem.children && subItem.children.length) ? 'javascript:void(0)' : subItem.href %>" class="l2-link"><%= subItem.label %></a>
                     <% if (subItem.children) { %>
                       <button class="accordion-toggle" aria-expanded="false" aria-controls="submenu-<%= subItem.id %>" aria-label="Mở <%= subItem.label %>">
                         <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">

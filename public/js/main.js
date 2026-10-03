@@ -75,13 +75,19 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // Close drawer when clicking a direct menu link (non-toggle)
+  // Mobile drawer links handling
   const mobileMenuLinks = document.querySelectorAll('.mobile-menu-link, .l2-link, .l3-link');
   mobileMenuLinks.forEach(link => {
     link.addEventListener('click', (e) => {
-      // If link is empty anchor or toggle target, handle smooth scroll or close
       const href = link.getAttribute('href');
-      if (href && href.startsWith('#') && href !== '#') {
+      if (!href || href === 'javascript:void(0)' || href === '#') {
+        e.preventDefault();
+        const row = link.closest('.mobile-menu-row');
+        const toggle = row ? row.querySelector('.accordion-toggle') : null;
+        if (toggle) toggle.click();
+        return;
+      }
+      if (href.startsWith('#') && href !== '#') {
         closeDrawer();
         const targetSection = document.querySelector(href);
         if (targetSection) {
