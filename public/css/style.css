@@ -972,11 +972,50 @@ ol {
   }
 }
 
+/* ==========================================================================
+   ALTERNATING SECTION BACKGROUND SYSTEM (LANHA.VN STYLE)
+   ========================================================================== */
+.section-bg-white,
+.usp-section-v2,
+.capacity-section-v2,
+.factory-gallery-v2-section,
+.booking-hero,
+.booking-estimate,
+.booking-testimonial,
+.news-hero,
+.recruitment-banner-section,
+.project-showcase-hero {
+  background-color: #FFFFFF !important;
+}
+
+.section-bg-cream,
+.process-header-section,
+.workshop-heart-section,
+.booking-process-section,
+.booking-faq,
+.news-content-section,
+.recruitment-jobs-section,
+.related-projects-section,
+.cta-banner-v2-section {
+  background-color: #FAF4E8 !important;
+}
+
+.process-header-section,
+.workshop-heart-section,
+.capacity-section-v2,
+.factory-gallery-v2-section,
+.booking-process-section,
+.booking-faq,
+.news-content-section,
+.recruitment-jobs-section,
+.related-projects-section {
+  padding-top: 2.25rem !important;
+  padding-bottom: 2.25rem !important;
+}
+
 /* 7. PROCESS & WORKSHOP VIDEO - MATCHING REFERENCE IMAGE 2 */
 .process-header-section {
-  background-color: var(--bg-primary);
-  padding-top: 0.375rem;
-  padding-bottom: 0.375rem;
+  background-color: #FAF4E8 !important;
 }
 
 .process-v2-header {
@@ -1654,9 +1693,9 @@ ol {
 }
 
 .workshop-heart-card {
-  background-color: #FAF4EB;
-  border-radius: 10px;
-  border: 1.5px solid #EAE0D0;
+  background-color: #FFFFFF;
+  border-radius: 12px;
+  border: 1px solid rgba(200, 155, 75, 0.25);
   overflow: hidden;
   display: flex;
   flex-direction: row;
