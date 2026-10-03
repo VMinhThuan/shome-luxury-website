@@ -4471,11 +4471,8 @@ ol {
 
 .showcase-page-main {
   padding-top: var(--header-height-mobile);
-  background-color: var(--bg-primary);
-  background-image: url('/images/background.png');
-  background-repeat: repeat-y;
-  background-position: center top;
-  background-size: 100% auto;
+  background-color: #FFFFFF;
+  background: #FFFFFF;
   height: auto;
   min-height: 0;
 }
