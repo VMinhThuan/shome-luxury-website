@@ -41,8 +41,6 @@
       <% const projectGallery = project.gallery && project.gallery.length ? project.gallery : detailMockImages; %>
       <% const galleryImages = [...new Set([detailImageSrc, ...projectGallery].filter(Boolean))]; %>
       <aside class="project-info-banner" aria-label="Thông tin dự án">
-        <img class="project-info-background" data-project-info-background src="<%= galleryImages[0] %>" alt="" aria-hidden="true" loading="lazy" />
-        <div class="project-info-scrim" aria-hidden="true"></div>
         <div class="container project-info-container">
           <div class="project-meta-grid">
             <h2 class="project-meta-heading"><span aria-hidden="true"></span>Thông tin dự án</h2>
