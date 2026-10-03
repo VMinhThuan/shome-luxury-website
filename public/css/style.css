@@ -1550,58 +1550,105 @@ ol {
   }
 }
 
-/* Desktop: three balanced cards with content sized to the card, not to the viewport. */
+/* Desktop: 3 cards per row, preserving mobile card proportion & composition */
 @media (min-width: 1200px) {
+  .capacity-section-v2 .container {
+    max-width: 1600px;
+    width: calc(100% - 64px);
+    margin: 0 auto;
+  }
+
   .capacity-cards-list {
     grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 28px;
+    gap: 24px;
   }
 
   .capacity-card-v2 {
-    aspect-ratio: 1.5 / 1;
-    min-height: clamp(360px, 27vw, 420px);
+    position: relative;
+    width: 100%;
+    aspect-ratio: 2 / 1;
+    min-height: auto;
+    max-height: none;
+    border-radius: 28px;
+    overflow: hidden;
   }
 
   .capacity-card-media {
-    width: 46%;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: 42%;
+    height: 100%;
+    z-index: 1;
+  }
+
+  .capacity-card-media img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    display: block;
   }
 
   .capacity-card-curve {
-    width: 59%;
+    position: absolute;
+    top: -15%;
+    bottom: -15%;
+    left: 0;
+    width: 63%;
+    z-index: 2;
+    pointer-events: none;
+    background: #FCFAF5;
+    clip-path: ellipse(100% 70% at 0 50%);
   }
 
   .capacity-card-overlay {
-    width: 58%;
-    padding: 42px 24px 36px 40px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 60%;
+    height: 100%;
+    padding: clamp(24px, 2.2vw, 36px);
+    display: flex;
+    flex-direction: column;
     justify-content: center;
+    z-index: 3;
+    box-sizing: border-box;
   }
 
   .capacity-card-icon {
-    margin-bottom: 24px;
+    margin-bottom: clamp(14px, 1.2vw, 20px);
+    color: #C89B4B;
   }
 
   .capacity-card-icon svg {
-    width: clamp(28px, 1.7vw, 34px);
-    height: clamp(28px, 1.7vw, 34px);
+    width: clamp(24px, 1.8vw, 30px);
+    height: clamp(24px, 1.8vw, 30px);
+    display: block;
   }
 
   .capacity-card-title {
-    font-size: clamp(32px, 2vw, 40px);
-    line-height: 1.1;
-    font-weight: 800;
+    font-size: clamp(22px, 1.7vw, 34px);
+    line-height: 1.08;
+    font-weight: 700;
     letter-spacing: -0.02em;
-    margin: 0 0 20px;
+    margin: 0 0 clamp(12px, 1.1vw, 18px);
+    color: #111111;
+    font-family: var(--font-sans);
+    white-space: pre-line;
   }
 
   .capacity-card-desc {
-    font-size: clamp(16px, 1.15vw, 21px);
+    font-size: clamp(13px, 0.95vw, 17px);
     line-height: 1.45;
-    max-width: 90%;
+    color: #66615B;
     margin: 0;
+    max-width: 100%;
   }
 
   .capacity-card-dots {
-    margin-top: 24px;
+    margin-top: clamp(14px, 1.2vw, 22px);
   }
 }
 
