@@ -1404,24 +1404,48 @@ ol {
 .capacity-card-v2 {
   position: relative;
   width: 100%;
-  border-radius: 10px;
+  aspect-ratio: 1774 / 887;
+  border-radius: clamp(14px, 2vw, 28px);
   overflow: hidden;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
-  background: transparent;
+  isolation: isolate;
+  box-shadow: 0 6px 18px rgba(70, 53, 30, 0.1);
+  background: #FBF9F4;
 }
 
-.capacity-card-bg-img {
+.capacity-card-frame,
+.capacity-card-media {
+  position: absolute;
+  inset: 0;
   width: 100%;
   height: auto;
   display: block;
-  border-radius: 10px;
+}
+
+.capacity-card-frame {
+  z-index: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: fill;
+}
+
+.capacity-card-media {
+  top: 0.45%;
+  right: 0.45%;
+  bottom: 0.45%;
+  left: 35%;
+  z-index: 1;
+  width: 64.55%;
+  height: 99.1%;
+  object-fit: cover;
+  clip-path: ellipse(57% 120% at 100% 50%);
+  border-radius: 0 clamp(12px, 1.8vw, 24px) clamp(12px, 1.8vw, 24px) 0;
 }
 
 .capacity-card-overlay {
   position: absolute;
   top: 0;
   left: 0;
-  width: 44%;
+  width: 47%;
   height: 100%;
   padding: 0.75rem 0.2rem 0.75rem 0.85rem;
   display: flex;
@@ -1455,6 +1479,12 @@ ol {
   margin-bottom: 0.15rem;
 }
 
+.capacity-card-icon svg {
+  display: block;
+  width: clamp(19px, 2vw, 28px);
+  height: clamp(19px, 2vw, 28px);
+}
+
 .capacity-card-title {
   font-size: 1.05rem;
   font-weight: 700;
@@ -1462,6 +1492,7 @@ ol {
   line-height: 1.2;
   margin-bottom: 0.2rem;
   font-family: var(--font-sans);
+  white-space: pre-line;
 }
 
 @media (min-width: 400px) {

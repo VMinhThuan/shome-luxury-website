@@ -8,64 +8,32 @@
 
     <!-- Equipment Cards List -->
     <div class="capacity-cards-list">
-      <!-- Card 1: Máy cắt CNC hiện đại -->
-      <article class="capacity-card-v2">
-        <img src="/images/anh_san_pham_1.png" alt="Máy cắt CNC hiện đại S-Home Luxury" class="capacity-card-bg-img" loading="lazy" width="999" height="480" />
-        <div class="capacity-card-overlay">
-          <div class="capacity-card-icon">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#C89B4B" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M3 21h18M3 10l5-4 5 4 5-4 3 2.4V21H3V10z"/>
-              <path d="M9 21v-4a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v4"/>
-            </svg>
+      <% const equipmentCards = [
+        { image: '/images/cnc_machine.jpg', title: 'Máy cắt CNC\nhiện đại', description: 'Gia công chính xác cao, đáp ứng đa dạng nhu cầu sản xuất.', icon: 'home' },
+        { image: '/images/factory_cnc.jpg', title: 'Dây chuyền\ntự động', description: 'Tối ưu năng suất, đảm bảo chất lượng.', icon: 'machine' },
+        { image: '/images/factory_workers.jpg', title: 'Máy khoan – phay\nchính xác', description: 'Độ chính xác cao, đáp ứng các chi tiết.', icon: 'drill' }
+      ]; %>
+      <% equipmentCards.forEach(card => { %>
+        <article class="capacity-card-v2">
+          <!-- Khung dùng lại; chỉ cần thay image/title/description trong equipmentCards. -->
+          <img src="/images/Minimal%20Cream%20Wave%20UI%20Card%20Template.png" alt="" class="capacity-card-frame" aria-hidden="true" />
+          <img src="<%= card.image %>" alt="<%= card.title.replace(/\n/g, ' ') %> S-Home Luxury" class="capacity-card-media" loading="lazy" decoding="async" />
+          <div class="capacity-card-overlay">
+            <div class="capacity-card-icon" aria-hidden="true">
+              <% if (card.icon === 'home') { %>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18M3 10l5-4 5 4 5-4 3 2.4V21H3V10z"/><path d="M9 21v-4a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v4"/></svg>
+              <% } else if (card.icon === 'machine') { %>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="6" width="20" height="8" rx="2"/><circle cx="6" cy="18" r="2"/><circle cx="12" cy="18" r="2"/><circle cx="18" cy="18" r="2"/><path d="M6 14v2M12 14v2M18 14v2"/></svg>
+              <% } else { %>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v10M9 6h6M7 12h10M5 22h14M8 18h8M10 14v4M14 14v4"/></svg>
+              <% } %>
+            </div>
+            <h3 class="capacity-card-title"><%= card.title %></h3>
+            <p class="capacity-card-desc"><%= card.description %></p>
+            <div class="capacity-card-dots" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span><span></span></div>
           </div>
-          <h3 class="capacity-card-title">Máy cắt CNC<br>hiện đại</h3>
-          <p class="capacity-card-desc">Gia công chính xác cao, đáp ứng đa dạng nhu cầu sản xuất.</p>
-          <div class="capacity-card-dots">
-            <span></span><span></span><span></span>
-            <span></span><span></span><span></span>
-          </div>
-        </div>
-      </article>
-
-      <!-- Card 2: Dây chuyền tự động -->
-      <article class="capacity-card-v2">
-        <img src="/images/anh_san_pham_2.png" alt="Dây chuyền tự động S-Home Luxury" class="capacity-card-bg-img" loading="lazy" width="999" height="475" />
-        <div class="capacity-card-overlay">
-          <div class="capacity-card-icon">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#C89B4B" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-              <rect x="2" y="6" width="20" height="8" rx="2"/>
-              <circle cx="6" cy="18" r="2"/>
-              <circle cx="12" cy="18" r="2"/>
-              <circle cx="18" cy="18" r="2"/>
-              <path d="M6 14v2M12 14v2M18 14v2"/>
-            </svg>
-          </div>
-          <h3 class="capacity-card-title">Dây chuyền<br>tự động</h3>
-          <p class="capacity-card-desc">Tối ưu năng suất, đảm bảo chất lượng</p>
-          <div class="capacity-card-dots">
-            <span></span><span></span><span></span>
-            <span></span><span></span><span></span>
-          </div>
-        </div>
-      </article>
-
-      <!-- Card 3: Máy khoan – phay chính xác -->
-      <article class="capacity-card-v2">
-        <img src="/images/anh_san_pham_3.png" alt="Máy khoan phay chính xác S-Home Luxury" class="capacity-card-bg-img" loading="lazy" width="999" height="469" />
-        <div class="capacity-card-overlay">
-          <div class="capacity-card-icon">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#C89B4B" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M12 2v10M9 6h6M7 12h10M5 22h14M8 18h8M10 14v4M14 14v4"/>
-            </svg>
-          </div>
-          <h3 class="capacity-card-title">Máy khoan – phay<br>chính xác</h3>
-          <p class="capacity-card-desc">Độ chính xác cao, đáp ứng các chi tiết</p>
-          <div class="capacity-card-dots">
-            <span></span><span></span><span></span>
-            <span></span><span></span><span></span>
-          </div>
-        </div>
-      </article>
+        </article>
+      <% }); %>
     </div>
   </div>
 </section>
