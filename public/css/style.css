@@ -334,7 +334,7 @@ ol {
     color: var(--accent-gold);
   }
 
-  /* Dropdown */
+  /* Dropdown Level 1 */
   .desktop-dropdown {
     position: absolute;
     top: 100%;
@@ -344,10 +344,10 @@ ol {
     background-color: var(--bg-dark-surface);
     border: 1px solid var(--border-dark);
     border-radius: var(--radius-sm);
-    padding: 0.75rem 0;
+    padding: 0.35rem 0;
     opacity: 0;
     visibility: hidden;
-    transform: translateY(10px);
+    transform: translateY(8px);
     transition: all var(--transition-fast);
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
   }
@@ -362,17 +362,17 @@ ol {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 1.25rem;
-    padding: 0.7rem 1.35rem;
-    font-size: 1.05rem;
-    color: rgba(255, 255, 255, 0.95);
+    gap: 0.85rem;
+    padding: 0.42rem 1rem;
+    font-size: 0.84rem;
+    color: rgba(255, 255, 255, 0.92);
     font-weight: 500;
     white-space: nowrap;
   }
 
   .dropdown-link:hover {
     color: var(--accent-gold);
-    background-color: rgba(200, 155, 75, 0.1);
+    background-color: rgba(200, 155, 75, 0.12);
   }
 
   /* Sub-Dropdown Level 2 Flyout */
@@ -382,8 +382,8 @@ ol {
 
   .dropdown-sub>.dropdown-link::after {
     content: '▸';
-    margin-left: 0.75rem;
-    font-size: 0.85rem;
+    margin-left: 0.5rem;
+    font-size: 0.75rem;
     color: var(--accent-gold);
   }
 
@@ -396,10 +396,10 @@ ol {
     background-color: var(--bg-dark-surface);
     border: 1px solid var(--border-dark);
     border-radius: var(--radius-sm);
-    padding: 0.75rem 0;
+    padding: 0.35rem 0;
     opacity: 0;
     visibility: hidden;
-    transform: translateX(10px);
+    transform: translateX(8px);
     transition: all var(--transition-fast);
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
     z-index: 10;
