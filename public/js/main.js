@@ -477,9 +477,11 @@ document.addEventListener('DOMContentLoaded', () => {
       gallery.querySelectorAll('[data-gallery-thumb]').forEach((thumbnail, thumbnailIndex) => {
         const isActive = thumbnailIndex === activeGalleryIndex;
         thumbnail.classList.toggle('is-active', isActive);
-        thumbnail.setAttribute('aria-current', String(isActive));
-        if (isActive) thumbnail.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'nearest' });
-      });
+        if (isActive && thumbnail.parentElement) {
+          const parent = thumbnail.parentElement;
+          const targetLeft = thumbnail.offsetLeft - (parent.clientWidth / 2) + (thumbnail.clientWidth / 2);
+          parent.scrollTo({ left: targetLeft, behavior: 'smooth' });
+        }
     }
 
     function selectGalleryImage(index, force = false, requestedDirection = null) {

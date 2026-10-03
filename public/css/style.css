@@ -5031,16 +5031,17 @@ ol {
   position: relative;
   z-index: 1;
   align-self: center;
-  width: min(760px, calc(100% - 2rem));
+  width: min(var(--container-max), calc(100% - 2rem));
+  max-width: var(--container-max);
   margin: 0 auto;
-  padding: 0.9rem 1.1rem;
-  border: 1px solid rgba(255, 255, 255, 0.34);
+  padding: 1rem 1.25rem;
+  border: 1px solid rgba(255, 255, 255, 0.45);
   border-left: 4px solid var(--accent-gold);
   border-radius: 16px;
-  background: rgba(250, 249, 246, 0.78);
-  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.2);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
+  background: rgba(250, 249, 246, 0.55);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.25);
+  backdrop-filter: blur(14px) saturate(160%);
+  -webkit-backdrop-filter: blur(14px) saturate(160%);
 }
 
 .project-meta-heading {
@@ -7071,10 +7072,10 @@ hr,
 /* The action artwork is deliberately standalone: no common circular badge. */
 .quick-contact-action .action-icon {
   display: block !important;
-  width: 36px !important;
-  height: 36px !important;
-  max-width: 36px !important;
-  max-height: 36px !important;
+  width: 28px !important;
+  height: 28px !important;
+  max-width: 28px !important;
+  max-height: 28px !important;
   color: #D6A23E !important;
   background: transparent !important;
   border: 0 !important;
@@ -7083,10 +7084,10 @@ hr,
 }
 
 .quick-contact-action .action-icon-zalo {
-  width: 40px !important;
-  height: 40px !important;
-  max-width: 40px !important;
-  max-height: 40px !important;
+  width: 32px !important;
+  height: 32px !important;
+  max-width: 32px !important;
+  max-height: 32px !important;
 }
 
 .capacity-card-icon {
@@ -7260,9 +7261,9 @@ html {
     display: flex !important;
     align-items: center !important;
     justify-content: center !important;
-    width: 44px !important;
-    height: 44px !important;
-    flex: 0 0 44px !important;
+    width: 38px !important;
+    height: 38px !important;
+    flex: 0 0 38px !important;
     border-radius: 50% !important;
     background: transparent !important;
     background-color: transparent !important;
