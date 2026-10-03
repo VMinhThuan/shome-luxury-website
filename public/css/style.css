@@ -1385,6 +1385,14 @@ ol {
   gap: 24px;
 }
 
+@media (min-width: 768px) {
+  .capacity-cards-list {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 24px;
+  }
+}
+
 .capacity-card-v2 {
   position: relative;
   width: 100%;
