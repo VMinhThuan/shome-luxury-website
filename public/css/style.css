@@ -4488,20 +4488,20 @@ ol {
 
 .project-showcase-hero {
   padding-top: 2rem;
-  padding-bottom: 1.5rem;
+  padding-bottom: 0.5rem;
   text-align: center;
 }
 
 @media (min-width: 992px) {
   .project-showcase-hero {
-    padding-top: 3.5rem;
-    padding-bottom: 2.5rem;
+    padding-top: 3rem;
+    padding-bottom: 0.75rem;
   }
 }
 
 .showcase-header-text {
   max-width: 800px;
-  margin: 0 auto 1.75rem auto;
+  margin: 0 auto;
 }
 
 .eyebrow-text {
@@ -4510,7 +4510,7 @@ ol {
   font-weight: 600;
   letter-spacing: 0.15em;
   color: var(--accent-gold);
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.6rem;
   text-transform: uppercase;
 }
 
@@ -4519,7 +4519,7 @@ ol {
   font-weight: 700;
   line-height: 1.2;
   color: var(--text-primary);
-  margin-bottom: 0.75rem;
+  margin-bottom: 0.6rem;
   letter-spacing: -0.02em;
 }
 
@@ -4613,13 +4613,13 @@ ol {
   padding: 0;
 }
 
-.project-showcase-section>.container {
-  padding: 24px;
+.project-showcase-section > .container {
+  padding: 12px 24px 24px 24px;
 }
 
 @media (max-width: 767px) {
-  .project-showcase-section>.container {
-    padding: 24px;
+  .project-showcase-section > .container {
+    padding: 12px 16px 24px 16px;
   }
 }
 
