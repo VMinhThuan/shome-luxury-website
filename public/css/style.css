@@ -2578,58 +2578,13 @@ ol {
   color: #888888;
 }
 
+/* Desktop 4-column grid layout */
 @media (min-width: 992px) {
   .footer-top-grid {
-    display: grid;
-    grid-template-columns: minmax(260px, 0.85fr) minmax(300px, 1.15fr) minmax(300px, 1.15fr);
-    column-gap: 1.5rem;
-    row-gap: 1.25rem;
-    align-items: start;
-  }
-
-  .footer-brand-section {
-    grid-column: 1 / -1;
-    display: grid;
-    grid-template-columns: minmax(250px, 0.85fr) minmax(320px, 1.25fr) minmax(260px, 0.9fr);
-    column-gap: 1.5rem;
-    row-gap: 1.25rem;
-    padding-top: 1.5rem;
-    margin-top: 1.5rem;
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
-    align-items: start;
-  }
-
-  .footer-brand-col {
-    grid-column: 1;
-  }
-
-  .footer-slogan-col {
-    grid-column: 2;
-  }
-
-  .footer-slogan-col .footer-value-list {
-    display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 0.6rem;
-    margin-top: 1.1rem;
-    width: 100%;
-  }
-
-  .footer-contact-col {
-    grid-column: 3;
-    margin-top: 0;
-  }
-
-  .footer-map-card {
-    margin-bottom: 0;
-  }
-
-  .footer-action-bar {
-    display: none !important;
-  }
-
-  .bottom-bar-container {
-    max-width: 680px;
+    display: grid !important;
+    grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+    gap: 1.25rem !important;
+    align-items: stretch !important;
   }
 }
 
@@ -7377,72 +7332,7 @@ html {
   margin-bottom: 0 !important;
 }
 
-/* UNIFIED DESKTOP GRID (100% Vertical Edge-to-Edge Alignment) */
-@media (min-width: 992px) {
-  .footer-top-grid {
-    display: grid !important;
-    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
-    column-gap: 1.5rem !important;
-    row-gap: 1.25rem !important;
-    align-items: stretch !important;
-    width: 100% !important;
-  }
 
-  .footer-brand-section {
-    display: grid !important;
-    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
-    column-gap: 1.5rem !important;
-    row-gap: 1.25rem !important;
-    align-items: stretch !important;
-    width: 100% !important;
-  }
-
-  .footer-info-block {
-    grid-column: 1 !important;
-  }
-
-  .footer-fb-block {
-    grid-column: 2 !important;
-  }
-
-  .footer-map-block {
-    grid-column: 3 !important;
-  }
-
-  .footer-brand-section {
-    grid-column: 1 / -1 !important;
-    padding-top: 0.75rem !important;
-    margin-top: 0.75rem !important;
-    border-top: none !important;
-  }
-
-  .footer-brand-col {
-    grid-column: 1 !important;
-    height: 100% !important;
-    display: flex !important;
-    flex-direction: column !important;
-    justify-content: space-between !important;
-    margin: 0 !important;
-  }
-
-  .footer-slogan-col {
-    grid-column: 2 !important;
-    height: 100% !important;
-    display: flex !important;
-    flex-direction: column !important;
-    justify-content: space-between !important;
-    margin: 0 !important;
-  }
-
-  .footer-contact-col {
-    grid-column: 3 !important;
-    height: 100% !important;
-    display: flex !important;
-    flex-direction: column !important;
-    justify-content: space-between !important;
-    margin-top: 0 !important;
-  }
-}
 
 /* ==========================================================================
    RECRUITMENT DETAIL PAGE STYLES (.page-recruitment-detail)
