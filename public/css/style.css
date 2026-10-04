@@ -1105,8 +1105,9 @@ ol {
   .news-content-section,
   .recruitment-jobs-section,
   .related-projects-section {
-    padding-top: 2.25rem !important;
-    padding-bottom: 2.25rem !important;
+    /* Adjacent desktop sections otherwise compound into overly large white gaps. */
+    padding-top: 1.25rem !important;
+    padding-bottom: 1.25rem !important;
   }
 }
 
@@ -5251,9 +5252,10 @@ ol {
 
 .news-hero h1 {
   margin: .3rem 0 .4rem;
-  font-family: var(--font-heading) !important;
+  /* Keep white hero UI typography consistent with the primary navigation. */
+  font-family: var(--font-menu) !important;
   font-size: clamp(1.8rem, 3.8vw, 3.5rem);
-  font-weight: 700;
+  font-weight: 600;
   line-height: 1.05;
   color: #FFFFFF !important;
   letter-spacing: -.03em;
@@ -5270,7 +5272,7 @@ ol {
   color: #FFFFFF !important;
   font-family: var(--font-menu);
   font-size: clamp(.72rem, 1.2vw, .88rem);
-  font-weight: 500;
+  font-weight: 600;
   line-height: 1.4;
 }
 
@@ -7797,6 +7799,49 @@ html {
 
 .project-gallery-control svg {
   stroke: currentColor !important;
+}
+
+/* ========================================================================
+   WHITE UI TYPOGRAPHY
+   Keep all functional white UI text aligned with the desktop navigation.
+   Decorative script/logotype treatments intentionally remain untouched.
+   ======================================================================== */
+:is(
+  .video-v2-title,
+  .project-overlay,
+  .cta-banner-title,
+  .footer-address-line,
+  .footer-factory-list li,
+  .footer-company-title,
+  .footer-company-desc,
+  .footer-social-heading,
+  .card-header-title,
+  .badge-title,
+  .badge-sub,
+  .footer-bottom,
+  .quick-contact-pill .pill-text,
+  .recruitment-eyebrow,
+  .recruitment-banner-badge,
+  .project-card-quote-overlay,
+  .project-card-quote-overlay .quote-title,
+  .news-hero h1,
+  .news-hero p,
+  .news-featured-copy,
+  .news-booking-cta,
+  .booking-hero-copy,
+  .booking-process-section,
+  .job-detail-apply-box,
+  .apply-box-contacts strong,
+  .btn-cta-zalo,
+  .btn-apply-now,
+  .booking-submit,
+  .filter-pill.active,
+  .project-gallery-count,
+  .project-gallery-control
+) {
+  font-family: var(--font-menu) !important;
+  font-weight: 600 !important;
+  color: #FFFFFF !important;
 }
 
 .project-gallery-thumbnail,
