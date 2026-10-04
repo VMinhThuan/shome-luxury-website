@@ -822,34 +822,48 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // Facebook's Page Plugin renders its inner document at the `width` in its URL.
-  // Keep that value in sync with the card so mobile never leaves a blank strip.
+  // Facebook's iframe Page Plugin renders its document at the `width` embedded
+  // in its URL. Observe its actual card width and recreate it on mobile when
+  // that width changes; CSS alone cannot resize the cross-origin document.
   const facebookPagePlugins = document.querySelectorAll('.facebook-page-plugin');
-  const resizeFacebookPagePlugin = (iframe) => {
+  const syncFacebookPagePlugin = (iframe) => {
     if (!window.matchMedia('(max-width: 768px)').matches) return;
 
     const wrapper = iframe.closest('.card-iframe-wrapper');
     if (!wrapper) return;
 
-    const width = Math.max(180, Math.round(wrapper.getBoundingClientRect().width));
-    const pluginUrl = new URL(iframe.src);
-    if (Number(pluginUrl.searchParams.get('width')) === width) return;
-
+    const width = Math.max(180, Math.round(wrapper.offsetWidth));
+    const pluginUrl = new URL(iframe.dataset.facebookPluginSrc || iframe.src, window.location.href);
     pluginUrl.searchParams.set('width', String(width));
+    pluginUrl.searchParams.set('adapt_container_width', 'true');
+    const nextSrc = pluginUrl.toString();
+
     iframe.setAttribute('width', String(width));
-    iframe.src = pluginUrl.toString();
+    iframe.style.setProperty('width', `${width}px`, 'important');
+    iframe.style.setProperty('min-width', `${width}px`, 'important');
+    iframe.style.setProperty('max-width', `${width}px`, 'important');
+
+    if (iframe.src !== nextSrc) iframe.src = nextSrc;
   };
 
   if (facebookPagePlugins.length) {
-    window.requestAnimationFrame(() => facebookPagePlugins.forEach(resizeFacebookPagePlugin));
+    window.requestAnimationFrame(() => facebookPagePlugins.forEach(syncFacebookPagePlugin));
 
-    let facebookResizeTimer;
-    window.addEventListener('resize', () => {
-      window.clearTimeout(facebookResizeTimer);
-      facebookResizeTimer = window.setTimeout(() => {
-        facebookPagePlugins.forEach(resizeFacebookPagePlugin);
-      }, 200);
-    });
+    if ('ResizeObserver' in window) {
+      const facebookPluginObserver = new ResizeObserver(entries => {
+        entries.forEach(({ target }) => {
+          const iframe = target.querySelector('.facebook-page-plugin');
+          if (iframe) syncFacebookPagePlugin(iframe);
+        });
+      });
+
+      facebookPagePlugins.forEach(iframe => {
+        const wrapper = iframe.closest('.card-iframe-wrapper');
+        if (wrapper) facebookPluginObserver.observe(wrapper);
+      });
+    } else {
+      window.addEventListener('resize', () => facebookPagePlugins.forEach(syncFacebookPagePlugin));
+    }
   }
 
 });

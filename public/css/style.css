@@ -2505,7 +2505,7 @@ ol {
   }
 
   .footer-col-fb .card-iframe-wrapper {
-    overflow-x: hidden !important;
+    overflow-x: visible !important;
   }
 
   .footer-col-fb .facebook-page-plugin {
@@ -2513,6 +2513,15 @@ ol {
     width: 100% !important;
     min-width: 0 !important;
     max-width: none !important;
+    box-sizing: border-box !important;
+  }
+
+  .footer-col-fb .fb-page,
+  .footer-col-fb .fb-page > span,
+  .footer-col-fb .fb-page iframe {
+    width: 100% !important;
+    min-width: 0 !important;
+    max-width: 100% !important;
     box-sizing: border-box !important;
   }
 }
