@@ -827,26 +827,75 @@ document.addEventListener('DOMContentLoaded', () => {
   const mobileFacebookPlugins = document.querySelectorAll('.facebook-mobile-plugin');
   const mobileFacebookQuery = window.matchMedia('(max-width: 768px)');
 
-  const loadFacebookSdk = () => new Promise((resolve, reject) => {
-    if (window.FB?.XFBML) return resolve(window.FB);
-
-    const existingSdk = document.getElementById('facebook-jssdk');
-    if (existingSdk) {
-      existingSdk.addEventListener('load', () => resolve(window.FB), { once: true });
-      existingSdk.addEventListener('error', reject, { once: true });
-      return;
-    }
-
-    const sdk = document.createElement('script');
-    sdk.id = 'facebook-jssdk';
-    sdk.async = true;
-    sdk.defer = true;
-    sdk.crossOrigin = 'anonymous';
-    sdk.src = 'https://connect.facebook.net/vi_VN/sdk.js#xfbml=1&version=v21.0';
-    sdk.addEventListener('load', () => resolve(window.FB), { once: true });
-    sdk.addEventListener('error', reject, { once: true });
-    document.body.appendChild(sdk);
+  let facebookSdkPromise;
+  const waitForFacebookSdk = () => new Promise((resolve, reject) => {
+    let attempts = 0;
+    const check = () => {
+      if (window.FB?.XFBML) return resolve(window.FB);
+      attempts += 1;
+      if (attempts > 120) return reject(new Error('Facebook SDK did not initialise.'));
+      window.requestAnimationFrame(check);
+    };
+    check();
   });
+
+  const loadFacebookSdk = () => {
+    if (window.FB?.XFBML) return Promise.resolve(window.FB);
+    if (facebookSdkPromise) return facebookSdkPromise;
+
+    facebookSdkPromise = new Promise((resolve, reject) => {
+      const onLoad = () => waitForFacebookSdk().then(resolve, reject);
+      const existingSdk = document.getElementById('facebook-jssdk');
+
+      if (existingSdk) {
+        existingSdk.addEventListener('load', onLoad, { once: true });
+        existingSdk.addEventListener('error', reject, { once: true });
+        onLoad();
+        return;
+      }
+
+      if (!document.getElementById('fb-root')) {
+        const root = document.createElement('div');
+        root.id = 'fb-root';
+        document.body.prepend(root);
+      }
+
+      const sdk = document.createElement('script');
+      sdk.id = 'facebook-jssdk';
+      sdk.async = true;
+      sdk.defer = true;
+      sdk.crossOrigin = 'anonymous';
+      sdk.src = 'https://connect.facebook.net/vi_VN/sdk.js#xfbml=1&version=v21.0';
+      sdk.addEventListener('load', onLoad, { once: true });
+      sdk.addEventListener('error', reject, { once: true });
+      document.body.appendChild(sdk);
+    });
+
+    return facebookSdkPromise;
+  };
+
+  const reportFacebookPluginWidths = (host, requestedWidth) => {
+    window.setTimeout(() => {
+      if (Number(host.dataset.renderedWidth) !== requestedWidth) return;
+
+      const page = host.querySelector('.fb-page');
+      const span = page?.querySelector('span');
+      const iframe = page?.querySelector('iframe');
+      const iframeWidth = Math.round(iframe?.getBoundingClientRect().width || 0);
+      const isCapped = iframeWidth > 0 && iframeWidth < requestedWidth - 1;
+
+      host.classList.toggle('is-width-capped', isCapped);
+      console.info('[Facebook mobile widths]', {
+        cardContent: Math.round(host.closest('.card-iframe-wrapper')?.clientWidth || 0),
+        wrapper: Math.round(host.clientWidth),
+        dataWidth: requestedWidth,
+        fbPage: Math.round(page?.getBoundingClientRect().width || 0),
+        span: Math.round(span?.getBoundingClientRect().width || 0),
+        iframe: iframeWidth,
+        providerWidthCapped: isCapped
+      });
+    }, 750);
+  };
 
   const renderMobileFacebookPlugin = async (host) => {
     if (!mobileFacebookQuery.matches) return;
@@ -871,7 +920,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     try {
       const FB = await loadFacebookSdk();
-      window.requestAnimationFrame(() => FB?.XFBML?.parse(host));
+      window.requestAnimationFrame(() => {
+        FB?.XFBML?.parse(host);
+        reportFacebookPluginWidths(host, width);
+      });
     } catch (error) {
       console.warn('Facebook Page Plugin could not be loaded.', error);
     }

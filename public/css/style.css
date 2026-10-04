@@ -2512,10 +2512,7 @@ ol {
     display: none !important;
   }
 
-  .footer-col-fb .facebook-mobile-plugin,
-  .footer-col-fb .facebook-mobile-plugin .fb-page,
-  .footer-col-fb .facebook-mobile-plugin .fb-page > span,
-  .footer-col-fb .facebook-mobile-plugin .fb-page iframe {
+  .footer-col-fb .facebook-mobile-plugin {
     display: block !important;
     width: 100% !important;
     min-width: 0 !important;
@@ -2523,8 +2520,28 @@ ol {
     box-sizing: border-box !important;
   }
 
+  /* Do not overwrite the SDK's own width. It must report its real rendered
+     width so a provider-imposed limit can be handled honestly below. */
+  .footer-col-fb .facebook-mobile-plugin .fb-page,
   .footer-col-fb .facebook-mobile-plugin .fb-page > span,
-  .footer-col-fb .facebook-mobile-plugin .fb-page iframe { max-width: 100% !important; }
+  .footer-col-fb .facebook-mobile-plugin .fb-page iframe {
+    display: block !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+  }
+
+  /* Page Plugin has a provider-side maximum width on some viewports. Keep
+     that genuine response visible and centred rather than falsely stretching it. */
+  .footer-col-fb .facebook-mobile-plugin.is-width-capped {
+    display: flex !important;
+    justify-content: center;
+  }
+
+  .footer-col-fb .facebook-mobile-plugin.is-width-capped .fb-page,
+  .footer-col-fb .facebook-mobile-plugin.is-width-capped .fb-page > span,
+  .footer-col-fb .facebook-mobile-plugin.is-width-capped .fb-page iframe {
+    max-width: 100% !important;
+  }
 }
 
 /* Keep the footer compact on phones once its final text block ends. */
