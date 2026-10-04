@@ -687,15 +687,21 @@ ol {
 
 .accordion-toggle {
   flex: 0 0 50px;
-  align-self: stretch;
+  align-self: center;
   width: 50px;
-  min-height: 58px;
+  height: 50px;
+  min-height: 50px;
   display: flex;
   align-items: center;
   justify-content: center;
   color: var(--text-on-dark);
   border-left: 1px solid var(--border-dark);
   transition: background-color var(--transition-fast), color var(--transition-fast), transform var(--transition-fast);
+}
+
+.accordion-toggle svg {
+  width: 12px;
+  height: 12px;
 }
 
 .mobile-menu-item.open>.mobile-menu-row>.accordion-toggle {
@@ -1128,6 +1134,12 @@ ol {
 .process-v2-header {
   text-align: left;
   margin-bottom: 26px;
+}
+
+/* Script font has long descenders; reserve space before the title on narrow screens. */
+.process-v2-header .hero-script-eyebrow {
+  display: block;
+  margin-bottom: 1.15rem;
 }
 
 .process-v2-header .gallery-v2-eyebrow {

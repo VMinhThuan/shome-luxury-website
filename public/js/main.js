@@ -822,4 +822,32 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
+  // Facebook's Page Plugin renders its inner document at the `width` in its URL.
+  // Keep that value in sync with the card so mobile never leaves a blank strip.
+  const facebookPagePlugins = document.querySelectorAll('.facebook-page-plugin');
+  const resizeFacebookPagePlugin = (iframe) => {
+    const wrapper = iframe.closest('.card-iframe-wrapper');
+    if (!wrapper) return;
+
+    const width = Math.max(180, Math.round(wrapper.getBoundingClientRect().width));
+    const pluginUrl = new URL(iframe.src);
+    if (Number(pluginUrl.searchParams.get('width')) === width) return;
+
+    pluginUrl.searchParams.set('width', String(width));
+    iframe.setAttribute('width', String(width));
+    iframe.src = pluginUrl.toString();
+  };
+
+  if (facebookPagePlugins.length) {
+    window.requestAnimationFrame(() => facebookPagePlugins.forEach(resizeFacebookPagePlugin));
+
+    let facebookResizeTimer;
+    window.addEventListener('resize', () => {
+      window.clearTimeout(facebookResizeTimer);
+      facebookResizeTimer = window.setTimeout(() => {
+        facebookPagePlugins.forEach(resizeFacebookPagePlugin);
+      }, 200);
+    });
+  }
+
 });
