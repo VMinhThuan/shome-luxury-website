@@ -2976,6 +2976,23 @@ ol {
     padding-bottom: 0.5rem !important;
   }
 
+  /* Keep the four quick-contact actions available at the bottom of the open drawer. */
+  body.drawer-open .quick-contact-widget {
+    left: 0 !important;
+    right: auto !important;
+    bottom: 0 !important;
+    width: min(84vw, 360px) !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+    pointer-events: auto !important;
+    transform: none !important;
+    z-index: 2002 !important;
+  }
+
+  body.drawer-open .drawer-body {
+    padding-bottom: 58px;
+  }
+
   .quick-contact-widget {
     position: fixed !important;
     inset: auto 0 0 0 !important;
