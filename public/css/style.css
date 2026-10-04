@@ -6982,6 +6982,7 @@ hr,
   height: 28px !important;
   max-width: 28px !important;
   max-height: 28px !important;
+  object-fit: contain;
 }
 
 .capacity-card-icon {
