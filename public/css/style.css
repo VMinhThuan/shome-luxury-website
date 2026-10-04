@@ -2213,6 +2213,13 @@ ol {
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
 }
 
+/* Facebook Page Plugin itself has a 500px content limit. Match its card to
+   that limit so the embedded timeline always fills its visible card. */
+.fb-card-box {
+  max-width: 500px;
+  margin-inline: auto;
+}
+
 .card-top-header {
   display: flex;
   align-items: center;
@@ -2455,6 +2462,37 @@ ol {
   .trust-badge-item {
     border-right: none;
     justify-content: flex-start;
+  }
+}
+
+/* Slightly larger, more legible footer type on mobile without affecting web. */
+@media (max-width: 767px) {
+  .footer-col-header {
+    font-size: 0.96rem;
+  }
+
+  .footer-address-line,
+  .footer-factory-list li {
+    font-size: 0.9rem;
+    line-height: 1.45;
+  }
+
+  .footer-company-title {
+    font-size: 0.92rem;
+  }
+
+  .footer-company-desc {
+    font-size: 0.86rem;
+    line-height: 1.45;
+  }
+
+  .footer-social-heading,
+  .card-header-title {
+    font-size: 0.82rem;
+  }
+
+  .card-header-link {
+    font-size: 0.8rem;
   }
 }
 
@@ -4300,7 +4338,7 @@ ol {
 }
 
 .article-heading {
-  font-size: 1.1rem;
+  font-size: 22px;
   font-weight: 700;
   color: #C89B4B;
   margin-top: 1.5rem;
@@ -7958,6 +7996,23 @@ html {
   width: 100% !important;
   height: 100% !important;
   object-fit: cover !important;
+}
+
+/* Recruitment detail images are editorial content, not card thumbnails.
+   Preserve their complete source composition instead of cropping to 16:9. */
+.recruitment-detail-main .article-image-box,
+.recruitment-detail-main .article-main-img {
+  aspect-ratio: auto !important;
+}
+
+.recruitment-detail-main .article-image-box {
+  height: auto !important;
+}
+
+.recruitment-detail-main .article-main-img {
+  width: 100% !important;
+  height: auto !important;
+  object-fit: contain !important;
 }
 
 /* ==========================================================================
