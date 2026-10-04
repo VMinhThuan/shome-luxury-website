@@ -550,26 +550,7 @@ ol {
 }
 
 .drawer-close-btn {
-  background: transparent;
-  border: none;
-  color: #CCCCCC;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 36px;
-  height: 36px;
-  cursor: pointer;
-  padding: 0;
-  border-radius: 50%;
-  transition: all 0.2s ease;
-  touch-action: manipulation !important;
-  pointer-events: auto !important;
-}
-
-.drawer-close-btn:hover,
-.drawer-close-btn:active {
-  color: #FFFFFF;
-  background: rgba(255, 255, 255, 0.1);
+  display: none !important;
 }
 
 .drawer-backdrop {
@@ -671,6 +652,28 @@ ol {
   width: 100%;
 }
 
+/* Disable default tap highlight / blue focus ring in mobile drawer */
+.mobile-drawer,
+.mobile-drawer *,
+.mobile-menu-link,
+.l2-link,
+.l3-link,
+.mobile-menu-row,
+.accordion-toggle {
+  -webkit-tap-highlight-color: transparent !important;
+  outline: none !important;
+}
+
+.mobile-menu-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 58px;
+  padding: 0;
+  width: 100%;
+  transition: background-color var(--transition-fast);
+}
+
 .mobile-menu-link {
   min-height: 58px;
   display: flex;
@@ -680,9 +683,20 @@ ol {
   font-weight: 600;
   color: var(--text-on-dark);
   flex: 1;
+  transition: background-color var(--transition-fast), color var(--transition-fast);
 }
 
-.mobile-menu-link:hover,
+.mobile-menu-link:hover {
+  color: var(--accent-gold);
+}
+
+.mobile-menu-link:active,
+.mobile-menu-link:focus,
+.mobile-menu-row:active {
+  background-color: var(--accent-gold) !important;
+  color: #171717 !important;
+}
+
 .mobile-menu-item.active>.mobile-menu-row>.mobile-menu-link {
   color: var(--accent-gold);
 }
@@ -732,9 +746,19 @@ ol {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  transition: background-color var(--transition-fast), color var(--transition-fast);
 }
 
-.l2-link:hover,
+.l2-link:hover {
+  color: var(--accent-gold);
+}
+
+.l2-link:active,
+.l2-link:focus {
+  background-color: var(--accent-gold) !important;
+  color: #171717 !important;
+}
+
 .l2-item.open>.mobile-menu-row>.l2-link {
   color: var(--accent-gold);
 }
@@ -758,10 +782,17 @@ ol {
   display: flex;
   align-items: center;
   gap: 0.5rem;
+  transition: background-color var(--transition-fast), color var(--transition-fast);
 }
 
 .l3-link:hover {
   color: var(--accent-gold);
+}
+
+.l3-link:active,
+.l3-link:focus {
+  background-color: var(--accent-gold) !important;
+  color: #171717 !important;
 }
 
 .drawer-footer {
@@ -2093,7 +2124,7 @@ ol {
   align-items: center;
   gap: 6px;
   color: #C89B4B;
-  font-weight: 700;
+  font-weight: 600;
   font-size: 0.88rem;
   font-family: var(--font-menu);
   letter-spacing: 0.03em;
@@ -2167,7 +2198,7 @@ ol {
   align-items: center;
   gap: 7px;
   color: #FFFFFF;
-  font-weight: 700;
+  font-weight: 600;
   font-size: 0.78rem;
   letter-spacing: 0.03em;
   font-family: var(--font-menu);
@@ -2240,8 +2271,8 @@ ol {
 
 .footer-company-title {
   font-size: 0.82rem;
-  font-weight: 700;
-  color: #FFFFFF;
+  font-weight: 600;
+  color: #FFFFFF !important;
   text-transform: uppercase;
   line-height: 1.3;
   margin: 0 0 0.25rem 0;
@@ -2250,6 +2281,7 @@ ol {
 
 .footer-company-desc {
   font-size: 0.76rem;
+  font-weight: 400;
   color: #FFFFFF !important;
   line-height: 1.4;
   margin: 0 0 0.5rem 0;
@@ -2257,7 +2289,7 @@ ol {
 
 .footer-social-heading {
   font-size: 0.7rem;
-  font-weight: 700;
+  font-weight: 600;
   color: #FFFFFF !important;
   letter-spacing: 0.06em;
   text-transform: uppercase;
@@ -2332,11 +2364,18 @@ ol {
   line-height: 1.15;
 }
 
-.badge-title,
+.badge-title {
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: #FFFFFF !important;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+
 .badge-sub {
   font-size: 0.72rem;
-  font-weight: 700;
-  color: #FFFFFF;
+  font-weight: 500;
+  color: #FFFFFF !important;
   text-transform: uppercase;
   letter-spacing: 0.02em;
 }
