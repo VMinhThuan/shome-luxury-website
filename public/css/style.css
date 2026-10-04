@@ -62,6 +62,7 @@
   --font-header-slogan: 'Great Vibes', cursive;
 
   /* Spacing & Layout */
+  --mobile-page-spacing: 16px;
   --container-max: 1380px;
   --header-height-mobile: 68px;
   --header-height-desktop: 84px;
@@ -177,8 +178,8 @@ ol {
   max-width: var(--container-max);
   margin-left: auto;
   margin-right: auto;
-  padding-left: 16px;
-  padding-right: 16px;
+  padding-left: var(--mobile-page-spacing);
+  padding-right: var(--mobile-page-spacing);
   box-sizing: border-box;
 }
 
@@ -1057,18 +1058,37 @@ ol {
   background-color: #FFFFFF !important;
 }
 
-.process-header-section,
-.workshop-heart-section,
-.capacity-section-v2,
-.factory-gallery-v2-section,
-.booking-process-section,
-.booking-faq,
-.news-content-section,
-.recruitment-jobs-section,
-.related-projects-section {
-  padding-top: 2.25rem !important;
-  padding-bottom: 2.25rem !important;
+@media (max-width: 767px) {
+  .process-header-section,
+  .workshop-heart-section,
+  .capacity-section-v2,
+  .factory-gallery-v2-section,
+  .booking-process-section,
+  .booking-faq,
+  .news-content-section,
+  .recruitment-jobs-section,
+  .related-projects-section,
+  .cta-banner-v2-section {
+    padding-top: var(--mobile-page-spacing, 16px) !important;
+    padding-bottom: var(--mobile-page-spacing, 16px) !important;
+  }
 }
+
+@media (min-width: 768px) {
+  .process-header-section,
+  .workshop-heart-section,
+  .capacity-section-v2,
+  .factory-gallery-v2-section,
+  .booking-process-section,
+  .booking-faq,
+  .news-content-section,
+  .recruitment-jobs-section,
+  .related-projects-section {
+    padding-top: 2.25rem !important;
+    padding-bottom: 2.25rem !important;
+  }
+}
+
 
 /* 7. PROCESS & WORKSHOP VIDEO - MATCHING REFERENCE IMAGE 2 */
 .process-header-section {
