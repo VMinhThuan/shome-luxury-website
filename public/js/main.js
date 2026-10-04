@@ -826,6 +826,8 @@ document.addEventListener('DOMContentLoaded', () => {
   // Keep that value in sync with the card so mobile never leaves a blank strip.
   const facebookPagePlugins = document.querySelectorAll('.facebook-page-plugin');
   const resizeFacebookPagePlugin = (iframe) => {
+    if (!window.matchMedia('(max-width: 768px)').matches) return;
+
     const wrapper = iframe.closest('.card-iframe-wrapper');
     if (!wrapper) return;
 

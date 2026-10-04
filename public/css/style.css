@@ -2213,13 +2213,6 @@ ol {
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
 }
 
-/* Facebook Page Plugin itself has a 500px content limit. Match its card to
-   that limit so the embedded timeline always fills its visible card. */
-.fb-card-box {
-  max-width: 500px;
-  margin-inline: auto;
-}
-
 .card-top-header {
   display: flex;
   align-items: center;
@@ -2493,6 +2486,34 @@ ol {
 
   .card-header-link {
     font-size: 0.8rem;
+  }
+}
+
+/* Facebook Page Plugin: mobile-only full-width hierarchy. */
+@media (max-width: 768px) {
+  .footer-col-fb,
+  .footer-col-fb .fb-card-box,
+  .footer-col-fb .card-iframe-wrapper {
+    width: 100% !important;
+    min-width: 0 !important;
+    max-width: none !important;
+    box-sizing: border-box !important;
+  }
+
+  .footer-col-fb .fb-card-box {
+    margin-inline: 0 !important;
+  }
+
+  .footer-col-fb .card-iframe-wrapper {
+    overflow-x: hidden !important;
+  }
+
+  .footer-col-fb .facebook-page-plugin {
+    display: block !important;
+    width: 100% !important;
+    min-width: 0 !important;
+    max-width: none !important;
+    box-sizing: border-box !important;
   }
 }
 
