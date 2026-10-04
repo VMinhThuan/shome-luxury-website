@@ -83,32 +83,13 @@
     </div>
   </main>
 
-  <!-- Job Detail & Application Modal Popup -->
-  <div class="modal-overlay" id="jobModalOverlay" aria-hidden="true">
-    <div class="modal-card job-modal-card">
-      <button class="modal-close-btn" id="closeJobModal" aria-label="Đóng popup">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <line x1="18" y1="6" x2="6" y2="18"></line>
-          <line x1="6" y1="6" x2="18" y2="18"></line>
-        </svg>
-      </button>
-
-      <div class="job-modal-content" id="jobModalBody">
-        <!-- Content will be fetched from BE API & injected dynamically -->
-      </div>
-    </div>
-  </div>
-
   <!-- Footer -->
   <%- include("partials/footer") %>
 
-  <!-- FE Script: Calls Backend APIs (/api/recruitment & /api/recruitment/:id) -->
+  <!-- FE Script: Calls Backend API (/api/recruitment) and renders direct links -->
   <script>
     document.addEventListener("DOMContentLoaded", function () {
       const jobsGrid = document.getElementById("recruitmentJobsGrid");
-      const modalOverlay = document.getElementById("jobModalOverlay");
-      const closeBtn = document.getElementById("closeJobModal");
-      const modalBody = document.getElementById("jobModalBody");
 
       // 1. Fetch recruitment list from Backend API /api/recruitment
       async function fetchRecruitmentJobsList() {
@@ -136,7 +117,7 @@
         }
       }
 
-      // Render job cards into grid dynamically
+      // Render job cards into grid dynamically with direct navigation links
       function renderJobsGrid(jobs) {
         if (!jobs || jobs.length === 0) {
           jobsGrid.innerHTML = '<p style="grid-column: 1 / -1; text-align: center;">Hiện chưa có vị trí tuyển dụng mới.</p>';
@@ -144,7 +125,7 @@
         }
 
         jobsGrid.innerHTML = jobs.map(job => `
-          <div class="job-card-v2" data-job-id="${job.id}">
+          <div class="job-card-v2" onclick="window.location.href='/tuyen-dung/${job.id}'" style="cursor: pointer;">
             <a href="/tuyen-dung/${job.id}" class="job-card-thumb-link">
               <div class="job-card-thumb">
                 <img src="${job.thumbnail}" alt="${job.title}" loading="lazy" width="400" height="250" />
@@ -183,161 +164,6 @@
             </div>
           </div>
         `).join('');
-
-        // Attach event listeners to newly rendered "Xem thêm" buttons & card clicks
-        const openBtns = jobsGrid.querySelectorAll(".open-job-modal");
-        openBtns.forEach(btn => {
-          btn.addEventListener("click", function (e) {
-            e.preventDefault();
-            e.stopPropagation();
-            const jobId = this.getAttribute("data-job-id");
-            if (jobId) fetchAndShowJobDetail(jobId);
-          });
-        });
-
-        const cards = jobsGrid.querySelectorAll(".job-card-v2");
-        cards.forEach(card => {
-          card.addEventListener("click", function (e) {
-            if (e.target.closest(".open-job-modal")) return;
-            const jobId = this.getAttribute("data-job-id");
-            if (jobId) fetchAndShowJobDetail(jobId);
-          });
-        });
-
-        // Check if deep link URL is present (/tuyen-dung/:id)
-        checkDeepLinkUrl();
-      }
-
-      // 2. Fetch single job post detail from Backend API GET /api/recruitment/:id
-      async function fetchAndShowJobDetail(jobId) {
-        console.log("[FE] Fetching single job detail from Backend API: GET /api/recruitment/" + jobId);
-        modalOverlay.classList.add("active");
-        document.body.style.overflow = "hidden";
-
-        modalBody.innerHTML = `
-          <div class="job-modal-loading">
-            <div class="modal-spinner-ring"></div>
-            <span>Đang tải thông tin chi tiết bài tuyển dụng...</span>
-          </div>
-        `;
-
-        try {
-          const response = await fetch(`/api/recruitment/${jobId}`);
-          const result = await response.json();
-
-          if (result.success && result.data) {
-            renderJobDetailModal(result.data);
-          } else {
-            modalBody.innerHTML = `
-              <div class="job-modal-loading" style="color: #c0392b;">
-                <p>⚠️ Không tìm thấy chi tiết bài tuyển dụng (${result.message || ''}).</p>
-              </div>
-            `;
-          }
-        } catch (err) {
-          console.error("API Error fetching job detail:", err);
-          modalBody.innerHTML = `
-            <div class="job-modal-loading" style="color: #c0392b;">
-              <p>⚠️ Lỗi kết nối khi tải chi tiết bài tuyển dụng.</p>
-            </div>
-          `;
-        }
-      }
-
-      // Render detailed job post inside modal
-      function renderJobDetailModal(job) {
-        let sectionsHtml = "";
-
-        if (job.fullHtmlContent) {
-          sectionsHtml = job.fullHtmlContent;
-        } else if (job.sections && Array.isArray(job.sections)) {
-          sectionsHtml = `
-            <div class="old-web-article">
-              <p class="article-intro">${job.summary || ""}</p>
-              <div class="article-image-box">
-                <img src="${job.thumbnail}" alt="${job.title}" class="article-main-img" />
-              </div>
-              ${job.sections.map(sec => `
-                <h2 id="${sec.id || ''}" class="article-heading">${sec.title}</h2>
-                ${sec.items ? `
-                  <ul class="article-list">
-                    ${sec.items.map(item => `<li>${item}</li>`).join('')}
-                  </ul>
-                ` : ''}
-              `).join('')}
-            </div>
-          `;
-        } else {
-          sectionsHtml = `
-            <div class="job-modal-section">
-              <h3>Mô tả công việc</h3>
-              <ul>${(job.description || []).map(i => `<li>${i}</li>`).join('')}</ul>
-            </div>
-            <div class="job-modal-section">
-              <h3>Yêu cầu ứng viên</h3>
-              <ul>${(job.requirements || []).map(i => `<li>${i}</li>`).join('')}</ul>
-            </div>
-            <div class="job-modal-section">
-              <h3>Quyền lợi được hưởng</h3>
-              <ul>${(job.benefits || []).map(i => `<li>${i}</li>`).join('')}</ul>
-            </div>
-          `;
-        }
-
-        modalBody.innerHTML = `
-          <div class="job-modal-header">
-            <span class="job-modal-badge">${job.isHot ? 'ĐANG HOT' : 'TUYỂN DỤNG'}</span>
-            <h2 class="job-modal-title">${job.title}</h2>
-            
-            <div class="old-web-meta">
-              <span><strong>Viết bởi:</strong> ${job.author || 'Lê Sang'}</span>
-              <span><strong>Ngày đăng:</strong> ${job.date || '29/06/2024'}</span>
-              <span><strong>Danh mục:</strong> ${job.category || 'Tuyển dụng'}</span>
-            </div>
-
-            <div class="job-modal-quick-info">
-              <span><strong>Mức lương:</strong> ${job.salary || 'Thỏa thuận'}</span>
-              <span><strong>Địa điểm:</strong> ${job.location || 'Hà Nội'}</span>
-              <span><strong>Hình thức:</strong> ${job.workType || 'Toàn thời gian'}</span>
-              <span><strong>Hạn nộp:</strong> ${job.deadline || '30/10/2026'}</span>
-            </div>
-          </div>
-
-          <div class="job-modal-body-container">
-            ${sectionsHtml}
-          </div>
-
-          <div class="job-modal-apply-box" style="background: #171717; color: #FFFFFF; padding: 1.25rem; border-radius: 12px; margin-top: 1.5rem; display: flex; flex-direction: column; gap: 1rem;">
-            <div class="apply-info">
-              <h4 style="color: #C89B4B; margin: 0 0 0.35rem 0; font-size: 0.9375rem;">Gửi hồ sơ ứng tuyển ngay</h4>
-              <p style="margin: 0 0 0.2rem 0; font-size: 0.8125rem; color: #DDDDDD;">Email tiếp nhận: <strong style="color: #FFF;">shomeluxurydesign@gmail.com</strong></p>
-              <p style="margin: 0; font-size: 0.8125rem; color: #DDDDDD;">Hotline / Zalo tuyển dụng: <strong style="color: #FFF;">079999 7700</strong></p>
-            </div>
-            <a href="mailto:shomeluxurydesign@gmail.com?subject=Ứng tuyển ${encodeURIComponent(job.title)}" class="btn-cta-gold" style="align-self: flex-start;">
-              Nộp hồ sơ ngay
-            </a>
-          </div>
-        `;
-      }
-
-      function closeModal() {
-        modalOverlay.classList.remove("active");
-        document.body.style.overflow = "";
-      }
-
-      if (closeBtn) closeBtn.addEventListener("click", closeModal);
-      if (modalOverlay) {
-        modalOverlay.addEventListener("click", function (e) {
-          if (e.target === modalOverlay) closeModal();
-        });
-      }
-
-      function checkDeepLinkUrl() {
-        const pathParts = window.location.pathname.split("/").filter(Boolean);
-        if (pathParts.length >= 2 && pathParts[0] === "tuyen-dung") {
-          const urlJobId = pathParts[1];
-          if (urlJobId) fetchAndShowJobDetail(urlJobId);
-        }
       }
 
       // Trigger initial Backend API fetch for recruitment jobs list
