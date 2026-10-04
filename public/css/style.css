@@ -222,13 +222,13 @@ ol {
   left: 0;
   width: 100%;
   z-index: 1000;
-  background-color: var(--surface-charcoal-gray);
+  background-color: var(--surface-charcoal-gray) !important;
   border-bottom: 3.5px solid var(--accent-gold);
   transition: background-color 0.3s ease, box-shadow 0.3s ease, backdrop-filter 0.3s ease;
 }
 
 .site-header.scrolled {
-  background-color: rgba(48, 48, 48, 0.92);
+  background-color: rgba(48, 48, 48, 0.96) !important;
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.24);
@@ -323,7 +323,8 @@ ol {
   .nav-link {
     font-size: clamp(0.92rem, 1.05vw, 1.02rem);
     font-weight: 600;
-    color: rgba(255, 255, 255, 0.92);
+    color: #FFFFFF !important;
+    font-family: var(--font-menu);
     padding: 0.45rem 0.15rem;
     display: flex;
     align-items: center;
@@ -365,10 +366,11 @@ ol {
     align-items: center;
     justify-content: space-between;
     gap: 0.85rem;
-    padding: 0.42rem 1rem;
-    font-size: 0.84rem;
-    color: rgba(255, 255, 255, 0.92);
-    font-weight: 500;
+    padding: 0.55rem 1.15rem;
+    font-size: 0.95rem !important;
+    color: #FFFFFF !important;
+    font-weight: 600;
+    font-family: var(--font-menu);
     white-space: nowrap;
   }
 
@@ -2033,8 +2035,8 @@ ol {
    FOOTER SECTION - MATCHING REFERENCE LAYOUT 100%
    ========================================================================== */
 .site-footer {
-  background-color: #171717;
-  color: #CCCCCC;
+  background-color: var(--surface-charcoal-gray) !important;
+  color: #FFFFFF !important;
   padding-top: 1.75rem !important;
   padding-bottom: 1.25rem !important;
   border-top: 3.5px solid #C89B4B;
@@ -2170,10 +2172,18 @@ ol {
   position: relative;
   min-height: 0;
   width: 100%;
-  overflow-y: scroll !important;
+  overflow-y: auto !important;
   overflow-x: hidden !important;
   -webkit-overflow-scrolling: touch !important;
   touch-action: pan-y !important;
+  scrollbar-width: none !important;
+  -ms-overflow-style: none !important;
+}
+
+.card-iframe-wrapper::-webkit-scrollbar {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
 }
 
 .fb-card-box .card-iframe-wrapper iframe {
@@ -2220,7 +2230,7 @@ ol {
 
 .footer-company-desc {
   font-size: 0.76rem;
-  color: #AAAAAA;
+  color: #FFFFFF !important;
   line-height: 1.4;
   margin: 0 0 0.5rem 0;
 }
@@ -2228,7 +2238,7 @@ ol {
 .footer-social-heading {
   font-size: 0.7rem;
   font-weight: 700;
-  color: #888888;
+  color: #FFFFFF !important;
   letter-spacing: 0.06em;
   text-transform: uppercase;
   margin-bottom: 0.35rem;
@@ -2511,14 +2521,14 @@ ol {
 
 /* Zalo Pill Specifics */
 .pill-zalo {
-  border: 1.5px solid #0068ff;
+  border: 1.5px solid #C89B4B;
 }
 
 .zalo-icon {
   width: 32px;
   height: 32px;
   border-radius: 50%;
-  background: #0068ff;
+  background: #C89B4B;
   color: #FFFFFF;
   display: flex;
   align-items: center;
@@ -2534,7 +2544,7 @@ ol {
 }
 
 .zalo-title {
-  color: #0068ff;
+  color: #C89B4B;
 }
 
 .zalo-sub {
@@ -5149,8 +5159,12 @@ ol {
 
 .news-hero h1 {
   margin: .3rem 0 .4rem;
-  font: 500 clamp(1.8rem, 3.8vw, 3.5rem)/.98 var(--font-serif);
-  letter-spacing: -.06em;
+  font-family: var(--font-heading) !important;
+  font-size: clamp(1.8rem, 3.8vw, 3.5rem);
+  font-weight: 700;
+  line-height: 1.05;
+  color: #FFFFFF !important;
+  letter-spacing: -.03em;
 }
 
 .news-hero h1 em {
@@ -5161,9 +5175,10 @@ ol {
 
 .news-hero p {
   max-width: 355px;
-  color: rgba(255, 255, 255, .83);
+  color: #FFFFFF !important;
+  font-family: var(--font-menu);
   font-size: clamp(.72rem, 1.2vw, .88rem);
-  font-weight: 600;
+  font-weight: 500;
   line-height: 1.4;
 }
 
@@ -7504,7 +7519,7 @@ html {
   justify-content: center;
   padding: 0.75rem 1.4rem;
   border-radius: 999px;
-  background: #0088FF;
+  background: #C89B4B;
   color: #ffffff;
   font-weight: 700;
   font-size: 0.84rem;
@@ -7512,7 +7527,7 @@ html {
 }
 
 .btn-cta-zalo:hover {
-  background: #0077EE;
+  background: #D2A653;
   transform: translateY(-2px);
   color: #ffffff;
 }
@@ -7874,38 +7889,34 @@ main .font-script-heading,
   }
 }
 
-/* Tier 3: Main Title / Main Heading - Largest Text (Image 3) */
-main .hero-v2-title,
+/* Tier 3: Main Title / Main Heading - Refined, Compact Size */
 main .gallery-v2-title,
 main .capacity-v2-title,
 main .process-v2-title,
 main .workshop-heart-title,
 main .section-v2-title,
-.hero-v2-title,
 .gallery-v2-title,
 .capacity-v2-title,
 .process-v2-title,
 .workshop-heart-title,
 .section-v2-title {
   font-family: var(--font-heading) !important;
-  font-size: clamp(1.75rem, 5vw, 2.25rem) !important;
-  font-weight: 800 !important;
-  line-height: 1.2 !important;
+  font-size: clamp(1.35rem, 3.8vw, 1.65rem) !important;
+  font-weight: 700 !important;
+  line-height: 1.25 !important;
 }
 
 @media (min-width: 768px) {
-  main .hero-v2-title,
   main .gallery-v2-title,
   main .capacity-v2-title,
   main .process-v2-title,
   main .workshop-heart-title,
   main .section-v2-title,
-  .hero-v2-title,
   .gallery-v2-title,
   .capacity-v2-title,
   .process-v2-title,
   .workshop-heart-title,
   .section-v2-title {
-    font-size: clamp(2.25rem, 3.5vw, 3.25rem) !important;
+    font-size: clamp(1.5rem, 2vw, 1.85rem) !important;
   }
 }
