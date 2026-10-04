@@ -2509,6 +2509,13 @@ ol {
   }
 
   .footer-col-fb .facebook-page-plugin {
+    display: none !important;
+  }
+
+  .footer-col-fb .facebook-mobile-plugin,
+  .footer-col-fb .facebook-mobile-plugin .fb-page,
+  .footer-col-fb .facebook-mobile-plugin .fb-page > span,
+  .footer-col-fb .facebook-mobile-plugin .fb-page iframe {
     display: block !important;
     width: 100% !important;
     min-width: 0 !important;
@@ -2516,14 +2523,8 @@ ol {
     box-sizing: border-box !important;
   }
 
-  .footer-col-fb .fb-page,
-  .footer-col-fb .fb-page > span,
-  .footer-col-fb .fb-page iframe {
-    width: 100% !important;
-    min-width: 0 !important;
-    max-width: 100% !important;
-    box-sizing: border-box !important;
-  }
+  .footer-col-fb .facebook-mobile-plugin .fb-page > span,
+  .footer-col-fb .facebook-mobile-plugin .fb-page iframe { max-width: 100% !important; }
 }
 
 /* Keep the footer compact on phones once its final text block ends. */

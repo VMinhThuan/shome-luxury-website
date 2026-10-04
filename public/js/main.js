@@ -822,47 +822,69 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // Facebook's iframe Page Plugin renders its document at the `width` embedded
-  // in its URL. Observe its actual card width and recreate it on mobile when
-  // that width changes; CSS alone cannot resize the cross-origin document.
-  const facebookPagePlugins = document.querySelectorAll('.facebook-page-plugin');
-  const syncFacebookPagePlugin = (iframe) => {
-    if (!window.matchMedia('(max-width: 768px)').matches) return;
+  // Desktop keeps its original direct iframe. On mobile, remount the official
+  // SDK Page Plugin after the content wrapper has its final measured width.
+  const mobileFacebookPlugins = document.querySelectorAll('.facebook-mobile-plugin');
+  const mobileFacebookQuery = window.matchMedia('(max-width: 768px)');
 
-    const wrapper = iframe.closest('.card-iframe-wrapper');
-    if (!wrapper) return;
+  const loadFacebookSdk = () => new Promise((resolve, reject) => {
+    if (window.FB?.XFBML) return resolve(window.FB);
 
-    const width = Math.max(180, Math.round(wrapper.offsetWidth));
-    const pluginUrl = new URL(iframe.dataset.facebookPluginSrc || iframe.src, window.location.href);
-    pluginUrl.searchParams.set('width', String(width));
-    pluginUrl.searchParams.set('adapt_container_width', 'true');
-    const nextSrc = pluginUrl.toString();
+    const existingSdk = document.getElementById('facebook-jssdk');
+    if (existingSdk) {
+      existingSdk.addEventListener('load', () => resolve(window.FB), { once: true });
+      existingSdk.addEventListener('error', reject, { once: true });
+      return;
+    }
 
-    iframe.setAttribute('width', String(width));
-    iframe.style.setProperty('width', `${width}px`, 'important');
-    iframe.style.setProperty('min-width', `${width}px`, 'important');
-    iframe.style.setProperty('max-width', `${width}px`, 'important');
+    const sdk = document.createElement('script');
+    sdk.id = 'facebook-jssdk';
+    sdk.async = true;
+    sdk.defer = true;
+    sdk.crossOrigin = 'anonymous';
+    sdk.src = 'https://connect.facebook.net/vi_VN/sdk.js#xfbml=1&version=v21.0';
+    sdk.addEventListener('load', () => resolve(window.FB), { once: true });
+    sdk.addEventListener('error', reject, { once: true });
+    document.body.appendChild(sdk);
+  });
 
-    if (iframe.src !== nextSrc) iframe.src = nextSrc;
+  const renderMobileFacebookPlugin = async (host) => {
+    if (!mobileFacebookQuery.matches) return;
+
+    const width = Math.floor(host.clientWidth);
+    if (width < 180 || Number(host.dataset.renderedWidth) === width) return;
+
+    host.dataset.renderedWidth = String(width);
+    host.replaceChildren();
+
+    const page = document.createElement('div');
+    page.className = 'fb-page';
+    page.dataset.href = host.dataset.facebookHref;
+    page.dataset.tabs = 'timeline';
+    page.dataset.width = String(width);
+    page.dataset.height = '550';
+    page.dataset.smallHeader = 'true';
+    page.dataset.adaptContainerWidth = 'true';
+    page.dataset.hideCover = 'true';
+    page.dataset.showFacepile = 'false';
+    host.appendChild(page);
+
+    try {
+      const FB = await loadFacebookSdk();
+      window.requestAnimationFrame(() => FB?.XFBML?.parse(host));
+    } catch (error) {
+      console.warn('Facebook Page Plugin could not be loaded.', error);
+    }
   };
 
-  if (facebookPagePlugins.length) {
-    window.requestAnimationFrame(() => facebookPagePlugins.forEach(syncFacebookPagePlugin));
+  if (mobileFacebookPlugins.length) {
+    window.requestAnimationFrame(() => mobileFacebookPlugins.forEach(renderMobileFacebookPlugin));
 
     if ('ResizeObserver' in window) {
-      const facebookPluginObserver = new ResizeObserver(entries => {
-        entries.forEach(({ target }) => {
-          const iframe = target.querySelector('.facebook-page-plugin');
-          if (iframe) syncFacebookPagePlugin(iframe);
-        });
+      const mobileFacebookObserver = new ResizeObserver(entries => {
+        entries.forEach(({ target }) => renderMobileFacebookPlugin(target));
       });
-
-      facebookPagePlugins.forEach(iframe => {
-        const wrapper = iframe.closest('.card-iframe-wrapper');
-        if (wrapper) facebookPluginObserver.observe(wrapper);
-      });
-    } else {
-      window.addEventListener('resize', () => facebookPagePlugins.forEach(syncFacebookPagePlugin));
+      mobileFacebookPlugins.forEach(host => mobileFacebookObserver.observe(host));
     }
   }
 
