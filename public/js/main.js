@@ -932,11 +932,21 @@ document.addEventListener('DOMContentLoaded', () => {
   if (mobileFacebookPlugins.length) {
     window.requestAnimationFrame(() => mobileFacebookPlugins.forEach(renderMobileFacebookPlugin));
 
+    mobileFacebookQuery.addEventListener?.('change', event => {
+      if (event.matches) {
+        window.requestAnimationFrame(() => mobileFacebookPlugins.forEach(renderMobileFacebookPlugin));
+      }
+    });
+
     if ('ResizeObserver' in window) {
       const mobileFacebookObserver = new ResizeObserver(entries => {
         entries.forEach(({ target }) => renderMobileFacebookPlugin(target));
       });
       mobileFacebookPlugins.forEach(host => mobileFacebookObserver.observe(host));
+    } else {
+      window.addEventListener('resize', () => {
+        mobileFacebookPlugins.forEach(renderMobileFacebookPlugin);
+      });
     }
   }
 

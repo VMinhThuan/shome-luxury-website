@@ -2489,6 +2489,11 @@ ol {
   }
 }
 
+/* The SDK instance exists only for mobile; keep the direct iframe untouched on desktop. */
+.facebook-mobile-plugin {
+  display: none;
+}
+
 /* Facebook Page Plugin: mobile-only full-width hierarchy. */
 @media (max-width: 768px) {
   .footer-col-fb,
