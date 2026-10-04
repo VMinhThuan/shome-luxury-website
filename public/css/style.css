@@ -5373,20 +5373,22 @@ ol {
 }
 
 .news-article-list {
-  display: grid;
-  gap: .6rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
 }
 
 .news-list-card {
-  display: grid;
-  grid-template-columns: 37% minmax(0, 1fr);
-  gap: .6rem;
-  padding: .35rem;
-  border: 1px solid rgba(111, 88, 51, .1);
-  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  border: 1px solid rgba(111, 88, 51, .12);
+  border-radius: 10px;
   background: #fff;
   box-shadow: 0 3px 12px rgba(55, 44, 27, .045);
   transition: transform .2s ease, box-shadow .2s ease;
+  padding: 0;
+  overflow: hidden;
 }
 
 .news-list-card:hover {
@@ -5395,15 +5397,18 @@ ol {
 }
 
 .news-list-image {
-  min-height: 100px;
+  display: block;
+  width: 100%;
+  height: 180px;
+  min-height: 180px;
   overflow: hidden;
-  border-radius: 5px;
+  position: relative;
 }
 
 .news-list-image img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
   transition: transform .35s ease;
 }
 
@@ -5412,36 +5417,41 @@ ol {
 }
 
 .news-list-body {
-  min-width: 0;
-  align-self: center;
+  display: flex;
+  flex-direction: column;
+  padding: 0.85rem 1rem 1rem;
+  width: 100%;
+  box-sizing: border-box;
+  flex: 1;
 }
 
 .news-list-category {
-  color: #a8813c;
-  font-size: .54rem;
+  color: var(--accent-gold);
+  font-size: .62rem;
   font-weight: 800;
   letter-spacing: .07em;
   text-transform: uppercase;
 }
 
 .news-list-body h3 {
-  margin: .08rem 0 .18rem;
+  margin: .25rem 0 .35rem;
   color: #332d26;
-  font-family: var(--font-serif);
-  font-size: .92rem;
+  font-family: var(--font-heading);
+  font-size: .98rem;
   font-weight: 700;
-  line-height: 1.18;
-  letter-spacing: -.024em;
+  line-height: 1.3;
+  letter-spacing: -.02em;
 }
 
 .news-list-body p {
   display: -webkit-box;
   overflow: hidden;
-  color: #7c746a;
-  font-size: .64rem;
-  line-height: 1.35;
+  color: #666666;
+  font-size: .78rem;
+  line-height: 1.4;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 2;
+  margin-bottom: 0.6rem;
 }
 
 .news-list-meta {
