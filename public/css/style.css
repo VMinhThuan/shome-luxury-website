@@ -2513,7 +2513,9 @@ ol {
     overflow-x: visible !important;
   }
 
-  .footer-col-fb .facebook-page-plugin {
+  /* This beats the desktop iframe selector above (which includes `iframe`).
+     Without it the legacy iframe and the SDK plugin render together. */
+  .footer-col-fb .fb-card-box .card-iframe-wrapper > iframe.facebook-page-plugin {
     display: none !important;
   }
 
