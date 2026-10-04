@@ -534,22 +534,6 @@ ol {
 
 /* 4. MOBILE NAVIGATION DRAWER */
 .drawer-header-row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 1rem 1.25rem 0.75rem 1.25rem;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-}
-
-.drawer-brand-title {
-  font-family: var(--font-menu);
-  font-size: 1rem;
-  font-weight: 800;
-  color: var(--accent-gold);
-  letter-spacing: 0.05em;
-}
-
-.drawer-close-btn {
   display: none !important;
 }
 
@@ -679,7 +663,7 @@ ol {
   display: flex;
   align-items: center;
   padding: 0.75rem 0.9375rem;
-  font-size: 0.8125rem;
+  font-size: 16px !important;
   font-weight: 600;
   color: var(--text-on-dark);
   flex: 1;
@@ -741,7 +725,7 @@ ol {
   flex: 1;
   min-height: 52px;
   padding: 0.75rem 0.9375rem 0.75rem 1.5rem;
-  font-size: 0.8125rem;
+  font-size: 15px !important;
   color: var(--text-on-dark);
   display: flex;
   align-items: center;
@@ -777,7 +761,7 @@ ol {
 .l3-link {
   min-height: 48px;
   padding: 0.75rem 0.9375rem 0.75rem 2rem;
-  font-size: 0.8125rem;
+  font-size: 14px !important;
   color: #9E988F;
   display: flex;
   align-items: center;
