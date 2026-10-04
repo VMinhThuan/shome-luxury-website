@@ -702,17 +702,21 @@ ol {
 .accordion-toggle svg {
   width: 12px;
   height: 12px;
+  transition: none;
 }
 
 .mobile-menu-item.open>.mobile-menu-row>.accordion-toggle {
-  color: var(--bg-dark);
-  background-color: var(--accent-gold);
-  transform: rotate(90deg);
+  color: var(--accent-gold);
+  background-color: transparent;
 }
 
 .l2-item.open>.mobile-menu-row>.accordion-toggle {
-  color: var(--bg-dark);
-  background-color: var(--accent-gold);
+  color: var(--accent-gold);
+  background-color: transparent;
+}
+
+/* Rotate only the chevron so its down state is visible as soon as a submenu opens. */
+.accordion-toggle[aria-expanded="true"] svg {
   transform: rotate(90deg);
 }
 
