@@ -168,6 +168,8 @@ ol {
 
 .font-script {
   font-family: var(--font-script);
+  color: var(--accent-gold);
+  font-weight: 700;
 }
 
 .container {
@@ -889,10 +891,10 @@ ol {
 
 .hero-script-eyebrow {
   font-size: 1.55rem;
-  color: #C89B4B;
+  color: var(--accent-gold);
   line-height: 1.35;
   margin-bottom: 0.65rem;
-  font-weight: 400;
+  font-weight: 700;
 }
 
 @media (min-width: 480px) {
@@ -1036,7 +1038,6 @@ ol {
 .booking-hero,
 .booking-estimate,
 .booking-testimonial,
-.news-hero,
 .recruitment-banner-section,
 .project-showcase-hero {
   background-color: #FFFFFF !important;
@@ -1051,7 +1052,7 @@ ol {
 .recruitment-jobs-section,
 .related-projects-section,
 .cta-banner-v2-section {
-  background-color: #FAF7F0 !important;
+  background-color: #FFFFFF !important;
 }
 
 .process-header-section,
@@ -1069,7 +1070,7 @@ ol {
 
 /* 7. PROCESS & WORKSHOP VIDEO - MATCHING REFERENCE IMAGE 2 */
 .process-header-section {
-  background-color: #FAF7F0 !important;
+  background-color: #FFFFFF !important;
 }
 
 .process-v2-header {
@@ -3472,7 +3473,7 @@ ol {
    ========================================================================== */
 
 .page-recruitment {
-  background-color: #FAFAFA;
+  background-color: #FFFFFF;
 }
 
 .page-recruitment .main-content {
@@ -4302,7 +4303,7 @@ ol {
 .eyebrow-text {
   display: block;
   font-size: 0.85rem;
-  font-weight: 600;
+  font-weight: 700;
   letter-spacing: 0.15em;
   color: var(--accent-gold);
   margin-bottom: 0.6rem;
@@ -4328,7 +4329,7 @@ ol {
   display: inline-block;
   font-family: var(--font-script);
   color: var(--accent-gold);
-  font-weight: 400;
+  font-weight: 700;
   margin-left: 0.4rem;
   text-transform: none;
 }
@@ -4409,13 +4410,8 @@ ol {
 }
 
 .project-showcase-section > .container {
-  padding: 12px 24px 24px 24px;
-}
-
-@media (max-width: 767px) {
-  .project-showcase-section > .container {
-    padding: 12px 16px 24px 16px;
-  }
+  padding-top: 12px;
+  padding-bottom: 24px;
 }
 
 .project-list-vertical {
@@ -4526,7 +4522,8 @@ ol {
 
 .project-card-quote-overlay .quote-title {
   font-family: var(--font-primary);
-  font-weight: 800;
+  font-weight: 500;
+  color: #FFFFFF;
   font-size: clamp(0.95rem, 2.2vw, 1.35rem);
   letter-spacing: 0.05em;
   text-transform: uppercase;
@@ -5111,14 +5108,17 @@ ol {
 /* News page */
 .news-page {
   padding-top: var(--header-height-mobile);
-  background: #f8f6f1;
+  background: #FFFFFF;
 }
 
 .news-hero {
   position: relative;
   overflow: hidden;
   color: #fff;
-  background: #171513;
+  background: #171513 !important;
+  width: 100%;
+  max-width: 100%;
+  margin: 0;
 }
 
 .news-hero-grid {
@@ -5127,11 +5127,12 @@ ol {
   display: flex;
   align-items: center;
   isolation: isolate;
+  z-index: 2;
 }
 
 .news-hero-copy {
   position: relative;
-  z-index: 2;
+  z-index: 3;
   width: min(54%, 520px);
   padding: 1.2rem 0 1.3rem .55rem;
 }
@@ -5139,7 +5140,7 @@ ol {
 .news-kicker,
 .news-section-heading>div>span,
 .news-booking-cta span {
-  color: #d7b165;
+  color: var(--accent-gold);
   font-size: .7rem;
   font-weight: 700;
   letter-spacing: .18em;
@@ -5153,7 +5154,7 @@ ol {
 }
 
 .news-hero h1 em {
-  color: #dcb56a;
+  color: var(--accent-gold);
   font-style: normal;
   font-weight: 700;
 }
@@ -5168,8 +5169,10 @@ ol {
 
 .news-hero-image {
   position: absolute;
-  z-index: -1;
+  z-index: 1;
   inset: 0;
+  width: 100%;
+  height: 100%;
 }
 
 .news-hero-image::before {
@@ -5181,15 +5184,15 @@ ol {
 }
 
 .news-hero-image img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
   object-position: 62% center;
 }
 
 .news-content-section {
   padding: .75rem 0;
-  background: #fbfaf7;
+  background: #FFFFFF;
 }
 
 .news-categories {
@@ -7753,7 +7756,6 @@ html {
 .workshop-video-card-v2,
 .news-list-image,
 .news-featured > img,
-.news-hero-image,
 .job-card-thumb,
 .booking-estimate-image-wrap,
 .project-gallery-stage,
