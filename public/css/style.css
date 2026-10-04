@@ -2192,9 +2192,10 @@ ol {
 .footer-script-slogan {
   color: #C89B4B;
   font-size: 1.35rem;
-  margin-top: auto;
-  padding-top: 0.35rem;
-  line-height: 1;
+  /* Center the script within the remaining column space for balanced breathing room. */
+  margin-block: auto;
+  padding: 0;
+  line-height: 1.15;
 }
 
 /* Column 2 & Column 3: Footer Cards (Fanpage & Map) */
@@ -2298,11 +2299,15 @@ ol {
 }
 
 .footer-brand-logo {
+  width: 100%;
+  display: flex;
+  justify-content: center;
   margin-bottom: 0.2rem;
 }
 
 .footer-brand-logo img {
-  max-width: 145px;
+  width: min(180px, 100%);
+  max-width: 180px;
   height: auto;
   display: block;
 }
