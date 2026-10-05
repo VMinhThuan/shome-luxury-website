@@ -7419,7 +7419,7 @@ ol {
   max-width: 1200px;
   margin: 0 auto;
   width: 100%;
-  overflow: hidden;
+  overflow: visible;
 }
 
 .testimonial-slider {
@@ -7635,14 +7635,13 @@ ol {
 }
 
 .testimonial-nav {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 1rem;
-  margin-top: 0.75rem;
+  position: static;
 }
 
 .testimonial-nav button {
+  position: absolute;
+  top: 50%;
+  z-index: 2;
   width: 36px;
   height: 36px;
   border-radius: 50%;
@@ -7654,32 +7653,20 @@ ol {
   display: grid;
   place-items: center;
   transition: all 0.2s ease;
+  transform: translateY(-50%);
+}
+
+.testimonial-nav .nav-prev {
+  left: -1.25rem;
+}
+
+.testimonial-nav .nav-next {
+  right: -1.25rem;
 }
 
 .testimonial-nav button:hover {
   background: #C89B4B;
   color: #ffffff;
-}
-
-.slider-dots {
-  display: flex;
-  align-items: center;
-  gap: 0.4rem;
-}
-
-.slider-dots .dot {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: rgba(185, 128, 50, 0.3);
-  cursor: pointer;
-  transition: all 0.25s ease;
-}
-
-.slider-dots .dot.active {
-  width: 24px;
-  border-radius: 99px;
-  background: #C89B4B;
 }
 
 .related-projects-section .project-card-image-wrapper {

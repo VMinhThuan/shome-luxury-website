@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <title><%= title %></title>
   <meta name="description" content="Đăng ký nhận tư vấn và dự toán thiết kế, thi công nội thất miễn phí từ Shome Luxury." />
-  <link rel="stylesheet" href="/css/style.css?v=6.2.8" />
+  <link rel="stylesheet" href="/css/style.css?v=6.2.9" />
   <script src="/js/main.js?v=1.9.0" defer></script>
 </head>
 <body>
@@ -246,16 +246,9 @@
             </div>
           </div>
 
-          <!-- Slider Pagination Dots & Arrows -->
+          <!-- Slider navigation -->
           <div class="testimonial-nav">
             <button class="nav-prev" aria-label="Review trước">‹</button>
-            <div class="slider-dots">
-              <span class="dot active"></span>
-              <span class="dot"></span>
-              <span class="dot"></span>
-              <span class="dot"></span>
-              <span class="dot"></span>
-            </div>
             <button class="nav-next" aria-label="Review tiếp">›</button>
           </div>
         </div>
@@ -286,7 +279,6 @@
       const slider = document.getElementById('testimonialSlider');
       if (!slider) return;
       const cards = slider.querySelectorAll('.testimonial-card');
-      const dots = document.querySelectorAll('.slider-dots .dot');
       const prevBtn = document.querySelector('.testimonial-nav .nav-prev');
       const nextBtn = document.querySelector('.testimonial-nav .nav-next');
 
@@ -298,21 +290,6 @@
         return cardWidth + gap;
       }
 
-      function updateDots() {
-        const step = getStepWidth();
-        if (!step) return;
-        const scrollPos = slider.scrollLeft;
-        const maxScroll = slider.scrollWidth - slider.clientWidth;
-        let activeIndex = Math.round(scrollPos / step);
-        if (scrollPos >= maxScroll - 10) {
-          activeIndex = cards.length - 1;
-        }
-        activeIndex = Math.max(0, Math.min(cards.length - 1, activeIndex));
-        dots.forEach((dot, idx) => {
-          dot.classList.toggle('active', idx === activeIndex);
-        });
-      }
-
       function scrollToCard(index) {
         if (index < 0) index = cards.length - 1;
         if (index >= cards.length) index = 0;
@@ -320,7 +297,6 @@
         const maxScroll = slider.scrollWidth - slider.clientWidth;
         const targetLeft = Math.min(index * step, maxScroll);
         slider.scrollTo({ left: targetLeft, behavior: 'smooth' });
-        updateDots();
       }
 
       prevBtn?.addEventListener('click', () => {
@@ -335,17 +311,6 @@
         scrollToCard(currentIdx + 1);
       });
 
-      dots.forEach((dot, idx) => {
-        dot.addEventListener('click', () => scrollToCard(idx));
-      });
-
-      let scrollTimeout;
-      slider.addEventListener('scroll', () => {
-        window.clearTimeout(scrollTimeout);
-        scrollTimeout = window.setTimeout(updateDots, 60);
-      }, { passive: true });
-
-      updateDots();
     })();
   </script>
 </body>
