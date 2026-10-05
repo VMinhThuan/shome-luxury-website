@@ -22,22 +22,6 @@
   <!-- Main Content -->
   <main id="main-content" class="project-detail-page" data-project-slug="<%= project.slug %>">
     <div class="container">
-      <!-- Breadcrumb -->
-      <nav class="breadcrumb-nav" aria-label="Breadcrumb">
-        <% if (typeof breadcrumbs !== 'undefined' && breadcrumbs && breadcrumbs.length) { %>
-          <% breadcrumbs.forEach(crumb => { %>
-            <a href="<%= crumb.href %>"><%= crumb.label %></a>
-            <span class="breadcrumb-separator">/</span>
-          <% }); %>
-        <% } else { %>
-          <a href="/">Trang chủ</a>
-          <span class="breadcrumb-separator">/</span>
-          <a href="/thiet-ke-cong-trinh">Công trình</a>
-          <span class="breadcrumb-separator">/</span>
-        <% } %>
-        <span class="breadcrumb-current"><%= project.title %></span>
-      </nav>
-
       <!-- Project Detail Header -->
       <header class="project-detail-header">
         <h1 class="project-detail-title" data-project-field="title"><%= project.title %></h1>
@@ -50,19 +34,6 @@
       <aside class="project-info-banner" aria-label="Thông tin dự án">
         <div class="container project-info-container">
           <div class="project-meta-grid">
-            <h2 class="project-meta-heading"><span aria-hidden="true"></span>Thông tin dự án</h2>
-            <% if (project.investor) { %>
-              <div class="meta-item">
-                <span class="meta-label">Chủ đầu tư</span>
-                <span class="meta-value" data-project-field="investor"><%= project.investor %></span>
-              </div>
-            <% } %>
-            <% if (project.location) { %>
-              <div class="meta-item">
-                <span class="meta-label">Địa điểm</span>
-                <span class="meta-value" data-project-field="location"><%= project.location %></span>
-              </div>
-            <% } %>
             <% if (project.area) { %>
               <div class="meta-item">
                 <span class="meta-label">Diện tích</span>
@@ -75,16 +46,16 @@
                 <span class="meta-value" data-project-field="propertyType"><%= project.propertyType %></span>
               </div>
             <% } %>
+            <% if (project.style) { %>
+              <div class="meta-item">
+                <span class="meta-label">Phong cách</span>
+                <span class="meta-value" data-project-field="style"><%= project.style %></span>
+              </div>
+            <% } %>
             <% if (Number.isFinite(Number(project.cost))) { %>
               <div class="meta-item">
                 <span class="meta-label">Chi phí</span>
                 <span class="meta-value" data-project-field="cost" data-project-cost><%= Math.round(Number(project.cost) / 1000000).toLocaleString('vi-VN') %> triệu</span>
-              </div>
-            <% } %>
-            <% if (project.style) { %>
-              <div class="meta-item">
-                <span class="meta-label">Phong cách thiết kế</span>
-                <span class="meta-value" data-project-field="style"><%= project.style %></span>
               </div>
             <% } %>
           </div>
