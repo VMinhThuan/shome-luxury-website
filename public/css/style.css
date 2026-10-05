@@ -1905,7 +1905,7 @@ ol {
 
 .renovation-showcase-list {
   display: grid;
-  gap: 1.5rem;
+  gap: 0.5rem;
   margin: 0 auto;
   max-width: 920px;
 }
@@ -1948,7 +1948,7 @@ ol {
   }
 
   .renovation-showcase-list {
-    gap: 2rem;
+    gap: 0.75rem;
   }
 
   .renovation-showcase-pair {
@@ -2277,6 +2277,111 @@ ol {
   .work-process-step-number {
     height: 50px;
     width: 50px;
+  }
+}
+
+/* Keep the new workshop content compact and readable on narrow phones. */
+@media (max-width: 479px) {
+  .factory-detail-section,
+  .factory-tour-section,
+  .material-inspiration-section,
+  .surface-finish-section,
+  .renovation-showcase-section,
+  .furniture-care-section,
+  .project-consultation-section,
+  .work-process-steps-section {
+    padding-block: var(--mobile-page-spacing, 16px);
+  }
+
+  .factory-detail-header,
+  .factory-tour-header,
+  .material-inspiration-header,
+  .surface-finish-header,
+  .renovation-showcase-header,
+  .furniture-care-header,
+  .project-consultation-header,
+  .work-process-steps-header {
+    margin-bottom: 1rem;
+  }
+
+  main .factory-detail-section .hero-script-eyebrow,
+  main .factory-tour-header .hero-script-eyebrow,
+  main .material-inspiration-header .hero-script-eyebrow,
+  main .surface-finish-header .hero-script-eyebrow,
+  main .renovation-showcase-header .hero-script-eyebrow,
+  main .furniture-care-header .hero-script-eyebrow,
+  main .project-consultation-header .hero-script-eyebrow,
+  main .work-process-steps-header .hero-script-eyebrow {
+    font-size: clamp(1.75rem, 9vw, 2.1rem) !important;
+    margin-bottom: 0.8rem;
+  }
+
+  .factory-tour-break,
+  .material-inspiration-break {
+    display: none;
+  }
+
+  .factory-tour-list,
+  .renovation-showcase-list {
+    gap: 1rem;
+  }
+
+  .renovation-showcase-list {
+    gap: 0.5rem;
+  }
+
+  .factory-tour-step {
+    gap: 0.5rem;
+    grid-template-columns: 42px 40px minmax(0, 1fr);
+    padding-top: 0.55rem;
+  }
+
+  .factory-tour-icon {
+    height: 42px;
+    width: 42px;
+  }
+
+  .factory-tour-icon svg {
+    height: 22px;
+    width: 22px;
+  }
+
+  .factory-tour-number {
+    height: 38px;
+    width: 38px;
+  }
+
+  .project-consultation-item {
+    gap: 0.55rem;
+    grid-template-columns: 46px minmax(0, 1fr) 18px;
+    padding-inline: 0.6rem;
+  }
+
+  .project-consultation-icon {
+    height: 44px;
+    width: 44px;
+  }
+
+  .project-consultation-arrow svg,
+  .work-process-step-arrow svg {
+    height: 20px;
+    width: 20px;
+  }
+
+  .work-process-steps-item {
+    gap: 0.5rem;
+    grid-template-columns: 42px 30px minmax(0, 1fr) 18px;
+    padding-inline: 0.6rem;
+  }
+
+  .work-process-step-number {
+    height: 40px;
+    width: 40px;
+  }
+
+  .work-process-step-icon svg {
+    height: 25px;
+    width: 25px;
   }
 }
 
