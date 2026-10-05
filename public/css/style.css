@@ -2321,6 +2321,10 @@ ol {
   .furniture-care-header,
   .project-consultation-header,
   .work-process-steps-header {
+    margin-bottom: 1rem;
+  }
+
+  .work-process-steps-header {
     margin-bottom: 1.5rem;
   }
 
