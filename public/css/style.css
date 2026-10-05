@@ -1977,13 +1977,15 @@ ol {
 
 .renovation-showcase-list {
   display: grid;
-  gap: 0.5rem;
+  gap: 1.25rem;
   margin: 0 auto;
   max-width: 920px;
+  grid-template-columns: 1fr;
 }
 
 .renovation-showcase-pair {
   display: grid;
+  grid-template-columns: repeat(2, 1fr);
   gap: 0.5rem;
 }
 
@@ -2020,12 +2022,11 @@ ol {
   }
 
   .renovation-showcase-list {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 1.25rem;
+    gap: 1.75rem;
   }
 
   .renovation-showcase-pair {
-    gap: 0.75rem;
+    gap: 1rem;
   }
 
   .renovation-showcase-media figcaption {
@@ -2185,26 +2186,26 @@ ol {
     box-shadow: 0 14px 35px rgba(0, 0, 0, 0.15);
   }
 
-  /* CARD 1: TRÁI - Phía trên */
+  /* CARD 1: TRÁI - Phía trên (Sát mép trái ảnh) */
   .furniture-care-list li:nth-child(1) {
-    top: 8%;
-    left: -15px;
+    top: 6%;
+    left: 0;
   }
 
-  /* CARD 2: PHẢI - Phía giữa */
+  /* CARD 2: PHẢI - Phía giữa (Sát mép phải ảnh) */
   .furniture-care-list li:nth-child(2) {
     top: 50%;
-    right: -15px;
+    right: 0;
     transform: translateY(-50%);
   }
   .furniture-care-list li:nth-child(2):hover {
     transform: translateY(calc(-50% - 3px));
   }
 
-  /* CARD 3: TRÁI - Phía dưới (Thẳng hàng với Card 1 trên cùng trục X) */
+  /* CARD 3: TRÁI - Phía dưới (Sát mép trái ảnh - Thẳng hàng với Card 1 trên cùng trục X) */
   .furniture-care-list li:nth-child(3) {
-    bottom: 8%;
-    left: -15px;
+    bottom: 6%;
+    left: 0;
   }
 }
 
