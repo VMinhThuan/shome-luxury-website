@@ -2179,6 +2179,107 @@ ol {
   }
 }
 
+/* Work Process Steps */
+.work-process-steps-section {
+  background-color: #FFFFFF;
+  padding: 1.25rem 0;
+}
+
+.work-process-steps-header {
+  margin-bottom: 1.25rem;
+}
+
+.work-process-steps-header .hero-script-eyebrow {
+  margin-bottom: 0;
+}
+
+.work-process-steps-list {
+  counter-reset: none;
+  display: grid;
+  gap: 0.5rem;
+  list-style: none;
+  margin: 0 auto;
+  max-width: 920px;
+  padding: 0;
+}
+
+.work-process-steps-item {
+  align-items: center;
+  background: #FFFFFF;
+  border: 1px solid rgba(43, 46, 49, 0.12);
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.025);
+  display: grid;
+  gap: 0.7rem;
+  grid-template-columns: 48px 34px minmax(0, 1fr) 22px;
+  min-height: 60px;
+  padding: 0.4rem 0.75rem;
+}
+
+.work-process-step-number {
+  align-items: center;
+  background: #FAF3E7;
+  border-radius: 50%;
+  color: #C89B4B;
+  display: flex;
+  font-size: 0.95rem;
+  font-weight: 700;
+  height: 44px;
+  justify-content: center;
+  width: 44px;
+}
+
+.work-process-step-icon,
+.work-process-step-arrow {
+  color: #C89B4B;
+  display: flex;
+}
+
+.work-process-step-icon svg {
+  fill: none;
+  height: 28px;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 1.5;
+  width: 28px;
+}
+
+.work-process-step-title {
+  color: #2B2E31;
+  font-family: var(--font-heading);
+  font-size: clamp(0.95rem, 2.5vw, 1.1rem);
+  font-weight: 700;
+  line-height: 1.3;
+}
+
+.work-process-step-arrow svg {
+  fill: none;
+  height: 22px;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 1.75;
+  width: 22px;
+}
+
+@media (min-width: 768px) {
+  .work-process-steps-list {
+    gap: 0.65rem;
+  }
+
+  .work-process-steps-item {
+    grid-template-columns: 56px 38px minmax(0, 1fr) 24px;
+    min-height: 70px;
+    padding-inline: 0.9rem;
+  }
+
+  .work-process-step-number {
+    height: 50px;
+    width: 50px;
+  }
+}
+
 .equipment-card-body {
   padding: 1.25rem 1.5rem 1.5rem;
   background-color: #FFFFFF;
