@@ -2072,6 +2072,113 @@ ol {
   }
 }
 
+/* Project Consultation */
+.project-consultation-section {
+  background-color: #FFFFFF;
+  padding: 1.25rem 0;
+}
+
+.project-consultation-header {
+  margin-bottom: 1.25rem;
+}
+
+.project-consultation-header .hero-script-eyebrow {
+  margin-bottom: 0;
+}
+
+.project-consultation-list {
+  display: grid;
+  gap: 0.5rem;
+  margin: 0 auto;
+  max-width: 920px;
+}
+
+.project-consultation-item {
+  align-items: center;
+  background: #FFFFFF;
+  border: 1px solid rgba(43, 46, 49, 0.12);
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.025);
+  display: grid;
+  gap: 0.75rem;
+  grid-template-columns: 52px minmax(0, 1fr) 22px;
+  min-height: 74px;
+  padding: 0.6rem 0.75rem;
+}
+
+.project-consultation-icon {
+  align-items: center;
+  background: #FAF3E7;
+  border-radius: 50%;
+  color: #C89B4B;
+  display: flex;
+  height: 48px;
+  justify-content: center;
+  width: 48px;
+}
+
+.project-consultation-icon svg {
+  fill: none;
+  height: 26px;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 1.6;
+  width: 26px;
+}
+
+.project-consultation-copy h3 {
+  color: #2B2E31;
+  font-family: var(--font-heading);
+  font-size: clamp(0.95rem, 2.5vw, 1.1rem);
+  font-weight: 700;
+  line-height: 1.3;
+  margin: 0 0 0.15rem;
+}
+
+.project-consultation-copy p {
+  color: #66615B;
+  font-size: 0.8125rem;
+  line-height: 1.45;
+  margin: 0;
+}
+
+.project-consultation-arrow {
+  color: #C89B4B;
+  display: flex;
+}
+
+.project-consultation-arrow svg {
+  fill: none;
+  height: 22px;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 1.75;
+  width: 22px;
+}
+
+@media (min-width: 768px) {
+  .project-consultation-list {
+    gap: 0.65rem;
+  }
+
+  .project-consultation-item {
+    grid-template-columns: 60px minmax(0, 1fr) 24px;
+    min-height: 82px;
+    padding-inline: 0.9rem;
+  }
+
+  .project-consultation-icon {
+    height: 56px;
+    width: 56px;
+  }
+
+  .project-consultation-copy p {
+    font-size: 0.9rem;
+  }
+}
+
 .equipment-card-body {
   padding: 1.25rem 1.5rem 1.5rem;
   background-color: #FFFFFF;

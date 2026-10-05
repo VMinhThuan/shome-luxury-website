@@ -1,0 +1,45 @@
+<section class="project-consultation-section" id="trao-doi-truoc-khi-bat-dau">
+  <div class="container">
+    <div class="project-consultation-header">
+      <div class="hero-script-eyebrow font-script">Trao đổi trước khi bắt đầu</div>
+    </div>
+
+    <% const consultationItems = [
+      {
+        icon: 'chat', title: 'Cần chuẩn bị thông tin gì?',
+        description: 'Mặt bằng, hình hiện trạng và nhu cầu sử dụng.'
+      },
+      {
+        icon: 'plan', title: 'Có thể thi công từng hạng mục?',
+        description: 'Trao đổi phạm vi để thống nhất phương án phù hợp.'
+      },
+      {
+        icon: 'calculator', title: 'Ngân sách được xác định ra sao?',
+        description: 'Dựa trên kích thước, vật liệu, phụ kiện và phạm vi thi công.'
+      }
+    ]; %>
+
+    <div class="project-consultation-list">
+      <% consultationItems.forEach(item => { %>
+        <article class="project-consultation-item">
+          <span class="project-consultation-icon" aria-hidden="true">
+            <% if (item.icon === 'chat') { %>
+              <svg viewBox="0 0 24 24"><path d="M20 11.5a7.5 7.5 0 0 1-11.8 6.2L4 19l1.3-3.6A7.5 7.5 0 1 1 20 11.5Z"/><path d="M8 11h.01M12 11h.01M16 11h.01"/></svg>
+            <% } else if (item.icon === 'plan') { %>
+              <svg viewBox="0 0 24 24"><path d="M4 3h16v18H4zM9 3v18M15 3v18M9 10h6"/></svg>
+            <% } else { %>
+              <svg viewBox="0 0 24 24"><rect x="5" y="2" width="14" height="20" rx="2"/><path d="M8 6h8M8 10h2m4 0h2M8 14h2m4 0h2M8 18h2m4 0h2"/></svg>
+            <% } %>
+          </span>
+          <div class="project-consultation-copy">
+            <h3><%= item.title %></h3>
+            <p><%= item.description %></p>
+          </div>
+          <span class="project-consultation-arrow" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><path d="m9 5 7 7-7 7"/></svg>
+          </span>
+        </article>
+      <% }); %>
+    </div>
+  </div>
+</section>
