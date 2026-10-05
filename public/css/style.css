@@ -368,9 +368,9 @@ ol {
     justify-content: space-between;
     gap: 0.85rem;
     padding: 0.65rem 1.25rem;
-    font-size: 1.1rem !important;
+    font-size: clamp(0.92rem, 1.05vw, 1.02rem) !important;
     color: #FFFFFF !important;
-    font-weight: 600;
+    font-weight: 500;
     font-family: var(--font-menu);
     white-space: nowrap;
   }
@@ -4719,7 +4719,7 @@ ol {
   .recruitment-hero-title .script-title {
     font-size: clamp(58px, 5vw, 84px);
     line-height: 0.98;
-    margin-bottom: clamp(30px, 2.8vw, 40px);
+    margin-bottom: clamp(40px, 3.5vw, 52px);
   }
 
   .recruitment-hero-title .serif-sub {
@@ -6216,9 +6216,21 @@ ol {
 }
 
 .news-hero h1 em {
+  display: block;
   color: var(--accent-gold);
   font-style: normal;
   font-weight: 700;
+}
+
+.news-hero-script {
+  display: block;
+  margin-bottom: clamp(.3rem, 1vw, .55rem);
+  color: #FFFFFF;
+  font-family: var(--font-script) !important;
+  font-size: clamp(3rem, 6vw, 5.2rem);
+  font-weight: 400;
+  line-height: .85;
+  letter-spacing: 0;
 }
 
 .news-hero p {
@@ -7008,7 +7020,7 @@ ol {
 
 .booking-process-list article {
   display: grid;
-  grid-template-columns: 38px 38px;
+  grid-template-columns: 38px;
   justify-content: space-between;
   align-content: start;
   gap: 0.65rem;
@@ -7025,7 +7037,7 @@ ol {
 
 @media (min-width: 1024px) {
   .booking-process-list article {
-    grid-template-columns: 42px 44px;
+    grid-template-columns: 42px;
     align-content: space-between;
     gap: 0.85rem;
     padding: 1.25rem 1.15rem;
@@ -8365,13 +8377,6 @@ html {
   display: grid;
   grid-template-columns: 1fr;
   gap: 1.5rem;
-}
-
-@media (min-width: 992px) {
-  .job-detail-grid {
-    grid-template-columns: minmax(0, 1fr) 340px;
-    gap: 2rem;
-  }
 }
 
 /* Main Content Box */

@@ -7,7 +7,7 @@
   <meta name="description" content="Chi tiết bài tuyển dụng <%= job.title %> tại SHOME LUXURY - Môi trường làm việc chuyên nghiệp, đãi ngộ hấp dẫn." />
   <meta name="theme-color" content="#171717" />
 
-  <link rel="stylesheet" href="/css/style.css?v=6.1.7" />
+  <link rel="stylesheet" href="/css/style.css?v=6.2.4" />
   <script src="/js/main.js?v=1.9.0" defer></script>
 </head>
 <body class="page-recruitment-detail">
@@ -17,15 +17,6 @@
 
   <main id="main-content" class="recruitment-detail-main">
     <div class="container">
-      <!-- Breadcrumbs & Back Button -->
-      <nav class="recruitment-breadcrumb" aria-label="Breadcrumb">
-        <a href="/">Trang chủ</a>
-        <span class="sep">/</span>
-        <a href="/tuyen-dung">Tuyển dụng</a>
-        <span class="sep">/</span>
-        <span class="current"><%= job.title %></span>
-      </nav>
-
       <div class="recruitment-back-bar">
         <a href="/tuyen-dung" class="btn-back-link">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
@@ -178,51 +169,6 @@
           </div>
         </article>
 
-        <!-- Right Sidebar Area -->
-        <aside class="job-detail-sidebar">
-          <!-- Sticky Apply Card -->
-          <div class="sidebar-apply-card">
-            <h3>Thông tin ứng tuyển</h3>
-            <p class="salary-highlight">Mức lương: <span><%= job.salary %></span></p>
-            
-            <a href="mailto:shomeluxurydesign@gmail.com?subject=Ứng tuyển <%= encodeURIComponent(job.title) %>" class="btn-apply-now">
-              Gửi CV Ứng tuyển
-            </a>
-
-            <div class="sidebar-contact-info">
-              <div class="info-row">
-                <span>Hotline/Zalo:</span>
-                <a href="tel:0799997700"><strong>079999 7700</strong></a>
-              </div>
-              <div class="info-row">
-                <span>Địa điểm làm việc:</span>
-                <strong><%= job.location || 'Hà Nội' %></strong>
-              </div>
-              <div class="info-row">
-                <span>Văn phòng chính:</span>
-                <strong>Tầng 15 – Thăng Long Capital, Hà Nội</strong>
-              </div>
-            </div>
-          </div>
-
-          <!-- Other Active Jobs Sidebar -->
-          <% if (otherJobs && otherJobs.length > 0) { %>
-            <div class="sidebar-other-jobs">
-              <h3>Vị trí tuyển dụng khác</h3>
-              <div class="other-jobs-list">
-                <% otherJobs.forEach(function(oJob) { %>
-                  <a href="/tuyen-dung/<%= oJob.id %>" class="other-job-card">
-                    <img src="<%= oJob.thumbnail %>" alt="<%= oJob.title %>" />
-                    <div class="other-job-info">
-                      <h4><%= oJob.title %></h4>
-                      <span class="other-job-salary"><%= oJob.salary %></span>
-                    </div>
-                  </a>
-                <% }); %>
-              </div>
-            </div>
-          <% } %>
-        </aside>
       </div>
     </div>
   </main>
