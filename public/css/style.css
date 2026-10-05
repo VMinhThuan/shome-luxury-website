@@ -1776,13 +1776,13 @@ ol {
 
 /* Keep this short script heading on one line through phone and tablet widths. */
 @media (max-width: 1023px) {
-  main .factory-tour-header .hero-script-eyebrow {
-    font-size: clamp(1.75rem, 5vw, 2.1rem) !important;
+  main .factory-tour-section .factory-tour-header .hero-script-eyebrow {
+    font-size: clamp(1.25rem, 4vw, 1.75rem) !important;
     white-space: nowrap;
   }
 
   main .project-consultation-section .project-consultation-header .hero-script-eyebrow {
-    font-size: clamp(1.5rem, 4.5vw, 2.1rem) !important;
+    font-size: clamp(1.25rem, 4vw, 1.75rem) !important;
     white-space: nowrap;
   }
 }
