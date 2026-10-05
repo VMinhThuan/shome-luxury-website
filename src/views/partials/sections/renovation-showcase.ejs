@@ -1,0 +1,45 @@
+<section class="renovation-showcase-section" id="tu-hien-trang-den-hoan-thien">
+  <div class="container">
+    <div class="renovation-showcase-header">
+      <div class="hero-script-eyebrow font-script">Từ hiện trạng</div>
+      <h2 class="renovation-showcase-title">Đến không gian <span>hoàn thiện</span></h2>
+      <p>Cùng một góc nhìn để thấy rõ sự thay đổi.</p>
+    </div>
+
+    <% const renovationPairs = [
+      {
+        before: '/images/img-xuong-san-xuat/renovation-living-before.png',
+        after: '/images/img-xuong-san-xuat/renovation-living-after.png',
+        beforeAlt: 'Hiện trạng phòng khách trước thi công',
+        afterAlt: 'Phòng khách hoàn thiện sau thi công'
+      },
+      {
+        before: '/images/img-xuong-san-xuat/renovation-office-before.png',
+        after: '/images/img-xuong-san-xuat/renovation-office-after.png',
+        beforeAlt: 'Hiện trạng không gian làm việc trước thi công',
+        afterAlt: 'Không gian làm việc hoàn thiện sau thi công'
+      },
+      {
+        before: '/images/img-xuong-san-xuat/renovation-bathroom-before.png',
+        after: '/images/img-xuong-san-xuat/renovation-bathroom-after.png',
+        beforeAlt: 'Hiện trạng phòng tắm trước thi công',
+        afterAlt: 'Phòng tắm hoàn thiện sau thi công'
+      }
+    ]; %>
+
+    <div class="renovation-showcase-list">
+      <% renovationPairs.forEach(pair => { %>
+        <article class="renovation-showcase-pair">
+          <figure class="renovation-showcase-media">
+            <img src="<%= pair.before %>" alt="<%= pair.beforeAlt %>" loading="lazy" decoding="async" width="1672" height="941" />
+            <figcaption>Trước thi công</figcaption>
+          </figure>
+          <figure class="renovation-showcase-media">
+            <img src="<%= pair.after %>" alt="<%= pair.afterAlt %>" loading="lazy" decoding="async" width="1672" height="941" />
+            <figcaption>Sau thi công</figcaption>
+          </figure>
+        </article>
+      <% }); %>
+    </div>
+  </div>
+</section>
