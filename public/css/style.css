@@ -1587,6 +1587,49 @@ ol {
   transform: scale(1.04);
 }
 
+/* Factory Detail */
+.factory-detail-section {
+  background-color: #FFFFFF;
+  padding: 1.25rem 0;
+}
+
+.factory-detail-header {
+  margin-bottom: 0.75rem;
+}
+
+.factory-detail-script {
+  color: #C89B4B;
+  font-size: clamp(2.1rem, 5vw, 2.85rem);
+  line-height: 1.1;
+  margin-bottom: 0.2rem;
+}
+
+.factory-detail-title {
+  color: #2B2E31;
+  font-family: var(--font-heading);
+  font-size: clamp(1.35rem, 3.8vw, 1.85rem);
+  font-weight: 700;
+  line-height: 1.25;
+  margin: 0;
+}
+
+.factory-detail-title span {
+  color: #C89B4B;
+}
+
+.factory-detail-media {
+  aspect-ratio: 16 / 9;
+  background: #FFFFFF;
+  overflow: hidden;
+}
+
+.factory-detail-media img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
 .equipment-card-body {
   padding: 1.25rem 1.5rem 1.5rem;
   background-color: #FFFFFF;
