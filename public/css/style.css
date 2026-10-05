@@ -1776,13 +1776,20 @@ ol {
 
 /* Keep this short script heading on one line through phone and tablet widths. */
 @media (max-width: 1023px) {
-  main .factory-tour-section .factory-tour-header .hero-script-eyebrow {
-    font-size: clamp(1.25rem, 4vw, 1.75rem) !important;
-    white-space: nowrap;
+  main .factory-detail-section .hero-script-eyebrow,
+  main .factory-tour-section .hero-script-eyebrow,
+  main .material-inspiration-section .hero-script-eyebrow,
+  main .surface-finish-section .hero-script-eyebrow,
+  main .renovation-showcase-section .hero-script-eyebrow,
+  main .furniture-care-section .hero-script-eyebrow,
+  main .project-consultation-section .hero-script-eyebrow,
+  main .work-process-steps-section .hero-script-eyebrow {
+    font-size: clamp(1.5rem, 5vw, 2.1rem) !important;
   }
 
+  main .factory-tour-section .factory-tour-header .hero-script-eyebrow,
   main .project-consultation-section .project-consultation-header .hero-script-eyebrow {
-    font-size: clamp(1.25rem, 4vw, 1.75rem) !important;
+    letter-spacing: -0.045em;
     white-space: nowrap;
   }
 }
