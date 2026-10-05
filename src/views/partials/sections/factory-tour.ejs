@@ -1,0 +1,60 @@
+<section class="factory-tour-section" id="mot-vong-quanh-xuong">
+  <div class="container">
+    <div class="factory-tour-header">
+      <div class="hero-script-eyebrow font-script">Một vòng quanh xưởng</div>
+      <h2 class="factory-tour-title">Mỗi khu vực, <span>một nhiệm vụ</span></h2>
+      <p>Sắp xếp theo công đoạn giúp theo dõi sản phẩm<br class="factory-tour-break"> từ vật liệu đầu vào đến khi xuất xưởng.</p>
+    </div>
+
+    <% const tourSteps = [
+      {
+        number: '01', icon: 'layers', title: 'Tiếp nhận & lưu trữ vật liệu',
+        description: 'Phân loại vật liệu, kiểm tra bề mặt và bố trí vị trí lưu trữ.',
+        image: '/images/img-xuong-san-xuat/factory-tour-storage.png', alt: 'Khu vực tiếp nhận và lưu trữ vật liệu tại xưởng'
+      },
+      {
+        number: '02', icon: 'machine', title: 'Gia công chi tiết',
+        description: 'Gia công theo bản vẽ và nhận diện từng chi tiết.',
+        image: '/images/img-xuong-san-xuat/factory-tour-cnc.png', alt: 'Máy CNC gia công chi tiết nội thất'
+      },
+      {
+        number: '03', icon: 'tools', title: 'Lắp thử & đối chiếu',
+        description: 'Kiểm tra kích thước, liên kết và sự đồng bộ của sản phẩm.',
+        image: '/images/img-xuong-san-xuat/factory-tour-assembly.png', alt: 'Đội ngũ lắp thử sản phẩm tại xưởng'
+      },
+      {
+        number: '04', icon: 'check', title: 'Kiểm tra trước xuất xưởng',
+        description: 'Đối chiếu số lượng, bề mặt và phụ kiện theo từng hạng mục.',
+        image: '/images/img-xuong-san-xuat/factory-tour-quality-check.png', alt: 'Kiểm tra chất lượng sản phẩm trước khi xuất xưởng'
+      }
+    ]; %>
+
+    <div class="factory-tour-list">
+      <% tourSteps.forEach(step => { %>
+        <article class="factory-tour-item">
+          <div class="factory-tour-media">
+            <img src="<%= step.image %>" alt="<%= step.alt %>" loading="lazy" decoding="async" width="1200" height="675" />
+          </div>
+          <div class="factory-tour-step">
+            <span class="factory-tour-icon" aria-hidden="true">
+              <% if (step.icon === 'layers') { %>
+                <svg viewBox="0 0 24 24"><path d="m12 3 9 5-9 5-9-5 9-5Z"/><path d="m3 12 9 5 9-5M3 16l9 5 9-5"/></svg>
+              <% } else if (step.icon === 'machine') { %>
+                <svg viewBox="0 0 24 24"><path d="M4 20h16M7 20v-8m10 8v-8M4 12h16M12 4v8m-3-8h6M9 4 7 2m8 2 2-2"/><path d="M5 12 3 9m16 3 2-3"/></svg>
+              <% } else if (step.icon === 'tools') { %>
+                <svg viewBox="0 0 24 24"><path d="m14.7 6.3 3-3 2 2-3 3M13.3 7.7 4 17v3h3l9.3-9.3M5 5l5 5M4 8l4-4 3 3-4 4"/></svg>
+              <% } else { %>
+                <svg viewBox="0 0 24 24"><rect x="5" y="3" width="14" height="18" rx="2"/><path d="M9 3.5h6v3H9zM8 12l2 2 5-5M8 17h6"/></svg>
+              <% } %>
+            </span>
+            <span class="factory-tour-number"><%= step.number %></span>
+            <div>
+              <h3><%= step.title %></h3>
+              <p><%= step.description %></p>
+            </div>
+          </div>
+        </article>
+      <% }); %>
+    </div>
+  </div>
+</section>
