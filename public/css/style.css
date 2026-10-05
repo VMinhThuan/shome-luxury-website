@@ -1598,10 +1598,8 @@ ol {
 }
 
 .factory-detail-script {
-  color: #C89B4B;
-  font-size: clamp(2.1rem, 5vw, 2.85rem);
-  line-height: 1.1;
-  margin-bottom: 0.2rem;
+  /* Inherit the shared handwritten heading treatment used by the sections above. */
+  margin-bottom: 1.15rem;
 }
 
 .factory-detail-title {
