@@ -296,7 +296,7 @@
         const step = getStepWidth();
         const maxScroll = slider.scrollWidth - slider.clientWidth;
         const targetLeft = Math.min(index * step, maxScroll);
-        slider.scrollTo({ left: targetLeft, behavior: 'smooth' });
+        slider.scrollTo({ left: targetLeft, behavior: 'auto' });
       }
 
       prevBtn?.addEventListener('click', () => {
