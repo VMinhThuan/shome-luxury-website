@@ -579,8 +579,23 @@ ol {
   box-shadow: 10px 0 40px rgba(0, 0, 0, 0.55);
 }
 
+.drawer-brand {
+  display: flex;
+  align-items: center;
+  height: 68px;
+  padding: 10px 14px 4px;
+  background-color: var(--bg-dark-surface);
+}
+
+.drawer-brand img {
+  width: 150px;
+  height: auto;
+  max-height: 48px;
+  object-fit: contain;
+}
+
 .drawer-search-container {
-  padding: 12px 14px;
+  padding: 8px 14px 12px;
   background-color: var(--bg-dark-surface);
   border-bottom: 1px solid var(--border-dark);
 }
@@ -694,9 +709,17 @@ ol {
   display: flex;
   align-items: center;
   justify-content: center;
-  color: var(--text-on-dark);
+  /* Keep the toggle surface clear; opening the submenu changes only the icon. */
+  color: #171717;
+  background-color: transparent;
   border-left: 1px solid var(--border-dark);
   transition: background-color var(--transition-fast), color var(--transition-fast), transform var(--transition-fast);
+}
+
+.accordion-toggle:hover,
+.accordion-toggle:active,
+.accordion-toggle:focus {
+  background-color: transparent;
 }
 
 .accordion-toggle svg {
@@ -2263,6 +2286,12 @@ ol {
   stroke-linejoin: round;
   stroke-width: 1.5;
   width: 28px;
+}
+
+/* The production gear has a wider native drawing box than the other step icons. */
+.work-process-steps-item:nth-child(4) .work-process-step-icon svg {
+  transform: scaleX(0.82);
+  transform-origin: center;
 }
 
 .work-process-step-title {
@@ -6901,9 +6930,10 @@ ol {
 .booking-process-section {
   position: relative;
   overflow: hidden;
-  color: #fff;
+  color: #30241b;
   padding: 1.5rem 0 1rem;
-  background: linear-gradient(180deg, rgba(20, 17, 14, .95) 0%, rgba(28, 24, 20, .9) 100%), url('/images/booking-process-interior.png') center / cover;
+  /* Match the warm beige surface used by the FAQ section. */
+  background: linear-gradient(180deg, rgba(250, 246, 237, .92) 0%, rgba(247, 242, 233, .97) 100%), url('/images/booking-faq-interior.png') center / cover !important;
 }
 
 @media (min-width: 1024px) {
@@ -6922,8 +6952,8 @@ ol {
   align-items: center;
   justify-content: center;
   gap: .6rem;
-  color: #f8f3e9;
-  font: 700 .78rem/1 var(--font-menu);
+  color: #7a5426;
+  font: 700 clamp(.95rem, 3vw, 1.1rem)/1 var(--font-menu);
   letter-spacing: .14em;
   text-transform: uppercase;
   margin-bottom: .25rem;
@@ -6945,7 +6975,7 @@ ol {
 
 .booking-process-heading p {
   margin-top: .25rem;
-  color: rgba(255, 250, 241, .88);
+  color: #5c5044;
   font: 500 clamp(0.82rem, 1.4vw, 0.92rem)/1.45 var(--font-sans);
 }
 
