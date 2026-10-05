@@ -1774,6 +1774,60 @@ ol {
   }
 }
 
+/* Material Inspiration */
+.material-inspiration-section {
+  background-color: #FFFFFF;
+  padding: 1.25rem 0;
+}
+
+.material-inspiration-header {
+  margin-bottom: 1.25rem;
+}
+
+.material-inspiration-header .hero-script-eyebrow {
+  margin-bottom: 1.15rem;
+}
+
+.material-inspiration-title {
+  color: #2B2E31;
+  font-family: var(--font-heading);
+  font-size: clamp(1.35rem, 3.8vw, 1.85rem);
+  font-weight: 700;
+  line-height: 1.25;
+  margin: 0 0 0.35rem;
+}
+
+.material-inspiration-title span {
+  color: #C89B4B;
+}
+
+.material-inspiration-header > p {
+  color: #66615B;
+  font-size: 0.875rem;
+  line-height: 1.55;
+  margin: 0;
+}
+
+.material-inspiration-media {
+  aspect-ratio: 16 / 9;
+  margin: 0 auto;
+  max-width: 920px;
+  overflow: hidden;
+}
+
+.material-inspiration-media img {
+  display: block;
+  height: 100%;
+  object-fit: contain;
+  width: 100%;
+}
+
+@media (min-width: 768px) {
+  .material-inspiration-header > p {
+    font-size: 1rem;
+  }
+}
+
 .equipment-card-body {
   padding: 1.25rem 1.5rem 1.5rem;
   background-color: #FFFFFF;
