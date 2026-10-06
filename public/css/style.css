@@ -1584,6 +1584,14 @@ ol {
   margin-top: 1.25rem;
 }
 
+/* Phones show one equipment card at a time for a comfortable reading width. */
+@media (max-width: 767px) {
+  .capacity-cards-grid {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 1rem;
+  }
+}
+
 @media (min-width: 768px) {
   .capacity-cards-grid {
     display: grid;
@@ -1987,6 +1995,18 @@ ol {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 0.5rem;
+}
+
+/* Preserve the before/after order but stack each pair on phones. */
+@media (max-width: 767px) {
+  .renovation-showcase-pair {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0.75rem;
+  }
+
+  .renovation-showcase-list {
+    gap: 1.25rem;
+  }
 }
 
 .renovation-showcase-media {
@@ -5044,7 +5064,7 @@ ol {
 
 @media (min-width: 768px) {
   .recruitment-features-bar {
-    margin-top: clamp(-9rem, -8vw, -5rem);
+    margin-top: clamp(-10rem, -14vw, -7rem);
     padding: 0 clamp(2rem, 4vw, 5rem);
   }
 }
