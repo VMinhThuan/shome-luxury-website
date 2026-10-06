@@ -64,8 +64,10 @@ class QuotePageController {
       const sections = quotePage.sections || quotePageDefaults;
       const quoteCategories = await this.hydrateCategories(sections);
       const selectedCategory = req.query.category ? await categoryService.getCategoryByIdOrSlug(req.query.category) : null;
-      const quoteTitle = selectedCategory ? `Báo giá ${selectedCategory.name}` : sections.hero.title;
-      const quoteScript = selectedCategory ? 'trọn gói, minh bạch' : sections.hero.script;
+      const selectedName = selectedCategory?.name?.replace(/^Thiết kế\s+/i, '') || '';
+      const isInterior = /^nội thất\b/i.test(selectedName);
+      const quoteTitle = selectedCategory ? `${selectedName.replace(/^(nội thất|kiến trúc)\s+/i, '')} trọn gói` : sections.hero.title;
+      const quoteScript = selectedCategory ? (isInterior ? 'Nội thất' : 'Kiến trúc') : sections.hero.script;
       return res.render('bao-gia', {
         title: 'Báo giá thiết kế & thi công | SHOME LUXURY',
         navigation,
