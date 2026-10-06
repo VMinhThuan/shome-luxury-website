@@ -4969,7 +4969,7 @@ ol {
   font-weight: 700;
   color: #FFFFFF;
   line-height: 1.08;
-  margin: 0 0 0.08em;
+  margin: 0 0 0.16em;
   text-shadow: 0 2px 10px rgba(0, 0, 0, 0.7);
 }
 
@@ -4978,7 +4978,7 @@ ol {
   font-size: clamp(1.75rem, 7vw, 7.75rem);
   color: #C89B4B;
   line-height: 1.08;
-  margin: 0 0 0.14em;
+  margin: 0.04em 0 0.24em;
   white-space: nowrap;
   text-shadow: 0 2px 10px rgba(0, 0, 0, 0.6);
 }
@@ -5016,6 +5016,18 @@ ol {
   display: block !important;
   color: inherit !important;
   white-space: nowrap;
+}
+
+/* Mask the short gold stroke that is baked into the hero artwork above this copy. */
+.recruitment-hero-top-right::before {
+  content: "";
+  position: absolute;
+  width: clamp(2rem, 4.5vw, 4.75rem);
+  height: 4px;
+  top: -0.72rem;
+  right: 0;
+  background: #241c14;
+  box-shadow: 0 0 5px 3px #241c14;
 }
 
 /* Bottom Right Cursive Text */
@@ -5196,6 +5208,11 @@ ol {
     right: 5%;
     font-size: clamp(0.38rem, 1.35vw, 0.58rem) !important;
     line-height: 1.45;
+  }
+
+  .recruitment-hero-top-right::before {
+    top: -0.6rem;
+    height: 3px;
   }
 
   .feature-icon-badge {
