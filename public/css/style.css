@@ -5018,18 +5018,6 @@ ol {
   white-space: nowrap;
 }
 
-/* Mask the short gold stroke that is baked into the hero artwork above this copy. */
-.recruitment-hero-top-right::before {
-  content: "";
-  position: absolute;
-  width: clamp(2rem, 4.5vw, 4.75rem);
-  height: 4px;
-  top: -0.72rem;
-  right: 0;
-  background: #241c14;
-  box-shadow: 0 0 5px 3px #241c14;
-}
-
 /* Bottom Right Cursive Text */
 .recruitment-hero-bottom-right {
   position: absolute;
@@ -5104,6 +5092,28 @@ ol {
 }
 
 @media (min-width: 900px) {
+  .recruitment-banner-overlay {
+    padding: 6% clamp(3rem, 7vw, 8rem);
+  }
+
+  .recruitment-banner-text {
+    width: 48%;
+    max-width: 720px;
+  }
+
+  .recruitment-hero-title-main,
+  .recruitment-hero-title-sub {
+    font-size: clamp(3.25rem, 4.4vw, 5.25rem);
+  }
+
+  .recruitment-hero-script {
+    font-size: clamp(3rem, 4.6vw, 5.7rem);
+  }
+
+  .recruitment-hero-bottom-right {
+    font-size: clamp(2rem, 2.4vw, 3.2rem);
+  }
+
   .features-card-inner {
     grid-template-columns: repeat(4, 1fr);
     gap: 0;
@@ -5208,11 +5218,6 @@ ol {
     right: 5%;
     font-size: clamp(0.38rem, 1.35vw, 0.58rem) !important;
     line-height: 1.45;
-  }
-
-  .recruitment-hero-top-right::before {
-    top: -0.6rem;
-    height: 3px;
   }
 
   .feature-icon-badge {
