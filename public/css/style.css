@@ -2415,7 +2415,7 @@ ol {
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.025);
   display: grid;
   gap: 0.7rem;
-  grid-template-columns: 48px 34px minmax(0, 1fr) 22px;
+  grid-template-columns: 48px minmax(0, 1fr);
   min-height: 60px;
   padding: 0.4rem 0.75rem;
 }
@@ -2475,12 +2475,13 @@ ol {
 
 @media (min-width: 768px) {
   .work-process-steps-list {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 1rem 1.25rem;
+    max-width: none;
   }
 
   .work-process-steps-item {
-    grid-template-columns: 56px 38px minmax(0, 1fr) 24px;
+    grid-template-columns: 56px minmax(0, 1fr);
     min-height: 70px;
     padding-inline: 0.9rem;
   }
@@ -2584,7 +2585,7 @@ ol {
 
   .work-process-steps-item {
     gap: 0.5rem;
-    grid-template-columns: 42px 30px minmax(0, 1fr) 18px;
+    grid-template-columns: 42px minmax(0, 1fr);
     padding-inline: 0.6rem;
   }
 
