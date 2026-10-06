@@ -9729,3 +9729,60 @@ main .section-v2-title,
   .quote-hero-traits i { height: 12px; }
   .quote-hero-corner-script { right: .7rem; bottom: 1.1rem; max-width: 125px; font-size: 1.38rem; line-height: .72; }
 }
+
+/* Mobile keeps the reference's single horizontal brochure instead of stacking photo above copy. */
+@media (max-width: 767px) {
+  .quote-page .quote-hero {
+    padding: var(--header-height-mobile) 0 0;
+    background: #fffbf6;
+  }
+
+  .quote-page .quote-hero-inner {
+    min-height: 430px;
+    background-color: #fffbf6;
+    background-position: center;
+    background-size: cover;
+  }
+
+  .quote-page .quote-brochure-copy {
+    top: 0;
+    bottom: 0;
+    width: 52%;
+    min-height: 0;
+    padding: 3.35rem 1rem 4.1rem;
+    background: linear-gradient(90deg, rgba(255,252,247,.99) 0%, rgba(255,252,247,.94) 75%, rgba(255,252,247,.15) 100%);
+  }
+
+  .quote-page .quote-brochure-copy h1 {
+    max-width: none;
+    margin-bottom: .45rem;
+    font-size: clamp(1.65rem, 7.7vw, 2.2rem);
+    line-height: .9;
+  }
+
+  .quote-page .quote-brochure-copy h1 em { font-size: .85em; }
+
+  .quote-page .quote-brochure-copy .quote-lead {
+    max-width: 175px;
+    font-size: clamp(.67rem, 3.25vw, .84rem);
+    line-height: 1.34;
+  }
+
+  .quote-hero-traits {
+    bottom: .8rem;
+    left: 1rem;
+    gap: .34rem;
+    font-size: .47rem;
+    letter-spacing: .07em;
+  }
+
+  .quote-hero-traits i { height: 10px; }
+
+  .quote-hero-corner-script {
+    right: .55rem;
+    bottom: .85rem;
+    max-width: 94px;
+    font-size: 1rem;
+    line-height: .7;
+  }
+}
