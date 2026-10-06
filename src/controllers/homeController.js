@@ -1,4 +1,5 @@
 const navigationData = require("../data/navigationData");
+const newsData = require("../data/newsData");
 
 exports.getHomePage = (req, res) => {
   const pageData = {
@@ -108,29 +109,14 @@ exports.getHomePage = (req, res) => {
       { step: "05", title: "Sản xuất", desc: "Gia công trực tiếp tại xưởng quy chuẩn ISO" },
       { step: "06", title: "Thi công & bàn giao", desc: "Lắp đặt hoàn thiện và nghiệm thu bảo hành" }
     ],
-    news: [
-      {
-        title: "Xu hướng thiết kế nội thất gỗ công nghiệp cao cấp 2026",
-        date: "24 Tháng 09, 2026",
-        category: "Xu hướng",
-        image: "/images/service_interior.jpg",
-        excerpt: "Khám phá sự kết hợp giữa nét tối giản hiện đại và vật liệu gỗ phủ veneer tinh tế trong kiến trúc đương đại."
-      },
-      {
-        title: "Bí quyết tối ưu ánh sáng tự nhiên cho biệt thự hiện đại",
-        date: "18 Tháng 09, 2026",
-        category: "Giải pháp",
-        image: "/images/project_villa.jpg",
-        excerpt: "Cách sắp đặt hệ cửa kính lớn và giếng trời để tạo luồng khí đối lưu mượt mà cho không gian sống."
-      },
-      {
-        title: "Quy trình quản lý chất lượng thi công tại xưởng sản xuất",
-        date: "10 Tháng 09, 2026",
-        category: "Kỹ thuật",
-        image: "/images/sanxuat/1790821090608_6043215661779559246_6043215661779559246_c5b7a93c081c9ae283738868f4486898.jpg",
-        excerpt: "Tiêu chuẩn kiểm định khắt khe từng mối ghép CNC và sơn phủ melamine trước khi xuất xưởng."
-      }
-    ]
+    news: newsData.slice(0, 3).map(item => ({
+      id: item.id,
+      title: item.title,
+      date: item.date,
+      category: item.category,
+      image: item.thumbnail,
+      excerpt: item.summary
+    }))
   };
 
   res.render("index", pageData);
@@ -145,50 +131,14 @@ exports.getBookingPage = (req, res) => {
 };
 
 exports.getNewsPage = (req, res) => {
-  const articles = [
-    {
-      category: "Xu hướng",
-      title: "Thiết kế phòng khách sang trọng với gam màu trung tính",
-      excerpt: "Gam màu trung tính mang đến sự tinh tế, hiện đại và bền vững theo thời gian cho không gian sống.",
-      date: "10/11/2026",
-      image: "/images/service_interior.jpg"
-    },
-    {
-      category: "Kinh nghiệm",
-      title: "Cân bằng công năng cho không gian sống thông minh",
-      excerpt: "Giải pháp thiết kế linh hoạt giúp tối ưu diện tích, mang đến trải nghiệm sống tiện nghi và thoải mái.",
-      date: "08/11/2026",
-      image: "/images/project_apartment.jpg"
-    },
-    {
-      category: "Xu hướng",
-      title: "Những chất liệu tạo điểm nhấn cho không gian đẳng cấp",
-      excerpt: "Khám phá các vật liệu nội thất cao cấp giúp tăng thêm thẩm mỹ và tạo dấu ấn riêng cho ngôi nhà của bạn.",
-      date: "05/11/2026",
-      image: "/images/hero_sofa_sharp.jpg"
-    },
-    {
-      category: "Kinh nghiệm",
-      title: "Kinh nghiệm thi công nội thất trọn gói từ A đến Z",
-      excerpt: "Những lưu ý quan trọng giúp bạn chủ động chi phí và tiến độ khi triển khai không gian mới.",
-      date: "01/11/2026",
-      image: "/images/hero_interior.jpg"
-    },
-    {
-      category: "Xu hướng",
-      title: "Những chất liệu tạo điểm nhấn cho không gian đẳng cấp",
-      excerpt: "Tổng hợp vật liệu được yêu thích cho phong cách sống đương đại, sang trọng và bền đẹp.",
-      date: "28/10/2026",
-      image: "/images/hero_sofa_light.jpg"
-    },
-    {
-      category: "Kinh nghiệm",
-      title: "Kinh nghiệm thi công nội thất trọn gói từ A đến Z",
-      excerpt: "Bí quyết lựa chọn đơn vị thiết kế thi công uy tín và kiểm soát chất lượng hiệu quả.",
-      date: "25/10/2026",
-      image: "/images/project_villa.jpg"
-    }
-  ];
+  const articles = newsData.map(item => ({
+    id: item.id,
+    category: item.category,
+    title: item.title,
+    excerpt: item.summary,
+    date: item.date,
+    image: item.thumbnail
+  }));
 
   res.render("tin-tuc", {
     title: "Tin tức nội thất & kiến trúc | SHOME LUXURY",
@@ -196,3 +146,18 @@ exports.getNewsPage = (req, res) => {
     articles
   });
 };
+
+exports.getNewsDetailPage = (req, res) => {
+  const articleId = req.params.id;
+  const article = newsData.find(a => a.id === articleId) || newsData[0];
+  const otherArticles = newsData.filter(a => a.id !== article.id).slice(0, 4);
+
+  res.render("tin-tuc-detail", {
+    title: `${article.title} | SHOME LUXURY`,
+    headerSlogan: "Nâng tầm cuộc sống",
+    navigation: navigationData,
+    article,
+    otherArticles
+  });
+};
+

@@ -27,15 +27,19 @@
 
     <section class="news-content-section">
       <div class="container">
-        <article class="news-featured">
-          <img src="/images/hero_interior.jpg" alt="Xu hướng nội thất cao cấp 2026" width="900" height="480" />
-          <div class="news-featured-copy">
-            <span class="news-label">BÀI VIẾT NỔI BẬT</span>
-            <h2>5 xu hướng nội thất<br>cao cấp năm 2026</h2>
-            <p>Khám phá những xu hướng nội thất nổi bật sẽ định hình không gian sống sang trọng trong năm 2026.</p>
-            <div class="news-featured-meta"><span>◷ 12/11/2026</span><span>◈ Xu hướng</span></div>
-          </div>
-        </article>
+        <% if (articles && articles.length > 0) { %>
+          <article class="news-featured" onclick="window.location.href='/tin-tuc/<%= articles[0].id %>'" style="cursor: pointer;">
+            <a href="/tin-tuc/<%= articles[0].id %>">
+              <img src="<%= articles[0].image %>" alt="<%= articles[0].title %>" width="900" height="480" />
+            </a>
+            <div class="news-featured-copy">
+              <span class="news-label">BÀI VIẾT NỔI BẬT</span>
+              <h2><a href="/tin-tuc/<%= articles[0].id %>" style="color: inherit; text-decoration: none;"><%= articles[0].title %></a></h2>
+              <p><%= articles[0].excerpt %></p>
+              <div class="news-featured-meta"><span>◷ <%= articles[0].date %></span><span>◈ <%= articles[0].category %></span></div>
+            </div>
+          </article>
+        <% } %>
 
         <div class="news-section-heading" id="moi-nhat">
           <div><h2>Bài viết mới nhất</h2></div>
@@ -43,11 +47,11 @@
 
         <div class="news-article-list">
           <% articles.forEach((article) => { %>
-            <article class="news-list-card">
-              <a class="news-list-image" href="#moi-nhat" aria-label="<%= article.title %>"><img src="<%= article.image %>" alt="<%= article.title %>" width="300" height="190" loading="lazy" /></a>
+            <article class="news-list-card" onclick="window.location.href='/tin-tuc/<%= article.id %>'" style="cursor: pointer;">
+              <a class="news-list-image" href="/tin-tuc/<%= article.id %>" aria-label="<%= article.title %>"><img src="<%= article.image %>" alt="<%= article.title %>" width="300" height="190" loading="lazy" /></a>
               <div class="news-list-body">
                 <span class="news-list-category"><%= article.category %></span>
-                <h3><a href="#moi-nhat"><%= article.title %></a></h3>
+                <h3><a href="/tin-tuc/<%= article.id %>"><%= article.title %></a></h3>
                 <p><%= article.excerpt %></p>
                 <div class="news-list-meta"><span>◷ <%= article.date %></span><span>◈ <%= article.category %></span></div>
               </div>

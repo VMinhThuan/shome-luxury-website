@@ -13,6 +13,8 @@ const { authenticateAdmin } = require("../middleware/auth");
 router.get("/", homeController.getHomePage);
 router.get("/dat-lich-ngay", homeController.getBookingPage);
 router.get("/tin-tuc", homeController.getNewsPage);
+router.get("/tin-tuc/:id", homeController.getNewsDetailPage);
+router.get("/tin-tuc-chi-tiet/:id", homeController.getNewsDetailPage);
 router.get("/tuyen-dung", recruitmentController.getRecruitmentPage);
 router.get("/tuyen-dung/:id", recruitmentController.getRecruitmentPage);
 
