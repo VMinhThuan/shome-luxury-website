@@ -4720,7 +4720,9 @@ ol {
   margin: 0;
   box-shadow: none;
   background-color: #1A1A1A;
-  aspect-ratio: 1755 / 760;
+  /* Artwork is supplied in 16:9; retain that framing instead of cropping it
+     into the previous wide, shallow banner. */
+  aspect-ratio: 16 / 9;
   height: auto;
   min-height: auto;
   max-height: none;
@@ -4728,10 +4730,10 @@ ol {
 
 @media (min-width: 768px) {
   .recruitment-banner-card {
-    aspect-ratio: 1755 / 760;
+    aspect-ratio: 16 / 9;
     height: auto;
     min-height: auto;
-    max-height: 420px;
+    max-height: none;
   }
 }
 
@@ -4739,7 +4741,7 @@ ol {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: left center;
+  object-position: center center;
   display: block;
 }
 
@@ -4751,14 +4753,14 @@ ol {
 .recruitment-banner-overlay {
   position: absolute;
   inset: 0;
-  background: transparent;
+  background: linear-gradient(90deg, rgba(10, 9, 7, 0.72) 0%, rgba(10, 9, 7, 0.49) 35%, rgba(10, 9, 7, 0.08) 63%, rgba(10, 9, 7, 0.12) 100%);
   display: flex;
   flex-direction: column;
   justify-content: center;
-  padding: 3% 4%;
+  padding: 7% clamp(1.5rem, 9vw, 11rem);
   z-index: 2;
   width: 100%;
-  max-width: var(--container-max);
+  max-width: none;
   margin-left: auto;
   margin-right: auto;
 }
@@ -4769,7 +4771,7 @@ ol {
   flex-direction: column;
   align-items: flex-start;
   margin-top: 0;
-  max-width: 48%;
+  max-width: 42%;
   width: auto;
 }
 
@@ -4846,8 +4848,8 @@ ol {
 /* LEFT CONTENT BLOCK - TABLET & DESKTOP (>= 768px) */
 @media (min-width: 768px) {
   .recruitment-banner-text {
-    max-width: 480px;
-    width: 46%;
+    max-width: 640px;
+    width: 42%;
   }
 
   .recruitment-eyebrow {
@@ -4957,8 +4959,8 @@ ol {
 
 /* Custom Hero Typography matching reference image */
 .recruitment-hero-title-main {
-  font-family: 'Playfair Display', 'Cormorant Garamond', 'Montserrat', serif;
-  font-size: clamp(26px, 4.5vw, 64px);
+  font-family: var(--font-heading);
+  font-size: clamp(2rem, 5.3vw, 6rem);
   font-weight: 700;
   color: #FFFFFF;
   line-height: 1.05;
@@ -4967,8 +4969,8 @@ ol {
 }
 
 .recruitment-hero-script {
-  font-family: var(--font-script), 'Great Vibes', cursive;
-  font-size: clamp(32px, 5.5vw, 80px);
+  font-family: var(--font-script);
+  font-size: clamp(2.65rem, 6.7vw, 7.75rem);
   color: #C89B4B;
   line-height: 1;
   margin: -0.1em 0;
@@ -4976,8 +4978,8 @@ ol {
 }
 
 .recruitment-hero-title-sub {
-  font-family: 'Playfair Display', 'Cormorant Garamond', 'Montserrat', serif;
-  font-size: clamp(26px, 4.5vw, 64px);
+  font-family: var(--font-heading);
+  font-size: clamp(2rem, 5.3vw, 6rem);
   font-weight: 700;
   color: #FFFFFF;
   line-height: 1.05;
@@ -4988,8 +4990,8 @@ ol {
 /* Top Right Badge */
 .recruitment-hero-top-right {
   position: absolute;
-  top: 10%;
-  right: 4%;
+  top: 11%;
+  right: clamp(1.5rem, 6vw, 7rem);
   display: flex;
   flex-direction: column;
   align-items: flex-end;
@@ -5013,9 +5015,9 @@ ol {
 /* Bottom Right Cursive Text */
 .recruitment-hero-bottom-right {
   position: absolute;
-  bottom: 8%;
-  right: 4%;
-  font-family: var(--font-script), 'Great Vibes', cursive;
+  bottom: 15%;
+  right: clamp(1.5rem, 6vw, 7rem);
+  font-family: var(--font-script);
   font-size: clamp(24px, 3.5vw, 48px);
   color: #C89B4B;
   text-shadow: 0 2px 10px rgba(0, 0, 0, 0.7);
@@ -5024,27 +5026,28 @@ ol {
 
 /* Bottom Features Card Bar */
 .recruitment-features-bar {
-  margin-top: -2.5rem;
+  margin: clamp(-7.5rem, -7vw, -4.5rem) auto 0;
   position: relative;
   z-index: 10;
-  padding: 0 1rem;
+  padding: 0 clamp(1rem, 4vw, 5rem);
+  max-width: 1920px;
 }
 
 @media (min-width: 768px) {
   .recruitment-features-bar {
-    margin-top: -3.5rem;
-    padding: 0;
+    margin-top: clamp(-9rem, -8vw, -5rem);
+    padding: 0 clamp(2rem, 4vw, 5rem);
   }
 }
 
 .features-card-inner {
-  background: rgba(255, 255, 255, 0.95);
+  background: rgba(255, 253, 248, 0.94);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  border-radius: 20px;
-  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.08), 0 2px 8px rgba(0, 0, 0, 0.04);
-  border: 1px solid rgba(255, 255, 255, 0.8);
-  padding: 1.25rem 1.5rem;
+  border-radius: clamp(1.25rem, 2vw, 2.25rem);
+  box-shadow: 0 18px 45px rgba(20, 16, 10, 0.13), inset 0 1px 0 rgba(255, 255, 255, 0.9);
+  border: 1px solid rgba(255, 255, 255, 0.9);
+  padding: 1.25rem;
   display: grid;
   grid-template-columns: 1fr;
   gap: 1.25rem;
@@ -5056,11 +5059,11 @@ ol {
   }
 }
 
-@media (min-width: 1024px) {
+@media (min-width: 900px) {
   .features-card-inner {
     grid-template-columns: repeat(4, 1fr);
     gap: 0;
-    padding: 1.5rem 1rem;
+    padding: clamp(1.75rem, 2.5vw, 3rem) clamp(0.75rem, 2vw, 2rem);
   }
 }
 
@@ -5072,7 +5075,19 @@ ol {
   position: relative;
 }
 
-@media (min-width: 1024px) {
+@media (min-width: 900px) {
+  .feature-col {
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+    gap: 0.85rem;
+    padding: 0.5rem clamp(0.65rem, 1.25vw, 1.5rem);
+  }
+
+  .feature-text {
+    align-items: center;
+  }
+
   .feature-col:not(:last-child)::after {
     content: "";
     position: absolute;
@@ -5085,9 +5100,9 @@ ol {
 }
 
 .feature-icon-badge {
-  width: 48px;
-  height: 48px;
-  min-width: 48px;
+  width: clamp(3rem, 4vw, 4.5rem);
+  height: clamp(3rem, 4vw, 4.5rem);
+  min-width: clamp(3rem, 4vw, 4.5rem);
   border-radius: 50%;
   background: radial-gradient(circle, #FFFDF8 0%, #F8F3EA 100%);
   border: 1px solid #E8D9C0;
@@ -5104,8 +5119,8 @@ ol {
 }
 
 .feature-title {
-  font-family: 'Montserrat', var(--font-sans);
-  font-size: 0.8125rem;
+  font-family: var(--font-heading);
+  font-size: clamp(0.7rem, 1vw, 1rem);
   font-weight: 700;
   color: #1A1A1A;
   margin: 0 0 2px 0;
@@ -5116,7 +5131,7 @@ ol {
 
 .feature-desc {
   font-family: var(--font-sans);
-  font-size: 0.75rem;
+  font-size: clamp(0.67rem, 0.92vw, 0.94rem);
   color: #666666;
   margin: 0;
   line-height: 1.3;
