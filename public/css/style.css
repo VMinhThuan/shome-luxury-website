@@ -402,14 +402,14 @@ ol {
     gap: 0.85rem;
     padding: 0.65rem 1.25rem;
     font-size: clamp(0.92rem, 1.05vw, 1.02rem) !important;
-    color: #FFFFFF !important;
-    font-weight: 500;
+    color: #CDCDCD !important;
+    font-weight: 400;
     font-family: var(--font-menu);
     white-space: nowrap;
   }
 
   .dropdown-link:hover {
-    color: var(--accent-gold);
+    color: var(--accent-gold) !important;
     background-color: rgba(200, 155, 75, 0.12);
   }
 
@@ -6295,7 +6295,7 @@ ol {
   display: block;
   width: 64px;
   height: 2px;
-  margin-top: clamp(0.85rem, 1.8vw, 1.35rem);
+  margin-top: clamp(0.4rem, 0.8vw, 0.65rem);
   background: var(--accent-gold);
 }
 
@@ -9289,7 +9289,7 @@ html {
 
   .project-detail-title-rule {
     width: 48px;
-    margin-top: 0.75rem;
+    margin-top: 0.45rem;
   }
 
   .project-info-banner {
