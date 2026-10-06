@@ -57,10 +57,10 @@ module.exports = [
         label: "Báo giá thiết kế nội thất",
         href: "javascript:void(0)",
         children: [
-          { id: "bg-nt-chung-cu", label: "Báo giá nội thất chung cư", href: "/bao-gia#bao-gia-tham-khao" },
-          { id: "bg-nt-nha-pho", label: "Báo giá nội thất nhà phố", href: "/bao-gia#bao-gia-tham-khao" },
-          { id: "bg-nt-biet-thu", label: "Báo giá nội thất biệt thự", href: "/bao-gia#bao-gia-tham-khao" },
-          { id: "bg-nt-van-phong", label: "Báo giá nội thất văn phòng", href: "/bao-gia#bao-gia-tham-khao" }
+          { id: "bg-nt-chung-cu", label: "Báo giá nội thất chung cư", href: "/bao-gia?category=tk-nt-chung-cu" },
+          { id: "bg-nt-nha-pho", label: "Báo giá nội thất nhà phố", href: "/bao-gia?category=tk-nt-nha-pho" },
+          { id: "bg-nt-biet-thu", label: "Báo giá nội thất biệt thự", href: "/bao-gia?category=tk-nt-biet-thu" },
+          { id: "bg-nt-van-phong", label: "Báo giá nội thất văn phòng", href: "/bao-gia?category=tk-nt-van-phong" }
         ]
       },
       {
@@ -68,10 +68,10 @@ module.exports = [
         label: "Báo giá thiết kế kiến trúc",
         href: "javascript:void(0)",
         children: [
-          { id: "bg-kt-nha-cap-4", label: "Báo giá kiến trúc nhà cấp 4", href: "/bao-gia#bao-gia-tham-khao" },
-          { id: "bg-kt-nha-pho", label: "Báo giá kiến trúc nhà phố", href: "/bao-gia#bao-gia-tham-khao" },
-          { id: "bg-kt-biet-thu", label: "Báo giá kiến trúc biệt thự", href: "/bao-gia#bao-gia-tham-khao" },
-          { id: "bg-kt-villa", label: "Báo giá kiến trúc villa", href: "/bao-gia#bao-gia-tham-khao" }
+          { id: "bg-kt-nha-cap-4", label: "Báo giá kiến trúc nhà cấp 4", href: "/bao-gia?category=tk-kt-nha-cap-4" },
+          { id: "bg-kt-nha-pho", label: "Báo giá kiến trúc nhà phố", href: "/bao-gia?category=tk-kt-nha-pho" },
+          { id: "bg-kt-biet-thu", label: "Báo giá kiến trúc biệt thự", href: "/bao-gia?category=tk-kt-biet-thu" },
+          { id: "bg-kt-villa", label: "Báo giá kiến trúc villa", href: "/bao-gia?category=tk-kt-villa" }
         ]
       }
     ]

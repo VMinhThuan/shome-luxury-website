@@ -49,6 +49,11 @@ async function testFrontend() {
   }
 
   try {
+    console.log('--- 0. TESTING QUOTE PAGE ---');
+    const quotePageRes = await makeRequest('/bao-gia');
+    assert(quotePageRes.status === 200, 'GET /bao-gia returns 200 OK');
+    assert(quotePageRes.body.includes('quote-page') && quotePageRes.body.includes('nhan-du-toan'), 'Quote page renders dynamic page structure and estimate CTA');
+
     const routesToTest = [
       { path: '/thiet-ke-cong-trinh', expectedCount: 297, label: 'Thiết kế công trình' },
       { path: '/thiet-ke-kien-truc', expectedCount: 196, label: 'Thiết kế kiến trúc' },

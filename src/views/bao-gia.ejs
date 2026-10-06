@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <title><%= title %></title>
   <meta name="description" content="Nhận tư vấn và dự toán thiết kế, thi công nội thất từ Shome Luxury." />
-  <link rel="stylesheet" href="/css/style.css?v=6.5.1" />
+  <link rel="stylesheet" href="/css/style.css?v=6.5.5" />
   <script src="/js/main.js?v=1.9.0" defer></script>
   <script src="/js/quote-page.js?v=1.0.0" defer></script>
 </head>
@@ -16,9 +16,9 @@
     <% if (sections.hero?.isVisible !== false) { %>
       <section class="quote-hero" style="--quote-hero-image: url('<%= sections.hero.image %>')">
         <div class="container quote-hero-inner">
-          <div class="quote-hero-copy">
+          <div class="quote-hero-copy quote-brochure-copy">
             <p class="quote-kicker"><%= sections.hero.eyebrow %></p>
-            <h1><%= sections.hero.title %><em><%= sections.hero.script %></em></h1>
+            <h1><%= quoteTitle %><em><%= quoteScript %></em></h1>
             <p class="quote-lead"><%= sections.hero.description %></p>
             <a class="quote-button" href="<%= sections.hero.ctaHref %>"><%= sections.hero.ctaLabel %><span aria-hidden="true">↗</span></a>
           </div>
@@ -29,7 +29,7 @@
     <% if (sections.benefits?.isVisible !== false) { %>
       <section class="quote-section quote-benefits">
         <div class="container">
-          <header class="quote-heading quote-heading-center"><p class="quote-kicker"><%= sections.benefits.title %></p><h2><%= sections.benefits.script %></h2><p><%= sections.benefits.description %></p></header>
+          <header class="quote-heading quote-heading-center quote-benefits-heading"><p class="quote-kicker"><%= sections.benefits.title %></p><h2><%= sections.benefits.script %></h2><p><%= sections.benefits.description %></p></header>
           <div class="quote-benefit-grid">
             <% sections.benefits.items.filter(item => item.isVisible !== false).forEach((item, index) => { %>
               <article class="quote-benefit-card"><span class="quote-number">0<%= index + 1 %></span><div class="quote-benefit-icon"><%= item.icon === 'document' ? '⌑' : item.icon === 'workshop' ? '⌂' : '✦' %></div><h3><%= item.title %></h3><p><%= item.description %></p></article>
@@ -53,6 +53,10 @@
       </section>
     <% } %>
 
+    <% if (sections.brandVideo?.isVisible !== false) { %>
+      <section class="quote-brand-video"><div class="container"><header class="quote-video-heading"><p><%= sections.brandVideo.eyebrow %></p><h2><%= sections.brandVideo.title %></h2><span></span><strong><%= sections.brandVideo.description %></strong></header><div class="quote-video-card"><img src="<%= sections.brandVideo.image %>" alt="<%= sections.brandVideo.caption %>" loading="lazy" /><div class="quote-video-scrim"></div><div class="quote-video-copy"><span><%= sections.brandVideo.eyebrow %></span><h3><%= selectedCategory ? `Giải pháp ${selectedCategory.name}` : 'Đơn vị thiết kế thi công nội thất' %></h3><p><%= sections.brandVideo.description %></p></div><a class="quote-video-play" href="<%= sections.brandVideo.videoUrl || sections.brandVideo.ctaHref || '#nhan-du-toan' %>" <%= sections.brandVideo.videoUrl ? 'target="_blank" rel="noopener"' : '' %> aria-label="<%= sections.brandVideo.ctaLabel %>">▶</a><div class="quote-video-footer"><div><b><%= sections.brandVideo.caption %></b><span><%= sections.brandVideo.description %></span></div><time><%= sections.brandVideo.duration %></time><a href="<%= sections.brandVideo.ctaHref || '#nhan-du-toan' %>"><%= sections.brandVideo.ctaLabel %> ↗</a></div></div></div></section>
+    <% } %>
+
     <% if (sections.capability?.isVisible !== false) { %>
       <section class="quote-capability"><div class="container quote-capability-grid"><div class="quote-capability-image"><img src="<%= sections.capability.image %>" alt="Năng lực sản xuất Shome Luxury" loading="lazy" /></div><div class="quote-capability-copy"><p class="quote-kicker"><%= sections.capability.eyebrow %></p><h2><%= sections.capability.title %><em><%= sections.capability.script %></em></h2><p><%= sections.capability.description %></p><div class="quote-stats"><% sections.capability.stats.forEach(stat => { %><div><b><%= stat.value %></b><span><%= stat.label %></span></div><% }) %></div></div></div></section>
     <% } %>
@@ -62,7 +66,11 @@
     <% } %>
 
     <% if (sections.pricing?.isVisible !== false) { %>
-      <section class="quote-section quote-pricing" id="bao-gia-tham-khao"><div class="container"><header class="quote-heading"><p class="quote-kicker"><%= sections.pricing.eyebrow %></p><h2><%= sections.pricing.title %> <em><%= sections.pricing.script %></em></h2><p><%= sections.pricing.description %></p></header><div class="quote-pricing-list"><% sections.pricing.items.filter(item => item.isVisible !== false).sort((a,b) => (a.order||0)-(b.order||0)).forEach(item => { %><article class="quote-price-card"><div class="quote-price-image"><img src="<%= item.image %>" alt="<%= item.title %>" loading="lazy" /></div><div class="quote-price-copy"><span class="quote-number"><%= item.number %></span><h3><%= item.title %></h3><p><%= item.description %></p><a class="quote-text-link" href="<%= item.ctaHref %>"><%= item.ctaLabel %> <span>→</span></a></div></article><% }) %></div></div></section>
+      <section class="quote-section quote-pricing" id="bao-gia-tham-khao"><div class="container"><header class="quote-heading quote-heading-center"><p class="quote-kicker"><%= sections.pricing.eyebrow %></p><h2><%= sections.pricing.title %> <em><%= sections.pricing.script %></em></h2><p><%= sections.pricing.description %></p></header><div class="quote-pricing-list"><% sections.pricing.items.filter(item => item.isVisible !== false).sort((a,b) => (a.order||0)-(b.order||0)).forEach(item => { %><article class="quote-price-card"><div class="quote-price-image"><img src="<%= item.image %>" alt="<%= item.title %>" loading="lazy" /></div><div class="quote-price-copy"><span class="quote-price-title"><%= item.title %></span><h3><%= item.price || '' %></h3><p><%= item.description %></p><span class="quote-price-area">↗&nbsp; <%= item.area || '' %></span><a class="quote-text-link" href="<%= item.ctaHref %>"><%= item.ctaLabel %> <span>→</span></a></div></article><% }) %></div></div></section>
+    <% } %>
+
+    <% if (sections.constructionCta?.isVisible !== false) { %>
+      <section class="quote-construction-cta"><div class="container"><div class="quote-construction-card"><div class="quote-construction-copy"><p class="quote-kicker"><%= sections.constructionCta.eyebrow %></p><h2><%= sections.constructionCta.title %></h2><p><%= sections.constructionCta.description %></p><div class="quote-construction-points"><span>◌ Tối ưu chi phí</span><span>◇ Đồng bộ thẩm mỹ</span><span>⌂ Trọn gói công trình</span></div><a class="quote-button" href="<%= sections.constructionCta.ctaHref %>"><%= sections.constructionCta.ctaLabel %> <span>→</span></a></div><img src="<%= sections.constructionCta.image %>" alt="Thi công nội thất Shome Luxury" loading="lazy" /></div></div></section>
     <% } %>
 
     <% if (sections.process?.isVisible !== false) { %>

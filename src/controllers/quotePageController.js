@@ -6,11 +6,29 @@ const navigation = require('../data/navigationData');
 
 class QuotePageController {
   async getContent() {
-    return QuotePage.findOneAndUpdate(
-      { key: 'main' },
-      { $setOnInsert: { key: 'main', sections: quotePageDefaults, isVisible: true } },
-      { new: true, upsert: true, setDefaultsOnInsert: true }
-    ).lean();
+    let page = await QuotePage.findOne({ key: 'main' }).lean();
+    if (!page) {
+      page = await QuotePage.create({ key: 'main', sections: quotePageDefaults, isVisible: true });
+      return page.toObject();
+    }
+    const mergeDefaults = (fallback, saved) => {
+      if (Array.isArray(fallback)) return (saved || fallback).map((value, index) => mergeDefaults(fallback[index] || {}, value));
+      if (fallback && typeof fallback === 'object') {
+        const source = saved && typeof saved === 'object' ? saved : {};
+        return Object.fromEntries(Object.keys({ ...fallback, ...source }).map(key => [key, mergeDefaults(fallback[key], source[key])]));
+      }
+      return saved === undefined ? fallback : saved;
+    };
+    const sections = mergeDefaults(quotePageDefaults, page.sections || {});
+    // One-time visual asset migration for the original seed hero. Custom admin URLs are preserved.
+    if (page.sections?.hero?.image === '/images/booking-luxury-interior.png') {
+      sections.hero.image = quotePageDefaults.hero.image;
+    }
+    if (JSON.stringify(sections) !== JSON.stringify(page.sections)) {
+      await QuotePage.updateOne({ _id: page._id }, { $set: { sections } });
+      page.sections = sections;
+    }
+    return page;
   }
 
   async hydrateCategories(sections) {
@@ -45,11 +63,17 @@ class QuotePageController {
       if (!quotePage.isVisible) return res.status(404).render('404', { title: 'Không tìm thấy trang | SHOME LUXURY', navigation });
       const sections = quotePage.sections || quotePageDefaults;
       const quoteCategories = await this.hydrateCategories(sections);
+      const selectedCategory = req.query.category ? await categoryService.getCategoryByIdOrSlug(req.query.category) : null;
+      const quoteTitle = selectedCategory ? `Báo giá ${selectedCategory.name}` : sections.hero.title;
+      const quoteScript = selectedCategory ? 'trọn gói, minh bạch' : sections.hero.script;
       return res.render('bao-gia', {
         title: 'Báo giá thiết kế & thi công | SHOME LUXURY',
         navigation,
         sections,
-        quoteCategories
+        quoteCategories,
+        selectedCategory,
+        quoteTitle,
+        quoteScript
       });
     } catch (error) { next(error); }
   }

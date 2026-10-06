@@ -4,7 +4,7 @@ module.exports = {
     title: 'Kiến tạo không gian sống',
     script: 'đúng gu, đúng ngân sách',
     description: 'Shome Luxury đồng hành từ ý tưởng, thiết kế đến thi công hoàn thiện. Nhận dự toán phù hợp với nhu cầu và hiện trạng của riêng bạn.',
-    image: '/images/booking-luxury-interior.png',
+    image: '/images/quote-apartment-hero-v1.png',
     ctaLabel: 'Nhận dự toán miễn phí',
     ctaHref: '#nhan-du-toan',
     isVisible: true
@@ -30,6 +30,18 @@ module.exports = {
       { categoryCode: 'tk-nt-biet-thu', description: 'Không gian riêng tư được hoàn thiện tinh tế trong từng chi tiết.', ctaLabel: 'Xem công trình', isVisible: true, order: 2 },
       { categoryCode: 'tk-nt-van-phong', description: 'Nơi bản sắc thương hiệu và trải nghiệm làm việc gặp nhau.', ctaLabel: 'Xem công trình', isVisible: true, order: 3 }
     ],
+    isVisible: true
+  },
+  brandVideo: {
+    eyebrow: 'SHOME LUXURY',
+    title: 'Đơn vị thiết kế & thi công nội thất hàng đầu Việt Nam',
+    description: 'Kiến tạo không gian sống – Nâng tầm giá trị cuộc sống',
+    image: '/images/booking-luxury-interior.png',
+    videoUrl: '',
+    caption: 'Giới thiệu về Shome Luxury',
+    duration: '02:15',
+    ctaLabel: 'Xem trên YouTube',
+    ctaHref: '',
     isVisible: true
   },
   capability: {
@@ -64,10 +76,19 @@ module.exports = {
     script: 'để an tâm bắt đầu',
     description: 'Mỗi công trình có hiện trạng và yêu cầu riêng. Các hạng mục dưới đây giúp bạn hình dung phạm vi đầu tư trước khi nhận dự toán chi tiết.',
     items: [
-      { number: '01', title: 'Thiết kế nội thất', description: 'Khảo sát, bố trí mặt bằng, phối cảnh 3D và hồ sơ kỹ thuật thi công.', image: '/images/anh_san_pham_1.png', ctaLabel: 'Nhận tư vấn', ctaHref: '#nhan-du-toan', isVisible: true, order: 1 },
-      { number: '02', title: 'Sản xuất nội thất', description: 'Gia công trực tiếp tại xưởng với vật liệu và phụ kiện đã thống nhất.', image: '/images/anh_san_pham_2.png', ctaLabel: 'Nhận tư vấn', ctaHref: '#nhan-du-toan', isVisible: true, order: 2 },
-      { number: '03', title: 'Thi công hoàn thiện', description: 'Lắp đặt, nghiệm thu và bàn giao theo tiến độ đã cam kết.', image: '/images/anh_san_pham_3.png', ctaLabel: 'Nhận tư vấn', ctaHref: '#nhan-du-toan', isVisible: true, order: 3 }
+      { number: '01', title: 'Chung cư 1 ngủ', price: '55 triệu', area: '< 70m²', description: 'Thiết kế trọn gói, tối ưu công năng và chi phí.', image: '/images/anh_san_pham_1.png', ctaLabel: 'Nhận tư vấn', ctaHref: '#nhan-du-toan', isVisible: true, order: 1 },
+      { number: '02', title: 'Chung cư 2 ngủ', price: '90 triệu', area: '70 - 100m²', description: 'Thiết kế trọn gói, đồng bộ thẩm mỹ cho từng không gian.', image: '/images/anh_san_pham_2.png', ctaLabel: 'Nhận tư vấn', ctaHref: '#nhan-du-toan', isVisible: true, order: 2 },
+      { number: '03', title: 'Chung cư 3 ngủ', price: '125 triệu', area: '> 100m²', description: 'Giải pháp thiết kế đầy đủ cho tổ ấm rộng rãi.', image: '/images/anh_san_pham_3.png', ctaLabel: 'Nhận tư vấn', ctaHref: '#nhan-du-toan', isVisible: true, order: 3 }
     ],
+    isVisible: true
+  },
+  constructionCta: {
+    eyebrow: 'THI CÔNG NỘI THẤT',
+    title: 'Miễn phí thiết kế',
+    description: 'Khi ký hợp đồng thi công trọn gói. Tối ưu chi phí, đồng bộ thẩm mỹ và trọn gói cho căn hộ, nhà phố, văn phòng.',
+    image: '/images/booking-luxury-interior.png',
+    ctaLabel: 'Nhận tư vấn ngay',
+    ctaHref: '#nhan-du-toan',
     isVisible: true
   },
   process: {
