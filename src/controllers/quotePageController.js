@@ -21,7 +21,17 @@ class QuotePageController {
       const highlighted = await projectService.getProjects({ category: category._id.toString(), isHighlight: true, limit: 4, sort: 'highlight' });
       // Existing installations used `featured`; retain it as a migration-safe fallback.
       const fallback = highlighted.projects.length ? highlighted : await projectService.getProjects({ category: category._id.toString(), featured: true, limit: 4 });
-      return { ...item, category, projects: fallback.projects.slice(0, 4) };
+      const categoryHrefs = {
+        'tk-nt-chung-cu': '/thiet-ke-noi-that/chung-cu',
+        'tk-nt-nha-pho': '/thiet-ke-noi-that/nha-pho',
+        'tk-nt-biet-thu': '/thiet-ke-noi-that/biet-thu',
+        'tk-nt-van-phong': '/thiet-ke-noi-that/van-phong',
+        'tk-kt-nha-cap-4': '/thiet-ke-kien-truc/nha-cap-4',
+        'tk-kt-nha-pho': '/thiet-ke-kien-truc/nha-pho',
+        'tk-kt-biet-thu': '/thiet-ke-kien-truc/biet-thu',
+        'tk-kt-villa': '/thiet-ke-kien-truc/villa'
+      };
+      return { ...item, category, href: categoryHrefs[category.code] || '/thiet-ke-cong-trinh', projects: fallback.projects.slice(0, 4) };
     })).then(items => items.filter(Boolean));
   }
 

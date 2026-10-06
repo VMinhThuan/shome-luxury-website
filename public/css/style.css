@@ -991,6 +991,7 @@ ol {
 .quote-lead { max-width: 560px; color: rgba(255,255,255,.88); font-size: clamp(.94rem, 1.5vw, 1.1rem); }
 .quote-button { display: inline-flex; align-items: center; justify-content: center; gap: 1rem; margin-top: 1.6rem; min-height: 48px; padding: .78rem 1.15rem; border: 1px solid var(--accent-gold); background: var(--accent-gold); color: #fff; font-size: .78rem; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; transition: background var(--transition-normal), color var(--transition-normal), transform var(--transition-normal); }
 .quote-button:hover { background: transparent; color: var(--accent-gold-dark); transform: translateY(-2px); }
+.quote-button:disabled { cursor: wait; opacity: .65; transform: none; }
 .quote-hero .quote-button:hover { color: #fff; }
 .quote-section { padding: clamp(4rem, 8vw, 8rem) 0; }
 .quote-heading { max-width: 730px; margin-bottom: clamp(2rem, 5vw, 4.5rem); }
