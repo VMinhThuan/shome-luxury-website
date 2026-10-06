@@ -190,6 +190,65 @@ ol {
   }
 }
 
+/* Quote hero mobile art direction: vertically composed brochure, matching the supplied mobile banner. */
+.quote-hero-traits span:first-child::after { display: none; }
+@media (max-width: 767px) {
+  .quote-page .quote-hero-inner {
+    min-height: 770px;
+    background-color: #fffbf6;
+    background-position: center top;
+    background-size: auto 505px;
+    background-repeat: no-repeat;
+  }
+
+  .quote-page .quote-brochure-copy {
+    top: 300px;
+    right: 0;
+    bottom: auto;
+    left: 0;
+    min-height: 470px;
+    padding: 105px var(--mobile-page-spacing) 112px;
+    background: linear-gradient(180deg, rgba(255, 252, 247, 0) 0, rgba(255, 252, 247, .92) 19%, rgba(255, 252, 247, 1) 32%);
+  }
+
+  .quote-page .quote-brochure-copy h1 {
+    max-width: 310px;
+    margin-bottom: .7rem;
+    font-size: clamp(2.45rem, 11vw, 3.25rem);
+    line-height: .88;
+  }
+
+  .quote-page .quote-brochure-copy h1 em {
+    margin-bottom: .1rem;
+    font-size: .88em;
+  }
+
+  .quote-page .quote-brochure-copy .quote-lead {
+    max-width: 285px;
+    color: #443b32;
+    font-size: 1rem;
+    line-height: 1.47;
+  }
+
+  .quote-hero-traits {
+    bottom: 1.45rem;
+    left: var(--mobile-page-spacing);
+    gap: .48rem;
+    font-size: .61rem;
+    letter-spacing: .1em;
+  }
+
+  .quote-hero-traits i { height: 12px; }
+
+  .quote-hero-corner-script {
+    right: .7rem;
+    bottom: 1.1rem;
+    max-width: 125px;
+    font-size: 1.38rem;
+    line-height: .72;
+  }
+}
+
 @media (min-width: 1200px) {
   .container {
     padding-left: 32px;
@@ -9656,4 +9715,17 @@ main .section-v2-title,
     max-width: 100%;
     white-space: normal !important;
   }
+}
+
+/* Quote hero mobile art direction: vertically composed brochure, matching the supplied mobile banner. */
+.quote-hero-traits span:first-child::after { display: none; }
+@media (max-width: 767px) {
+  .quote-page .quote-hero-inner { min-height: 770px; background-color: #fffbf6; background-position: center top; background-size: auto 505px; background-repeat: no-repeat; }
+  .quote-page .quote-brochure-copy { top: 300px; right: 0; bottom: auto; left: 0; min-height: 470px; padding: 105px var(--mobile-page-spacing) 112px; background: linear-gradient(180deg, rgba(255,252,247,0) 0, rgba(255,252,247,.92) 19%, rgba(255,252,247,1) 32%); }
+  .quote-page .quote-brochure-copy h1 { max-width: 310px; margin-bottom: .7rem; font-size: clamp(2.45rem, 11vw, 3.25rem); line-height: .88; }
+  .quote-page .quote-brochure-copy h1 em { margin-bottom: .1rem; font-size: .88em; }
+  .quote-page .quote-brochure-copy .quote-lead { max-width: 285px; color: #443b32; font-size: 1rem; line-height: 1.47; }
+  .quote-hero-traits { bottom: 1.45rem; left: var(--mobile-page-spacing); gap: .48rem; font-size: .61rem; letter-spacing: .1em; }
+  .quote-hero-traits i { height: 12px; }
+  .quote-hero-corner-script { right: .7rem; bottom: 1.1rem; max-width: 125px; font-size: 1.38rem; line-height: .72; }
 }
