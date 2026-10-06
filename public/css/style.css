@@ -5012,7 +5012,7 @@ ol {
   font-weight: 700;
   color: #FFFFFF;
   line-height: 1.08;
-  margin: 0 0 0.16em;
+  margin: 0 0 0.26em;
   text-shadow: 0 2px 10px rgba(0, 0, 0, 0.7);
 }
 
@@ -5021,7 +5021,7 @@ ol {
   font-size: clamp(1.75rem, 7vw, 7.75rem);
   color: #C89B4B;
   line-height: 1.08;
-  margin: 0.04em 0 0.24em;
+  margin: 0.1em 0 0.34em;
   white-space: nowrap;
   text-shadow: 0 2px 10px rgba(0, 0, 0, 0.6);
 }
@@ -5972,10 +5972,6 @@ ol {
     padding: 1.1rem 1.15rem;
   }
 
-  .project-showcase-section .project-card-arrow-btn {
-    width: 40px;
-    height: 40px;
-  }
 }
 
 /* Project Card Layout Matching Reference Image */
@@ -6144,60 +6140,46 @@ ol {
 
 .project-card-attributes {
   display: grid;
-  grid-template-columns: auto auto auto;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-rows: repeat(2, minmax(1.5em, auto));
   align-items: center;
-  column-gap: 0.65rem;
-  row-gap: 0.35rem;
+  column-gap: 0;
+  row-gap: 0.5rem;
   font-size: clamp(0.8rem, 1.1vw, 0.88rem);
   color: var(--text-secondary);
   font-weight: 500;
-  margin-top: 0.25rem;
-  width: max-content;
-  max-width: 100%;
+  margin-top: 0.4rem;
+  width: 100%;
 }
 
 .project-card-attribute {
+  min-width: 0;
+  padding: 0 0.85rem;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
-.project-card-attribute-separator {
-  color: rgba(29, 29, 29, 0.3);
-  font-size: 0.8rem;
-  font-weight: 300;
-  line-height: 1;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  user-select: none;
-  height: 14px;
+.project-card-attribute-label {
+  font-weight: 700;
 }
 
-/* Right Circular Arrow Button */
-.project-card-action-right {
-  flex-shrink: 0;
+.project-card-attribute-value {
+  font-weight: 500;
 }
 
-.project-card-arrow-btn {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 44px;
-  height: 44px;
-  border-radius: 50%;
-  background-color: var(--bg-secondary);
-  color: var(--text-primary);
-  border: 1px solid var(--border-light);
-  transition: all var(--transition-fast);
+.project-card-attribute:nth-child(odd) {
+  padding-left: 0;
+  border-right: 1px solid rgba(29, 29, 29, 0.18);
 }
 
-.project-card-arrow-btn:hover,
-.project-showcase-card:hover .project-card-arrow-btn {
-  background-color: var(--accent-gold-dark);
-  color: #FFFFFF;
-  border-color: var(--accent-gold-dark);
-  transform: translateX(3px);
+.project-card-attribute:nth-child(even) {
+  padding-right: 0;
+  text-align: right;
+}
+
+.project-card-attribute.is-empty {
+  visibility: hidden;
 }
 
 /* Empty State & Infinite Scroll */
@@ -6276,9 +6258,9 @@ ol {
 }
 
 .project-detail-title {
-  font-size: clamp(1.05rem, 1.8vw, 1.35rem);
+  font-size: clamp(2.1rem, 3.6vw, 2.7rem);
   font-weight: 700;
-  color: var(--text-primary);
+  color: var(--accent-gold);
   margin: 0;
   line-height: 1.3;
   text-align: center;
@@ -6388,7 +6370,7 @@ ol {
 }
 
 .meta-label {
-  font-weight: 400 !important;
+  font-weight: 700 !important;
   color: var(--text-primary) !important;
 }
 

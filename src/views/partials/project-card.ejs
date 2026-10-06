@@ -1,9 +1,10 @@
 <%
   const attrs = [];
-  if (project.area) attrs.push(`Diện tích: ${project.area}`);
-  if (project.propertyType) attrs.push(`Loại hình: ${project.propertyType}`);
-  if (project.style) attrs.push(`Phong cách: ${project.style}`);
-  if (Number.isFinite(Number(project.cost))) attrs.push(`Chi phí: ${Math.round(Number(project.cost) / 1000000).toLocaleString('vi-VN')} triệu`);
+  if (project.area) attrs.push({ label: 'Diện tích', value: project.area });
+  if (project.propertyType) attrs.push({ label: 'Loại hình', value: project.propertyType });
+  if (project.style) attrs.push({ label: 'Phong cách', value: project.style });
+  if (Number.isFinite(Number(project.cost))) attrs.push({ label: 'Chi phí', value: `${Math.round(Number(project.cost) / 1000000).toLocaleString('vi-VN')} triệu` });
+  const attributeSlots = Array.from({ length: 4 }, (_, index) => attrs[index] || null);
   const projectDetailUrl = `/cong-trinh/${project.slug}`;
   const mockImages = [
     '/images/project_apartment.jpg',
@@ -52,26 +53,16 @@
       </h2>
       <% if (attrs.length) { %>
         <div class="project-card-attributes">
-          <% for (let i = 0; i < attrs.length; i += 2) { %>
-            <span class="project-card-attribute"><%= attrs[i] %></span>
-            <% if (attrs[i + 1]) { %>
-              <span class="project-card-attribute-separator" aria-hidden="true">|</span>
-              <span class="project-card-attribute"><%= attrs[i + 1] %></span>
-            <% } else { %>
-              <span></span><span></span>
-            <% } %>
-          <% } %>
+          <% attributeSlots.forEach(attribute => { %>
+            <span class="project-card-attribute <%= attribute ? '' : 'is-empty' %>">
+              <% if (attribute) { %>
+                <strong class="project-card-attribute-label"><%= attribute.label %>:</strong>
+                <span class="project-card-attribute-value"> <%= attribute.value %></span>
+              <% } %>
+            </span>
+          <% }); %>
         </div>
       <% } %>
-    </div>
-
-    <div class="project-card-action-right">
-      <a href="<%= projectDetailUrl %>" class="project-card-arrow-btn" aria-label="Xem chi tiết <%= project.title %>">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-          <line x1="5" y1="12" x2="19" y2="12"></line>
-          <polyline points="12 5 19 12 12 19"></polyline>
-        </svg>
-      </a>
     </div>
   </div>
 </article>
