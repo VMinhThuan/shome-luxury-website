@@ -687,10 +687,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function renderProjectCardHtml(project) {
     const attrs = [];
-    if (project.area) attrs.push(`Diện tích: ${project.area}`);
-    if (project.propertyType) attrs.push(`Loại hình: ${project.propertyType}`);
-    if (project.style) attrs.push(`Phong cách: ${project.style}`);
-    if (Number.isFinite(Number(project.cost))) attrs.push(`Chi phí: ${formatProjectCost(project.cost)}`);
+    if (project.area) attrs.push({ label: 'Diện tích', value: project.area });
+    if (project.propertyType) attrs.push({ label: 'Loại hình', value: project.propertyType });
+    if (project.style) attrs.push({ label: 'Phong cách', value: project.style });
+    if (Number.isFinite(Number(project.cost))) attrs.push({ label: 'Chi phí', value: formatProjectCost(project.cost) });
+    const attributeSlots = Array.from({ length: 4 }, (_, index) => attrs[index] || null);
     const projectDetailUrl = `/cong-trinh/${encodeURIComponent(project.slug || '')}`;
 
     const quotes = [
@@ -704,6 +705,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const safeTitle = escapeHtml(project.title);
     const imageHtml = `<img src="${escapeHtml(getProjectImage(project, charSum))}" alt="${safeTitle}" class="project-card-img" loading="lazy" onerror="this.onerror=null;this.src='/images/project_apartment.jpg';" />`;
+    const attributesHtml = attrs.length ? `
+      <div class="project-card-attributes">
+        ${attributeSlots.map(attribute => attribute
+          ? `<span class="project-card-attribute"><strong class="project-card-attribute-label">${attribute.label}:</strong><span class="project-card-attribute-value"> ${escapeHtml(attribute.value)}</span></span>`
+          : '<span class="project-card-attribute is-empty"></span>'
+        ).join('')}
+      </div>` : '';
 
     return `
       <article class="project-showcase-card">
@@ -723,16 +731,7 @@ document.addEventListener('DOMContentLoaded', () => {
             <h2 class="project-card-title">
               <a href="${projectDetailUrl}">${safeTitle}</a>
             </h2>
-            ${attrs.length ? `<div class="project-card-attributes">${attrs.map((attribute, index) => `${index ? '<span class="project-card-attribute-separator" aria-hidden="true">|</span>' : ''}<span class="project-card-attribute">${escapeHtml(attribute)}</span>`).join('')}</div>` : ''}
-          </div>
-
-          <div class="project-card-action-right">
-            <a href="${projectDetailUrl}" class="project-card-arrow-btn" aria-label="Xem chi tiết ${safeTitle}">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-                <line x1="5" y1="12" x2="19" y2="12"></line>
-                <polyline points="12 5 19 12 12 19"></polyline>
-              </svg>
-            </a>
+            ${attributesHtml}
           </div>
         </div>
       </article>

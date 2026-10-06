@@ -6138,6 +6138,13 @@ ol {
   color: var(--accent-gold-dark);
 }
 
+.project-card-title a {
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
 .project-card-attributes {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -8148,10 +8155,6 @@ ol {
     padding: 1rem 1.1rem;
   }
 
-  .related-projects-section .project-card-arrow-btn {
-    width: 40px;
-    height: 40px;
-  }
 }
 
 /* Footer Social Links with Clickable Icons & Labels */
