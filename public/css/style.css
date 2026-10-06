@@ -6181,8 +6181,9 @@ ol {
 }
 
 .project-card-attribute:nth-child(even) {
+  padding-left: 0.85rem;
   padding-right: 0;
-  text-align: right;
+  text-align: left;
 }
 
 .project-card-attribute.is-empty {
@@ -6335,7 +6336,7 @@ ol {
   max-width: 100% !important;
   box-sizing: border-box;
   display: grid !important;
-  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
   gap: 0 !important;
   padding: 0 !important;
   border: 0 !important;
@@ -6350,26 +6351,19 @@ ol {
 
 .project-info-banner .meta-item {
   display: flex !important;
-  flex-direction: row;
+  flex-direction: column;
   align-items: center !important;
-  justify-content: flex-start;
+  justify-content: center;
   gap: 0.35rem !important;
   min-height: 72px;
   padding: 0 clamp(0.75rem, 2vw, 2rem);
   font-size: 1rem !important;
   line-height: 1.35 !important;
-  text-align: left;
+  text-align: center;
   position: relative !important;
 }
 
-/* Keep the second column anchored to the divider, not to the right edge. */
-.project-info-banner .meta-item:nth-child(even) {
-  justify-content: flex-start !important;
-  align-items: center !important;
-  text-align: left !important;
-}
-
-.project-info-banner .meta-item:nth-child(odd) {
+.project-info-banner .meta-item:not(:last-child) {
   border-right: 1px solid #E8E1D7;
   padding-right: clamp(0.75rem, 2vw, 2rem) !important;
 }
@@ -9305,7 +9299,7 @@ html {
     padding: 0.55rem 0.5rem;
   }
 
-  .project-info-banner .meta-item:nth-child(odd) {
+  .project-info-banner .meta-item:not(:last-child) {
     padding-right: 0.5rem !important;
   }
 
