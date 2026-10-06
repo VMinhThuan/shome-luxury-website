@@ -25,6 +25,7 @@
       <!-- Project Detail Header -->
       <header class="project-detail-header">
         <h1 class="project-detail-title" data-project-field="title"><%= project.title %></h1>
+        <span class="project-detail-title-rule" aria-hidden="true"></span>
       </header>
 
       <% const detailMockImages = ['/images/project_apartment.jpg', '/images/project_villa.jpg', '/images/hero_interior.jpg', '/images/hero_sofa_light.jpg', '/images/service_interior.jpg']; %>
@@ -32,7 +33,7 @@
       <% const projectGallery = project.gallery && project.gallery.length ? project.gallery : detailMockImages; %>
       <% const galleryImages = [...new Set([detailImageSrc, ...projectGallery].filter(Boolean))]; %>
       <aside class="project-info-banner" aria-label="Thông tin dự án">
-        <div class="container project-info-container">
+        <div class="project-info-container">
           <div class="project-meta-grid">
             <% if (project.area) { %>
               <div class="meta-item">
