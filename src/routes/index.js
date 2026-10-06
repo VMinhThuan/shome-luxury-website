@@ -14,6 +14,7 @@ const { authenticateAdmin } = require("../middleware/auth");
 router.get("/", homeController.getHomePage);
 router.get("/dat-lich-ngay", homeController.getBookingPage);
 router.get("/bao-gia", quotePageController.renderPage.bind(quotePageController));
+router.get("/admin/bao-gia", quotePageController.renderAdminPage.bind(quotePageController));
 router.get("/tin-tuc", homeController.getNewsPage);
 router.get("/tin-tuc/:id", homeController.getNewsDetailPage);
 router.get("/tin-tuc-chi-tiet/:id", homeController.getNewsDetailPage);
@@ -83,8 +84,8 @@ router.get("/api/jobs", recruitmentController.getAllJobsApi);
 router.get("/api/jobs/:id", recruitmentController.getJobByIdApi);
 
 // Cloudinary Image Upload Endpoints (POST /api/upload & POST /api/recruitment/upload)
-router.post("/api/upload", uploadController.uploadSingleMiddleware, uploadController.handleImageUpload);
-router.post("/api/recruitment/upload", uploadController.uploadSingleMiddleware, uploadController.handleImageUpload);
+router.post("/api/upload", authenticateAdmin, uploadController.uploadSingleMiddleware, uploadController.handleImageUpload);
+router.post("/api/recruitment/upload", authenticateAdmin, uploadController.uploadSingleMiddleware, uploadController.handleImageUpload);
 
 // API endpoint for contact form submission
 router.post("/api/contact", (req, res) => {

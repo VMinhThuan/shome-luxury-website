@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title><%= title %></title>
+  <link rel="stylesheet" href="/css/style.css?v=6.5.2" />
+  <script src="/js/admin-quote-page.js?v=1.0.0" defer></script>
+</head>
+<body class="quote-admin-page">
+  <main class="quote-admin-shell">
+    <section class="quote-admin-login" data-admin-login>
+      <p class="quote-kicker">SHOME LUXURY / ADMIN</p>
+      <h1>Quản trị trang Báo giá</h1>
+      <form data-login-form>
+        <label>Tài khoản<input name="username" autocomplete="username" required /></label>
+        <label>Mật khẩu<input name="password" type="password" autocomplete="current-password" required /></label>
+        <button class="quote-button" type="submit">Đăng nhập <span>→</span></button>
+        <p data-login-status aria-live="polite"></p>
+      </form>
+    </section>
+
+    <section class="quote-admin-editor" data-admin-editor hidden>
+      <header class="quote-admin-topbar"><div><p class="quote-kicker">SHOME LUXURY / ADMIN</p><h1>Trang Báo giá</h1></div><div><a href="/bao-gia" target="_blank" rel="noopener">Xem trang ↗</a><button type="button" data-logout>Đăng xuất</button></div></header>
+      <p class="quote-admin-notice">Nội dung được lưu trực tiếp vào database. Dùng nút “Lưu thay đổi” sau khi cập nhật các nhóm nội dung.</p>
+      <form data-quote-editor class="quote-admin-form"></form>
+      <section class="quote-admin-projects"><header><div><p class="quote-kicker">CÔNG TRÌNH NỔI BẬT</p><h2>Highlight theo category</h2></div><p>Chỉ công trình bật Highlight và Hiển thị mới xuất hiện trên Báo giá. Mỗi category hiển thị tối đa 4 công trình theo thứ tự tăng dần.</p></header><div class="quote-admin-project-filter" data-project-filter></div><div class="quote-admin-project-list" data-project-list></div></section>
+    </section>
+  </main>
+</body>
+</html>

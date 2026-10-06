@@ -94,7 +94,7 @@ class ProjectService {
     }
 
     const listFields = options.compact
-      ? 'title slug investor location area propertyType cost style thumbnail isHighlight highlightOrder createdAt'
+      ? 'title slug investor location area propertyType cost style thumbnail isHighlight highlightOrder isVisible categoryIds createdAt'
       : 'title slug investor location area propertyType cost style excerpt status featured isHighlight highlightOrder isVisible categoryIds thumbnail gallery createdAt';
     let projectsQuery = Project.find(filter)
       .select(listFields)

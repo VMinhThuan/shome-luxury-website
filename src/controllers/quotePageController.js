@@ -18,9 +18,13 @@ class QuotePageController {
     return Promise.all(configured.map(async item => {
       const category = await categoryService.getCategoryByIdOrSlug(item.categoryCode);
       if (!category) return null;
-      const highlighted = await projectService.getProjects({ category: category._id.toString(), isHighlight: true, limit: 4, sort: 'highlight' });
-      // Existing installations used `featured`; retain it as a migration-safe fallback.
-      const fallback = highlighted.projects.length ? highlighted : await projectService.getProjects({ category: category._id.toString(), featured: true, limit: 4 });
+      const highlighted = await projectService.getProjects({
+        category: category._id.toString(),
+        isHighlight: true,
+        isVisible: true,
+        limit: 4,
+        sort: 'highlight'
+      });
       const categoryHrefs = {
         'tk-nt-chung-cu': '/thiet-ke-noi-that/chung-cu',
         'tk-nt-nha-pho': '/thiet-ke-noi-that/nha-pho',
@@ -31,7 +35,7 @@ class QuotePageController {
         'tk-kt-biet-thu': '/thiet-ke-kien-truc/biet-thu',
         'tk-kt-villa': '/thiet-ke-kien-truc/villa'
       };
-      return { ...item, category, href: categoryHrefs[category.code] || '/thiet-ke-cong-trinh', projects: fallback.projects.slice(0, 4) };
+      return { ...item, category, href: categoryHrefs[category.code] || '/thiet-ke-cong-trinh', projects: highlighted.projects.slice(0, 4) };
     })).then(items => items.filter(Boolean));
   }
 
@@ -48,6 +52,10 @@ class QuotePageController {
         quoteCategories
       });
     } catch (error) { next(error); }
+  }
+
+  renderAdminPage(req, res) {
+    return res.render('admin-bao-gia', { title: 'Quản trị Báo giá | SHOME LUXURY' });
   }
 
   async getPublicContent(req, res, next) {
