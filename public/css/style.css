@@ -6362,6 +6362,13 @@ ol {
   position: relative !important;
 }
 
+/* Keep the second column anchored to the divider, not to the right edge. */
+.project-info-banner .meta-item:nth-child(even) {
+  justify-content: flex-start !important;
+  align-items: center !important;
+  text-align: left !important;
+}
+
 .project-info-banner .meta-item:nth-child(odd) {
   border-right: 1px solid #E8E1D7;
   padding-right: clamp(0.75rem, 2vw, 2rem) !important;
