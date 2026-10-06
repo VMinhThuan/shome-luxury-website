@@ -21,7 +21,7 @@ class QuotePageController {
     };
     const sections = mergeDefaults(quotePageDefaults, page.sections || {});
     // One-time visual asset migration for the original seed hero. Custom admin URLs are preserved.
-    if (page.sections?.hero?.image === '/images/booking-luxury-interior.png') {
+    if (['/images/booking-luxury-interior.png', '/images/quote-apartment-hero-v1.png'].includes(page.sections?.hero?.image)) {
       sections.hero.image = quotePageDefaults.hero.image;
     }
     if (JSON.stringify(sections) !== JSON.stringify(page.sections)) {

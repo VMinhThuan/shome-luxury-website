@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <title><%= title %></title>
   <meta name="description" content="Nhận tư vấn và dự toán thiết kế, thi công nội thất từ Shome Luxury." />
-  <link rel="stylesheet" href="/css/style.css?v=6.5.6" />
+  <link rel="stylesheet" href="/css/style.css?v=6.5.7" />
   <script src="/js/main.js?v=1.9.0" defer></script>
   <script src="/js/quote-page.js?v=1.0.0" defer></script>
 </head>
@@ -20,8 +20,9 @@
             <p class="quote-kicker"><%= sections.hero.eyebrow %></p>
             <h1><em><%= quoteScript %></em><span><%= quoteTitle %></span></h1>
             <p class="quote-lead"><%= sections.hero.description %></p>
-            <a class="quote-button" href="<%= sections.hero.ctaHref %>"><%= sections.hero.ctaLabel %><span aria-hidden="true">↗</span></a>
           </div>
+          <div class="quote-hero-traits"><% (sections.hero.traits || []).forEach((trait, index) => { %><span><%= trait %></span><% if (index < sections.hero.traits.length - 1) { %><i aria-hidden="true"></i><% } %><% }) %></div>
+          <div class="quote-hero-corner-script"><%= sections.hero.cornerScript || '' %></div>
         </div>
       </section>
     <% } %>

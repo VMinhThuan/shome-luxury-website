@@ -4,7 +4,9 @@ module.exports = {
     title: 'Kiến tạo không gian sống',
     script: 'đúng gu, đúng ngân sách',
     description: 'Shome Luxury đồng hành từ ý tưởng, thiết kế đến thi công hoàn thiện. Nhận dự toán phù hợp với nhu cầu và hiện trạng của riêng bạn.',
-    image: '/images/quote-apartment-hero-v1.png',
+    image: '/images/quote-apartment-hero-v2.png',
+    traits: ['Tinh tế', 'Đẳng cấp', 'Khác biệt'],
+    cornerScript: 'Không gian\nkiến tạo hạnh phúc',
     ctaLabel: 'Nhận dự toán miễn phí',
     ctaHref: '#nhan-du-toan',
     isVisible: true
