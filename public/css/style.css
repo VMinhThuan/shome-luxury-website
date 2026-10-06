@@ -5021,7 +5021,8 @@ ol {
 /* Bottom Right Cursive Text */
 .recruitment-hero-bottom-right {
   position: absolute;
-  bottom: 15%;
+  /* Sit just above the floating benefits card, over the lower-right furniture. */
+  bottom: 24%;
   right: clamp(1.5rem, 6vw, 7rem);
   font-family: var(--font-script);
   font-size: clamp(24px, 3.5vw, 48px);
