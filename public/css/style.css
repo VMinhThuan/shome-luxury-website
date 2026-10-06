@@ -6335,7 +6335,7 @@ ol {
   max-width: 100% !important;
   box-sizing: border-box;
   display: grid !important;
-  grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
   gap: 0 !important;
   padding: 0 !important;
   border: 0 !important;
@@ -6350,19 +6350,19 @@ ol {
 
 .project-info-banner .meta-item {
   display: flex !important;
-  flex-direction: column;
+  flex-direction: row;
   align-items: center !important;
-  justify-content: center;
+  justify-content: flex-start;
   gap: 0.35rem !important;
   min-height: 72px;
   padding: 0 clamp(0.75rem, 2vw, 2rem);
   font-size: 1rem !important;
   line-height: 1.35 !important;
-  text-align: center;
+  text-align: left;
   position: relative !important;
 }
 
-.project-info-banner .meta-item:not(:last-child) {
+.project-info-banner .meta-item:nth-child(odd) {
   border-right: 1px solid #E8E1D7;
   padding-right: clamp(0.75rem, 2vw, 2rem) !important;
 }
@@ -9298,7 +9298,7 @@ html {
     padding: 0.55rem 0.5rem;
   }
 
-  .project-info-banner .meta-item:not(:last-child) {
+  .project-info-banner .meta-item:nth-child(odd) {
     padding-right: 0.5rem !important;
   }
 
