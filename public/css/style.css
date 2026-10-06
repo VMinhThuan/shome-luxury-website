@@ -1812,6 +1812,8 @@ ol {
   .factory-tour-list {
     grid-template-columns: repeat(2, 1fr);
     gap: 1.5rem;
+    /* Align the two-up gallery with the full desktop navigation/container width. */
+    max-width: none;
   }
 
   .factory-tour-step {
@@ -2043,6 +2045,8 @@ ol {
 
   .renovation-showcase-list {
     gap: 1.75rem;
+    /* Match the full desktop container width while retaining two images per row. */
+    max-width: none;
   }
 
   .renovation-showcase-pair {
@@ -2292,7 +2296,7 @@ ol {
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.025);
   display: grid;
   gap: 0.75rem;
-  grid-template-columns: 52px minmax(0, 1fr) 22px;
+  grid-template-columns: 52px minmax(0, 1fr);
   min-height: 74px;
   padding: 0.6rem 0.75rem;
 }
@@ -2358,12 +2362,13 @@ ol {
 
 @media (min-width: 768px) {
   .project-consultation-list {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 1rem 1.25rem;
+    max-width: none;
   }
 
   .project-consultation-item {
-    grid-template-columns: 60px minmax(0, 1fr) 24px;
+    grid-template-columns: 60px minmax(0, 1fr);
     min-height: 82px;
     padding-inline: 0.9rem;
   }
@@ -2563,7 +2568,7 @@ ol {
 
   .project-consultation-item {
     gap: 0.55rem;
-    grid-template-columns: 46px minmax(0, 1fr) 18px;
+    grid-template-columns: 46px minmax(0, 1fr);
     padding-inline: 0.6rem;
   }
 
@@ -2572,7 +2577,6 @@ ol {
     width: 44px;
   }
 
-  .project-consultation-arrow svg,
   .work-process-step-arrow svg {
     height: 20px;
     width: 20px;
@@ -9517,4 +9521,23 @@ main .section-v2-title,
   animation: none !important;
   filter: none !important;
   backdrop-filter: none !important;
+}
+
+/* Long handwritten section labels need a much calmer scale on phone screens. */
+@media (max-width: 767px) {
+  main .factory-detail-section .hero-script-eyebrow,
+  main .factory-tour-section .hero-script-eyebrow,
+  main .material-inspiration-section .hero-script-eyebrow,
+  main .surface-finish-section .hero-script-eyebrow,
+  main .renovation-showcase-section .hero-script-eyebrow,
+  main .furniture-care-section .hero-script-eyebrow,
+  main .project-consultation-section .hero-script-eyebrow,
+  main .work-process-steps-section .hero-script-eyebrow {
+    font-size: clamp(1.05rem, 5.2vw, 1.4rem) !important;
+    line-height: 1.15 !important;
+    letter-spacing: 0 !important;
+    margin-bottom: 0.65rem !important;
+    max-width: 100%;
+    white-space: normal !important;
+  }
 }
