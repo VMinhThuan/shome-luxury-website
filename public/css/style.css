@@ -6258,12 +6258,11 @@ ol {
 }
 
 .project-detail-title {
-  font-family: 'Cormorant Garamond', Georgia, serif;
-  font-size: clamp(1.65rem, 3vw, 3.2rem);
-  font-weight: 500;
+  font-size: clamp(1.05rem, 1.8vw, 1.35rem);
+  font-weight: 700;
   color: var(--text-primary);
   margin: 0;
-  line-height: 1.2;
+  line-height: 1.3;
   text-align: center;
 }
 
@@ -6372,7 +6371,7 @@ ol {
 
 .meta-label {
   font-weight: 400 !important;
-  color: #8B8A87 !important;
+  color: var(--text-primary) !important;
 }
 
 .meta-value {
@@ -9268,10 +9267,6 @@ html {
   .project-detail-header {
     padding-top: 1.25rem;
     padding-bottom: 1.25rem;
-  }
-
-  .project-detail-title {
-    font-size: clamp(1.45rem, 7vw, 2rem);
   }
 
   .project-detail-title-rule {
