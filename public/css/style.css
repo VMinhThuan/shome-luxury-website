@@ -976,6 +976,60 @@ ol {
   }
 }
 
+/* ==========================================================================
+   QUOTE PAGE — editorial landing page using the global Shome Luxury system
+   ========================================================================== */
+.quote-page { background: #fff; }
+.quote-page h1, .quote-page h2, .quote-page h3 { color: var(--text-primary); }
+.quote-hero { min-height: min(720px, 88vh); display: grid; align-items: end; padding: calc(var(--header-height-mobile) + 5rem) 0 4rem; color: #fff; background: linear-gradient(90deg, rgba(16,16,15,.79), rgba(16,16,15,.23) 70%), var(--quote-hero-image) center / cover; }
+.quote-hero-copy { max-width: 690px; }
+.quote-kicker { color: var(--accent-gold-dark); font-weight: 700; font-size: .7rem; letter-spacing: .16em; line-height: 1.3; text-transform: uppercase; }
+.quote-hero .quote-kicker { color: #f0cf94; }
+.quote-hero h1, .quote-heading h2, .quote-capability h2, .quote-estimate h2 { margin: .6rem 0 1rem; font-size: clamp(2.25rem, 5vw, 4.85rem); line-height: 1.06; letter-spacing: -.05em; font-weight: 700; }
+.quote-hero h1 { color: #fff; max-width: 650px; }
+.quote-hero h1 em, .quote-heading h2 em, .quote-capability h2 em, .quote-estimate h2 em { display: block; color: var(--accent-gold); font-family: var(--font-script); font-size: 1.08em; letter-spacing: 0; font-style: normal; font-weight: 500; line-height: .95; margin-top: .18em; }
+.quote-lead { max-width: 560px; color: rgba(255,255,255,.88); font-size: clamp(.94rem, 1.5vw, 1.1rem); }
+.quote-button { display: inline-flex; align-items: center; justify-content: center; gap: 1rem; margin-top: 1.6rem; min-height: 48px; padding: .78rem 1.15rem; border: 1px solid var(--accent-gold); background: var(--accent-gold); color: #fff; font-size: .78rem; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; transition: background var(--transition-normal), color var(--transition-normal), transform var(--transition-normal); }
+.quote-button:hover { background: transparent; color: var(--accent-gold-dark); transform: translateY(-2px); }
+.quote-hero .quote-button:hover { color: #fff; }
+.quote-section { padding: clamp(4rem, 8vw, 8rem) 0; }
+.quote-heading { max-width: 730px; margin-bottom: clamp(2rem, 5vw, 4.5rem); }
+.quote-heading-center { text-align: center; margin-left: auto; margin-right: auto; }
+.quote-heading h2 { font-size: clamp(2rem, 4vw, 3.7rem); }
+.quote-heading>p:not(.quote-kicker), .quote-capability-copy>p, .quote-estimate-copy>p { color: #5c5a55; font-size: .97rem; line-height: 1.75; }
+.quote-benefits { background: #fcfbf8; }
+.quote-benefit-grid { display: grid; gap: 1px; background: #e8e2d7; border: 1px solid #e8e2d7; grid-template-columns: repeat(3, 1fr); }
+.quote-benefit-card { position: relative; padding: 2rem; background: #fff; min-height: 260px; }
+.quote-number { color: var(--accent-gold-dark); font-size: .7rem; font-weight: 700; letter-spacing: .14em; }
+.quote-benefit-icon { display: grid; place-items: center; width: 42px; height: 42px; margin: 1.7rem 0 1rem; border: 1px solid #d9c39c; color: var(--accent-gold-dark); font-size: 1.5rem; }
+.quote-benefit-card h3 { font-size: 1.12rem; margin-bottom: .5rem; }
+.quote-benefit-card p { color: #625f58; font-size: .86rem; line-height: 1.65; }
+.quote-category-section { padding-bottom: 2rem; }
+.quote-category-block { margin-bottom: clamp(3.5rem, 7vw, 7rem); }
+.quote-category-intro { display: flex; justify-content: space-between; align-items: end; gap: 2rem; padding-bottom: 1.2rem; border-bottom: 1px solid #ded9d0; }
+.quote-rule { display: block; width: 38px; height: 2px; margin-bottom: 1rem; background: var(--accent-gold); }
+.quote-category-intro h3 { font-size: clamp(1.5rem, 3vw, 2.4rem); line-height: 1.15; }
+.quote-category-intro p { max-width: 580px; margin-top: .5rem; color: #69665f; font-size: .9rem; }
+.quote-text-link { display: inline-flex; flex: none; align-items: center; gap: .65rem; color: #171717; font-size: .75rem; font-weight: 700; letter-spacing: .07em; text-transform: uppercase; }
+.quote-text-link span { color: var(--accent-gold-dark); font-size: 1.25rem; }
+.quote-project-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; margin-top: 1.35rem; }
+.quote-project-card { position: relative; aspect-ratio: .78; overflow: hidden; background: #eee; }
+.quote-project-card img { width: 100%; height: 100%; transition: transform .6s ease; }
+.quote-project-card:hover img { transform: scale(1.06); }
+.quote-project-card::after { content: ''; position: absolute; inset: 35% 0 0; background: linear-gradient(transparent, rgba(0,0,0,.76)); }
+.quote-project-card>span { position: absolute; z-index: 1; bottom: 0; left: 0; width: 100%; padding: 1.05rem; color: #fff; }
+.quote-project-card b, .quote-project-card small { display: block; line-height: 1.4; }
+.quote-project-card b { font-size: .85rem; }.quote-project-card small { margin-top: .2rem; font-size: .69rem; opacity: .8; }
+.quote-empty-state { padding: 1.2rem 0; color: #756f66; }
+.quote-capability { padding: clamp(4rem, 8vw, 8rem) 0; background: #242321; }
+.quote-capability-grid { display: grid; grid-template-columns: 1.08fr .92fr; align-items: center; gap: clamp(2rem, 6vw, 7rem); }.quote-capability-image { min-height: 480px; }.quote-capability-image img { width: 100%; height: 100%; min-height: 480px; }.quote-capability .quote-kicker { color: #d6ad68; }.quote-capability h2 { color: #fff; font-size: clamp(2rem, 4vw, 4rem); }.quote-capability-copy>p { color: rgba(255,255,255,.7); }.quote-stats { display: grid; gap: .8rem; margin-top: 2rem; }.quote-stats div { display: flex; align-items: baseline; gap: 1rem; border-top: 1px solid rgba(255,255,255,.16); padding-top: .7rem; }.quote-stats b { color: var(--accent-gold); font-size: 1.35rem; }.quote-stats span { color: #fff; font-size: .84rem; }
+.quote-completed { background: #fcfbf8; }.quote-gallery { display: grid; grid-template-columns: 1.1fr .9fr .9fr; grid-template-rows: 190px 190px; gap: 1rem; }.quote-gallery-item { overflow: hidden; }.quote-gallery-item img { width: 100%; height: 100%; }.quote-gallery-item-1 { grid-row: span 2; }.quote-gallery-item-4 { grid-column: span 2; }
+.quote-pricing-list { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; }.quote-price-card { background: #f8f6f1; }.quote-price-image { aspect-ratio: 1.35; overflow: hidden; }.quote-price-image img { height: 100%; width: 100%; }.quote-price-copy { padding: 1.45rem; }.quote-price-copy h3 { margin: .9rem 0 .5rem; font-size: 1.2rem; }.quote-price-copy p { min-height: 72px; color: #67635b; font-size: .86rem; line-height: 1.65; }.quote-price-copy .quote-text-link { margin-top: .8rem; }
+.quote-process { background: #f1eee7; }.quote-process-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; counter-reset: quote-process; }.quote-process-grid article { padding: 1.5rem; border-left: 1px solid #d8d0c2; }.quote-process-grid article:first-child { border-left: 0; }.quote-process-grid span { display: block; color: var(--accent-gold-dark); font-size: 1.55rem; font-weight: 700; }.quote-process-grid h3 { margin: 1.3rem 0 .5rem; font-size: 1rem; }.quote-process-grid p { color: #65625b; font-size: .82rem; line-height: 1.65; }
+.quote-estimate { padding: clamp(4rem, 8vw, 8rem) 0; background: #fff; }.quote-estimate-grid { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(2rem, 8vw, 10rem); align-items: center; }.quote-estimate-copy img { width: 100%; max-width: 430px; margin-top: 2rem; }.quote-form { display: grid; gap: 1rem; padding: clamp(1.5rem, 4vw, 3rem); background: #f5f1e9; }.quote-form label { display: grid; gap: .4rem; color: #4b4841; font-size: .73rem; font-weight: 700; letter-spacing: .05em; text-transform: uppercase; }.quote-form input, .quote-form select, .quote-form textarea { width: 100%; padding: .85rem 0; border-bottom: 1px solid #cfc7b9; color: #171717; background: transparent; font-size: .91rem; font-weight: 400; text-transform: none; }.quote-form textarea { resize: vertical; }.quote-form .quote-button { margin-top: .5rem; }.quote-form-status { min-height: 1.4em; color: #776038; font-size: .78rem; }
+.quote-faq { background: #fcfbf8; }.quote-faq-grid { display: grid; grid-template-columns: .7fr 1.3fr; gap: clamp(2rem, 8vw, 10rem); }.quote-faq-list { border-top: 1px solid #dcd5c9; }.quote-faq-list details { border-bottom: 1px solid #dcd5c9; }.quote-faq-list summary { display: grid; grid-template-columns: 34px 1fr 18px; gap: .6rem; align-items: center; padding: 1.15rem 0; cursor: pointer; font-size: .9rem; font-weight: 600; list-style: none; }.quote-faq-list summary::-webkit-details-marker { display: none; }.quote-faq-list summary span { color: var(--accent-gold-dark); font-size: .69rem; letter-spacing: .08em; }.quote-faq-list summary b { color: var(--accent-gold-dark); text-align: right; font-size: 1.15rem; font-weight: 400; }.quote-faq-list details[open] summary b { transform: rotate(45deg); }.quote-faq-list details p { padding: 0 2.2rem 1.2rem; color: #605c55; font-size: .84rem; line-height: 1.7; }
+@media (max-width: 767px) { .quote-hero { min-height: 650px; padding: calc(var(--header-height-mobile) + 4rem) 0 3rem; background-position: 62% center; }.quote-section { padding: 3.5rem 0; }.quote-hero h1, .quote-heading h2, .quote-capability h2, .quote-estimate h2 { letter-spacing: -.04em; }.quote-benefit-grid, .quote-pricing-list { grid-template-columns: 1fr; }.quote-benefit-card { min-height: 0; padding: 1.5rem; }.quote-benefit-icon { margin: 1rem 0 .8rem; }.quote-category-intro { display: block; }.quote-category-intro .quote-text-link { margin-top: 1rem; }.quote-project-grid { grid-template-columns: repeat(2, 1fr); gap: .7rem; }.quote-capability-grid, .quote-estimate-grid, .quote-faq-grid { grid-template-columns: 1fr; }.quote-capability-image, .quote-capability-image img { min-height: 300px; }.quote-gallery { grid-template-columns: 1fr 1fr; grid-template-rows: 180px 180px 150px; gap: .65rem; }.quote-gallery-item-1 { grid-row: span 2; }.quote-gallery-item-4 { grid-column: span 2; }.quote-process-grid { grid-template-columns: 1fr 1fr; }.quote-process-grid article:nth-child(odd) { border-left: 0; }.quote-process-grid article { padding: 1rem; border-top: 1px solid #d8d0c2; }.quote-estimate-copy img { display: none; }.quote-faq-grid { gap: 1rem; } }
+
 .hero-v2-container {
   position: relative;
   z-index: 2;

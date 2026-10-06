@@ -7,11 +7,13 @@ const categoryController = require("../controllers/categoryController");
 const projectController = require("../controllers/projectController");
 const projectShowcaseController = require("../controllers/projectShowcaseController");
 const authController = require("../controllers/authController");
+const quotePageController = require("../controllers/quotePageController");
 const { authenticateAdmin } = require("../middleware/auth");
 
 // Page Routes - Homepage & Recruitment
 router.get("/", homeController.getHomePage);
 router.get("/dat-lich-ngay", homeController.getBookingPage);
+router.get("/bao-gia", quotePageController.renderPage.bind(quotePageController));
 router.get("/tin-tuc", homeController.getNewsPage);
 router.get("/tin-tuc/:id", homeController.getNewsDetailPage);
 router.get("/tin-tuc-chi-tiet/:id", homeController.getNewsDetailPage);
@@ -63,6 +65,8 @@ router.delete("/api/admin/categories/:id", authenticateAdmin, categoryController
 // Public Project API Endpoints (Search, Pagination, Descendant Filtering, Status & Featured Filtering, Sorting)
 router.get("/api/projects", projectController.getProjects.bind(projectController));
 router.get("/api/projects/:idOrSlug", projectController.getProjectByIdOrSlug.bind(projectController));
+router.get("/api/quote-page", quotePageController.getPublicContent.bind(quotePageController));
+router.put("/api/admin/quote-page", authenticateAdmin, quotePageController.updateContent.bind(quotePageController));
 
 // Admin Project CRUD & Gallery API Endpoints
 router.post("/api/admin/projects", authenticateAdmin, projectController.createProject.bind(projectController));

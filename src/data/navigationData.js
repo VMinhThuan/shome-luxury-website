@@ -50,17 +50,17 @@ module.exports = [
   {
     id: "bao-gia",
     label: "Báo giá",
-    href: "javascript:void(0)",
+    href: "/bao-gia",
     children: [
       {
         id: "bao-gia-thiet-ke-noi-that",
         label: "Báo giá thiết kế nội thất",
         href: "javascript:void(0)",
         children: [
-          { id: "bg-nt-chung-cu", label: "Báo giá nội thất chung cư", href: "/dat-lich-ngay" },
-          { id: "bg-nt-nha-pho", label: "Báo giá nội thất nhà phố", href: "/dat-lich-ngay" },
-          { id: "bg-nt-biet-thu", label: "Báo giá nội thất biệt thự", href: "/dat-lich-ngay" },
-          { id: "bg-nt-van-phong", label: "Báo giá nội thất văn phòng", href: "/dat-lich-ngay" }
+          { id: "bg-nt-chung-cu", label: "Báo giá nội thất chung cư", href: "/bao-gia#bao-gia-tham-khao" },
+          { id: "bg-nt-nha-pho", label: "Báo giá nội thất nhà phố", href: "/bao-gia#bao-gia-tham-khao" },
+          { id: "bg-nt-biet-thu", label: "Báo giá nội thất biệt thự", href: "/bao-gia#bao-gia-tham-khao" },
+          { id: "bg-nt-van-phong", label: "Báo giá nội thất văn phòng", href: "/bao-gia#bao-gia-tham-khao" }
         ]
       },
       {
@@ -68,10 +68,10 @@ module.exports = [
         label: "Báo giá thiết kế kiến trúc",
         href: "javascript:void(0)",
         children: [
-          { id: "bg-kt-nha-cap-4", label: "Báo giá kiến trúc nhà cấp 4", href: "/dat-lich-ngay" },
-          { id: "bg-kt-nha-pho", label: "Báo giá kiến trúc nhà phố", href: "/dat-lich-ngay" },
-          { id: "bg-kt-biet-thu", label: "Báo giá kiến trúc biệt thự", href: "/dat-lich-ngay" },
-          { id: "bg-kt-villa", label: "Báo giá kiến trúc villa", href: "/dat-lich-ngay" }
+          { id: "bg-kt-nha-cap-4", label: "Báo giá kiến trúc nhà cấp 4", href: "/bao-gia#bao-gia-tham-khao" },
+          { id: "bg-kt-nha-pho", label: "Báo giá kiến trúc nhà phố", href: "/bao-gia#bao-gia-tham-khao" },
+          { id: "bg-kt-biet-thu", label: "Báo giá kiến trúc biệt thự", href: "/bao-gia#bao-gia-tham-khao" },
+          { id: "bg-kt-villa", label: "Báo giá kiến trúc villa", href: "/bao-gia#bao-gia-tham-khao" }
         ]
       }
     ]

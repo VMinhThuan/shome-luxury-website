@@ -70,6 +70,21 @@ const projectSchema = new mongoose.Schema({
     default: false,
     index: true
   },
+  // Quote-page highlight fields. `featured` remains available for legacy cards.
+  isHighlight: {
+    type: Boolean,
+    default: false,
+    index: true
+  },
+  highlightOrder: {
+    type: Number,
+    default: 0
+  },
+  isVisible: {
+    type: Boolean,
+    default: true,
+    index: true
+  },
   categoryIds: [{
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Category',
@@ -93,5 +108,6 @@ const projectSchema = new mongoose.Schema({
 
 projectSchema.index({ status: 1, categoryIds: 1, createdAt: -1 });
 projectSchema.index({ status: 1, featured: 1, createdAt: -1 });
+projectSchema.index({ status: 1, isVisible: 1, isHighlight: 1, highlightOrder: 1 });
 
 module.exports = mongoose.models.Project || mongoose.model('Project', projectSchema);

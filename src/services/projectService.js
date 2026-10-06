@@ -25,6 +25,16 @@ class ProjectService {
       filter.featured = options.featured === 'true' || options.featured === true;
     }
 
+    if (options.isHighlight !== undefined) {
+      filter.isHighlight = options.isHighlight === 'true' || options.isHighlight === true;
+    }
+
+    if (options.isVisible !== undefined) {
+      filter.isVisible = options.isVisible === 'true' || options.isVisible === true;
+    } else {
+      filter.isVisible = { $ne: false };
+    }
+
     // Search filter (Title, Investor, Location, Excerpt, Content)
     if (options.search) {
       const searchRegex = new RegExp(options.search.trim(), 'i');
@@ -73,6 +83,9 @@ class ProjectService {
         case 'updated':
           sortOption = { updatedAt: -1 };
           break;
+        case 'highlight':
+          sortOption = { highlightOrder: 1, createdAt: -1 };
+          break;
         case 'newest':
         default:
           sortOption = { createdAt: -1 };
@@ -81,8 +94,8 @@ class ProjectService {
     }
 
     const listFields = options.compact
-      ? 'title slug investor location area propertyType cost style thumbnail createdAt'
-      : 'title slug investor location area propertyType cost style excerpt status featured categoryIds thumbnail gallery createdAt';
+      ? 'title slug investor location area propertyType cost style thumbnail isHighlight highlightOrder createdAt'
+      : 'title slug investor location area propertyType cost style excerpt status featured isHighlight highlightOrder isVisible categoryIds thumbnail gallery createdAt';
     let projectsQuery = Project.find(filter)
       .select(listFields)
       .sort(sortOption)

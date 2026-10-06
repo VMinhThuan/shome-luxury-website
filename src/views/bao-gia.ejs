@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title><%= title %></title>
+  <meta name="description" content="Nhận tư vấn và dự toán thiết kế, thi công nội thất từ Shome Luxury." />
+  <link rel="stylesheet" href="/css/style.css?v=6.5.0" />
+  <script src="/js/main.js?v=1.9.0" defer></script>
+  <script src="/js/quote-page.js?v=1.0.0" defer></script>
+</head>
+<body>
+  <%- include('partials/header') %>
+  <%- include('partials/mobile-drawer') %>
+  <main id="main-content" class="quote-page">
+    <% if (sections.hero?.isVisible !== false) { %>
+      <section class="quote-hero" style="--quote-hero-image: url('<%= sections.hero.image %>')">
+        <div class="container quote-hero-inner">
+          <div class="quote-hero-copy">
+            <p class="quote-kicker"><%= sections.hero.eyebrow %></p>
+            <h1><%= sections.hero.title %><em><%= sections.hero.script %></em></h1>
+            <p class="quote-lead"><%= sections.hero.description %></p>
+            <a class="quote-button" href="<%= sections.hero.ctaHref %>"><%= sections.hero.ctaLabel %><span aria-hidden="true">↗</span></a>
+          </div>
+        </div>
+      </section>
+    <% } %>
+
+    <% if (sections.benefits?.isVisible !== false) { %>
+      <section class="quote-section quote-benefits">
+        <div class="container">
+          <header class="quote-heading quote-heading-center"><p class="quote-kicker"><%= sections.benefits.title %></p><h2><%= sections.benefits.script %></h2><p><%= sections.benefits.description %></p></header>
+          <div class="quote-benefit-grid">
+            <% sections.benefits.items.filter(item => item.isVisible !== false).forEach((item, index) => { %>
+              <article class="quote-benefit-card"><span class="quote-number">0<%= index + 1 %></span><div class="quote-benefit-icon"><%= item.icon === 'document' ? '⌑' : item.icon === 'workshop' ? '⌂' : '✦' %></div><h3><%= item.title %></h3><p><%= item.description %></p></article>
+            <% }) %>
+          </div>
+        </div>
+      </section>
+    <% } %>
+
+    <% if (sections.categories?.isVisible !== false) { %>
+      <section class="quote-section quote-category-section" id="cong-trinh-thiet-ke">
+        <div class="container">
+          <header class="quote-heading"><p class="quote-kicker"><%= sections.categories.eyebrow %></p><h2><%= sections.categories.title %> <em><%= sections.categories.script %></em></h2><p><%= sections.categories.description %></p></header>
+          <% quoteCategories.forEach(group => { %>
+            <div class="quote-category-block">
+              <div class="quote-category-intro"><div><span class="quote-rule"></span><h3><%= group.category.name %></h3><p><%= group.description %></p></div><a href="/thiet-ke-noi-that" class="quote-text-link"><%= group.ctaLabel %> <span>→</span></a></div>
+              <% if (group.projects.length) { %><div class="quote-project-grid"><% group.projects.forEach(project => { %><a href="/cong-trinh/<%= project.slug %>" class="quote-project-card"><img src="<%= project.thumbnail || project.gallery?.[0] || '/images/project_apartment.jpg' %>" alt="<%= project.title %>" loading="lazy" /><span><b><%= project.title %></b><small><%= project.location || group.category.name %></small></span></a><% }) %></div><% } else { %><p class="quote-empty-state">Các công trình nổi bật sẽ được cập nhật tại đây.</p><% } %>
+            </div>
+          <% }) %>
+        </div>
+      </section>
+    <% } %>
+
+    <% if (sections.capability?.isVisible !== false) { %>
+      <section class="quote-capability"><div class="container quote-capability-grid"><div class="quote-capability-image"><img src="<%= sections.capability.image %>" alt="Năng lực sản xuất Shome Luxury" loading="lazy" /></div><div class="quote-capability-copy"><p class="quote-kicker"><%= sections.capability.eyebrow %></p><h2><%= sections.capability.title %><em><%= sections.capability.script %></em></h2><p><%= sections.capability.description %></p><div class="quote-stats"><% sections.capability.stats.forEach(stat => { %><div><b><%= stat.value %></b><span><%= stat.label %></span></div><% }) %></div></div></div></section>
+    <% } %>
+
+    <% if (sections.completed?.isVisible !== false) { %>
+      <section class="quote-section quote-completed"><div class="container"><header class="quote-heading quote-heading-center"><p class="quote-kicker"><%= sections.completed.eyebrow %></p><h2><%= sections.completed.title %> <em><%= sections.completed.script %></em></h2><p><%= sections.completed.description %></p></header><div class="quote-gallery"><% sections.completed.gallery.filter(item => item.isVisible !== false).sort((a,b) => (a.order||0)-(b.order||0)).forEach((item, index) => { %><figure class="quote-gallery-item quote-gallery-item-<%= index + 1 %>"><img src="<%= item.image %>" alt="<%= item.alt %>" loading="lazy" /></figure><% }) %></div></div></section>
+    <% } %>
+
+    <% if (sections.pricing?.isVisible !== false) { %>
+      <section class="quote-section quote-pricing" id="bao-gia-tham-khao"><div class="container"><header class="quote-heading"><p class="quote-kicker"><%= sections.pricing.eyebrow %></p><h2><%= sections.pricing.title %> <em><%= sections.pricing.script %></em></h2><p><%= sections.pricing.description %></p></header><div class="quote-pricing-list"><% sections.pricing.items.filter(item => item.isVisible !== false).sort((a,b) => (a.order||0)-(b.order||0)).forEach(item => { %><article class="quote-price-card"><div class="quote-price-image"><img src="<%= item.image %>" alt="<%= item.title %>" loading="lazy" /></div><div class="quote-price-copy"><span class="quote-number"><%= item.number %></span><h3><%= item.title %></h3><p><%= item.description %></p><a class="quote-text-link" href="<%= item.ctaHref %>"><%= item.ctaLabel %> <span>→</span></a></div></article><% }) %></div></div></section>
+    <% } %>
+
+    <% if (sections.process?.isVisible !== false) { %>
+      <section class="quote-section quote-process"><div class="container"><header class="quote-heading quote-heading-center"><p class="quote-kicker"><%= sections.process.eyebrow %></p><h2><%= sections.process.title %> <em><%= sections.process.script %></em></h2></header><div class="quote-process-grid"><% sections.process.items.filter(item => item.isVisible !== false).sort((a,b) => (a.order||0)-(b.order||0)).forEach(item => { %><article><span><%= item.number %></span><h3><%= item.title %></h3><p><%= item.description %></p></article><% }) %></div></div></section>
+    <% } %>
+
+    <% if (sections.estimate?.isVisible !== false) { %>
+      <section class="quote-estimate" id="nhan-du-toan"><div class="container quote-estimate-grid"><div class="quote-estimate-copy"><p class="quote-kicker"><%= sections.estimate.eyebrow %></p><h2><%= sections.estimate.title %><em><%= sections.estimate.script %></em></h2><p><%= sections.estimate.description %></p><img src="<%= sections.estimate.image %>" alt="Tư vấn dự toán Shome Luxury" loading="lazy" /></div><form class="quote-form" data-quote-form><label>Họ và tên<input name="fullname" required placeholder="Nhập họ và tên" /></label><label>Số điện thoại<input name="phone" type="tel" required placeholder="Nhập số điện thoại" /></label><label>Nhu cầu<select name="service"><option value="Thiết kế & thi công nội thất">Thiết kế & thi công nội thất</option><option value="Thiết kế nội thất">Thiết kế nội thất</option><option value="Thi công nội thất">Thi công nội thất</option><option value="Thiết kế kiến trúc">Thiết kế kiến trúc</option></select></label><label>Thông tin công trình<textarea name="message" rows="3" placeholder="Loại hình, diện tích, vị trí công trình..."></textarea></label><button class="quote-button" type="submit"><%= sections.estimate.submitLabel %> <span>↗</span></button><p class="quote-form-status" aria-live="polite"></p></form></div></section>
+    <% } %>
+
+    <% if (sections.faq?.isVisible !== false) { %>
+      <section class="quote-section quote-faq"><div class="container quote-faq-grid"><header class="quote-heading"><p class="quote-kicker"><%= sections.faq.eyebrow %></p><h2><%= sections.faq.title %> <em><%= sections.faq.script %></em></h2></header><div class="quote-faq-list"><% sections.faq.items.filter(item => item.isVisible !== false).sort((a,b) => (a.order||0)-(b.order||0)).forEach((item, index) => { %><details <%= index === 0 ? 'open' : '' %>><summary><span>0<%= index + 1 %></span><%= item.question %><b>+</b></summary><p><%= item.answer %></p></details><% }) %></div></div></section>
+    <% } %>
+  </main>
+  <%- include('partials/footer') %>
+</body>
+</html>
