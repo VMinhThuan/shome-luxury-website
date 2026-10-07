@@ -249,6 +249,90 @@ ol {
   }
 }
 
+/* Construction offer: a balanced editorial split, matching the supplied two-column layout. */
+.quote-page .quote-construction-cta {
+  padding: clamp(2.5rem, 5vw, 4.5rem) 0;
+  background: #fffdf9;
+}
+.quote-page .quote-construction-card {
+  display: grid;
+  grid-template-columns: minmax(0, .93fr) minmax(0, 1.07fr);
+  min-height: clamp(280px, 29vw, 330px);
+  overflow: hidden;
+  border: 1px solid #f0e7da;
+  border-radius: 16px;
+  background: linear-gradient(110deg, #fffdf9 0%, #fdf8f0 100%);
+  box-shadow: 0 8px 24px rgba(94, 63, 27, .045);
+}
+.quote-page .quote-construction-copy {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding: clamp(1.5rem, 3.2vw, 3.1rem) clamp(1.8rem, 4.4vw, 4.15rem);
+}
+.quote-page .quote-construction-copy .quote-kicker {
+  margin: 0 0 .28rem;
+  color: #17120e;
+  font-family: var(--font-heading);
+  font-size: clamp(1.25rem, 2.05vw, 2rem);
+  font-weight: 800;
+  letter-spacing: -.045em;
+  line-height: 1.05;
+}
+.quote-page .quote-construction-copy h2 {
+  margin: 0 0 .5rem;
+  color: #b86a14;
+  font-family: var(--font-script);
+  font-size: clamp(2.5rem, 4.6vw, 4.45rem);
+  font-weight: 500;
+  letter-spacing: 0;
+  line-height: .9;
+}
+.quote-page .quote-construction-copy > p {
+  margin: 0 0 .9rem;
+  color: #27231f;
+  font-size: clamp(.9rem, 1.35vw, 1.16rem);
+  line-height: 1.35;
+}
+.quote-page .quote-construction-points {
+  display: grid;
+  grid-template-columns: max-content max-content;
+  gap: .55rem 1.6rem;
+  margin: 0 0 1rem;
+  color: #26221e;
+  font-size: clamp(.7rem, 1.05vw, .9rem);
+  line-height: 1.25;
+}
+.quote-page .quote-construction-points span { gap: .55rem; }
+.quote-page .quote-construction-points i { color: #c87519; font-size: 1.5em; }
+.quote-page .quote-construction-copy .quote-button {
+  min-height: 42px;
+  padding: .7rem 1.55rem;
+  border-radius: 999px;
+  background: linear-gradient(100deg, #dfa350, #efc27e);
+  color: #1c1711;
+  font-size: clamp(.68rem, .92vw, .8rem);
+  font-weight: 700;
+  letter-spacing: .02em;
+}
+.quote-page .quote-construction-card > img {
+  width: 100%;
+  min-height: 0;
+  height: 100%;
+  border-radius: 0 15px 15px 0;
+  object-fit: cover;
+  object-position: center;
+}
+@media (max-width: 767px) {
+  .quote-page .quote-construction-cta { padding: 2.5rem 0; }
+  .quote-page .quote-construction-card { grid-template-columns: 1fr; min-height: 0; border-radius: 14px; }
+  .quote-page .quote-construction-card > img { order: -1; height: auto; min-height: 200px; max-height: 250px; border-radius: 14px 14px 0 0; }
+  .quote-page .quote-construction-copy { padding: 1.45rem 1.25rem 1.6rem; }
+  .quote-page .quote-construction-copy .quote-kicker { font-size: 1.35rem; }
+  .quote-page .quote-construction-copy h2 { font-size: clamp(2.6rem, 13vw, 3.55rem); }
+  .quote-page .quote-construction-points { grid-template-columns: 1fr; gap: .5rem; font-size: .78rem; }
+}
+
 /* Benefits scale: compact, left-aligned copy on small screens; a three-card row on desktop. */
 .quote-page .quote-benefit-copy,
 .quote-page .quote-benefit-copy h3,
@@ -9985,7 +10069,7 @@ main .section-v2-title,
   gap: clamp(.85rem, 1.6vw, 1.25rem);
 }
 .quote-page .quote-benefit-card {
-  grid-template-columns: 150px minmax(0, 1fr);
+  grid-template-columns: 118px minmax(0, 1fr);
   align-items: center;
   min-height: clamp(132px, 12vw, 158px);
   padding: 1rem clamp(1.4rem, 4vw, 4.7rem);
@@ -9995,8 +10079,8 @@ main .section-v2-title,
   box-shadow: 0 10px 28px rgba(86, 59, 28, .06);
 }
 .quote-page .quote-benefit-icon {
-  width: 100px;
-  height: 100px;
+  width: 76px;
+  height: 76px;
   margin: auto;
   background: transparent !important;
 }
@@ -10012,7 +10096,7 @@ main .section-v2-title,
   flex-direction: column;
   justify-content: center;
   min-height: 84px;
-  padding-left: clamp(1.3rem, 2.4vw, 2.25rem);
+  padding-left: clamp(1rem, 1.8vw, 1.45rem);
   border-left: 2px solid #edc58e;
 }
 .quote-page .quote-benefit-copy h3 {
@@ -10024,25 +10108,29 @@ main .section-v2-title,
   font-weight: 700;
   letter-spacing: -.025em;
   line-height: 1.12;
-  text-align: left;
+  width: 100%;
+  text-align: left !important;
+  justify-self: stretch;
 }
 .quote-page .quote-benefit-copy p {
   color: #514b4a;
   font-size: clamp(.84rem, 1.3vw, 1rem);
   line-height: 1.45;
-  text-align: left;
+  width: 100%;
+  text-align: left !important;
+  justify-self: stretch;
 }
 @media (max-width: 767px) {
   .quote-page .quote-benefits { padding: 2rem 0 3rem; }
   .quote-page .quote-benefit-grid { width: calc(100% - 24px); gap: .7rem; }
   .quote-page .quote-benefit-card {
-    grid-template-columns: 76px minmax(0, 1fr);
+    grid-template-columns: 66px minmax(0, 1fr);
     min-height: 98px;
     padding: .7rem .8rem;
     border-radius: 16px;
   }
-  .quote-page .quote-benefit-icon { width: 62px; height: 62px; }
-  .quote-page .quote-benefit-copy { min-height: 62px; padding-left: .8rem; border-left-width: 1px; }
+  .quote-page .quote-benefit-icon { width: 52px; height: 52px; }
+  .quote-page .quote-benefit-copy { min-height: 62px; padding-left: .65rem; border-left-width: 1px; }
   .quote-page .quote-benefit-copy h3 { margin-bottom: .25rem !important; font-size: clamp(1rem, 4.8vw, 1.28rem); line-height: 1.15; }
   .quote-page .quote-benefit-copy p { font-size: clamp(.7rem, 3.05vw, .82rem); line-height: 1.35; }
 }
@@ -10069,13 +10157,13 @@ main .section-v2-title,
 }
 .quote-page .quote-pricing .quote-heading h2 em {
   display: block;
-  margin: .04em 0 .1em;
+  margin: .2em 0 .16em;
   color: var(--accent-gold-dark);
   font-family: var(--font-script);
-  font-size: clamp(2.8rem, 6vw, 5rem);
+  font-size: clamp(2.55rem, 5.2vw, 4.35rem);
   font-weight: 500;
   letter-spacing: 0;
-  line-height: .86;
+  line-height: 1;
   text-transform: none;
 }
 .quote-page .quote-pricing .quote-heading > p:not(.quote-kicker) {
@@ -10113,7 +10201,7 @@ main .section-v2-title,
 @media (max-width: 767px) {
   .quote-page .quote-pricing { padding: 3rem 0; }
   .quote-page .quote-pricing .quote-heading h2 { font-size: clamp(1.3rem, 6vw, 1.7rem); }
-  .quote-page .quote-pricing .quote-heading h2 em { font-size: clamp(2.5rem, 12vw, 3.4rem); }
+  .quote-page .quote-pricing .quote-heading h2 em { margin-top: .18em; font-size: clamp(2.3rem, 11vw, 3.1rem); line-height: 1; }
   .quote-page .quote-pricing .quote-heading > p:not(.quote-kicker) { font-size: .79rem; }
   .quote-page .quote-pricing-list { width: calc(100% - 24px); gap: .65rem; }
   .quote-page .quote-price-card { grid-template-columns: 46% 54%; min-height: 132px; border-radius: 16px; }
@@ -10188,4 +10276,26 @@ main .section-v2-title,
     font-size: clamp(.8rem, 3.4vw, 1.3rem);
     line-height: .72;
   }
+}
+
+/* Final construction CTA layout override. */
+.quote-page .quote-construction-cta { padding: clamp(2.5rem, 5vw, 4.5rem) 0; background: #fffdf9; }
+.quote-page .quote-construction-card { display: grid; grid-template-columns: minmax(0, .93fr) minmax(0, 1.07fr); min-height: clamp(280px, 29vw, 330px); overflow: hidden; border: 1px solid #f0e7da; border-radius: 16px; background: linear-gradient(110deg, #fffdf9, #fdf8f0); box-shadow: 0 8px 24px rgba(94, 63, 27, .045); }
+.quote-page .quote-construction-copy { display: flex; align-items: flex-start; justify-content: center; padding: clamp(1.5rem, 3.2vw, 3.1rem) clamp(1.8rem, 4.4vw, 4.15rem); }
+.quote-page .quote-construction-copy .quote-kicker { margin: 0 0 .28rem; color: #17120e; font-family: var(--font-heading); font-size: clamp(1.25rem, 2.05vw, 2rem); font-weight: 800; letter-spacing: -.045em; line-height: 1.05; }
+.quote-page .quote-construction-copy h2 { margin: 0 0 .5rem; color: #b86a14; font-family: var(--font-script); font-size: clamp(2.5rem, 4.6vw, 4.45rem); font-weight: 500; letter-spacing: 0; line-height: .9; }
+.quote-page .quote-construction-copy > p { margin: 0 0 .9rem; color: #27231f; font-size: clamp(.9rem, 1.35vw, 1.16rem); line-height: 1.35; }
+.quote-page .quote-construction-points { display: grid; grid-template-columns: max-content max-content; gap: .55rem 1.6rem; margin: 0 0 1rem; color: #26221e; font-size: clamp(.7rem, 1.05vw, .9rem); line-height: 1.25; }
+.quote-page .quote-construction-points span { gap: .55rem; }
+.quote-page .quote-construction-points i { color: #c87519; font-size: 1.5em; }
+.quote-page .quote-construction-copy .quote-button { min-height: 42px; padding: .7rem 1.55rem; border-radius: 999px; background: linear-gradient(100deg, #dfa350, #efc27e); color: #1c1711; font-size: clamp(.68rem, .92vw, .8rem); font-weight: 700; letter-spacing: .02em; }
+.quote-page .quote-construction-card > img { width: 100%; min-height: 0; height: 100%; border-radius: 0 15px 15px 0; object-fit: cover; object-position: center; }
+@media (max-width: 767px) {
+  .quote-page .quote-construction-cta { padding: 2.5rem 0; }
+  .quote-page .quote-construction-card { grid-template-columns: 1fr; min-height: 0; border-radius: 14px; }
+  .quote-page .quote-construction-card > img { order: -1; height: auto; min-height: 200px; max-height: 250px; border-radius: 14px 14px 0 0; }
+  .quote-page .quote-construction-copy { padding: 1.45rem 1.25rem 1.6rem; }
+  .quote-page .quote-construction-copy .quote-kicker { font-size: 1.35rem; }
+  .quote-page .quote-construction-copy h2 { font-size: clamp(2.6rem, 13vw, 3.55rem); }
+  .quote-page .quote-construction-points { grid-template-columns: 1fr; gap: .5rem; font-size: .78rem; }
 }
