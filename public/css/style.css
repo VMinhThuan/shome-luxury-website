@@ -10157,7 +10157,7 @@ main .section-v2-title,
 }
 @media (max-width: 767px) {
   .quote-page .quote-benefits { padding: 1.5rem 0 1.25rem; }
-  .quote-page .quote-benefit-grid { width: calc(100% - 24px); gap: .7rem; }
+  .quote-page .quote-benefit-grid { width: 100%; gap: .7rem; }
   .quote-page .quote-benefit-card {
     grid-template-columns: 66px minmax(0, 1fr);
     min-height: 98px;
@@ -10238,7 +10238,7 @@ main .section-v2-title,
   .quote-page .quote-pricing .quote-heading h2 { font-size: clamp(1.3rem, 6vw, 1.7rem); }
   .quote-page .quote-pricing .quote-heading h2 em { margin: .18em 0 .38em; font-size: clamp(2.3rem, 11vw, 3.1rem); line-height: 1; }
   .quote-page .quote-pricing .quote-heading > p:not(.quote-kicker) { font-size: .79rem; }
-  .quote-page .quote-pricing-list { width: calc(100% - 24px); gap: .65rem; }
+  .quote-page .quote-pricing-list { width: 100%; gap: .65rem; }
   .quote-page .quote-price-card { grid-template-columns: 46% 54%; min-height: 132px; border-radius: 16px; }
   .quote-page .quote-price-image { margin: 7px 0 7px 7px; border-radius: 11px; }
   .quote-page .quote-price-copy { padding: .65rem .9rem  .65rem 1.15rem; }
