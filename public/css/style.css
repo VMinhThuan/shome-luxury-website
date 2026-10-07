@@ -333,6 +333,41 @@ ol {
   .quote-page .quote-construction-points { grid-template-columns: 1fr; gap: .5rem; font-size: .78rem; }
 }
 
+@media (min-width: 560px) and (max-width: 767px) {
+  .quote-page .quote-construction-card { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); min-height: 245px; border-radius: 14px; }
+  .quote-page .quote-construction-card > img { order: initial; min-height: 0; max-height: none; height: 100%; border-radius: 0 13px 13px 0; }
+  .quote-page .quote-construction-copy { padding: 1.25rem 1.1rem 1.2rem 1.45rem; }
+  .quote-page .quote-construction-copy .quote-kicker { font-size: clamp(1.15rem, 3.4vw, 1.55rem); }
+  .quote-page .quote-construction-copy h2 { margin-bottom: .35rem; font-size: clamp(2rem, 6.6vw, 3rem); line-height: .9; }
+  .quote-page .quote-construction-copy > p { margin-bottom: .6rem; font-size: clamp(.78rem, 2.2vw, .94rem); }
+  .quote-page .quote-construction-points { grid-template-columns: 1fr; gap: .34rem; margin-bottom: .7rem; font-size: clamp(.62rem, 1.75vw, .75rem); }
+  .quote-page .quote-construction-points span:last-child { grid-column: auto; }
+  .quote-page .quote-construction-copy .quote-button { min-height: 36px; padding: .55rem 1rem; font-size: .64rem; }
+}
+
+/* Keep the reference's side-by-side composition on tablets. */
+@media (min-width: 560px) and (max-width: 767px) {
+  .quote-page .quote-construction-card {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) !important;
+    min-height: 245px !important;
+    border-radius: 14px;
+  }
+  .quote-page .quote-construction-card > img {
+    order: initial !important;
+    min-height: 0 !important;
+    max-height: none !important;
+    height: 100% !important;
+    border-radius: 0 13px 13px 0;
+  }
+  .quote-page .quote-construction-copy { padding: 1.25rem 1.1rem 1.2rem 1.45rem; }
+  .quote-page .quote-construction-copy .quote-kicker { font-size: clamp(1.15rem, 3.4vw, 1.55rem); }
+  .quote-page .quote-construction-copy h2 { margin-bottom: .35rem; font-size: clamp(2rem, 6.6vw, 3rem); line-height: .9; }
+  .quote-page .quote-construction-copy > p { margin-bottom: .6rem; font-size: clamp(.78rem, 2.2vw, .94rem); }
+  .quote-page .quote-construction-points { grid-template-columns: 1fr; gap: .34rem; margin-bottom: .7rem; font-size: clamp(.62rem, 1.75vw, .75rem); }
+  .quote-page .quote-construction-points span:last-child { grid-column: auto; }
+  .quote-page .quote-construction-copy .quote-button { min-height: 36px; padding: .55rem 1rem; font-size: .64rem; }
+}
+
 /* Benefits scale: compact, left-aligned copy on small screens; a three-card row on desktop. */
 .quote-page .quote-benefit-copy,
 .quote-page .quote-benefit-copy h3,
@@ -10061,7 +10096,7 @@ main .section-v2-title,
 
 /* Quotation assurances — three supplied icons and the reference's stacked-card rhythm. */
 .quote-page .quote-benefits {
-  padding: clamp(2.75rem, 5vw, 5rem) 0 clamp(3.5rem, 7vw, 6rem);
+  padding: clamp(2.25rem, 4vw, 3.5rem) 0 clamp(1.5rem, 3vw, 2.5rem);
   background: #fffaf3;
 }
 .quote-page .quote-benefit-grid {
@@ -10121,7 +10156,7 @@ main .section-v2-title,
   justify-self: stretch;
 }
 @media (max-width: 767px) {
-  .quote-page .quote-benefits { padding: 2rem 0 3rem; }
+  .quote-page .quote-benefits { padding: 1.5rem 0 1.25rem; }
   .quote-page .quote-benefit-grid { width: calc(100% - 24px); gap: .7rem; }
   .quote-page .quote-benefit-card {
     grid-template-columns: 66px minmax(0, 1fr);
@@ -10137,7 +10172,7 @@ main .section-v2-title,
 
 /* Apartment-pricing brochure: clear tiered cards, using the generated three-scene interior strip. */
 .quote-page .quote-pricing {
-  padding: clamp(3.5rem, 6.5vw, 6.5rem) 0;
+  padding: clamp(2.25rem, 4.5vw, 4.5rem) 0 clamp(3.5rem, 6.5vw, 6.5rem);
   background:
     radial-gradient(ellipse at 8% 14%, rgba(237, 196, 124, .16), transparent 32%),
     radial-gradient(ellipse at 92% 54%, rgba(238, 211, 171, .22), transparent 31%),
@@ -10157,7 +10192,7 @@ main .section-v2-title,
 }
 .quote-page .quote-pricing .quote-heading h2 em {
   display: block;
-  margin: .2em 0 .16em;
+  margin: .2em 0 .45em;
   color: var(--accent-gold-dark);
   font-family: var(--font-script);
   font-size: clamp(2.55rem, 5.2vw, 4.35rem);
@@ -10199,9 +10234,9 @@ main .section-v2-title,
 .quote-page .quote-price-area b { margin-right: .72rem; color: #b96812; font-size: 1.25em; font-weight: 500; }
 .quote-page .quote-price-copy .quote-text-link { display: none; }
 @media (max-width: 767px) {
-  .quote-page .quote-pricing { padding: 3rem 0; }
+  .quote-page .quote-pricing { padding: 2.25rem 0 3rem; }
   .quote-page .quote-pricing .quote-heading h2 { font-size: clamp(1.3rem, 6vw, 1.7rem); }
-  .quote-page .quote-pricing .quote-heading h2 em { margin-top: .18em; font-size: clamp(2.3rem, 11vw, 3.1rem); line-height: 1; }
+  .quote-page .quote-pricing .quote-heading h2 em { margin: .18em 0 .38em; font-size: clamp(2.3rem, 11vw, 3.1rem); line-height: 1; }
   .quote-page .quote-pricing .quote-heading > p:not(.quote-kicker) { font-size: .79rem; }
   .quote-page .quote-pricing-list { width: calc(100% - 24px); gap: .65rem; }
   .quote-page .quote-price-card { grid-template-columns: 46% 54%; min-height: 132px; border-radius: 16px; }
