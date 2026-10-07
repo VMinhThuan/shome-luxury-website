@@ -41,6 +41,15 @@ class QuotePageController {
     if (page.sections?.constructionCta?.image === '/images/booking-luxury-interior.png') {
       sections.constructionCta = { ...sections.constructionCta, ...quotePageDefaults.constructionCta };
     }
+    if (page.sections?.brandVideo?.image === '/images/booking-luxury-interior.png') {
+      sections.brandVideo = { ...sections.brandVideo, ...quotePageDefaults.brandVideo };
+    }
+    if (page.sections?.completed?.title === 'Chạm vào' && page.sections?.completed?.script === 'chất lượng thực tế') {
+      sections.completed = { ...sections.completed, ...quotePageDefaults.completed };
+    }
+    if (page.sections?.capability?.title === 'Một quy trình khép kín') {
+      sections.capability = { ...sections.capability, ...quotePageDefaults.capability };
+    }
     if (JSON.stringify(sections) !== JSON.stringify(page.sections)) {
       await QuotePage.updateOne({ _id: page._id }, { $set: { sections } });
       page.sections = sections;

@@ -5,7 +5,48 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <title><%= title %></title>
   <meta name="description" content="Nhận tư vấn và dự toán thiết kế, thi công nội thất từ Shome Luxury." />
-  <link rel="stylesheet" href="/css/style.css?v=6.5.24" />
+  <link rel="stylesheet" href="/css/style.css?v=6.5.27" />
+  <style>
+    .quote-page .quote-video-card-link { display: block; cursor: pointer; }
+    .quote-page .quote-video-card-link:hover { box-shadow: 0 12px 30px rgba(91, 57, 22, .12); transform: translateY(-2px); transition: box-shadow .2s ease, transform .2s ease; }
+    .quote-page .quote-completed { padding: clamp(3rem, 6vw, 5.5rem) 0; background: #fffdf9; }
+    .quote-page .quote-completed-heading { margin: 0 auto clamp(1.5rem, 3vw, 2.5rem); text-align: center; }
+    .quote-page .quote-completed-heading p { margin: 0 0 .15rem; color: #b86a14; font-family: var(--font-script); font-size: clamp(1.8rem, 4vw, 3.5rem); font-weight: 500; line-height: .85; }
+    .quote-page .quote-completed-heading h2 { margin: 0; color: #1d1a19; font-family: var(--font-heading); font-size: clamp(1.8rem, 4.5vw, 3.6rem); font-weight: 800; letter-spacing: -.055em; line-height: 1.1; }
+    .quote-page .quote-completed-heading h2 em { color: #ca9548; font-family: var(--font-heading); font-style: normal; }
+    .quote-page .quote-completed-heading > span { display: block; margin-top: .42rem; color: #7a7067; font-size: clamp(.76rem, 1.4vw, 1rem); }
+    .quote-page .quote-completed-videos { display: grid; width: min(900px, 100%); margin: auto; gap: clamp(.8rem, 1.7vw, 1.35rem); }
+    .quote-page .quote-completed-video { position: relative; aspect-ratio: 2.05 / 1; overflow: hidden; border: 1px solid #eadfce; border-radius: 18px; background: #2a1c12; box-shadow: 0 8px 20px rgba(76, 48, 20, .06); }
+    .quote-page .quote-completed-video img { width: 100%; height: 100%; object-fit: cover; }
+    .quote-page .quote-completed-video-shade { position: absolute; inset: 0; background: linear-gradient(90deg, rgba(26, 17, 10, .63), rgba(26, 17, 10, .06) 68%), linear-gradient(0deg, rgba(20, 13, 8, .25), transparent 55%); }
+    .quote-page .quote-completed-play { position: absolute; top: 50%; left: 50%; display: grid; width: clamp(48px, 7vw, 70px); height: clamp(48px, 7vw, 70px); place-items: center; border: 3px solid #fff; border-radius: 50%; background: rgba(101, 61, 22, .42); color: #fff; font-size: clamp(1rem, 2vw, 1.45rem); line-height: 1; transform: translate(-50%, -50%); cursor: pointer; }
+    .quote-page .quote-completed-caption { position: absolute; bottom: clamp(.75rem, 2.5vw, 1.5rem); left: clamp(.8rem, 2.5vw, 1.5rem); color: #fff; text-transform: uppercase; }
+    .quote-page .quote-completed-caption small { font-size: clamp(.55rem, 1vw, .68rem); font-weight: 600; }
+    .quote-page .quote-completed-caption h3 { margin: .2rem 0 .28rem; font-family: Georgia, serif; font-size: clamp(1rem, 2vw, 1.55rem); font-weight: 500; line-height: 1.05; }
+    .quote-page .quote-completed-caption p { margin: 0; font-size: clamp(.55rem, .9vw, .68rem); }
+    @media (max-width: 559px) { .quote-page .quote-completed { padding: 2.5rem 0; }.quote-page .quote-completed-videos { width: calc(100% - 24px); gap: .8rem; }.quote-page .quote-completed-video { aspect-ratio: 1.55 / 1; border-radius: 14px; }.quote-page .quote-completed-caption h3 { font-size: 1.05rem; }.quote-page .quote-completed-play { width: 46px; height: 46px; border-width: 2px; } }
+    .quote-page .quote-capability { padding: clamp(3rem, 6vw, 5.5rem) 0; background: #fffdf9; }
+    .quote-page .quote-workshop { width: min(930px, 100%); }
+    .quote-page .quote-workshop-heading { margin: 0 auto 1rem; text-align: center; }
+    .quote-page .quote-workshop-heading h2 { margin: 0; color: #191715; font-family: var(--font-heading); font-size: clamp(1.35rem, 3vw, 2.25rem); font-weight: 800; letter-spacing: -.045em; text-transform: uppercase; }
+    .quote-page .quote-workshop-heading h2 em { color: #bd7218; font-family: var(--font-script); font-size: 1.35em; font-weight: 500; letter-spacing: 0; text-transform: none; }
+    .quote-page .quote-workshop-heading p { margin: .15rem 0 0; color: #716961; font-size: clamp(.7rem, 1.4vw, .92rem); }
+    .quote-page .quote-workshop-main { position: relative; aspect-ratio: 2.12 / 1; overflow: hidden; margin: auto; border: 1px solid #e8ddcf; border-radius: 12px; background: #382b21; }
+    .quote-page .quote-workshop-main img { width: 100%; height: 100%; object-fit: cover; }
+    .quote-page .quote-workshop-main-shade { position: absolute; inset: 0; background: linear-gradient(0deg, rgba(19, 13, 9, .66), transparent 38%); }
+    .quote-page .quote-workshop-play { position: absolute; bottom: .75rem; left: .75rem; display: grid; width: 34px; height: 34px; place-items: center; border: 2px solid #fff; border-radius: 50%; background: rgba(0, 0, 0, .28); color: #fff; font-size: .8rem; cursor: pointer; }
+    .quote-page .quote-workshop-main > span { position: absolute; bottom: 1.25rem; left: 3.35rem; color: #fff; font-size: clamp(.62rem, 1vw, .75rem); font-weight: 600; }
+    .quote-page .quote-workshop-stats { display: grid; grid-template-columns: repeat(3, 1fr); margin: .65rem 0 1.2rem; }
+    .quote-page .quote-workshop-stats div { display: grid; gap: .12rem; place-items: center; padding: 0 .7rem; text-align: center; }
+    .quote-page .quote-workshop-stats div + div { border-left: 1px solid #c9c2ba; }
+    .quote-page .quote-workshop-stats b { color: #191715; font-size: clamp(1.15rem, 2.6vw, 1.85rem); line-height: 1; }
+    .quote-page .quote-workshop-stats span { color: #6c645d; font-size: clamp(.58rem, 1vw, .75rem); }
+    .quote-page .quote-workshop-gallery { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    .quote-page .quote-workshop-gallery figure { margin: 0; text-align: center; }
+    .quote-page .quote-workshop-gallery img { display: block; width: 100%; aspect-ratio: 1.65 / 1; border-radius: 8px; object-fit: cover; }
+    .quote-page .quote-workshop-gallery figcaption { margin-top: .35rem; color: #302c28; font-size: clamp(.64rem, 1.1vw, .8rem); }
+    @media (max-width: 559px) { .quote-page .quote-workshop { width: calc(100% - 24px); }.quote-page .quote-workshop-main { aspect-ratio: 1.5 / 1; }.quote-page .quote-workshop-gallery { gap: .7rem; }.quote-page .quote-workshop-stats { margin-bottom: .9rem; }.quote-page .quote-workshop-stats div { padding: 0 .3rem; }.quote-page .quote-workshop-stats span { font-size: .6rem; }.quote-page .quote-workshop-main > span { bottom: 1.15rem; } }
+  </style>
   <script src="/js/main.js?v=1.9.0" defer></script>
   <script src="/js/quote-page.js?v=1.0.0" defer></script>
 </head>
@@ -72,15 +113,16 @@
     <% } %>
 
     <% if (sections.brandVideo?.isVisible !== false) { %>
-      <section class="quote-brand-video"><div class="container"><header class="quote-video-heading"><p><%= sections.brandVideo.eyebrow %></p><h2><%= sections.brandVideo.title %></h2><span></span><strong><%= sections.brandVideo.description %></strong></header><div class="quote-video-card"><img src="<%= sections.brandVideo.image %>" alt="<%= sections.brandVideo.caption %>" loading="lazy" /><div class="quote-video-scrim"></div><div class="quote-video-copy"><span><%= sections.brandVideo.eyebrow %></span><h3><%= selectedCategory ? `Giải pháp ${selectedCategory.name}` : 'Đơn vị thiết kế thi công nội thất' %></h3><p><%= sections.brandVideo.description %></p></div><a class="quote-video-play" href="<%= sections.brandVideo.videoUrl || sections.brandVideo.ctaHref || '#nhan-du-toan' %>" <%= sections.brandVideo.videoUrl ? 'target="_blank" rel="noopener"' : '' %> aria-label="<%= sections.brandVideo.ctaLabel %>">▶</a><div class="quote-video-footer"><div><b><%= sections.brandVideo.caption %></b><span><%= sections.brandVideo.description %></span></div><time><%= sections.brandVideo.duration %></time><a href="<%= sections.brandVideo.ctaHref || '#nhan-du-toan' %>"><%= sections.brandVideo.ctaLabel %> ↗</a></div></div></div></section>
-    <% } %>
-
-    <% if (sections.capability?.isVisible !== false) { %>
-      <section class="quote-capability"><div class="container quote-capability-grid"><div class="quote-capability-image"><img src="<%= sections.capability.image %>" alt="Năng lực sản xuất Shome Luxury" loading="lazy" /></div><div class="quote-capability-copy"><p class="quote-kicker"><%= sections.capability.eyebrow %></p><h2><%= sections.capability.title %><em><%= sections.capability.script %></em></h2><p><%= sections.capability.description %></p><div class="quote-stats"><% sections.capability.stats.forEach(stat => { %><div><b><%= stat.value %></b><span><%= stat.label %></span></div><% }) %></div></div></div></section>
+      <% const brandVideoUrl = sections.brandVideo.videoUrl || sections.brandVideo.ctaHref || 'https://www.youtube.com/channel/UCcW0-8y0EMYZ381uBjcccjA'; %>
+      <section class="quote-brand-video"><div class="container"><a class="quote-video-card quote-video-card-link" href="<%= brandVideoUrl %>" target="_blank" rel="noopener noreferrer" aria-label="<%= sections.brandVideo.ctaLabel || 'Xem trên YouTube' %>"><img src="<%= sections.brandVideo.image %>" alt="<%= sections.brandVideo.caption %>" loading="lazy" /></a></div></section>
     <% } %>
 
     <% if (sections.completed?.isVisible !== false) { %>
-      <section class="quote-section quote-completed"><div class="container"><header class="quote-heading quote-heading-center"><p class="quote-kicker"><%= sections.completed.eyebrow %></p><h2><%= sections.completed.title %> <em><%= sections.completed.script %></em></h2><p><%= sections.completed.description %></p></header><div class="quote-gallery"><% sections.completed.gallery.filter(item => item.isVisible !== false).sort((a,b) => (a.order||0)-(b.order||0)).forEach((item, index) => { %><figure class="quote-gallery-item quote-gallery-item-<%= index + 1 %>"><img src="<%= item.image %>" alt="<%= item.alt %>" loading="lazy" /></figure><% }) %></div></div></section>
+      <section class="quote-section quote-completed"><div class="container"><header class="quote-completed-heading"><p><%= sections.completed.eyebrow %></p><h2><%= sections.completed.title %> <em><%= sections.completed.script %></em></h2><span><%= sections.completed.description %></span></header><div class="quote-completed-videos"><% sections.completed.gallery.filter(item => item.isVisible !== false).sort((a,b) => (a.order||0)-(b.order||0)).forEach((item, index) => { %><article class="quote-completed-video"><img src="<%= item.image %>" alt="<%= item.alt %>" loading="lazy" /><div class="quote-completed-video-shade"></div><button type="button" class="quote-completed-play" aria-label="Xem video <%= item.title || item.alt %>">▶</button><div class="quote-completed-caption"><small>Căn hộ <%= index + 1 %> phòng ngủ</small><h3><%= item.title || item.alt %></h3><p>● <%= item.location || 'Hà Nội' %></p></div></article><% }) %></div></div></section>
+    <% } %>
+
+    <% if (sections.capability?.isVisible !== false) { %>
+      <section class="quote-capability"><div class="container quote-workshop"><header class="quote-workshop-heading"><h2><%= sections.capability.eyebrow %> <em><%= sections.capability.title %></em></h2><p><%= sections.capability.description %></p></header><article class="quote-workshop-main"><img src="<%= sections.capability.image %>" alt="Xưởng sản xuất Shome Luxury" loading="lazy" /><div class="quote-workshop-main-shade"></div><button type="button" class="quote-workshop-play" aria-label="Xem video tại xưởng">▶</button><span>Xem video tại xưởng</span></article><div class="quote-workshop-stats"><% sections.capability.stats.forEach(stat => { %><div><b><%= stat.value %></b><span><%= stat.label %></span></div><% }) %></div><div class="quote-workshop-gallery"><% (sections.capability.gallery || []).forEach(item => { %><figure><img src="<%= item.image %>" alt="<%= item.alt %>" loading="lazy" /><figcaption><%= item.title %></figcaption></figure><% }) %></div></div></section>
     <% } %>
 
     <% if (sections.process?.isVisible !== false) { %>

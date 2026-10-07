@@ -38,37 +38,43 @@ module.exports = {
     eyebrow: 'SHOME LUXURY',
     title: 'Đơn vị thiết kế & thi công nội thất hàng đầu Việt Nam',
     description: 'Kiến tạo không gian sống – Nâng tầm giá trị cuộc sống',
-    image: '/images/booking-luxury-interior.png',
-    videoUrl: '',
+    image: '/images/Luxury Interior with Golden Wave Accents.png',
+    videoUrl: 'https://www.youtube.com/channel/UCcW0-8y0EMYZ381uBjcccjA',
     caption: 'Giới thiệu về Shome Luxury',
     duration: '02:15',
     ctaLabel: 'Xem trên YouTube',
-    ctaHref: '',
+    ctaHref: 'https://www.youtube.com/channel/UCcW0-8y0EMYZ381uBjcccjA',
     isVisible: true
   },
   capability: {
-    eyebrow: 'SHOME LUXURY',
-    title: 'Một quy trình khép kín',
-    script: 'cho một tổ ấm trọn vẹn',
-    description: 'Từ bản vẽ đầu tiên đến ngày bàn giao, mỗi công đoạn đều được kiểm soát bởi cùng một đội ngũ.',
-    image: '/images/img-xuong-san-xuat/chinh-chu-chi-tiet.png',
+    eyebrow: 'Xưởng sản xuất',
+    title: 'Trực tiếp',
+    script: '',
+    description: 'Quy mô trên 2000m² - Chủ động chất lượng và tiến độ.',
+    image: '/images/factory_workers.jpg',
     stats: [
-      { value: '01', label: 'Đội ngũ thiết kế đồng hành' },
-      { value: '02', label: 'Xưởng sản xuất trực tiếp' },
-      { value: '03', label: 'Quy trình kiểm soát chất lượng' }
+      { value: '2000m²', label: 'Diện tích xưởng' },
+      { value: '50+', label: 'Nhân sự lành nghề' },
+      { value: '1000+', label: 'Sản phẩm/năm' }
+    ],
+    gallery: [
+      { image: '/images/img-xuong-san-xuat/factory-tour-cnc.png', title: 'Máy móc hiện đại', alt: 'Máy móc hiện đại tại xưởng' },
+      { image: '/images/img-xuong-san-xuat/factory-tour-assembly.png', title: 'Sản xuất trực tiếp', alt: 'Khu vực sản xuất trực tiếp' },
+      { image: '/images/img-xuong-san-xuat/factory-tour-quality-check.png', title: 'Kiểm soát chất lượng', alt: 'Kiểm soát chất lượng nội thất' },
+      { image: '/images/img-xuong-san-xuat/factory-tour-storage.png', title: 'Đóng gói cẩn thận', alt: 'Đóng gói sản phẩm cẩn thận' }
     ],
     isVisible: true
   },
   completed: {
-    eyebrow: 'CÔNG TRÌNH HOÀN THIỆN',
-    title: 'Chạm vào',
-    script: 'chất lượng thực tế',
-    description: 'Những không gian được hoàn thiện từ xưởng Shome Luxury.',
+    eyebrow: 'Thước phim thực tế',
+    title: 'Công trình',
+    script: 'hoàn thiện',
+    description: 'Ghi lại không gian thực tế sau khi hoàn tất thi công.',
     gallery: [
-      { image: '/images/hero_interior.jpg', alt: 'Không gian phòng khách hoàn thiện', isVisible: true, order: 1 },
-      { image: '/images/service_interior.jpg', alt: 'Không gian nội thất hoàn thiện', isVisible: true, order: 2 },
-      { image: '/images/hero_sofa_light.jpg', alt: 'Chi tiết nội thất Shome Luxury', isVisible: true, order: 3 },
-      { image: '/images/project_villa.jpg', alt: 'Công trình biệt thự hoàn thiện', isVisible: true, order: 4 }
+      { image: '/images/completed-project-living-room.png', alt: 'Căn hộ 1 phòng ngủ hiện đại ấm cúng', title: 'Hiện đại & ấm cúng', location: 'Vinhomes Ocean Park', isVisible: true, order: 1 },
+      { image: '/images/service_interior.jpg', alt: 'Căn hộ 2 phòng ngủ tinh tế tiện nghi', title: 'Tinh tế & tiện nghi', location: 'Masteri Centre Point', isVisible: true, order: 2 },
+      { image: '/images/hero_sofa_light.jpg', alt: 'Căn hộ 3 phòng ngủ rộng rãi đẳng cấp', title: 'Rộng rãi & đẳng cấp', location: 'Royal City', isVisible: true, order: 3 },
+      { image: '/images/project_villa.jpg', alt: 'Không gian nội thất hoàn thiện', title: 'Đẳng cấp & tinh tế', location: 'Hà Nội', isVisible: true, order: 4 }
     ],
     isVisible: true
   },
