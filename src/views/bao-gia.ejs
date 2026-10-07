@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <title><%= title %></title>
   <meta name="description" content="Nhận tư vấn và dự toán thiết kế, thi công nội thất từ Shome Luxury." />
-  <link rel="stylesheet" href="/css/style.css?v=6.5.17" />
+  <link rel="stylesheet" href="/css/style.css?v=6.5.18" />
   <script src="/js/main.js?v=1.9.0" defer></script>
   <script src="/js/quote-page.js?v=1.0.0" defer></script>
 </head>
@@ -72,7 +72,7 @@
     <% } %>
 
     <% if (sections.constructionCta?.isVisible !== false) { %>
-      <section class="quote-construction-cta"><div class="container"><div class="quote-construction-card"><div class="quote-construction-copy"><p class="quote-kicker"><%= sections.constructionCta.eyebrow %></p><h2><%= sections.constructionCta.title %></h2><p><%= sections.constructionCta.description %></p><div class="quote-construction-points"><span>◌ Tối ưu chi phí</span><span>◇ Đồng bộ thẩm mỹ</span><span>⌂ Trọn gói công trình</span></div><a class="quote-button" href="<%= sections.constructionCta.ctaHref %>"><%= sections.constructionCta.ctaLabel %> <span>→</span></a></div><img src="<%= sections.constructionCta.image %>" alt="Thi công nội thất Shome Luxury" loading="lazy" /></div></div></section>
+      <section class="quote-construction-cta"><div class="container"><div class="quote-construction-card"><div class="quote-construction-copy"><p class="quote-kicker"><%= sections.constructionCta.eyebrow %></p><h2><%= sections.constructionCta.title %></h2><p><%= sections.constructionCta.description %></p><div class="quote-construction-points"><span><i aria-hidden="true">◌</i>Tối ưu chi phí</span><span><i aria-hidden="true">◇</i>Đồng bộ thẩm mỹ</span><span><i aria-hidden="true">⌂</i>Trọn gói cho căn hộ, nhà phố, văn phòng</span></div><a class="quote-button" href="<%= sections.constructionCta.ctaHref %>"><%= sections.constructionCta.ctaLabel %> <span>→</span></a></div><img src="<%= sections.constructionCta.image %>" alt="Thi công nội thất Shome Luxury" loading="lazy" /></div></div></section>
     <% } %>
 
     <% if (sections.process?.isVisible !== false) { %>

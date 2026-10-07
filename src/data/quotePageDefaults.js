@@ -87,8 +87,8 @@ module.exports = {
   constructionCta: {
     eyebrow: 'THI CÔNG NỘI THẤT',
     title: 'Miễn phí thiết kế',
-    description: 'Khi ký hợp đồng thi công trọn gói. Tối ưu chi phí, đồng bộ thẩm mỹ và trọn gói cho căn hộ, nhà phố, văn phòng.',
-    image: '/images/booking-luxury-interior.png',
+    description: 'Khi ký hợp đồng thi công trọn gói',
+    image: '/images/quote-construction-interior.png',
     ctaLabel: 'Nhận tư vấn ngay',
     ctaHref: '#nhan-du-toan',
     isVisible: true

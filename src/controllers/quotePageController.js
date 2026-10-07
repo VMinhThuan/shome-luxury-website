@@ -38,6 +38,9 @@ class QuotePageController {
     const isOriginalPricing = page.sections?.pricing?.title === 'Dự toán rõ ràng'
       && page.sections?.pricing?.script === 'để an tâm bắt đầu';
     if (isOriginalPricing) sections.pricing = { ...sections.pricing, ...quotePageDefaults.pricing };
+    if (page.sections?.constructionCta?.image === '/images/booking-luxury-interior.png') {
+      sections.constructionCta = { ...sections.constructionCta, ...quotePageDefaults.constructionCta };
+    }
     if (JSON.stringify(sections) !== JSON.stringify(page.sections)) {
       await QuotePage.updateOne({ _id: page._id }, { $set: { sections } });
       page.sections = sections;
