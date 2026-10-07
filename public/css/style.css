@@ -10187,3 +10187,24 @@ main .section-v2-title,
     line-height: .72;
   }
 }
+
+/* Final compact override for the assurance cards. */
+.quote-page .quote-benefit-copy { justify-content: center; text-align: left; }
+.quote-page .quote-benefit-copy h3,
+.quote-page .quote-benefit-copy p { text-align: left; }
+@media (max-width: 1023px) {
+  .quote-page .quote-benefit-grid { width: min(575px, calc(100% - 40px)); gap: .7rem; }
+  .quote-page .quote-benefit-card { grid-template-columns: 74px minmax(0, 1fr); min-height: 98px; padding: .7rem .9rem; border-radius: 17px; }
+  .quote-page .quote-benefit-icon { width: 54px; height: 54px; }
+  .quote-page .quote-benefit-copy { min-height: 64px; padding-left: .9rem; border-left-width: 1px; }
+  .quote-page .quote-benefit-copy h3 { margin: 0 0 .16rem !important; font-size: clamp(1.05rem, 3.65vw, 1.32rem) !important; line-height: 1.04; letter-spacing: -.03em; }
+  .quote-page .quote-benefit-copy p { font-size: clamp(.74rem, 2.5vw, .86rem) !important; line-height: 1.28; }
+}
+@media (max-width: 480px) {
+  .quote-page .quote-benefit-grid { width: calc(100% - 28px); }
+  .quote-page .quote-benefit-card { grid-template-columns: 64px minmax(0, 1fr); min-height: 88px; padding: .6rem .7rem; }
+  .quote-page .quote-benefit-icon { width: 47px; height: 47px; }
+  .quote-page .quote-benefit-copy { min-height: 58px; padding-left: .72rem; }
+  .quote-page .quote-benefit-copy h3 { font-size: clamp(.96rem, 4.65vw, 1.15rem) !important; }
+  .quote-page .quote-benefit-copy p { font-size: clamp(.67rem, 3.05vw, .77rem) !important; }
+}
