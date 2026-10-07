@@ -249,6 +249,83 @@ ol {
   }
 }
 
+/* Benefits scale: compact, left-aligned copy on small screens; a three-card row on desktop. */
+.quote-page .quote-benefit-copy,
+.quote-page .quote-benefit-copy h3,
+.quote-page .quote-benefit-copy p { text-align: left; }
+
+@media (min-width: 1024px) {
+  .quote-page .quote-benefit-grid {
+    width: 100%;
+    max-width: var(--container-max);
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    align-items: stretch;
+  }
+  .quote-page .quote-benefit-card {
+    grid-template-columns: 82px minmax(0, 1fr);
+    min-height: 158px;
+    padding: 1.15rem 1.3rem;
+    border-radius: 20px;
+  }
+  .quote-page .quote-benefit-icon { width: 72px; height: 72px; }
+  .quote-page .quote-benefit-copy {
+    min-height: 94px;
+    padding-left: 1rem;
+  }
+  .quote-page .quote-benefit-copy h3 {
+    margin-bottom: .3rem !important;
+    font-size: clamp(1.2rem, 1.7vw, 1.55rem);
+    line-height: 1.02;
+  }
+  .quote-page .quote-benefit-copy p {
+    font-size: clamp(.77rem, 1vw, .91rem);
+    line-height: 1.35;
+  }
+}
+
+@media (max-width: 1023px) {
+  .quote-page .quote-benefit-grid { width: min(680px, calc(100% - 32px)); }
+  .quote-page .quote-benefit-card {
+    grid-template-columns: 92px minmax(0, 1fr);
+    min-height: 108px;
+    padding: .75rem 1rem;
+    border-radius: 18px;
+  }
+  .quote-page .quote-benefit-icon { width: 68px; height: 68px; }
+  .quote-page .quote-benefit-copy {
+    min-height: 72px;
+    padding-left: 1rem;
+    border-left-width: 1px;
+  }
+  .quote-page .quote-benefit-copy h3 {
+    max-width: 100%;
+    margin-bottom: .2rem !important;
+    font-size: clamp(1.12rem, 4.3vw, 1.45rem);
+    line-height: 1.03;
+  }
+  .quote-page .quote-benefit-copy p {
+    font-size: clamp(.75rem, 2.8vw, .9rem);
+    line-height: 1.32;
+  }
+}
+
+@media (max-width: 480px) {
+  .quote-page .quote-benefit-grid { width: calc(100% - 24px); }
+  .quote-page .quote-benefit-card {
+    grid-template-columns: 72px minmax(0, 1fr);
+    min-height: 94px;
+    padding: .65rem .75rem;
+    border-radius: 15px;
+  }
+  .quote-page .quote-benefit-icon { width: 56px; height: 56px; }
+  .quote-page .quote-benefit-copy { min-height: 60px; padding-left: .75rem; }
+  .quote-page .quote-benefit-copy h3 { font-size: clamp(1rem, 5.2vw, 1.22rem); }
+  .quote-page .quote-benefit-copy p { font-size: clamp(.68rem, 3.35vw, .79rem); }
+}
+
+/* Hero traits stay on one clean baseline. */
+.quote-hero-traits span:first-child::after { display: none !important; }
+
 @media (min-width: 1200px) {
   .container {
     padding-left: 32px;
