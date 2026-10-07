@@ -10315,10 +10315,10 @@ main .section-v2-title,
 
 /* Final construction CTA layout override. */
 .quote-page .quote-construction-cta { padding: clamp(2.5rem, 5vw, 4.5rem) 0; background: #fffdf9; }
-.quote-page .quote-construction-card { display: grid; grid-template-columns: minmax(0, .93fr) minmax(0, 1.07fr); min-height: clamp(280px, 29vw, 330px); overflow: hidden; border: 1px solid #f0e7da; border-radius: 16px; background: linear-gradient(110deg, #fffdf9, #fdf8f0); box-shadow: 0 8px 24px rgba(94, 63, 27, .045); }
-.quote-page .quote-construction-copy { display: flex; align-items: flex-start; justify-content: center; padding: clamp(1.5rem, 3.2vw, 3.1rem) clamp(1.8rem, 4.4vw, 4.15rem); }
+.quote-page .quote-construction-card { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); column-gap: clamp(.75rem, 1.8vw, 1.4rem); min-height: clamp(280px, 29vw, 330px); overflow: hidden; border: 1px solid #f0e7da; border-radius: 16px; background: linear-gradient(110deg, #fffdf9, #fdf8f0); box-shadow: 0 8px 24px rgba(94, 63, 27, .045); }
+.quote-page .quote-construction-copy { display: flex; min-width: 0; align-items: flex-start; justify-content: center; padding: clamp(1.5rem, 3.2vw, 3.1rem) clamp(1.35rem, 2.8vw, 2.5rem); }
 .quote-page .quote-construction-copy .quote-kicker { margin: 0 0 .28rem; color: #17120e; font-family: var(--font-heading); font-size: clamp(1.25rem, 2.05vw, 2rem); font-weight: 800; letter-spacing: -.045em; line-height: 1.05; }
-.quote-page .quote-construction-copy h2 { margin: 0 0 .5rem; color: #b86a14; font-family: var(--font-script); font-size: clamp(2.5rem, 4.6vw, 4.45rem); font-weight: 500; letter-spacing: 0; line-height: .9; }
+.quote-page .quote-construction-copy h2 { max-width: 100%; margin: 0 0 .5rem; color: #b86a14; font-family: var(--font-script); font-size: clamp(2.25rem, 4vw, 4rem); font-weight: 500; letter-spacing: 0; line-height: .9; overflow-wrap: break-word; }
 .quote-page .quote-construction-copy > p { margin: 0 0 .9rem; color: #27231f; font-size: clamp(.9rem, 1.35vw, 1.16rem); line-height: 1.35; }
 .quote-page .quote-construction-points { display: grid; grid-template-columns: max-content max-content; gap: .55rem 1.6rem; margin: 0 0 1rem; color: #26221e; font-size: clamp(.7rem, 1.05vw, .9rem); line-height: 1.25; }
 .quote-page .quote-construction-points span { gap: .55rem; }
