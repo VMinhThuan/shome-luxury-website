@@ -31,6 +31,13 @@ class QuotePageController {
     if (page.sections?.hero?.description === 'Shome Luxury đồng hành từ ý tưởng, thiết kế đến thi công hoàn thiện. Nhận dự toán phù hợp với nhu cầu và hiện trạng của riêng bạn.') {
       sections.hero.description = quotePageDefaults.hero.description;
     }
+    const isOriginalBenefits = page.sections?.benefits?.items?.every((item, index) => item.title === [
+      'Tư vấn đúng nhu cầu', 'Dự toán minh bạch', 'Xưởng sản xuất trực tiếp'
+    ][index]);
+    if (isOriginalBenefits) sections.benefits.items = quotePageDefaults.benefits.items;
+    const isOriginalPricing = page.sections?.pricing?.title === 'Dự toán rõ ràng'
+      && page.sections?.pricing?.script === 'để an tâm bắt đầu';
+    if (isOriginalPricing) sections.pricing = { ...sections.pricing, ...quotePageDefaults.pricing };
     if (JSON.stringify(sections) !== JSON.stringify(page.sections)) {
       await QuotePage.updateOne({ _id: page._id }, { $set: { sections } });
       page.sections = sections;

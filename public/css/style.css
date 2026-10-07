@@ -9847,3 +9847,153 @@ main .section-v2-title,
   }
   .quote-page .quote-brochure-copy h1 { max-width: 285px; }
 }
+
+/* Quotation assurances — three supplied icons and the reference's stacked-card rhythm. */
+.quote-page .quote-benefits {
+  padding: clamp(2.75rem, 5vw, 5rem) 0 clamp(3.5rem, 7vw, 6rem);
+  background: #fffaf3;
+}
+.quote-page .quote-benefit-grid {
+  width: min(1040px, calc(100% - 32px));
+  gap: clamp(.85rem, 1.6vw, 1.25rem);
+}
+.quote-page .quote-benefit-card {
+  grid-template-columns: 190px minmax(0, 1fr);
+  align-items: center;
+  min-height: clamp(142px, 13vw, 170px);
+  padding: 1rem clamp(1.4rem, 4vw, 4.7rem);
+  border: 1px solid rgba(224, 210, 192, .6);
+  border-radius: 24px;
+  background: rgba(255, 255, 255, .91);
+  box-shadow: 0 10px 28px rgba(86, 59, 28, .06);
+}
+.quote-page .quote-benefit-icon {
+  width: 126px;
+  height: 126px;
+  margin: auto;
+  background: transparent !important;
+}
+.quote-page .quote-benefit-icon img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+.quote-page .quote-benefit-copy {
+  align-self: stretch;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 92px;
+  padding-left: clamp(1.6rem, 3vw, 3.25rem);
+  border-left: 2px solid #edc58e;
+}
+.quote-page .quote-benefit-copy h3 {
+  max-width: 430px;
+  margin: 0 0 .28rem !important;
+  color: #17120e;
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: clamp(1.55rem, 2.7vw, 2.45rem);
+  font-weight: 600;
+  letter-spacing: -.04em;
+  line-height: .96;
+}
+.quote-page .quote-benefit-copy p {
+  color: #514b4a;
+  font-size: clamp(.9rem, 1.55vw, 1.18rem);
+  line-height: 1.35;
+}
+@media (max-width: 767px) {
+  .quote-page .quote-benefits { padding: 2rem 0 3rem; }
+  .quote-page .quote-benefit-grid { width: calc(100% - 24px); gap: .7rem; }
+  .quote-page .quote-benefit-card {
+    grid-template-columns: 88px minmax(0, 1fr);
+    min-height: 105px;
+    padding: .7rem .8rem;
+    border-radius: 16px;
+  }
+  .quote-page .quote-benefit-icon { width: 72px; height: 72px; }
+  .quote-page .quote-benefit-copy { min-height: 65px; padding-left: .9rem; border-left-width: 1px; }
+  .quote-page .quote-benefit-copy h3 { font-size: clamp(1.2rem, 5.8vw, 1.55rem); }
+  .quote-page .quote-benefit-copy p { font-size: clamp(.72rem, 3.25vw, .88rem); }
+}
+
+/* Apartment-pricing brochure: clear tiered cards, using the generated three-scene interior strip. */
+.quote-page .quote-pricing {
+  padding: clamp(3.5rem, 6.5vw, 6.5rem) 0;
+  background:
+    radial-gradient(ellipse at 8% 14%, rgba(237, 196, 124, .16), transparent 32%),
+    radial-gradient(ellipse at 92% 54%, rgba(238, 211, 171, .22), transparent 31%),
+    #fffaf2;
+}
+.quote-page .quote-pricing .quote-heading { max-width: 940px; margin: 0 auto clamp(1.4rem, 3vw, 2.35rem); }
+.quote-page .quote-pricing .quote-heading .quote-kicker { display: none; }
+.quote-page .quote-pricing .quote-heading h2 {
+  margin: 0 0 .2rem;
+  color: #17120e;
+  font-family: var(--font-heading);
+  font-size: clamp(1.55rem, 3vw, 2.6rem);
+  font-weight: 800;
+  letter-spacing: -.055em;
+  line-height: 1;
+  text-transform: uppercase;
+}
+.quote-page .quote-pricing .quote-heading h2 em {
+  display: block;
+  margin: .04em 0 .1em;
+  color: var(--accent-gold-dark);
+  font-family: var(--font-script);
+  font-size: clamp(2.8rem, 6vw, 5rem);
+  font-weight: 500;
+  letter-spacing: 0;
+  line-height: .86;
+  text-transform: none;
+}
+.quote-page .quote-pricing .quote-heading > p:not(.quote-kicker) {
+  max-width: none;
+  color: #262a39;
+  font-size: clamp(.88rem, 1.6vw, 1.2rem);
+  line-height: 1.35;
+}
+.quote-page .quote-pricing-list { width: min(1040px, 100%); gap: .75rem; }
+.quote-page .quote-price-card {
+  grid-template-columns: 46% 1fr;
+  min-height: 190px;
+  border: 1px solid rgba(233, 223, 208, .95);
+  border-radius: 24px;
+  background: rgba(255, 255, 255, .91);
+  box-shadow: 0 10px 26px rgba(72, 48, 23, .055);
+}
+.quote-page .quote-price-image {
+  min-height: 0;
+  margin: 10px 0 10px 10px;
+  border-radius: 16px;
+  background-image: url('/images/quote-pricing-interiors-triptych.png');
+  background-position: var(--pricing-image-position) center;
+  background-repeat: no-repeat;
+  background-size: 300% 100%;
+}
+.quote-page .quote-price-copy { display: flex; flex-direction: column; justify-content: center; padding: 1.15rem clamp(1.3rem, 3.3vw, 3.1rem); }
+.quote-page .quote-price-copy::before { top: 23%; bottom: 23%; width: 2px; background: #dfa756; }
+.quote-page .quote-price-title { color: #1d1b19; font-size: clamp(.78rem, 1.35vw, 1rem); letter-spacing: .01em; }
+.quote-page .quote-price-copy h3 { margin: .1rem 0 .18rem; color: #a9580c; font-size: clamp(2rem, 4.5vw, 3.6rem); letter-spacing: -.06em; }
+.quote-page .quote-price-copy p { margin: 0 0 .45rem; color: #4d4a50; font-size: clamp(.86rem, 1.35vw, 1.05rem); line-height: 1.25; }
+.quote-page .quote-price-area { width: fit-content; padding: .38rem .78rem; border-radius: 11px; background: #fff4e1; color: #1d1b19; font-size: clamp(.84rem, 1.25vw, 1rem); font-weight: 600; }
+.quote-page .quote-price-area b { margin-right: .72rem; color: #b96812; font-size: 1.25em; font-weight: 500; }
+.quote-page .quote-price-copy .quote-text-link { display: none; }
+@media (max-width: 767px) {
+  .quote-page .quote-pricing { padding: 3rem 0; }
+  .quote-page .quote-pricing .quote-heading h2 { font-size: clamp(1.3rem, 6vw, 1.7rem); }
+  .quote-page .quote-pricing .quote-heading h2 em { font-size: clamp(2.5rem, 12vw, 3.4rem); }
+  .quote-page .quote-pricing .quote-heading > p:not(.quote-kicker) { font-size: .79rem; }
+  .quote-page .quote-pricing-list { width: calc(100% - 24px); gap: .65rem; }
+  .quote-page .quote-price-card { grid-template-columns: 46% 54%; min-height: 132px; border-radius: 16px; }
+  .quote-page .quote-price-image { margin: 7px 0 7px 7px; border-radius: 11px; }
+  .quote-page .quote-price-copy { padding: .65rem .9rem  .65rem 1.15rem; }
+  .quote-page .quote-price-copy::before { top: 18%; bottom: 18%; width: 1px; }
+  .quote-page .quote-price-title { font-size: .68rem; }
+  .quote-page .quote-price-copy h3 { margin: .05rem 0; font-size: clamp(1.65rem, 8vw, 2.15rem); }
+  .quote-page .quote-price-copy p { margin-bottom: .3rem; font-size: .73rem; }
+  .quote-page .quote-price-area { padding: .22rem .5rem; border-radius: 8px; font-size: .73rem; }
+  .quote-page .quote-price-area b { margin-right: .36rem; }
+}

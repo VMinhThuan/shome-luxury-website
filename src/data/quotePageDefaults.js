@@ -16,9 +16,9 @@ module.exports = {
     script: 'nhiều hơn một báo giá',
     description: 'Một phương án rõ ràng để bạn chủ động quyết định cho tổ ấm của mình.',
     items: [
-      { title: 'Tư vấn đúng nhu cầu', description: 'Lắng nghe hiện trạng, gu thẩm mỹ và ngân sách trước khi đề xuất phương án.', icon: 'spark', isVisible: true },
-      { title: 'Dự toán minh bạch', description: 'Bóc tách hạng mục, vật liệu và khối lượng rõ ràng để dễ đối chiếu.', icon: 'document', isVisible: true },
-      { title: 'Xưởng sản xuất trực tiếp', description: 'Chủ động chất lượng và tiến độ, tối ưu chi phí không qua trung gian.', icon: 'workshop', isVisible: true }
+      { title: 'Thiết kế chuyên nghiệp', description: 'Ý tưởng tinh tế, tối ưu từng chi tiết', icon: 'design', isVisible: true },
+      { title: 'Thi công chuẩn chất lượng', description: 'Đội ngũ giàu kinh nghiệm, quy trình rõ ràng', icon: 'construction', isVisible: true },
+      { title: 'Bảo hành 5 năm', description: 'Cam kết bền đẹp, đồng hành dài lâu', icon: 'warranty', isVisible: true }
     ],
     isVisible: true
   },
@@ -74,13 +74,13 @@ module.exports = {
   },
   pricing: {
     eyebrow: 'BÁO GIÁ THAM KHẢO',
-    title: 'Dự toán rõ ràng',
-    script: 'để an tâm bắt đầu',
-    description: 'Mỗi công trình có hiện trạng và yêu cầu riêng. Các hạng mục dưới đây giúp bạn hình dung phạm vi đầu tư trước khi nhận dự toán chi tiết.',
+    title: 'Thiết kế thi công nội thất',
+    script: 'Chung cư',
+    description: 'Minh bạch chi phí - Tối ưu ngân sách - Hiệu quả vượt mong đợi',
     items: [
-      { number: '01', title: 'Chung cư 1 ngủ', price: '55 triệu', area: '< 70m²', description: 'Thiết kế trọn gói, tối ưu công năng và chi phí.', image: '/images/anh_san_pham_1.png', ctaLabel: 'Nhận tư vấn', ctaHref: '#nhan-du-toan', isVisible: true, order: 1 },
-      { number: '02', title: 'Chung cư 2 ngủ', price: '90 triệu', area: '70 - 100m²', description: 'Thiết kế trọn gói, đồng bộ thẩm mỹ cho từng không gian.', image: '/images/anh_san_pham_2.png', ctaLabel: 'Nhận tư vấn', ctaHref: '#nhan-du-toan', isVisible: true, order: 2 },
-      { number: '03', title: 'Chung cư 3 ngủ', price: '125 triệu', area: '> 100m²', description: 'Giải pháp thiết kế đầy đủ cho tổ ấm rộng rãi.', image: '/images/anh_san_pham_3.png', ctaLabel: 'Nhận tư vấn', ctaHref: '#nhan-du-toan', isVisible: true, order: 3 }
+      { number: '01', title: 'Chung cư 1 ngủ', price: '55 triệu', area: '< 70m²', description: 'Thiết kế trọn gói', image: '/images/anh_san_pham_1.png', ctaLabel: 'Nhận tư vấn', ctaHref: '#nhan-du-toan', isVisible: true, order: 1 },
+      { number: '02', title: 'Chung cư 2 ngủ', price: '90 triệu', area: '70 - 100m²', description: 'Thiết kế trọn gói', image: '/images/anh_san_pham_2.png', ctaLabel: 'Nhận tư vấn', ctaHref: '#nhan-du-toan', isVisible: true, order: 2 },
+      { number: '03', title: 'Chung cư 3 ngủ', price: '125 triệu', area: '> 100m²', description: 'Thiết kế trọn gói', image: '/images/anh_san_pham_3.png', ctaLabel: 'Nhận tư vấn', ctaHref: '#nhan-du-toan', isVisible: true, order: 3 }
     ],
     isVisible: true
   },
