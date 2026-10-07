@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <title><%= title %></title>
   <meta name="description" content="Nhận tư vấn và dự toán thiết kế, thi công nội thất từ Shome Luxury." />
-  <link rel="stylesheet" href="/css/style.css?v=6.5.33" />
+  <link rel="stylesheet" href="/css/style.css?v=6.5.34" />
   <style>
     .quote-page .quote-video-card-link { display: block; cursor: pointer; }
     .quote-page .quote-video-card-link:hover { box-shadow: 0 12px 30px rgba(91, 57, 22, .12); transform: translateY(-2px); transition: box-shadow .2s ease, transform .2s ease; }
@@ -91,6 +91,11 @@
     @media (max-width: 559px) { .quote-page .quote-handover-check { padding: 1.8rem 0; }.quote-page .quote-handover-inner { width: calc(100% - 24px); }.quote-page .quote-handover-lead { margin-bottom: .75rem; }.quote-page .quote-handover-heading { margin-bottom: .85rem; }.quote-page .quote-handover-list { gap: .55rem; } }
     .quote-page .quote-craftsmanship + .quote-handover-check { padding-top: 2rem; }
     .quote-page .quote-handover-check + .quote-section { padding-top: 2rem; }
+    /* Keep the assurance and pricing sections visually connected. */
+    .quote-page .quote-benefits { padding-bottom: 10px !important; }
+    .quote-page .quote-pricing { padding-top: 10px !important; }
+    .quote-page .quote-pricing .quote-heading h2 { margin-bottom: clamp(1.5rem, 3vw, 2.3rem) !important; }
+    .quote-page .quote-pricing .quote-heading h2 em { margin-bottom: 0 !important; padding-bottom: .42em; line-height: 1.05; }
   </style>
   <script src="/js/main.js?v=1.9.0" defer></script>
   <script src="/js/quote-page.js?v=1.0.0" defer></script>
