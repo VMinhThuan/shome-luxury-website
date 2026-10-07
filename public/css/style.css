@@ -9997,3 +9997,66 @@ main .section-v2-title,
   .quote-page .quote-price-area { padding: .22rem .5rem; border-radius: 8px; font-size: .73rem; }
   .quote-page .quote-price-area b { margin-right: .36rem; }
 }
+
+/* Keep the quotation hero as the supplied horizontal brochure on phones too:
+   copy occupies the left half while the interior remains visible on the right. */
+@media (max-width: 767px) {
+  .quote-page .quote-hero {
+    padding: var(--header-height-mobile) 0 0;
+    background: #fff9f1;
+  }
+  .quote-page .quote-hero-inner {
+    display: flex;
+    align-items: stretch;
+    min-height: 0;
+    aspect-ratio: 1.777 / 1;
+    background: var(--quote-hero-image) center / cover no-repeat;
+  }
+  .quote-page .quote-brochure-copy {
+    position: relative;
+    inset: auto;
+    width: 51%;
+    min-height: 0;
+    padding: 10% 3.75% 19%;
+    background: linear-gradient(90deg, rgba(255, 252, 247, .98) 0%, rgba(255, 252, 247, .89) 80%, rgba(255, 252, 247, .16) 100%);
+  }
+  .quote-page .quote-brochure-copy h1 {
+    max-width: 100%;
+    margin: 0 0 .42rem;
+    font-size: clamp(1.65rem, 6.1vw, 2.45rem);
+    line-height: .88;
+  }
+  .quote-page .quote-brochure-copy h1 em {
+    margin-bottom: .1rem;
+    font-size: .86em;
+  }
+  .quote-page .quote-brochure-copy .quote-lead {
+    display: block;
+    max-width: 95%;
+    color: #443b32;
+    font-size: clamp(.66rem, 2.65vw, .95rem);
+    line-height: 1.35;
+    overflow: visible;
+  }
+  .quote-hero-traits {
+    bottom: 4.5%;
+    left: 4.2%;
+    gap: .36rem;
+    font-size: clamp(.39rem, 1.65vw, .61rem);
+    letter-spacing: .06em;
+  }
+  .quote-hero-traits span:first-child::after {
+    display: block;
+    width: 24px;
+    height: 1px;
+    margin-top: .3rem;
+  }
+  .quote-hero-traits i { height: 9px; }
+  .quote-hero-corner-script {
+    right: 2%;
+    bottom: 4%;
+    max-width: 20%;
+    font-size: clamp(.8rem, 3.4vw, 1.3rem);
+    line-height: .72;
+  }
+}
