@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <title><%= title %></title>
   <meta name="description" content="Nhận tư vấn và dự toán thiết kế, thi công nội thất từ Shome Luxury." />
-  <link rel="stylesheet" href="/css/style.css?v=6.5.29" />
+  <link rel="stylesheet" href="/css/style.css?v=6.5.33" />
   <style>
     .quote-page .quote-video-card-link { display: block; cursor: pointer; }
     .quote-page .quote-video-card-link:hover { box-shadow: 0 12px 30px rgba(91, 57, 22, .12); transform: translateY(-2px); transition: box-shadow .2s ease, transform .2s ease; }
@@ -21,6 +21,7 @@
     .quote-page .quote-completed-video-shade { position: absolute; inset: 0; background: linear-gradient(90deg, rgba(26, 17, 10, .63), rgba(26, 17, 10, .06) 68%), linear-gradient(0deg, rgba(20, 13, 8, .25), transparent 55%); }
     .quote-page .quote-completed-play { position: absolute; top: 50%; left: 50%; display: grid; width: clamp(48px, 7vw, 70px); height: clamp(48px, 7vw, 70px); place-items: center; border: 3px solid #fff; border-radius: 50%; background: rgba(101, 61, 22, .42); color: #fff; font-size: clamp(1rem, 2vw, 1.45rem); line-height: 1; transform: translate(-50%, -50%); cursor: pointer; }
     .quote-page .quote-completed-caption { position: absolute; bottom: clamp(.75rem, 2.5vw, 1.5rem); left: clamp(.8rem, 2.5vw, 1.5rem); color: #fff; text-transform: uppercase; }
+    .quote-page .quote-completed-caption small, .quote-page .quote-completed-caption h3, .quote-page .quote-completed-caption p { color: #fff !important; }
     .quote-page .quote-completed-caption small { font-size: clamp(.55rem, 1vw, .68rem); font-weight: 600; }
     .quote-page .quote-completed-caption h3 { margin: .2rem 0 .28rem; font-family: Georgia, serif; font-size: clamp(1rem, 2vw, 1.55rem); font-weight: 500; line-height: 1.05; }
     .quote-page .quote-completed-caption p { margin: 0; font-size: clamp(.55rem, .9vw, .68rem); }
@@ -52,8 +53,44 @@
     .quote-page .quote-pricing { padding-top: clamp(2rem, 3.5vw, 3.5rem); padding-bottom: clamp(2.5rem, 4.5vw, 4.5rem); }
     .quote-page .quote-construction-cta, .quote-page .quote-brand-video, .quote-page .quote-completed, .quote-page .quote-capability { padding-top: clamp(2.25rem, 4vw, 3.75rem); padding-bottom: clamp(2.25rem, 4vw, 3.75rem); }
     .quote-page .quote-heading { margin-bottom: clamp(1.3rem, 2.5vw, 2.25rem); }
-    @media (max-width: 767px) { .quote-page .quote-pricing { padding-bottom: 1.25rem; }.quote-page .quote-construction-cta { padding-top: 1.25rem; padding-bottom: 1.75rem; }.quote-page .quote-construction-card { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) !important; min-height: 205px !important; }.quote-page .quote-construction-card > img { order: initial !important; min-height: 0 !important; max-height: none !important; height: 100% !important; border-radius: 0 13px 13px 0 !important; }.quote-page .quote-construction-copy { padding: .9rem .65rem .9rem .85rem !important; }.quote-page .quote-construction-copy .quote-kicker { margin-bottom: .15rem; font-size: clamp(.88rem, 3.5vw, 1.25rem) !important; line-height: 1; }.quote-page .quote-construction-copy h2 { margin-bottom: .24rem; font-size: clamp(1.6rem, 6.8vw, 2.65rem) !important; line-height: .88; }.quote-page .quote-construction-copy > p { margin-bottom: .45rem; font-size: clamp(.64rem, 2.45vw, .86rem) !important; line-height: 1.25; }.quote-page .quote-construction-points { grid-template-columns: 1fr !important; gap: .25rem; margin-bottom: .5rem; font-size: clamp(.5rem, 1.9vw, .7rem) !important; }.quote-page .quote-construction-points span:last-child { grid-column: auto; }.quote-page .quote-construction-points span { gap: .3rem; }.quote-page .quote-construction-points i { font-size: 1.15em; }.quote-page .quote-construction-copy .quote-button { min-height: 29px; padding: .42rem .65rem; font-size: clamp(.48rem, 1.8vw, .63rem); }.quote-page .quote-construction-copy .quote-button span { margin-left: .45rem; } }
+    .quote-page .quote-heading h2 em, .quote-page .quote-category-featured-heading h2 em { display: block; margin-bottom: .42em; line-height: 1; }
+    @media (max-width: 767px) { .quote-page .quote-pricing { padding-bottom: 1.25rem; }.quote-page .quote-construction-cta { padding-top: 1.25rem; padding-bottom: 1.75rem; }.quote-page .quote-construction-card { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) !important; min-height: 205px !important; }.quote-page .quote-construction-card > img { order: initial !important; min-height: 0 !important; max-height: none !important; height: 100% !important; border-radius: 0 13px 13px 0 !important; }.quote-page .quote-construction-copy { padding: .9rem .65rem .9rem .85rem !important; }.quote-page .quote-construction-copy .quote-kicker { margin-bottom: .15rem; font-size: clamp(.88rem, 3.5vw, 1.25rem) !important; line-height: 1; }.quote-page .quote-construction-copy h2 { margin-bottom: .45rem; font-size: clamp(1.6rem, 6.8vw, 2.65rem) !important; line-height: .88; }.quote-page .quote-construction-copy > p { margin-bottom: .45rem; font-size: clamp(.64rem, 2.45vw, .86rem) !important; line-height: 1.25; }.quote-page .quote-construction-points { grid-template-columns: max-content max-content !important; gap: .35rem .95rem; margin-bottom: .5rem; font-size: clamp(.55rem, 2.15vw, .72rem) !important; }.quote-page .quote-construction-points span:last-child { grid-column: 1 / -1; }.quote-page .quote-construction-points span { gap: .3rem; }.quote-page .quote-construction-points i { font-size: 1.15em; }.quote-page .quote-construction-copy .quote-button { min-height: 29px; padding: .42rem .65rem; font-size: clamp(.48rem, 1.8vw, .63rem); }.quote-page .quote-construction-copy .quote-button span { margin-left: .45rem; } }
     @media (max-width: 559px) { .quote-page .quote-section, .quote-page .quote-brand-video, .quote-page .quote-completed, .quote-page .quote-capability { padding-top: 2rem; padding-bottom: 2rem; } }
+    .quote-page .quote-craftsmanship { padding: clamp(2.5rem, 5vw, 4.5rem) 0; background: #fff; }
+    .quote-page .quote-craftsmanship-inner { width: min(820px, 100%); }
+    .quote-page .quote-craftsmanship-heading { margin: 0 auto 1.7rem; text-align: center; }
+    .quote-page .quote-craftsmanship-heading h2 { margin: 0; color: #1d1a18; font-family: var(--font-heading); font-size: clamp(1.3rem, 3vw, 2rem); font-weight: 800; letter-spacing: -.04em; text-transform: uppercase; }
+    .quote-page .quote-craftsmanship-heading h2 em { color: #bd7218; font-family: var(--font-script); font-size: 1.45em; font-weight: 500; letter-spacing: 0; text-transform: none; }
+    .quote-page .quote-craftsmanship-heading p { max-width: 620px; margin: .35rem auto 0; color: #726a64; font-size: clamp(.72rem, 1.35vw, .9rem); line-height: 1.5; }
+    .quote-page .quote-craft-group + .quote-craft-group { margin-top: clamp(1.8rem, 4vw, 3.25rem); }
+    .quote-page .quote-craft-group-heading { display: flex; align-items: center; gap: .8rem; margin-bottom: .7rem; }
+    .quote-page .quote-craft-group-heading b { color: #c27a1b; font-family: var(--font-script); font-size: clamp(1.8rem, 4vw, 3rem); font-weight: 500; line-height: 1; }
+    .quote-page .quote-craft-group-heading h3 { margin: 0; color: #231f1c; font-family: var(--font-heading); font-size: clamp(1rem, 2vw, 1.35rem); font-weight: 700; }
+    .quote-page .quote-craft-group-heading::after { content: ''; flex: 1; height: 1px; background: #ddd7d0; }
+    .quote-page .quote-craft-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    .quote-page .quote-craft-card { min-width: 0; }
+    .quote-page .quote-craft-photo { position: relative; aspect-ratio: 1.52 / 1; overflow: hidden; border-radius: 8px; background: #e6ddd2; }
+    .quote-page .quote-craft-photo img { position: absolute; width: 200%; height: 200%; max-width: none; object-fit: fill; }
+    .quote-page .quote-craft-card:nth-child(2) .quote-craft-photo img { left: -100%; }.quote-page .quote-craft-card:nth-child(3) .quote-craft-photo img { top: -100%; }.quote-page .quote-craft-card:nth-child(4) .quote-craft-photo img { top: -100%; left: -100%; }
+    .quote-page .quote-craft-card h4 { margin: .42rem 0 .08rem; color: #292420; font-size: clamp(.72rem, 1.25vw, .9rem); font-weight: 700; }
+    .quote-page .quote-craft-card p { margin: 0; color: #777069; font-size: clamp(.63rem, 1.05vw, .76rem); line-height: 1.35; }
+    @media (max-width: 559px) { .quote-page .quote-craftsmanship { padding: 2.25rem 0; }.quote-page .quote-craftsmanship-inner { width: calc(100% - 24px); }.quote-page .quote-craftsmanship-heading { margin-bottom: 1.3rem; }.quote-page .quote-craft-grid { gap: .75rem .65rem; }.quote-page .quote-craft-group + .quote-craft-group { margin-top: 1.7rem; }.quote-page .quote-craft-group-heading { gap: .55rem; margin-bottom: .55rem; }.quote-page .quote-craft-card h4 { margin-top: .3rem; } }
+    .quote-page .quote-handover-check { padding: clamp(2.25rem, 4.5vw, 4rem) 0; background: #fffdf9; }
+    .quote-page .quote-handover-inner { width: min(720px, 100%); }
+    .quote-page .quote-handover-lead { margin: 0 0 1rem; color: #756d66; font-size: clamp(.7rem, 1.25vw, .85rem); line-height: 1.45; }
+    .quote-page .quote-handover-heading { margin: 0 0 1rem; }
+    .quote-page .quote-handover-heading p { margin: 0 0 .1rem; color: #be7417; font-family: var(--font-script); font-size: clamp(1.7rem, 3.8vw, 3rem); font-weight: 500; line-height: .9; }
+    .quote-page .quote-handover-heading h2 { margin: 0; color: #1e1a18; font-family: var(--font-heading); font-size: clamp(1.4rem, 3vw, 2.25rem); font-weight: 800; letter-spacing: -.045em; line-height: 1.08; }
+    .quote-page .quote-handover-heading h2 em { color: #cf9138; font-style: normal; }
+    .quote-page .quote-handover-list { position: relative; display: grid; gap: .75rem; }
+    .quote-page .quote-handover-list::before { content: ''; position: absolute; top: 1.2rem; bottom: 1.2rem; left: 1.2rem; width: 1px; background: #eadfce; }
+    .quote-page .quote-handover-item { position: relative; display: grid; grid-template-columns: 2.45rem 1fr; align-items: center; gap: .8rem; }
+    .quote-page .quote-handover-item b { z-index: 1; display: grid; width: 2.45rem; height: 2.45rem; place-items: center; border-radius: 50%; background: #fff2db; color: #c47a1c; font-size: clamp(.78rem, 1.5vw, .95rem); }
+    .quote-page .quote-handover-item h3 { margin: 0 0 .08rem; color: #211d1a; font-size: clamp(.78rem, 1.5vw, 1rem); font-weight: 700; }
+    .quote-page .quote-handover-item p { margin: 0; color: #756d66; font-size: clamp(.65rem, 1.15vw, .78rem); line-height: 1.35; }
+    @media (max-width: 559px) { .quote-page .quote-handover-check { padding: 1.8rem 0; }.quote-page .quote-handover-inner { width: calc(100% - 24px); }.quote-page .quote-handover-lead { margin-bottom: .75rem; }.quote-page .quote-handover-heading { margin-bottom: .85rem; }.quote-page .quote-handover-list { gap: .55rem; } }
+    .quote-page .quote-craftsmanship + .quote-handover-check { padding-top: 2rem; }
+    .quote-page .quote-handover-check + .quote-section { padding-top: 2rem; }
   </style>
   <script src="/js/main.js?v=1.9.0" defer></script>
   <script src="/js/quote-page.js?v=1.0.0" defer></script>
@@ -132,6 +169,15 @@
     <% if (sections.capability?.isVisible !== false) { %>
       <section class="quote-capability"><div class="container quote-workshop"><header class="quote-workshop-heading"><h2><%= sections.capability.eyebrow %> <em><%= sections.capability.title %></em></h2><p><%= sections.capability.description %></p></header><article class="quote-workshop-main"><img src="<%= sections.capability.image %>" alt="Xưởng sản xuất Shome Luxury" loading="lazy" /><div class="quote-workshop-main-shade"></div><button type="button" class="quote-workshop-play" aria-label="Xem video tại xưởng">▶</button><span>Xem video tại xưởng</span></article><div class="quote-workshop-stats"><% sections.capability.stats.forEach(stat => { %><div><b><%= stat.value %></b><span><%= stat.label %></span></div><% }) %></div><div class="quote-workshop-gallery"><% (sections.capability.gallery || []).forEach(item => { %><figure><img src="<%= item.image %>" alt="<%= item.alt %>" loading="lazy" /><figcaption><%= item.title %></figcaption></figure><% }) %></div></div></section>
     <% } %>
+
+    <% const craftsmanshipGroups = [
+      { number: '01', title: 'Bề mặt & góc cạnh', image: '/images/craftsmanship-surface-details-grid.png', items: [['Dán cạnh gọn đẹp', 'Mép dán sạch, liền mạch.'], ['Góc nối khít', 'Chăm chút từng điểm tiếp giáp.'], ['Bo cạnh mềm mại', 'Mượt tay ở những điểm chạm.'], ['Bề mặt chỉn chu', 'Rà soát vân gỗ và lớp hoàn thiện.']] },
+      { number: '02', title: 'Phụ kiện & chuyển động', image: '/images/craftsmanship-hardware-details-grid.png', items: [['Căn chỉnh bản lề', 'Cánh cân, đóng mở nhẹ nhàng.'], ['Ray trượt êm thuận', 'Kéo mở mượt, vận hành ổn định.'], ['Khe cánh đều đẹp', 'Đồng nhất tại mọi điểm.'], ['Tay nắm ngay ngắn', 'Đúng độ cao và vị trí lắp đặt.']] },
+      { number: '03', title: 'Lắp đặt & hoàn thiện', image: '/images/craftsmanship-finishing-details-grid.png', items: [['Căn chỉnh thẳng bằng', 'Kiểm tra độ phẳng và chắc chắn.'], ['Tiếp giáp gọn gàng', 'Chỉnh chu nơi tủ gặp tường.'], ['Đi dây ngăn nắp', 'Gọn đường dây, thuận tiện sử dụng.'], ['Vệ sinh hoàn thiện', 'Sạch từng góc trước bàn giao.']] }
+    ]; %>
+    <section class="quote-craftsmanship"><div class="container quote-craftsmanship-inner"><header class="quote-craftsmanship-heading"><h2>Tinh tế <em>Từng góc nhỏ</em></h2><p>Từ bề mặt, góc cạnh đến phụ kiện và lắp đặt.<br />Mỗi chi tiết đều được chăm chút để tổng thể đẹp và dùng bền lâu.</p></header><% craftsmanshipGroups.forEach(group => { %><section class="quote-craft-group"><header class="quote-craft-group-heading"><b><%= group.number %></b><h3><%= group.title %></h3></header><div class="quote-craft-grid"><% group.items.forEach((item, index) => { %><article class="quote-craft-card"><div class="quote-craft-photo"><img src="<%= group.image %>" alt="<%= item[0] %>" loading="lazy" /></div><h4><%= item[0] %></h4><p><%= item[1] %></p></article><% }) %></div></section><% }) %></div></section>
+
+    <section class="quote-handover-check"><div class="container quote-handover-inner"><p class="quote-handover-lead">Và còn nhiều chi tiết được kiểm tra trong từng sản phẩm.</p><header class="quote-handover-heading"><p>Kiểm tra trước khi bàn giao</p><h2>Từng bước đều được <em>chăm chút</em></h2></header><div class="quote-handover-list"><article class="quote-handover-item"><b>01</b><div><h3>Đo kiểm kích thước</h3><p>Đối chiếu chỉ số với bản vẽ.</p></div></article><article class="quote-handover-item"><b>02</b><div><h3>Lắp thử &amp; căn chỉnh</h3><p>Kiểm tra liên kết, bản lề và ray trượt.</p></div></article><article class="quote-handover-item"><b>03</b><div><h3>Rà soát &amp; đóng gói</h3><p>Vệ sinh bề mặt, bảo vệ góc cạnh khi vận chuyển.</p></div></article></div></div></section>
 
     <% if (sections.process?.isVisible !== false) { %>
       <section class="quote-section quote-process"><div class="container"><header class="quote-heading quote-heading-center"><p class="quote-kicker"><%= sections.process.eyebrow %></p><h2><%= sections.process.title %> <em><%= sections.process.script %></em></h2></header><div class="quote-process-grid"><% sections.process.items.filter(item => item.isVisible !== false).sort((a,b) => (a.order||0)-(b.order||0)).forEach(item => { %><article><span><%= item.number %></span><h3><%= item.title %></h3><p><%= item.description %></p></article><% }) %></div></div></section>
