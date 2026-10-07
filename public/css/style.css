@@ -326,6 +326,15 @@ ol {
 /* Hero traits stay on one clean baseline. */
 .quote-hero-traits span:first-child::after { display: none !important; }
 
+/* Category-specific project header mirrors the editorial treatment in the supplied design. */
+.quote-page .quote-category-featured-heading { max-width: 880px; margin: 0 auto clamp(2.25rem, 5vw, 4.5rem); text-align: center; }
+.quote-page .quote-category-featured-heading > p { display: flex; align-items: center; justify-content: center; gap: .65rem; margin: 0 0 .45rem; color: #c99547; font-size: clamp(.72rem, 1.25vw, 1rem); font-weight: 700; letter-spacing: .16em; text-transform: uppercase; }
+.quote-page .quote-category-featured-heading > p::before, .quote-page .quote-category-featured-heading > p::after { content: ''; width: clamp(22px, 3vw, 40px); height: 1px; background: #c99547; }
+.quote-page .quote-category-featured-heading h2 { margin: 0; color: #111; font-family: var(--font-heading); font-size: clamp(2rem, 4.4vw, 4rem); font-weight: 800; letter-spacing: -.055em; line-height: 1; text-transform: uppercase; }
+.quote-page .quote-category-featured-heading h2 em { color: var(--accent-gold-dark); font-family: var(--font-script); font-size: 1.14em; font-weight: 500; letter-spacing: 0; text-transform: none; }
+.quote-page .quote-category-featured-heading strong { display: block; margin-top: .8rem; color: #4b4a4d; font-size: clamp(.95rem, 1.7vw, 1.3rem); font-weight: 400; line-height: 1.55; }
+@media (max-width: 767px) { .quote-page .quote-category-featured-heading { margin-bottom: 2rem; }.quote-page .quote-category-featured-heading > p { font-size: .68rem; }.quote-page .quote-category-featured-heading h2 { font-size: clamp(1.75rem, 9vw, 2.55rem); }.quote-page .quote-category-featured-heading strong { margin-top: .65rem; font-size: .9rem; } }
+
 /* Interior-construction CTA: the next 50/50 panel after the pricing cards. */
 .quote-page .quote-construction-cta { padding: clamp(3.5rem, 7vw, 7rem) 0; background: #fff; }
 .quote-page .quote-construction-card { grid-template-columns: 1fr 1fr; min-height: clamp(350px, 34vw, 480px); border: 1px solid #efe4d4; border-radius: 24px; background: linear-gradient(125deg, #fffdf9, #faf3e9); box-shadow: 0 16px 42px rgba(99, 68, 31, .08); }

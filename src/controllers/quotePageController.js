@@ -85,14 +85,25 @@ class QuotePageController {
       const isInterior = /^nội thất\b/i.test(selectedName);
       const quoteTitle = selectedCategory ? `${selectedName.replace(/^(nội thất|kiến trúc)\s+/i, '')} trọn gói` : sections.hero.title;
       const quoteScript = selectedCategory ? (isInterior ? 'Nội thất' : 'Kiến trúc') : sections.hero.script;
+      const selectedQuoteCategories = selectedCategory
+        ? quoteCategories.filter(group => group.category._id.toString() === selectedCategory._id.toString())
+        : quoteCategories;
+      const featuredTitle = selectedCategory
+        ? selectedName.replace(/\s+(chung cư|nhà phố|biệt thự|văn phòng|nhà cấp 4|villa)$/i, '')
+        : '';
+      const featuredScript = selectedCategory
+        ? selectedName.slice(featuredTitle.length).trim()
+        : '';
       return res.render('bao-gia', {
         title: 'Báo giá thiết kế & thi công | SHOME LUXURY',
         navigation,
         sections,
-        quoteCategories,
+        quoteCategories: selectedQuoteCategories,
         selectedCategory,
         quoteTitle,
-        quoteScript
+        quoteScript,
+        featuredTitle,
+        featuredScript
       });
     } catch (error) { next(error); }
   }

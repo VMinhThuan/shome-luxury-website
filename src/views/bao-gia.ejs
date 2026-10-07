@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <title><%= title %></title>
   <meta name="description" content="Nhận tư vấn và dự toán thiết kế, thi công nội thất từ Shome Luxury." />
-  <link rel="stylesheet" href="/css/style.css?v=6.5.18" />
+  <link rel="stylesheet" href="/css/style.css?v=6.5.19" />
   <script src="/js/main.js?v=1.9.0" defer></script>
   <script src="/js/quote-page.js?v=1.0.0" defer></script>
 </head>
@@ -44,7 +44,15 @@
     <% if (sections.categories?.isVisible !== false) { %>
       <section class="quote-section quote-category-section" id="cong-trinh-thiet-ke">
         <div class="container">
-          <header class="quote-heading"><p class="quote-kicker"><%= sections.categories.eyebrow %></p><h2><%= sections.categories.title %> <em><%= sections.categories.script %></em></h2><p><%= sections.categories.description %></p></header>
+          <% if (selectedCategory) { %>
+            <header class="quote-category-featured-heading">
+              <p>Dự án tiêu biểu</p>
+              <h2><%= featuredTitle %> <em><%= featuredScript %></em></h2>
+              <strong><%= quoteCategories[0]?.description || sections.categories.description %></strong>
+            </header>
+          <% } else { %>
+            <header class="quote-heading"><p class="quote-kicker"><%= sections.categories.eyebrow %></p><h2><%= sections.categories.title %> <em><%= sections.categories.script %></em></h2><p><%= sections.categories.description %></p></header>
+          <% } %>
           <% quoteCategories.forEach(group => { %>
             <div class="quote-category-block">
               <div class="quote-category-intro"><div><span class="quote-rule"></span><h3><%= group.category.name %></h3><p><%= group.description %></p></div><a href="<%= group.href %>" class="quote-text-link"><%= group.ctaLabel %> <span>→</span></a></div>
