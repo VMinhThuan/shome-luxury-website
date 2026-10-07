@@ -326,6 +326,34 @@ ol {
 /* Hero traits stay on one clean baseline. */
 .quote-hero-traits span:first-child::after { display: none !important; }
 
+/* Quote cards directly below the assurance icons: exact half-image / half-copy composition. */
+.quote-page .quote-pricing {
+  background-image:
+    linear-gradient(rgba(255, 250, 242, .87), rgba(255, 250, 242, .90)),
+    url('/images/quote-pricing-surface.png');
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+.quote-page .quote-pricing-list {
+  width: min(1120px, 100%);
+  gap: clamp(.75rem, 1.3vw, 1.1rem);
+}
+.quote-page .quote-price-card {
+  grid-template-columns: 1fr 1fr;
+  min-height: clamp(180px, 16vw, 220px);
+}
+.quote-page .quote-price-image { margin: 10px 0 10px 10px; }
+.quote-page .quote-price-copy { padding: clamp(1rem, 2.6vw, 2rem) clamp(1.15rem, 3.4vw, 2.8rem); }
+@media (max-width: 767px) {
+  .quote-page .quote-pricing-list { width: calc(100% - 24px); }
+  .quote-page .quote-price-card { grid-template-columns: 1fr 1fr; min-height: 126px; }
+  .quote-page .quote-price-image { margin: 6px 0 6px 6px; }
+  .quote-page .quote-price-copy { padding: .6rem .65rem .6rem 1rem; }
+  .quote-page .quote-price-copy h3 { font-size: clamp(1.45rem, 7.4vw, 2rem); }
+  .quote-page .quote-price-copy p { font-size: clamp(.68rem, 2.9vw, .8rem); }
+}
+
 @media (min-width: 1200px) {
   .container {
     padding-left: 32px;
