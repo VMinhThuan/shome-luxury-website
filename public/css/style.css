@@ -10362,6 +10362,8 @@ main .section-v2-title,
 .quote-page .quote-video-card { display: block; max-width: 1120px; aspect-ratio: 1.78; border-color: #e8d9c3; border-radius: 18px; background: #2f2115; box-shadow: 0 12px 30px rgba(74, 47, 18, .09); color: #fff; }
 .quote-page .quote-video-card > img { object-fit: cover; object-position: center; }
 .quote-page .quote-video-scrim { background: linear-gradient(90deg, rgba(38, 22, 10, .46), rgba(38, 22, 10, .05) 42%, rgba(255,255,255,.03) 100%), linear-gradient(0deg, rgba(45, 28, 13, .76), transparent 33%); }
+.quote-page .quote-video-logo { position: absolute; z-index: 1; top: clamp(.8rem, 2vw, 1.5rem); left: clamp(.8rem, 2vw, 1.5rem); display: grid; gap: .18rem; color: #fff; text-shadow: 0 1px 10px rgba(31, 17, 7, .48); }
+.quote-page .quote-video-logo b { font-size: clamp(.62rem, 1.25vw, .95rem); line-height: 1; }.quote-page .quote-video-logo em { color: #f2d093; font-style: normal; font-weight: 500; }.quote-page .quote-video-logo span { font-size: clamp(.32rem, .62vw, .48rem); font-weight: 600; line-height: 1.28; }
 .quote-page .quote-video-copy { top: 11%; right: 4.5%; width: 43%; color: #5c260c; text-align: center; }
 .quote-page .quote-video-copy > span { color: #8b4920; font-size: clamp(.48rem, .95vw, .72rem); letter-spacing: .52em; }
 .quote-page .quote-video-copy h3 { margin: clamp(.35rem, 1vw, .7rem) 0 .2rem; color: #9b4e11; font-size: clamp(1.55rem, 3.8vw, 3.6rem); }
