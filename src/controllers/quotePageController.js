@@ -21,8 +21,15 @@ class QuotePageController {
     };
     const sections = mergeDefaults(quotePageDefaults, page.sections || {});
     // One-time visual asset migration for the original seed hero. Custom admin URLs are preserved.
-    if (['/images/booking-luxury-interior.png', '/images/quote-apartment-hero-v1.png'].includes(page.sections?.hero?.image)) {
+    if (['/images/booking-luxury-interior.png', '/images/quote-apartment-hero-v1.png', '/images/quote-apartment-hero-v2.png'].includes(page.sections?.hero?.image)) {
       sections.hero.image = quotePageDefaults.hero.image;
+    }
+    if (page.sections?.hero?.title === 'Kiến tạo không gian sống' && page.sections?.hero?.script === 'đúng gu, đúng ngân sách') {
+      sections.hero.title = quotePageDefaults.hero.title;
+      sections.hero.script = quotePageDefaults.hero.script;
+    }
+    if (page.sections?.hero?.description === 'Shome Luxury đồng hành từ ý tưởng, thiết kế đến thi công hoàn thiện. Nhận dự toán phù hợp với nhu cầu và hiện trạng của riêng bạn.') {
+      sections.hero.description = quotePageDefaults.hero.description;
     }
     if (JSON.stringify(sections) !== JSON.stringify(page.sections)) {
       await QuotePage.updateOne({ _id: page._id }, { $set: { sections } });

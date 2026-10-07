@@ -9766,6 +9766,10 @@ main .section-v2-title,
     max-width: 175px;
     font-size: clamp(.67rem, 3.25vw, .84rem);
     line-height: 1.34;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+    overflow: hidden;
   }
 
   .quote-hero-traits {
@@ -9785,4 +9789,61 @@ main .section-v2-title,
     font-size: 1rem;
     line-height: .7;
   }
+}
+
+/* Branded assurance icons — warm gold line work inside soft ivory medallions. */
+.quote-benefit-icon { display: grid !important; place-items: center; background: radial-gradient(circle at 35% 30%, #fffdf9, #fff2d9) !important; color: #bc700e !important; }
+.quote-benefit-icon svg { width: 48px; height: 48px; fill: none; stroke: currentColor; stroke-width: 2.6; stroke-linecap: round; stroke-linejoin: round; }
+.quote-benefit-copy { align-self: center; min-width: 0; }
+.quote-benefit-copy h3 { margin: 0 0 .28rem !important; }
+.quote-benefit-copy p { margin: 0 !important; }
+
+/* Pricing hero — text follows the supplied brochure layout while the image itself
+   keeps the quiet left-side space free for copy. */
+.quote-page .quote-hero {
+  min-height: clamp(640px, 56.3vw, 790px);
+  padding: var(--header-height-desktop) 0 0;
+  background-color: #fff9f1;
+  background-position: center;
+}
+.quote-page .quote-hero-inner {
+  min-height: clamp(556px, 49vw, 690px);
+}
+.quote-page .quote-brochure-copy {
+  width: min(43%, 510px);
+  padding: clamp(2rem, 4.5vw, 4.75rem) clamp(1.8rem, 4.25vw, 4.5rem) 8.2rem;
+  justify-content: center;
+  background: linear-gradient(90deg, rgba(255, 252, 247, .94) 0%, rgba(255, 252, 247, .80) 86%, rgba(255, 252, 247, 0) 100%);
+}
+.quote-page .quote-brochure-copy h1 {
+  max-width: 365px;
+  font-size: clamp(2.7rem, 4.25vw, 4.6rem);
+  line-height: .92;
+}
+.quote-page .quote-brochure-copy h1 em {
+  margin-bottom: .14rem;
+  font-size: .9em;
+}
+.quote-page .quote-brochure-copy .quote-lead {
+  max-width: 340px;
+  font-size: clamp(1rem, 1.35vw, 1.2rem);
+  line-height: 1.4;
+}
+@media (max-width: 767px) {
+  .quote-page .quote-hero {
+    min-height: 0;
+    padding: var(--header-height-mobile) 0 0;
+    background: #fff9f1;
+  }
+  .quote-page .quote-hero-inner {
+    min-height: 600px;
+    background: var(--quote-hero-image) 60% top / auto 100% no-repeat;
+  }
+  .quote-page .quote-brochure-copy {
+    width: 100%;
+    min-height: 57%;
+    padding: 1.5rem var(--mobile-page-spacing) 4.8rem;
+    background: linear-gradient(0deg, rgba(255, 252, 247, 1) 73%, rgba(255, 252, 247, .80) 87%, rgba(255, 252, 247, 0) 100%);
+  }
+  .quote-page .quote-brochure-copy h1 { max-width: 285px; }
 }

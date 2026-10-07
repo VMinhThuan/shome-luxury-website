@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <title><%= title %></title>
   <meta name="description" content="Nhận tư vấn và dự toán thiết kế, thi công nội thất từ Shome Luxury." />
-  <link rel="stylesheet" href="/css/style.css?v=6.5.9" />
+  <link rel="stylesheet" href="/css/style.css?v=6.5.11" />
   <script src="/js/main.js?v=1.9.0" defer></script>
   <script src="/js/quote-page.js?v=1.0.0" defer></script>
 </head>
@@ -33,7 +33,7 @@
           <header class="quote-heading quote-heading-center quote-benefits-heading"><p class="quote-kicker"><%= sections.benefits.title %></p><h2><%= sections.benefits.script %></h2><p><%= sections.benefits.description %></p></header>
           <div class="quote-benefit-grid">
             <% sections.benefits.items.filter(item => item.isVisible !== false).forEach((item, index) => { %>
-              <article class="quote-benefit-card"><span class="quote-number">0<%= index + 1 %></span><div class="quote-benefit-icon"><%= item.icon === 'document' ? '⌑' : item.icon === 'workshop' ? '⌂' : '✦' %></div><h3><%= item.title %></h3><p><%= item.description %></p></article>
+              <article class="quote-benefit-card"><span class="quote-number">0<%= index + 1 %></span><div class="quote-benefit-icon" aria-hidden="true"><% if (index === 0 || item.icon === 'spark') { %><svg viewBox="0 0 64 64"><path d="M15 12h25v36H15zM21 12v36M27 20h7M27 27h7M27 34h7"/><path d="m40 40 12-12 5 5-12 12-7 2zM49 26l5 5"/></svg><% } else if (index === 1 || item.icon === 'document') { %><svg viewBox="0 0 64 64"><path d="M15 39c0-12 7-21 17-21s17 9 17 21v4H15zM22 38V26M29 38V20M36 38V20M43 38v-8"/><path d="M12 43c7 4 33 4 40 0M42 44l5 5 9-10"/></svg><% } else { %><svg viewBox="0 0 64 64"><path d="M32 9 50 16v14c0 12-7 20-18 25C21 50 14 42 14 30V16z"/><path d="m24 32 6 6 11-13"/></svg><% } %></div><div class="quote-benefit-copy"><h3><%= item.title %></h3><p><%= item.description %></p></div></article>
             <% }) %>
           </div>
         </div>
