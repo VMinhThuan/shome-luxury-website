@@ -10227,9 +10227,9 @@ main .section-v2-title,
 }
 .quote-page .quote-price-copy { display: flex; flex-direction: column; justify-content: center; padding: 1.15rem clamp(1.3rem, 3.3vw, 3.1rem); }
 .quote-page .quote-price-copy::before { top: 23%; bottom: 23%; width: 2px; background: #dfa756; }
-.quote-page .quote-price-title { align-self: center; color: #1d1b19; font-size: clamp(.78rem, 1.35vw, 1rem); letter-spacing: .01em; text-align: center; }
-.quote-page .quote-price-copy h3 { margin: .1rem 0 .18rem; color: #a9580c; font-size: clamp(2rem, 4.5vw, 3.6rem); letter-spacing: -.06em; }
-.quote-page .quote-price-copy p { margin: 0 0 .45rem; color: #4d4a50; font-size: clamp(.86rem, 1.35vw, 1.05rem); line-height: 1.25; }
+.quote-page .quote-price-title { align-self: flex-start; color: #1d1b19; font-size: clamp(.78rem, 1.35vw, 1rem); letter-spacing: .01em; text-align: left; }
+.quote-page .quote-price-copy h3 { margin: .2rem 0 .3rem; color: #a9580c; font-size: clamp(2rem, 4.5vw, 3.6rem); letter-spacing: -.06em; }
+.quote-page .quote-price-copy p { margin: 0 0 .6rem; color: #4d4a50; font-size: clamp(.86rem, 1.35vw, 1.05rem); line-height: 1.25; }
 .quote-page .quote-price-area { width: fit-content; margin-top: .18rem; padding: .38rem .78rem; border-radius: 11px; background: #fff4e1; color: #1d1b19; font-size: clamp(.84rem, 1.25vw, 1rem); font-weight: 600; }
 .quote-page .quote-price-area b { margin-right: .72rem; color: #b96812; font-size: 1.25em; font-weight: 500; }
 .quote-page .quote-price-copy .quote-text-link { display: none; }
@@ -10244,8 +10244,8 @@ main .section-v2-title,
   .quote-page .quote-price-copy { padding: .65rem .9rem  .65rem 1.15rem; }
   .quote-page .quote-price-copy::before { top: 18%; bottom: 18%; width: 1px; }
   .quote-page .quote-price-title { font-size: .68rem; }
-  .quote-page .quote-price-copy h3 { margin: .05rem 0; font-size: clamp(1.65rem, 8vw, 2.15rem); }
-  .quote-page .quote-price-copy p { margin-bottom: .3rem; font-size: .73rem; }
+  .quote-page .quote-price-copy h3 { margin: .15rem 0 .25rem; font-size: clamp(1.65rem, 8vw, 2.15rem); }
+  .quote-page .quote-price-copy p { margin-bottom: .45rem; font-size: .73rem; }
   .quote-page .quote-price-area { margin-top: .15rem; padding: .22rem .5rem; border-radius: 8px; font-size: .73rem; }
   .quote-page .quote-price-area b { margin-right: .36rem; }
 }
