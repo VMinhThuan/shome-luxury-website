@@ -85,6 +85,7 @@ class QuotePageController {
 
   async getHighlightedProjects() {
     const highlighted = await projectService.getProjects({
+      category: 'tk-nt-chung-cu',
       isHighlight: true,
       isVisible: true,
       limit: 4,

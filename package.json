@@ -7,6 +7,7 @@
     "dev": "nodemon app.js",
     "seed:project-costs": "node scripts/seed-project-costs.js",
     "seed:project-types": "node scripts/seed-project-property-types.js",
+    "seed:quote-apartment-highlights": "node scripts/seed-quote-apartment-highlights.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
