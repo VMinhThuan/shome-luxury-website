@@ -10138,16 +10138,16 @@ main .section-v2-title,
     background: #fff9f1;
   }
   .quote-page .quote-hero-inner {
-    min-height: clamp(270px, 64vw, 350px);
-    background: var(--quote-hero-image) center / cover no-repeat;
+    min-height: 600px;
+    background: var(--quote-hero-image) 60% top / auto 100% no-repeat;
   }
   .quote-page .quote-brochure-copy {
-    width: 68%;
-    min-height: 0;
-    padding: 1.2rem .85rem 2.8rem;
-    background: linear-gradient(90deg, rgba(255, 252, 247, .98) 0%, rgba(255, 252, 247, .92) 82%, rgba(255, 252, 247, .06) 100%);
+    width: 100%;
+    min-height: 57%;
+    padding: 1.5rem var(--mobile-page-spacing) 4.8rem;
+    background: linear-gradient(0deg, rgba(255, 252, 247, 1) 73%, rgba(255, 252, 247, .80) 87%, rgba(255, 252, 247, 0) 100%);
   }
-  .quote-page .quote-brochure-copy h1 { max-width: 100%; }
+  .quote-page .quote-brochure-copy h1 { max-width: 285px; }
 }
 
 /* Quotation assurances — three supplied icons and the reference's stacked-card rhythm. */
