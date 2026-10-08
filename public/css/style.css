@@ -1667,11 +1667,7 @@ ol {
   height: 100%;
   object-fit: cover;
   object-position: center 35%;
-  transition: transform var(--transition-normal);
-}
-
-.workshop-video-card-v2:hover img {
-  transform: scale(1.03);
+  transition: none;
 }
 
 /* 5. PLAY BUTTON (Mobile: 50px, Tablet: 58px, Desktop: 62px) */
@@ -1697,7 +1693,7 @@ ol {
   padding-left: 3px;
   box-shadow: 0 6px 24px rgba(0, 0, 0, 0.4);
   backdrop-filter: blur(4px);
-  transition: transform 0.3s ease, background-color 0.3s ease;
+  transition: none;
 }
 
 @media (min-width: 768px) {
@@ -1712,11 +1708,6 @@ ol {
     width: 62px;
     height: 62px;
   }
-}
-
-.workshop-video-card-v2:hover .video-play-btn {
-  transform: scale(1.12);
-  background: #C89B4B;
 }
 
 /* 5. VIDEO OVERLAY & CAPTION SAFETY */
@@ -2012,16 +2003,10 @@ ol {
   border-radius: 20px;
   overflow: hidden;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
-  transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+  transition: none;
   display: flex;
   flex-direction: column;
   height: 100%;
-}
-
-.capacity-equipment-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 12px 28px rgba(200, 155, 75, 0.15);
-  border-color: rgba(200, 155, 75, 0.8);
 }
 
 .equipment-card-image {
@@ -2038,11 +2023,7 @@ ol {
   object-fit: cover;
   object-position: center;
   display: block;
-  transition: transform 0.5s ease;
-}
-
-.capacity-equipment-card:hover .equipment-card-image img {
-  transform: scale(1.04);
+  transition: none;
 }
 
 /* Factory Detail */
@@ -2149,7 +2130,7 @@ ol {
   align-items: center;
   display: grid;
   gap: 0.65rem;
-  grid-template-columns: 48px 46px minmax(0, 1fr);
+  grid-template-columns: 46px minmax(0, 1fr);
   padding-top: 0.7rem;
 }
 
@@ -2216,7 +2197,7 @@ ol {
   }
 
   .factory-tour-step {
-    grid-template-columns: 56px 48px minmax(0, 1fr);
+    grid-template-columns: 48px minmax(0, 1fr);
     padding: 0.85rem 0.5rem 0;
   }
 
@@ -2443,13 +2424,20 @@ ol {
   }
 
   .renovation-showcase-list {
-    gap: 1.75rem;
-    /* Match the full desktop container width while retaining two images per row. */
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: clamp(1rem, 2vw, 1.75rem);
+    /* Match the full desktop container width while showing two before/after pairs per row. */
     max-width: none;
   }
 
   .renovation-showcase-pair {
-    gap: 1rem;
+    gap: 0;
+    overflow: hidden;
+    border-radius: 10px;
+  }
+
+  .renovation-showcase-pair .renovation-showcase-media {
+    border-radius: 0;
   }
 
   .renovation-showcase-media figcaption {
@@ -2499,6 +2487,13 @@ ol {
   height: 100%;
   object-fit: cover;
   width: 100%;
+}
+
+@media (min-width: 768px) {
+  .furniture-care-media {
+    width: 100%;
+    max-width: none;
+  }
 }
 
 .furniture-care-list {
@@ -2947,7 +2942,7 @@ ol {
 
   .factory-tour-step {
     gap: 0.5rem;
-    grid-template-columns: 42px 40px minmax(0, 1fr);
+    grid-template-columns: 40px minmax(0, 1fr);
     padding-top: 0.55rem;
   }
 
