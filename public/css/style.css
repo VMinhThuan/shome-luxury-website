@@ -2600,7 +2600,7 @@ ol {
 @media (min-width: 1024px) {
   .furniture-care-wrapper {
     position: relative;
-    max-width: 920px;
+    max-width: none;
     margin: 0 auto;
   }
 
@@ -5542,6 +5542,22 @@ ol {
     grid-template-columns: repeat(4, 1fr);
     gap: 0;
     padding: clamp(1.75rem, 2.5vw, 3rem) clamp(0.75rem, 2vw, 2rem);
+  }
+}
+
+/* Keep the recruitment copy balanced with the shorter desktop banner. */
+@media (min-width: 768px) {
+  .recruitment-hero-title-main,
+  .recruitment-hero-title-sub {
+    font-size: clamp(2.4rem, 3.8vw, 4.25rem);
+  }
+
+  .recruitment-hero-script {
+    font-size: clamp(2.5rem, 4vw, 4.75rem);
+  }
+
+  .recruitment-hero-subtext {
+    font-size: clamp(.78rem, .9vw, .95rem);
   }
 }
 
