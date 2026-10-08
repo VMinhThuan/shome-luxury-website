@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <title><%= title %></title>
   <meta name="description" content="Nhận tư vấn và dự toán thiết kế, thi công nội thất từ Shome Luxury." />
-  <link rel="stylesheet" href="/css/style.css?v=6.5.37" />
+  <link rel="stylesheet" href="/css/style.css?v=6.5.38" />
   <style>
     .quote-page .quote-video-card-link { display: block; cursor: pointer; }
     .quote-page .quote-video-card-link:hover { box-shadow: 0 12px 30px rgba(91, 57, 22, .12); transform: translateY(-2px); transition: box-shadow .2s ease, transform .2s ease; }
@@ -103,6 +103,32 @@
     .quote-page .quote-pricing .quote-heading { margin-bottom: .9rem !important; }
     .quote-page .quote-pricing .quote-heading h2 { margin-bottom: 0 !important; }
     .quote-page .quote-pricing .quote-heading h2 em { margin: .28em 0 .4em !important; padding-bottom: 0; line-height: 1.05; }
+
+    /* Desktop layout audit: keep editorial banners full width; lay out repeated content in clear grids. */
+    @media (min-width: 768px) {
+      .quote-page .quote-pricing-list { width: 100%; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(1rem, 2vw, 1.5rem); }
+      .quote-page .quote-price-card { grid-template-columns: 1fr; min-height: 0; }
+      .quote-page .quote-price-image { min-height: 0; margin: 10px 10px 0; aspect-ratio: 1.45 / 1; }
+      .quote-page .quote-price-copy { padding: 1rem 1.15rem 1.2rem; }
+      .quote-page .quote-price-copy::before { display: none; }
+      .quote-page .quote-price-copy h3 { font-size: clamp(1.8rem, 2.7vw, 2.55rem); }
+
+      .quote-page .quote-completed-videos { width: 100%; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(.9rem, 1.7vw, 1.45rem); }
+      .quote-page .quote-completed-video { aspect-ratio: 1.18 / 1; }
+
+      .quote-page .quote-handover-inner { width: 100%; }
+      .quote-page .quote-handover-list { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1rem; }
+      .quote-page .quote-handover-list::before { display: none; }
+      .quote-page .quote-handover-item { grid-template-columns: 1fr; align-items: start; gap: .65rem; min-height: 100%; padding: 1rem; border: 1px solid #eee2d4; border-radius: 14px; background: #fffdfa; }
+      .quote-page .quote-handover-item h3 { font-size: clamp(.86rem, 1.3vw, 1rem); }
+
+      .quote-page .quote-final-faq-inner { width: 100%; }
+      .quote-page .quote-final-faq-list { grid-template-columns: repeat(2, minmax(0, 1fr)); align-items: start; gap: 1rem; }
+    }
+
+    @media (min-width: 1200px) {
+      .quote-page .quote-pricing-list { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    }
   </style>
   <script src="/js/main.js?v=1.9.0" defer></script>
   <script src="/js/quote-page.js?v=1.0.0" defer></script>
