@@ -83,36 +83,35 @@ class QuotePageController {
     })).then(items => items.filter(Boolean));
   }
 
+  async getHighlightedProjects() {
+    const highlighted = await projectService.getProjects({
+      isHighlight: true,
+      isVisible: true,
+      limit: 4,
+      sort: 'highlight'
+    });
+    return highlighted.projects;
+  }
+
   async renderPage(req, res, next) {
     try {
       const quotePage = await this.getContent();
       if (!quotePage.isVisible) return res.status(404).render('404', { title: 'Không tìm thấy trang | SHOME LUXURY', navigation });
       const sections = quotePage.sections || quotePageDefaults;
-      const quoteCategories = await this.hydrateCategories(sections);
       const selectedCategory = req.query.category ? await categoryService.getCategoryByIdOrSlug(req.query.category) : null;
+      const highlightProjects = await this.getHighlightedProjects();
       const selectedName = selectedCategory?.name?.replace(/^Thiết kế\s+/i, '') || '';
       const isInterior = /^nội thất\b/i.test(selectedName);
       const quoteTitle = selectedCategory ? `${selectedName.replace(/^(nội thất|kiến trúc)\s+/i, '')} trọn gói` : sections.hero.title;
       const quoteScript = selectedCategory ? (isInterior ? 'Nội thất' : 'Kiến trúc') : sections.hero.script;
-      const selectedQuoteCategories = selectedCategory
-        ? quoteCategories.filter(group => group.category._id.toString() === selectedCategory._id.toString())
-        : quoteCategories;
-      const featuredTitle = selectedCategory
-        ? selectedName.replace(/\s+(chung cư|nhà phố|biệt thự|văn phòng|nhà cấp 4|villa)$/i, '')
-        : '';
-      const featuredScript = selectedCategory
-        ? selectedName.slice(featuredTitle.length).trim()
-        : '';
       return res.render('bao-gia', {
         title: 'Báo giá thiết kế & thi công | SHOME LUXURY',
         navigation,
         sections,
-        quoteCategories: selectedQuoteCategories,
+        highlightProjects,
         selectedCategory,
         quoteTitle,
-        quoteScript,
-        featuredTitle,
-        featuredScript
+        quoteScript
       });
     } catch (error) { next(error); }
   }

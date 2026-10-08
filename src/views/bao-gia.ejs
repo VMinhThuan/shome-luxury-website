@@ -150,21 +150,8 @@
     <% if (sections.categories?.isVisible !== false) { %>
       <section class="quote-section quote-category-section" id="cong-trinh-thiet-ke">
         <div class="container">
-          <% if (selectedCategory) { %>
-            <header class="quote-category-featured-heading">
-              <p>Dự án tiêu biểu</p>
-              <h2><%= featuredTitle %> <em><%= featuredScript %></em></h2>
-              <strong><%= quoteCategories[0]?.description || sections.categories.description %></strong>
-            </header>
-          <% } else { %>
-            <header class="quote-heading"><p class="quote-kicker"><%= sections.categories.eyebrow %></p><h2><%= sections.categories.title %> <em><%= sections.categories.script %></em></h2><p><%= sections.categories.description %></p></header>
-          <% } %>
-          <% quoteCategories.forEach(group => { %>
-            <div class="quote-category-block">
-              <div class="quote-category-intro"><div><span class="quote-rule"></span><h3><%= group.category.name %></h3><p><%= group.description %></p></div><a href="<%= group.href %>" class="quote-text-link"><%= group.ctaLabel %> <span>→</span></a></div>
-              <% if (group.projects.length) { %><div class="quote-project-grid"><% group.projects.forEach(project => { %><a href="/cong-trinh/<%= project.slug %>" class="quote-project-card"><img src="<%= project.thumbnail || project.gallery?.[0] || '/images/project_apartment.jpg' %>" alt="<%= project.title %>" loading="lazy" /><span><b><%= project.title %></b><small><%= project.location || group.category.name %></small></span></a><% }) %></div><% } else { %><p class="quote-empty-state">Các công trình nổi bật sẽ được cập nhật tại đây.</p><% } %>
-            </div>
-          <% }) %>
+          <header class="quote-heading"><p class="quote-kicker"><%= sections.categories.eyebrow %></p><h2><%= sections.categories.title %> <em><%= sections.categories.script %></em></h2><p><%= sections.categories.description %></p></header>
+          <% if (highlightProjects.length) { %><div class="quote-project-grid"><% highlightProjects.forEach(project => { %><a href="/cong-trinh/<%= project.slug %>" class="quote-project-card"><img src="<%= project.thumbnail || project.gallery?.[0] || '/images/project_apartment.jpg' %>" alt="<%= project.title %>" loading="lazy" /><span><b><%= project.title %></b><small><%= project.location || 'Shome Luxury' %></small></span></a><% }) %></div><% } else { %><p class="quote-empty-state">Các công trình nổi bật sẽ được cập nhật tại đây.</p><% } %>
         </div>
       </section>
     <% } %>
