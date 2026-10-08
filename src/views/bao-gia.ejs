@@ -145,10 +145,8 @@
     .quote-page :is(
       .quote-brochure-copy .quote-kicker,
       .quote-brochure-copy h1 em,
-      .quote-pricing .quote-heading h2,
       .quote-heading h2 em,
       .quote-benefit-icon,
-      .quote-price-title,
       .quote-price-copy h3,
       .quote-price-area b,
       .quote-construction-copy h2,
@@ -191,6 +189,11 @@
     .quote-page .quote-benefit-icon img {
       /* Normalize the supplied raster icons to the same brand-yellow treatment. */
       filter: brightness(0) saturate(100%) invert(67%) sepia(25%) saturate(871%) hue-rotate(358deg) brightness(86%) contrast(86%);
+    }
+    .quote-page .quote-price-copy h3 {
+      font-family: var(--font-script);
+      font-weight: 500;
+      letter-spacing: 0;
     }
     .quote-page .quote-final-faq summary b {
       background: var(--quote-brand-yellow) !important;
