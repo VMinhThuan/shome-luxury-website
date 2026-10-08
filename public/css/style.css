@@ -10103,24 +10103,29 @@ main .section-v2-title,
   min-height: clamp(556px, 49vw, 690px);
 }
 .quote-page .quote-brochure-copy {
-  width: min(43%, 510px);
+  width: min(64%, 780px);
   padding: clamp(2rem, 4.5vw, 4.75rem) clamp(1.8rem, 4.25vw, 4.5rem) 8.2rem;
   justify-content: center;
-  background: linear-gradient(90deg, rgba(255, 252, 247, .94) 0%, rgba(255, 252, 247, .80) 86%, rgba(255, 252, 247, 0) 100%);
+  background: linear-gradient(90deg, rgba(255, 252, 247, .96) 0%, rgba(255, 252, 247, .84) 84%, rgba(255, 252, 247, 0) 100%);
 }
 .quote-page .quote-brochure-copy h1 {
-  max-width: 365px;
-  font-size: clamp(2.7rem, 4.25vw, 4.6rem);
-  line-height: .92;
+  max-width: 760px;
+  font-size: clamp(2.1rem, 3.7vw, 3.75rem);
+  line-height: .98;
 }
 .quote-page .quote-brochure-copy h1 em {
+  display: block;
   margin-bottom: .14rem;
   font-size: .9em;
 }
+.quote-page .quote-brochure-copy h1 span {
+  display: block;
+  white-space: nowrap;
+}
 .quote-page .quote-brochure-copy .quote-lead {
-  max-width: 340px;
-  font-size: clamp(1rem, 1.35vw, 1.2rem);
-  line-height: 1.4;
+  max-width: 540px;
+  font-size: clamp(0.95rem, 1.35vw, 1.2rem);
+  line-height: 1.45;
 }
 @media (max-width: 767px) {
   .quote-page .quote-hero {
@@ -10138,7 +10143,7 @@ main .section-v2-title,
     padding: 1.5rem var(--mobile-page-spacing) 4.8rem;
     background: linear-gradient(0deg, rgba(255, 252, 247, 1) 73%, rgba(255, 252, 247, .80) 87%, rgba(255, 252, 247, 0) 100%);
   }
-  .quote-page .quote-brochure-copy h1 { max-width: 285px; }
+  .quote-page .quote-brochure-copy h1 { max-width: 100%; }
 }
 
 /* Quotation assurances — three supplied icons and the reference's stacked-card rhythm. */
@@ -10314,26 +10319,30 @@ main .section-v2-title,
   .quote-page .quote-brochure-copy {
     position: relative;
     inset: auto;
-    width: 51%;
+    width: 65%;
     min-height: 0;
-    padding: 10% 3.75% 19%;
-    background: linear-gradient(90deg, rgba(255, 252, 247, .98) 0%, rgba(255, 252, 247, .89) 80%, rgba(255, 252, 247, .16) 100%);
+    padding: 8% 3.75% 18%;
+    background: linear-gradient(90deg, rgba(255, 252, 247, .98) 0%, rgba(255, 252, 247, .90) 84%, rgba(255, 252, 247, .10) 100%);
   }
   .quote-page .quote-brochure-copy h1 {
     max-width: 100%;
     margin: 0 0 .42rem;
-    font-size: clamp(1.65rem, 6.1vw, 2.45rem);
-    line-height: .88;
+    font-size: clamp(1.15rem, 4.8vw, 1.85rem);
+    line-height: .92;
   }
   .quote-page .quote-brochure-copy h1 em {
     margin-bottom: .1rem;
     font-size: .86em;
   }
+  .quote-page .quote-brochure-copy h1 span {
+    display: block;
+    white-space: nowrap;
+  }
   .quote-page .quote-brochure-copy .quote-lead {
     display: block;
     max-width: 95%;
     color: #443b32;
-    font-size: clamp(.66rem, 2.65vw, .95rem);
+    font-size: clamp(.64rem, 2.5vw, .92rem);
     line-height: 1.35;
     overflow: visible;
   }
