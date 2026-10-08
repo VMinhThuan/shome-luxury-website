@@ -137,6 +137,62 @@
     @media (min-width: 1200px) {
       .quote-page .quote-pricing-list { grid-template-columns: repeat(3, minmax(0, 1fr)); }
     }
+
+    /* One brand accent across every warm text/icon treatment on the quote page. */
+    .quote-page {
+      --quote-brand-yellow: var(--accent-gold, #C89B4B);
+    }
+    .quote-page :is(
+      .quote-brochure-copy .quote-kicker,
+      .quote-brochure-copy h1 em,
+      .quote-heading h2 em,
+      .quote-benefit-icon,
+      .quote-price-copy h3,
+      .quote-price-area b,
+      .quote-construction-copy h2,
+      .quote-construction-points i,
+      .quote-featured-heading p,
+      .quote-featured-heading h2 em,
+      .quote-video-heading p,
+      .quote-video-logo em,
+      .quote-video-copy,
+      .quote-video-copy > span,
+      .quote-video-copy h3,
+      .quote-video-copy p,
+      .quote-video-points i,
+      .quote-video-points small,
+      .quote-video-footer strong i,
+      .quote-completed-heading p,
+      .quote-completed-heading h2 em,
+      .quote-workshop-heading h2 em,
+      .quote-craftsmanship-heading h2 em,
+      .quote-craft-group-heading b,
+      .quote-handover-heading p,
+      .quote-handover-heading h2 em,
+      .quote-handover-item b,
+      .quote-free-estimate-copy h2 em,
+      .quote-free-estimate-copy li i,
+      .quote-final-faq-chevron
+    ) { color: var(--quote-brand-yellow) !important; }
+    .quote-page :is(
+      .quote-featured-heading p i,
+      .quote-video-heading h2::before,
+      .quote-video-heading h2::after,
+      .quote-price-copy::before
+    ) { background: var(--quote-brand-yellow) !important; }
+    .quote-page :is(.quote-construction-points i, .quote-free-estimate-copy li i) {
+      border-color: var(--quote-brand-yellow) !important;
+    }
+    .quote-page :is(.quote-construction-copy .quote-button, .quote-free-estimate-button, .quote-video-play) {
+      background: var(--quote-brand-yellow) !important;
+    }
+    .quote-page .quote-benefit-icon img {
+      /* Normalize the supplied raster icons to the same brand-yellow treatment. */
+      filter: brightness(0) saturate(100%) invert(67%) sepia(25%) saturate(871%) hue-rotate(358deg) brightness(86%) contrast(86%);
+    }
+    .quote-page .quote-final-faq summary b {
+      background: var(--quote-brand-yellow) !important;
+    }
   </style>
   <script src="/js/main.js?v=1.9.0" defer></script>
   <script src="/js/quote-page.js?v=1.0.0" defer></script>
