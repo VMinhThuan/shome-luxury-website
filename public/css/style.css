@@ -611,14 +611,18 @@ ol {
   font-family: var(--font-menu);
 }
 
-@media (min-width: 1024px) {
+/* Keep the full navigation for screens that have enough room for every label.
+   Below this width the hamburger stays available instead of squeezing or
+   overflowing the header. */
+@media (min-width: 1200px) {
   .desktop-nav {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: clamp(0.35rem, 0.85vw, 1.25rem);
+    gap: clamp(0.3rem, 0.55vw, 0.75rem);
     flex: 1 1 auto;
-    margin-right: 0.75rem;
+    min-width: 0;
+    margin-right: 0.5rem;
   }
 
   .nav-item {
@@ -627,11 +631,11 @@ ol {
   }
 
   .nav-link {
-    font-size: clamp(0.92rem, 1.05vw, 1.02rem);
+    font-size: clamp(0.82rem, 0.88vw, 0.94rem);
     font-weight: 600;
     color: #FFFFFF !important;
     font-family: var(--font-menu);
-    padding: 0.45rem 0.15rem;
+    padding: 0.45rem 0.1rem;
     display: flex;
     align-items: center;
     gap: 0.25rem;
@@ -876,7 +880,7 @@ ol {
   -webkit-tap-highlight-color: transparent;
 }
 
-@media (min-width: 1024px) {
+@media (min-width: 1200px) {
   .hamburger-btn {
     display: none;
   }
