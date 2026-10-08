@@ -10381,6 +10381,11 @@ main .section-v2-title,
 
 @media (min-width: 768px) { .quote-page .quote-featured-project-list { width: 100%; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(1.25rem, 2.5vw, 2rem); }.quote-page .quote-featured-project-image { aspect-ratio: 1.48 / 1; }.quote-page .quote-featured-project-overlay { max-width: 72%; }.quote-page .quote-featured-project-overlay b { font-size: clamp(.95rem, 1.8vw, 1.4rem); }.quote-page .quote-featured-project-overlay span { font-size: clamp(.66rem, 1vw, .82rem); }.quote-page .quote-featured-project-info h3 { font-size: clamp(1rem, 1.7vw, 1.35rem); }.quote-page .quote-featured-project-info dl div { font-size: clamp(.68rem, 1vw, .84rem); }.quote-page .quote-featured-project-info dl div:nth-child(even) { padding-left: .75rem; } }
 
+/* Desktop uses the same full-width rhythm as the header: a full hero and three assurance cards in one row. */
+@media (min-width: 768px) { .quote-page .quote-hero { padding-right: 0; padding-left: 0; }.quote-page .quote-hero-inner { width: 100%; max-width: none; padding-right: 0; padding-left: 0; }.quote-page .quote-brochure-copy { padding-left: max(2rem, calc((100vw - var(--container-max)) / 2 + 2rem)); }.quote-page .quote-benefit-grid { width: 100%; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(.75rem, 1.6vw, 1.4rem); }.quote-page .quote-benefit-card { grid-template-columns: 58px minmax(0, 1fr); min-height: 142px; padding: clamp(1rem, 1.8vw, 1.35rem); }.quote-page .quote-benefit-icon { width: 54px; height: 54px; }.quote-page .quote-benefit-card h3 { font-size: clamp(1rem, 1.5vw, 1.2rem); }.quote-page .quote-benefit-card p { font-size: clamp(.74rem, 1vw, .84rem); } }
+
+@media (min-width: 768px) { .quote-page .quote-free-estimate-card::before { background: linear-gradient(90deg, rgba(255,253,248,.98) 0%, rgba(255,253,248,.9) 34%, rgba(255,253,248,.18) 61%, transparent 78%); }.quote-page .quote-free-estimate-copy { width: min(49%, 590px); }.quote-page .quote-free-estimate-copy h2 { max-width: 520px; white-space: nowrap; }.quote-page .quote-free-estimate-copy h2 em { white-space: normal; } }
+
 /* Final FAQ — no secondary CTA; each row exposes its dropdown state with a chevron. */
 .quote-page .quote-final-faq { padding: clamp(2rem, 5vw, 4.5rem) 0; background: #fff; }
 .quote-page .quote-final-faq-inner { width: min(1040px, 100%); }
