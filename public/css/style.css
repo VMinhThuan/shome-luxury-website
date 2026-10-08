@@ -10386,6 +10386,9 @@ main .section-v2-title,
 
 @media (min-width: 768px) { .quote-page .quote-free-estimate-card::before { background: linear-gradient(90deg, rgba(255,253,248,.98) 0%, rgba(255,253,248,.9) 34%, rgba(255,253,248,.18) 61%, transparent 78%); }.quote-page .quote-free-estimate-copy { width: min(49%, 590px); }.quote-page .quote-free-estimate-copy h2 { max-width: 520px; white-space: nowrap; }.quote-page .quote-free-estimate-copy h2 em { white-space: normal; } }
 
+/* The supplied brochure is already art-directed; do not retain the legacy dark hero overlay on desktop. */
+@media (min-width: 768px) { .quote-page .quote-hero { background-color: #fffbf6; background-image: var(--quote-hero-image); background-position: center; background-repeat: no-repeat; background-size: cover; } }
+
 /* Final FAQ — no secondary CTA; each row exposes its dropdown state with a chevron. */
 .quote-page .quote-final-faq { padding: clamp(2rem, 5vw, 4.5rem) 0; background: #fff; }
 .quote-page .quote-final-faq-inner { width: min(1040px, 100%); }
