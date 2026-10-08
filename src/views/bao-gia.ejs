@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <title><%= title %></title>
   <meta name="description" content="Nhận tư vấn và dự toán thiết kế, thi công nội thất từ Shome Luxury." />
-  <link rel="stylesheet" href="/css/style.css?v=6.5.38" />
+  <link rel="stylesheet" href="/css/style.css?v=6.5.39" />
   <style>
     .quote-page .quote-video-card-link { display: block; cursor: pointer; }
     .quote-page .quote-video-card-link:hover { box-shadow: 0 12px 30px rgba(91, 57, 22, .12); transform: translateY(-2px); transition: box-shadow .2s ease, transform .2s ease; }
@@ -124,6 +124,10 @@
 
       .quote-page .quote-final-faq-inner { width: 100%; }
       .quote-page .quote-final-faq-list { grid-template-columns: repeat(2, minmax(0, 1fr)); align-items: start; gap: 1rem; }
+
+      /* Keep the craftsmanship gallery concise on desktop: two images per row, eight images total. */
+      .quote-page .quote-craft-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .quote-page .quote-craft-group:nth-of-type(3) { display: none; }
     }
 
     @media (min-width: 1200px) {
