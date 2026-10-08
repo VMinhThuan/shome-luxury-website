@@ -10389,6 +10389,9 @@ main .section-v2-title,
 /* The supplied brochure is already art-directed; do not retain the legacy dark hero overlay on desktop. */
 @media (min-width: 768px) { .quote-page .quote-hero { background-color: #fffbf6; background-image: var(--quote-hero-image); background-position: center; background-repeat: no-repeat; background-size: cover; } }
 
+/* Desktop grids for the quote page: finished-project films (three) and FAQs (two). */
+@media (min-width: 768px) { .quote-page .quote-completed-videos { width: 100% !important; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(.9rem, 1.7vw, 1.45rem); }.quote-page .quote-completed-video { aspect-ratio: 1.18 / 1 !important; }.quote-page .quote-completed-caption { bottom: 1rem; left: 1rem; }.quote-page .quote-final-faq-inner { width: 100%; }.quote-page .quote-final-faq-list { grid-template-columns: repeat(2, minmax(0, 1fr)); align-items: start; gap: 1rem; }.quote-page .quote-final-faq summary { grid-template-columns: 48px minmax(0, 1fr) 20px; gap: 1rem; padding: 1rem 1.15rem; }.quote-page .quote-final-faq summary b { width: 48px; height: 48px; }.quote-page .quote-final-faq summary span { font-size: clamp(.92rem, 1.35vw, 1.13rem); }.quote-page .quote-final-faq details p { margin-left: 1.15rem; padding-left: 64px; } }
+
 /* Final FAQ — no secondary CTA; each row exposes its dropdown state with a chevron. */
 .quote-page .quote-final-faq { padding: clamp(2rem, 5vw, 4.5rem) 0; background: #fff; }
 .quote-page .quote-final-faq-inner { width: min(1040px, 100%); }
