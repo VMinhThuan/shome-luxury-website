@@ -5554,6 +5554,8 @@ ol {
 
   .recruitment-hero-script {
     font-size: clamp(2.5rem, 4vw, 4.75rem);
+    margin: .22em 0 .48em;
+    line-height: 1.1;
   }
 
   .recruitment-hero-subtext {
