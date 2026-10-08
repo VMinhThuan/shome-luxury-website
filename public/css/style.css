@@ -10094,6 +10094,7 @@ main .section-v2-title,
 /* Pricing hero — text follows the supplied brochure layout while the image itself
    keeps the quiet left-side space free for copy. */
 .quote-page .quote-hero {
+  position: relative;
   min-height: clamp(380px, 32vw, 480px);
   padding: var(--header-height-desktop) 0 0;
   background-color: #fff9f1;
@@ -10101,6 +10102,7 @@ main .section-v2-title,
   background-size: cover;
 }
 .quote-page .quote-hero-inner {
+  position: relative;
   min-height: clamp(360px, 30vw, 450px);
 }
 .quote-page .quote-brochure-copy {
