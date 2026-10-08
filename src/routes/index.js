@@ -8,13 +8,15 @@ const projectController = require("../controllers/projectController");
 const projectShowcaseController = require("../controllers/projectShowcaseController");
 const authController = require("../controllers/authController");
 const quotePageController = require("../controllers/quotePageController");
-const { authenticateAdmin } = require("../middleware/auth");
+const { authenticateAdmin, requireAdminPage } = require("../middleware/auth");
+const { requireAdminHost } = require("../middleware/adminSubdomain");
 
 // Page Routes - Homepage & Recruitment
 router.get("/", homeController.getHomePage);
 router.get("/dat-lich-ngay", homeController.getBookingPage);
 router.get("/bao-gia", quotePageController.renderPage.bind(quotePageController));
-router.get("/admin/bao-gia", quotePageController.renderAdminPage.bind(quotePageController));
+router.get("/admin/login", requireAdminHost, quotePageController.renderAdminLoginPage.bind(quotePageController));
+router.get("/admin/bao-gia", requireAdminHost, requireAdminPage, quotePageController.renderAdminPage.bind(quotePageController));
 router.get("/tin-tuc", homeController.getNewsPage);
 router.get("/tin-tuc/:id", homeController.getNewsDetailPage);
 router.get("/tin-tuc-chi-tiet/:id", homeController.getNewsDetailPage);
@@ -53,6 +55,7 @@ router.get("/san-pham/:slug", projectShowcaseController.renderDetailPage.bind(pr
 
 // Auth Route
 router.post("/api/auth/login", authController.login.bind(authController));
+router.post("/api/auth/logout", authController.logout.bind(authController));
 
 // Public Category API Endpoints
 router.get("/api/categories", categoryController.getCategories.bind(categoryController));

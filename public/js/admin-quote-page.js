@@ -3,12 +3,11 @@
   const loginBox = $('[data-admin-login]');
   const editorBox = $('[data-admin-editor]');
   const editor = $('[data-quote-editor]');
-  const tokenKey = 'shomeAdminToken';
-  let token = sessionStorage.getItem(tokenKey);
+  const isAuthenticated = document.body.dataset.adminAuthenticated === 'true';
   let page; let categories = []; let projects = []; let activeCategory = 'all';
 
   const request = async (url, options = {}) => {
-    const response = await fetch(url, { ...options, headers: { ...(options.headers || {}), ...(token ? { Authorization: `Bearer ${token}` } : {}) } });
+    const response = await fetch(url, { ...options, credentials: 'same-origin', headers: { ...(options.headers || {}) } });
     const body = await response.json();
     if (!response.ok || body.success === false) throw new Error(body.message || 'Có lỗi xảy ra.');
     return body;
@@ -44,8 +43,10 @@
   }
   const flatten = nodes => nodes.flatMap(x => [x,...flatten(x.children || [])]);
   function renderProjects() { const filter=$('[data-project-filter]'); const list=$('[data-project-list]'); filter.innerHTML=''; list.innerHTML=''; const relevant = categories.filter(c => c.code?.startsWith('tk-')); const button = (label, value) => { const b=create('button',activeCategory===value?'active':'',label); b.type='button'; b.onclick=()=>{activeCategory=value;renderProjects()};filter.append(b); }; button('Tất cả','all'); relevant.forEach(c=>button(c.name,c._id)); const visible = projects.filter(project => activeCategory==='all' || (project.categoryIds || []).some(c => (c._id || c).toString() === activeCategory)).sort((a,b)=>(a.highlightOrder||0)-(b.highlightOrder||0)); if(!visible.length) list.append(create('p','','Không có công trình trong category này.')); visible.forEach(project=>{ const card=create('article','quote-admin-project-card'); const thumb=create('img'); thumb.src=project.thumbnail||'/images/project_apartment.jpg'; thumb.alt=''; const content=create('div'); content.append(create('h3','',project.title),create('p','',project.location||project.slug)); const controls=create('div','quote-admin-project-controls'); const hi=toggle('Highlight',project.isHighlight); const vis=toggle('Hiển thị',project.isVisible !== false); const order=field('Thứ tự',project.highlightOrder||0,'number'); const save=create('button','quote-admin-project-save','Lưu'); save.type='button'; save.onclick=async()=>{save.disabled=true; try{const result=await request(`/api/admin/projects/${project._id}`,{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify({isHighlight:hi.input.checked,isVisible:vis.input.checked,highlightOrder:Number(order.input.value)||0})}); Object.assign(project,result.data); save.textContent='Đã lưu'; setTimeout(()=>save.textContent='Lưu',1300);}catch(error){alert(error.message)}finally{save.disabled=false}}; controls.append(hi.wrap,vis.wrap,order.wrap,save); card.append(thumb,content,controls); list.append(card); }); }
-  async function load() { const [quote, categoryData, projectData] = await Promise.all([request('/api/quote-page'),request('/api/categories'),request('/api/projects?limit=1000&compact=false')]); page=quote.data; categories=flatten(categoryData.data); projects=projectData.data; renderEditor(); renderProjects(); loginBox.hidden=true; editorBox.hidden=false; }
-  $('[data-login-form]').addEventListener('submit',async event=>{event.preventDefault();const form=new FormData(event.currentTarget);const status=$('[data-login-status]');try{const result=await request('/api/auth/login',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(Object.fromEntries(form))});token=result.token;sessionStorage.setItem(tokenKey,token);await load();}catch(error){status.textContent=error.message;}});
-  $('[data-logout]').onclick=()=>{sessionStorage.removeItem(tokenKey);token=null;editorBox.hidden=true;loginBox.hidden=false;};
-  if(token) load().catch(()=>{sessionStorage.removeItem(tokenKey);token=null;});
+  async function load() { const [quote, categoryData, projectData] = await Promise.all([request('/api/quote-page'),request('/api/categories'),request('/api/projects?limit=1000&compact=false')]); page=quote.data; categories=flatten(categoryData.data); projects=projectData.data; renderEditor(); renderProjects(); }
+  const loginForm = $('[data-login-form]');
+  if (loginForm) loginForm.addEventListener('submit',async event=>{event.preventDefault();const form=new FormData(event.currentTarget);const status=$('[data-login-status]');status.textContent='';try{const result=await request('/api/auth/login',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(Object.fromEntries(form))});window.location.assign(result.redirectUrl || '/admin/bao-gia');}catch(error){status.textContent=error.message;}});
+  const logoutButton = $('[data-logout]');
+  if (logoutButton) logoutButton.onclick=async()=>{try{await request('/api/auth/logout',{method:'POST'});}finally{window.location.assign('/admin/login');}};
+  if (isAuthenticated) load().catch(error=>{ if (/phiên đăng nhập|hết hạn|không hợp lệ/i.test(error.message)) window.location.assign('/admin/login'); else alert(error.message); });
 })();

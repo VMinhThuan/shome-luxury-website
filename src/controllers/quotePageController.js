@@ -117,8 +117,12 @@ class QuotePageController {
     } catch (error) { next(error); }
   }
 
+  renderAdminLoginPage(req, res) {
+    return res.render('admin-bao-gia', { title: 'Đăng nhập quản trị | SHOME LUXURY', isAuthenticated: false });
+  }
+
   renderAdminPage(req, res) {
-    return res.render('admin-bao-gia', { title: 'Quản trị Báo giá | SHOME LUXURY' });
+    return res.render('admin-bao-gia', { title: 'Quản trị Báo giá | SHOME LUXURY', isAuthenticated: true });
   }
 
   async getPublicContent(req, res, next) {
