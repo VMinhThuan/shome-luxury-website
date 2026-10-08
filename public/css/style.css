@@ -10323,30 +10323,26 @@ main .section-v2-title,
   .quote-page .quote-brochure-copy {
     position: relative;
     inset: auto;
-    width: 65%;
+    width: 51%;
     min-height: 0;
-    padding: 8% 3.75% 18%;
-    background: linear-gradient(90deg, rgba(255, 252, 247, .98) 0%, rgba(255, 252, 247, .90) 84%, rgba(255, 252, 247, .10) 100%);
+    padding: 10% 3.75% 19%;
+    background: linear-gradient(90deg, rgba(255, 252, 247, .98) 0%, rgba(255, 252, 247, .89) 80%, rgba(255, 252, 247, .16) 100%);
   }
   .quote-page .quote-brochure-copy h1 {
     max-width: 100%;
     margin: 0 0 .42rem;
-    font-size: clamp(1.15rem, 4.8vw, 1.85rem);
-    line-height: .92;
+    font-size: clamp(1.65rem, 6.1vw, 2.45rem);
+    line-height: .88;
   }
   .quote-page .quote-brochure-copy h1 em {
     margin-bottom: .1rem;
     font-size: .86em;
   }
-  .quote-page .quote-brochure-copy h1 span {
-    display: block;
-    white-space: nowrap;
-  }
   .quote-page .quote-brochure-copy .quote-lead {
     display: block;
     max-width: 95%;
     color: #443b32;
-    font-size: clamp(.64rem, 2.5vw, .92rem);
+    font-size: clamp(.66rem, 2.65vw, .95rem);
     line-height: 1.35;
     overflow: visible;
   }
