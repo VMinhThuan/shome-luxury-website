@@ -10518,8 +10518,11 @@ main .section-v2-title,
   .quote-page .quote-hero-inner { min-height: clamp(380px, 42vw, 500px); }
 
   .quote-page .quote-brochure-copy {
-    width: min(54%, 620px);
-    padding: clamp(1.5rem, 3.2vw, 2.5rem) clamp(1.5rem, 3.8vw, 3.25rem);
+    /* Reserve a real text column instead of letting the description collapse
+       when the browser is zoomed out on compact desktop screens. */
+    box-sizing: border-box;
+    width: clamp(500px, 54vw, 720px);
+    padding: clamp(1.5rem, 2.5vw, 2.5rem) clamp(1.5rem, 3vw, 3.25rem);
   }
 
   .quote-page .quote-brochure-copy h1 {
@@ -10529,6 +10532,8 @@ main .section-v2-title,
   }
 
   .quote-page .quote-brochure-copy .quote-lead {
+    width: 100%;
+    min-width: min(340px, 100%);
     max-width: 100%;
     font-size: clamp(.86rem, 1.35vw, 1rem);
     line-height: 1.42;
