@@ -765,26 +765,29 @@ ol {
   }
 }
 
-/* Keep the full desktop navigation readable on narrower laptop widths. */
+/* Compact desktop keeps the full menu visible while scaling its type and spacing
+   with the available viewport width. */
 @media (min-width: 1200px) and (max-width: 1439px) {
-  .brand-logo-wrapper { margin-right: .75rem; }
+  .brand-logo-wrapper { margin-right: clamp(.45rem, .7vw, .75rem); }
+
+  .logo-img { height: clamp(38px, 3vw, 44px); }
 
   .desktop-nav {
-    gap: .5rem;
-    margin-left: .75rem;
-    margin-right: .9rem;
+    gap: clamp(.3rem, .55vw, .5rem);
+    margin-left: clamp(.45rem, .7vw, .75rem);
+    margin-right: clamp(.55rem, .8vw, .9rem);
   }
 
   .nav-link {
-    gap: .24rem;
-    padding: .45rem .1rem;
-    font-size: .76rem;
+    gap: clamp(.18rem, .3vw, .24rem);
+    padding: .42rem .08rem;
+    font-size: clamp(.7rem, .84vw, .78rem);
   }
 
   .btn-header-consult {
-    gap: .35rem !important;
-    padding: .48rem .72rem !important;
-    font-size: .74rem !important;
+    gap: .3rem !important;
+    padding: .46rem clamp(.58rem, .8vw, .72rem) !important;
+    font-size: clamp(.7rem, .8vw, .75rem) !important;
   }
 }
 
@@ -10504,12 +10507,6 @@ main .section-v2-title,
 .quote-page .quote-final-faq-chevron { display: grid; width: 22px; height: 22px; place-items: center; color: #aa6817; transition: transform .22s ease; }.quote-page .quote-final-faq-chevron svg { width: 16px; fill: none; stroke: currentColor; stroke-linecap: round; stroke-linejoin: round; stroke-width: 1.8; }.quote-page .quote-final-faq details[open] .quote-final-faq-chevron { transform: rotate(180deg); }
 .quote-page .quote-final-faq details p { max-width: 760px; margin: 0 1.5rem 1.2rem clamp(1.5rem + 42px, 7vw, 5.1rem); color: #69625c; font-size: clamp(.8rem, 1.35vw, 1rem); line-height: 1.6; }
 @media (max-width: 767px) { .quote-page .quote-final-faq { padding: 1.5rem 0 2rem; }.quote-page .quote-final-faq h2 { font-size: clamp(1.65rem, 7vw, 2.25rem); }.quote-page .quote-final-faq-list { gap: .45rem; }.quote-page .quote-final-faq details { border-radius: 12px; }.quote-page .quote-final-faq summary { grid-template-columns: 40px minmax(0, 1fr) 18px; gap: .75rem; padding: .7rem .85rem; }.quote-page .quote-final-faq summary b { width: 40px; height: 40px; font-size: .68rem; }.quote-page .quote-final-faq summary span { font-size: .84rem; }.quote-page .quote-final-faq-chevron { width: 18px; height: 18px; }.quote-page .quote-final-faq-chevron svg { width: 14px; }.quote-page .quote-final-faq details p { margin: 0 1rem 1rem 3.35rem; font-size: .76rem; } }
-
-/* Tablet / compact desktop: switch to the drawer before horizontal navigation or the quote hero becomes cramped. */
-@media (min-width: 1200px) and (max-width: 1439px) {
-  .desktop-nav { display: none; }
-  .hamburger-btn { display: flex; }
-}
 
 @media (min-width: 768px) and (max-width: 1439px) {
   .quote-page .quote-hero {
