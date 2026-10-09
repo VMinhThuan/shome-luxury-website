@@ -3614,7 +3614,7 @@ ol {
 .fb-card-box,
 .map-card-box {
   background: #3A3A3A;
-  border: 1px solid var(--accent-gold, #C89B4B) !important;
+  border: none !important;
   border-radius: 12px;
   overflow: hidden !important;
   display: flex;
@@ -3631,7 +3631,7 @@ ol {
   justify-content: space-between;
   padding: 8px 12px;
   background: #3A3A3A;
-  border-bottom: 1px solid var(--accent-gold, #C89B4B);
+  border-bottom: none;
   flex-shrink: 0;
 }
 
