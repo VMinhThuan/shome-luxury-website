@@ -10489,7 +10489,7 @@ main .section-v2-title,
 @media (min-width: 768px) { .quote-page .quote-hero { background-color: #fffbf6; background-image: var(--quote-hero-image); background-position: center; background-repeat: no-repeat; background-size: cover; } }
 
 /* Desktop grids for the quote page: finished-project films (three) and FAQs (two). */
-@media (min-width: 768px) { .quote-page .quote-completed-videos { width: 100% !important; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(.9rem, 1.7vw, 1.45rem); }.quote-page .quote-completed-video { aspect-ratio: 1.18 / 1 !important; }.quote-page .quote-completed-caption { bottom: 1rem; left: 1rem; }.quote-page .quote-final-faq-inner { width: 100%; }.quote-page .quote-final-faq-list { grid-template-columns: repeat(2, minmax(0, 1fr)); align-items: start; gap: 1rem; }.quote-page .quote-final-faq summary { grid-template-columns: 48px minmax(0, 1fr) 20px; gap: 1rem; padding: 1rem 1.15rem; }.quote-page .quote-final-faq summary b { width: 48px; height: 48px; }.quote-page .quote-final-faq summary span { font-size: clamp(.92rem, 1.35vw, 1.13rem); }.quote-page .quote-final-faq details p { margin-left: 1.15rem; padding-left: 64px; } }
+@media (min-width: 768px) { .quote-page .quote-completed-videos { width: 100% !important; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(.9rem, 1.7vw, 1.45rem); }.quote-page .quote-completed-video { aspect-ratio: 1.18 / 1 !important; }.quote-page .quote-completed-caption { bottom: 1rem; left: 1rem; }.quote-page .quote-final-faq-inner { width: 100%; }.quote-page .quote-final-faq-list { grid-template-columns: repeat(2, minmax(0, 1fr)); align-items: start; gap: 1rem; }.quote-page .quote-final-faq summary { grid-template-columns: 48px minmax(0, 1fr) 20px; gap: 1rem; padding: 1rem 1.15rem; }.quote-page .quote-final-faq summary b { width: 48px; height: 48px; }.quote-page .quote-final-faq summary span { font-size: clamp(.92rem, 1.35vw, 1.13rem); }.quote-page .quote-final-faq details p { margin-left: 1.15rem; padding-left: 64px; } }
 
 /* Final FAQ — no secondary CTA; each row exposes its dropdown state with a chevron. */
 .quote-page .quote-final-faq { padding: clamp(2rem, 5vw, 4.5rem) 0; background: #fff; }
@@ -10504,3 +10504,36 @@ main .section-v2-title,
 .quote-page .quote-final-faq-chevron { display: grid; width: 22px; height: 22px; place-items: center; color: #aa6817; transition: transform .22s ease; }.quote-page .quote-final-faq-chevron svg { width: 16px; fill: none; stroke: currentColor; stroke-linecap: round; stroke-linejoin: round; stroke-width: 1.8; }.quote-page .quote-final-faq details[open] .quote-final-faq-chevron { transform: rotate(180deg); }
 .quote-page .quote-final-faq details p { max-width: 760px; margin: 0 1.5rem 1.2rem clamp(1.5rem + 42px, 7vw, 5.1rem); color: #69625c; font-size: clamp(.8rem, 1.35vw, 1rem); line-height: 1.6; }
 @media (max-width: 767px) { .quote-page .quote-final-faq { padding: 1.5rem 0 2rem; }.quote-page .quote-final-faq h2 { font-size: clamp(1.65rem, 7vw, 2.25rem); }.quote-page .quote-final-faq-list { gap: .45rem; }.quote-page .quote-final-faq details { border-radius: 12px; }.quote-page .quote-final-faq summary { grid-template-columns: 40px minmax(0, 1fr) 18px; gap: .75rem; padding: .7rem .85rem; }.quote-page .quote-final-faq summary b { width: 40px; height: 40px; font-size: .68rem; }.quote-page .quote-final-faq summary span { font-size: .84rem; }.quote-page .quote-final-faq-chevron { width: 18px; height: 18px; }.quote-page .quote-final-faq-chevron svg { width: 14px; }.quote-page .quote-final-faq details p { margin: 0 1rem 1rem 3.35rem; font-size: .76rem; } }
+
+/* Tablet / compact desktop: switch to the drawer before horizontal navigation or the quote hero becomes cramped. */
+@media (min-width: 1200px) and (max-width: 1439px) {
+  .desktop-nav { display: none; }
+  .hamburger-btn { display: flex; }
+}
+
+@media (min-width: 768px) and (max-width: 1439px) {
+  .quote-page .quote-hero {
+    min-height: 0;
+    padding: var(--header-height-desktop) 0 0;
+    background-position: center;
+  }
+
+  .quote-page .quote-hero-inner { min-height: clamp(380px, 42vw, 500px); }
+
+  .quote-page .quote-brochure-copy {
+    width: min(54%, 620px);
+    padding: clamp(1.5rem, 3.2vw, 2.5rem) clamp(1.5rem, 3.8vw, 3.25rem);
+  }
+
+  .quote-page .quote-brochure-copy h1 {
+    max-width: 100%;
+    font-size: clamp(2.15rem, 4vw, 3.4rem);
+    line-height: 1;
+  }
+
+  .quote-page .quote-brochure-copy .quote-lead {
+    max-width: 100%;
+    font-size: clamp(.86rem, 1.35vw, 1rem);
+    line-height: 1.42;
+  }
+}
