@@ -618,12 +618,12 @@ ol {
   .desktop-nav {
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    gap: clamp(0.55rem, .9vw, 1.35rem);
+    justify-content: center;
+    gap: clamp(0.4rem, 0.8vw, 1.25rem);
     flex: 1 1 auto;
     min-width: 0;
-    margin-left: clamp(1.2rem, 2.2vw, 2.8rem);
-    margin-right: clamp(1.2rem, 2.2vw, 2.8rem);
+    margin: 0 auto;
+    padding: 0 clamp(0.5rem, 1.2vw, 1.5rem);
   }
 
   .nav-item {
@@ -768,26 +768,35 @@ ol {
 /* Compact desktop keeps the full menu visible while scaling its type and spacing
    with the available viewport width. */
 @media (min-width: 1200px) and (max-width: 1439px) {
-  .brand-logo-wrapper { margin-right: clamp(.45rem, .7vw, .75rem); }
+  .brand-logo-wrapper {
+    flex-shrink: 0;
+    margin-right: clamp(.35rem, .6vw, .65rem);
+  }
 
-  .logo-img { height: clamp(38px, 3vw, 44px); }
+  .logo-img { height: clamp(36px, 2.6vw, 42px); }
 
   .desktop-nav {
-    gap: clamp(.3rem, .55vw, .5rem);
-    margin-left: clamp(.45rem, .7vw, .75rem);
-    margin-right: clamp(.55rem, .8vw, .9rem);
+    justify-content: center;
+    gap: clamp(.22rem, .48vw, .5rem);
+    margin: 0 auto;
+    padding: 0 .4rem;
   }
 
   .nav-link {
-    gap: clamp(.18rem, .3vw, .24rem);
-    padding: .42rem .08rem;
-    font-size: clamp(.7rem, .84vw, .78rem);
+    gap: clamp(.12rem, .22vw, .18rem);
+    padding: .38rem .05rem;
+    font-size: clamp(.7rem, .8vw, .78rem);
+  }
+
+  .header-actions {
+    flex-shrink: 0;
+    margin-left: auto;
   }
 
   .btn-header-consult {
-    gap: .3rem !important;
-    padding: .46rem clamp(.58rem, .8vw, .72rem) !important;
-    font-size: clamp(.7rem, .8vw, .75rem) !important;
+    gap: .25rem !important;
+    padding: .44rem clamp(.5rem, .75vw, .68rem) !important;
+    font-size: clamp(.68rem, .78vw, .74rem) !important;
   }
 }
 
@@ -804,6 +813,8 @@ ol {
   gap: 0.75rem;
   flex: 0 0 auto;
   margin-left: auto;
+  position: relative;
+  z-index: 2;
 }
 
 .btn-header-consult {
@@ -3813,7 +3824,7 @@ ol {
 .company-profile-hero p { margin: 0 0 .45rem; color: #b37728; font-size: .76rem; font-weight: 700; letter-spacing: .16em; }
 .company-profile-hero h1 { display: flex; align-items: baseline; justify-content: center; gap: .28em; margin: 0 0 1.2rem; color: #1d1a18; font-family: var(--font-heading); font-size: clamp(2rem, 4vw, 3.55rem); line-height: 1.16; text-transform: uppercase; }
 .company-profile-hero h1 em { display: inline-block; color: #c9903f; font-family: var(--font-script); font-size: 1.08em; font-style: normal; font-weight: 500; text-transform: none; }
-.company-profile-hero span { display: block; margin-top: .85rem; color: #6b645c; font-size: .92rem; }
+.company-profile-hero span { display: block; margin-top: 2rem; color: #6b645c; font-size: .92rem; }
 .company-profile-viewer-section { padding: clamp(1.5rem, 4vw, 4rem) 0 clamp(2.5rem, 5vw, 5rem); background: #f7f4ef; }
 .company-profile-viewer { width: min(1320px, calc(100% - 32px)); margin: 0 auto; padding: clamp(.9rem, 2vw, 1.7rem); border: 1px solid rgba(203, 155, 75, .42); border-radius: 4px; background: #737373; box-shadow: 0 20px 42px rgba(37, 29, 20, .2); }
 .company-profile-book-shell { position: relative; display: grid; place-items: center; min-height: min(72vh, 820px); }
