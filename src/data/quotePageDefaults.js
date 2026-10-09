@@ -37,7 +37,7 @@ module.exports = {
   brandVideo: {
     eyebrow: 'SHOME LUXURY',
     title: 'Đơn vị thiết kế & thi công nội thất hàng đầu Việt Nam',
-    description: 'Kiến tạo không gian sống – Nâng tầm giá trị cuộc sống',
+    description: 'Kiến tạo không gian sống thượng lưu',
     image: '/images/Luxury Interior with Golden Wave Accents.png',
     videoUrl: 'https://www.youtube.com/watch?v=hoUvh1w9tII',
     caption: 'Giới thiệu về Shome Luxury',
