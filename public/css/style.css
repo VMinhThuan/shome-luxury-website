@@ -618,7 +618,7 @@ ol {
   .desktop-nav {
     display: flex;
     align-items: center;
-    justify-content: flex-start;
+    justify-content: space-between;
     gap: clamp(0.55rem, .9vw, 1.35rem);
     flex: 1 1 auto;
     min-width: 0;
