@@ -3613,8 +3613,8 @@ ol {
 /* Column 2 & Column 3: Footer Cards (Fanpage & Map) */
 .fb-card-box,
 .map-card-box {
-  background: #1F1F1F;
-  border: none !important;
+  background: #C8C8C8;
+  border: 1px solid var(--accent-gold, #C89B4B) !important;
   border-radius: 12px;
   overflow: hidden !important;
   display: flex;
@@ -3630,8 +3630,8 @@ ol {
   align-items: center;
   justify-content: space-between;
   padding: 8px 12px;
-  background: #C89B4B;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.28);
+  background: #C8C8C8;
+  border-bottom: 1px solid var(--accent-gold, #C89B4B);
   flex-shrink: 0;
 }
 
@@ -3639,7 +3639,7 @@ ol {
   display: flex;
   align-items: center;
   gap: 7px;
-  color: #FFFFFF;
+  color: var(--accent-gold, #C89B4B);
   font-weight: 600;
   font-size: 0.78rem;
   letter-spacing: 0.03em;
@@ -3647,7 +3647,7 @@ ol {
 }
 
 .card-header-link {
-  color: #FFFFFF;
+  color: var(--accent-gold, #C89B4B);
   font-size: 0.75rem;
   text-decoration: none;
   font-weight: 600;
@@ -3657,11 +3657,11 @@ ol {
 
 .card-header-link:hover {
   opacity: 0.85;
-  color: #FFFFFF;
+  color: var(--accent-gold, #C89B4B);
 }
 
-.fb-card-box .card-header-title svg { fill: #FFFFFF !important; }
-.map-card-box .card-header-title svg { stroke: #FFFFFF !important; }
+.fb-card-box .card-header-title svg { fill: var(--accent-gold, #C89B4B) !important; }
+.map-card-box .card-header-title svg { stroke: var(--accent-gold, #C89B4B) !important; }
 
 .card-iframe-wrapper {
   flex: 1;

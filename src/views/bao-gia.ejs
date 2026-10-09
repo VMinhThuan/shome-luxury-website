@@ -222,6 +222,10 @@
       /* Normalize the supplied raster icons to the same brand-yellow treatment. */
       filter: brightness(0) saturate(100%) invert(67%) sepia(25%) saturate(871%) hue-rotate(358deg) brightness(86%) contrast(86%);
     }
+    .quote-page .quote-benefit-card h3 {
+      font-family: var(--font-heading) !important;
+      font-weight: 700;
+    }
     .quote-page .quote-price-copy h3 {
       font-family: Georgia, 'Times New Roman', serif;
       font-weight: 700;
@@ -231,9 +235,9 @@
       background: var(--quote-brand-yellow) !important;
     }
     .quote-page .quote-final-faq h2 { color: #171413; font-family: var(--font-heading); font-size: clamp(1.45rem, 2.7vw, 2.35rem); font-weight: 800; letter-spacing: -.045em; line-height: 1.15; }
-    .quote-page .quote-brochure-copy h1 .quote-mobile-title-break { display: inline; }
+    .quote-page .quote-brochure-copy h1 .quote-mobile-title-break { display: inline; margin-left: .22em; }
     @media (max-width: 767px) {
-      .quote-page .quote-brochure-copy h1 .quote-mobile-title-break { display: block; }
+      .quote-page .quote-brochure-copy h1 .quote-mobile-title-break { display: block; margin-left: 0; }
     }
 
     /* Complimentary-design CTA: proportions and typography follow the supplied two-column artwork. */
@@ -301,6 +305,33 @@
       .quote-page .quote-craftsmanship-heading { grid-column: 1 / -1; margin-bottom: 0; }
       .quote-page .quote-craft-group + .quote-craft-group { margin-top: 0; }
       .quote-page .quote-craft-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+
+      /* Keep each estimate benefit label on a single desktop line. */
+      .quote-page .quote-free-estimate-copy li br { display: none; }
+      .quote-page .quote-free-estimate-copy li span { white-space: nowrap; }
+
+      /* Compact FAQ cards to match the reference layout. */
+      .quote-page .quote-final-faq-list { gap: clamp(.8rem, 1.2vw, 1.1rem); }
+      .quote-page .quote-final-faq details { border-radius: 16px; }
+      .quote-page .quote-final-faq summary {
+        grid-template-columns: 38px minmax(0, 1fr) 20px;
+        gap: 1rem;
+        min-height: 78px;
+        padding: .7rem 1.05rem;
+      }
+      .quote-page .quote-final-faq summary b {
+        width: 38px;
+        height: 38px;
+        font-size: .72rem;
+      }
+      .quote-page .quote-final-faq summary span {
+        font-size: clamp(.95rem, 1.1vw, 1.1rem);
+        line-height: 1.2;
+      }
+      .quote-page .quote-final-faq-chevron { width: 20px; height: 20px; }
+      .quote-page .quote-final-faq-chevron svg { display: none; }
+      .quote-page .quote-final-faq-chevron::before { content: '+'; color: currentColor; font-size: 1.7rem; font-style: normal; font-weight: 400; line-height: 1; }
+      .quote-page .quote-final-faq details[open] .quote-final-faq-chevron { transform: none; }
 
       /* Keep the desktop page compact between consecutive content sections. */
       .quote-page > section:not(.quote-hero) {
@@ -378,7 +409,7 @@
       <section class="quote-section quote-category-section" id="cong-trinh-thiet-ke">
         <div class="container">
           <header class="quote-featured-heading"><h2>Thiết kế <em>Chung Cư</em></h2><strong>Nội thất căn hộ chung cư hiện đại, tối ưu công năng từng phòng chức năng.</strong></header>
-          <% if (highlightProjects.length) { %><div class="quote-featured-project-list"><% highlightProjects.forEach((project, index) => { const projectImage = project.thumbnail || project.gallery?.[0] || '/images/project_apartment.jpg'; const costLabel = project.cost ? `${Math.round(project.cost / 1000000)} triệu` : 'Liên hệ tư vấn'; %><a href="/cong-trinh/<%= project.slug %>" class="quote-featured-project-card"><div class="quote-featured-project-image"><img src="<%= projectImage %>" alt="<%= project.title %>" loading="lazy" /><div class="quote-featured-project-overlay"><b><%= index === 0 ? 'Không gian truyền cảm hứng' : 'Tinh giản cho cuộc sống trọn vẹn' %></b><span><%= index === 0 ? 'Mỗi góc nhỏ đều kể một câu chuyện' : 'Sống thoải mái trong không gian dành cho bạn' %></span></div></div><div class="quote-featured-project-info"><h3><%= project.title %></h3><dl><div><dt>Diện tích:</dt><dd><%= project.area || 'Đang cập nhật' %></dd></div><div><dt>Loại hình:</dt><dd><%= project.propertyType || 'Chung cư' %></dd></div><div><dt>Phong cách:</dt><dd><%= project.style || 'Hiện đại' %></dd></div><div><dt>Chi phí:</dt><dd><%= costLabel %></dd></div></dl></div></a><% }) %></div><% } else { %><p class="quote-empty-state">Các công trình nổi bật sẽ được cập nhật tại đây.</p><% } %>
+          <% if (highlightProjects.length) { %><div class="quote-featured-project-list"><% highlightProjects.forEach((project, index) => { const projectImage = index === 0 ? '/images/quote-featured-villa-living-room.png' : (project.thumbnail || project.gallery?.[0] || '/images/project_apartment.jpg'); const costLabel = project.cost ? `${Math.round(project.cost / 1000000)} triệu` : 'Liên hệ tư vấn'; %><a href="/cong-trinh/<%= project.slug %>" class="quote-featured-project-card"><div class="quote-featured-project-image"><img src="<%= projectImage %>" alt="<%= project.title %>" loading="lazy" /><div class="quote-featured-project-overlay"><b><%= index === 0 ? 'Không gian truyền cảm hứng' : 'Tinh giản cho cuộc sống trọn vẹn' %></b><span><%= index === 0 ? 'Mỗi góc nhỏ đều kể một câu chuyện' : 'Sống thoải mái trong không gian dành cho bạn' %></span></div></div><div class="quote-featured-project-info"><h3><%= project.title %></h3><dl><div><dt>Diện tích:</dt><dd><%= project.area || 'Đang cập nhật' %></dd></div><div><dt>Loại hình:</dt><dd><%= project.propertyType || 'Chung cư' %></dd></div><div><dt>Phong cách:</dt><dd><%= project.style || 'Hiện đại' %></dd></div><div><dt>Chi phí:</dt><dd><%= costLabel %></dd></div></dl></div></a><% }) %></div><% } else { %><p class="quote-empty-state">Các công trình nổi bật sẽ được cập nhật tại đây.</p><% } %>
           <div class="quote-featured-view-all"><a href="https://shome-luxury-website.vercel.app/thiet-ke-noi-that/chung-cu">Xem tất cả dự án <span aria-hidden="true">→</span></a></div>
         </div>
       </section>
