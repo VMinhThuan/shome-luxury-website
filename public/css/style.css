@@ -772,19 +772,18 @@ ol {
     margin-right: clamp(.35rem, .6vw, .65rem);
   }
 
-  .logo-img { height: clamp(36px, 2.6vw, 42px); }
+  .logo-img { height: clamp(36px, 2.5vw, 42px); }
 
   .desktop-nav {
-    justify-content: center;
-    gap: clamp(.22rem, .48vw, .5rem);
-    margin: 0 auto;
-    padding: 0 .4rem;
+    justify-content: space-between;
+    margin-left: clamp(.55rem, 1.2vw, 1.4rem);
+    margin-right: clamp(.55rem, 1.2vw, 1.4rem);
   }
 
   .nav-link {
-    gap: clamp(.12rem, .22vw, .18rem);
-    padding: .38rem .05rem;
-    font-size: clamp(.7rem, .8vw, .78rem);
+    gap: clamp(.12rem, .2vw, .18rem);
+    padding: .38rem .04rem;
+    font-size: clamp(.68rem, .78vw, .78rem);
   }
 
   .header-actions {
@@ -794,7 +793,7 @@ ol {
 
   .btn-header-consult {
     gap: .25rem !important;
-    padding: .44rem clamp(.5rem, .75vw, .68rem) !important;
+    padding: .44rem clamp(.48rem, .72vw, .65rem) !important;
     font-size: clamp(.68rem, .78vw, .74rem) !important;
   }
 }
