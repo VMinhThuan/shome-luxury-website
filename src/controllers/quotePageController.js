@@ -44,6 +44,14 @@ class QuotePageController {
     if (page.sections?.brandVideo?.image === '/images/booking-luxury-interior.png') {
       sections.brandVideo = { ...sections.brandVideo, ...quotePageDefaults.brandVideo };
     }
+    // Replace the previous channel link with the supplied brand-film URL. Custom video links remain untouched.
+    if (page.sections?.brandVideo?.videoUrl === 'https://www.youtube.com/channel/UCcW0-8y0EMYZ381uBjcccjA') {
+      sections.brandVideo = {
+        ...sections.brandVideo,
+        videoUrl: quotePageDefaults.brandVideo.videoUrl,
+        ctaHref: quotePageDefaults.brandVideo.ctaHref
+      };
+    }
     if (page.sections?.completed?.title === 'Chạm vào' && page.sections?.completed?.script === 'chất lượng thực tế') {
       sections.completed = { ...sections.completed, ...quotePageDefaults.completed };
     }
