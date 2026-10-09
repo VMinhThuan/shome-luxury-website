@@ -770,15 +770,15 @@ ol {
   .brand-logo-wrapper { margin-right: .75rem; }
 
   .desktop-nav {
-    gap: .65rem;
+    gap: .6rem;
     margin-left: .75rem;
-    margin-right: .75rem;
+    margin-right: .9rem;
   }
 
   .nav-link {
     gap: .24rem;
     padding: .45rem .1rem;
-    font-size: .84rem;
+    font-size: .82rem;
   }
 
   .btn-header-consult {
