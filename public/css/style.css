@@ -3807,6 +3807,35 @@ ol {
   transform: translateY(-2px);
 }
 
+/* Company profile — an on-site, two-page PDF reader styled as a refined book. */
+.company-profile-page { background: #f7f4ef; }
+.company-profile-hero { padding: calc(var(--header-height-desktop) + 3.5rem) 0 2.5rem; background: linear-gradient(118deg, #fffdf9, #f2e7d4); text-align: center; }
+.company-profile-hero p { margin: 0 0 .45rem; color: #b37728; font-size: .76rem; font-weight: 700; letter-spacing: .16em; }
+.company-profile-hero h1 { margin: 0; color: #1d1a18; font-family: var(--font-heading); font-size: clamp(2rem, 4vw, 3.55rem); line-height: 1; text-transform: uppercase; }
+.company-profile-hero h1 em { color: #c9903f; font-family: var(--font-script); font-size: 1.08em; font-style: normal; font-weight: 500; text-transform: none; }
+.company-profile-hero span { display: block; margin-top: .85rem; color: #6b645c; font-size: .92rem; }
+.company-profile-viewer-section { padding: clamp(1.5rem, 4vw, 4rem) 0 clamp(2.5rem, 5vw, 5rem); background: #f7f4ef; }
+.company-profile-viewer { width: min(1320px, calc(100% - 32px)); margin: 0 auto; padding: clamp(.9rem, 2vw, 1.7rem); border: 1px solid rgba(203, 155, 75, .42); border-radius: 4px; background: #737373; box-shadow: 0 20px 42px rgba(37, 29, 20, .2); }
+.company-profile-book-shell { position: relative; display: grid; place-items: center; min-height: min(72vh, 820px); }
+.company-profile-book { position: relative; display: flex; align-items: center; justify-content: center; width: 100%; min-height: min(70vh, 780px); perspective: 1900px; transform-style: preserve-3d; }
+.profile-page-canvas { display: block; width: auto; max-width: 50%; max-height: min(70vh, 780px); height: auto; background: #fff; box-shadow: 0 12px 22px rgba(0, 0, 0, .22); }
+.profile-page-canvas + .profile-page-canvas { border-left: 1px solid rgba(33, 26, 19, .13); box-shadow: 9px 12px 22px rgba(0, 0, 0, .22); }
+.company-profile-loading { position: absolute; z-index: 2; color: #fff; font-size: .9rem; }
+.company-profile-loading a { color: #f2c56d; text-decoration: underline; }
+.profile-nav { position: absolute; z-index: 3; top: 50%; display: grid; width: 44px; height: 58px; place-items: center; border: 0; background: rgba(30, 30, 30, .45); color: #fff; cursor: pointer; transform: translateY(-50%); transition: background .2s ease, transform .2s ease; }
+.profile-nav:hover:not(:disabled) { background: #c8923d; transform: translateY(-50%) scale(1.05); }
+.profile-nav:disabled, .company-profile-toolbar button:disabled { opacity: .35; cursor: not-allowed; }
+.profile-nav--prev { left: 0; }.profile-nav--next { right: 0; }
+.profile-nav svg, .company-profile-toolbar svg { width: 21px; height: 21px; fill: none; stroke: currentColor; stroke-linecap: round; stroke-linejoin: round; stroke-width: 1.8; }
+.company-profile-toolbar { display: flex; align-items: center; justify-content: center; gap: .2rem; width: fit-content; margin: 1.1rem auto 0; padding: .3rem .4rem; border-radius: 8px; background: #fff; box-shadow: 0 3px 9px rgba(0,0,0,.24); }
+.profile-page-count { min-width: 78px; padding: 0 .5rem; color: #6a645d; font-size: .78rem; text-align: center; }
+.company-profile-toolbar button, .company-profile-toolbar a { display: grid; width: 34px; height: 34px; place-items: center; border: 0; border-radius: 5px; background: transparent; color: #6e6963; cursor: pointer; text-decoration: none; }
+.company-profile-toolbar button:hover:not(:disabled), .company-profile-toolbar a:hover { background: #f5ead9; color: #bd812f; }
+.company-profile-book.is-turning-next { animation: company-profile-turn-next .42s ease; }.company-profile-book.is-turning-prev { animation: company-profile-turn-prev .42s ease; }
+@keyframes company-profile-turn-next { 0% { transform: perspective(1900px) rotateY(0); opacity: 1; } 45% { transform: perspective(1900px) rotateY(-8deg); opacity: .58; } 100% { transform: perspective(1900px) rotateY(0); opacity: 1; } }
+@keyframes company-profile-turn-prev { 0% { transform: perspective(1900px) rotateY(0); opacity: 1; } 45% { transform: perspective(1900px) rotateY(8deg); opacity: .58; } 100% { transform: perspective(1900px) rotateY(0); opacity: 1; } }
+@media (max-width: 767px) { .company-profile-hero { padding-top: calc(var(--header-height-mobile) + 2.5rem); }.company-profile-hero span { padding: 0 1.5rem; font-size: .82rem; }.company-profile-viewer { width: calc(100% - 20px); padding: .55rem; }.company-profile-book-shell, .company-profile-book { min-height: 58vh; }.profile-page-canvas { max-width: 100%; max-height: 58vh; }.profile-page-canvas + .profile-page-canvas { display: none; }.profile-nav { width: 34px; height: 46px; }.profile-page-count { min-width: 68px; font-size: .72rem; } }
+
 /* Bottom Trust Bar: 6 Badges */
 .footer-trust-bar {
   margin-top: 1.75rem;

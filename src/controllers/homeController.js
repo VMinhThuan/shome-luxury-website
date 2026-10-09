@@ -130,6 +130,14 @@ exports.getBookingPage = (req, res) => {
   });
 };
 
+exports.getCompanyProfilePage = (req, res) => {
+  res.render("ho-so-nang-luc", {
+    title: "Hồ sơ năng lực | SHOME LUXURY",
+    headerSlogan: "Nâng tầm cuộc sống",
+    navigation: navigationData
+  });
+};
+
 exports.getNewsPage = (req, res) => {
   const articles = newsData.map(item => ({
     id: item.id,
@@ -160,4 +168,3 @@ exports.getNewsDetailPage = (req, res) => {
     otherArticles
   });
 };
-

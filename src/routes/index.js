@@ -14,6 +14,7 @@ const { requireAdminHost } = require("../middleware/adminSubdomain");
 // Page Routes - Homepage & Recruitment
 router.get("/", homeController.getHomePage);
 router.get("/dat-lich-ngay", homeController.getBookingPage);
+router.get("/ho-so-nang-luc", homeController.getCompanyProfilePage);
 router.get("/bao-gia", quotePageController.renderPage.bind(quotePageController));
 router.get("/admin/login", requireAdminHost, quotePageController.renderAdminLoginPage.bind(quotePageController));
 router.get("/admin/bao-gia", requireAdminHost, requireAdminPage, quotePageController.renderAdminPage.bind(quotePageController));
