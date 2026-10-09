@@ -249,6 +249,15 @@
       .quote-page .quote-construction-copy .quote-button { min-height: 42px; padding: .63rem 1.15rem; font-size: .72rem; }
       .quote-page .quote-workshop-heading h2 { font-size: clamp(1.1rem, 5.25vw, 1.55rem); white-space: nowrap; }
       .quote-page .quote-workshop-heading h2 em { display: inline-block; margin: 0 0 0 .2em; font-size: 1.1em; line-height: 1; vertical-align: baseline; }
+      /* Keep every paired brand-yellow heading on one compact mobile line. */
+      .quote-page :is(.quote-heading, .quote-category-featured-heading, .quote-featured-heading, .quote-completed-heading, .quote-craftsmanship-heading, .quote-handover-heading) h2 { white-space: nowrap; }
+      .quote-page .quote-heading h2 { font-size: clamp(1rem, 4.75vw, 1.42rem); }
+      .quote-page .quote-category-featured-heading h2,
+      .quote-page .quote-featured-heading h2,
+      .quote-page .quote-completed-heading h2,
+      .quote-page .quote-craftsmanship-heading h2,
+      .quote-page .quote-handover-heading h2 { font-size: clamp(1.05rem, 5vw, 1.5rem); }
+      .quote-page :is(.quote-heading, .quote-category-featured-heading, .quote-featured-heading, .quote-completed-heading, .quote-craftsmanship-heading, .quote-handover-heading) h2 em { display: inline-block; margin: 0 0 0 .18em !important; padding: 0 !important; font-size: 1.05em !important; line-height: 1; vertical-align: baseline; }
     }
     .quote-page .quote-featured-view-all { margin-top: clamp(1.25rem, 2.5vw, 2rem); text-align: center; }
     .quote-page .quote-featured-view-all a { display: inline-flex; align-items: center; gap: .65rem; min-height: 44px; padding: .65rem 1.3rem; border: 1px solid var(--quote-brand-yellow); border-radius: 999px; color: #241b14; font-family: var(--font-heading); font-size: clamp(.72rem, 1vw, .84rem); font-weight: 700; letter-spacing: .02em; transition: background .2s ease, color .2s ease; }
