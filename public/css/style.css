@@ -618,8 +618,8 @@ ol {
   .desktop-nav {
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    gap: clamp(0.6rem, 1.1vw, 1.8rem);
+    justify-content: flex-start;
+    gap: clamp(0.55rem, .9vw, 1.35rem);
     flex: 1 1 auto;
     min-width: 0;
     margin-left: clamp(1.2rem, 2.2vw, 2.8rem);
@@ -636,7 +636,7 @@ ol {
     font-weight: 700;
     color: #FFFFFF !important;
     font-family: var(--font-menu);
-    padding: 0.5rem 0.2rem;
+    padding: 0.38rem 0.08rem;
     display: flex;
     align-items: center;
     gap: 0.35rem;
