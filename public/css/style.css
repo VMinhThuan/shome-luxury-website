@@ -3613,7 +3613,7 @@ ol {
 /* Column 2 & Column 3: Footer Cards (Fanpage & Map) */
 .fb-card-box,
 .map-card-box {
-  background: #C8C8C8;
+  background: #3A3A3A;
   border: 1px solid var(--accent-gold, #C89B4B) !important;
   border-radius: 12px;
   overflow: hidden !important;
@@ -3630,7 +3630,7 @@ ol {
   align-items: center;
   justify-content: space-between;
   padding: 8px 12px;
-  background: #C8C8C8;
+  background: #3A3A3A;
   border-bottom: 1px solid var(--accent-gold, #C89B4B);
   flex-shrink: 0;
 }
