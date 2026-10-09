@@ -766,27 +766,25 @@ ol {
 }
 
 /* Keep the full desktop navigation readable on narrower laptop widths. */
-@media (min-width: 1200px) and (max-width: 1700px) {
-  .brand-logo-wrapper { margin-right: .55rem; }
-  .logo-img { height: 40px; }
+@media (min-width: 1200px) and (max-width: 1439px) {
+  .brand-logo-wrapper { margin-right: .75rem; }
 
   .desktop-nav {
-    justify-content: flex-start;
-    gap: clamp(.35rem, .55vw, .65rem);
-    margin-left: .55rem;
-    margin-right: .9rem;
+    gap: .65rem;
+    margin-left: .75rem;
+    margin-right: .75rem;
   }
 
   .nav-link {
-    gap: .2rem;
-    padding: .42rem 0;
-    font-size: clamp(.74rem, .82vw, .86rem);
+    gap: .24rem;
+    padding: .45rem .1rem;
+    font-size: .84rem;
   }
 
   .btn-header-consult {
     gap: .35rem !important;
-    padding: .46rem .68rem !important;
-    font-size: clamp(.72rem, .78vw, .82rem) !important;
+    padding: .48rem .72rem !important;
+    font-size: .78rem !important;
   }
 }
 
