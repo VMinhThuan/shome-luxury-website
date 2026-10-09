@@ -215,6 +215,44 @@
     .quote-page .quote-final-faq summary b {
       background: var(--quote-brand-yellow) !important;
     }
+    .quote-page .quote-brochure-copy h1 .quote-mobile-title-break { display: inline; }
+    @media (max-width: 767px) {
+      .quote-page .quote-brochure-copy h1 .quote-mobile-title-break { display: block; }
+    }
+
+    /* Complimentary-design CTA: proportions and typography follow the supplied two-column artwork. */
+    .quote-page .quote-construction-cta { padding: clamp(2rem, 4vw, 3.75rem) 0; background: #fff; }
+    .quote-page .quote-construction-cta .container { max-width: min(1080px, var(--container-max)); }
+    .quote-page .quote-construction-card { grid-template-columns: minmax(0, .94fr) minmax(0, 1.06fr); column-gap: clamp(1.25rem, 2.8vw, 2.6rem); min-height: clamp(320px, 31vw, 370px); padding: 10px; border: 1px solid #f1ece4; border-radius: 16px; background: #fffdf9; box-shadow: 0 10px 28px rgba(91, 63, 28, .05); }
+    .quote-page .quote-construction-copy { align-items: stretch; justify-content: center; padding: clamp(1.25rem, 2.8vw, 2.45rem) clamp(1rem, 2vw, 1.7rem) clamp(1.1rem, 2.2vw, 1.8rem) clamp(1.25rem, 3.2vw, 2.9rem); }
+    .quote-page .quote-construction-copy .quote-kicker { margin: 0 0 .22rem; color: #171412; font-family: var(--font-heading); font-size: clamp(1.35rem, 2.2vw, 2.1rem); font-weight: 800; letter-spacing: -.045em; line-height: 1.05; }
+    .quote-page .quote-construction-copy h2 { margin: 0 0 .55rem; color: var(--quote-brand-yellow); font-family: var(--font-script); font-size: clamp(2.35rem, 4.3vw, 4.25rem) !important; font-weight: 500; letter-spacing: -.035em; line-height: .85; white-space: nowrap !important; }
+    .quote-page .quote-construction-copy > p { margin: 0 0 1rem; color: #201c19; font-family: var(--font-sans); font-size: clamp(.88rem, 1.38vw, 1.18rem); font-weight: 400; line-height: 1.25; }
+    .quote-page .quote-construction-points { grid-template-columns: max-content max-content; gap: .6rem clamp(1rem, 2vw, 1.8rem); margin: 0 0 1.15rem; color: #26211d; font-size: clamp(.72rem, 1.05vw, .9rem); }
+    .quote-page .quote-construction-points span { gap: .55rem; }
+    .quote-page .quote-construction-points span:last-child { grid-column: 1 / -1; }
+    .quote-page .quote-construction-points i { width: 1.65rem; height: 1.65rem; border: 1.5px solid var(--quote-brand-yellow); border-radius: 0; color: var(--quote-brand-yellow); background: transparent; }
+    .quote-page .quote-construction-points svg { width: 1.35rem; height: 1.35rem; fill: none; stroke: currentColor; stroke-width: 1.55; stroke-linecap: round; stroke-linejoin: round; }
+    .quote-page .quote-construction-copy .quote-button { min-height: 47px; padding: .72rem 1.45rem; border: 0; border-radius: 999px; background: linear-gradient(100deg, #d7973d, #efc57e); color: #18130e; font-family: var(--font-heading); font-size: clamp(.72rem, 1.05vw, .9rem); font-weight: 700; letter-spacing: .015em; }
+    .quote-page .quote-construction-copy .quote-button span { margin-left: .85rem; font-size: 1.45em; font-weight: 400; line-height: 0; }
+    .quote-page .quote-construction-card > img { height: 100%; min-height: 0; border-radius: 12px; object-fit: cover; object-position: center; }
+    @media (max-width: 767px) {
+      .quote-page .quote-construction-cta { padding: 1.5rem 0; }
+      .quote-page .quote-construction-card { grid-template-columns: 1fr !important; gap: 0; min-height: 0 !important; padding: 8px; border-radius: 14px; }
+      .quote-page .quote-construction-card > img { order: -1 !important; width: 100%; height: auto !important; min-height: 0 !important; aspect-ratio: 1.55 / 1; border-radius: 10px; }
+      .quote-page .quote-construction-copy { padding: 1.35rem .65rem .85rem; }
+      .quote-page .quote-construction-copy .quote-kicker { font-size: clamp(1.25rem, 6vw, 1.6rem) !important; }
+      .quote-page .quote-construction-copy h2 { margin-bottom: .6rem; font-size: clamp(2.2rem, 11vw, 3.1rem) !important; }
+      .quote-page .quote-construction-copy > p { margin-bottom: .95rem; font-size: .92rem !important; }
+      .quote-page .quote-construction-points { gap: .5rem 1rem; margin-bottom: 1rem; font-size: .72rem !important; }
+      .quote-page .quote-construction-points i { width: 1.45rem; height: 1.45rem; }
+      .quote-page .quote-construction-copy .quote-button { min-height: 42px; padding: .63rem 1.15rem; font-size: .72rem; }
+    }
+    .quote-page .quote-featured-view-all { margin-top: clamp(1.25rem, 2.5vw, 2rem); text-align: center; }
+    .quote-page .quote-featured-view-all a { display: inline-flex; align-items: center; gap: .65rem; min-height: 44px; padding: .65rem 1.3rem; border: 1px solid var(--quote-brand-yellow); border-radius: 999px; color: #241b14; font-family: var(--font-heading); font-size: clamp(.72rem, 1vw, .84rem); font-weight: 700; letter-spacing: .02em; transition: background .2s ease, color .2s ease; }
+    .quote-page .quote-featured-view-all a:hover { background: var(--quote-brand-yellow); color: #fff; }
+    .quote-page .quote-featured-view-all span { color: var(--quote-brand-yellow); font-size: 1.25em; transition: color .2s ease, transform .2s ease; }
+    .quote-page .quote-featured-view-all a:hover span { color: inherit; transform: translateX(3px); }
   </style>
   <script src="/js/main.js?v=1.9.0" defer></script>
   <script src="/js/quote-page.js?v=1.0.0" defer></script>
@@ -228,7 +266,8 @@
         <div class="container quote-hero-inner">
           <div class="quote-hero-copy quote-brochure-copy">
             <p class="quote-kicker"><%= sections.hero.eyebrow %></p>
-            <h1><em><%= quoteScript %></em><span><%= quoteTitle %></span></h1>
+            <% const quoteTitleMatch = /^(.*)\s+(trọn gói)$/i.exec(quoteTitle); %>
+            <h1><em><%= quoteScript %></em><span><%= quoteTitleMatch ? quoteTitleMatch[1] : quoteTitle %><% if (quoteTitleMatch) { %><span class="quote-mobile-title-break"><%= quoteTitleMatch[2] %></span><% } %></span></h1>
             <p class="quote-lead"><%= sections.hero.description %></p>
           </div>
           <div class="quote-hero-traits"><% (sections.hero.traits || []).forEach((trait, index) => { %><span><%= trait %></span><% if (index < sections.hero.traits.length - 1) { %><i aria-hidden="true"></i><% } %><% }) %></div>
@@ -256,14 +295,32 @@
     <% } %>
 
     <% if (sections.constructionCta?.isVisible !== false) { %>
-      <section class="quote-construction-cta"><div class="container"><div class="quote-construction-card"><div class="quote-construction-copy"><p class="quote-kicker"><%= sections.constructionCta.eyebrow %></p><h2><%= sections.constructionCta.title %></h2><p><%= sections.constructionCta.description %></p><div class="quote-construction-points"><span><i aria-hidden="true">✓</i>Tối ưu chi phí</span><span><i aria-hidden="true">✓</i>Đồng bộ thẩm mỹ</span><span><i aria-hidden="true">✓</i>Trọn gói cho căn hộ, nhà phố, văn phòng</span></div><a class="quote-button" href="<%= sections.constructionCta.ctaHref %>"><%= sections.constructionCta.ctaLabel %></a></div><img src="<%= sections.constructionCta.image %>" alt="Thi công nội thất Shome Luxury" loading="lazy" /></div></div></section>
+      <section class="quote-construction-cta">
+        <div class="container">
+          <div class="quote-construction-card">
+            <div class="quote-construction-copy">
+              <p class="quote-kicker"><%= sections.constructionCta.eyebrow %></p>
+              <h2><%= sections.constructionCta.title %></h2>
+              <p><%= sections.constructionCta.description %></p>
+              <div class="quote-construction-points">
+                <span><i aria-hidden="true"><svg viewBox="0 0 24 24"><ellipse cx="12" cy="7" rx="6.5" ry="2.5"/><path d="M5.5 7v5c0 1.4 2.9 2.5 6.5 2.5s6.5-1.1 6.5-2.5V7M5.5 12v5c0 1.4 2.9 2.5 6.5 2.5s6.5-1.1 6.5-2.5v-5"/></svg></i>Tối ưu chi phí</span>
+                <span><i aria-hidden="true"><svg viewBox="0 0 24 24"><path d="m12 3 7 5-7 13L5 8l7-5Z"/><path d="m5 8 7 4 7-4M12 12v9"/></svg></i>Đồng bộ thẩm mỹ</span>
+                <span><i aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 10.5 12 4l8 6.5V20H4v-9.5Z"/><path d="M9 20v-5h6v5"/></svg></i>Trọn gói cho căn hộ, nhà phố, văn phòng</span>
+              </div>
+              <a class="quote-button" href="<%= sections.constructionCta.ctaHref %>"><%= sections.constructionCta.ctaLabel %><span aria-hidden="true">→</span></a>
+            </div>
+            <img src="<%= sections.constructionCta.image %>" alt="Thi công nội thất Shome Luxury" loading="lazy" />
+          </div>
+        </div>
+      </section>
     <% } %>
 
     <% if (sections.categories?.isVisible !== false) { %>
       <section class="quote-section quote-category-section" id="cong-trinh-thiet-ke">
         <div class="container">
-          <header class="quote-featured-heading"><p><i></i>Dự án tiêu biểu<i></i></p><h2>Nội thất <em>Chung cư</em></h2><strong>Tối ưu từng mét vuông, cân bằng công năng và cảm xúc sống.</strong></header>
+          <header class="quote-featured-heading"><h2>Thiết kế <em>Chung Cư</em></h2><strong>Nội thất căn hộ chung cư hiện đại, tối ưu công năng từng phòng chức năng.</strong></header>
           <% if (highlightProjects.length) { %><div class="quote-featured-project-list"><% highlightProjects.forEach((project, index) => { const projectImage = project.thumbnail || project.gallery?.[0] || '/images/project_apartment.jpg'; const costLabel = project.cost ? `${Math.round(project.cost / 1000000)} triệu` : 'Liên hệ tư vấn'; %><a href="/cong-trinh/<%= project.slug %>" class="quote-featured-project-card"><div class="quote-featured-project-image"><img src="<%= projectImage %>" alt="<%= project.title %>" loading="lazy" /><div class="quote-featured-project-overlay"><b><%= index === 0 ? 'Không gian truyền cảm hứng' : 'Tinh giản cho cuộc sống trọn vẹn' %></b><span><%= index === 0 ? 'Mỗi góc nhỏ đều kể một câu chuyện' : 'Sống thoải mái trong không gian dành cho bạn' %></span></div></div><div class="quote-featured-project-info"><h3><%= project.title %></h3><dl><div><dt>Diện tích:</dt><dd><%= project.area || 'Đang cập nhật' %></dd></div><div><dt>Loại hình:</dt><dd><%= project.propertyType || 'Chung cư' %></dd></div><div><dt>Phong cách:</dt><dd><%= project.style || 'Hiện đại' %></dd></div><div><dt>Chi phí:</dt><dd><%= costLabel %></dd></div></dl></div></a><% }) %></div><% } else { %><p class="quote-empty-state">Các công trình nổi bật sẽ được cập nhật tại đây.</p><% } %>
+          <div class="quote-featured-view-all"><a href="https://shome-luxury-website.vercel.app/thiet-ke-noi-that/chung-cu">Xem tất cả dự án <span aria-hidden="true">→</span></a></div>
         </div>
       </section>
     <% } %>
