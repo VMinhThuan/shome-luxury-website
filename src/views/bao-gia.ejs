@@ -290,7 +290,16 @@
       .quote-page .quote-featured-heading strong { margin: 0 auto; }
 
       /* Use the same desktop width as the navigation while preserving two detail cards per row. */
-      .quote-page .quote-craftsmanship-inner { width: 100%; max-width: var(--container-max); }
+      .quote-page .quote-craftsmanship-inner {
+        display: grid;
+        width: 100%;
+        max-width: var(--container-max);
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        align-items: start;
+        gap: clamp(1.75rem, 3vw, 3rem) clamp(1.25rem, 2.5vw, 2.5rem);
+      }
+      .quote-page .quote-craftsmanship-heading { grid-column: 1 / -1; margin-bottom: 0; }
+      .quote-page .quote-craft-group + .quote-craft-group { margin-top: 0; }
       .quote-page .quote-craft-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 
       /* Keep the desktop page compact between consecutive content sections. */
@@ -399,7 +408,7 @@
     <% } %>
 
     <% if (sections.completed?.isVisible !== false) { %>
-      <section class="quote-section quote-completed"><div class="container"><header class="quote-completed-heading"><p><%= sections.completed.eyebrow %></p><h2><%= sections.completed.title %> <em><%= sections.completed.script %></em></h2><span><%= sections.completed.description %></span></header><div class="quote-completed-videos"><% sections.completed.gallery.filter(item => item.isVisible !== false).sort((a,b) => (a.order||0)-(b.order||0)).forEach((item, index) => { %><article class="quote-completed-video"><img src="<%= item.image %>" alt="<%= item.alt %>" loading="lazy" /><div class="quote-completed-video-shade"></div><button type="button" class="quote-completed-play" aria-label="Xem video <%= item.title || item.alt %>">▶</button><div class="quote-completed-caption"><small>Căn hộ <%= index + 1 %> phòng ngủ</small><h3><%= item.title || item.alt %></h3><p>● <%= item.location || 'Hà Nội' %></p></div></article><% }) %></div><div class="quote-featured-view-all"><a href="https://shome-luxury-website.vercel.app/thiet-ke-noi-that/chung-cu">Xem tất cả dự án <span aria-hidden="true">→</span></a></div></div></section>
+      <section class="quote-section quote-completed"><div class="container"><header class="quote-completed-heading"><p><%= sections.completed.eyebrow %></p><h2><%= sections.completed.title %> <em><%= sections.completed.script %></em></h2><span><%= sections.completed.description %></span></header><div class="quote-completed-videos"><% sections.completed.gallery.filter(item => item.isVisible !== false).sort((a,b) => (a.order||0)-(b.order||0)).forEach((item, index) => { %><article class="quote-completed-video"><img src="<%= item.image %>" alt="<%= item.alt %>" loading="lazy" /><div class="quote-completed-video-shade"></div><div class="quote-completed-caption"><small>Căn hộ <%= index + 1 %> phòng ngủ</small><h3><%= item.title || item.alt %></h3><p>● <%= item.location || 'Hà Nội' %></p></div></article><% }) %></div><div class="quote-featured-view-all"><a href="https://shome-luxury-website.vercel.app/thiet-ke-noi-that/chung-cu">Xem tất cả dự án <span aria-hidden="true">→</span></a></div></div></section>
     <% } %>
 
     <% if (sections.capability?.isVisible !== false) { %>
