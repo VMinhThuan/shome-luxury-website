@@ -23,7 +23,7 @@
     .quote-page .quote-completed-caption { position: absolute; bottom: clamp(.75rem, 2.5vw, 1.5rem); left: clamp(.8rem, 2.5vw, 1.5rem); color: #fff; text-transform: uppercase; }
     .quote-page .quote-completed-caption small, .quote-page .quote-completed-caption h3, .quote-page .quote-completed-caption p { color: #fff !important; }
     .quote-page .quote-completed-caption small { font-size: clamp(.55rem, 1vw, .68rem); font-weight: 600; }
-    .quote-page .quote-completed-caption h3 { margin: .2rem 0 .28rem; font-family: Georgia, serif; font-size: clamp(1rem, 2vw, 1.55rem); font-weight: 500; line-height: 1.05; }
+    .quote-page .quote-completed-caption h3 { margin: .2rem 0 .28rem; font-family: var(--font-heading); font-size: clamp(1rem, 2vw, 1.55rem); font-weight: 600; line-height: 1.05; }
     .quote-page .quote-completed-caption p { margin: 0; font-size: clamp(.55rem, .9vw, .68rem); }
     @media (max-width: 559px) { .quote-page .quote-completed { padding: 2.5rem 0; }.quote-page .quote-completed-videos { width: calc(100% - 24px); gap: .8rem; }.quote-page .quote-completed-video { aspect-ratio: 1.55 / 1; border-radius: 14px; }.quote-page .quote-completed-caption h3 { font-size: 1.05rem; }.quote-page .quote-completed-play { width: 46px; height: 46px; border-width: 2px; } }
     .quote-page .quote-capability { padding: clamp(3rem, 6vw, 5.5rem) 0; background: #fffdf9; }
@@ -54,7 +54,8 @@
     .quote-page .quote-construction-cta, .quote-page .quote-brand-video, .quote-page .quote-completed, .quote-page .quote-capability { padding-top: clamp(.75rem, 1.5vw, 1.5rem); padding-bottom: clamp(.75rem, 1.5vw, 1.5rem); }
     .quote-page .quote-heading { margin-bottom: clamp(1.3rem, 2.5vw, 2.25rem); }
     .quote-page .quote-heading h2 em, .quote-page .quote-category-featured-heading h2 em { display: block; margin: .28em 0 .4em; line-height: 1; }
-    @media (max-width: 767px) { .quote-page .quote-pricing { padding-bottom: .75rem; }.quote-page .quote-construction-cta { padding-top: .75rem; padding-bottom: .75rem; }.quote-page .quote-construction-card { grid-template-columns: minmax(0, 1.08fr) minmax(0, .92fr) !important; column-gap: .6rem; min-height: 205px !important; }.quote-page .quote-construction-card > img { order: initial !important; min-height: 0 !important; max-height: none !important; height: 100% !important; border-radius: 0 13px 13px 0 !important; }.quote-page .quote-construction-copy { min-width: 0; padding: .9rem .65rem .9rem .85rem !important; }.quote-page .quote-construction-copy .quote-kicker { margin-bottom: .15rem; font-size: clamp(.88rem, 3.5vw, 1.25rem) !important; line-height: 1; }.quote-page .quote-construction-copy h2 { max-width: 100%; margin-bottom: .45rem; font-size: clamp(1.55rem, 5.2vw, 2.25rem) !important; line-height: .92; overflow-wrap: break-word; }.quote-page .quote-construction-copy > p { margin-bottom: .45rem; font-size: clamp(.64rem, 2.45vw, .86rem) !important; line-height: 1.25; }.quote-page .quote-construction-points { grid-template-columns: 1fr !important; gap: .35rem; margin-bottom: .5rem; font-size: clamp(.55rem, 2.15vw, .72rem) !important; }.quote-page .quote-construction-points span:last-child { grid-column: auto; }.quote-page .quote-construction-points span { gap: .3rem; }.quote-page .quote-construction-points i { font-size: 1.15em; }.quote-page .quote-construction-copy .quote-button { min-height: 29px; padding: .42rem .65rem; font-size: clamp(.48rem, 1.8vw, .63rem); }.quote-page .quote-construction-copy .quote-button span { margin-left: .45rem; } }
+    .quote-page .quote-construction-copy h2 { font-size: clamp(1.6rem, 3.2vw, 3.2rem) !important; white-space: nowrap !important; }
+    @media (max-width: 767px) { .quote-page .quote-pricing { padding-bottom: .75rem; }.quote-page .quote-construction-cta { padding-top: .75rem; padding-bottom: .75rem; }.quote-page .quote-construction-card { grid-template-columns: minmax(0, 1.08fr) minmax(0, .92fr) !important; column-gap: .6rem; min-height: 205px !important; }.quote-page .quote-construction-card > img { order: initial !important; min-height: 0 !important; max-height: none !important; height: 100% !important; border-radius: 0 13px 13px 0 !important; }.quote-page .quote-construction-copy { min-width: 0; padding: .9rem .65rem .9rem .85rem !important; }.quote-page .quote-construction-copy .quote-kicker { margin-bottom: .15rem; font-size: clamp(.88rem, 3.5vw, 1.25rem) !important; line-height: 1; }.quote-page .quote-construction-copy h2 { max-width: 100%; margin-bottom: .45rem; font-size: clamp(1.15rem, 3.8vw, 1.7rem) !important; line-height: .92; white-space: nowrap !important; }.quote-page .quote-construction-copy > p { margin-bottom: .45rem; font-size: clamp(.64rem, 2.45vw, .86rem) !important; line-height: 1.25; }.quote-page .quote-construction-points { grid-template-columns: 1fr !important; gap: .35rem; margin-bottom: .5rem; font-size: clamp(.55rem, 2.15vw, .72rem) !important; }.quote-page .quote-construction-points span:last-child { grid-column: auto; }.quote-page .quote-construction-points span { gap: .3rem; }.quote-page .quote-construction-points i { font-size: 1.15em; }.quote-page .quote-construction-copy .quote-button { min-height: 29px; padding: .42rem .65rem; font-size: clamp(.48rem, 1.8vw, .63rem); }.quote-page .quote-construction-copy .quote-button span { margin-left: .45rem; } }
     .quote-page .quote-pricing { padding-bottom: .25rem !important; }
     .quote-page .quote-pricing + .quote-construction-cta { padding-top: .25rem !important; }
     @media (max-width: 559px) { .quote-page .quote-section, .quote-page .quote-brand-video, .quote-page .quote-completed, .quote-page .quote-capability { padding-top: 1rem; padding-bottom: 1rem; } }
@@ -106,6 +107,23 @@
 
     /* Desktop layout audit: keep editorial banners full width; lay out repeated content in clear grids. */
     @media (min-width: 768px) {
+      /* Desktop/tablet: keep headline and handwritten accent on one balanced line. */
+      .quote-page .quote-heading h2 em {
+        display: inline-block;
+        margin: 0 0 0 .24em !important;
+        padding: 0 !important;
+        font-size: 1.1em !important;
+        line-height: 1 !important;
+        vertical-align: baseline;
+      }
+      .quote-page .quote-workshop-heading h2 em,
+      .quote-page .quote-craftsmanship-heading h2 em {
+        display: inline-block;
+        margin: 0 0 0 .24em;
+        line-height: 1;
+        vertical-align: baseline;
+      }
+
       .quote-page .quote-pricing-list { width: 100%; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(1rem, 2vw, 1.5rem); }
       .quote-page .quote-price-card { grid-template-columns: 1fr; min-height: 0; }
       .quote-page .quote-price-image { min-height: 0; margin: 10px 10px 0; aspect-ratio: 1.45 / 1; }
@@ -129,9 +147,8 @@
       .quote-page .quote-final-faq-inner { width: 100%; }
       .quote-page .quote-final-faq-list { grid-template-columns: repeat(2, minmax(0, 1fr)); align-items: start; gap: 1rem; }
 
-      /* Keep the craftsmanship gallery concise on desktop: two images per row, eight images total. */
+      /* Present every craftsmanship group as a balanced two-column image grid on desktop. */
       .quote-page .quote-craft-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-      .quote-page .quote-craft-group:nth-of-type(3) { display: none; }
     }
 
     @media (min-width: 1200px) {
@@ -268,7 +285,6 @@
             </div>
             <figcaption class="quote-video-caption">
               <div><b><%= sections.brandVideo.caption %></b><span><%= sections.brandVideo.description %></span></div>
-              <a href="<%= brandVideoUrl %>" target="_blank" rel="noopener noreferrer"><%= sections.brandVideo.ctaLabel || 'Xem trên YouTube' %> <i aria-hidden="true">↗</i></a>
             </figcaption>
           </figure>
         </div>
@@ -286,7 +302,8 @@
     <% const craftsmanshipGroups = [
       { number: '01', title: 'Bề mặt & góc cạnh', image: '/images/craftsmanship-surface-details-grid.png', items: [['Dán cạnh gọn đẹp', 'Mép dán sạch, liền mạch.'], ['Góc nối khít', 'Chăm chút từng điểm tiếp giáp.'], ['Bo cạnh mềm mại', 'Mượt tay ở những điểm chạm.'], ['Bề mặt chỉn chu', 'Rà soát vân gỗ và lớp hoàn thiện.']] },
       { number: '02', title: 'Phụ kiện & chuyển động', image: '/images/craftsmanship-hardware-details-grid.png', items: [['Căn chỉnh bản lề', 'Cánh cân, đóng mở nhẹ nhàng.'], ['Ray trượt êm thuận', 'Kéo mở mượt, vận hành ổn định.'], ['Khe cánh đều đẹp', 'Đồng nhất tại mọi điểm.'], ['Tay nắm ngay ngắn', 'Đúng độ cao và vị trí lắp đặt.']] },
-      { number: '03', title: 'Lắp đặt & hoàn thiện', image: '/images/craftsmanship-finishing-details-grid.png', items: [['Căn chỉnh thẳng bằng', 'Kiểm tra độ phẳng và chắc chắn.'], ['Tiếp giáp gọn gàng', 'Chỉnh chu nơi tủ gặp tường.'], ['Đi dây ngăn nắp', 'Gọn đường dây, thuận tiện sử dụng.'], ['Vệ sinh hoàn thiện', 'Sạch từng góc trước bàn giao.']] }
+      { number: '03', title: 'Lắp đặt & hoàn thiện', image: '/images/craftsmanship-finishing-details-grid.png', items: [['Căn chỉnh thẳng bằng', 'Kiểm tra độ phẳng và chắc chắn.'], ['Tiếp giáp gọn gàng', 'Chỉnh chu nơi tủ gặp tường.'], ['Đi dây ngăn nắp', 'Gọn đường dây, thuận tiện sử dụng.'], ['Vệ sinh hoàn thiện', 'Sạch từng góc trước bàn giao.']] },
+      { number: '04', title: 'Kiểm tra & bàn giao', image: '/images/craftsmanship-final-inspection-details-grid.png', items: [['Kiểm tra khe tủ', 'Độ hở đều, đóng mở chuẩn xác.'], ['Rà soát ngăn kéo', 'Chuyển động mượt mà, chắc chắn.'], ['Chỉnh điểm tiếp giáp', 'Tủ ôm khít, liền mạch với tường.'], ['Hoàn thiện phụ kiện', 'Tháo bảo vệ và lau sạch trước bàn giao.']] }
     ]; %>
     <section class="quote-craftsmanship"><div class="container quote-craftsmanship-inner"><header class="quote-craftsmanship-heading"><h2>Tinh tế <em>Từng góc nhỏ</em></h2><p>Từ bề mặt, góc cạnh đến phụ kiện và lắp đặt.<br />Mỗi chi tiết đều được chăm chút để tổng thể đẹp và dùng bền lâu.</p></header><% craftsmanshipGroups.forEach(group => { %><section class="quote-craft-group"><header class="quote-craft-group-heading"><b><%= group.number %></b><h3><%= group.title %></h3></header><div class="quote-craft-grid"><% group.items.forEach((item, index) => { %><article class="quote-craft-card"><div class="quote-craft-photo"><img src="<%= group.image %>" alt="<%= item[0] %>" loading="lazy" /></div><h4><%= item[0] %></h4><p><%= item[1] %></p></article><% }) %></div></section><% }) %></div></section>
 
