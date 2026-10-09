@@ -224,7 +224,7 @@
     /* Complimentary-design CTA: proportions and typography follow the supplied two-column artwork. */
     .quote-page .quote-construction-cta { padding: clamp(2rem, 4vw, 3.75rem) 0; background: #fff; }
     .quote-page .quote-construction-cta .container { max-width: min(1080px, var(--container-max)); }
-    .quote-page .quote-construction-card { grid-template-columns: minmax(0, .94fr) minmax(0, 1.06fr); column-gap: 0; min-height: clamp(320px, 31vw, 370px); padding: 0; border: 1px solid #f1ece4; border-radius: 16px; background: #fffdf9; box-shadow: 0 10px 28px rgba(91, 63, 28, .05); }
+    .quote-page .quote-construction-card { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); column-gap: 0; min-height: clamp(296px, 28vw, 340px); padding: 0; border: 1px solid #f1ece4; border-radius: 16px; background: #fffdf9; box-shadow: 0 10px 28px rgba(91, 63, 28, .05); }
     .quote-page .quote-construction-copy { align-items: stretch; justify-content: center; padding: clamp(1.25rem, 2.8vw, 2.45rem) clamp(1rem, 2vw, 1.7rem) clamp(1.1rem, 2.2vw, 1.8rem) clamp(1.25rem, 3.2vw, 2.9rem); }
     .quote-page .quote-construction-copy .quote-kicker { margin: 0 0 .45rem; color: #171412; font-family: var(--font-heading); font-size: clamp(1.35rem, 2.2vw, 2.1rem); font-weight: 800; letter-spacing: -.045em; line-height: 1.05; }
     .quote-page .quote-construction-copy h2 { margin: 0 0 .8rem; color: var(--quote-brand-yellow); font-family: var(--font-script); font-size: clamp(2.35rem, 4.3vw, 4.25rem) !important; font-weight: 500; letter-spacing: -.035em; line-height: 1; white-space: nowrap !important; }
@@ -236,10 +236,10 @@
     .quote-page .quote-construction-points svg { width: 1.35rem; height: 1.35rem; fill: none; stroke: currentColor; stroke-width: 1.55; stroke-linecap: round; stroke-linejoin: round; }
     .quote-page .quote-construction-copy .quote-button { display: inline-flex; align-items: center; justify-content: center; gap: .85rem; min-height: 47px; padding: .72rem 1.45rem; border: 0; border-radius: 999px; background: linear-gradient(100deg, #d7973d, #efc57e); color: #18130e; font-family: var(--font-heading); font-size: clamp(.72rem, 1.05vw, .9rem); font-weight: 700; letter-spacing: .015em; line-height: 1; }
     .quote-page .quote-construction-copy .quote-button span { display: inline-flex; margin: 0; align-items: center; font-size: 1.45em; font-weight: 400; line-height: 1; }
-    .quote-page .quote-construction-card > img { height: 100%; min-height: 0; border-radius: 0 15px 15px 0; object-fit: cover; object-position: center; }
+    .quote-page .quote-construction-card > img { width: 100%; height: 100%; min-height: 0; border-radius: 0 15px 15px 0; background: #e8d7c2; object-fit: contain; object-position: center; }
     @media (max-width: 767px) {
       .quote-page .quote-construction-cta { padding: 1.5rem 0; }
-      .quote-page .quote-construction-card { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) !important; gap: 0; min-height: 218px !important; padding: 0; border-radius: 14px; }
+      .quote-page .quote-construction-card { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) !important; gap: 0; min-height: 205px !important; padding: 0; border-radius: 14px; }
       .quote-page .quote-construction-card > img { order: initial !important; width: 100%; height: 100% !important; min-height: 0 !important; aspect-ratio: auto; border-radius: 0 13px 13px 0; object-position: center; }
       .quote-page .quote-construction-copy { min-width: 0; padding: .7rem .2rem .55rem .5rem; }
       .quote-page .quote-construction-copy .quote-kicker { margin-bottom: .25rem; font-size: clamp(.75rem, 3.45vw, 1.1rem) !important; line-height: 1; white-space: nowrap; }
