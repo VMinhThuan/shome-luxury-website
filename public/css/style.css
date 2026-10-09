@@ -631,11 +631,11 @@ ol {
   }
 
   .nav-link {
-    font-size: clamp(0.95rem, 1.06vw, 1.16rem);
+    font-size: clamp(0.82rem, 0.92vw, 0.98rem);
     font-weight: 700;
     color: #FFFFFF !important;
     font-family: var(--font-menu);
-    padding: 0.38rem 0.08rem;
+    padding: 0.4rem 0.45rem;
     display: flex;
     align-items: center;
     gap: 0.35rem;
@@ -781,9 +781,9 @@ ol {
   }
 
   .nav-link {
-    gap: clamp(.12rem, .2vw, .18rem);
-    padding: .38rem .04rem;
-    font-size: clamp(.68rem, .78vw, .78rem);
+    gap: clamp(.15rem, .25vw, .22rem);
+    padding: .38rem .25rem;
+    font-size: clamp(.72rem, .82vw, .84rem);
   }
 
   .header-actions {
