@@ -820,18 +820,18 @@
       stroke: #000000 !important;
     }
 
-    /* Chữ script góc phải hero: 2 dòng nghệ thuật kèm đường gạch mềm mại giống thiết kế mẫu */
+    /* Chữ script góc phải hero */
     .quote-page .quote-hero-corner-script {
       position: absolute !important;
       z-index: 2 !important;
-      right: max(24px, calc((100vw - var(--container-max)) / 2 + 16px)) !important;
+      right: 1.5rem !important;
       bottom: 1.15rem !important;
       display: inline-flex !important;
       flex-direction: column !important;
       align-items: center !important;
       width: auto !important;
       max-width: none !important;
-      color: #ba6d18 !important;
+      color: var(--accent-gold, #C89B4B) !important;
       font-family: var(--font-script) !important;
       font-size: clamp(1.35rem, 2.1vw, 2.15rem) !important;
       font-weight: 500 !important;
@@ -850,16 +850,6 @@
       display: block !important;
       white-space: nowrap !important;
     }
-    .quote-page .quote-hero-corner-script .quote-hero-corner-swoosh {
-      display: block !important;
-      width: 104% !important;
-      max-width: 250px !important;
-      height: auto !important;
-      margin-top: -1px !important;
-      margin-left: 6% !important;
-      overflow: visible !important;
-      color: inherit !important;
-    }
     @media (max-width: 1023px) {
       .quote-page .quote-hero-corner-script {
         right: 1.5rem !important;
@@ -873,10 +863,6 @@
         bottom: .65rem !important;
         font-size: clamp(.82rem, 3.4vw, 1.15rem) !important;
         transform: rotate(-6deg) !important;
-      }
-      .quote-page .quote-hero-corner-script .quote-hero-corner-swoosh {
-        width: 102% !important;
-        margin-left: 4% !important;
       }
     }
 
@@ -964,9 +950,6 @@
           <div class="quote-hero-corner-script">
             <span class="quote-hero-corner-line1"><%= line1 %></span>
             <span class="quote-hero-corner-line2"><%= line2 %></span>
-            <svg class="quote-hero-corner-swoosh" viewBox="0 0 240 14" fill="none" aria-hidden="true">
-              <path d="M12 10 C70 12.5, 150 12, 235 3" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" />
-            </svg>
           </div>
         </div>
       </section>
