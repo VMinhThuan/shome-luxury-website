@@ -10572,19 +10572,39 @@ main .section-v2-title,
 
 /* Free-estimate CTA: compact consultation panel following the handover check. */
 .quote-page .quote-free-estimate { padding: clamp(1.25rem, 3vw, 2.5rem) 0; background: #fff; }
-.quote-page .quote-free-estimate-card { position: relative; min-height: clamp(400px, 52vw, 560px); overflow: hidden; border: 1px solid #eadfce; border-radius: 18px; background: #fdf8ef; isolation: isolate; }
+.quote-page .quote-free-estimate-card { position: relative; min-height: clamp(420px, 48vw, 540px); overflow: hidden; border: 1px solid #eadfce; border-radius: 20px; background: #fdf8ef; isolation: isolate; box-shadow: 0 10px 30px rgba(50, 35, 20, 0.05); }
 .quote-page .quote-free-estimate-image { position: absolute; inset: 0; z-index: -2; width: 100%; height: 100%; object-fit: cover; object-position: center; }
-.quote-page .quote-free-estimate-card::before { position: absolute; z-index: -1; inset: 0; content: ''; background: linear-gradient(90deg, rgba(255,253,248,.98) 0%, rgba(255,253,248,.94) 42%, rgba(255,253,248,.24) 67%, transparent 100%); }
-.quote-page .quote-free-estimate-copy { display: flex; width: min(52%, 510px); min-height: inherit; flex-direction: column; justify-content: center; padding: clamp(2rem, 5vw, 4.25rem); color: #211912; }
-.quote-page .quote-free-estimate-copy h2 { max-width: 390px; margin: 0 0 1rem; font-family: var(--font-heading); font-size: clamp(2.5rem, 5.1vw, 5rem); font-weight: 700; letter-spacing: -.055em; line-height: .9; }
-.quote-page .quote-free-estimate-copy h2 em { display: block; margin-top: .24em; color: #c47a1c; font-family: var(--font-serif); font-style: normal; }
-.quote-page .quote-free-estimate-copy > p { max-width: 365px; margin: 0 0 1.35rem; font-size: clamp(.92rem, 1.55vw, 1.25rem); line-height: 1.4; }
+.quote-page .quote-free-estimate-card::before { position: absolute; z-index: -1; inset: 0; content: ''; background: linear-gradient(90deg, rgba(255,253,248,.98) 0%, rgba(255,253,248,.95) 45%, rgba(255,253,248,.32) 74%, transparent 100%); }
+.quote-page .quote-free-estimate-copy { display: flex; width: min(52%, 540px); min-height: inherit; flex-direction: column; justify-content: center; padding: clamp(2rem, 4.5vw, 4rem); color: #211912; }
+.quote-page .quote-free-estimate-copy h2 { max-width: 480px; margin: 0 0 .85rem; font-family: var(--font-heading); font-size: clamp(2rem, 3.8vw, 3.6rem); font-weight: 800; letter-spacing: -.04em; line-height: 1.05; }
+.quote-page .quote-free-estimate-copy h2 em { display: inline-block; margin-left: .25em; color: #c47a1c; font-family: var(--font-script); font-weight: 500; font-style: normal; }
+.quote-page .quote-free-estimate-copy > p { max-width: 400px; margin: 0 0 1.25rem; font-size: clamp(.88rem, 1.2vw, 1.08rem); line-height: 1.45; }
 .quote-page .quote-free-estimate-copy > p strong { font-weight: 700; }
-.quote-page .quote-free-estimate-copy ul { display: grid; gap: .75rem; margin: 0 0 1.6rem; padding: 0; list-style: none; }
-.quote-page .quote-free-estimate-copy li { display: flex; align-items: center; gap: .9rem; font-size: clamp(.9rem, 1.5vw, 1.18rem); line-height: 1.2; }
-.quote-page .quote-free-estimate-button { align-self: flex-start; width: fit-content; padding: .85rem 1.35rem; border: 1px solid var(--accent-gold, #C89B4B); border-radius: 999px; background: var(--accent-gold, #C89B4B); color: #111111; font-size: clamp(.64rem, 1vw, .78rem); font-weight: 700; letter-spacing: .02em; text-transform: uppercase; box-shadow: 0 4px 14px rgba(200, 155, 75, 0.28); transition: all .25s ease; }
+.quote-page .quote-free-estimate-copy ul { display: grid; gap: clamp(.65rem, 1vw, .9rem); margin: 0 0 1.6rem; padding: 0; list-style: none; }
+.quote-page .quote-free-estimate-copy li { display: flex; align-items: center; gap: clamp(.7rem, 1.2vw, 1rem); font-size: clamp(.85rem, 1.15vw, 1.02rem); line-height: 1.35; color: #2b2520; }
+.quote-page .quote-free-estimate-copy li i { display: inline-flex; align-items: center; justify-content: center; width: 44px; height: 44px; min-width: 44px; min-height: 44px; max-width: 44px; max-height: 44px; flex: 0 0 44px; border-radius: 50%; border: 1.5px solid var(--accent-gold, #c47a1c); color: var(--accent-gold, #c47a1c); background: rgba(255, 255, 255, 0.85); box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04); }
+.quote-page .quote-free-estimate-copy li i svg { width: 22px; height: 22px; stroke: currentColor; stroke-width: 1.8; fill: none; }
+.quote-page .quote-free-estimate-copy li span { white-space: normal; flex: 1 1 auto; }
+.quote-page .quote-free-estimate-button { align-self: flex-start; width: fit-content; padding: .85rem 1.6rem; border: 1px solid var(--accent-gold, #C89B4B); border-radius: 999px; background: var(--accent-gold, #C89B4B); color: #111111; font-size: clamp(.72rem, .95vw, .84rem); font-weight: 700; letter-spacing: .02em; text-transform: uppercase; box-shadow: 0 4px 14px rgba(200, 155, 75, 0.28); transition: all .25s ease; }
 .quote-page .quote-free-estimate-button:hover { background: var(--accent-gold-hover, #D2A653); border-color: var(--accent-gold-hover, #D2A653); color: #000000; transform: translateY(-2px); box-shadow: 0 6px 20px rgba(200, 155, 75, 0.45); }
-@media (max-width: 767px) { .quote-page .quote-free-estimate { padding: 1rem 0; }.quote-page .quote-free-estimate-card { min-height: 400px; border-radius: 14px; }.quote-page .quote-free-estimate-image { object-position: 63% center; }.quote-page .quote-free-estimate-card::before { background: linear-gradient(90deg, rgba(255,253,248,.98) 0%, rgba(255,253,248,.9) 58%, rgba(255,253,248,.25) 100%); }.quote-page .quote-free-estimate-copy { width: min(72%, 390px); padding: 1.5rem; }.quote-page .quote-free-estimate-copy h2 { margin-bottom: .8rem; font-size: clamp(2.25rem, 9vw, 3.35rem); }.quote-page .quote-free-estimate-copy > p { margin-bottom: 1rem; font-size: .86rem; }.quote-page .quote-free-estimate-copy ul { gap: .55rem; margin-bottom: 1.2rem; }.quote-page .quote-free-estimate-copy li { gap: .65rem; font-size: .82rem; }.quote-page .quote-free-estimate-copy li i { width: 36px; height: 36px; font-size: .78rem; }.quote-page .quote-free-estimate-button { padding: .7rem .9rem; font-size: .59rem; } }
+@media (max-width: 900px) {
+  .quote-page .quote-free-estimate-copy { width: min(64%, 480px); padding: 2rem 1.75rem; }
+  .quote-page .quote-free-estimate-card::before { background: linear-gradient(90deg, rgba(255,253,248,.98) 0%, rgba(255,253,248,.95) 58%, rgba(255,253,248,.38) 82%, transparent 100%); }
+}
+@media (max-width: 767px) {
+  .quote-page .quote-free-estimate { padding: 1.25rem 0; }
+  .quote-page .quote-free-estimate-card { min-height: auto; border-radius: 16px; }
+  .quote-page .quote-free-estimate-image { object-position: 70% center; }
+  .quote-page .quote-free-estimate-card::before { background: linear-gradient(180deg, rgba(255,253,248,.98) 0%, rgba(255,253,248,.95) 65%, rgba(255,253,248,.82) 100%); }
+  .quote-page .quote-free-estimate-copy { width: 100%; padding: 1.75rem 1.25rem 2rem; }
+  .quote-page .quote-free-estimate-copy h2 { font-size: clamp(1.85rem, 8vw, 2.5rem); white-space: normal; margin-bottom: .6rem; }
+  .quote-page .quote-free-estimate-copy > p { font-size: .88rem; margin-bottom: 1.1rem; }
+  .quote-page .quote-free-estimate-copy ul { gap: .65rem; margin-bottom: 1.35rem; }
+  .quote-page .quote-free-estimate-copy li { gap: .75rem; font-size: .86rem; }
+  .quote-page .quote-free-estimate-copy li i { width: 38px; height: 38px; min-width: 38px; min-height: 38px; max-width: 38px; max-height: 38px; flex: 0 0 38px; }
+  .quote-page .quote-free-estimate-copy li i svg { width: 19px; height: 19px; }
+  .quote-page .quote-free-estimate-button { width: 100%; text-align: center; justify-content: center; }
+}
 
 /* Shome Luxury brand video panel. The whole panel links to the official YouTube channel. */
 .quote-page .quote-brand-video { padding: clamp(1.5rem, 3vw, 2.5rem) 0; background: #fff; }
@@ -10628,7 +10648,7 @@ main .section-v2-title,
 /* Desktop uses the same full-width rhythm as the header: a full hero and three assurance cards in one row. */
 @media (min-width: 768px) { .quote-page .quote-hero { padding-right: 0; padding-left: 0; }.quote-page .quote-hero-inner { width: 100%; max-width: none; padding-right: 0; padding-left: 0; }.quote-page .quote-brochure-copy { padding-left: max(24px, calc((100vw - var(--container-max)) / 2 + 24px)); }.quote-page .quote-benefit-grid { width: 100%; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(.75rem, 1.6vw, 1.4rem); }.quote-page .quote-benefit-card { grid-template-columns: 58px minmax(0, 1fr); min-height: 142px; padding: clamp(1rem, 1.8vw, 1.35rem); }.quote-page .quote-benefit-icon { width: 54px; height: 54px; }.quote-page .quote-benefit-card h3 { font-size: clamp(1rem, 1.5vw, 1.2rem); }.quote-page .quote-benefit-card p { font-size: clamp(.74rem, 1vw, .84rem); } }
 
-@media (min-width: 768px) { .quote-page .quote-free-estimate-card::before { background: linear-gradient(90deg, rgba(255,253,248,.98) 0%, rgba(255,253,248,.9) 34%, rgba(255,253,248,.18) 61%, transparent 78%); }.quote-page .quote-free-estimate-copy { width: min(49%, 590px); }.quote-page .quote-free-estimate-copy h2 { max-width: 520px; white-space: nowrap; }.quote-page .quote-free-estimate-copy h2 em { white-space: normal; } }
+@media (min-width: 768px) { .quote-page .quote-free-estimate-card::before { background: linear-gradient(90deg, rgba(255,253,248,.98) 0%, rgba(255,253,248,.9) 34%, rgba(255,253,248,.18) 61%, transparent 78%); }.quote-page .quote-free-estimate-copy { width: min(52%, 560px); }.quote-page .quote-free-estimate-copy h2 { max-width: 520px; } }
 
 /* The supplied brochure is already art-directed; do not retain the legacy dark hero overlay on desktop. */
 @media (min-width: 768px) { .quote-page .quote-hero { background-color: #fffbf6; background-image: var(--quote-hero-image); background-position: center; background-repeat: no-repeat; background-size: cover; } }

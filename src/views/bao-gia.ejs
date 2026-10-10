@@ -621,9 +621,42 @@
     .quote-page .quote-featured-view-all span { color: #111111; font-size: 1.25em; transition: transform .2s ease; }
     .quote-page .quote-featured-view-all a:hover span { transform: translateX(3px); }
     .quote-page .quote-price-area b { display: inline-grid; width: 1.2em; height: 1.2em; margin-right: .55em; place-items: center; vertical-align: -.16em; }
-    .quote-page .quote-price-area b svg { width: 100%; height: 100%; fill: none; stroke: currentColor; stroke-width: 1.9; stroke-linecap: square; stroke-linejoin: miter; }
-    .quote-page .quote-free-estimate-copy li i { border-color: var(--quote-brand-yellow); color: var(--quote-brand-yellow); }
-    .quote-page .quote-free-estimate-copy li i svg { width: 58%; height: 58%; fill: none; stroke: currentColor; stroke-width: 1.75; stroke-linecap: round; stroke-linejoin: round; }
+    .quote-page .quote-free-estimate-copy li i {
+      display: inline-flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      width: 44px !important;
+      height: 44px !important;
+      min-width: 44px !important;
+      min-height: 44px !important;
+      max-width: 44px !important;
+      max-height: 44px !important;
+      flex: 0 0 44px !important;
+      border-radius: 50% !important;
+      border: 1.5px solid var(--quote-brand-yellow, #c47a1c) !important;
+      color: var(--quote-brand-yellow, #c47a1c) !important;
+      background: rgba(255, 255, 255, 0.85) !important;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+    }
+    .quote-page .quote-free-estimate-copy li i svg {
+      width: 22px !important;
+      height: 22px !important;
+      stroke: currentColor !important;
+      stroke-width: 1.8 !important;
+      fill: none !important;
+    }
+    .quote-page .quote-free-estimate-copy li {
+      display: flex !important;
+      align-items: center !important;
+      gap: clamp(.65rem, 1.2vw, .95rem) !important;
+      font-size: clamp(.85rem, 1.15vw, 1.02rem) !important;
+      line-height: 1.35 !important;
+      color: #2b2520 !important;
+    }
+    .quote-page .quote-free-estimate-copy li span {
+      white-space: normal !important;
+      flex: 1 1 auto;
+    }
     @media (min-width: 768px) {
       /* The script lettering has a long descender, so reserve space before the supporting line. */
       .quote-page .quote-featured-heading h2 { margin: .25rem 0 2rem; }
@@ -641,10 +674,6 @@
       .quote-page .quote-craftsmanship-heading { grid-column: 1 / -1; margin-bottom: 0; }
       .quote-page .quote-craft-group + .quote-craft-group { margin-top: 0; }
       .quote-page .quote-craft-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-
-      /* Keep each estimate benefit label on a single desktop line. */
-      .quote-page .quote-free-estimate-copy li br { display: none; }
-      .quote-page .quote-free-estimate-copy li span { white-space: nowrap; }
 
       /* Compact FAQ cards to match the reference layout. */
       .quote-page .quote-final-faq-list { gap: clamp(.8rem, 1.2vw, 1.1rem); }
