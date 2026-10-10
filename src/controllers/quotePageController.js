@@ -96,7 +96,7 @@ class QuotePageController {
       category: 'tk-nt-chung-cu',
       isHighlight: true,
       isVisible: true,
-      limit: 4,
+      limit: 3,
       sort: 'highlight'
     });
     return highlighted.projects;

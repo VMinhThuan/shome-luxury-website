@@ -1,5 +1,7 @@
-const express = require("express");
 const path = require("path");
+require("dotenv").config({ path: path.resolve(__dirname, ".env.local") });
+require("dotenv").config();
+const express = require("express");
 const compression = require("compression");
 const connectDB = require("./src/config/db");
 const routes = require("./src/routes");
