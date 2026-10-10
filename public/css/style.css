@@ -324,13 +324,13 @@ ol {
   object-position: center;
 }
 @media (max-width: 767px) {
-  .quote-page .quote-construction-cta { padding: 2.5rem 0; }
-  .quote-page .quote-construction-card { grid-template-columns: 1fr; min-height: 0; border-radius: 14px; }
-  .quote-page .quote-construction-card > img { order: -1; height: auto; min-height: 200px; max-height: 250px; border-radius: 14px 14px 0 0; }
-  .quote-page .quote-construction-copy { padding: 1.45rem 1.25rem 1.6rem; }
-  .quote-page .quote-construction-copy .quote-kicker { font-size: 1.35rem; }
-  .quote-page .quote-construction-copy h2 { font-size: clamp(2.6rem, 13vw, 3.55rem); }
-  .quote-page .quote-construction-points { grid-template-columns: 1fr; gap: .5rem; font-size: .78rem; }
+  .quote-page .quote-construction-cta { padding: 1.5rem 0; }
+  .quote-page .quote-construction-card { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 0; column-gap: 0; min-height: 185px; border-radius: 14px; overflow: hidden; align-items: stretch; }
+  .quote-page .quote-construction-card > img { order: 2; height: 100%; min-height: 100%; max-height: none; border-radius: 0 13px 13px 0; object-fit: cover; object-position: center; }
+  .quote-page .quote-construction-copy { order: 1; padding: .65rem .45rem .65rem .6rem; }
+  .quote-page .quote-construction-copy .quote-kicker { font-size: clamp(.7rem, 3.2vw, .95rem); margin-bottom: .18rem; }
+  .quote-page .quote-construction-copy h2 { font-size: clamp(1.05rem, 4.8vw, 1.65rem); margin-bottom: .3rem; white-space: nowrap; }
+  .quote-page .quote-construction-points { grid-template-columns: 1fr; gap: .2rem; font-size: clamp(.42rem, 1.8vw, .58rem); }
 }
 
 @media (min-width: 560px) and (max-width: 767px) {
@@ -10466,13 +10466,15 @@ main .section-v2-title,
 .quote-page .quote-construction-copy .quote-button:hover { background: var(--accent-gold-hover, #D2A653); border-color: var(--accent-gold-hover, #D2A653); color: #000000; transform: translateY(-2px); box-shadow: 0 6px 20px rgba(200, 155, 75, 0.45); }
 .quote-page .quote-construction-card > img { width: 100%; min-height: 0; height: 100%; border-radius: 0 15px 15px 0; object-fit: cover; object-position: center; }
 @media (max-width: 767px) {
-  .quote-page .quote-construction-cta { padding: 2.5rem 0; }
-  .quote-page .quote-construction-card { grid-template-columns: 1fr; min-height: 0; border-radius: 14px; }
-  .quote-page .quote-construction-card > img { order: -1; height: auto; min-height: 200px; max-height: 250px; border-radius: 14px 14px 0 0; }
-  .quote-page .quote-construction-copy { padding: 1.45rem 1.25rem 1.6rem; }
-  .quote-page .quote-construction-copy .quote-kicker { font-size: 1.35rem; }
-  .quote-page .quote-construction-copy h2 { font-size: clamp(1.15rem, 3.8vw, 1.75rem); white-space: nowrap; }
-  .quote-page .quote-construction-points { grid-template-columns: 1fr; gap: .5rem; font-size: .78rem; }
+  .quote-page .quote-construction-cta { padding: 1.5rem 0; }
+  .quote-page .quote-construction-card { display: grid !important; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) !important; gap: 0 !important; column-gap: 0 !important; min-height: 185px !important; border-radius: 14px !important; align-items: stretch !important; overflow: hidden !important; }
+  .quote-page .quote-construction-card > img { order: 2 !important; width: 100% !important; height: 100% !important; min-height: 100% !important; max-height: none !important; aspect-ratio: auto !important; border-radius: 0 13px 13px 0 !important; object-fit: cover !important; object-position: center !important; }
+  .quote-page .quote-construction-copy { order: 1 !important; display: flex !important; flex-direction: column !important; justify-content: center !important; min-width: 0 !important; padding: .65rem .45rem .65rem .6rem !important; }
+  .quote-page .quote-construction-copy .quote-kicker { font-size: clamp(.7rem, 3.2vw, .95rem) !important; margin-bottom: .18rem !important; line-height: 1 !important; white-space: nowrap !important; }
+  .quote-page .quote-construction-copy h2 { font-size: clamp(1.05rem, 4.8vw, 1.65rem) !important; margin-bottom: .3rem !important; line-height: 1 !important; white-space: nowrap !important; }
+  .quote-page .quote-construction-copy > p { font-size: clamp(.52rem, 2.1vw, .72rem) !important; margin-bottom: .35rem !important; line-height: 1.25 !important; }
+  .quote-page .quote-construction-points { grid-template-columns: 1fr !important; gap: .2rem !important; margin-bottom: .45rem !important; font-size: clamp(.42rem, 1.8vw, .58rem) !important; line-height: 1.15 !important; }
+  .quote-page .quote-construction-copy .quote-button { gap: .3rem !important; min-height: 26px !important; padding: .3rem .55rem !important; font-size: clamp(.42rem, 1.7vw, .56rem) !important; }
 }
 
 /* Free-estimate CTA: compact consultation panel following the handover check. */
