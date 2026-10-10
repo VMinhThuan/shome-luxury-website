@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <title><%= title %></title>
   <meta name="description" content="Nhận tư vấn và dự toán thiết kế, thi công nội thất từ Shome Luxury." />
-  <link rel="stylesheet" href="/css/style.css?v=6.5.44" />
+  <link rel="stylesheet" href="/css/style.css?v=6.5.46" />
   <style>
     /* Keep every content section on the quotation page visually consistent. */
     .quote-page > section:not(.quote-hero) { background: #fff !important; }
@@ -90,15 +90,18 @@
     .quote-page .quote-handover-heading h2 em { color: #cf9138; font-style: normal; }
     .quote-page .quote-handover-list { position: relative; display: grid; gap: .75rem; }
     .quote-page .quote-handover-list::before { display: none; }
-    .quote-page .quote-handover-item { position: relative; display: grid; grid-template-columns: auto 1fr; align-items: start; gap: .75rem; }
+    .quote-page .quote-handover-item { position: relative; display: grid !important; grid-template-columns: auto 1fr !important; align-items: center !important; gap: clamp(.65rem, 1.5vw, 1.15rem) !important; }
     .quote-page .quote-handover-item b {
-      display: inline-block !important;
+      display: inline-flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      align-self: center !important;
       width: auto !important;
       height: auto !important;
       min-width: 0 !important;
       min-height: 0 !important;
       padding: 0 !important;
-      margin: 0 0 .35rem 0 !important;
+      margin: 0 !important;
       border: none !important;
       border-radius: 0 !important;
       background: none !important;
@@ -110,6 +113,12 @@
       font-weight: 700 !important;
       font-style: normal !important;
       line-height: 1 !important;
+    }
+    .quote-page .quote-handover-item > div {
+      display: flex !important;
+      flex-direction: column !important;
+      justify-content: center !important;
+      align-self: center !important;
     }
     .quote-page .quote-handover-item h3 { margin: 0 0 .15rem; color: #211d1a; font-size: clamp(.86rem, 1.3vw, 1.05rem); font-weight: 700; }
     .quote-page .quote-handover-item p { margin: 0; color: #756d66; font-size: clamp(.68rem, 1.15vw, .82rem); line-height: 1.4; }
@@ -174,15 +183,18 @@
       .quote-page .quote-handover-inner { width: 100%; }
       .quote-page .quote-handover-list { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1rem; }
       .quote-page .quote-handover-list::before { display: none; }
-      .quote-page .quote-handover-item { grid-template-columns: 1fr; align-items: start; gap: .55rem; min-height: 100%; padding: 1.25rem; border: 1px solid #eee2d4; border-radius: 14px; background: #fffdfa; }
+      .quote-page .quote-handover-item { grid-template-columns: auto 1fr !important; align-items: center !important; gap: clamp(.65rem, 1.2vw, 1rem) !important; min-height: 100%; padding: 1.25rem; border: 1px solid #eee2d4; border-radius: 14px; background: #fffdfa; }
       .quote-page .quote-handover-item b {
-        display: inline-block !important;
+        display: inline-flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        align-self: center !important;
         width: auto !important;
         height: auto !important;
         min-width: 0 !important;
         min-height: 0 !important;
         padding: 0 !important;
-        margin: 0 0 .35rem 0 !important;
+        margin: 0 !important;
         border: none !important;
         border-radius: 0 !important;
         background: none !important;
@@ -314,11 +326,30 @@
       letter-spacing: 0;
       vertical-align: .14em;
     }
+    .quote-page .quote-final-faq summary {
+      display: grid !important;
+      grid-template-columns: auto minmax(0, 1fr) auto !important;
+      align-items: center !important;
+    }
     .quote-page .quote-final-faq summary b {
+      display: inline-flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      align-self: center !important;
       background: none !important;
       border-radius: 0 !important;
       box-shadow: none !important;
       color: var(--quote-brand-yellow) !important;
+      line-height: 1 !important;
+      margin: 0 !important;
+    }
+    .quote-page .quote-final-faq summary span {
+      display: flex !important;
+      align-items: center !important;
+      align-self: center !important;
+    }
+    .quote-page .quote-final-faq-chevron {
+      align-self: center !important;
     }
     .quote-page .quote-final-faq h2 { color: #171413; font-family: var(--font-heading); font-size: clamp(1.45rem, 2.7vw, 2.35rem); font-weight: 800; letter-spacing: -.045em; line-height: 1.15; }
     .quote-page .quote-brochure-copy h1 .quote-mobile-title-break { display: inline; margin-left: .22em; }
@@ -401,18 +432,21 @@
       /* Compact FAQ cards to match the reference layout. */
       .quote-page .quote-final-faq-list { gap: clamp(.8rem, 1.2vw, 1.1rem); }
       .quote-page .quote-final-faq summary {
-        grid-template-columns: 24px minmax(0, 1fr) 20px;
+        grid-template-columns: auto minmax(0, 1fr) 20px !important;
+        align-items: center !important;
         gap: .85rem;
         min-height: 72px;
         padding: .7rem 1.05rem;
       }
       .quote-page .quote-final-faq summary b {
-        display: flex;
-        align-items: center;
-        justify-content: flex-start;
+        display: inline-flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        align-self: center !important;
         width: auto;
         min-width: 18px;
         height: auto;
+        margin: 0 !important;
         background: none !important;
         border-radius: 0 !important;
         box-shadow: none !important;
@@ -560,6 +594,52 @@
         bottom: .65rem !important;
       }
     }
+
+    /* Đảm bảo số 1. 2. 3. căn giữa tuyệt đối theo chiều dọc với khối nội dung (cả mobile & desktop) */
+    .quote-page .quote-final-faq details summary {
+      display: grid !important;
+      grid-template-columns: auto minmax(0, 1fr) auto !important;
+      align-items: center !important;
+    }
+    .quote-page .quote-final-faq details summary b {
+      display: inline-flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      align-self: center !important;
+      line-height: 1 !important;
+      margin: 0 !important;
+      padding: 0 !important;
+    }
+    .quote-page .quote-final-faq details summary span {
+      align-self: center !important;
+    }
+    .quote-page .quote-final-faq details summary i,
+    .quote-page .quote-final-faq details summary .quote-final-faq-chevron {
+      align-self: center !important;
+      display: grid !important;
+      place-items: center !important;
+      margin: 0 !important;
+    }
+    .quote-page .quote-handover-list .quote-handover-item {
+      display: grid !important;
+      grid-template-columns: auto 1fr !important;
+      align-items: center !important;
+    }
+    .quote-page .quote-handover-list .quote-handover-item b {
+      display: inline-flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      align-self: center !important;
+      line-height: 1 !important;
+      margin: 0 !important;
+      padding: 0 !important;
+    }
+    .quote-page .quote-handover-list .quote-handover-item > div {
+      display: flex !important;
+      flex-direction: column !important;
+      justify-content: center !important;
+      align-self: center !important;
+    }
   </style>
   <script src="/js/main.js?v=1.9.0" defer></script>
   <script src="/js/quote-page.js?v=1.0.0" defer></script>
@@ -702,13 +782,13 @@
     ]; %>
     <section class="quote-craftsmanship"><div class="container quote-craftsmanship-inner"><header class="quote-craftsmanship-heading"><h2>Tinh tế <em>Từng góc nhỏ</em></h2><p>Từ bề mặt, góc cạnh đến phụ kiện và lắp đặt.<br />Mỗi chi tiết đều được chăm chút để tổng thể đẹp và dùng bền lâu.</p></header><% craftsmanshipGroups.forEach(group => { %><section class="quote-craft-group"><header class="quote-craft-group-heading"><b><%= group.number %></b><h3><%= group.title %></h3></header><div class="quote-craft-grid"><% group.items.forEach((item, index) => { %><article class="quote-craft-card"><div class="quote-craft-photo"><img src="<%= group.image %>" alt="<%= item[0] %>" loading="lazy" /></div><h4><%= item[0] %></h4><p><%= item[1] %></p></article><% }) %></div></section><% }) %></div></section>
 
-      <section class="quote-handover-check"><div class="container quote-handover-inner"><header class="quote-handover-heading"><p>Kiểm tra trước khi bàn giao</p><h2>Từng bước đều được <em>chăm chút</em></h2></header><div class="quote-handover-list"><article class="quote-handover-item"><b>1</b><div><h3>Đo kiểm kích thước</h3><p>Đối chiếu chỉ số với bản vẽ.</p></div></article><article class="quote-handover-item"><b>2</b><div><h3>Lắp thử &amp; căn chỉnh</h3><p>Kiểm tra liên kết, bản lề và ray trượt.</p></div></article><article class="quote-handover-item"><b>3</b><div><h3>Rà soát &amp; đóng gói</h3><p>Vệ sinh bề mặt, bảo vệ góc cạnh khi vận chuyển.</p></div></article></div></div></section>
+      <section class="quote-handover-check"><div class="container quote-handover-inner"><header class="quote-handover-heading"><p>Kiểm tra trước khi bàn giao</p><h2>Từng bước đều được <em>chăm chút</em></h2></header><div class="quote-handover-list"><article class="quote-handover-item"><b>1.</b><div><h3>Đo kiểm kích thước</h3><p>Đối chiếu chỉ số với bản vẽ.</p></div></article><article class="quote-handover-item"><b>2.</b><div><h3>Lắp thử &amp; căn chỉnh</h3><p>Kiểm tra liên kết, bản lề và ray trượt.</p></div></article><article class="quote-handover-item"><b>3.</b><div><h3>Rà soát &amp; đóng gói</h3><p>Vệ sinh bề mặt, bảo vệ góc cạnh khi vận chuyển.</p></div></article></div></div></section>
 
     <% if (sections.estimate?.isVisible !== false) { %>
       <section class="quote-free-estimate" id="nhan-du-toan"><div class="container"><div class="quote-free-estimate-card"><img class="quote-free-estimate-image" src="/images/quote-free-estimate-interior.png" alt="Nhận dự toán miễn phí từ SHome Luxury" loading="lazy" /><div class="quote-free-estimate-copy"><h2>Nhận dự toán <em>miễn phí</em></h2><p>Để lại thông tin, chuyên gia <strong>SHome Luxury</strong> sẽ liên hệ tư vấn trong 24h.</p><ul><li><i aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 13V9a7 7 0 0 1 14 0v4"/><path d="M5 13H3v4a2 2 0 0 0 2 2h2v-6H5Zm14 0h2v4a2 2 0 0 1-2 2h-2v-6h2Zm-2 6c0 1.4-1.6 2-3 2h-2"/></svg></i><span>Tư vấn nhanh<br />trong 24h</span></li><li><i aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M6 3h9l4 4v14H6z"/><path d="M15 3v5h5M9 12h6M9 16h6"/></svg></i><span>Báo giá chi tiết,<br />minh bạch</span></li><li><i aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3 20 6v5c0 5-3.4 8.2-8 10-4.6-1.8-8-5-8-10V6l8-3Z"/><path d="m8.5 12 2.2 2.2 4.8-5"/></svg></i><span>Không cam kết,<br />không ràng buộc</span></li></ul><a class="quote-free-estimate-button trigger-consult-modal" href="#consultModal">LIÊN HỆ ĐỂ NHẬN BÁO GIÁ</a></div></div></div></section>
     <% } %>
 
-    <section class="quote-final-faq" aria-labelledby="quote-final-faq-title"><div class="container quote-final-faq-inner"><h2 id="quote-final-faq-title">Câu hỏi thường gặp</h2><div class="quote-final-faq-list"><details><summary><b>1</b><span>Thời gian thiết kế và thi công mất bao lâu?</span><i class="quote-final-faq-chevron" aria-hidden="true"><svg viewBox="0 0 16 10" focusable="false"><path d="m1 1 7 7 7-7" /></svg></i></summary><p>Tiến độ được xây dựng theo quy mô và hiện trạng công trình. SHome Luxury sẽ gửi lộ trình chi tiết sau khi khảo sát và chốt phương án.</p></details><details><summary><b>2</b><span>Báo giá có phát sinh thêm chi phí không?</span><i class="quote-final-faq-chevron" aria-hidden="true"><svg viewBox="0 0 16 10" focusable="false"><path d="m1 1 7 7 7-7" /></svg></i></summary><p>Báo giá được lập rõ theo hạng mục, vật liệu và khối lượng. Mọi thay đổi phát sinh chỉ được thực hiện khi có xác nhận từ bạn.</p></details><details><summary><b>3</b><span>SHome Luxury có chính sách bảo hành không?</span><i class="quote-final-faq-chevron" aria-hidden="true"><svg viewBox="0 0 16 10" focusable="false"><path d="m1 1 7 7 7-7" /></svg></i></summary><p>Chúng tôi bảo hành theo từng hạng mục thi công và đồng hành hỗ trợ sau bàn giao để công trình luôn vận hành ổn định.</p></details><details><summary><b>4</b><span>Tôi có thể điều chỉnh thiết kế trước khi thi công không?</span><i class="quote-final-faq-chevron" aria-hidden="true"><svg viewBox="0 0 16 10" focusable="false"><path d="m1 1 7 7 7-7" /></svg></i></summary><p>Có. Đội ngũ sẽ tiếp nhận góp ý, điều chỉnh phương án và chỉ triển khai khi bạn đã thống nhất về thiết kế, vật liệu và chi phí.</p></details><details><summary><b>5</b><span>Quy trình triển khai dự án diễn ra như thế nào?</span><i class="quote-final-faq-chevron" aria-hidden="true"><svg viewBox="0 0 16 10" focusable="false"><path d="m1 1 7 7 7-7" /></svg></i></summary><p>Quy trình gồm khảo sát, tư vấn phương án, thiết kế, chốt dự toán, sản xuất tại xưởng và nghiệm thu bàn giao.</p></details><details><summary><b>6</b><span>Tôi có được lựa chọn vật liệu và phụ kiện không?</span><i class="quote-final-faq-chevron" aria-hidden="true"><svg viewBox="0 0 16 10" focusable="false"><path d="m1 1 7 7 7-7" /></svg></i></summary><p>Có. Chúng tôi tư vấn các lựa chọn phù hợp ngân sách, phong cách và nhu cầu sử dụng để bạn dễ dàng quyết định.</p></details><details><summary><b>7</b><span>Có thể nhận báo giá trước khi khảo sát không?</span><i class="quote-final-faq-chevron" aria-hidden="true"><svg viewBox="0 0 16 10" focusable="false"><path d="m1 1 7 7 7-7" /></svg></i></summary><p>Bạn có thể nhận mức dự toán tham khảo. Báo giá chi tiết sẽ được hoàn thiện sau khi có thông tin hiện trạng và yêu cầu cụ thể.</p></details><details><summary><b>8</b><span>Làm thế nào để đặt lịch tư vấn tại nhà?</span><i class="quote-final-faq-chevron" aria-hidden="true"><svg viewBox="0 0 16 10" focusable="false"><path d="m1 1 7 7 7-7" /></svg></i></summary><p>Hãy để lại thông tin liên hệ hoặc gọi trực tiếp cho SHome Luxury. Đội ngũ sẽ xác nhận thời gian khảo sát thuận tiện với bạn.</p></details></div></div></section>
+    <section class="quote-final-faq" aria-labelledby="quote-final-faq-title"><div class="container quote-final-faq-inner"><h2 id="quote-final-faq-title">Câu hỏi thường gặp</h2><div class="quote-final-faq-list"><details><summary><b>1.</b><span>Thời gian thiết kế và thi công mất bao lâu?</span><i class="quote-final-faq-chevron" aria-hidden="true"><svg viewBox="0 0 16 10" focusable="false"><path d="m1 1 7 7 7-7" /></svg></i></summary><p>Tiến độ được xây dựng theo quy mô và hiện trạng công trình. SHome Luxury sẽ gửi lộ trình chi tiết sau khi khảo sát và chốt phương án.</p></details><details><summary><b>2.</b><span>Báo giá có phát sinh thêm chi phí không?</span><i class="quote-final-faq-chevron" aria-hidden="true"><svg viewBox="0 0 16 10" focusable="false"><path d="m1 1 7 7 7-7" /></svg></i></summary><p>Báo giá được lập rõ theo hạng mục, vật liệu và khối lượng. Mọi thay đổi phát sinh chỉ được thực hiện khi có xác nhận từ bạn.</p></details><details><summary><b>3.</b><span>SHome Luxury có chính sách bảo hành không?</span><i class="quote-final-faq-chevron" aria-hidden="true"><svg viewBox="0 0 16 10" focusable="false"><path d="m1 1 7 7 7-7" /></svg></i></summary><p>Chúng tôi bảo hành theo từng hạng mục thi công và đồng hành hỗ trợ sau bàn giao để công trình luôn vận hành ổn định.</p></details><details><summary><b>4.</b><span>Tôi có thể điều chỉnh thiết kế trước khi thi công không?</span><i class="quote-final-faq-chevron" aria-hidden="true"><svg viewBox="0 0 16 10" focusable="false"><path d="m1 1 7 7 7-7" /></svg></i></summary><p>Có. Đội ngũ sẽ tiếp nhận góp ý, điều chỉnh phương án và chỉ triển khai khi bạn đã thống nhất về thiết kế, vật liệu và chi phí.</p></details><details><summary><b>5.</b><span>Quy trình triển khai dự án diễn ra như thế nào?</span><i class="quote-final-faq-chevron" aria-hidden="true"><svg viewBox="0 0 16 10" focusable="false"><path d="m1 1 7 7 7-7" /></svg></i></summary><p>Quy trình gồm khảo sát, tư vấn phương án, thiết kế, chốt dự toán, sản xuất tại xưởng và nghiệm thu bàn giao.</p></details><details><summary><b>6.</b><span>Tôi có được lựa chọn vật liệu và phụ kiện không?</span><i class="quote-final-faq-chevron" aria-hidden="true"><svg viewBox="0 0 16 10" focusable="false"><path d="m1 1 7 7 7-7" /></svg></i></summary><p>Có. Chúng tôi tư vấn các lựa chọn phù hợp ngân sách, phong cách và nhu cầu sử dụng để bạn dễ dàng quyết định.</p></details><details><summary><b>7.</b><span>Có thể nhận báo giá trước khi khảo sát không?</span><i class="quote-final-faq-chevron" aria-hidden="true"><svg viewBox="0 0 16 10" focusable="false"><path d="m1 1 7 7 7-7" /></svg></i></summary><p>Bạn có thể nhận mức dự toán tham khảo. Báo giá chi tiết sẽ được hoàn thiện sau khi có thông tin hiện trạng và yêu cầu cụ thể.</p></details><details><summary><b>8.</b><span>Làm thế nào để đặt lịch tư vấn tại nhà?</span><i class="quote-final-faq-chevron" aria-hidden="true"><svg viewBox="0 0 16 10" focusable="false"><path d="m1 1 7 7 7-7" /></svg></i></summary><p>Hãy để lại thông tin liên hệ hoặc gọi trực tiếp cho SHome Luxury. Đội ngũ sẽ xác nhận thời gian khảo sát thuận tiện với bạn.</p></details></div></div></section>
 
   </main>
   <%- include('partials/footer') %>
