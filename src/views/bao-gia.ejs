@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <title><%= title %></title>
   <meta name="description" content="Nhận tư vấn và dự toán thiết kế, thi công nội thất từ Shome Luxury." />
-  <link rel="stylesheet" href="/css/style.css?v=6.5.56" />
+  <link rel="stylesheet" href="/css/style.css?v=6.5.58" />
   <style>
     /* Keep every content section on the quotation page visually consistent. */
     .quote-page > section:not(.quote-hero) { background: #fff !important; }
@@ -391,10 +391,9 @@
     .quote-page .quote-final-faq-chevron {
       align-self: center !important;
     }
-    .quote-page .quote-final-faq h2 { color: #171413; font-family: var(--font-heading); font-size: clamp(1.45rem, 2.7vw, 2.35rem); font-weight: 800; letter-spacing: -.045em; line-height: 1.15; }
-    .quote-page .quote-brochure-copy h1 .quote-mobile-title-break { display: inline; margin-left: .22em; }
-    @media (max-width: 767px) {
-      .quote-page .quote-brochure-copy h1 .quote-mobile-title-break { display: block; margin-left: 0; }
+    .quote-page .quote-brochure-copy h1 .quote-mobile-title-break {
+      display: block !important;
+      margin-left: 0 !important;
     }
 
     /* Complimentary-design CTA: side-by-side single row on all devices, full right half image. */

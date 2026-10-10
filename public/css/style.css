@@ -10291,7 +10291,10 @@ main .section-v2-title,
 }
 .quote-page .quote-brochure-copy h1 span {
   display: block;
-  white-space: nowrap;
+}
+.quote-page .quote-brochure-copy h1 .quote-mobile-title-break {
+  display: block !important;
+  margin-left: 0 !important;
 }
 .quote-page .quote-brochure-copy .quote-lead {
   max-width: 460px;
@@ -10598,6 +10601,7 @@ main .section-v2-title,
   .quote-page .quote-free-estimate-card::before { background: linear-gradient(180deg, rgba(255,253,248,.98) 0%, rgba(255,253,248,.95) 65%, rgba(255,253,248,.82) 100%); }
   .quote-page .quote-free-estimate-copy { width: 100%; padding: 1.75rem 1.25rem 2rem; }
   .quote-page .quote-free-estimate-copy h2 { font-size: clamp(1.85rem, 8vw, 2.5rem); white-space: normal; margin-bottom: .6rem; }
+  .quote-page .quote-free-estimate-copy h2 em { display: block; margin-left: 0; margin-top: .12rem; }
   .quote-page .quote-free-estimate-copy > p { font-size: .88rem; margin-bottom: 1.1rem; }
   .quote-page .quote-free-estimate-copy ul { gap: .65rem; margin-bottom: 1.35rem; }
   .quote-page .quote-free-estimate-copy li { gap: .75rem; font-size: .86rem; }
