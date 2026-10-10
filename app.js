@@ -12,7 +12,7 @@ const PORT = process.env.PORT || 3030;
 
 // Performance & Security Settings
 app.disable("x-powered-by");
-app.set("view cache", true);
+app.set("view cache", process.env.NODE_ENV === "production");
 
 // Enable Gzip / Brotli compression for text responses
 app.use(compression({ threshold: 0 }));

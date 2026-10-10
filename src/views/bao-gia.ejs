@@ -42,14 +42,13 @@
     .quote-page .quote-completed-tab-panel.active { display: block; animation: quoteTabFade .3s ease-out; }
     @keyframes quoteTabFade { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
 
-    .quote-page .quote-completed-videos-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(.9rem, 1.8vw, 1.45rem); width: min(1080px, 100%); margin: 0 auto; }
-    .quote-page .quote-completed-video-card { position: relative; aspect-ratio: 16 / 9; overflow: hidden; border: 1px solid #eadfce; border-radius: 18px; background: #1f160f; box-shadow: 0 8px 22px rgba(60, 40, 20, .07); transition: transform .28s ease, box-shadow .28s ease, border-color .28s ease; cursor: pointer; }
-    .quote-page .quote-completed-video-card:hover { transform: translateY(-3px); box-shadow: 0 12px 28px rgba(60, 40, 20, .14); border-color: #caa25d; }
+    .quote-page .quote-completed-videos-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(1rem, 2vw, 1.6rem); width: min(1080px, 100%); margin: 0 auto; }
+    .quote-page .quote-completed-video-card { width: 100%; max-width: none; overflow: hidden; border: 1px solid #e8d9c3; border-radius: clamp(14px, 1.8vw, 18px); background: #21160f; box-shadow: 0 10px 28px rgba(74, 47, 18, .08); transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease; }
+    .quote-page .quote-completed-video-card:hover { transform: translateY(-3px); box-shadow: 0 14px 34px rgba(74, 47, 18, .15); border-color: #caa25d; }
     .quote-page .quote-completed-video-card.is-hidden-extra { display: none !important; }
-    .quote-page .quote-video-player-wrap { position: relative; width: 100%; height: 100%; aspect-ratio: 16 / 9; overflow: hidden; }
-    .quote-page .quote-video-thumb { width: 100%; height: 100%; object-fit: cover; transition: transform .4s ease; }
-    .quote-page .quote-completed-video-card:hover .quote-video-thumb { transform: scale(1.03); }
-    .quote-page .quote-video-ep-tag { position: absolute; top: clamp(.65rem, 1.3vw, .95rem); left: clamp(.65rem, 1.3vw, .95rem); z-index: 2; padding: .2rem .55rem; border-radius: 6px; background: rgba(18, 13, 8, .75); backdrop-filter: blur(4px); border: 1px solid rgba(202, 162, 93, .45); color: #f1c97a; font-size: clamp(.65rem, .85vw, .74rem); font-weight: 700; text-transform: uppercase; letter-spacing: .03em; }
+    .quote-page .quote-completed-video-meta { display: flex; align-items: center; gap: .75rem; padding: .85rem 1.15rem; background: #fffdfa; border-top: 1px solid #efe4d6; }
+    .quote-page .quote-completed-ep-pill { display: inline-flex; align-items: center; padding: .2rem .55rem; border-radius: 6px; background: #211913; color: #f1c97a; font-size: clamp(.68rem, .9vw, .76rem); font-weight: 700; white-space: nowrap; flex-shrink: 0; }
+    .quote-page .quote-completed-video-name { margin: 0; color: #1e1814; font-family: var(--font-heading); font-size: clamp(.88rem, 1.15vw, 1.02rem); font-weight: 700; line-height: 1.3; display: -webkit-box; -webkit-line-clamp: 1; -webkit-box-orient: vertical; overflow: hidden; }
 
     .quote-page .quote-completed-expand-action { margin-top: clamp(1.2rem, 2.2vw, 1.8rem); text-align: center; }
     .quote-page .quote-completed-toggle-btn { display: inline-flex; align-items: center; gap: .5rem; padding: clamp(.65rem, 1.1vw, .85rem) clamp(1.4rem, 2.4vw, 2rem); border-radius: 999px; background: #fff; border: 1.5px solid #caa25d; color: #8f5a15; font-family: var(--font-body); font-size: clamp(.82rem, 1.1vw, .94rem); font-weight: 700; cursor: pointer; transition: all .25s ease; box-shadow: 0 4px 12px rgba(202, 162, 93, .12); }
@@ -986,10 +985,19 @@
       <%
         const videoData = (typeof completedVideosData !== 'undefined' && completedVideosData) ? completedVideosData : require('../data/completedVideosData');
         const catList = videoData?.categories || [];
-        const currentCatCode = (typeof selectedCategory !== 'undefined' && selectedCategory?.code) || '';
-        let initialTab = 'chung-cu';
-        if (currentCatCode.includes('biet-thu')) initialTab = 'biet-thu';
-        else if (currentCatCode.includes('cafe')) initialTab = 'cafe';
+        const currentCatCode = ((typeof selectedCategory !== 'undefined' && selectedCategory?.code) || '').toLowerCase();
+        
+        let activeCatId = 'chung-cu';
+        if (currentCatCode.includes('biet-thu') || currentCatCode.includes('villa')) {
+          activeCatId = 'biet-thu';
+        } else if (currentCatCode.includes('cafe') || currentCatCode.includes('tra-sua')) {
+          activeCatId = 'cafe';
+        } else {
+          activeCatId = 'chung-cu';
+        }
+
+        const isSubMenuPage = Boolean(currentCatCode);
+        const activeCategoryData = catList.find(c => c.id === activeCatId) || catList[0] || { name: 'Công trình hoàn thiện', videos: [] };
       %>
       <section class="quote-section quote-completed" id="thuoc-phim-thuc-te">
         <div class="container">
@@ -999,86 +1007,114 @@
             <span><%= sections.completed.description || 'Ghi lại không gian thực tế sau khi hoàn tất thi công.' %></span>
           </header>
 
-          <!-- Menu con / Sub-tabs filter -->
-          <nav class="quote-completed-nav" role="tablist" aria-label="Danh mục thước phim công trình">
-            <% catList.forEach((cat) => { %>
-              <% const isCurrentActive = (initialTab === cat.id); %>
-              <button
-                type="button"
-                class="quote-completed-tab-btn <%= isCurrentActive ? 'active' : '' %>"
-                data-tab-id="<%= cat.id %>"
-                role="tab"
-                aria-selected="<%= isCurrentActive ? 'true' : 'false' %>"
-                aria-controls="quote-videos-<%= cat.id %>"
-              >
-                <span class="quote-tab-label"><%= cat.name %></span>
-                <span class="quote-completed-tab-badge"><%= cat.count %> video</span>
-              </button>
-            <% }) %>
-          </nav>
+          <% if (!isSubMenuPage) { %>
+            <!-- Sub-tabs filter only shown on general /bao-gia page when no specific category is selected -->
+            <nav class="quote-completed-nav" role="tablist" aria-label="Danh mục thước phim công trình">
+              <% catList.forEach((cat) => { %>
+                <% const isCurrentActive = (activeCatId === cat.id); %>
+                <button
+                  type="button"
+                  class="quote-completed-tab-btn <%= isCurrentActive ? 'active' : '' %>"
+                  data-tab-id="<%= cat.id %>"
+                  role="tab"
+                  aria-selected="<%= isCurrentActive ? 'true' : 'false' %>"
+                  aria-controls="quote-videos-<%= cat.id %>"
+                >
+                  <span class="quote-tab-label"><%= cat.name %></span>
+                  <span class="quote-completed-tab-badge"><%= cat.count %> video</span>
+                </button>
+              <% }) %>
+            </nav>
 
-          <!-- Video Panels for Each Category -->
-          <div class="quote-completed-panels">
-            <% catList.forEach((cat) => { %>
-              <% const isCurrentActive = (initialTab === cat.id); %>
-              <div
-                id="quote-videos-<%= cat.id %>"
-                class="quote-completed-tab-panel <%= isCurrentActive ? 'active' : '' %>"
-                role="tabpanel"
-                data-panel-id="<%= cat.id %>"
-              >
-                <div class="quote-completed-videos-grid">
-                  <% cat.videos.forEach((vid, vIdx) => { %>
-                    <article
-                      class="quote-completed-video-card <%= vIdx >= 4 ? 'is-hidden-extra' : '' %>"
-                      data-video-id="<%= vid.videoId %>"
-                      data-title="<%= vid.title %>"
-                      tabindex="0"
-                      role="button"
-                      aria-label="Phát video: <%= vid.title %>"
-                    >
-                      <div class="quote-video-player-wrap">
-                        <img
-                          src="<%= vid.thumbnail %>"
-                          alt="<%= vid.title %>"
-                          loading="lazy"
-                          class="quote-video-thumb"
-                          onerror="this.src='https://img.youtube.com/vi/<%= vid.videoId %>/hqdefault.jpg'"
-                        />
-                        <div class="quote-completed-video-shade"></div>
-                        <% if (vid.episode) { %>
-                          <span class="quote-video-ep-tag">Tập <%= vid.episode %></span>
-                        <% } %>
-                        <button type="button" class="quote-completed-play" aria-label="Phát video <%= vid.title %>">
-                          <svg viewBox="0 0 24 24" fill="currentColor" width="22" height="22" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>
-                        </button>
-                        <div class="quote-completed-caption">
-                          <small><%= cat.badge %> • Shome Luxury</small>
-                          <h3><%= vid.title %></h3>
-                          <p>● Xem trên YouTube / Nhấn để phát trực tiếp</p>
+            <div class="quote-completed-panels">
+              <% catList.forEach((cat) => { %>
+                <% const isCurrentActive = (activeCatId === cat.id); %>
+                <div
+                  id="quote-videos-<%= cat.id %>"
+                  class="quote-completed-tab-panel <%= isCurrentActive ? 'active' : '' %>"
+                  role="tabpanel"
+                  data-panel-id="<%= cat.id %>"
+                >
+                  <div class="quote-completed-videos-grid">
+                    <% cat.videos.forEach((vid, vIdx) => { %>
+                      <article class="quote-video-card quote-completed-video-card <%= vIdx >= 4 ? 'is-hidden-extra' : '' %>">
+                        <div class="quote-video-frame">
+                          <iframe
+                            src="https://www.youtube-nocookie.com/embed/<%= vid.videoId %>?rel=0&amp;modestbranding=1"
+                            title="<%= vid.title %>"
+                            loading="lazy"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                            allowfullscreen
+                          ></iframe>
                         </div>
-                      </div>
-                    </article>
-                  <% }) %>
-                </div>
-
-                <% if (cat.videos.length > 4) { %>
-                  <div class="quote-completed-expand-action">
-                    <button
-                      type="button"
-                      class="quote-completed-toggle-btn"
-                      data-panel-id="<%= cat.id %>"
-                      data-total="<%= cat.videos.length %>"
-                      data-remaining="<%= cat.videos.length - 4 %>"
-                    >
-                      <span class="toggle-text">Xem thêm video (<%= cat.videos.length - 4 %> video khác)</span>
-                      <svg class="chevron-icon" viewBox="0 0 20 20" fill="currentColor" width="18" height="18" aria-hidden="true"><path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z" clip-rule="evenodd"/></svg>
-                    </button>
+                        <div class="quote-completed-video-meta">
+                          <% if (vid.episode) { %>
+                            <span class="quote-completed-ep-pill">Tập <%= vid.episode %></span>
+                          <% } %>
+                          <h3 class="quote-completed-video-name"><%= vid.title %></h3>
+                        </div>
+                      </article>
+                    <% }) %>
                   </div>
-                <% } %>
+
+                  <% if (cat.videos.length > 4) { %>
+                    <div class="quote-completed-expand-action">
+                      <button
+                        type="button"
+                        class="quote-completed-toggle-btn"
+                        data-panel-id="<%= cat.id %>"
+                        data-total="<%= cat.videos.length %>"
+                        data-remaining="<%= cat.videos.length - 4 %>"
+                      >
+                        <span class="toggle-text">Xem thêm video (<%= cat.videos.length - 4 %> video khác)</span>
+                        <svg class="chevron-icon" viewBox="0 0 20 20" fill="currentColor" width="18" height="18" aria-hidden="true"><path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z" clip-rule="evenodd"/></svg>
+                      </button>
+                    </div>
+                  <% } %>
+                </div>
+              <% }) %>
+            </div>
+          <% } else { %>
+            <!-- When on a specific sub-menu page (e.g. Báo giá nội thất chung cư), render directly that category's videos -->
+            <div class="quote-completed-container" id="quote-videos-<%= activeCategoryData.id %>">
+              <div class="quote-completed-videos-grid">
+                <% (activeCategoryData.videos || []).forEach((vid, vIdx) => { %>
+                  <article class="quote-video-card quote-completed-video-card <%= vIdx >= 4 ? 'is-hidden-extra' : '' %>">
+                    <div class="quote-video-frame">
+                      <iframe
+                        src="https://www.youtube-nocookie.com/embed/<%= vid.videoId %>?rel=0&amp;modestbranding=1"
+                        title="<%= vid.title %>"
+                        loading="lazy"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                        allowfullscreen
+                      ></iframe>
+                    </div>
+                    <div class="quote-completed-video-meta">
+                      <% if (vid.episode) { %>
+                        <span class="quote-completed-ep-pill">Tập <%= vid.episode %></span>
+                      <% } %>
+                      <h3 class="quote-completed-video-name"><%= vid.title %></h3>
+                    </div>
+                  </article>
+                <% }) %>
               </div>
-            <% }) %>
-          </div>
+
+              <% if ((activeCategoryData.videos || []).length > 4) { %>
+                <div class="quote-completed-expand-action">
+                  <button
+                    type="button"
+                    class="quote-completed-toggle-btn"
+                    data-panel-id="<%= activeCategoryData.id %>"
+                    data-total="<%= activeCategoryData.videos.length %>"
+                    data-remaining="<%= activeCategoryData.videos.length - 4 %>"
+                  >
+                    <span class="toggle-text">Xem thêm video (<%= activeCategoryData.videos.length - 4 %> video khác)</span>
+                    <svg class="chevron-icon" viewBox="0 0 20 20" fill="currentColor" width="18" height="18" aria-hidden="true"><path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z" clip-rule="evenodd"/></svg>
+                  </button>
+                </div>
+              <% } %>
+            </div>
+          <% } %>
 
           <div class="quote-featured-view-all">
             <a href="https://shome-luxury-website.vercel.app/thiet-ke-noi-that/chung-cu">Xem tất cả dự án <span aria-hidden="true">→</span></a>
