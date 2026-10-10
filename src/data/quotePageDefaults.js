@@ -6,7 +6,7 @@ module.exports = {
     description: 'Kiến tạo không gian sống thượng lưu với dấu ấn riêng của bạn.',
     image: '/images/banner-bao-gia.png',
     traits: ['Tinh tế', 'Đẳng cấp', 'Khác biệt'],
-    cornerScript: 'Không gian kiến tạo hạnh phúc',
+    cornerScript: 'Không gian\nkiến tạo hạnh phúc',
     ctaLabel: 'Nhận dự toán miễn phí',
     ctaHref: '#nhan-du-toan',
     isVisible: true
