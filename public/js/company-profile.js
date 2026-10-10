@@ -49,10 +49,12 @@
     const bounds = leftCanvas.getBoundingClientRect();
     const bookBounds = book.getBoundingClientRect();
     const context = turnCanvas.getContext('2d', { alpha: false });
-    turnCanvas.width = leftCanvas.width;
+    const halfWidth = Math.floor(leftCanvas.width / 2);
+    turnCanvas.width = halfWidth;
     turnCanvas.height = leftCanvas.height;
-    context.drawImage(leftCanvas, 0, 0);
-    turnCanvas.style.width = `${bounds.width}px`;
+    // Only the left half becomes the turning sheet; the new PDF page stays below it.
+    context.drawImage(leftCanvas, 0, 0, halfWidth, leftCanvas.height, 0, 0, halfWidth, leftCanvas.height);
+    turnCanvas.style.width = `${bounds.width / 2}px`;
     turnCanvas.style.height = `${bounds.height}px`;
     turnCanvas.style.left = `${bounds.left - bookBounds.left}px`;
     turnCanvas.style.top = `${bounds.top - bookBounds.top}px`;

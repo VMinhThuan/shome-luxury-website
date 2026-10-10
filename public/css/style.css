@@ -3928,7 +3928,7 @@ ol {
 .profile-page-turn { position: absolute; z-index: 4; display: none; background: #fff; pointer-events: none; backface-visibility: hidden; box-shadow: 0 12px 24px rgba(0,0,0,.28); transform-style: preserve-3d; }
 .company-profile-book.is-turning-next .profile-page-turn,
 .company-profile-book.is-turning-prev .profile-page-turn { display: block; }
-.company-profile-book.is-turning-next .profile-page-turn { transform-origin: left center; animation: company-profile-page-turn-next .54s cubic-bezier(.45,.04,.2,1) both; }
+.company-profile-book.is-turning-next .profile-page-turn { transform-origin: right center; animation: company-profile-page-turn-next .54s cubic-bezier(.45,.04,.2,1) both; }
 .company-profile-book.is-turning-prev .profile-page-turn { transform-origin: right center; animation: company-profile-page-turn-prev .54s cubic-bezier(.45,.04,.2,1) both; }
 .company-profile-loading { position: absolute; z-index: 2; color: #fff; font-size: .9rem; }
 .company-profile-loading a { color: #f2c56d; text-decoration: underline; }
@@ -3941,8 +3941,8 @@ ol {
 .profile-page-count { min-width: 78px; padding: 0 .5rem; color: #6a645d; font-size: .78rem; text-align: center; }
 .company-profile-toolbar button, .company-profile-toolbar a { display: grid; width: 34px; height: 34px; place-items: center; border: 0; border-radius: 5px; background: transparent; color: #6e6963; cursor: pointer; text-decoration: none; }
 .company-profile-toolbar button:hover:not(:disabled), .company-profile-toolbar a:hover { background: #f5ead9; color: #bd812f; }
-@keyframes company-profile-page-turn-next { 0% { transform: rotateY(0); filter: brightness(1); opacity: 1; } 72% { filter: brightness(.68); opacity: .86; } 100% { transform: rotateY(-98deg); filter: brightness(.45); opacity: 0; } }
-@keyframes company-profile-page-turn-prev { 0% { transform: rotateY(0); filter: brightness(1); opacity: 1; } 72% { filter: brightness(.68); opacity: .86; } 100% { transform: rotateY(98deg); filter: brightness(.45); opacity: 0; } }
+@keyframes company-profile-page-turn-next { 0% { transform: translateX(0) rotateY(0); filter: brightness(1); opacity: 1; } 72% { filter: brightness(.68); opacity: .86; } 100% { transform: translateX(100%) rotateY(-180deg); filter: brightness(.45); opacity: 0; } }
+@keyframes company-profile-page-turn-prev { 0% { transform: translateX(0) rotateY(0); filter: brightness(1); opacity: 1; } 72% { filter: brightness(.68); opacity: .86; } 100% { transform: translateX(100%) rotateY(180deg); filter: brightness(.45); opacity: 0; } }
 @media (prefers-reduced-motion: reduce) { .company-profile-book.is-turning-next .profile-page-turn, .company-profile-book.is-turning-prev .profile-page-turn { animation: none; } }
 @media (max-width: 767px) { .company-profile-hero { padding-top: calc(var(--header-height-mobile) + 2.5rem); }.company-profile-hero h1 { gap: .18em; }.company-profile-hero span { padding: 0 1.5rem; font-size: .82rem; }.company-profile-viewer { width: calc(100% - 20px); padding: .55rem; }.company-profile-book-shell, .company-profile-book { height: 58vh; min-height: 0; }.company-profile-book::after { display: none; }.profile-page-canvas, .company-profile-book.is-cover .profile-page-canvas[data-profile-page="left"] { max-width: 100%; max-height: 58vh; }.profile-page-canvas + .profile-page-canvas { display: none; }.profile-nav { width: 34px; height: 46px; }.profile-page-count { min-width: 68px; font-size: .72rem; } }
 
