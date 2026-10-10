@@ -5,17 +5,17 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <title><%= title %></title>
   <meta name="description" content="Nhận tư vấn và dự toán thiết kế, thi công nội thất từ Shome Luxury." />
-  <link rel="stylesheet" href="/css/style.css?v=6.5.53" />
+  <link rel="stylesheet" href="/css/style.css?v=6.5.56" />
   <style>
     /* Keep every content section on the quotation page visually consistent. */
     .quote-page > section:not(.quote-hero) { background: #fff !important; }
     .quote-page .quote-video-card-link { display: block; cursor: pointer; }
     .quote-page .quote-video-card-link:hover { box-shadow: 0 12px 30px rgba(91, 57, 22, .12); transform: translateY(-2px); transition: box-shadow .2s ease, transform .2s ease; }
-    .quote-page .quote-completed { padding: clamp(3rem, 6vw, 5.5rem) 0; background: #fffdf9; }
+    .quote-page .quote-completed { padding: clamp(3rem, 6vw, 5.5rem) 0; background: #fff !important; }
     .quote-page .quote-completed-heading { margin: 0 auto clamp(1.5rem, 3vw, 2.5rem); text-align: center; }
     .quote-page .quote-completed-heading p { margin: 0 0 .45rem; padding-bottom: .2rem; color: #b86a14; font-family: var(--font-script); font-size: clamp(1.8rem, 4vw, 3.5rem); font-weight: 500; line-height: 1.15; }
     .quote-page .quote-completed-heading h2 { margin: .2rem 0 0; color: #1d1a19; font-family: var(--font-heading); font-size: clamp(1.8rem, 4.5vw, 3.6rem); font-weight: 800; letter-spacing: -.055em; line-height: 1.15; }
-    .quote-page .quote-completed-heading h2 em { color: #ca9548; font-family: var(--font-heading); font-style: normal; }
+    .quote-page .quote-completed-heading h2 em { color: #1d1a19; font-family: var(--font-heading); font-style: normal; }
     .quote-page .quote-completed-heading > span { display: block; margin-top: .65rem; color: #7a7067; font-size: clamp(.76rem, 1.4vw, 1rem); }
     .quote-page .quote-completed-videos { display: grid; width: min(1080px, 100%); margin: auto; gap: clamp(.8rem, 1.7vw, 1.35rem); }
     .quote-page .quote-completed-video { position: relative; aspect-ratio: 16 / 9; overflow: hidden; border: 1px solid #eadfce; border-radius: 18px; background: #2a1c12; box-shadow: 0 8px 20px rgba(76, 48, 20, .06); }
@@ -43,9 +43,11 @@
     @keyframes quoteTabFade { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
 
     .quote-page .quote-completed-videos-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(1rem, 2vw, 1.6rem); width: min(1080px, 100%); margin: 0 auto; }
-    .quote-page .quote-completed-video-card { width: 100%; max-width: none; overflow: hidden; border: 1px solid #e8d9c3; border-radius: clamp(14px, 1.8vw, 18px); background: #21160f; box-shadow: 0 10px 28px rgba(74, 47, 18, .08); transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease; }
-    .quote-page .quote-completed-video-card:hover { transform: translateY(-3px); box-shadow: 0 14px 34px rgba(74, 47, 18, .15); border-color: #caa25d; }
+    .quote-page .quote-completed-video-card { width: 100%; max-width: none; overflow: hidden; border: 1px solid #e5ded4; border-radius: clamp(14px, 1.8vw, 18px); background: #000; box-shadow: 0 8px 24px rgba(0, 0, 0, .08); transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease; }
+    .quote-page .quote-completed-video-card:hover { transform: translateY(-3px); box-shadow: 0 14px 34px rgba(0, 0, 0, .14); border-color: #caa25d; }
     .quote-page .quote-completed-video-card.is-hidden-extra { display: none !important; }
+    .quote-page .quote-completed-video-card .quote-video-frame { position: relative; width: 100%; aspect-ratio: 16 / 9; background: #000; overflow: hidden; }
+    .quote-page .quote-completed-video-card .quote-video-frame iframe { position: absolute; top: -1.75%; left: -1.75%; width: 103.5%; height: 103.5%; border: 0; }
     .quote-page .quote-completed-video-meta { display: flex; align-items: center; gap: .75rem; padding: .85rem 1.15rem; background: #fffdfa; border-top: 1px solid #efe4d6; }
     .quote-page .quote-completed-ep-pill { display: inline-flex; align-items: center; padding: .2rem .55rem; border-radius: 6px; background: #211913; color: #f1c97a; font-size: clamp(.68rem, .9vw, .76rem); font-weight: 700; white-space: nowrap; flex-shrink: 0; }
     .quote-page .quote-completed-video-name { margin: 0; color: #1e1814; font-family: var(--font-heading); font-size: clamp(.88rem, 1.15vw, 1.02rem); font-weight: 700; line-height: 1.3; display: -webkit-box; -webkit-line-clamp: 1; -webkit-box-orient: vertical; overflow: hidden; }
@@ -56,8 +58,8 @@
     .quote-page .quote-completed-toggle-btn svg { transition: transform .25s ease; }
     .quote-page .quote-completed-toggle-btn.is-expanded svg { transform: rotate(180deg); }
 
-    /* Workshop video embed card */
-    .quote-page .quote-workshop-video-card { position: relative; overflow: hidden; max-width: 1120px; width: 100%; aspect-ratio: 16 / 9; margin: 0 auto clamp(1rem, 2vw, 1.6rem); border: 1px solid #efe5d8; border-radius: clamp(14px, 2vw, 20px); background: #1e1610; box-shadow: 0 10px 28px rgba(45, 30, 15, .08); }
+    /* Workshop video embed card — match full header container width */
+    .quote-page .quote-workshop-video-card { position: relative; overflow: hidden; max-width: 100%; width: 100%; aspect-ratio: 16 / 9; margin: 0 auto clamp(1rem, 2vw, 1.6rem); border: 1px solid #efe5d8; border-radius: clamp(14px, 2vw, 20px); background: #1e1610; box-shadow: 0 10px 28px rgba(45, 30, 15, .08); }
 
     @media (max-width: 640px) {
       .quote-page .quote-completed { padding: 2.5rem 0; }
@@ -66,7 +68,7 @@
       .quote-page .quote-completed-play { width: 46px; height: 46px; border-width: 2px; }
     }
     .quote-page .quote-capability { padding: clamp(3rem, 6vw, 5.5rem) 0; background: #fffdf9; }
-    .quote-page .quote-workshop { width: min(930px, 100%); }
+    .quote-page .quote-workshop { width: 100%; max-width: var(--container-max); }
     .quote-page .quote-workshop-heading { margin: 0 auto 1rem; text-align: center; }
     .quote-page .quote-workshop-heading h2 { margin: 0; color: #191715; font-family: var(--font-heading); font-size: clamp(1.35rem, 3vw, 2.25rem); font-weight: 800; letter-spacing: -.045em; text-transform: uppercase; }
     .quote-page .quote-workshop-heading h2 em { display: block; margin: .3em 0 .38em; color: #bd7218; font-family: var(--font-script); font-size: 1.35em; font-weight: 500; letter-spacing: 0; line-height: .9; text-transform: none; }
@@ -85,7 +87,7 @@
     .quote-page .quote-workshop-gallery figure { margin: 0; text-align: center; }
     .quote-page .quote-workshop-gallery img { display: block; width: 100%; aspect-ratio: 16 / 9; border-radius: 8px; object-fit: cover; }
     .quote-page .quote-workshop-gallery figcaption { margin-top: .35rem; color: #302c28; font-size: clamp(.64rem, 1.1vw, .8rem); }
-    @media (max-width: 559px) { .quote-page .quote-workshop { width: calc(100% - 24px); }.quote-page .quote-workshop-main { aspect-ratio: 16 / 9; }.quote-page .quote-workshop-gallery { gap: .7rem; }.quote-page .quote-workshop-stats { margin-bottom: .9rem; }.quote-page .quote-workshop-stats div { padding: 0 .3rem; }.quote-page .quote-workshop-stats span { font-size: .6rem; }.quote-page .quote-workshop-main > span { bottom: 1.15rem; } }
+    @media (max-width: 559px) { .quote-page .quote-workshop { width: 100%; }.quote-page .quote-workshop-main { aspect-ratio: 16 / 9; }.quote-page .quote-workshop-gallery { gap: .7rem; }.quote-page .quote-workshop-stats { margin-bottom: .9rem; }.quote-page .quote-workshop-stats div { padding: 0 .3rem; }.quote-page .quote-workshop-stats span { font-size: .6rem; }.quote-page .quote-workshop-main > span { bottom: 1.15rem; } }
     /* Tighter vertical rhythm across the quotation page. */
     .quote-page .quote-section { padding-top: clamp(.75rem, 1.5vw, 1.5rem); padding-bottom: clamp(.75rem, 1.5vw, 1.5rem); }
     .quote-page .quote-benefits { padding-top: clamp(1rem, 1.75vw, 1.5rem); padding-bottom: clamp(.75rem, 1.5vw, 1.25rem); }
@@ -856,7 +858,7 @@
       align-self: center !important;
     }
   </style>
-  <script src="/js/main.js?v=1.9.0" defer></script>
+  <script src="/js/main.js?v=1.9.1" defer></script>
   <script src="/js/quote-page.js?v=1.2.0" defer></script>
 </head>
 <body>
@@ -1173,7 +1175,7 @@
       <section class="quote-handover-check"><div class="container quote-handover-inner"><header class="quote-handover-heading"><p>Kiểm tra trước khi bàn giao</p><h2>Từng bước đều được <em>chăm chút</em></h2></header><div class="quote-handover-list"><article class="quote-handover-item"><b>1.</b><div><h3>Đo kiểm kích thước</h3><p>Đối chiếu chỉ số với bản vẽ.</p></div></article><article class="quote-handover-item"><b>2.</b><div><h3>Lắp thử &amp; căn chỉnh</h3><p>Kiểm tra liên kết, bản lề và ray trượt.</p></div></article><article class="quote-handover-item"><b>3.</b><div><h3>Rà soát &amp; đóng gói</h3><p>Vệ sinh bề mặt, bảo vệ góc cạnh khi vận chuyển.</p></div></article></div></div></section>
 
     <% if (sections.estimate?.isVisible !== false) { %>
-      <section class="quote-free-estimate" id="nhan-du-toan"><div class="container"><div class="quote-free-estimate-card"><img class="quote-free-estimate-image" src="/images/quote-free-estimate-interior.png" alt="Nhận dự toán miễn phí từ SHome Luxury" loading="lazy" /><div class="quote-free-estimate-copy"><h2>Nhận dự toán <em>miễn phí</em></h2><p>Để lại thông tin, chuyên gia <strong>SHome Luxury</strong> sẽ liên hệ tư vấn trong 24h.</p><ul><li><i aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 13V9a7 7 0 0 1 14 0v4"/><path d="M5 13H3v4a2 2 0 0 0 2 2h2v-6H5Zm14 0h2v4a2 2 0 0 1-2 2h-2v-6h2Zm-2 6c0 1.4-1.6 2-3 2h-2"/></svg></i><span>Tư vấn nhanh<br />trong 24h</span></li><li><i aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M6 3h9l4 4v14H6z"/><path d="M15 3v5h5M9 12h6M9 16h6"/></svg></i><span>Báo giá chi tiết,<br />minh bạch</span></li><li><i aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3 20 6v5c0 5-3.4 8.2-8 10-4.6-1.8-8-5-8-10V6l8-3Z"/><path d="m8.5 12 2.2 2.2 4.8-5"/></svg></i><span>Không cam kết,<br />không ràng buộc</span></li></ul><a class="quote-free-estimate-button trigger-consult-modal" href="#consultModal">LIÊN HỆ ĐỂ NHẬN BÁO GIÁ</a></div></div></div></section>
+      <section class="quote-free-estimate" id="nhan-du-toan"><div class="container"><div class="quote-free-estimate-card"><img class="quote-free-estimate-image" src="/images/quote-free-estimate-interior.png" alt="Nhận dự toán miễn phí từ SHome Luxury" loading="lazy" /><div class="quote-free-estimate-copy"><h2>Nhận dự toán <em>miễn phí</em></h2><p>Để lại thông tin, chuyên gia <strong>SHome Luxury</strong> sẽ liên hệ tư vấn trong 24h.</p><ul><li><i aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 13V9a7 7 0 0 1 14 0v4"/><path d="M5 13H3v4a2 2 0 0 0 2 2h2v-6H5Zm14 0h2v4a2 2 0 0 1-2 2h-2v-6h2Zm-2 6c0 1.4-1.6 2-3 2h-2"/></svg></i><span>Tư vấn nhanh trong 24h</span></li><li><i aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M6 3h9l4 4v14H6z"/><path d="M15 3v5h5M9 12h6M9 16h6"/></svg></i><span>Báo giá chi tiết, minh bạch</span></li><li><i aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3 20 6v5c0 5-3.4 8.2-8 10-4.6-1.8-8-5-8-10V6l8-3Z"/><path d="m8.5 12 2.2 2.2 4.8-5"/></svg></i><span>Không cam kết, không ràng buộc</span></li></ul><a class="quote-free-estimate-button trigger-consult-modal" href="#consultModal">LIÊN HỆ ĐỂ NHẬN BÁO GIÁ</a></div></div></div></section>
     <% } %>
 
     <section class="quote-final-faq" aria-labelledby="quote-final-faq-title"><div class="container quote-final-faq-inner"><h2 id="quote-final-faq-title">Câu hỏi thường gặp</h2><div class="quote-final-faq-list"><details><summary><b>1.</b><span>Thời gian thiết kế và thi công mất bao lâu?</span><i class="quote-final-faq-chevron" aria-hidden="true"><svg viewBox="0 0 16 10" focusable="false"><path d="m1 1 7 7 7-7" /></svg></i></summary><p>Tiến độ được xây dựng theo quy mô và hiện trạng công trình. SHome Luxury sẽ gửi lộ trình chi tiết sau khi khảo sát và chốt phương án.</p></details><details><summary><b>2.</b><span>Báo giá có phát sinh thêm chi phí không?</span><i class="quote-final-faq-chevron" aria-hidden="true"><svg viewBox="0 0 16 10" focusable="false"><path d="m1 1 7 7 7-7" /></svg></i></summary><p>Báo giá được lập rõ theo hạng mục, vật liệu và khối lượng. Mọi thay đổi phát sinh chỉ được thực hiện khi có xác nhận từ bạn.</p></details><details><summary><b>3.</b><span>SHome Luxury có chính sách bảo hành không?</span><i class="quote-final-faq-chevron" aria-hidden="true"><svg viewBox="0 0 16 10" focusable="false"><path d="m1 1 7 7 7-7" /></svg></i></summary><p>Chúng tôi bảo hành theo từng hạng mục thi công và đồng hành hỗ trợ sau bàn giao để công trình luôn vận hành ổn định.</p></details><details><summary><b>4.</b><span>Tôi có thể điều chỉnh thiết kế trước khi thi công không?</span><i class="quote-final-faq-chevron" aria-hidden="true"><svg viewBox="0 0 16 10" focusable="false"><path d="m1 1 7 7 7-7" /></svg></i></summary><p>Có. Đội ngũ sẽ tiếp nhận góp ý, điều chỉnh phương án và chỉ triển khai khi bạn đã thống nhất về thiết kế, vật liệu và chi phí.</p></details><details><summary><b>5.</b><span>Quy trình triển khai dự án diễn ra như thế nào?</span><i class="quote-final-faq-chevron" aria-hidden="true"><svg viewBox="0 0 16 10" focusable="false"><path d="m1 1 7 7 7-7" /></svg></i></summary><p>Quy trình gồm khảo sát, tư vấn phương án, thiết kế, chốt dự toán, sản xuất tại xưởng và nghiệm thu bàn giao.</p></details><details><summary><b>6.</b><span>Tôi có được lựa chọn vật liệu và phụ kiện không?</span><i class="quote-final-faq-chevron" aria-hidden="true"><svg viewBox="0 0 16 10" focusable="false"><path d="m1 1 7 7 7-7" /></svg></i></summary><p>Có. Chúng tôi tư vấn các lựa chọn phù hợp ngân sách, phong cách và nhu cầu sử dụng để bạn dễ dàng quyết định.</p></details><details><summary><b>7.</b><span>Có thể nhận báo giá trước khi khảo sát không?</span><i class="quote-final-faq-chevron" aria-hidden="true"><svg viewBox="0 0 16 10" focusable="false"><path d="m1 1 7 7 7-7" /></svg></i></summary><p>Bạn có thể nhận mức dự toán tham khảo. Báo giá chi tiết sẽ được hoàn thiện sau khi có thông tin hiện trạng và yêu cầu cụ thể.</p></details><details><summary><b>8.</b><span>Làm thế nào để đặt lịch tư vấn tại nhà?</span><i class="quote-final-faq-chevron" aria-hidden="true"><svg viewBox="0 0 16 10" focusable="false"><path d="m1 1 7 7 7-7" /></svg></i></summary><p>Hãy để lại thông tin liên hệ hoặc gọi trực tiếp cho SHome Luxury. Đội ngũ sẽ xác nhận thời gian khảo sát thuận tiện với bạn.</p></details></div></div></section>

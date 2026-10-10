@@ -3753,7 +3753,7 @@ ol {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 8px 12px;
+  padding: 8px 10px;
   background: #3A3A3A;
   border-bottom: none;
   flex-shrink: 0;
@@ -3765,9 +3765,10 @@ ol {
   gap: 7px;
   color: var(--accent-gold, #C89B4B);
   font-weight: 600;
-  font-size: 0.78rem;
+  font-size: clamp(0.72rem, 0.8vw, 0.78rem);
   letter-spacing: 0.03em;
   font-family: var(--font-menu);
+  white-space: nowrap;
 }
 
 .card-header-link {
@@ -3792,10 +3793,10 @@ ol {
   position: relative;
   min-height: 0;
   width: 100%;
-  overflow-y: auto !important;
-  overflow-x: hidden !important;
+  overflow: hidden !important;
   -webkit-overflow-scrolling: touch !important;
   touch-action: pan-y !important;
+  overscroll-behavior: contain !important;
   scrollbar-width: none !important;
   -ms-overflow-style: none !important;
 }
@@ -3808,18 +3809,21 @@ ol {
 
 .fb-card-box .card-iframe-wrapper {
   background-color: #FFFFFF !important;
+  overflow: hidden !important;
 }
 
 .fb-card-box .card-iframe-wrapper iframe {
   width: 100% !important;
   min-width: 100% !important;
   max-width: 100% !important;
-  height: 550px !important;
-  min-height: 550px !important;
+  height: 100% !important;
+  min-height: 100% !important;
+  max-height: 100% !important;
   border: 0 !important;
   display: block !important;
   pointer-events: auto !important;
   background-color: #FFFFFF !important;
+  overscroll-behavior: contain !important;
 }
 
 .map-card-box .card-iframe-wrapper iframe {
@@ -4075,10 +4079,12 @@ ol {
 
   .footer-col-fb .fb-card-box {
     margin-inline: 0 !important;
+    overflow: hidden !important;
   }
 
   .footer-col-fb .card-iframe-wrapper {
-    overflow-x: visible !important;
+    overflow: hidden !important;
+    overscroll-behavior: contain !important;
   }
 
   /* This beats the desktop iframe selector above (which includes `iframe`).
@@ -4092,7 +4098,11 @@ ol {
     width: 100% !important;
     min-width: 0 !important;
     max-width: none !important;
+    height: 100% !important;
+    min-height: 100% !important;
+    max-height: 100% !important;
     box-sizing: border-box !important;
+    overflow: hidden !important;
   }
 
   /* Do not overwrite the SDK's own width. It must report its real rendered
@@ -4101,8 +4111,13 @@ ol {
   .footer-col-fb .facebook-mobile-plugin .fb-page > span,
   .footer-col-fb .facebook-mobile-plugin .fb-page iframe {
     display: block !important;
+    width: 100% !important;
     max-width: 100% !important;
+    height: 100% !important;
+    min-height: 100% !important;
+    max-height: 100% !important;
     box-sizing: border-box !important;
+    overscroll-behavior: contain !important;
   }
 
   /* Page Plugin has a provider-side maximum width on some viewports. Keep
@@ -10578,7 +10593,7 @@ main .section-v2-title,
 .quote-page .quote-video-heading h2 { position: relative; display: inline-block; max-width: 780px; margin: 0 0 .35rem; color: #2b1d14; font-family: var(--font-heading); font-size: clamp(1rem, 2vw, 1.45rem); font-weight: 700; letter-spacing: .015em; line-height: 1.3; text-transform: uppercase; }
 .quote-page .quote-video-heading h2::before, .quote-page .quote-video-heading h2::after { position: absolute; top: 50%; width: clamp(24px, 5vw, 52px); height: 1px; content: ''; background: #c89555; }.quote-page .quote-video-heading h2::before { right: calc(100% + clamp(.6rem, 2vw, 1.4rem)); }.quote-page .quote-video-heading h2::after { left: calc(100% + clamp(.6rem, 2vw, 1.4rem)); }
 .quote-page .quote-video-heading strong { display: block; color: #63564b; font-size: clamp(.74rem, 1.2vw, .92rem); font-weight: 400; }
-.quote-page .quote-video-card { display: block; max-width: 1120px; aspect-ratio: 1.78; border-color: #e8d9c3; border-radius: 18px; background: #2f2115; box-shadow: 0 12px 30px rgba(74, 47, 18, .09); color: #fff; }
+.quote-page .quote-video-card { display: block; width: 100%; max-width: 100%; aspect-ratio: 1.78; border-color: #e8d9c3; border-radius: 18px; background: #2f2115; box-shadow: 0 12px 30px rgba(74, 47, 18, .09); color: #fff; }
 .quote-page .quote-video-card > img { object-fit: cover; object-position: center; }
 .quote-page .quote-video-scrim { background: linear-gradient(90deg, rgba(38, 22, 10, .46), rgba(38, 22, 10, .05) 42%, rgba(255,255,255,.03) 100%), linear-gradient(0deg, rgba(45, 28, 13, .76), transparent 33%); }
 .quote-page .quote-video-logo { position: absolute; z-index: 1; top: clamp(.8rem, 2vw, 1.5rem); left: clamp(.8rem, 2vw, 1.5rem); display: grid; gap: .18rem; color: #fff; text-shadow: 0 1px 10px rgba(31, 17, 7, .48); }

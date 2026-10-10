@@ -902,6 +902,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const width = Math.floor(host.clientWidth);
     if (width < 180 || Number(host.dataset.renderedWidth) === width) return;
 
+    const wrapper = host.closest('.card-iframe-wrapper');
+    const height = Math.max(130, Math.floor(wrapper ? wrapper.clientHeight : 198));
+
     host.dataset.renderedWidth = String(width);
     host.replaceChildren();
 
@@ -910,7 +913,7 @@ document.addEventListener('DOMContentLoaded', () => {
     page.dataset.href = host.dataset.facebookHref;
     page.dataset.tabs = 'timeline';
     page.dataset.width = String(width);
-    page.dataset.height = '550';
+    page.dataset.height = String(height);
     page.dataset.smallHeader = 'true';
     page.dataset.adaptContainerWidth = 'true';
     page.dataset.hideCover = 'true';
@@ -928,12 +931,49 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   };
 
+  const desktopFacebookIframe = document.querySelector('.fb-card-box iframe.facebook-page-plugin');
+  const syncDesktopFacebookIframe = () => {
+    if (mobileFacebookQuery.matches || !desktopFacebookIframe) return;
+    const wrapper = desktopFacebookIframe.closest('.card-iframe-wrapper');
+    if (!wrapper) return;
+    const width = Math.max(180, Math.min(500, Math.floor(wrapper.clientWidth)));
+    const height = Math.max(130, Math.floor(wrapper.clientHeight || 198));
+    if (width < 180) return;
+
+    const currentSrc = desktopFacebookIframe.dataset.facebookPluginSrc || desktopFacebookIframe.src;
+    if (!currentSrc) return;
+    try {
+      const url = new URL(currentSrc, window.location.href);
+      const curW = url.searchParams.get('width');
+      const curH = url.searchParams.get('height');
+      if (curW !== String(width) || curH !== String(height)) {
+        url.searchParams.set('width', String(width));
+        url.searchParams.set('height', String(height));
+        url.searchParams.set('adapt_container_width', 'true');
+        const nextSrc = url.toString();
+        desktopFacebookIframe.dataset.facebookPluginSrc = nextSrc;
+        desktopFacebookIframe.src = nextSrc;
+      }
+    } catch (e) {}
+  };
+
+  if (desktopFacebookIframe) {
+    window.requestAnimationFrame(syncDesktopFacebookIframe);
+    let desktopResizeTimer;
+    window.addEventListener('resize', () => {
+      clearTimeout(desktopResizeTimer);
+      desktopResizeTimer = setTimeout(syncDesktopFacebookIframe, 300);
+    });
+  }
+
   if (mobileFacebookPlugins.length) {
     window.requestAnimationFrame(() => mobileFacebookPlugins.forEach(renderMobileFacebookPlugin));
 
     mobileFacebookQuery.addEventListener?.('change', event => {
       if (event.matches) {
         window.requestAnimationFrame(() => mobileFacebookPlugins.forEach(renderMobileFacebookPlugin));
+      } else {
+        window.requestAnimationFrame(syncDesktopFacebookIframe);
       }
     });
 
