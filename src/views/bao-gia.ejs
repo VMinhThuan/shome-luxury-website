@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <title><%= title %></title>
   <meta name="description" content="Nhận tư vấn và dự toán thiết kế, thi công nội thất từ Shome Luxury." />
-  <link rel="stylesheet" href="/css/style.css?v=6.5.59" />
+  <link rel="stylesheet" href="/css/style.css?v=6.5.60" />
   <style>
     /* Keep every content section on the quotation page visually consistent. */
     .quote-page > section:not(.quote-hero) { background: #fff !important; }
@@ -820,23 +820,76 @@
       stroke: #000000 !important;
     }
 
-    /* Chữ script góc phải hero: luôn nằm trên cùng 1 hàng */
+    /* Chữ script góc phải hero: 2 dòng nghệ thuật kèm đường gạch mềm mại giống thiết kế mẫu */
     .quote-page .quote-hero-corner-script {
-      white-space: nowrap !important;
-      max-width: none !important;
+      position: absolute !important;
+      z-index: 2 !important;
+      right: max(24px, calc((100vw - var(--container-max)) / 2 + 16px)) !important;
+      bottom: 1.15rem !important;
+      display: inline-flex !important;
+      flex-direction: column !important;
+      align-items: center !important;
       width: auto !important;
-      color: var(--accent-gold, #C89B4B) !important;
+      max-width: none !important;
+      color: #ba6d18 !important;
       font-family: var(--font-script) !important;
-      font-size: clamp(1.25rem, 2.1vw, 2.1rem) !important;
-      line-height: 1 !important;
-      text-align: right !important;
-      transform: rotate(-4deg) !important;
+      font-size: clamp(1.35rem, 2.1vw, 2.15rem) !important;
+      font-weight: 500 !important;
+      line-height: .86 !important;
+      text-align: center !important;
+      white-space: nowrap !important;
+      transform: rotate(-7deg) !important;
+      pointer-events: none !important;
+    }
+    .quote-page .quote-hero-corner-script .quote-hero-corner-line1 {
+      display: block !important;
+      padding-left: .25em !important;
+      white-space: nowrap !important;
+    }
+    .quote-page .quote-hero-corner-script .quote-hero-corner-line2 {
+      display: block !important;
+      white-space: nowrap !important;
+    }
+    .quote-page .quote-hero-corner-script .quote-hero-corner-swoosh {
+      display: block !important;
+      width: 104% !important;
+      max-width: 250px !important;
+      height: auto !important;
+      margin-top: -1px !important;
+      margin-left: 6% !important;
+      overflow: visible !important;
+      color: inherit !important;
+    }
+    @media (max-width: 1023px) {
+      .quote-page .quote-hero-corner-script {
+        right: 1.5rem !important;
+        bottom: 1rem !important;
+        font-size: clamp(1.15rem, 2.5vw, 1.6rem) !important;
+      }
     }
     @media (max-width: 767px) {
       .quote-page .quote-hero-corner-script {
-        font-size: clamp(.85rem, 3.6vw, 1.25rem) !important;
         right: .65rem !important;
         bottom: .65rem !important;
+        font-size: clamp(.82rem, 3.4vw, 1.15rem) !important;
+        transform: rotate(-6deg) !important;
+      }
+      .quote-page .quote-hero-corner-script .quote-hero-corner-swoosh {
+        width: 102% !important;
+        margin-left: 4% !important;
+      }
+    }
+
+    /* Kích thước tiêu đề Câu hỏi thường gặp bằng chính xác tiêu đề Thiết kế thi công nội thất */
+    .quote-page .quote-final-faq h2 {
+      font-size: clamp(1.55rem, 3vw, 2.6rem) !important;
+      font-weight: 800 !important;
+      letter-spacing: -.055em !important;
+      line-height: 1.1 !important;
+    }
+    @media (max-width: 767px) {
+      .quote-page .quote-final-faq h2 {
+        font-size: clamp(1.3rem, 6vw, 1.7rem) !important;
       }
     }
 
@@ -902,8 +955,19 @@
             <h1><em><%= quoteScript %></em><span><%= quoteTitleMatch ? quoteTitleMatch[1] : quoteTitle %><% if (quoteTitleMatch) { %><span class="quote-mobile-title-break"><%= quoteTitleMatch[2] %></span><% } %></span></h1>
             <p class="quote-lead"><%= sections.hero.description %></p>
           </div>
-          <div class="quote-hero-traits"><% (sections.hero.traits || []).forEach((trait, index) => { %><span><%= trait %></span><% if (index < sections.hero.traits.length - 1) { %><i aria-hidden="true"></i><% } %><% }) %></div>
-          <div class="quote-hero-corner-script"><%= (sections.hero.cornerScript || '').replace(/\r?\n/g, ' ') %></div>
+          <%
+            const cornerScriptRaw = sections.hero.cornerScript || 'Không gian\nkiến tạo hạnh phúc';
+            const cornerScriptLines = cornerScriptRaw.trim().split(/\r?\n/);
+            const line1 = cornerScriptLines[0] || 'Không gian';
+            const line2 = cornerScriptLines.slice(1).join(' ') || 'kiến tạo hạnh phúc';
+          %>
+          <div class="quote-hero-corner-script">
+            <span class="quote-hero-corner-line1"><%= line1 %></span>
+            <span class="quote-hero-corner-line2"><%= line2 %></span>
+            <svg class="quote-hero-corner-swoosh" viewBox="0 0 240 14" fill="none" aria-hidden="true">
+              <path d="M12 10 C70 12.5, 150 12, 235 3" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" />
+            </svg>
+          </div>
         </div>
       </section>
     <% } %>

@@ -33,7 +33,7 @@
         <div class="showcase-header-text">
           <span class="eyebrow-text">─── <%= pageConfig.eyebrow %> ───</span>
           <h1 class="showcase-title">
-            <span class="title-main"><%= pageConfig.titleMain %></span>
+            <span class="title-main <%= pageConfig.titleMainClass || '' %>"><%= pageConfig.titleMain %></span>
             <% if (pageConfig.titleScript) { %>
               <span class="title-script font-script"><%= pageConfig.titleScript %></span>
             <% } %>

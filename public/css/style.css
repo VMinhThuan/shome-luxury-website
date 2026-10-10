@@ -6444,6 +6444,10 @@ ol {
   font-family: var(--font-sans);
 }
 
+.showcase-title .title-main-compact {
+  font-size: 0.78em;
+}
+
 .showcase-title .title-script {
   display: inline-block;
   font-family: var(--font-script);
@@ -6451,6 +6455,24 @@ ol {
   font-weight: 700;
   margin-left: 0.4rem;
   text-transform: none;
+}
+
+/* Keep each title group intact on phones: the black service name first,
+   followed by the gold project name on its own line. */
+@media (max-width: 767px) {
+  .showcase-title .title-main,
+  .showcase-title .title-script {
+    white-space: nowrap;
+  }
+
+  .showcase-title .title-script {
+    display: block;
+    margin: 0.2rem 0 0;
+  }
+
+  .showcase-title .title-main-compact {
+    font-size: clamp(1.35rem, 6.4vw, 1.7rem);
+  }
 }
 
 .showcase-subtitle {
@@ -10743,4 +10765,3 @@ main .section-v2-title,
   justify-content: center !important;
   align-self: center !important;
 }
-

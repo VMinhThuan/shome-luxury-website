@@ -27,7 +27,8 @@ const PAGE_CONFIGS = {
   },
   'tk-kt-nha-cap-4': {
     eyebrow: 'DỰ ÁN TIÊU BIỂU',
-    titleMain: 'KIẾN TRÚC',
+    titleMain: 'THIẾT KẾ KIẾN TRÚC',
+    titleMainClass: 'title-main-compact',
     titleScript: 'Nhà Cấp 4',
     description: 'Giải pháp thiết kế kiến trúc nhà cấp 4 hiện đại, tối ưu diện tích và không gian sống tiện nghi.',
     categoryCode: 'tk-kt-nha-cap-4',
