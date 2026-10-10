@@ -1,4 +1,5 @@
 const projectService = require('../services/projectService');
+const constructionVideoService = require('../services/constructionVideoService');
 const categoryService = require('../services/categoryService');
 const navigationData = require('../data/navigationData');
 
@@ -152,11 +153,12 @@ const PAGE_CONFIGS = {
     ]
   },
   'thi-cong-cong-trinh': {
-    eyebrow: 'DỰ ÁN TIÊU BIỂU',
+    eyebrow: 'VIDEO THI CÔNG',
     titleMain: 'THI CÔNG CÔNG TRÌNH',
     titleScript: '',
-    description: 'Dịch vụ thi công kiến trúc & nội thất trọn gói cam kết chất lượng chuẩn 99% so với bản vẽ.',
+    description: '',
     categoryCode: 'thi-cong-cong-trinh',
+    contentType: 'videos',
     filters: []
   }
 };
@@ -170,13 +172,16 @@ class ProjectShowcaseController {
       const categoryCode = req.params.categoryCode || 'thiet-ke-cong-trinh';
       const config = PAGE_CONFIGS[categoryCode] || PAGE_CONFIGS['thiet-ke-cong-trinh'];
 
-      // SSR fetch initial 4 items (per user request: 4 items per page)
-      const initialData = await projectService.getProjects({
-        category: categoryCode,
-        page: 1,
-        limit: 4,
-        compact: true
-      });
+      const isVideoShowcase = config.contentType === 'videos';
+      const initialData = isVideoShowcase
+        ? { projects: [], page: 1, limit: 0, totalPages: 0, totalItems: 0 }
+        : await projectService.getProjects({
+          category: categoryCode,
+          page: 1,
+          limit: 4,
+          compact: true
+        });
+      const videos = isVideoShowcase ? await constructionVideoService.getVisibleVideos() : [];
 
       const pageTitle = `${config.titleMain} ${config.titleScript} | LUXURY HOME`.trim();
 
@@ -186,6 +191,8 @@ class ProjectShowcaseController {
         navigation: navigationData,
         pageConfig: config,
         activeCategoryCode: categoryCode,
+        isVideoShowcase,
+        videos,
         initialProjects: initialData.projects,
         initialPagination: {
           page: initialData.page,

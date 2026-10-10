@@ -5,6 +5,7 @@ const recruitmentController = require("../controllers/recruitmentController");
 const uploadController = require("../controllers/uploadController");
 const categoryController = require("../controllers/categoryController");
 const projectController = require("../controllers/projectController");
+const constructionVideoController = require('../controllers/constructionVideoController');
 const projectShowcaseController = require("../controllers/projectShowcaseController");
 const authController = require("../controllers/authController");
 const quotePageController = require("../controllers/quotePageController");
@@ -70,6 +71,7 @@ router.delete("/api/admin/categories/:id", authenticateAdmin, categoryController
 // Public Project API Endpoints (Search, Pagination, Descendant Filtering, Status & Featured Filtering, Sorting)
 router.get("/api/projects", projectController.getProjects.bind(projectController));
 router.get("/api/projects/:idOrSlug", projectController.getProjectByIdOrSlug.bind(projectController));
+router.get('/api/construction-videos', constructionVideoController.getVideos.bind(constructionVideoController));
 router.get("/api/quote-page", quotePageController.getPublicContent.bind(quotePageController));
 router.put("/api/admin/quote-page", authenticateAdmin, quotePageController.updateContent.bind(quotePageController));
 
@@ -80,6 +82,9 @@ router.delete("/api/admin/projects/:id", authenticateAdmin, projectController.de
 router.put("/api/admin/projects/:id/thumbnail", authenticateAdmin, projectController.updateThumbnail.bind(projectController));
 router.post("/api/admin/projects/:id/gallery", authenticateAdmin, projectController.addToGallery.bind(projectController));
 router.delete("/api/admin/projects/:id/gallery", authenticateAdmin, projectController.removeFromGallery.bind(projectController));
+router.post('/api/admin/construction-videos', authenticateAdmin, constructionVideoController.createVideo.bind(constructionVideoController));
+router.put('/api/admin/construction-videos/:id', authenticateAdmin, constructionVideoController.updateVideo.bind(constructionVideoController));
+router.delete('/api/admin/construction-videos/:id', authenticateAdmin, constructionVideoController.deleteVideo.bind(constructionVideoController));
 
 // Backend API Routes for Recruitment Data
 router.get("/api/recruitment", recruitmentController.getAllJobsApi);

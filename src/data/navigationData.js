@@ -39,8 +39,32 @@ module.exports = [
   {
     id: "thi-cong-cong-trinh",
     label: "Thi công công trình",
-    href: "/thi-cong-cong-trinh",
-    categoryCode: "thi-cong-cong-trinh"
+    href: "javascript:void(0)",
+    categoryCode: "thi-cong-cong-trinh",
+    children: [
+      {
+        id: "thi-cong-kien-truc",
+        label: "Thi công kiến trúc",
+        href: "javascript:void(0)",
+        children: [
+          { id: "tc-kt-nha-cap-4", label: "Thi công kiến trúc nhà cấp 4", href: "/thi-cong-cong-trinh" },
+          { id: "tc-kt-nha-pho", label: "Thi công kiến trúc nhà phố", href: "/thi-cong-cong-trinh" },
+          { id: "tc-kt-biet-thu", label: "Thi công kiến trúc biệt thự", href: "/thi-cong-cong-trinh" },
+          { id: "tc-kt-villa", label: "Thi công kiến trúc villa", href: "/thi-cong-cong-trinh" }
+        ]
+      },
+      {
+        id: "thi-cong-noi-that",
+        label: "Thi công nội thất",
+        href: "javascript:void(0)",
+        children: [
+          { id: "tc-nt-chung-cu", label: "Thi công nội thất chung cư", href: "/thi-cong-cong-trinh" },
+          { id: "tc-nt-nha-pho", label: "Thi công nội thất nhà phố", href: "/thi-cong-cong-trinh" },
+          { id: "tc-nt-biet-thu", label: "Thi công nội thất biệt thự", href: "/thi-cong-cong-trinh" },
+          { id: "tc-nt-van-phong", label: "Thi công nội thất văn phòng", href: "/thi-cong-cong-trinh" }
+        ]
+      }
+    ]
   },
   {
     id: "xuong-san-xuat",
