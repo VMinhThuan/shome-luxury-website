@@ -123,6 +123,7 @@ class QuotePageController {
         sections,
         highlightProjects,
         selectedCategory,
+        categoryQuery: (req.query.category || '').trim(),
         quoteTitle,
         quoteScript,
         completedVideosData

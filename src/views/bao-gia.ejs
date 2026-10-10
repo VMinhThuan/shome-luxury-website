@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <title><%= title %></title>
   <meta name="description" content="Nhận tư vấn và dự toán thiết kế, thi công nội thất từ Shome Luxury." />
-  <link rel="stylesheet" href="/css/style.css?v=6.5.51" />
+  <link rel="stylesheet" href="/css/style.css?v=6.5.53" />
   <style>
     /* Keep every content section on the quotation page visually consistent. */
     .quote-page > section:not(.quote-hero) { background: #fff !important; }
@@ -857,7 +857,7 @@
     }
   </style>
   <script src="/js/main.js?v=1.9.0" defer></script>
-  <script src="/js/quote-page.js?v=1.1.0" defer></script>
+  <script src="/js/quote-page.js?v=1.2.0" defer></script>
 </head>
 <body>
   <%- include('partials/header') %>
@@ -985,26 +985,40 @@
       <%
         const videoData = (typeof completedVideosData !== 'undefined' && completedVideosData) ? completedVideosData : require('../data/completedVideosData');
         const catList = videoData?.categories || [];
-        const currentCatCode = ((typeof selectedCategory !== 'undefined' && selectedCategory?.code) || '').toLowerCase();
+        const rawCat = (typeof categoryQuery !== 'undefined' && categoryQuery) || (typeof selectedCategory !== 'undefined' && selectedCategory?.code) || '';
+        const currentCatCode = String(rawCat).toLowerCase();
         
         let activeCatId = 'chung-cu';
         if (currentCatCode.includes('biet-thu') || currentCatCode.includes('villa')) {
           activeCatId = 'biet-thu';
         } else if (currentCatCode.includes('cafe') || currentCatCode.includes('tra-sua')) {
           activeCatId = 'cafe';
+        } else if (currentCatCode.includes('nha-pho') || currentCatCode.includes('nha-cap-4')) {
+          activeCatId = 'biet-thu';
         } else {
           activeCatId = 'chung-cu';
         }
 
         const isSubMenuPage = Boolean(currentCatCode);
         const activeCategoryData = catList.find(c => c.id === activeCatId) || catList[0] || { name: 'Công trình hoàn thiện', videos: [] };
+        let seeAllUrl = '/thiet-ke-cong-trinh';
+        if (activeCatId === 'chung-cu') {
+          seeAllUrl = '/thiet-ke-noi-that/chung-cu';
+        } else if (activeCatId === 'biet-thu') {
+          seeAllUrl = '/thiet-ke-noi-that/biet-thu';
+        }
       %>
       <section class="quote-section quote-completed" id="thuoc-phim-thuc-te">
         <div class="container">
           <header class="quote-completed-heading">
             <p><%= sections.completed.eyebrow || 'Thước phim thực tế' %></p>
-            <h2><%= sections.completed.title || 'Công trình' %> <em><%= sections.completed.script || 'hoàn thiện' %></em></h2>
-            <span><%= sections.completed.description || 'Ghi lại không gian thực tế sau khi hoàn tất thi công.' %></span>
+            <% if (isSubMenuPage && activeCategoryData) { %>
+              <h2><%= activeCategoryData.name %> <em>hoàn thiện</em></h2>
+              <span>Ghi lại không gian thực tế sau khi hoàn tất thi công.</span>
+            <% } else { %>
+              <h2><%= sections.completed.title || 'Công trình' %> <em><%= sections.completed.script || 'hoàn thiện' %></em></h2>
+              <span><%= sections.completed.description || 'Ghi lại không gian thực tế sau khi hoàn tất thi công.' %></span>
+            <% } %>
           </header>
 
           <% if (!isSubMenuPage) { %>
@@ -1047,12 +1061,6 @@
                             allowfullscreen
                           ></iframe>
                         </div>
-                        <div class="quote-completed-video-meta">
-                          <% if (vid.episode) { %>
-                            <span class="quote-completed-ep-pill">Tập <%= vid.episode %></span>
-                          <% } %>
-                          <h3 class="quote-completed-video-name"><%= vid.title %></h3>
-                        </div>
                       </article>
                     <% }) %>
                   </div>
@@ -1089,12 +1097,6 @@
                         allowfullscreen
                       ></iframe>
                     </div>
-                    <div class="quote-completed-video-meta">
-                      <% if (vid.episode) { %>
-                        <span class="quote-completed-ep-pill">Tập <%= vid.episode %></span>
-                      <% } %>
-                      <h3 class="quote-completed-video-name"><%= vid.title %></h3>
-                    </div>
                   </article>
                 <% }) %>
               </div>
@@ -1117,7 +1119,7 @@
           <% } %>
 
           <div class="quote-featured-view-all">
-            <a href="https://shome-luxury-website.vercel.app/thiet-ke-noi-that/chung-cu">Xem tất cả dự án <span aria-hidden="true">→</span></a>
+            <a href="<%= seeAllUrl %>">Xem tất cả dự án <span aria-hidden="true">→</span></a>
           </div>
         </div>
       </section>

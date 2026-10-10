@@ -614,9 +614,10 @@ ol {
 /* Keep the full navigation for screens that have enough room for every label.
    Below this width the hamburger stays available instead of squeezing or
    overflowing the header. */
-@media (min-width: 1200px) {
+@media (min-width: 1024px) {
   .brand-logo-wrapper {
     margin-right: 0;
+    flex-shrink: 0;
   }
 
   .desktop-nav {
@@ -625,8 +626,6 @@ ol {
     justify-content: space-between;
     flex: 1 1 auto;
     min-width: 0;
-    margin-left: clamp(1.5rem, 2.5vw, 3rem);
-    margin-right: clamp(1.5rem, 2.5vw, 3rem);
     padding: 0;
   }
 
@@ -636,15 +635,13 @@ ol {
   }
 
   .nav-link {
-    font-size: clamp(0.95rem, 1.05vw, 1.08rem);
     font-weight: 700;
     color: #FFFFFF !important;
     font-family: var(--font-menu);
-    padding: 0.45rem clamp(0.32rem, 0.55vw, 0.75rem);
     display: flex;
     align-items: center;
-    gap: 0.32rem;
     white-space: nowrap !important;
+    letter-spacing: -0.01em;
   }
 
   .nav-link svg,
@@ -769,38 +766,113 @@ ol {
   }
 }
 
-/* Compact desktop keeps the full menu visible while scaling its type and spacing
-   with the available viewport width. */
-@media (min-width: 1200px) and (max-width: 1319px) {
-  .brand-logo-wrapper {
-    flex-shrink: 0;
-    margin-right: 0;
-  }
-
-  .logo-img { height: clamp(36px, 2.5vw, 40px); }
+/* Responsive desktop navigation scaling:
+   - At 1520px+ (large screen / 100% full scale): Bold, prominent text (1.05rem) with generous spacing.
+   - At 1366px - 1519px (standard 1440px desktop): Elegant 0.95rem text with comfortable padding.
+   - At 1200px - 1365px (compact desktop / laptop / 75%-90% zoom): Scaled-down 0.85rem text, ensuring no collision with the CTA button.
+   - At 1024px - 1199px (narrow desktop / 50%-75% zoom): Scaled-down 0.76rem text with compact padding, retaining full menu visibility and safe spacing.
+*/
+@media (min-width: 1024px) and (max-width: 1199px) {
+  .logo-img { height: 34px; }
 
   .desktop-nav {
-    justify-content: space-between;
-    margin-left: clamp(0.85rem, 1.4vw, 1.35rem);
-    margin-right: clamp(0.85rem, 1.4vw, 1.35rem);
-    padding: 0;
+    margin-left: 0.5rem;
+    margin-right: 0.5rem;
   }
 
   .nav-link {
-    gap: 0.22rem;
-    padding: 0.38rem clamp(0.2rem, 0.32vw, 0.38rem);
-    font-size: clamp(0.86rem, 0.9vw, 0.92rem);
+    font-size: 0.76rem;
+    padding: 0.32rem 0.22rem;
+    gap: 0.16rem;
   }
 
   .header-actions {
-    flex-shrink: 0;
-    margin-left: 0;
+    margin-left: 0.65rem;
+    gap: 0.4rem;
   }
 
   .btn-header-consult {
-    gap: .25rem !important;
-    padding: .44rem clamp(.45rem, .65vw, .65rem) !important;
-    font-size: clamp(.75rem, .82vw, .84rem) !important;
+    font-size: 0.74rem !important;
+    padding: 0.36rem 0.6rem !important;
+    gap: 0.25rem !important;
+  }
+}
+
+@media (min-width: 1200px) and (max-width: 1365px) {
+  .logo-img { height: 38px; }
+
+  .desktop-nav {
+    margin-left: 0.85rem;
+    margin-right: 0.85rem;
+  }
+
+  .nav-link {
+    font-size: 0.85rem;
+    padding: 0.38rem 0.35rem;
+    gap: 0.22rem;
+  }
+
+  .header-actions {
+    margin-left: 1rem;
+    gap: 0.55rem;
+  }
+
+  .btn-header-consult {
+    font-size: 0.80rem !important;
+    padding: 0.42rem 0.8rem !important;
+    gap: 0.3rem !important;
+  }
+}
+
+@media (min-width: 1366px) and (max-width: 1519px) {
+  .logo-img { height: 42px; }
+
+  .desktop-nav {
+    margin-left: 1.25rem;
+    margin-right: 1.25rem;
+  }
+
+  .nav-link {
+    font-size: 0.95rem;
+    padding: 0.42rem 0.55rem;
+    gap: 0.28rem;
+  }
+
+  .header-actions {
+    margin-left: 1.25rem;
+    gap: 0.65rem;
+  }
+
+  .btn-header-consult {
+    font-size: 0.88rem !important;
+    padding: 0.48rem 1rem !important;
+    gap: 0.38rem !important;
+  }
+}
+
+@media (min-width: 1520px) {
+  .logo-img { height: 46px; }
+
+  .desktop-nav {
+    margin-left: 2rem;
+    margin-right: 2rem;
+  }
+
+  .nav-link {
+    font-size: 1.05rem;
+    padding: 0.45rem 0.75rem;
+    gap: 0.35rem;
+  }
+
+  .header-actions {
+    margin-left: 1.75rem;
+    gap: 0.75rem;
+  }
+
+  .btn-header-consult {
+    font-size: 0.96rem !important;
+    padding: 0.52rem 1.15rem !important;
+    gap: 0.45rem !important;
   }
 }
 
@@ -821,11 +893,7 @@ ol {
   z-index: 2;
 }
 
-@media (min-width: 1200px) {
-  .header-actions {
-    margin-left: 0;
-  }
-}
+/* header-actions inherits tiered margin-left from media queries */
 
 .btn-header-consult {
   display: none !important;
@@ -937,9 +1005,9 @@ ol {
   -webkit-tap-highlight-color: transparent;
 }
 
-@media (min-width: 1200px) {
+@media (min-width: 1024px) {
   .hamburger-btn {
-    display: none;
+    display: none !important;
   }
 }
 

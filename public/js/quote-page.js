@@ -1,29 +1,30 @@
 document.addEventListener('DOMContentLoaded', () => {
   const form = document.querySelector('[data-quote-form]');
-  if (!form) return;
-  const status = form.querySelector('.quote-form-status');
-  form.addEventListener('submit', async event => {
-    event.preventDefault();
-    const button = form.querySelector('button[type="submit"]');
-    button.disabled = true;
-    status.textContent = 'Đang gửi yêu cầu...';
-    try {
-      const response = await fetch('/api/contact', {
-        method: 'POST', headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(Object.fromEntries(new FormData(form)))
-      });
-      const result = await response.json();
-      if (!response.ok || !result.success) throw new Error(result.message || 'Không thể gửi yêu cầu.');
-      status.textContent = result.message;
-      form.reset();
-    } catch (error) { status.textContent = error.message; }
-    finally { button.disabled = false; }
-  });
+  if (form) {
+    const status = form.querySelector('.quote-form-status');
+    form.addEventListener('submit', async event => {
+      event.preventDefault();
+      const button = form.querySelector('button[type="submit"]');
+      button.disabled = true;
+      if (status) status.textContent = 'Đang gửi yêu cầu...';
+      try {
+        const response = await fetch('/api/contact', {
+          method: 'POST', headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(Object.fromEntries(new FormData(form)))
+        });
+        const result = await response.json();
+        if (!response.ok || !result.success) throw new Error(result.message || 'Không thể gửi yêu cầu.');
+        if (status) status.textContent = result.message;
+        form.reset();
+      } catch (error) { if (status) status.textContent = error.message; }
+      finally { button.disabled = false; }
+    });
+  }
 
-  // Completed Projects YouTube Video Tabs and Inline Player
+  // Completed Projects YouTube Video Tabs and Expand Toggle
   (function initCompletedVideos() {
     document.addEventListener('click', function(e) {
-      // 1. Sub-menu Tabs Switch
+      // 1. Sub-menu Tabs Switch (on generic /bao-gia page)
       const tabBtn = e.target.closest('.quote-completed-tab-btn');
       if (tabBtn) {
         const tabId = tabBtn.getAttribute('data-tab-id');
@@ -44,7 +45,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const toggleBtn = e.target.closest('.quote-completed-toggle-btn');
       if (toggleBtn) {
         const panelId = toggleBtn.getAttribute('data-panel-id');
-        const panel = document.getElementById('quote-videos-' + panelId) || document.querySelector('[data-panel-id="' + panelId + '"]');
+        const panel = toggleBtn.closest('.quote-completed-container') || toggleBtn.closest('.quote-completed-tab-panel') || document.getElementById('quote-videos-' + panelId) || document.querySelector('[data-panel-id="' + panelId + '"]');
         if (!panel) return;
         const isExpanded = toggleBtn.classList.contains('is-expanded');
         const textSpan = toggleBtn.querySelector('.toggle-text');
@@ -68,30 +69,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         return;
       }
-
-      // 3. Inline YouTube Video Playback
-      const videoCard = e.target.closest('.quote-completed-video-card');
-      if (videoCard && !e.target.closest('iframe')) {
-        const wrap = videoCard.querySelector('.quote-video-player-wrap');
-        if (!wrap || wrap.querySelector('iframe')) return;
-        const videoId = videoCard.getAttribute('data-video-id');
-        const title = videoCard.getAttribute('data-title') || 'Video YouTube';
-        if (!videoId) return;
-
-        wrap.innerHTML = '<iframe src="https://www.youtube-nocookie.com/embed/' + encodeURIComponent(videoId) + '?autoplay=1&rel=0&modestbranding=1" title="' + title.replace(/"/g, '&quot;') + '" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen style="position:absolute;inset:0;width:100%;height:100%;border:0;border-radius:inherit;z-index:5;"></iframe>';
-        wrap.classList.add('is-playing');
-      }
-    });
-
-    // Keyboard support for accessibility
-    document.addEventListener('keydown', function(e) {
-      if (e.key === 'Enter' || e.key === ' ') {
-        const card = document.activeElement?.closest?.('.quote-completed-video-card');
-        if (card && !document.activeElement.closest('iframe')) {
-          e.preventDefault();
-          card.click();
-        }
-      }
     });
   })();
 });
+
