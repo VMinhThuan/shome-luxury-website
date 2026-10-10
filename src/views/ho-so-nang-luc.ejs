@@ -5,9 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <meta name="description" content="Hồ sơ năng lực của SHOME LUXURY." />
   <title><%= title %></title>
-  <link rel="stylesheet" href="/css/style.css?v=6.4.6" />
+  <link rel="stylesheet" href="/css/style.css?v=6.4.7" />
   <script src="/js/main.js?v=1.9.0" defer></script>
-  <script src="/js/company-profile.js?v=1.0.0" defer></script>
+  <script src="/js/company-profile.js?v=1.1.0" defer></script>
 </head>
 <body>
   <%- include("partials/header") %>
@@ -32,6 +32,7 @@
             <div class="company-profile-loading" data-profile-loading>Đang tải hồ sơ năng lực…</div>
             <canvas class="profile-page-canvas" data-profile-page="left"></canvas>
             <canvas class="profile-page-canvas" data-profile-page="right"></canvas>
+            <canvas class="profile-page-turn" data-profile-page="turn" aria-hidden="true"></canvas>
           </div>
 
           <button type="button" class="profile-nav profile-nav--next" aria-label="Trang tiếp theo" data-profile-next>

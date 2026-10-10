@@ -160,6 +160,17 @@ const PAGE_CONFIGS = {
     categoryCode: 'thi-cong-cong-trinh',
     contentType: 'videos',
     filters: []
+  },
+  'tc-kt-nha-cap-4': {
+    eyebrow: 'VIDEO THI CÔNG',
+    titleMain: 'THI CÔNG KIẾN TRÚC',
+    titleMainClass: 'title-main-compact',
+    titleScript: 'Nhà Cấp 4',
+    description: '',
+    categoryCode: 'tc-kt-nha-cap-4',
+    parentCode: 'thi-cong-cong-trinh',
+    contentType: 'videos',
+    filters: []
   }
 };
 

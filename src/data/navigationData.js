@@ -47,7 +47,7 @@ module.exports = [
         label: "Thi công kiến trúc",
         href: "javascript:void(0)",
         children: [
-          { id: "tc-kt-nha-cap-4", label: "Thi công kiến trúc nhà cấp 4", href: "/thi-cong-cong-trinh" },
+          { id: "tc-kt-nha-cap-4", label: "Thi công kiến trúc nhà cấp 4", href: "/thi-cong-cong-trinh/kien-truc/nha-cap-4" },
           { id: "tc-kt-nha-pho", label: "Thi công kiến trúc nhà phố", href: "/thi-cong-cong-trinh" },
           { id: "tc-kt-biet-thu", label: "Thi công kiến trúc biệt thự", href: "/thi-cong-cong-trinh" },
           { id: "tc-kt-villa", label: "Thi công kiến trúc villa", href: "/thi-cong-cong-trinh" }

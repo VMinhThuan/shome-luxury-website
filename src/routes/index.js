@@ -50,6 +50,7 @@ router.get("/thiet-ke-noi-that/van-phong", createShowcaseHandler("tk-nt-van-phon
 
 // Construction Route
 router.get("/thi-cong-cong-trinh", createShowcaseHandler("thi-cong-cong-trinh"));
+router.get("/thi-cong-cong-trinh/kien-truc/nha-cap-4", createShowcaseHandler("tc-kt-nha-cap-4"));
 
 // Project Detail Page Routes (support both /cong-trinh/:slug and /san-pham/:slug)
 router.get("/cong-trinh/:slug", projectShowcaseController.renderDetailPage.bind(projectShowcaseController));
