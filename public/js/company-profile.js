@@ -8,6 +8,7 @@
   const count = viewer.querySelector('[data-profile-count]');
   const leftCanvas = viewer.querySelector('[data-profile-page="left"]');
   const rightCanvas = viewer.querySelector('[data-profile-page="right"]');
+  const turnCanvas = viewer.querySelector('[data-profile-page="turn"]');
   const previousButtons = viewer.querySelectorAll('[data-profile-prev]');
   const nextButtons = viewer.querySelectorAll('[data-profile-next]');
   const fullScreenButton = viewer.querySelector('[data-profile-fullscreen]');
@@ -43,23 +44,46 @@
     count.value = `${currentPage}${endingPage > currentPage ? `–${endingPage}` : ''} / ${pdf.numPages}`;
   };
 
-  const renderView = async ({ animate = false } = {}) => {
+  const capturePageForTurn = () => {
+    if (!leftCanvas.width || leftCanvas.hidden) return false;
+    const bounds = leftCanvas.getBoundingClientRect();
+    const bookBounds = book.getBoundingClientRect();
+    const context = turnCanvas.getContext('2d', { alpha: false });
+    turnCanvas.width = leftCanvas.width;
+    turnCanvas.height = leftCanvas.height;
+    context.drawImage(leftCanvas, 0, 0);
+    turnCanvas.style.width = `${bounds.width}px`;
+    turnCanvas.style.height = `${bounds.height}px`;
+    turnCanvas.style.left = `${bounds.left - bookBounds.left}px`;
+    turnCanvas.style.top = `${bounds.top - bookBounds.top}px`;
+    return true;
+  };
+
+  const clearPageTurn = () => {
+    book.classList.remove('is-turning-next', 'is-turning-prev');
+    turnCanvas.removeAttribute('style');
+    turnCanvas.width = 0;
+    turnCanvas.height = 0;
+  };
+
+  const renderView = async ({ direction = '', animate = false } = {}) => {
     if (!pdf || isRendering) return;
     isRendering = true;
     updateControls();
-    const shouldAnimate = animate && !reducedMotion.matches;
-    if (shouldAnimate) {
-      book.classList.add('is-page-changing');
-      void book.offsetWidth;
-    }
+    const shouldAnimate = animate && !reducedMotion.matches && capturePageForTurn();
 
     try {
       book.classList.toggle('is-cover', isCover());
       const rightPage = !isSinglePage() && !isCover() ? currentPage + 1 : pdf.numPages + 1;
       await Promise.all([renderPage(currentPage, leftCanvas), renderPage(rightPage, rightCanvas)]);
       loading.hidden = true;
-      if (shouldAnimate) requestAnimationFrame(() => requestAnimationFrame(() => book.classList.remove('is-page-changing')));
+      if (shouldAnimate) {
+        book.classList.add(direction === 'next' ? 'is-turning-next' : 'is-turning-prev');
+        await new Promise(resolve => window.setTimeout(resolve, 560));
+        clearPageTurn();
+      }
     } catch (error) {
+      clearPageTurn();
       loading.textContent = 'Không thể tải hồ sơ năng lực. Vui lòng mở PDF trực tiếp.';
       loading.hidden = false;
       console.error('Company profile PDF error:', error);
@@ -74,7 +98,7 @@
     const nextPage = Math.max(1, Math.min(lastStartPage(), currentPage + (step > 0 ? 1 : -1)));
     if (nextPage === currentPage) return;
     currentPage = nextPage;
-    renderView({ animate: true });
+    renderView({ direction: step > 0 ? 'next' : 'prev', animate: true });
   };
 
   previousButtons.forEach(button => button.addEventListener('click', () => move(-1)));
