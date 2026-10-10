@@ -8,7 +8,6 @@
   const count = viewer.querySelector('[data-profile-count]');
   const leftCanvas = viewer.querySelector('[data-profile-page="left"]');
   const rightCanvas = viewer.querySelector('[data-profile-page="right"]');
-  const turnCanvas = viewer.querySelector('[data-profile-page="turn"]');
   const previousButtons = viewer.querySelectorAll('[data-profile-prev]');
   const nextButtons = viewer.querySelectorAll('[data-profile-next]');
   const fullScreenButton = viewer.querySelector('[data-profile-fullscreen]');
@@ -44,48 +43,22 @@
     count.value = `${currentPage}${endingPage > currentPage ? `–${endingPage}` : ''} / ${pdf.numPages}`;
   };
 
-  const captureTurningPage = (direction, fromCover) => {
-    const source = direction === 'next' ? (fromCover ? leftCanvas : rightCanvas) : leftCanvas;
-    if (!source || source.hidden || !source.width) return false;
-    const bounds = source.getBoundingClientRect();
-    const bookBounds = book.getBoundingClientRect();
-    const context = turnCanvas.getContext('2d', { alpha: false });
-    turnCanvas.width = source.width;
-    turnCanvas.height = source.height;
-    context.drawImage(source, 0, 0);
-    turnCanvas.style.width = `${bounds.width}px`;
-    turnCanvas.style.height = `${bounds.height}px`;
-    turnCanvas.style.left = `${bounds.left - bookBounds.left}px`;
-    turnCanvas.style.top = `${bounds.top - bookBounds.top}px`;
-    turnCanvas.classList.toggle('turn-from-right', direction === 'next' && !fromCover);
-    turnCanvas.classList.toggle('turn-from-left', direction !== 'next' || fromCover);
-    return true;
-  };
-
-  const clearTurn = () => {
-    book.classList.remove('is-turning-next', 'is-turning-prev');
-    turnCanvas.removeAttribute('style');
-    turnCanvas.width = 0;
-    turnCanvas.height = 0;
-  };
-
-  const renderView = async ({ direction = '', animate = false, fromCover = false } = {}) => {
+  const renderView = async ({ animate = false } = {}) => {
     if (!pdf || isRendering) return;
     isRendering = true;
     updateControls();
-    const shouldAnimate = animate && !reducedMotion.matches && captureTurningPage(direction, fromCover);
+    const shouldAnimate = animate && !reducedMotion.matches;
+    if (shouldAnimate) {
+      book.classList.add('is-page-changing');
+      void book.offsetWidth;
+    }
 
     try {
       book.classList.toggle('is-cover', isCover());
       const rightPage = !isSinglePage() && !isCover() ? currentPage + 1 : pdf.numPages + 1;
       await Promise.all([renderPage(currentPage, leftCanvas), renderPage(rightPage, rightCanvas)]);
       loading.hidden = true;
-      if (shouldAnimate) {
-        book.classList.remove('is-turning-next', 'is-turning-prev');
-        void book.offsetWidth;
-        book.classList.add(direction === 'next' ? 'is-turning-next' : 'is-turning-prev');
-        window.setTimeout(clearTurn, 680);
-      }
+      if (shouldAnimate) requestAnimationFrame(() => requestAnimationFrame(() => book.classList.remove('is-page-changing')));
     } catch (error) {
       loading.textContent = 'Không thể tải hồ sơ năng lực. Vui lòng mở PDF trực tiếp.';
       loading.hidden = false;
@@ -98,11 +71,10 @@
 
   const move = step => {
     if (!pdf || isRendering) return;
-    const fromCover = isCover();
     const nextPage = Math.max(1, Math.min(lastStartPage(), currentPage + (step > 0 ? 1 : -1)));
     if (nextPage === currentPage) return;
     currentPage = nextPage;
-    renderView({ direction: step > 0 ? 'next' : 'prev', animate: true, fromCover });
+    renderView({ animate: true });
   };
 
   previousButtons.forEach(button => button.addEventListener('click', () => move(-1)));

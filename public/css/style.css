@@ -3925,11 +3925,9 @@ ol {
 .profile-page-canvas + .profile-page-canvas { border-left: 1px solid rgba(33, 26, 19, .13); box-shadow: 9px 12px 22px rgba(0, 0, 0, .22); }
 .company-profile-book.is-cover .profile-page-canvas[data-profile-page="left"] { max-width: 100%; }
 .company-profile-book.is-cover .profile-page-canvas[data-profile-page="right"] { display: none; }
-.profile-page-turn { position: absolute; z-index: 4; display: none; background: #fff; box-shadow: 0 12px 24px rgba(0,0,0,.32); backface-visibility: hidden; transform-style: preserve-3d; }
-.company-profile-book.is-turning-next .profile-page-turn,
-.company-profile-book.is-turning-prev .profile-page-turn { display: block; }
-.company-profile-book.is-turning-next .profile-page-turn { transform-origin: left center; animation: company-profile-page-turn-next .66s cubic-bezier(.55,.04,.22,.99) both; }
-.company-profile-book.is-turning-prev .profile-page-turn { transform-origin: right center; animation: company-profile-page-turn-prev .66s cubic-bezier(.55,.04,.22,.99) both; }
+.profile-page-turn { display: none; }
+.profile-page-canvas { opacity: 1; transform: translateX(0); transition: opacity .24s ease, transform .24s ease; }
+.company-profile-book.is-page-changing .profile-page-canvas { opacity: 0; transform: translateX(8px); }
 .company-profile-loading { position: absolute; z-index: 2; color: #fff; font-size: .9rem; }
 .company-profile-loading a { color: #f2c56d; text-decoration: underline; }
 .profile-nav { position: absolute; z-index: 5; top: 50%; display: grid; width: 44px; height: 58px; place-items: center; border: 0; background: rgba(30, 30, 30, .45); color: #fff; cursor: pointer; transform: translateY(-50%); transition: background .2s ease; }
@@ -3941,9 +3939,7 @@ ol {
 .profile-page-count { min-width: 78px; padding: 0 .5rem; color: #6a645d; font-size: .78rem; text-align: center; }
 .company-profile-toolbar button, .company-profile-toolbar a { display: grid; width: 34px; height: 34px; place-items: center; border: 0; border-radius: 5px; background: transparent; color: #6e6963; cursor: pointer; text-decoration: none; }
 .company-profile-toolbar button:hover:not(:disabled), .company-profile-toolbar a:hover { background: #f5ead9; color: #bd812f; }
-@keyframes company-profile-page-turn-next { 0% { transform: rotateY(0); filter: brightness(1); } 48% { filter: brightness(.62); } 100% { transform: rotateY(-180deg); filter: brightness(.84); } }
-@keyframes company-profile-page-turn-prev { 0% { transform: rotateY(0); filter: brightness(1); } 48% { filter: brightness(.62); } 100% { transform: rotateY(180deg); filter: brightness(.84); } }
-@media (prefers-reduced-motion: reduce) { .company-profile-book.is-turning-next .profile-page-turn, .company-profile-book.is-turning-prev .profile-page-turn { animation: none; } }
+@media (prefers-reduced-motion: reduce) { .profile-page-canvas { transition: none; } }
 @media (max-width: 767px) { .company-profile-hero { padding-top: calc(var(--header-height-mobile) + 2.5rem); }.company-profile-hero h1 { gap: .18em; }.company-profile-hero span { padding: 0 1.5rem; font-size: .82rem; }.company-profile-viewer { width: calc(100% - 20px); padding: .55rem; }.company-profile-book-shell, .company-profile-book { height: 58vh; min-height: 0; }.company-profile-book::after { display: none; }.profile-page-canvas, .company-profile-book.is-cover .profile-page-canvas[data-profile-page="left"] { max-width: 100%; max-height: 58vh; }.profile-page-canvas + .profile-page-canvas { display: none; }.profile-nav { width: 34px; height: 46px; }.profile-page-count { min-width: 68px; font-size: .72rem; } }
 
 /* Bottom Trust Bar: 6 Badges */
