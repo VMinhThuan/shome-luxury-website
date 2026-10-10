@@ -12,18 +12,15 @@
   const previousButtons = viewer.querySelectorAll('[data-profile-prev]');
   const nextButtons = viewer.querySelectorAll('[data-profile-next]');
   const fullScreenButton = viewer.querySelector('[data-profile-fullscreen]');
-  const compactViewport = window.matchMedia('(max-width: 767px)');
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
   let pdf;
   let currentPage = 1;
   let isRendering = false;
 
-  const isSinglePage = () => compactViewport.matches;
-  const isCover = () => currentPage === 1 && !isSinglePage();
-  const lastStartPage = () => {
-    if (isSinglePage()) return pdf.numPages;
-    return pdf.numPages % 2 === 0 ? pdf.numPages - 1 : pdf.numPages;
-  };
+  // The profile is intentionally read as one full page at a time on every screen.
+  const isSinglePage = () => true;
+  const isCover = () => true;
+  const lastStartPage = () => pdf.numPages;
 
   const renderPage = async (pageNumber, canvas) => {
     if (pageNumber > pdf.numPages) {
@@ -102,8 +99,7 @@
   const move = step => {
     if (!pdf || isRendering) return;
     const fromCover = isCover();
-    const pageStep = isSinglePage() || fromCover ? 1 : 2;
-    const nextPage = Math.max(1, Math.min(lastStartPage(), currentPage + (step > 0 ? pageStep : -2)));
+    const nextPage = Math.max(1, Math.min(lastStartPage(), currentPage + (step > 0 ? 1 : -1)));
     if (nextPage === currentPage) return;
     currentPage = nextPage;
     renderView({ direction: step > 0 ? 'next' : 'prev', animate: true, fromCover });
@@ -119,12 +115,6 @@
     if (event.key === 'ArrowLeft') move(-1);
     if (event.key === 'ArrowRight') move(1);
   });
-  compactViewport.addEventListener('change', () => {
-    if (!pdf || isRendering) return;
-    currentPage = isSinglePage() ? currentPage : (currentPage === 1 ? 1 : Math.max(2, currentPage - (currentPage % 2)));
-    renderView();
-  });
-
   (async () => {
     try {
       const pdfjsLib = await import('https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.10.38/pdf.min.mjs');
