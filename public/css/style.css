@@ -3932,8 +3932,8 @@ ol {
 .company-profile-book.is-turning-prev .profile-page-turn { transform-origin: right center; animation: company-profile-page-turn-prev .54s cubic-bezier(.45,.04,.2,1) both; }
 .company-profile-loading { position: absolute; z-index: 2; color: #fff; font-size: .9rem; }
 .company-profile-loading a { color: #f2c56d; text-decoration: underline; }
-.profile-nav { position: absolute; z-index: 5; top: 50%; display: grid; width: 44px; height: 58px; place-items: center; border: 0; background: rgba(30, 30, 30, .45); color: #fff; cursor: pointer; transform: translateY(-50%); transition: background .2s ease; }
-.profile-nav:hover:not(:disabled) { background: #c8923d; transform: translateY(-50%); }
+.profile-nav { position: absolute; z-index: 5; top: 50%; display: grid; width: 44px; height: 58px; place-items: center; border: 0; background: rgba(30, 30, 30, .45); color: #fff; cursor: pointer; transform: translateY(-50%); transition: none; }
+.profile-nav:hover:not(:disabled), .profile-nav:focus-visible:not(:disabled) { background: rgba(30, 30, 30, .45); color: #fff; transform: translateY(-50%) !important; }
 .profile-nav:disabled, .company-profile-toolbar button:disabled { opacity: .35; cursor: not-allowed; }
 .profile-nav--prev { left: 0; }.profile-nav--next { right: 0; }
 .profile-nav svg, .company-profile-toolbar svg { width: 21px; height: 21px; fill: none; stroke: currentColor; stroke-linecap: round; stroke-linejoin: round; stroke-width: 1.8; }
