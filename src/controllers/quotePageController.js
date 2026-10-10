@@ -3,6 +3,7 @@ const quotePageDefaults = require('../data/quotePageDefaults');
 const categoryService = require('../services/categoryService');
 const projectService = require('../services/projectService');
 const navigation = require('../data/navigationData');
+const completedVideosData = require('../data/completedVideosData');
 
 class QuotePageController {
   async getContent() {
@@ -57,6 +58,9 @@ class QuotePageController {
     }
     if (page.sections?.capability?.title === 'Một quy trình khép kín') {
       sections.capability = { ...sections.capability, ...quotePageDefaults.capability };
+    }
+    if (!sections.capability?.videoUrl) {
+      sections.capability.videoUrl = quotePageDefaults.capability.videoUrl;
     }
     if (JSON.stringify(sections) !== JSON.stringify(page.sections)) {
       await QuotePage.updateOne({ _id: page._id }, { $set: { sections } });
@@ -120,7 +124,8 @@ class QuotePageController {
         highlightProjects,
         selectedCategory,
         quoteTitle,
-        quoteScript
+        quoteScript,
+        completedVideosData
       });
     } catch (error) { next(error); }
   }

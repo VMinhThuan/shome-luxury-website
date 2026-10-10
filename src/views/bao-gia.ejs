@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <title><%= title %></title>
   <meta name="description" content="Nhận tư vấn và dự toán thiết kế, thi công nội thất từ Shome Luxury." />
-  <link rel="stylesheet" href="/css/style.css?v=6.5.48" />
+  <link rel="stylesheet" href="/css/style.css?v=6.5.51" />
   <style>
     /* Keep every content section on the quotation page visually consistent. */
     .quote-page > section:not(.quote-hero) { background: #fff !important; }
@@ -17,18 +17,55 @@
     .quote-page .quote-completed-heading h2 { margin: .2rem 0 0; color: #1d1a19; font-family: var(--font-heading); font-size: clamp(1.8rem, 4.5vw, 3.6rem); font-weight: 800; letter-spacing: -.055em; line-height: 1.15; }
     .quote-page .quote-completed-heading h2 em { color: #ca9548; font-family: var(--font-heading); font-style: normal; }
     .quote-page .quote-completed-heading > span { display: block; margin-top: .65rem; color: #7a7067; font-size: clamp(.76rem, 1.4vw, 1rem); }
-    .quote-page .quote-completed-videos { display: grid; width: min(900px, 100%); margin: auto; gap: clamp(.8rem, 1.7vw, 1.35rem); }
+    .quote-page .quote-completed-videos { display: grid; width: min(1080px, 100%); margin: auto; gap: clamp(.8rem, 1.7vw, 1.35rem); }
     .quote-page .quote-completed-video { position: relative; aspect-ratio: 16 / 9; overflow: hidden; border: 1px solid #eadfce; border-radius: 18px; background: #2a1c12; box-shadow: 0 8px 20px rgba(76, 48, 20, .06); }
     .quote-page .quote-completed-video img { width: 100%; height: 100%; object-fit: cover; }
     .quote-page .quote-featured-project-image { aspect-ratio: 16 / 9; }
-    .quote-page .quote-completed-video-shade { position: absolute; inset: 0; background: linear-gradient(90deg, rgba(26, 17, 10, .63), rgba(26, 17, 10, .06) 68%), linear-gradient(0deg, rgba(20, 13, 8, .25), transparent 55%); }
-    .quote-page .quote-completed-play { position: absolute; top: 50%; left: 50%; display: grid; width: clamp(48px, 7vw, 70px); height: clamp(48px, 7vw, 70px); place-items: center; border: 3px solid #fff; border-radius: 50%; background: rgba(101, 61, 22, .42); color: #fff; font-size: clamp(1rem, 2vw, 1.45rem); line-height: 1; transform: translate(-50%, -50%); cursor: pointer; }
-    .quote-page .quote-completed-caption { position: absolute; bottom: clamp(.75rem, 2.5vw, 1.5rem); left: clamp(.8rem, 2.5vw, 1.5rem); color: #fff; text-transform: uppercase; }
+    .quote-page .quote-completed-video-shade { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(20, 14, 9, .25) 0%, rgba(20, 14, 9, .1) 40%, rgba(18, 12, 8, .88) 100%); pointer-events: none; }
+    .quote-page .quote-completed-play { position: absolute; top: 50%; left: 50%; display: grid; width: clamp(48px, 6.5vw, 62px); height: clamp(48px, 6.5vw, 62px); place-items: center; border: 3px solid #fff; border-radius: 50%; background: rgba(184, 106, 20, .88); color: #fff; font-size: clamp(1rem, 2vw, 1.45rem); line-height: 1; transform: translate(-50%, -50%); cursor: pointer; z-index: 2; transition: all .25s ease; box-shadow: 0 8px 24px rgba(0, 0, 0, .35); }
+    .quote-page .quote-completed-play svg { margin-left: 2px; }
+    .quote-page .quote-completed-play:hover { background: #cf7c1c; transform: translate(-50%, -50%) scale(1.08); box-shadow: 0 10px 28px rgba(0, 0, 0, .45), 0 0 0 6px rgba(207, 124, 28, .25); }
+    .quote-page .quote-completed-caption { position: absolute; bottom: 0; left: 0; right: 0; z-index: 2; padding: clamp(.75rem, 1.8vw, 1.25rem); color: #fff; text-transform: uppercase; pointer-events: none; }
     .quote-page .quote-completed-caption small, .quote-page .quote-completed-caption h3, .quote-page .quote-completed-caption p { color: #fff !important; }
-    .quote-page .quote-completed-caption small { font-size: clamp(.55rem, 1vw, .68rem); font-weight: 600; }
-    .quote-page .quote-completed-caption h3 { margin: .2rem 0 .28rem; font-family: var(--font-heading); font-size: clamp(1rem, 2vw, 1.55rem); font-weight: 600; line-height: 1.05; }
-    .quote-page .quote-completed-caption p { margin: 0; font-size: clamp(.55rem, .9vw, .68rem); }
-    @media (max-width: 559px) { .quote-page .quote-completed { padding: 2.5rem 0; }.quote-page .quote-completed-videos { width: calc(100% - 24px); gap: .8rem; }.quote-page .quote-completed-video { aspect-ratio: 16 / 9; border-radius: 14px; }.quote-page .quote-completed-caption h3 { font-size: 1.05rem; }.quote-page .quote-completed-play { width: 46px; height: 46px; border-width: 2px; } }
+    .quote-page .quote-completed-caption small { display: block; font-size: clamp(.58rem, .9vw, .7rem); font-weight: 600; color: #f1c97a !important; margin-bottom: .2rem; letter-spacing: .04em; }
+    .quote-page .quote-completed-caption h3 { margin: .2rem 0 .28rem; font-family: var(--font-heading); font-size: clamp(.92rem, 1.45vw, 1.18rem); font-weight: 700; line-height: 1.25; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+    .quote-page .quote-completed-caption p { margin: 0; font-size: clamp(.55rem, .9vw, .68rem); opacity: .85; }
+
+    /* Sub-menu Tabs for Completed Project Videos */
+    .quote-page .quote-completed-nav { display: flex; flex-wrap: wrap; justify-content: center; gap: clamp(.5rem, 1.2vw, .85rem); margin: 0 auto clamp(1.2rem, 2.5vw, 2rem); padding: 0; list-style: none; }
+    .quote-page .quote-completed-tab-btn { display: inline-flex; align-items: center; gap: .55rem; padding: clamp(.55rem, 1.1vw, .75rem) clamp(1rem, 2vw, 1.5rem); border-radius: 999px; background: #fbf9f5; border: 1.5px solid #e4dacb; color: #4a433d; font-family: var(--font-body); font-size: clamp(.84rem, 1.15vw, .98rem); font-weight: 600; cursor: pointer; transition: all .25s ease; box-shadow: 0 2px 6px rgba(45, 30, 15, .04); }
+    .quote-page .quote-completed-tab-btn:hover { background: #f4ecdf; border-color: #caa25d; color: #1a1612; transform: translateY(-1px); }
+    .quote-page .quote-completed-tab-btn.active { background: #1b1612; border-color: #cca35f; color: #fff; box-shadow: 0 6px 18px rgba(35, 25, 18, .18); }
+    .quote-page .quote-completed-tab-badge { display: inline-flex; align-items: center; padding: .15rem .55rem; border-radius: 999px; background: #eae2d5; color: #63574b; font-size: clamp(.68rem, .9vw, .75rem); font-weight: 700; line-height: 1.1; transition: all .25s ease; }
+    .quote-page .quote-completed-tab-btn.active .quote-completed-tab-badge { background: linear-gradient(135deg, #cca35f 0%, #b88636 100%); color: #1a1612; }
+    .quote-page .quote-completed-tab-panel { display: none; }
+    .quote-page .quote-completed-tab-panel.active { display: block; animation: quoteTabFade .3s ease-out; }
+    @keyframes quoteTabFade { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+
+    .quote-page .quote-completed-videos-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(.9rem, 1.8vw, 1.45rem); width: min(1080px, 100%); margin: 0 auto; }
+    .quote-page .quote-completed-video-card { position: relative; aspect-ratio: 16 / 9; overflow: hidden; border: 1px solid #eadfce; border-radius: 18px; background: #1f160f; box-shadow: 0 8px 22px rgba(60, 40, 20, .07); transition: transform .28s ease, box-shadow .28s ease, border-color .28s ease; cursor: pointer; }
+    .quote-page .quote-completed-video-card:hover { transform: translateY(-3px); box-shadow: 0 12px 28px rgba(60, 40, 20, .14); border-color: #caa25d; }
+    .quote-page .quote-completed-video-card.is-hidden-extra { display: none !important; }
+    .quote-page .quote-video-player-wrap { position: relative; width: 100%; height: 100%; aspect-ratio: 16 / 9; overflow: hidden; }
+    .quote-page .quote-video-thumb { width: 100%; height: 100%; object-fit: cover; transition: transform .4s ease; }
+    .quote-page .quote-completed-video-card:hover .quote-video-thumb { transform: scale(1.03); }
+    .quote-page .quote-video-ep-tag { position: absolute; top: clamp(.65rem, 1.3vw, .95rem); left: clamp(.65rem, 1.3vw, .95rem); z-index: 2; padding: .2rem .55rem; border-radius: 6px; background: rgba(18, 13, 8, .75); backdrop-filter: blur(4px); border: 1px solid rgba(202, 162, 93, .45); color: #f1c97a; font-size: clamp(.65rem, .85vw, .74rem); font-weight: 700; text-transform: uppercase; letter-spacing: .03em; }
+
+    .quote-page .quote-completed-expand-action { margin-top: clamp(1.2rem, 2.2vw, 1.8rem); text-align: center; }
+    .quote-page .quote-completed-toggle-btn { display: inline-flex; align-items: center; gap: .5rem; padding: clamp(.65rem, 1.1vw, .85rem) clamp(1.4rem, 2.4vw, 2rem); border-radius: 999px; background: #fff; border: 1.5px solid #caa25d; color: #8f5a15; font-family: var(--font-body); font-size: clamp(.82rem, 1.1vw, .94rem); font-weight: 700; cursor: pointer; transition: all .25s ease; box-shadow: 0 4px 12px rgba(202, 162, 93, .12); }
+    .quote-page .quote-completed-toggle-btn:hover { background: #caa25d; color: #fff; transform: translateY(-2px); box-shadow: 0 6px 18px rgba(202, 162, 93, .25); }
+    .quote-page .quote-completed-toggle-btn svg { transition: transform .25s ease; }
+    .quote-page .quote-completed-toggle-btn.is-expanded svg { transform: rotate(180deg); }
+
+    /* Workshop video embed card */
+    .quote-page .quote-workshop-video-card { position: relative; overflow: hidden; max-width: 1120px; width: 100%; aspect-ratio: 16 / 9; margin: 0 auto clamp(1rem, 2vw, 1.6rem); border: 1px solid #efe5d8; border-radius: clamp(14px, 2vw, 20px); background: #1e1610; box-shadow: 0 10px 28px rgba(45, 30, 15, .08); }
+
+    @media (max-width: 640px) {
+      .quote-page .quote-completed { padding: 2.5rem 0; }
+      .quote-page .quote-completed-videos-grid { grid-template-columns: 1fr; width: calc(100% - 24px); gap: .85rem; }
+      .quote-page .quote-completed-video-card { border-radius: 14px; }
+      .quote-page .quote-completed-play { width: 46px; height: 46px; border-width: 2px; }
+    }
     .quote-page .quote-capability { padding: clamp(3rem, 6vw, 5.5rem) 0; background: #fffdf9; }
     .quote-page .quote-workshop { width: min(930px, 100%); }
     .quote-page .quote-workshop-heading { margin: 0 auto 1rem; text-align: center; }
@@ -173,8 +210,10 @@
       .quote-page .quote-price-copy::before { display: none; }
       .quote-page .quote-price-copy h3 { font-size: clamp(1.8rem, 2.7vw, 2.55rem); }
 
-      .quote-page .quote-completed-videos { width: 100%; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(.9rem, 1.7vw, 1.45rem); }
-      .quote-page .quote-completed-video { aspect-ratio: 16 / 9; }
+      .quote-page .quote-completed-videos,
+      .quote-page .quote-completed-videos-grid { width: 100%; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(.9rem, 1.7vw, 1.45rem); }
+      .quote-page .quote-completed-video,
+      .quote-page .quote-completed-video-card { aspect-ratio: 16 / 9; }
 
       .quote-page .quote-workshop { width: 100%; }
       .quote-page .quote-workshop-gallery { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: clamp(.75rem, 1.4vw, 1.1rem); }
@@ -819,7 +858,7 @@
     }
   </style>
   <script src="/js/main.js?v=1.9.0" defer></script>
-  <script src="/js/quote-page.js?v=1.0.0" defer></script>
+  <script src="/js/quote-page.js?v=1.1.0" defer></script>
 </head>
 <body>
   <%- include('partials/header') %>
@@ -944,11 +983,145 @@
     <% } %>
 
     <% if (sections.completed?.isVisible !== false) { %>
-      <section class="quote-section quote-completed"><div class="container"><header class="quote-completed-heading"><p><%= sections.completed.eyebrow %></p><h2><%= sections.completed.title %> <em><%= sections.completed.script %></em></h2><span><%= sections.completed.description %></span></header><div class="quote-completed-videos"><% sections.completed.gallery.filter(item => item.isVisible !== false).sort((a,b) => (a.order||0)-(b.order||0)).forEach((item, index) => { %><article class="quote-completed-video"><img src="<%= item.image %>" alt="<%= item.alt %>" loading="lazy" /><div class="quote-completed-video-shade"></div><div class="quote-completed-caption"><small>Căn hộ <%= index + 1 %> phòng ngủ</small><h3><%= item.title || item.alt %></h3><p>● <%= item.location || 'Hà Nội' %></p></div></article><% }) %></div><div class="quote-featured-view-all"><a href="https://shome-luxury-website.vercel.app/thiet-ke-noi-that/chung-cu">Xem tất cả dự án <span aria-hidden="true">→</span></a></div></div></section>
+      <%
+        const videoData = (typeof completedVideosData !== 'undefined' && completedVideosData) ? completedVideosData : require('../data/completedVideosData');
+        const catList = videoData?.categories || [];
+        const currentCatCode = (typeof selectedCategory !== 'undefined' && selectedCategory?.code) || '';
+        let initialTab = 'chung-cu';
+        if (currentCatCode.includes('biet-thu')) initialTab = 'biet-thu';
+        else if (currentCatCode.includes('cafe')) initialTab = 'cafe';
+      %>
+      <section class="quote-section quote-completed" id="thuoc-phim-thuc-te">
+        <div class="container">
+          <header class="quote-completed-heading">
+            <p><%= sections.completed.eyebrow || 'Thước phim thực tế' %></p>
+            <h2><%= sections.completed.title || 'Công trình' %> <em><%= sections.completed.script || 'hoàn thiện' %></em></h2>
+            <span><%= sections.completed.description || 'Ghi lại không gian thực tế sau khi hoàn tất thi công.' %></span>
+          </header>
+
+          <!-- Menu con / Sub-tabs filter -->
+          <nav class="quote-completed-nav" role="tablist" aria-label="Danh mục thước phim công trình">
+            <% catList.forEach((cat) => { %>
+              <% const isCurrentActive = (initialTab === cat.id); %>
+              <button
+                type="button"
+                class="quote-completed-tab-btn <%= isCurrentActive ? 'active' : '' %>"
+                data-tab-id="<%= cat.id %>"
+                role="tab"
+                aria-selected="<%= isCurrentActive ? 'true' : 'false' %>"
+                aria-controls="quote-videos-<%= cat.id %>"
+              >
+                <span class="quote-tab-label"><%= cat.name %></span>
+                <span class="quote-completed-tab-badge"><%= cat.count %> video</span>
+              </button>
+            <% }) %>
+          </nav>
+
+          <!-- Video Panels for Each Category -->
+          <div class="quote-completed-panels">
+            <% catList.forEach((cat) => { %>
+              <% const isCurrentActive = (initialTab === cat.id); %>
+              <div
+                id="quote-videos-<%= cat.id %>"
+                class="quote-completed-tab-panel <%= isCurrentActive ? 'active' : '' %>"
+                role="tabpanel"
+                data-panel-id="<%= cat.id %>"
+              >
+                <div class="quote-completed-videos-grid">
+                  <% cat.videos.forEach((vid, vIdx) => { %>
+                    <article
+                      class="quote-completed-video-card <%= vIdx >= 4 ? 'is-hidden-extra' : '' %>"
+                      data-video-id="<%= vid.videoId %>"
+                      data-title="<%= vid.title %>"
+                      tabindex="0"
+                      role="button"
+                      aria-label="Phát video: <%= vid.title %>"
+                    >
+                      <div class="quote-video-player-wrap">
+                        <img
+                          src="<%= vid.thumbnail %>"
+                          alt="<%= vid.title %>"
+                          loading="lazy"
+                          class="quote-video-thumb"
+                          onerror="this.src='https://img.youtube.com/vi/<%= vid.videoId %>/hqdefault.jpg'"
+                        />
+                        <div class="quote-completed-video-shade"></div>
+                        <% if (vid.episode) { %>
+                          <span class="quote-video-ep-tag">Tập <%= vid.episode %></span>
+                        <% } %>
+                        <button type="button" class="quote-completed-play" aria-label="Phát video <%= vid.title %>">
+                          <svg viewBox="0 0 24 24" fill="currentColor" width="22" height="22" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>
+                        </button>
+                        <div class="quote-completed-caption">
+                          <small><%= cat.badge %> • Shome Luxury</small>
+                          <h3><%= vid.title %></h3>
+                          <p>● Xem trên YouTube / Nhấn để phát trực tiếp</p>
+                        </div>
+                      </div>
+                    </article>
+                  <% }) %>
+                </div>
+
+                <% if (cat.videos.length > 4) { %>
+                  <div class="quote-completed-expand-action">
+                    <button
+                      type="button"
+                      class="quote-completed-toggle-btn"
+                      data-panel-id="<%= cat.id %>"
+                      data-total="<%= cat.videos.length %>"
+                      data-remaining="<%= cat.videos.length - 4 %>"
+                    >
+                      <span class="toggle-text">Xem thêm video (<%= cat.videos.length - 4 %> video khác)</span>
+                      <svg class="chevron-icon" viewBox="0 0 20 20" fill="currentColor" width="18" height="18" aria-hidden="true"><path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z" clip-rule="evenodd"/></svg>
+                    </button>
+                  </div>
+                <% } %>
+              </div>
+            <% }) %>
+          </div>
+
+          <div class="quote-featured-view-all">
+            <a href="https://shome-luxury-website.vercel.app/thiet-ke-noi-that/chung-cu">Xem tất cả dự án <span aria-hidden="true">→</span></a>
+          </div>
+        </div>
+      </section>
     <% } %>
 
     <% if (sections.capability?.isVisible !== false) { %>
-      <section class="quote-capability"><div class="container quote-workshop"><header class="quote-workshop-heading"><h2><%= sections.capability.eyebrow %> <em><%= sections.capability.title %></em></h2><p><%= sections.capability.description %></p></header><article class="quote-workshop-main"><img src="<%= sections.capability.image %>" alt="Xưởng sản xuất Shome Luxury" loading="lazy" /><div class="quote-workshop-main-shade"></div><button type="button" class="quote-workshop-play" aria-label="Xem video tại xưởng">▶</button><span>Xem video tại xưởng</span></article><div class="quote-workshop-stats"><% sections.capability.stats.forEach(stat => { %><div><b><%= stat.value %></b><span><%= stat.label %></span></div><% }) %></div><div class="quote-workshop-gallery"><% (sections.capability.gallery || []).forEach(item => { %><figure><img src="<%= item.image %>" alt="<%= item.alt %>" loading="lazy" /><figcaption><%= item.title %></figcaption></figure><% }) %></div></div></section>
+      <%
+        const capabilityVideoUrl = sections.capability?.videoUrl || 'https://www.youtube.com/watch?v=hoUvh1w9tII';
+        const capVideoMatch = capabilityVideoUrl.match(/(?:youtu\.be\/|youtube(?:-nocookie)?\.com\/(?:watch\?v=|embed\/|shorts\/))([\w-]{11})/);
+        const capabilityVideoEmbedUrl = capVideoMatch ? `https://www.youtube-nocookie.com/embed/${capVideoMatch[1]}?rel=0&modestbranding=1` : 'https://www.youtube-nocookie.com/embed/hoUvh1w9tII?rel=0&modestbranding=1';
+      %>
+      <section class="quote-capability">
+        <div class="container quote-workshop">
+          <header class="quote-workshop-heading">
+            <h2><%= sections.capability.eyebrow %> <em><%= sections.capability.title %></em></h2>
+            <p><%= sections.capability.description %></p>
+          </header>
+          <figure class="quote-video-card quote-workshop-video-card">
+            <div class="quote-video-frame">
+              <iframe
+                src="<%= capabilityVideoEmbedUrl %>"
+                title="<%= sections.capability.caption || 'Video xưởng sản xuất Shome Luxury - Đơn vị thiết kế thi công tại Hà Nội' %>"
+                loading="lazy"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                allowfullscreen
+              ></iframe>
+            </div>
+          </figure>
+          <div class="quote-workshop-stats">
+            <% sections.capability.stats.forEach(stat => { %>
+              <div><b><%= stat.value %></b><span><%= stat.label %></span></div>
+            <% }) %>
+          </div>
+          <div class="quote-workshop-gallery">
+            <% (sections.capability.gallery || []).forEach(item => { %>
+              <figure><img src="<%= item.image %>" alt="<%= item.alt %>" loading="lazy" /><figcaption><%= item.title %></figcaption></figure>
+            <% }) %>
+          </div>
+        </div>
+      </section>
     <% } %>
 
     <% const craftsmanshipGroups = [

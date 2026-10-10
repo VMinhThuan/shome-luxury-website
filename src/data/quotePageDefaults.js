@@ -52,6 +52,8 @@ module.exports = {
     script: '',
     description: 'Quy mô trên 2000m² - Chủ động chất lượng và tiến độ.',
     image: '/images/factory_workers.jpg',
+    videoUrl: 'https://www.youtube.com/watch?v=hoUvh1w9tII',
+    caption: 'Xưởng sản xuất Shome Luxury - Đơn vị thiết kế thi công tại Hà Nội',
     stats: [
       { value: '2000m²', label: 'Diện tích xưởng' },
       { value: '50+', label: 'Nhân sự lành nghề' },

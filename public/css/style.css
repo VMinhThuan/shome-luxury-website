@@ -615,14 +615,18 @@ ol {
    Below this width the hamburger stays available instead of squeezing or
    overflowing the header. */
 @media (min-width: 1200px) {
+  .brand-logo-wrapper {
+    margin-right: 0;
+  }
+
   .desktop-nav {
     display: flex;
     align-items: center;
-    justify-content: center;
-    gap: clamp(0.35rem, 0.55vw, 0.75rem);
+    justify-content: space-between;
     flex: 1 1 auto;
     min-width: 0;
-    margin: 0 clamp(1rem, 1.8vw, 2.2rem);
+    margin-left: clamp(1.5rem, 2.5vw, 3rem);
+    margin-right: clamp(1.5rem, 2.5vw, 3rem);
     padding: 0;
   }
 
@@ -632,14 +636,14 @@ ol {
   }
 
   .nav-link {
-    font-size: clamp(0.92rem, 0.96vw, 1.02rem);
+    font-size: clamp(0.95rem, 1.05vw, 1.08rem);
     font-weight: 700;
     color: #FFFFFF !important;
     font-family: var(--font-menu);
-    padding: 0.45rem clamp(0.55rem, 0.75vw, 0.85rem);
+    padding: 0.45rem clamp(0.32rem, 0.55vw, 0.75rem);
     display: flex;
     align-items: center;
-    gap: 0.28rem;
+    gap: 0.32rem;
     white-space: nowrap !important;
   }
 
@@ -767,36 +771,36 @@ ol {
 
 /* Compact desktop keeps the full menu visible while scaling its type and spacing
    with the available viewport width. */
-@media (min-width: 1200px) and (max-width: 1439px) {
+@media (min-width: 1200px) and (max-width: 1319px) {
   .brand-logo-wrapper {
     flex-shrink: 0;
-    margin-right: clamp(1rem, 1.5vw, 1.8rem);
+    margin-right: 0;
   }
 
-  .logo-img { height: clamp(36px, 2.5vw, 42px); }
+  .logo-img { height: clamp(36px, 2.5vw, 40px); }
 
   .desktop-nav {
-    justify-content: center;
-    gap: clamp(0.2rem, 0.4vw, 0.45rem);
-    margin: 0 auto;
+    justify-content: space-between;
+    margin-left: clamp(0.85rem, 1.4vw, 1.35rem);
+    margin-right: clamp(0.85rem, 1.4vw, 1.35rem);
     padding: 0;
   }
 
   .nav-link {
     gap: 0.22rem;
-    padding: 0.38rem clamp(0.35rem, 0.52vw, 0.55rem);
-    font-size: clamp(0.82rem, 0.88vw, 0.92rem);
+    padding: 0.38rem clamp(0.2rem, 0.32vw, 0.38rem);
+    font-size: clamp(0.86rem, 0.9vw, 0.92rem);
   }
 
   .header-actions {
     flex-shrink: 0;
-    margin-left: clamp(1rem, 1.5vw, 1.8rem);
+    margin-left: 0;
   }
 
   .btn-header-consult {
     gap: .25rem !important;
-    padding: .44rem clamp(.5rem, .75vw, .75rem) !important;
-    font-size: clamp(.78rem, .86vw, .88rem) !important;
+    padding: .44rem clamp(.45rem, .65vw, .65rem) !important;
+    font-size: clamp(.75rem, .82vw, .84rem) !important;
   }
 }
 
@@ -815,6 +819,12 @@ ol {
   margin-left: auto;
   position: relative;
   z-index: 2;
+}
+
+@media (min-width: 1200px) {
+  .header-actions {
+    margin-left: 0;
+  }
 }
 
 .btn-header-consult {
@@ -10541,7 +10551,7 @@ main .section-v2-title,
 @media (min-width: 768px) { .quote-page .quote-hero { background-color: #fffbf6; background-image: var(--quote-hero-image); background-position: center; background-repeat: no-repeat; background-size: cover; } }
 
 /* Desktop grids for the quote page: finished-project films (three) and FAQs (two). */
-@media (min-width: 768px) { .quote-page .quote-completed-videos { width: 100% !important; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(.9rem, 1.7vw, 1.45rem); }.quote-page .quote-completed-video { aspect-ratio: 16 / 9 !important; }.quote-page .quote-completed-caption { bottom: 1rem; left: 1rem; }.quote-page .quote-final-faq-inner { width: 100%; }.quote-page .quote-final-faq-list { grid-template-columns: repeat(2, minmax(0, 1fr)); align-items: start; gap: 1rem; }.quote-page .quote-final-faq summary { grid-template-columns: auto minmax(0, 1fr) 20px !important; align-items: center !important; gap: .85rem; padding: 1rem 1.15rem; }.quote-page .quote-final-faq summary b { width: auto; height: auto; align-self: center !important; margin: 0 !important; }.quote-page .quote-final-faq summary span { font-size: clamp(.92rem, 1.35vw, 1.13rem); align-self: center !important; }.quote-page .quote-final-faq details p { margin-left: 1.15rem; padding-left: calc(24px + .85rem); } }
+@media (min-width: 768px) { .quote-page .quote-completed-videos, .quote-page .quote-completed-videos-grid { width: 100% !important; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(.9rem, 1.7vw, 1.45rem); }.quote-page .quote-completed-video, .quote-page .quote-completed-video-card { aspect-ratio: 16 / 9 !important; }.quote-page .quote-completed-caption { bottom: 1rem; left: 1rem; }.quote-page .quote-final-faq-inner { width: 100%; }.quote-page .quote-final-faq-list { grid-template-columns: repeat(2, minmax(0, 1fr)); align-items: start; gap: 1rem; }.quote-page .quote-final-faq summary { grid-template-columns: auto minmax(0, 1fr) 20px !important; align-items: center !important; gap: .85rem; padding: 1rem 1.15rem; }.quote-page .quote-final-faq summary b { width: auto; height: auto; align-self: center !important; margin: 0 !important; }.quote-page .quote-final-faq summary span { font-size: clamp(.92rem, 1.35vw, 1.13rem); align-self: center !important; }.quote-page .quote-final-faq details p { margin-left: 1.15rem; padding-left: calc(24px + .85rem); } }
 
 /* Final FAQ — no secondary CTA; each row exposes its dropdown state with a chevron. */
 .quote-page .quote-final-faq { padding: clamp(2rem, 5vw, 4.5rem) 0; background: #fff; }
