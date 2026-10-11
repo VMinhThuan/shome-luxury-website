@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <title><%= title %></title>
   <meta name="description" content="Nhận tư vấn và dự toán thiết kế, thi công nội thất từ Shome Luxury." />
-  <link rel="stylesheet" href="/css/style.css?v=6.5.62" />
+  <link rel="stylesheet" href="/css/style.css?v=6.5.63" />
   <style>
     /* Keep every content section on the quotation page visually consistent. */
     .quote-page > section:not(.quote-hero) { background: #fff !important; }
@@ -228,6 +228,21 @@
       }
       .quote-page .quote-brochure-copy .quote-lead {
         font-size: 1.05rem;
+      }
+
+      /* The desktop hero is one brochure canvas.  Keep the image artboard at
+         a fixed height and leave the copy panel transparent: when browser
+         zoom increases the CSS viewport, a fixed white copy panel must not
+         expose a false vertical split in the banner. */
+      .quote-page .quote-hero {
+        overflow: hidden;
+        background-color: #fffbf6;
+        background-position: center right;
+        background-repeat: no-repeat;
+        background-size: auto 100% !important;
+      }
+      .quote-page .quote-brochure-copy {
+        background: transparent;
       }
 
       .quote-page .quote-pricing-list { width: 100%; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(1rem, 2vw, 1.5rem); }
@@ -1044,16 +1059,17 @@
                    ];
                    const overlay = overlays[index % overlays.length];
               %>
-                <a href="/cong-trinh/<%= project.slug %>" class="quote-featured-project-card">
-                  <div class="quote-featured-project-image" data-quote-project-gallery data-project-title="<%= project.title %>" data-gallery-images="<%= JSON.stringify(galleryImages) %>">
+                <article class="quote-featured-project-card">
+                  <button class="quote-featured-project-image" type="button" data-quote-project-gallery data-project-title="<%= project.title %>" data-gallery-images="<%= JSON.stringify(galleryImages) %>" aria-label="Xem thư viện ảnh dự án <%= project.title %>">
                     <img src="<%= projectImage %>" alt="<%= project.title %>" loading="lazy" />
                     <div class="quote-featured-project-overlay">
                       <b><%= overlay.title %></b>
                       <span><%= overlay.sub %></span>
                     </div>
-                  </div>
+                    <span class="quote-featured-project-view" aria-hidden="true">Xem ảnh <i>↗</i></span>
+                  </button>
                   <div class="quote-featured-project-info">
-                    <h3><%= project.title %></h3>
+                    <h3><a href="/cong-trinh/<%= project.slug %>"><%= project.title %></a></h3>
                     <dl>
                       <div><dt>Diện tích:</dt><dd><%= project.area || 'Đang cập nhật' %></dd></div>
                       <div><dt>Loại hình:</dt><dd><%= project.propertyType || 'Chung cư' %></dd></div>
@@ -1061,7 +1077,7 @@
                       <div><dt>Chi phí:</dt><dd><%= costLabel %></dd></div>
                     </dl>
                   </div>
-                </a>
+                </article>
               <% }) %>
             </div>
             <div class="quote-project-gallery-modal" data-quote-project-gallery-modal hidden role="dialog" aria-modal="true" aria-label="Thư viện ảnh công trình">

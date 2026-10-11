@@ -3921,13 +3921,15 @@ ol {
 
 /* Company profile — an on-site, two-page PDF reader styled as a refined book. */
 .company-profile-page { background: #f7f4ef; }
-.company-profile-hero { padding: calc(var(--header-height-desktop) + 3.5rem) 0 2.5rem; background: linear-gradient(118deg, #fffdf9, #f2e7d4); text-align: center; }
+.company-profile-hero { padding: calc(var(--header-height-desktop) + 3.5rem) 0 1rem; background: linear-gradient(118deg, #fffdf9, #f2e7d4); text-align: center; }
 .company-profile-hero p { margin: 0 0 .45rem; color: #b37728; font-size: .76rem; font-weight: 700; letter-spacing: .16em; }
 .company-profile-hero h1 { display: flex; align-items: baseline; justify-content: center; gap: .28em; margin: 0 0 1.2rem; color: #1d1a18; font-family: var(--font-heading); font-size: clamp(2rem, 4vw, 3.55rem); line-height: 1.16; text-transform: uppercase; }
 .company-profile-hero h1 em { display: inline-block; color: #c9903f; font-family: var(--font-script); font-size: 1.08em; font-style: normal; font-weight: 500; text-transform: none; }
 .company-profile-hero span { display: block; margin-top: 2rem; color: #6b645c; font-size: .92rem; }
-.company-profile-viewer-section { padding: clamp(1.5rem, 4vw, 4rem) 0 clamp(2.5rem, 5vw, 5rem); background: #f7f4ef; }
-.company-profile-viewer { width: min(1320px, calc(100% - 32px)); margin: 0 auto; padding: clamp(.9rem, 2vw, 1.7rem); border: 1px solid rgba(203, 155, 75, .42); border-radius: 4px; background: #737373; box-shadow: 0 20px 42px rgba(37, 29, 20, .2); }
+.company-profile-viewer-section { padding: clamp(.75rem, 1.5vw, 1.25rem) 0 clamp(1rem, 2vw, 1.5rem); background: #f7f4ef; }
+.company-profile-viewer { width: min(1320px, calc(100% - 32px)); margin: 0 auto; padding: 0; border: 0; background: transparent; box-shadow: none; }
+.company-profile-flipbook { width: 100%; height: min(72vh, 780px); min-height: 520px; }
+.company-profile-flipbook .df-container { border-radius: 4px; }
 .company-profile-book-shell { position: relative; display: grid; place-items: center; height: min(72vh, 820px); min-height: 440px; }
 .company-profile-book { position: relative; display: flex; align-items: center; justify-content: center; width: 100%; height: min(70vh, 780px); perspective: 1900px; transform-style: preserve-3d; }
 .company-profile-book:not(.is-cover)::after { position: absolute; top: 50%; bottom: 0; left: 50%; z-index: 2; width: 1px; height: min(70vh, 780px); background: linear-gradient(90deg, rgba(0,0,0,.16), rgba(255,255,255,.5), rgba(0,0,0,.12)); content: ''; pointer-events: none; transform: translate(-50%, -50%); }
@@ -3954,7 +3956,7 @@ ol {
 @keyframes company-profile-page-turn-next { 0% { transform: translateX(0) rotateY(0); filter: brightness(1); opacity: 1; } 72% { filter: brightness(.68); opacity: .86; } 100% { transform: translateX(100%) rotateY(-180deg); filter: brightness(.45); opacity: 0; } }
 @keyframes company-profile-page-turn-prev { 0% { transform: translateX(0) rotateY(0); filter: brightness(1); opacity: 1; } 72% { filter: brightness(.68); opacity: .86; } 100% { transform: translateX(100%) rotateY(180deg); filter: brightness(.45); opacity: 0; } }
 @media (prefers-reduced-motion: reduce) { .company-profile-book.is-turning-next .profile-page-turn, .company-profile-book.is-turning-prev .profile-page-turn { animation: none; } }
-@media (max-width: 767px) { .company-profile-hero { padding-top: calc(var(--header-height-mobile) + 2.5rem); }.company-profile-hero h1 { gap: .18em; }.company-profile-hero span { padding: 0 1.5rem; font-size: .82rem; }.company-profile-viewer { width: calc(100% - 20px); padding: .55rem; }.company-profile-book-shell, .company-profile-book { height: 58vh; min-height: 0; }.company-profile-book::after { display: none; }.profile-page-canvas, .company-profile-book.is-cover .profile-page-canvas[data-profile-page="left"] { max-width: 100%; max-height: 58vh; }.profile-page-canvas + .profile-page-canvas { display: none; }.profile-nav { width: 34px; height: 46px; }.profile-page-count { min-width: 68px; font-size: .72rem; } }
+@media (max-width: 767px) { .company-profile-hero { padding-top: calc(var(--header-height-mobile) + 2.5rem); }.company-profile-hero h1 { gap: .18em; }.company-profile-hero span { padding: 0 1.5rem; font-size: .82rem; }.company-profile-viewer { width: calc(100% - 20px); padding: 0; }.company-profile-flipbook { height: 62vh; min-height: 430px; } }
 
 /* Bottom Trust Bar: 6 Badges */
 .footer-trust-bar {
@@ -10720,7 +10722,13 @@ main .section-v2-title,
 .quote-page .quote-video-caption { display: none !important; }
 
 /* Project gallery opened from the featured apartment cards on the quotation page. */
-.quote-page .quote-featured-project-image[data-quote-project-gallery] { cursor: zoom-in; }
+.quote-page .quote-featured-project-image[data-quote-project-gallery] { width: 100%; border: 0; padding: 0; color: inherit; font: inherit; text-align: left; cursor: zoom-in; }
+.quote-page .quote-featured-project-image[data-quote-project-gallery]:focus-visible { outline: 3px solid var(--accent-gold); outline-offset: -3px; }
+.quote-page .quote-featured-project-view { position: absolute; z-index: 2; right: 1rem; bottom: 1rem; display: inline-flex; align-items: center; gap: .35rem; padding: .45rem .7rem; border: 1px solid rgba(255,255,255,.65); border-radius: 999px; color: #fff; background: rgba(22,17,12,.56); font-size: .7rem; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; backdrop-filter: blur(5px); transition: background .2s ease, transform .2s ease; }
+.quote-page .quote-featured-project-view i { font-size: 1rem; font-style: normal; line-height: .8; }
+.quote-page .quote-featured-project-image:hover .quote-featured-project-view { background: rgba(169,110,31,.9); transform: translateY(-2px); }
+.quote-page .quote-featured-project-info h3 a { color: inherit; }
+.quote-page .quote-featured-project-info h3 a:hover { color: #a86a18; }
 .quote-page .quote-project-gallery-modal[hidden] { display: none; }
 .quote-page .quote-project-gallery-modal { position: fixed; z-index: 1200; inset: 0; display: grid; place-items: center; padding: clamp(.75rem, 3vw, 2rem); }
 .quote-page .quote-project-gallery-modal-backdrop { position: absolute; inset: 0; background: rgba(10, 8, 6, .82); backdrop-filter: blur(5px); }

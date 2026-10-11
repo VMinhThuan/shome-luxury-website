@@ -36,6 +36,12 @@ class QuotePageController {
       'Tư vấn đúng nhu cầu', 'Dự toán minh bạch', 'Xưởng sản xuất trực tiếp'
     ][index]);
     if (isOriginalBenefits) sections.benefits.items = quotePageDefaults.benefits.items;
+    // Shorten the original construction promise so it stays on one line in
+    // the horizontal assurance card without truncating its meaning.
+    if (sections.benefits?.items?.[1]?.title === 'Thi công chuẩn chất lượng'
+      && ['Đội ngũ giàu kinh nghiệm, quy trình rõ ràng', 'Đội ngũ giàu kinh nghiệm, quy trình chuẩn.'].includes(sections.benefits.items[1].description)) {
+      sections.benefits.items[1].description = quotePageDefaults.benefits.items[1].description;
+    }
     const isOriginalPricing = page.sections?.pricing?.title === 'Dự toán rõ ràng'
       && page.sections?.pricing?.script === 'để an tâm bắt đầu';
     if (isOriginalPricing) sections.pricing = { ...sections.pricing, ...quotePageDefaults.pricing };

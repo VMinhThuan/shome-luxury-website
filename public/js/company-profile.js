@@ -11,7 +11,6 @@
   const turnCanvas = viewer.querySelector('[data-profile-page="turn"]');
   const previousButtons = viewer.querySelectorAll('[data-profile-prev]');
   const nextButtons = viewer.querySelectorAll('[data-profile-next]');
-  const fullScreenButton = viewer.querySelector('[data-profile-fullscreen]');
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
   let pdf;
   let currentPage = 1;
@@ -105,10 +104,6 @@
 
   previousButtons.forEach(button => button.addEventListener('click', () => move(-1)));
   nextButtons.forEach(button => button.addEventListener('click', () => move(1)));
-  fullScreenButton?.addEventListener('click', () => {
-    if (document.fullscreenElement) document.exitFullscreen();
-    else viewer.requestFullscreen?.();
-  });
   document.addEventListener('keydown', event => {
     if (event.key === 'ArrowLeft') move(-1);
     if (event.key === 'ArrowRight') move(1);

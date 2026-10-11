@@ -17,7 +17,7 @@ module.exports = {
     description: 'Một phương án rõ ràng để bạn chủ động quyết định cho tổ ấm của mình.',
     items: [
       { title: 'Thiết kế chuyên nghiệp', description: 'Ý tưởng tinh tế, tối ưu từng chi tiết', icon: 'design', isVisible: true },
-      { title: 'Thi công chuẩn chất lượng', description: 'Đội ngũ giàu kinh nghiệm, quy trình chuẩn.', icon: 'construction', isVisible: true },
+      { title: 'Thi công chuẩn chất lượng', description: 'Đội ngũ lành nghề, quy trình chuẩn.', icon: 'construction', isVisible: true },
       { title: 'Bảo hành 5 năm', description: 'Cam kết bền đẹp, đồng hành dài lâu', icon: 'warranty', isVisible: true }
     ],
     isVisible: true
