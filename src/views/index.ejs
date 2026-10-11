@@ -15,18 +15,21 @@
 
   <meta name="theme-color" content="#171717" />
 
-  <!-- Google Fonts - Montserrat (Matching lanha.vn) & Slogan Script -->
+  <!-- Google Fonts - Montserrat, Playfair Display & Great Vibes Script -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,600&family=Great+Vibes&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,600&family=Playfair+Display:ital,wght@0,600;0,700;0,800;0,900;1,600&family=Great+Vibes&display=swap" rel="stylesheet">
 
   <!-- Performance Preload Resource Hints with Cache-Busting -->
-  <link rel="preload" href="/css/style.css?v=6.5.55" as="style" />
+  <link rel="preload" href="/css/style.css?v=6.5.60" as="style" />
   <link rel="preload" href="/js/main.js?v=1.9.1" as="script" />
   <link rel="preload" href="/images/shome-logo.png" as="image" />
+  <link rel="preload" href="/images/home-hero-banner.jpg" as="image" />
+  <link rel="preload" href="/images/showroom-shome-luxury.jpg" as="image" />
+  <link rel="preload" href="/images/team-profesional.webp" as="image" />
 
   <!-- CSS Stylesheet -->
-  <link rel="stylesheet" href="/css/style.css?v=6.5.55" />
+  <link rel="stylesheet" href="/css/style.css?v=6.5.60" />
   <script src="/js/main.js?v=1.9.1" defer></script>
 </head>
 <body>
@@ -44,6 +47,18 @@
 
     <!-- 02 USP -->
     <%- include("partials/sections/usp") %>
+
+    <!-- 02.1 Về chúng tôi (Showroom Shome Luxury) -->
+    <%- include("partials/sections/about-showroom") %>
+
+    <!-- 02.2 Thiết kế thi công Chuyên nghiệp (Đội ngũ nhân sự) -->
+    <%- include("partials/sections/professional-team") %>
+
+    <!-- 02.3 Chuyên các dạng Công trình (4 Loại dự án) -->
+    <%- include("partials/sections/project-types") %>
+
+    <!-- 02.4 Lắng nghe câu chuyện Shome Luxury (Video Giới Thiệu) -->
+    <%- include("partials/sections/brand-story-video") %>
 
     <!-- 03 Quy trình sản xuất chuyên nghiệp (Video Card) -->
     <%- include("partials/sections/video-workshop") %>

@@ -22,7 +22,11 @@ function requireAdminHost(req, res, next) {
 }
 
 function redirectAdminRoot(req, res, next) {
-  if (isAdminHost(req) && req.path === '/') return res.redirect('/admin/bao-gia');
+  const host = cleanHost(req.headers.host || '');
+  const configured = configuredAdminHost();
+  if ((host === 'admin.localhost' || (configured && host === configured)) && req.path === '/') {
+    return res.redirect('/admin/bao-gia');
+  }
   return next();
 }
 
