@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no, viewport-fit=cover" />
+  <title><%= title %></title>
+  <meta name="description" content="Xưởng sản xuất nội thất gỗ công nghiệp Shome Luxury - Quy mô lớn, máy móc CNC hiện đại, chủ động 100% chất lượng và tiến độ thi công." />
+  <meta name="keywords" content="xuong san xuat noi that, xuong go cong nghiep, may cnc noi that, Shome Luxury" />
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="<%= title %>" />
+  <meta property="og:description" content="Xưởng sản xuất nội thất gỗ công nghiệp Shome Luxury - Trực tiếp sản xuất, chuẩn chất lượng." />
+  <meta property="og:image" content="/images/hero_sofa_light.jpg" />
+  <meta property="og:type" content="website" />
+
+  <meta name="theme-color" content="#171717" />
+
+  <!-- Google Fonts - Montserrat & Great Vibes Script -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,600&family=Great+Vibes&display=swap" rel="stylesheet">
+
+  <!-- Performance Preload Resource Hints with Cache-Busting -->
+  <link rel="preload" href="/css/style.css?v=6.5.64" as="style" />
+  <link rel="preload" href="/js/main.js?v=1.9.1" as="script" />
+  <link rel="preload" href="/images/shome-logo.png" as="image" />
+  <link rel="preload" href="/images/hero_sofa_light.jpg" as="image" />
+
+  <!-- CSS Stylesheet -->
+  <link rel="stylesheet" href="/css/style.css?v=6.5.64" />
+  <script src="/js/main.js?v=1.9.1" defer></script>
+</head>
+<body>
+
+  <!-- Header -->
+  <%- include("partials/header") %>
+
+  <!-- Mobile Drawer -->
+  <%- include("partials/mobile-drawer") %>
+
+  <!-- Main Content -->
+  <main id="main-content">
+    <!-- 01 Hero Xưởng sản xuất -->
+    <%- include("partials/sections/hero-factory") %>
+
+    <!-- 02 USP -->
+    <%- include("partials/sections/usp") %>
+
+    <!-- 03 Quy trình sản xuất chuyên nghiệp (Video Card) -->
+    <%- include("partials/sections/video-workshop") %>
+
+    <!-- 04 Năng lực sản xuất (Trang thiết bị hiện đại) -->
+    <%- include("partials/sections/factory-capacity") %>
+
+    <!-- 05 Chỉnh chu từng chi tiết -->
+    <%- include("partials/sections/factory-detail") %>
+
+    <!-- 06 Một vòng quanh xưởng -->
+    <%- include("partials/sections/factory-tour") %>
+
+    <!-- 07 Vật liệu & cảm hứng -->
+    <%- include("partials/sections/material-inspiration") %>
+
+    <!-- 08 Bề mặt hoàn thiện -->
+    <%- include("partials/sections/surface-finish") %>
+
+    <!-- 09 Từ hiện trạng đến không gian hoàn thiện -->
+    <%- include("partials/sections/renovation-showcase") %>
+
+    <!-- 10 Hướng dẫn chăm sóc nội thất -->
+    <%- include("partials/sections/furniture-care") %>
+
+    <!-- 11 Trao đổi trước khi bắt đầu -->
+    <%- include("partials/sections/project-consultation") %>
+
+    <!-- 12 Quy trình làm việc -->
+    <%- include("partials/sections/work-process-steps") %>
+
+    <!-- 13 Từ tâm huyết của đội ngũ Shome Luxury -->
+    <%- include("partials/sections/workshop-heart") %>
+  </main>
+
+  <!-- Footer -->
+  <%- include("partials/footer") %>
+
+</body>
+</html>

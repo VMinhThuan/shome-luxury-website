@@ -10879,46 +10879,123 @@ main .section-v2-title,
    keeps the quiet left-side space free for copy. */
 .quote-page .quote-hero {
   position: relative;
-  min-height: clamp(380px, 32vw, 480px);
-  padding: var(--header-height-desktop) 0 0;
-  background-color: #fff9f1;
-  background-position: center;
+  width: 100%;
+  box-sizing: border-box;
+  height: auto;
+  min-height: clamp(520px, 46vw, 660px);
+  padding: calc(var(--header-height-desktop) + 1.2rem) 0 2rem;
+  background-color: #fffbf6;
+  background-image: var(--quote-hero-image);
+  background-position: center center;
   background-size: cover;
+  background-repeat: no-repeat;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
 }
 .quote-page .quote-hero-inner {
   position: relative;
-  min-height: clamp(360px, 30vw, 450px);
+  width: 100%;
+  max-width: var(--container-max);
+  height: 100%;
+  min-height: clamp(420px, 38vw, 560px);
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  padding-left: max(24px, calc((100vw - var(--container-max)) / 2 + 24px));
+  padding-right: max(24px, calc((100vw - var(--container-max)) / 2 + 24px));
 }
 .quote-page .quote-brochure-copy {
-  width: min(60%, 720px);
-  padding: clamp(1.5rem, 3vw, 2.5rem) clamp(1.5rem, 3.5vw, 3.5rem) clamp(3.2rem, 4.5vw, 4.5rem);
+  width: 50%;
+  max-width: 510px;
+  min-height: auto;
+  padding: 1.5rem 0;
+  background: transparent;
+  display: flex;
+  flex-direction: column;
   justify-content: center;
-  background: linear-gradient(90deg, rgba(255, 252, 247, .97) 0%, rgba(255, 252, 247, .86) 80%, rgba(255, 252, 247, 0) 100%);
+  align-items: flex-start;
+  z-index: 2;
+}
+.quote-page .quote-brochure-copy .quote-kicker {
+  display: none;
 }
 .quote-page .quote-brochure-copy h1 {
-  max-width: 700px;
-  font-size: clamp(1.6rem, 2.8vw, 3rem);
-  line-height: 1.05;
-  margin: 0 0 .4rem;
+  margin: 0 0 1rem;
+  max-width: 100%;
+  line-height: 1;
 }
 .quote-page .quote-brochure-copy h1 em {
   display: block;
-  margin-bottom: .15rem;
-  font-size: .88em;
-  color: #bb6512;
+  margin: 0 0 0.15rem;
+  color: var(--accent-gold, #C89B4B);
+  font-family: var(--font-script);
+  font-size: clamp(2.8rem, 4.5vw, 4.6rem);
+  font-weight: 500;
+  letter-spacing: 0;
+  line-height: 1.05;
+  text-transform: none;
+  font-style: normal;
 }
-.quote-page .quote-brochure-copy h1 span {
+.quote-page .quote-brochure-copy h1 .quote-hero-title-main {
   display: block;
 }
-.quote-page .quote-brochure-copy h1 .quote-mobile-title-break {
-  display: block !important;
-  margin-left: 0 !important;
+.quote-page .quote-brochure-copy h1 .quote-title-line1,
+.quote-page .quote-brochure-copy h1 .quote-title-line2 {
+  display: block;
+  font-family: 'Playfair Display', 'Cormorant Garamond', Georgia, serif;
+  font-size: clamp(2.8rem, 4.3vw, 4.6rem);
+  font-weight: 800;
+  line-height: 0.96;
+  color: #111111;
+  letter-spacing: -0.015em;
+  text-transform: uppercase;
+}
+.quote-page .quote-brochure-copy h1 .quote-title-line2 {
+  margin-top: 0.15rem;
 }
 .quote-page .quote-brochure-copy .quote-lead {
-  max-width: 460px;
-  font-size: clamp(0.85rem, 1.1vw, 1.05rem);
-  line-height: 1.42;
-  margin-top: .35rem;
+  margin: 0 0 1.8rem;
+  max-width: 390px;
+  font-family: var(--font-sans);
+  font-size: clamp(1.05rem, 1.25vw, 1.25rem);
+  font-weight: 400;
+  line-height: 1.45;
+  color: #2b2624;
+}
+.quote-page .quote-hero-traits {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  position: relative;
+  inset: auto;
+  margin-top: 0.2rem;
+  color: var(--accent-gold, #C89B4B);
+  font-family: var(--font-sans);
+  font-size: clamp(0.75rem, 0.92vw, 0.88rem);
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+}
+.quote-page .quote-hero-traits span:first-child {
+  position: relative;
+}
+.quote-page .quote-hero-traits span:first-child::after {
+  content: '';
+  display: block;
+  width: 44px;
+  height: 2px;
+  background: var(--accent-gold, #C89B4B);
+  margin-top: 6px;
+  border-radius: 2px;
+}
+.quote-page .quote-hero-traits i {
+  display: inline-block;
+  width: 1px;
+  height: 12px;
+  background: #d4b890;
+  margin: 0 0.25rem;
+  font-style: normal;
 }
 @media (max-width: 767px) {
   .quote-page .quote-hero {
@@ -11320,33 +11397,16 @@ body.quote-project-gallery-open { overflow: hidden; }
 
 @media (min-width: 768px) and (max-width: 1439px) {
   .quote-page .quote-hero {
-    min-height: 0;
-    padding: var(--header-height-desktop) 0 0;
-    background-position: center;
+    min-height: clamp(500px, 46vw, 620px);
+    background-position: center center;
   }
-
-  .quote-page .quote-hero-inner { min-height: clamp(350px, 39vw, 465px); }
-
+  .quote-page .quote-hero-inner {
+    min-height: clamp(400px, 38vw, 520px);
+  }
   .quote-page .quote-brochure-copy {
-    /* Reserve a real text column instead of letting the description collapse
-       when the browser is zoomed out on compact desktop screens. */
-    box-sizing: border-box;
-    width: clamp(500px, 54vw, 720px);
-    padding: clamp(1.5rem, 2.5vw, 2.5rem) clamp(1.5rem, 3vw, 3.25rem);
-  }
-
-  .quote-page .quote-brochure-copy h1 {
-    max-width: 100%;
-    font-size: clamp(2.15rem, 4vw, 3.4rem);
-    line-height: 1;
-  }
-
-  .quote-page .quote-brochure-copy .quote-lead {
-    width: 100%;
-    min-width: min(340px, 100%);
-    max-width: 100%;
-    font-size: clamp(.86rem, 1.35vw, 1rem);
-    line-height: 1.42;
+    width: 50%;
+    max-width: 510px;
+    padding: 1.5rem 0;
   }
 }
 

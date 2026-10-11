@@ -69,7 +69,7 @@ module.exports = [
   {
     id: "xuong-san-xuat",
     label: "Xưởng sản xuất",
-    href: "/#xuong-san-xuat"
+    href: "/xuong-san-xuat"
   },
   {
     id: "bao-gia",

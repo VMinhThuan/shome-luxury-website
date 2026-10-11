@@ -4,8 +4,10 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <title><%= title %></title>
-  <meta name="description" content="Nhận tư vấn và dự toán thiết kế, thi công nội thất từ Shome Luxury." />
-  <link rel="stylesheet" href="/css/style.css?v=6.5.63" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400&family=Playfair+Display:ital,wght@0,600;0,700;0,800;0,900;1,600&family=Great+Vibes&family=Alex+Brush&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/css/style.css?v=6.5.64" />
   <style>
     /* Keep every content section on the quotation page visually consistent. */
     .quote-page > section:not(.quote-hero) { background: #fff !important; }
@@ -194,55 +196,189 @@
         vertical-align: baseline;
       }
 
-      /* Match the stronger type scale used by the recruitment-banner artwork on desktop. */
-      .quote-page .quote-brochure-copy h1 {
-        max-width: 780px;
-        font-size: clamp(3rem, 4vw, 5rem);
-        line-height: .95;
-      }
-      .quote-page .quote-brochure-copy .quote-lead {
-        max-width: 560px;
-        font-size: clamp(1rem, 1.35vw, 1.3rem);
-      }
-
-      /* Keep the hero artwork on a fixed desktop artboard. Browser zoom must
-         not turn a wider CSS viewport into a stretched banner or reflow title. */
+      /* ==========================================================
+         QUOTE HERO BANNER — NỬA ẢNH NỬA CHỮ (MATCHING IMAGE 2)
+         ========================================================== */
       .quote-page .quote-hero {
-        box-sizing: border-box;
-        height: 550px;
-        min-height: 550px;
-        background-position: center right;
-        background-size: auto 100%;
+        position: relative !important;
+        width: 100% !important;
+        box-sizing: border-box !important;
+        height: auto !important;
+        min-height: clamp(520px, 46vw, 660px) !important;
+        padding: calc(var(--header-height-desktop) + 1.2rem) 0 2rem !important;
+        background-color: #fffbf6 !important;
+        background-image: var(--quote-hero-image) !important;
+        background-position: center center !important;
+        background-size: cover !important;
+        background-repeat: no-repeat !important;
+        display: flex !important;
+        align-items: center !important;
+        overflow: hidden !important;
       }
       .quote-page .quote-hero-inner {
-        height: 450px;
-        min-height: 450px;
+        position: relative !important;
+        width: 100% !important;
+        max-width: var(--container-max) !important;
+        height: 100% !important;
+        min-height: clamp(420px, 38vw, 560px) !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: flex-start !important;
+        padding-left: max(24px, calc((100vw - var(--container-max)) / 2 + 24px)) !important;
+        padding-right: max(24px, calc((100vw - var(--container-max)) / 2 + 24px)) !important;
       }
       .quote-page .quote-brochure-copy {
-        width: 720px;
-        max-width: 58%;
-        padding: 2.5rem 3rem 2.5rem max(24px, calc((100vw - var(--container-max)) / 2 + 24px));
+        width: 50% !important;
+        max-width: 510px !important;
+        min-height: auto !important;
+        padding: 1.5rem 0 !important;
+        background: transparent !important;
+        display: flex !important;
+        flex-direction: column !important;
+        justify-content: center !important;
+        align-items: flex-start !important;
+        z-index: 2 !important;
+      }
+      .quote-page .quote-brochure-copy .quote-kicker {
+        display: none !important;
       }
       .quote-page .quote-brochure-copy h1 {
-        font-size: 3.75rem;
+        margin: 0 0 1rem !important;
+        max-width: 100% !important;
+        line-height: 1 !important;
       }
+      /* Script line: "Nội thất" */
+      .quote-page .quote-brochure-copy h1 em {
+        display: block !important;
+        margin: 0 0 0.15rem !important;
+        color: var(--accent-gold, #C89B4B) !important;
+        font-family: var(--font-script) !important;
+        font-size: clamp(2.8rem, 4.5vw, 4.6rem) !important;
+        font-weight: 500 !important;
+        letter-spacing: 0 !important;
+        line-height: 1.05 !important;
+        text-transform: none !important;
+        font-style: normal !important;
+      }
+      /* Main title lines: "CHUNG CƯ" & "TRỌN GÓI" */
+      .quote-page .quote-brochure-copy h1 .quote-hero-title-main {
+        display: block !important;
+      }
+      .quote-page .quote-brochure-copy h1 .quote-title-line1,
+      .quote-page .quote-brochure-copy h1 .quote-title-line2 {
+        display: block !important;
+        font-family: 'Playfair Display', 'Cormorant Garamond', Georgia, serif !important;
+        font-size: clamp(2.8rem, 4.3vw, 4.6rem) !important;
+        font-weight: 800 !important;
+        line-height: 0.96 !important;
+        color: #111111 !important;
+        letter-spacing: -0.015em !important;
+        text-transform: uppercase !important;
+      }
+      .quote-page .quote-brochure-copy h1 .quote-title-line2 {
+        margin-top: 0.15rem !important;
+      }
+      /* Subtitle description — exactly 3 neat lines */
       .quote-page .quote-brochure-copy .quote-lead {
-        font-size: 1.05rem;
+        margin: 0 0 1.8rem !important;
+        max-width: 390px !important;
+        font-family: var(--font-sans) !important;
+        font-size: clamp(1.05rem, 1.25vw, 1.25rem) !important;
+        font-weight: 400 !important;
+        line-height: 1.45 !important;
+        color: #2b2624 !important;
+      }
+      /* Trait bar: "TINH TẾ | ĐẲNG CẤP | KHÁC BIỆT" */
+      .quote-page .quote-hero-traits {
+        display: flex !important;
+        align-items: center !important;
+        gap: 0.75rem !important;
+        position: relative !important;
+        inset: auto !important;
+        margin-top: 0.2rem !important;
+        color: var(--accent-gold, #C89B4B) !important;
+        font-family: var(--font-sans) !important;
+        font-size: clamp(0.75rem, 0.92vw, 0.88rem) !important;
+        font-weight: 600 !important;
+        letter-spacing: 0.15em !important;
+        text-transform: uppercase !important;
+      }
+      .quote-page .quote-hero-traits span:first-child {
+        position: relative !important;
+      }
+      .quote-page .quote-hero-traits span:first-child::after {
+        content: '' !important;
+        display: block !important;
+        width: 44px !important;
+        height: 2px !important;
+        background: var(--accent-gold, #C89B4B) !important;
+        margin-top: 6px !important;
+        border-radius: 2px !important;
+      }
+      .quote-page .quote-hero-traits i {
+        display: inline-block !important;
+        width: 1px !important;
+        height: 12px !important;
+        background: #d4b890 !important;
+        margin: 0 0.25rem !important;
+        font-style: normal !important;
       }
 
-      /* The desktop hero is one brochure canvas.  Keep the image artboard at
-         a fixed height and leave the copy panel transparent: when browser
-         zoom increases the CSS viewport, a fixed white copy panel must not
-         expose a false vertical split in the banner. */
-      .quote-page .quote-hero {
-        overflow: hidden;
-        background-color: #fffbf6;
-        background-position: center right;
-        background-repeat: no-repeat;
-        background-size: auto 100% !important;
+      @media (max-width: 1023px) {
+        .quote-page .quote-hero {
+          min-height: 480px !important;
+          background-position: 65% center !important;
+        }
+        .quote-page .quote-brochure-copy {
+          width: 56% !important;
+          max-width: none !important;
+        }
       }
-      .quote-page .quote-brochure-copy {
-        background: transparent;
+      @media (max-width: 767px) {
+        .quote-page .quote-hero {
+          min-height: 0 !important;
+          padding: calc(var(--header-height-mobile) + 0.8rem) 0 0 !important;
+          background-image: none !important;
+          background-color: #fffbf6 !important;
+          display: block !important;
+        }
+        .quote-page .quote-hero-inner {
+          position: relative !important;
+          display: flex !important;
+          flex-direction: column !important;
+          justify-content: flex-end !important;
+          min-height: 530px !important;
+          padding: 0 !important;
+          background: var(--quote-hero-image) 68% top / auto 100% no-repeat !important;
+        }
+        .quote-page .quote-brochure-copy {
+          width: 100% !important;
+          max-width: 100% !important;
+          padding: 1.5rem 1.25rem 3.8rem !important;
+          background: linear-gradient(0deg, rgba(255, 251, 246, 0.98) 72%, rgba(255, 251, 246, 0.78) 88%, transparent 100%) !important;
+        }
+        .quote-page .quote-brochure-copy h1 {
+          margin-bottom: 0.75rem !important;
+        }
+        .quote-page .quote-brochure-copy h1 em {
+          font-size: clamp(2rem, 8vw, 2.7rem) !important;
+        }
+        .quote-page .quote-brochure-copy h1 .quote-title-line1,
+        .quote-page .quote-brochure-copy h1 .quote-title-line2 {
+          font-size: clamp(2rem, 8.5vw, 2.8rem) !important;
+        }
+        .quote-page .quote-brochure-copy .quote-lead {
+          max-width: 100% !important;
+          font-size: 0.95rem !important;
+          margin-bottom: 1.2rem !important;
+        }
+        .quote-page .quote-hero-traits {
+          font-size: 0.65rem !important;
+          letter-spacing: 0.1em !important;
+        }
+        .quote-page .quote-hero-traits span:first-child::after {
+          width: 32px !important;
+        }
       }
 
       .quote-page .quote-pricing-list { width: 100%; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(1rem, 2vw, 1.5rem); }
@@ -873,22 +1009,23 @@
     .quote-page .quote-hero-corner-script {
       position: absolute !important;
       z-index: 2 !important;
-      right: 1.5rem !important;
-      bottom: 2.25rem !important;
+      right: clamp(2rem, 5vw, 4.5rem) !important;
+      bottom: clamp(1.8rem, 3.8vw, 3.5rem) !important;
       display: inline-flex !important;
       flex-direction: column !important;
-      align-items: center !important;
+      align-items: flex-start !important;
       width: auto !important;
       max-width: none !important;
       color: var(--accent-gold, #C89B4B) !important;
       font-family: var(--font-script) !important;
-      font-size: clamp(1.35rem, 2.1vw, 2.15rem) !important;
+      font-size: clamp(1.6rem, 2.7vw, 2.8rem) !important;
       font-weight: 500 !important;
-      line-height: .86 !important;
-      text-align: center !important;
+      line-height: .88 !important;
+      text-align: left !important;
       white-space: nowrap !important;
-      transform: rotate(-7deg) !important;
+      transform: rotate(-10deg) !important;
       pointer-events: none !important;
+      filter: drop-shadow(0 2px 8px rgba(255, 255, 255, 0.7)) !important;
     }
     .quote-page .quote-hero-corner-script .quote-hero-corner-line1 {
       display: block !important;
@@ -898,20 +1035,30 @@
     .quote-page .quote-hero-corner-script .quote-hero-corner-line2 {
       display: block !important;
       white-space: nowrap !important;
+      position: relative !important;
+    }
+    .quote-page .quote-hero-corner-script .quote-hero-corner-line2::after {
+      content: '' !important;
+      display: block !important;
+      width: 110% !important;
+      height: 1.5px !important;
+      background: linear-gradient(90deg, var(--accent-gold, #C89B4B) 0%, rgba(200, 155, 75, 0.15) 100%) !important;
+      margin-top: 3px !important;
+      border-radius: 2px !important;
     }
     @media (max-width: 1023px) {
       .quote-page .quote-hero-corner-script {
         right: 1.5rem !important;
-        bottom: 1.7rem !important;
-        font-size: clamp(1.15rem, 2.5vw, 1.6rem) !important;
+        bottom: 1.6rem !important;
+        font-size: clamp(1.3rem, 2.6vw, 1.8rem) !important;
       }
     }
     @media (max-width: 767px) {
       .quote-page .quote-hero-corner-script {
-        right: .65rem !important;
-        bottom: 1.1rem !important;
-        font-size: clamp(.82rem, 3.4vw, 1.15rem) !important;
-        transform: rotate(-6deg) !important;
+        right: .8rem !important;
+        bottom: .8rem !important;
+        font-size: clamp(1rem, 3.8vw, 1.25rem) !important;
+        transform: rotate(-8deg) !important;
       }
     }
 
@@ -985,10 +1132,24 @@
       <section class="quote-hero" style="--quote-hero-image: url('<%= sections.hero.image %>')">
         <div class="container quote-hero-inner">
           <div class="quote-hero-copy quote-brochure-copy">
-            <p class="quote-kicker"><%= sections.hero.eyebrow %></p>
             <% const quoteTitleMatch = /^(.*)\s+(trọn gói)$/i.exec(quoteTitle); %>
-            <h1><em><%= quoteScript %></em><span><%= quoteTitleMatch ? quoteTitleMatch[1] : quoteTitle %><% if (quoteTitleMatch) { %><span class="quote-mobile-title-break"><%= quoteTitleMatch[2] %></span><% } %></span></h1>
+            <h1>
+              <em><%= quoteScript || 'Nội thất' %></em>
+              <span class="quote-hero-title-main">
+                <span class="quote-title-line1"><%= quoteTitleMatch ? quoteTitleMatch[1] : quoteTitle %></span>
+                <% if (quoteTitleMatch) { %>
+                  <span class="quote-title-line2"><%= quoteTitleMatch[2] %></span>
+                <% } %>
+              </span>
+            </h1>
             <p class="quote-lead"><%= sections.hero.description %></p>
+            <div class="quote-hero-traits">
+              <span>TINH TẾ</span>
+              <i></i>
+              <span>ĐẲNG CẤP</span>
+              <i></i>
+              <span>KHÁC BIỆT</span>
+            </div>
           </div>
           <%
             const cornerScriptRaw = sections.hero.cornerScript || 'Không gian\nkiến tạo hạnh phúc';

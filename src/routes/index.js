@@ -12,8 +12,9 @@ const quotePageController = require("../controllers/quotePageController");
 const { authenticateAdmin, requireAdminPage } = require("../middleware/auth");
 const { requireAdminHost } = require("../middleware/adminSubdomain");
 
-// Page Routes - Homepage & Recruitment
+// Page Routes - Homepage, Workshop & Recruitment
 router.get("/", homeController.getHomePage);
+router.get("/xuong-san-xuat", homeController.getFactoryPage);
 router.get("/dat-lich-ngay", homeController.getBookingPage);
 router.get("/ho-so-nang-luc", homeController.getCompanyProfilePage);
 router.get("/bao-gia", quotePageController.renderPage.bind(quotePageController));
