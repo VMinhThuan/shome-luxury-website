@@ -7,15 +7,15 @@
 
     <!-- Equipment Cards Grid -->
     <div class="capacity-cards-grid">
-      <% const equipmentMedia = [
-        { image: '/images/cnc_machine.jpg' },
-        { image: '/images/auto_line.jpg' },
-        { image: '/images/drill_machine.jpg' }
+      <% const defaultImages = [
+        '/images/cnc_machine.jpg',
+        '/images/auto_line.jpg',
+        '/images/drill_machine.jpg',
+        '/images/edge_banding.jpg'
       ];
       const equipmentCards = (capacityItems || []).map((item, index) => ({
         ...item,
-        ...equipmentMedia[index],
-        image: item.image || equipmentMedia[index]?.image,
+        image: item.image || defaultImages[index] || '/images/edge_banding.jpg',
         title: item.title,
         description: item.description
       })); %>

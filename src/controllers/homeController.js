@@ -88,17 +88,26 @@ exports.getHomePage = (req, res) => {
       {
         number: "01",
         title: "Máy cắt CNC hiện đại",
-        description: "Gia công chính xác cao, đáp ứng đa dạng nhu cầu sản xuất."
+        description: "Gia công chính xác cao, đáp ứng đa dạng nhu cầu sản xuất.",
+        image: "/images/cnc_machine.jpg"
       },
       {
         number: "02",
         title: "Dây chuyền tự động",
-        description: "Tối ưu năng suất, đảm bảo chất lượng ổn định."
+        description: "Tối ưu năng suất, đảm bảo chất lượng ổn định.",
+        image: "/images/auto_line.jpg"
       },
       {
         number: "03",
         title: "Máy khoan – phay chính xác",
-        description: "Phục vụ các công đoạn yêu cầu độ chính xác cao."
+        description: "Phục vụ các công đoạn yêu cầu độ chính xác cao.",
+        image: "/images/drill_machine.jpg"
+      },
+      {
+        number: "04",
+        title: "Máy dán cạnh tự động",
+        description: "Đường dán nẹp tinh xảo, chống ẩm tuyệt đối và thẩm mỹ hoàn hảo.",
+        image: "/images/edge_banding.jpg"
       }
     ],
     processSteps: [

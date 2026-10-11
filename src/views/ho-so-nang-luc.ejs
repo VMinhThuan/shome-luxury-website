@@ -5,9 +5,74 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <meta name="description" content="Hồ sơ năng lực của SHOME LUXURY." />
   <title><%= title %></title>
-  <link rel="stylesheet" href="/css/style.css?v=6.5.66" />
-  <script src="/js/main.js?v=1.9.0" defer></script>
-  <script src="/js/company-profile.js?v=1.1.1" defer></script>
+  <link rel="stylesheet" href="/css/style.css?v=6.5.67" />
+  <!-- DearFlip 3D FlipBook Viewer (Same as old web) -->
+  <link rel="stylesheet" href="/vendor/dflip/css/dflip.min.css" />
+  <link rel="stylesheet" href="/vendor/dflip/css/themify-icons.min.css" />
+  <script src="/js/main.js?v=1.9.1" defer></script>
+  <script src="/vendor/dflip/js/libs/jquery.min.js"></script>
+  <script>
+    window.dFlipLocation = '/vendor/dflip/';
+    window.dFlipWPGlobal = {
+      text: {
+        toggleSound: "Bật/Tắt âm thanh",
+        toggleThumbnails: "Thu nhỏ trang",
+        toggleOutline: "Mục lục",
+        previousPage: "Trang trước",
+        nextPage: "Trang sau",
+        toggleFullscreen: "Toàn màn hình",
+        zoomIn: "Phóng to",
+        zoomOut: "Thu nhỏ",
+        toggleHelp: "Trợ giúp",
+        singlePageMode: "Trang đơn",
+        doublePageMode: "Trang đôi",
+        downloadPDFFile: "Tải về PDF",
+        gotoFirstPage: "Trang đầu",
+        gotoLastPage: "Trang cuối",
+        share: "Chia sẻ",
+        loading: "Đang tải hồ sơ năng lực..."
+      },
+      viewerType: "flipbook",
+      moreControls: "download,pageMode,startPage,endPage,sound",
+      hideControls: "",
+      scrollWheel: false,
+      backgroundColor: "transparent",
+      height: "auto",
+      controlsPosition: "bottom",
+      duration: 800,
+      soundEnable: true,
+      enableSound: true,
+      enableDownload: true,
+      webgl: true,
+      hard: "none",
+      maxTextureSize: 1600,
+      rangeChunkSize: 524288,
+      zoomRatio: 1.5,
+      stiffness: 3,
+      pageMode: "0",
+      singlePageMode: "0",
+      pageSize: "0",
+      autoPlay: false,
+      linkTarget: 2
+    };
+    window.option_df_profile = {
+      outline: [],
+      autoEnableOutline: false,
+      autoEnableThumbnail: false,
+      overwritePDFOutline: false,
+      direction: "1",
+      pageSize: "0",
+      source: "/images/S-HOME-trang-doi_compressed.pdf",
+      wpOptions: "true",
+      webgl: true,
+      duration: 800,
+      stiffness: 3,
+      soundEnable: true,
+      enableSound: true,
+      backgroundColor: "transparent"
+    };
+  </script>
+  <script src="/vendor/dflip/js/dflip.min.js" defer></script>
 </head>
 <body>
   <%- include("partials/header") %>
@@ -22,28 +87,8 @@
     </section>
 
     <section class="company-profile-viewer-section">
-      <div class="company-profile-viewer" id="companyProfileViewer" data-pdf="/images/S-HOME-trang-doi_compressed.pdf">
-        <div class="company-profile-book-shell">
-          <button type="button" class="profile-nav profile-nav--prev" aria-label="Trang trước" data-profile-prev>
-            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m14.5 5-7 7 7 7"></path></svg>
-          </button>
-
-          <div class="company-profile-book" aria-live="polite" aria-label="Trình xem hồ sơ năng lực">
-            <div class="company-profile-loading" data-profile-loading>Đang tải hồ sơ năng lực…</div>
-            <canvas class="profile-page-canvas" data-profile-page="left"></canvas>
-            <canvas class="profile-page-canvas" data-profile-page="right"></canvas>
-            <canvas class="profile-page-turn" data-profile-page="turn" aria-hidden="true"></canvas>
-          </div>
-
-          <button type="button" class="profile-nav profile-nav--next" aria-label="Trang tiếp theo" data-profile-next>
-            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9.5 5 7 7-7 7"></path></svg>
-          </button>
-        </div>
-
-        <div class="company-profile-toolbar">
-          <output class="profile-page-count" data-profile-count>— / —</output>
-          <a href="/images/S-HOME-trang-doi_compressed.pdf" target="_blank" rel="noopener noreferrer" title="Mở PDF" aria-label="Mở PDF trong tab mới"><svg viewBox="0 0 24 24"><path d="M12 3v12"></path><path d="m7 10 5 5 5-5"></path><path d="M5 21h14"></path></svg></a>
-        </div>
+      <div class="company-profile-viewer-container">
+        <div class="_df_book df-lite" id="df_profile" source="/images/S-HOME-trang-doi_compressed.pdf" wpoptions="true"></div>
       </div>
     </section>
   </main>
