@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <title><%= title %></title>
   <meta name="description" content="Nhận tư vấn và dự toán thiết kế, thi công nội thất từ Shome Luxury." />
-  <link rel="stylesheet" href="/css/style.css?v=6.5.60" />
+  <link rel="stylesheet" href="/css/style.css?v=6.5.62" />
   <style>
     /* Keep every content section on the quotation page visually consistent. */
     .quote-page > section:not(.quote-hero) { background: #fff !important; }
@@ -203,6 +203,31 @@
       .quote-page .quote-brochure-copy .quote-lead {
         max-width: 560px;
         font-size: clamp(1rem, 1.35vw, 1.3rem);
+      }
+
+      /* Keep the hero artwork on a fixed desktop artboard. Browser zoom must
+         not turn a wider CSS viewport into a stretched banner or reflow title. */
+      .quote-page .quote-hero {
+        box-sizing: border-box;
+        height: 550px;
+        min-height: 550px;
+        background-position: center right;
+        background-size: auto 100%;
+      }
+      .quote-page .quote-hero-inner {
+        height: 450px;
+        min-height: 450px;
+      }
+      .quote-page .quote-brochure-copy {
+        width: 720px;
+        max-width: 58%;
+        padding: 2.5rem 3rem;
+      }
+      .quote-page .quote-brochure-copy h1 {
+        font-size: 3.75rem;
+      }
+      .quote-page .quote-brochure-copy .quote-lead {
+        font-size: 1.05rem;
       }
 
       .quote-page .quote-pricing-list { width: 100%; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(1rem, 2vw, 1.5rem); }
@@ -933,7 +958,7 @@
     }
   </style>
   <script src="/js/main.js?v=1.9.1" defer></script>
-  <script src="/js/quote-page.js?v=1.2.0" defer></script>
+  <script src="/js/quote-page.js?v=1.2.1" defer></script>
 </head>
 <body>
   <%- include('partials/header') %>
@@ -1008,7 +1033,9 @@
           <% if (highlightProjects.length) { %>
             <div class="quote-featured-project-list">
               <% highlightProjects.slice(0, 3).forEach((project, index) => {
-                   const projectImage = '/images/quote-featured-villa-living-room.png';
+                   const projectImage = project.thumbnail || '/images/quote-featured-villa-living-room.png';
+                   const fallbackGalleryImages = ['/images/project_apartment.jpg', '/images/project_villa.jpg', '/images/hero_interior.jpg', '/images/hero_sofa_light.jpg', '/images/service_interior.jpg'];
+                   const galleryImages = [...new Set([projectImage, ...((project.gallery && project.gallery.length) ? project.gallery : fallbackGalleryImages)].filter(Boolean))];
                    const costLabel = project.cost ? `${Math.round(project.cost / 1000000)} triệu` : 'Liên hệ tư vấn';
                    const overlays = [
                      { title: 'Không gian truyền cảm hứng', sub: 'Mỗi góc nhỏ đều kể một câu chuyện' },
@@ -1018,7 +1045,7 @@
                    const overlay = overlays[index % overlays.length];
               %>
                 <a href="/cong-trinh/<%= project.slug %>" class="quote-featured-project-card">
-                  <div class="quote-featured-project-image">
+                  <div class="quote-featured-project-image" data-quote-project-gallery data-project-title="<%= project.title %>" data-gallery-images="<%= JSON.stringify(galleryImages) %>">
                     <img src="<%= projectImage %>" alt="<%= project.title %>" loading="lazy" />
                     <div class="quote-featured-project-overlay">
                       <b><%= overlay.title %></b>
@@ -1036,6 +1063,19 @@
                   </div>
                 </a>
               <% }) %>
+            </div>
+            <div class="quote-project-gallery-modal" data-quote-project-gallery-modal hidden role="dialog" aria-modal="true" aria-label="Thư viện ảnh công trình">
+              <div class="quote-project-gallery-modal-backdrop" data-quote-gallery-close></div>
+              <div class="quote-project-gallery-dialog">
+                <button class="quote-project-gallery-close" type="button" data-quote-gallery-close aria-label="Đóng thư viện ảnh">×</button>
+                <div class="quote-project-gallery-stage" data-quote-gallery-stage>
+                  <img src="" alt="" data-quote-gallery-image draggable="false" />
+                  <span class="quote-project-gallery-count"><b data-quote-gallery-current>01</b>/<span data-quote-gallery-total>01</span></span>
+                  <button class="quote-project-gallery-control previous" type="button" data-quote-gallery-prev aria-label="Ảnh trước">‹</button>
+                  <button class="quote-project-gallery-control next" type="button" data-quote-gallery-next aria-label="Ảnh tiếp theo">›</button>
+                </div>
+                <div class="quote-project-gallery-thumbnails" data-quote-gallery-thumbnails aria-label="Chọn ảnh công trình"></div>
+              </div>
             </div>
           <% } else { %>
             <p class="quote-empty-state">Các công trình nổi bật sẽ được cập nhật tại đây.</p>

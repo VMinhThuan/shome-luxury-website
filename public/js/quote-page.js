@@ -71,5 +71,64 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
   })();
-});
 
+  (function initFeaturedProjectGallery() {
+    const modal = document.querySelector('[data-quote-project-gallery-modal]');
+    if (!modal) return;
+    const image = modal.querySelector('[data-quote-gallery-image]');
+    const thumbnails = modal.querySelector('[data-quote-gallery-thumbnails]');
+    const current = modal.querySelector('[data-quote-gallery-current]');
+    const total = modal.querySelector('[data-quote-gallery-total]');
+    const stage = modal.querySelector('[data-quote-gallery-stage]');
+    let images = [];
+    let activeIndex = 0;
+    let pointerStartX = null;
+
+    const show = index => {
+      activeIndex = (index + images.length) % images.length;
+      image.src = images[activeIndex];
+      image.alt = `${modal.dataset.projectTitle} - ảnh ${activeIndex + 1}`;
+      current.textContent = String(activeIndex + 1).padStart(2, '0');
+      total.textContent = String(images.length).padStart(2, '0');
+      thumbnails.querySelectorAll('button').forEach((button, buttonIndex) => button.classList.toggle('is-active', buttonIndex === activeIndex));
+    };
+
+    const close = () => { modal.hidden = true; document.body.classList.remove('quote-project-gallery-open'); };
+    const open = trigger => {
+      try { images = JSON.parse(trigger.dataset.galleryImages || '[]').filter(Boolean); } catch (_) { images = []; }
+      if (!images.length) return;
+      modal.dataset.projectTitle = trigger.dataset.projectTitle || 'Công trình Shome Luxury';
+      thumbnails.replaceChildren();
+      images.forEach((src, index) => {
+        const button = document.createElement('button');
+        button.type = 'button'; button.className = 'quote-project-gallery-thumbnail';
+        button.setAttribute('aria-label', `Xem ảnh ${index + 1}`);
+        const thumb = document.createElement('img');
+        thumb.src = src; thumb.alt = ''; thumb.loading = 'lazy';
+        button.append(thumb); button.addEventListener('click', () => show(index)); thumbnails.append(button);
+      });
+      modal.hidden = false; document.body.classList.add('quote-project-gallery-open'); show(0);
+      modal.querySelector('.quote-project-gallery-close').focus();
+    };
+
+    document.addEventListener('click', event => {
+      const trigger = event.target.closest('[data-quote-project-gallery]');
+      if (trigger) { event.preventDefault(); open(trigger); return; }
+      if (event.target.closest('[data-quote-gallery-close]')) close();
+      if (event.target.closest('[data-quote-gallery-prev]')) show(activeIndex - 1);
+      if (event.target.closest('[data-quote-gallery-next]')) show(activeIndex + 1);
+    });
+    document.addEventListener('keydown', event => {
+      if (modal.hidden) return;
+      if (event.key === 'Escape') close();
+      if (event.key === 'ArrowLeft') show(activeIndex - 1);
+      if (event.key === 'ArrowRight') show(activeIndex + 1);
+    });
+    stage.addEventListener('pointerdown', event => { pointerStartX = event.clientX; });
+    stage.addEventListener('pointerup', event => {
+      if (pointerStartX === null) return;
+      const distance = event.clientX - pointerStartX; pointerStartX = null;
+      if (Math.abs(distance) > 45) show(activeIndex + (distance < 0 ? 1 : -1));
+    });
+  })();
+});

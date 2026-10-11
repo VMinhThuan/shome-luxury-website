@@ -123,20 +123,24 @@ class QuotePageController {
     try {
       const quotePage = await this.getContent();
       if (!quotePage.isVisible) return res.status(404).render('404', { title: 'Không tìm thấy trang | SHOME LUXURY', navigation });
+      const rawCategory = (req.query.category || '').trim();
+      const selectedCategory = rawCategory ? await categoryService.getCategoryByIdOrSlug(rawCategory) : null;
+      if (!selectedCategory) {
+        return res.redirect('/');
+      }
       const sections = quotePage.sections || quotePageDefaults;
-      const selectedCategory = req.query.category ? await categoryService.getCategoryByIdOrSlug(req.query.category) : null;
       const highlightProjects = await this.getHighlightedProjects();
       const selectedName = selectedCategory?.name?.replace(/^Thiết kế\s+/i, '') || '';
       const isInterior = /^nội thất\b/i.test(selectedName);
-      const quoteTitle = selectedCategory ? `${selectedName.replace(/^(nội thất|kiến trúc)\s+/i, '')} trọn gói` : sections.hero.title;
-      const quoteScript = selectedCategory ? (isInterior ? 'Nội thất' : 'Kiến trúc') : sections.hero.script;
+      const quoteTitle = `${selectedName.replace(/^(nội thất|kiến trúc)\s+/i, '')} trọn gói`;
+      const quoteScript = isInterior ? 'Nội thất' : 'Kiến trúc';
       return res.render('bao-gia', {
-        title: 'Báo giá thiết kế & thi công | SHOME LUXURY',
+        title: `${selectedCategory?.name ? `Báo giá ${selectedCategory.name.toLowerCase()}` : 'Báo giá thiết kế & thi công'} | SHOME LUXURY`,
         navigation,
         sections,
         highlightProjects,
         selectedCategory,
-        categoryQuery: (req.query.category || '').trim(),
+        categoryQuery: rawCategory,
         quoteTitle,
         quoteScript,
         completedVideosData

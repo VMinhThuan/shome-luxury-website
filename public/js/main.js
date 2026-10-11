@@ -120,6 +120,14 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
+  // Desktop navigation dropdown parent links handling: prevent page jumps or navigation
+  const desktopDropdownLinks = document.querySelectorAll('.desktop-nav a[href="javascript:void(0)"]');
+  desktopDropdownLinks.forEach(link => {
+    link.addEventListener('click', (e) => {
+      e.preventDefault();
+    });
+  });
+
   // 3. PROJECT CATEGORY FILTER TABS
   const filterBtns = document.querySelectorAll('.filter-btn');
   const projectCards = document.querySelectorAll('.project-card');

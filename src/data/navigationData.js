@@ -74,7 +74,7 @@ module.exports = [
   {
     id: "bao-gia",
     label: "Báo giá",
-    href: "/bao-gia",
+    href: "javascript:void(0)",
     children: [
       {
         id: "bao-gia-thiet-ke-noi-that",
