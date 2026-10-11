@@ -7,7 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400&family=Playfair+Display:ital,wght@0,600;0,700;0,800;0,900;1,600&family=Great+Vibes&family=Alex+Brush&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="/css/style.css?v=6.5.64" />
+  <link rel="stylesheet" href="/css/style.css?v=6.5.68" />
   <style>
     /* Keep every content section on the quotation page visually consistent. */
     .quote-page > section:not(.quote-hero) { background: #fff !important; }
@@ -219,19 +219,23 @@
         position: relative !important;
         width: 100% !important;
         max-width: var(--container-max) !important;
+        margin-left: auto !important;
+        margin-right: auto !important;
         height: 100% !important;
         min-height: clamp(420px, 38vw, 560px) !important;
         display: flex !important;
         align-items: center !important;
         justify-content: flex-start !important;
-        padding-left: max(24px, calc((100vw - var(--container-max)) / 2 + 24px)) !important;
-        padding-right: max(24px, calc((100vw - var(--container-max)) / 2 + 24px)) !important;
+        padding-left: 24px !important;
+        padding-right: 24px !important;
+        box-sizing: border-box !important;
       }
       .quote-page .quote-brochure-copy {
         width: 50% !important;
         max-width: 510px !important;
         min-height: auto !important;
         padding: 1.5rem 0 !important;
+        margin: 0 !important;
         background: transparent !important;
         display: flex !important;
         flex-direction: column !important;
@@ -916,12 +920,24 @@
       aspect-ratio: 16 / 9 !important;
     }
 
-    /* Keep the two full-width videos at the same compact height. */
-    .quote-page .quote-brand-video .quote-video-card,
-    .quote-page .quote-brand-video .quote-video-frame,
-    .quote-page .quote-workshop-video-card,
-    .quote-page .quote-workshop-video-card .quote-video-frame {
-      aspect-ratio: 32 / 9 !important;
+    /* Keep the two full-width videos at compact cinematic ratio on desktop, normal 16:9 on mobile */
+    @media (min-width: 768px) {
+      .quote-page .quote-brand-video .quote-video-card,
+      .quote-page .quote-brand-video .quote-video-frame,
+      .quote-page .quote-workshop-video-card,
+      .quote-page .quote-workshop-video-card .quote-video-frame {
+        aspect-ratio: 32 / 9 !important;
+      }
+    }
+
+    @media (max-width: 767px) {
+      .quote-page .quote-brand-video .quote-video-card,
+      .quote-page .quote-brand-video .quote-video-frame,
+      .quote-page .quote-workshop-video-card,
+      .quote-page .quote-workshop-video-card .quote-video-frame {
+        aspect-ratio: 16 / 9 !important;
+        border-radius: 14px;
+      }
     }
 
     .quote-page :is(
@@ -1009,7 +1025,7 @@
     .quote-page .quote-hero-corner-script {
       position: absolute !important;
       z-index: 2 !important;
-      right: clamp(2rem, 5vw, 4.5rem) !important;
+      right: 24px !important;
       bottom: clamp(1.8rem, 3.8vw, 3.5rem) !important;
       display: inline-flex !important;
       flex-direction: column !important;
@@ -1048,14 +1064,14 @@
     }
     @media (max-width: 1023px) {
       .quote-page .quote-hero-corner-script {
-        right: 1.5rem !important;
+        right: 20px !important;
         bottom: 1.6rem !important;
         font-size: clamp(1.3rem, 2.6vw, 1.8rem) !important;
       }
     }
     @media (max-width: 767px) {
       .quote-page .quote-hero-corner-script {
-        right: .8rem !important;
+        right: var(--mobile-page-spacing) !important;
         bottom: .8rem !important;
         font-size: clamp(1rem, 3.8vw, 1.25rem) !important;
         transform: rotate(-8deg) !important;

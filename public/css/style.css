@@ -2108,8 +2108,8 @@ ol {
 .brand-story-video-card {
   position: relative;
   width: 100%;
-  aspect-ratio: 32 / 9;
-  border-radius: 18px;
+  aspect-ratio: 16 / 9;
+  border-radius: 14px;
   overflow: hidden;
   background-color: #141414;
   box-shadow: 0 16px 44px rgba(0, 0, 0, 0.12);
@@ -2118,8 +2118,16 @@ ol {
 
 @media (min-width: 768px) {
   .brand-story-video-card {
+    aspect-ratio: 32 / 9;
     border-radius: 24px;
     box-shadow: 0 22px 54px rgba(0, 0, 0, 0.15);
+  }
+}
+
+@media (max-width: 767px) {
+  .brand-story-video-card {
+    aspect-ratio: 16 / 9 !important;
+    border-radius: 14px;
   }
 }
 
@@ -2133,6 +2141,399 @@ ol {
 }
 
 /* ==========================================================================
+   HOMEPAGE NEW SECTIONS: WHY CHOOSE US, OFFICE TEAM, HOME WORKSHOP
+   ========================================================================== */
+
+/* 1. WHY CHOOSE US SECTION */
+.why-choose-section {
+  padding-top: clamp(2.5rem, 5vw, 4.5rem);
+  padding-bottom: clamp(2.5rem, 5vw, 4.5rem);
+  background-color: #FFFFFF;
+}
+
+.why-choose-header {
+  text-align: center;
+  max-width: 860px;
+  margin: 0 auto clamp(1.75rem, 3.5vw, 2.75rem);
+}
+
+.why-choose-title {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: center;
+  gap: 0.35em;
+  margin: 0 0 0.65rem 0;
+  line-height: 1.15;
+}
+
+.why-choose-script {
+  font-family: var(--font-script);
+  color: var(--accent-gold);
+  font-size: clamp(2.4rem, 5.8vw, 4.2rem);
+  font-weight: 500;
+  line-height: 1.05;
+}
+
+.why-choose-main {
+  font-family: 'Playfair Display', 'Cormorant Garamond', var(--font-serif);
+  color: #171717;
+  font-size: clamp(1.85rem, 4.2vw, 3.2rem);
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  line-height: 1.1;
+  text-transform: uppercase;
+}
+
+.why-choose-subtitle {
+  font-family: var(--font-sans);
+  font-size: clamp(0.85rem, 1.4vw, 1.05rem);
+  color: #555555;
+  line-height: 1.6;
+  margin: 0 auto;
+  max-width: 680px;
+  font-weight: 400;
+}
+
+.why-choose-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: clamp(0.75rem, 2vw, 1.75rem);
+  max-width: 1080px;
+  margin: 0 auto;
+}
+
+.why-choose-card {
+  background: #ffffff;
+  border: 1px solid rgba(225, 210, 192, 0.55);
+  border-radius: clamp(14px, 1.8vw, 20px);
+  overflow: hidden;
+  box-shadow: 0 8px 24px rgba(40, 25, 10, 0.04);
+  transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+  display: flex;
+  flex-direction: column;
+}
+
+.why-choose-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 16px 36px rgba(40, 25, 10, 0.09);
+  border-color: rgba(201, 147, 69, 0.45);
+}
+
+.why-choose-thumb {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+  background: #eae3da;
+}
+
+.why-choose-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.55s ease;
+}
+
+.why-choose-card:hover .why-choose-thumb img {
+  transform: scale(1.03);
+}
+
+.why-choose-body {
+  padding: clamp(0.75rem, 1.8vw, 1.35rem);
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+.why-choose-meta {
+  display: flex;
+  align-items: baseline;
+  gap: 0.45rem;
+  margin-bottom: 0.35rem;
+  flex-wrap: wrap;
+}
+
+.why-choose-num {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: clamp(0.95rem, 1.6vw, 1.25rem);
+  color: var(--accent-gold);
+  line-height: 1;
+}
+
+.why-choose-sep {
+  color: #d8c8b6;
+  font-weight: 300;
+  font-size: clamp(0.9rem, 1.4vw, 1.15rem);
+}
+
+.why-choose-card-title {
+  font-family: var(--font-heading);
+  font-size: clamp(0.85rem, 1.45vw, 1.18rem);
+  font-weight: 700;
+  color: #171412;
+  margin: 0;
+  line-height: 1.3;
+}
+
+.why-choose-desc {
+  font-family: var(--font-sans);
+  font-size: clamp(0.72rem, 1.1vw, 0.88rem);
+  color: #66605a;
+  line-height: 1.5;
+  margin: 0;
+}
+
+/* 2. OFFICE & TEAM SECTION */
+.office-team-section {
+  padding-top: clamp(2.5rem, 5vw, 4.5rem);
+  padding-bottom: clamp(2.5rem, 5vw, 4.5rem);
+  background-color: #FFFFFF;
+}
+
+.office-team-header {
+  text-align: center;
+  max-width: 860px;
+  margin: 0 auto clamp(1.75rem, 3.5vw, 2.75rem);
+}
+
+.office-team-title {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: center;
+  gap: 0.35em;
+  margin: 0 0 0.5rem 0;
+  line-height: 1.15;
+}
+
+.office-team-script {
+  font-family: var(--font-script);
+  color: var(--accent-gold);
+  font-size: clamp(2.4rem, 5.8vw, 4.2rem);
+  font-weight: 500;
+  line-height: 1.05;
+}
+
+.office-team-main {
+  font-family: 'Playfair Display', 'Cormorant Garamond', var(--font-serif);
+  color: #171717;
+  font-size: clamp(1.85rem, 4.2vw, 3.2rem);
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  line-height: 1.1;
+  text-transform: uppercase;
+}
+
+.office-team-subtitle {
+  font-family: var(--font-sans);
+  font-size: clamp(0.88rem, 1.4vw, 1.08rem);
+  color: #555555;
+  line-height: 1.6;
+  margin: 0 auto;
+  max-width: 680px;
+}
+
+.office-team-banner {
+  position: relative;
+  width: 100%;
+  max-width: 1080px;
+  margin: 0 auto;
+  aspect-ratio: 16 / 9;
+  border-radius: clamp(14px, 2.2vw, 22px);
+  overflow: hidden;
+  border: 1px solid rgba(225, 210, 192, 0.5);
+  box-shadow: 0 16px 42px rgba(40, 25, 10, 0.08);
+  background: #1a1714;
+}
+
+.office-team-banner img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.6s ease;
+}
+
+.office-team-banner:hover img {
+  transform: scale(1.02);
+}
+
+/* 3. HOME WORKSHOP CAPACITY SECTION */
+.home-workshop-section {
+  padding-top: clamp(2.5rem, 5vw, 4.5rem);
+  padding-bottom: clamp(2.5rem, 5vw, 4.5rem);
+  background-color: #FFFFFF;
+}
+
+.home-workshop-header {
+  text-align: center;
+  max-width: 860px;
+  margin: 0 auto clamp(1.75rem, 3.5vw, 2.75rem);
+}
+
+.home-workshop-title {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: center;
+  gap: 0.35em;
+  margin: 0 0 0.5rem 0;
+  line-height: 1.15;
+}
+
+.home-workshop-script {
+  font-family: var(--font-script);
+  color: var(--accent-gold);
+  font-size: clamp(2.4rem, 5.8vw, 4.2rem);
+  font-weight: 500;
+  line-height: 1.05;
+}
+
+.home-workshop-main {
+  font-family: 'Playfair Display', 'Cormorant Garamond', var(--font-serif);
+  color: #171717;
+  font-size: clamp(1.85rem, 4.2vw, 3.2rem);
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  line-height: 1.1;
+  text-transform: uppercase;
+}
+
+.home-workshop-subtitle {
+  font-family: var(--font-sans);
+  font-size: clamp(0.88rem, 1.4vw, 1.08rem);
+  color: #555555;
+  line-height: 1.6;
+  margin: 0 auto;
+  max-width: 680px;
+}
+
+.home-workshop-grid {
+  display: grid;
+  grid-template-columns: 1.15fr 1fr;
+  gap: clamp(1rem, 3vw, 2.5rem);
+  align-items: center;
+  max-width: 1080px;
+  margin: 0 auto;
+}
+
+.home-workshop-visual {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  border-radius: clamp(14px, 2.2vw, 22px);
+  overflow: hidden;
+  border: 1px solid rgba(225, 210, 192, 0.5);
+  box-shadow: 0 14px 36px rgba(40, 25, 10, 0.08);
+  background: #1a1714;
+}
+
+.home-workshop-visual img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.6s ease;
+}
+
+.home-workshop-visual:hover img {
+  transform: scale(1.025);
+}
+
+.home-workshop-pills {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(0.65rem, 1.4vw, 1rem);
+}
+
+.home-workshop-pill {
+  display: flex;
+  align-items: center;
+  gap: clamp(0.75rem, 1.6vw, 1.25rem);
+  background: #ffffff;
+  border: 1px solid rgba(225, 210, 192, 0.65);
+  border-radius: 999px;
+  padding: clamp(0.5rem, 1.2vw, 0.75rem) clamp(0.75rem, 1.6vw, 1.35rem);
+  box-shadow: 0 4px 16px rgba(40, 25, 10, 0.04);
+  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+}
+
+.home-workshop-pill:hover {
+  transform: translateX(5px);
+  box-shadow: 0 8px 24px rgba(40, 25, 10, 0.08);
+  border-color: rgba(201, 147, 69, 0.6);
+}
+
+.home-workshop-pill-icon {
+  width: clamp(38px, 4.2vw, 46px);
+  height: clamp(38px, 4.2vw, 46px);
+  border-radius: 50%;
+  background: #fdf5e7;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  color: var(--accent-gold);
+  transition: transform 0.25s ease, background 0.25s ease;
+}
+
+.home-workshop-pill:hover .home-workshop-pill-icon {
+  background: #f8ebd3;
+  transform: scale(1.08);
+}
+
+.home-workshop-pill-text {
+  font-family: var(--font-heading);
+  font-size: clamp(0.85rem, 1.35vw, 1.05rem);
+  font-weight: 700;
+  color: #1a1715;
+  line-height: 1.3;
+}
+
+@media (max-width: 767px) {
+  .home-workshop-grid {
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+  }
+  .why-choose-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.65rem;
+  }
+  .why-choose-body {
+    padding: 0.65rem 0.6rem;
+  }
+  .why-choose-meta {
+    gap: 0.25rem;
+    margin-bottom: 0.2rem;
+  }
+  .why-choose-card-title {
+    font-size: 0.8rem;
+  }
+  .why-choose-desc {
+    font-size: 0.65rem;
+    line-height: 1.35;
+  }
+  .home-workshop-pill {
+    padding: 0.45rem 0.75rem;
+    gap: 0.65rem;
+  }
+  .home-workshop-pill-icon {
+    width: 36px;
+    height: 36px;
+  }
+  .home-workshop-pill-icon svg {
+    width: 18px;
+    height: 18px;
+  }
+  .home-workshop-pill-text {
+    font-size: 0.82rem;
+  }
+}
+
+/* ==========================================================================
    ALTERNATING SECTION BACKGROUND SYSTEM (LANHA.VN STYLE)
    ========================================================================== */
 .section-bg-white,
@@ -2141,6 +2542,9 @@ ol {
 .professional-team-section,
 .project-types-section,
 .brand-story-section,
+.why-choose-section,
+.office-team-section,
+.home-workshop-section,
 .capacity-section-v2,
 .factory-gallery-v2-section,
 .booking-hero,
@@ -10897,13 +11301,16 @@ main .section-v2-title,
   position: relative;
   width: 100%;
   max-width: var(--container-max);
+  margin-left: auto;
+  margin-right: auto;
   height: 100%;
   min-height: clamp(420px, 38vw, 560px);
   display: flex;
   align-items: center;
   justify-content: flex-start;
-  padding-left: max(24px, calc((100vw - var(--container-max)) / 2 + 24px));
-  padding-right: max(24px, calc((100vw - var(--container-max)) / 2 + 24px));
+  padding-left: 24px;
+  padding-right: 24px;
+  box-sizing: border-box;
 }
 .quote-page .quote-brochure-copy {
   width: 50%;
@@ -11335,9 +11742,18 @@ main .section-v2-title,
 .quote-page .quote-video-card { width: 100%; max-width: none; aspect-ratio: auto; margin: 0; overflow: hidden; border: 1px solid #e8d9c3; border-radius: 18px; background: #21160f; box-shadow: 0 14px 34px rgba(74, 47, 18, .1); }
 .quote-page .quote-video-frame { position: relative; width: 100%; aspect-ratio: 16 / 9; background: #17110c; }
 .quote-page .quote-video-frame iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
-/* Brand-film embed: retain its width while displaying at half the former height. */
-.quote-page .quote-brand-video .quote-video-card,
-.quote-page .quote-brand-video .quote-video-frame { aspect-ratio: 32 / 9 !important; }
+/* Brand-film embed: retain width with cinematic ratio on desktop, normal 16:9 on mobile. */
+@media (min-width: 768px) {
+  .quote-page .quote-brand-video .quote-video-card,
+  .quote-page .quote-brand-video .quote-video-frame { aspect-ratio: 32 / 9 !important; }
+}
+@media (max-width: 767px) {
+  .quote-page .quote-brand-video .quote-video-card,
+  .quote-page .quote-brand-video .quote-video-frame {
+    aspect-ratio: 16 / 9 !important;
+    border-radius: 14px;
+  }
+}
 .quote-page .quote-video-caption { display: none !important; }
 
 /* Project gallery opened from the featured apartment cards on the quotation page. */
@@ -11371,7 +11787,7 @@ body.quote-project-gallery-open { overflow: hidden; }
 
 
 /* Desktop uses the same full-width rhythm as the header: a full hero and three assurance cards in one row. */
-@media (min-width: 768px) { .quote-page .quote-hero { padding-right: 0; padding-left: 0; }.quote-page .quote-hero-inner { width: 100%; max-width: none; padding-right: 0; padding-left: 0; }.quote-page .quote-brochure-copy { padding-left: max(24px, calc((100vw - var(--container-max)) / 2 + 24px)); }.quote-page .quote-benefit-grid { width: 100%; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(.75rem, 1.6vw, 1.4rem); }.quote-page .quote-benefit-card { grid-template-columns: 58px minmax(0, 1fr); min-height: 142px; padding: clamp(1rem, 1.8vw, 1.35rem); }.quote-page .quote-benefit-icon { width: 54px; height: 54px; }.quote-page .quote-benefit-card h3 { font-size: clamp(1rem, 1.5vw, 1.2rem); }.quote-page .quote-benefit-card p { font-size: clamp(.74rem, 1vw, .84rem); } }
+@media (min-width: 768px) { .quote-page .quote-hero { padding-right: 0; padding-left: 0; }.quote-page .quote-hero-inner { width: 100%; max-width: var(--container-max); margin-left: auto; margin-right: auto; padding-right: 24px; padding-left: 24px; }.quote-page .quote-brochure-copy { padding-left: 0; }.quote-page .quote-benefit-grid { width: 100%; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(.75rem, 1.6vw, 1.4rem); }.quote-page .quote-benefit-card { grid-template-columns: 58px minmax(0, 1fr); min-height: 142px; padding: clamp(1rem, 1.8vw, 1.35rem); }.quote-page .quote-benefit-icon { width: 54px; height: 54px; }.quote-page .quote-benefit-card h3 { font-size: clamp(1rem, 1.5vw, 1.2rem); }.quote-page .quote-benefit-card p { font-size: clamp(.74rem, 1vw, .84rem); } }
 
 @media (min-width: 768px) { .quote-page .quote-free-estimate-card::before { background: linear-gradient(90deg, rgba(255,253,248,.98) 0%, rgba(255,253,248,.9) 34%, rgba(255,253,248,.18) 61%, transparent 78%); }.quote-page .quote-free-estimate-copy { width: min(52%, 560px); }.quote-page .quote-free-estimate-copy h2 { max-width: 520px; } }
 
