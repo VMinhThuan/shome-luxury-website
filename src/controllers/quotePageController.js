@@ -62,6 +62,19 @@ class QuotePageController {
     if (!sections.capability?.videoUrl) {
       sections.capability.videoUrl = quotePageDefaults.capability.videoUrl;
     }
+    // Older saved quotation pages contained only three equipment cards.
+    // Add the new machine card without replacing any content already managed by admin.
+    if ((sections.capability?.gallery || []).length < 4) {
+      sections.capability.gallery = [
+        ...(sections.capability.gallery || []),
+        {
+          image: '/images/img-xuong-san-xuat/factory-tour-edge-banding.png',
+          title: 'Máy dán cạnh tự động',
+          alt: 'Máy dán cạnh tự động tại xưởng nội thất Shome Luxury',
+          description: 'Hoàn thiện cạnh tấm gỗ đồng đều, sắc nét và bền đẹp.'
+        }
+      ];
+    }
     if (JSON.stringify(sections) !== JSON.stringify(page.sections)) {
       await QuotePage.updateOne({ _id: page._id }, { $set: { sections } });
       page.sections = sections;

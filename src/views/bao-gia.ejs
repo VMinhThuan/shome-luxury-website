@@ -83,10 +83,11 @@
     .quote-page .quote-workshop-stats div + div { border-left: 1px solid #c9c2ba; }
     .quote-page .quote-workshop-stats b { color: #191715; font-size: clamp(1.15rem, 2.6vw, 1.85rem); line-height: 1; }
     .quote-page .quote-workshop-stats span { color: #6c645d; font-size: clamp(.58rem, 1vw, .75rem); }
-    .quote-page .quote-workshop-gallery { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
-    .quote-page .quote-workshop-gallery figure { margin: 0; text-align: center; }
+    .quote-page .quote-workshop-gallery { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(.7rem, 1.4vw, 1.1rem); }
+    .quote-page .quote-workshop-gallery figure { overflow: hidden; margin: 0; border: 1px solid #e8d9c3; border-radius: 12px; background: #fff; text-align: left; }
     .quote-page .quote-workshop-gallery img { display: block; width: 100%; aspect-ratio: 16 / 9; border-radius: 8px; object-fit: cover; }
-    .quote-page .quote-workshop-gallery figcaption { margin-top: .35rem; color: #302c28; font-size: clamp(.64rem, 1.1vw, .8rem); }
+    .quote-page .quote-workshop-gallery figcaption { padding: clamp(.65rem, 1.1vw, .9rem); color: #302c28; font-size: clamp(.76rem, 1.1vw, .95rem); font-weight: 700; }
+    .quote-page .quote-workshop-gallery figcaption span { display: block; margin-top: .3rem; color: #746c65; font-size: clamp(.62rem, .9vw, .76rem); font-weight: 400; line-height: 1.45; }
     @media (max-width: 559px) { .quote-page .quote-workshop { width: 100%; }.quote-page .quote-workshop-main { aspect-ratio: 16 / 9; }.quote-page .quote-workshop-gallery { gap: .7rem; }.quote-page .quote-workshop-stats { margin-bottom: .9rem; }.quote-page .quote-workshop-stats div { padding: 0 .3rem; }.quote-page .quote-workshop-stats span { font-size: .6rem; }.quote-page .quote-workshop-main > span { bottom: 1.15rem; } }
     /* Tighter vertical rhythm across the quotation page. */
     .quote-page .quote-section { padding-top: clamp(.75rem, 1.5vw, 1.5rem); padding-bottom: clamp(.75rem, 1.5vw, 1.5rem); }
@@ -217,7 +218,7 @@
       .quote-page .quote-completed-video-card { aspect-ratio: 16 / 9; }
 
       .quote-page .quote-workshop { width: 100%; }
-      .quote-page .quote-workshop-gallery { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: clamp(.75rem, 1.4vw, 1.1rem); }
+      .quote-page .quote-workshop-gallery { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(.75rem, 1.4vw, 1.1rem); }
       .quote-page .quote-workshop-gallery img { aspect-ratio: 16 / 9; }
 
       .quote-page .quote-handover-inner { width: 100%; }
@@ -739,6 +740,12 @@
       aspect-ratio: 16 / 9 !important;
     }
 
+    /* Video giới thiệu đầu trang: giữ nguyên bề ngang nhưng giảm còn một nửa chiều cao. */
+    .quote-page .quote-brand-video .quote-video-card,
+    .quote-page .quote-brand-video .quote-video-frame {
+      aspect-ratio: 32 / 9 !important;
+    }
+
     .quote-page :is(
       .quote-completed-video img,
       .quote-featured-project-image img,
@@ -1202,7 +1209,10 @@
           </div>
           <div class="quote-workshop-gallery">
             <% (sections.capability.gallery || []).forEach(item => { %>
-              <figure><img src="<%= item.image %>" alt="<%= item.alt %>" loading="lazy" /><figcaption><%= item.title %></figcaption></figure>
+              <figure>
+                <img src="<%= item.image %>" alt="<%= item.alt %>" loading="lazy" />
+                <figcaption><%= item.title %><% if (item.description) { %><span><%= item.description %></span><% } %></figcaption>
+              </figure>
             <% }) %>
           </div>
         </div>
