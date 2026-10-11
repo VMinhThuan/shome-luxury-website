@@ -3928,8 +3928,6 @@ ol {
 .company-profile-hero span { display: block; margin-top: 2rem; color: #6b645c; font-size: .92rem; }
 .company-profile-viewer-section { padding: clamp(.75rem, 1.5vw, 1.25rem) 0 clamp(1rem, 2vw, 1.5rem); background: #f7f4ef; }
 .company-profile-viewer { width: min(1320px, calc(100% - 32px)); margin: 0 auto; padding: 0; border: 0; background: transparent; box-shadow: none; }
-.company-profile-flipbook { width: 100%; height: min(72vh, 780px); min-height: 520px; }
-.company-profile-flipbook .df-container { border-radius: 4px; }
 .company-profile-book-shell { position: relative; display: grid; place-items: center; height: min(72vh, 820px); min-height: 440px; }
 .company-profile-book { position: relative; display: flex; align-items: center; justify-content: center; width: 100%; height: min(70vh, 780px); perspective: 1900px; transform-style: preserve-3d; }
 .company-profile-book:not(.is-cover)::after { position: absolute; top: 50%; bottom: 0; left: 50%; z-index: 2; width: 1px; height: min(70vh, 780px); background: linear-gradient(90deg, rgba(0,0,0,.16), rgba(255,255,255,.5), rgba(0,0,0,.12)); content: ''; pointer-events: none; transform: translate(-50%, -50%); }
