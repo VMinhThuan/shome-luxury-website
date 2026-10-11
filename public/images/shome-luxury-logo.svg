@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 310 80" role="img" aria-labelledby="title">
+  <title id="title">Shome Luxury</title>
+  <g fill="#C99A45">
+    <path d="M4 10h25l28 28v31H32L4 41z"/>
+    <path d="M35 10h25l28 28v31H63L35 41z" opacity=".72"/>
+    <path d="M66 10h18v59H66z"/>
+  </g>
+  <text x="101" y="38" fill="#F2D28F" font-family="Montserrat, Arial, sans-serif" font-size="29" font-weight="700" letter-spacing="2">SHOME</text>
+  <text x="103" y="61" fill="#F2D28F" font-family="Montserrat, Arial, sans-serif" font-size="14" font-weight="500" letter-spacing="5.2">LUXURY</text>
+</svg>
