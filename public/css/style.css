@@ -5029,33 +5029,40 @@ ol {
 
 /* Column 1: Addresses & Slogan */
 .footer-col-address {
-  gap: 0.6rem;
+  gap: 0.65rem;
+  justify-content: space-between;
 }
 
 .footer-address-section {
   display: flex;
   flex-direction: column;
-  gap: 0.25rem;
+  gap: 0.28rem;
 }
 
 .footer-col-header {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 7px;
   color: #C89B4B;
-  font-weight: 600;
-  font-size: 0.88rem;
+  font-weight: 700;
+  font-size: clamp(0.92rem, 1vw, 0.98rem);
   font-family: var(--font-menu);
-  letter-spacing: 0.03em;
+  letter-spacing: 0.04em;
+}
+
+.footer-col-header svg {
+  width: 19px;
+  height: 19px;
+  flex-shrink: 0;
 }
 
 .footer-address-line {
-  font-size: 0.8rem;
+  font-size: clamp(0.84rem, 0.9vw, 0.88rem);
   font-family: var(--font-menu);
   font-weight: 500;
   color: #FFFFFF !important;
   margin: 0;
-  line-height: 1.4;
+  line-height: 1.42;
 }
 
 .footer-factory-list {
@@ -5064,31 +5071,34 @@ ol {
   margin: 0;
   display: flex;
   flex-direction: column;
-  gap: 0.25rem;
+  gap: 0.28rem;
 }
 
 .footer-factory-list li {
   display: flex;
   align-items: flex-start;
   gap: 5px;
-  font-size: 0.78rem;
+  font-size: clamp(0.8rem, 0.86vw, 0.84rem);
   font-family: var(--font-menu);
   font-weight: 500;
   color: #FFFFFF !important;
-  line-height: 1.35;
+  line-height: 1.38;
 }
 
 .footer-factory-list li svg {
+  width: 14px;
+  height: 14px;
   flex-shrink: 0;
   margin-top: 2px;
 }
 
 .footer-script-slogan {
   color: #C89B4B;
-  font-size: 1.35rem;
-  /* Center the script within the remaining column space for balanced breathing room. */
-  margin-block: auto;
-  padding: 0;
+  font-size: 1.55rem;
+  margin-top: auto;
+  margin-bottom: 0;
+  padding-top: 0.35rem;
+  padding-bottom: 2px;
   line-height: 1.15;
 }
 
@@ -12174,10 +12184,11 @@ main .section-v2-title,
 .quote-page .quote-video-card { width: 100%; max-width: none; aspect-ratio: auto; margin: 0; overflow: hidden; border: 1px solid #e8d9c3; border-radius: 18px; background: #21160f; box-shadow: 0 14px 34px rgba(74, 47, 18, .1); }
 .quote-page .quote-video-frame { position: relative; width: 100%; aspect-ratio: 16 / 9; background: #17110c; }
 .quote-page .quote-video-frame iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+.quote-page .quote-workshop-video-card .quote-video-frame > img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: center; }
 /* Brand-film embed: retain width with cinematic ratio on desktop, normal 16:9 on mobile. */
 @media (min-width: 768px) {
   .quote-page .quote-brand-video .quote-video-card,
-  .quote-page .quote-brand-video .quote-video-frame { aspect-ratio: 32 / 9 !important; }
+  .quote-page .quote-brand-video .quote-video-frame { aspect-ratio: 28 / 9 !important; }
 }
 @media (max-width: 767px) {
   .quote-page .quote-brand-video .quote-video-card,
@@ -13617,6 +13628,74 @@ body.quote-project-gallery-open { overflow: hidden; }
   margin-top: 1.2rem;
 }
 
+/* Project-signature cards use the brand gold for their order and CTA. */
+.home-page .home-project-signature-number {
+  color: var(--accent-gold);
+}
+
+.home-page .home-project-signature-rule {
+  background: var(--accent-gold);
+}
+
+.home-page .home-project-signature-link {
+  border-color: var(--accent-gold);
+  color: #17120f;
+  background: var(--accent-gold);
+}
+
+.home-page .home-project-signature-link:hover {
+  color: #17120f;
+  background: var(--accent-gold-hover);
+}
+
+/* Right-side cards retain a left-aligned reading edge. */
+.home-page .home-project-signature-card--copy-right .home-project-signature-copy {
+  text-align: left;
+}
+
+/* Match the apartment-project heading scale to the editorial section titles. */
+.quote-page .quote-featured-heading h2 {
+  font-size: clamp(1.55rem, 3vw, 2.6rem);
+}
+
+/* Keep editorial photography consistently cinematic without changing any
+   responsive grid or card structure. Partner marks, icons and decorative art
+   are deliberately excluded. */
+.home-page .about-showroom-media,
+.home-page .professional-team-media,
+.home-page .why-choose-thumb,
+.home-page .office-team-banner,
+.home-page .home-workshop-visual {
+  aspect-ratio: 16 / 9;
+}
+
+.home-page .about-showroom-media img,
+.home-page .professional-team-media img,
+.home-page .why-choose-thumb img,
+.home-page .office-team-banner img,
+.home-page .home-workshop-visual img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.quote-page .quote-price-image,
+.quote-page .quote-craft-photo,
+.quote-page .quote-workshop-gallery figure,
+.quote-page .quote-workshop-video-card .quote-video-frame {
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+}
+
+.quote-page .quote-price-image img,
+.quote-page .quote-craft-photo img,
+.quote-page .quote-workshop-gallery figure img,
+.quote-page .quote-workshop-video-card .quote-video-frame > img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
 .home-page .customer-stories-title {
   flex-direction: column;
   align-items: center;
@@ -13790,13 +13869,18 @@ body.quote-project-gallery-open { overflow: hidden; }
 }
 
 @media (max-width: 767px) {
+  /* Pull copy in the right-hand project cards slightly toward centre. */
+  .home-page .home-project-signature-card--copy-right .home-project-signature-copy {
+    transform: translateX(-.8rem);
+  }
+
   .home-page .customer-stories-desktop-grid {
     display: none;
   }
 
   .home-page #main-content > section:not(.hero-section-v2) {
-    padding-top: 1.65rem !important;
-    padding-bottom: 1.65rem !important;
+    padding-top: 1rem !important;
+    padding-bottom: 1rem !important;
   }
 
   .material-partners-header h2 {

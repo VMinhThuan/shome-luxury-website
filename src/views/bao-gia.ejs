@@ -9,8 +9,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400&family=Playfair+Display:ital,wght@0,600;0,700;0,800;0,900;1,600&family=Great+Vibes&family=Alex+Brush&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="/css/style.css?v=6.5.68" />
   <style>
-    /* Keep every content section on the quotation page visually consistent. */
-    .quote-page > section:not(.quote-hero) { background: #fff !important; }
+    /* Alternating section backgrounds on quote page handled by style.css design system */
     .quote-page .quote-video-card-link { display: block; cursor: pointer; }
     .quote-page .quote-video-card-link:hover { box-shadow: 0 12px 30px rgba(91, 57, 22, .12); transform: translateY(-2px); transition: box-shadow .2s ease, transform .2s ease; }
     .quote-page .quote-completed { padding: clamp(3rem, 6vw, 5.5rem) 0; background: #fff !important; }
@@ -1417,11 +1416,6 @@
     <% } %>
 
     <% if (sections.capability?.isVisible !== false) { %>
-      <%
-        const capabilityVideoUrl = sections.capability?.videoUrl || 'https://www.youtube.com/watch?v=hoUvh1w9tII';
-        const capVideoMatch = capabilityVideoUrl.match(/(?:youtu\.be\/|youtube(?:-nocookie)?\.com\/(?:watch\?v=|embed\/|shorts\/))([\w-]{11})/);
-        const capabilityVideoEmbedUrl = capVideoMatch ? `https://www.youtube-nocookie.com/embed/${capVideoMatch[1]}?rel=0&modestbranding=1` : 'https://www.youtube-nocookie.com/embed/hoUvh1w9tII?rel=0&modestbranding=1';
-      %>
       <section class="quote-capability">
         <div class="container quote-workshop">
           <header class="quote-workshop-heading">
@@ -1430,13 +1424,12 @@
           </header>
           <figure class="quote-video-card quote-workshop-video-card">
             <div class="quote-video-frame">
-              <iframe
-                src="<%= capabilityVideoEmbedUrl %>"
-                title="<%= sections.capability.caption || 'Video xưởng sản xuất Shome Luxury - Đơn vị thiết kế thi công tại Hà Nội' %>"
+              <img
+                src="<%= sections.capability.image || '/images/factory_workers.jpg' %>"
+                alt="<%= sections.capability.caption || 'Xưởng sản xuất Shome Luxury - Đơn vị thiết kế thi công tại Hà Nội' %>"
                 loading="lazy"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                allowfullscreen
-              ></iframe>
+                decoding="async"
+              />
             </div>
           </figure>
           <div class="quote-workshop-stats">
