@@ -18,8 +18,8 @@
     ]; %>
 
     <div class="home-faq-list">
-      <% faqs.forEach((faq, index) => { %>
-        <details class="home-faq-item" <%= index === 0 ? 'open' : '' %>>
+      <% faqs.forEach((faq) => { %>
+        <details class="home-faq-item">
           <summary><span><%= faq[0] %></span><b aria-hidden="true"></b></summary>
           <p><%= faq[1] %></p>
         </details>
