@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 170 50" fill="none">
+  <!-- Malloca brand logo with golden seal emblem -->
+  <circle cx="24" cy="25" r="14" stroke="#E69526" stroke-width="2" stroke-dasharray="2 1.5" fill="none"/>
+  <circle cx="24" cy="25" r="10" stroke="#E69526" stroke-width="1.2" fill="none"/>
+  <path d="M19 29V21L24 26L29 21V29" stroke="#E69526" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+  <text x="48" y="32" fill="#E69526" font-family="'Montserrat', 'Arial', sans-serif" font-size="19" font-weight="800" letter-spacing="2.5">MALLOCA</text>
+</svg>

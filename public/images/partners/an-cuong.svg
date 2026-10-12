@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 180 50" fill="none">
+  <!-- Icon: Teal rounded square with wood grain rings -->
+  <rect x="6" y="8" width="34" height="34" rx="6" fill="#1B4D68"/>
+  <circle cx="23" cy="25" r="11" stroke="#FFFFFF" stroke-width="2.2" fill="none"/>
+  <circle cx="23" cy="25" r="6.5" stroke="#FFFFFF" stroke-width="2" fill="none"/>
+  <circle cx="23" cy="25" r="2.5" fill="#FFFFFF"/>
+  <!-- Text: AN CƯỜNG -->
+  <text x="48" y="27" fill="#1B4D68" font-family="'Montserrat', 'Arial', sans-serif" font-size="16" font-weight="800" letter-spacing="0.5">AN CƯỜNG</text>
+  <text x="49" y="38" fill="#5F7D8E" font-family="'Montserrat', 'Arial', sans-serif" font-size="7.5" font-weight="500" letter-spacing="0.4">Wood - Working Materials</text>
+</svg>

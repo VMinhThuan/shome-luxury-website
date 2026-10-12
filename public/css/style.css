@@ -2040,27 +2040,44 @@ ol {
 }
 
 .project-types-header {
+  text-align: center;
   max-width: 760px;
-  margin-bottom: clamp(2rem, 4vw, 3.25rem);
+  margin: 0 auto clamp(2rem, 4vw, 3.25rem);
 }
 
 .project-types-title {
-  display: flex;
-  align-items: flex-end;
-  justify-content: center;
-  gap: .16em;
-  font-size: clamp(2.45rem, 5.25vw, 4.6rem);
-  line-height: .92;
+  text-align: center;
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: clamp(2.35rem, 5vw, 4.3rem);
+  font-weight: 700;
+  color: #171717;
+  line-height: 1.16;
+  margin: 0;
 }
 
-.project-types-title .title-main {
+.project-types-title .title-line-1 {
   display: block;
 }
 
+.project-types-title .title-line-2 {
+  display: inline-flex;
+  align-items: baseline;
+  justify-content: center;
+  gap: .28em;
+}
+
+.project-types-title .title-main {
+  display: inline;
+}
+
 .project-types-title .title-script {
-  margin: 0 0 -.08em;
-  font-size: 1.06em;
-  line-height: .8;
+  margin: 0;
+  font-family: var(--font-script) !important;
+  color: #c4923e;
+  font-size: 1.25em;
+  font-weight: 500;
+  font-style: italic;
+  line-height: .9;
 }
 
 .project-types-desc {
@@ -2137,6 +2154,10 @@ ol {
   content: "";
 }
 
+.project-type-card--reverse .type-card-name::after {
+  display: none !important;
+}
+
 .type-card-features {
   margin: 0 0 1.25rem;
   color: #6a6a6a;
@@ -2158,6 +2179,85 @@ ol {
   background: #b52d2d;
 }
 
+/* Partners / Materials Section ("Vật liệu & ĐỐI TÁC") */
+.project-partners-block {
+  width: min(100%, 1040px);
+  margin: clamp(2.5rem, 5vw, 4rem) auto 0;
+}
+
+.partners-header {
+  display: flex;
+  align-items: center;
+  gap: .65rem;
+  margin-bottom: clamp(1.2rem, 2.5vw, 1.8rem);
+}
+
+.partners-divider {
+  color: #171717;
+  font-size: clamp(1.6rem, 3.2vw, 2.3rem);
+  font-weight: 300;
+  line-height: 1;
+}
+
+.partners-title {
+  margin: 0;
+  display: inline-flex;
+  align-items: baseline;
+  gap: .45rem;
+  line-height: 1;
+}
+
+.partners-script {
+  font-family: var(--font-script) !important;
+  color: #c4923e;
+  font-size: clamp(1.85rem, 3.6vw, 2.65rem);
+  font-weight: 500;
+  font-style: italic;
+  line-height: .9;
+}
+
+.partners-main {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: clamp(1.4rem, 2.7vw, 2.1rem);
+  font-weight: 800;
+  color: #171717;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+}
+
+.partners-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: clamp(.75rem, 1.6vw, 1.25rem);
+}
+
+.partner-card {
+  background: #ffffff;
+  border: 1px solid #ebe5dc;
+  border-radius: 8px;
+  height: clamp(64px, 7.5vw, 88px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: .75rem 1.25rem;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.025);
+  transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease;
+}
+
+.partner-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.06);
+  border-color: #d6cbbe;
+}
+
+.partner-card img {
+  max-width: 86%;
+  max-height: 42px;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+}
+
 @media (max-width: 767px) {
   .project-types-section {
     padding: 3rem 0;
@@ -2172,7 +2272,7 @@ ol {
   }
 
   .project-types-title .title-script {
-    font-size: 1em;
+    font-size: 1.2em;
   }
 
   .project-types-desc {
@@ -2237,6 +2337,25 @@ ol {
     min-width: 0;
     padding: .48rem .8rem;
     font-size: clamp(.62rem, 2.65vw, .75rem);
+  }
+
+  .project-partners-block {
+    margin-top: 1.8rem;
+  }
+
+  .partners-grid {
+    gap: .45rem;
+  }
+
+  .partner-card {
+    height: 54px;
+    padding: .4rem .5rem;
+    border-radius: 6px;
+  }
+
+  .partner-card img {
+    max-width: 90%;
+    max-height: 28px;
   }
 }
 
