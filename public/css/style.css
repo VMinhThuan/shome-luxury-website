@@ -12760,3 +12760,283 @@ body.quote-project-gallery-open { overflow: hidden; }
     text-align: center;
   }
 }
+
+/* Customer stories & FAQ — homepage editorial panels. */
+.customer-stories-section,
+.home-faq-section {
+  padding: clamp(3.25rem, 6vw, 5.5rem) 0;
+  background: #fff;
+}
+
+.customer-stories-header,
+.home-faq-header {
+  max-width: 900px;
+  margin: 0 auto clamp(1.55rem, 3vw, 2.35rem);
+  text-align: center;
+}
+
+.customer-stories-title,
+.home-faq-title {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: center;
+  gap: 0 .24em;
+  margin: 0 0 .75rem;
+  color: #18130f;
+  font-family: 'Playfair Display', Georgia, serif;
+  line-height: 1;
+}
+
+.customer-stories-script,
+.home-faq-script {
+  color: var(--accent-gold);
+  font-size: clamp(2.35rem, 5vw, 4rem);
+  font-weight: 500;
+  line-height: .88;
+}
+
+.customer-stories-main,
+.home-faq-main {
+  font-size: clamp(2rem, 4.2vw, 3.45rem);
+  font-weight: 800;
+  line-height: 1;
+}
+
+.customer-stories-header > p,
+.home-faq-header > p {
+  margin: 0;
+  color: #6d665e;
+  font-size: clamp(.9rem, 1.45vw, 1.1rem);
+}
+
+.customer-story-card {
+  width: min(100%, 980px);
+  margin: 0 auto;
+  overflow: hidden;
+  border: 1px solid #d8bd8e;
+  border-radius: 20px;
+  background: #fff;
+}
+
+.customer-story-video {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  background: #1c1611;
+}
+
+.customer-story-video iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+.customer-story-quote {
+  padding: clamp(1.6rem, 4vw, 3rem) 1.5rem clamp(1.35rem, 3vw, 2.25rem);
+  text-align: center;
+}
+
+.customer-story-mark {
+  display: block;
+  height: .68em;
+  color: var(--accent-gold);
+  font-family: Georgia, serif;
+  font-size: clamp(3.3rem, 6vw, 5.5rem);
+  line-height: .7;
+}
+
+.customer-story-quote blockquote {
+  max-width: 710px;
+  margin: .55rem auto .75rem;
+  color: #211a16;
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: clamp(1.35rem, 2.65vw, 2.25rem);
+  font-weight: 500;
+  line-height: 1.3;
+}
+
+.customer-story-quote p {
+  margin: 0;
+  color: #777067;
+  font-size: clamp(.82rem, 1.25vw, 1rem);
+}
+
+.customer-story-quote p span {
+  padding: 0 .35rem;
+  color: var(--accent-gold);
+}
+
+.customer-story-actions {
+  display: grid;
+  width: min(100%, 980px);
+  margin: .9rem auto 0;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: .75rem;
+}
+
+.customer-story-action {
+  display: flex;
+  min-height: 52px;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #bd934d;
+  border-radius: 10px;
+  color: #201914;
+  font-size: clamp(.8rem, 1.15vw, .95rem);
+  font-weight: 700;
+}
+
+.customer-story-action:hover {
+  border-color: var(--accent-gold);
+  background: var(--accent-gold);
+  color: #19130f;
+}
+
+.home-faq-section {
+  background: #fffcf7;
+}
+
+.home-faq-list,
+.home-faq-cta {
+  width: min(100%, 900px);
+  margin-right: auto;
+  margin-left: auto;
+}
+
+.home-faq-list {
+  overflow: hidden;
+  border: 1px solid #dcc9a8;
+  border-radius: 18px;
+  background: #fff;
+}
+
+.home-faq-item + .home-faq-item {
+  border-top: 1px solid #e8dac4;
+}
+
+.home-faq-item summary {
+  display: flex;
+  min-height: 72px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1rem clamp(1rem, 2.5vw, 2rem);
+  cursor: pointer;
+  color: #1d1713;
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: clamp(1.05rem, 1.85vw, 1.45rem);
+  font-weight: 600;
+  list-style: none;
+}
+
+.home-faq-item summary::-webkit-details-marker {
+  display: none;
+}
+
+.home-faq-item summary b::before {
+  color: #a9772d;
+  content: '+';
+  font-family: var(--font-sans);
+  font-size: 2rem;
+  font-weight: 300;
+}
+
+.home-faq-item[open] summary b::before {
+  content: '−';
+}
+
+.home-faq-item p {
+  max-width: 760px;
+  margin: -.05rem 0 1.4rem;
+  padding: 0 clamp(1rem, 2.5vw, 2rem);
+  color: #6d665e;
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: clamp(.95rem, 1.55vw, 1.2rem);
+  line-height: 1.55;
+}
+
+.home-faq-cta {
+  margin-top: 1.1rem;
+  padding: clamp(1.4rem, 3vw, 2.25rem);
+  border: 1px solid #dcc9a8;
+  border-radius: 18px;
+  text-align: center;
+}
+
+.home-faq-cta h3 {
+  margin: 0 0 .2rem;
+  color: #201914;
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: clamp(1.45rem, 2.7vw, 2.25rem);
+  font-weight: 500;
+}
+
+.home-faq-cta p {
+  margin: 0 0 1rem;
+  color: #6d665e;
+}
+
+.home-faq-cta button {
+  width: min(100%, 520px);
+  min-height: 52px;
+  border-radius: 9px;
+  font-size: clamp(.88rem, 1.2vw, 1rem);
+}
+
+@media (max-width: 767px) {
+  .customer-stories-section,
+  .home-faq-section {
+    padding: 3rem 0;
+  }
+
+  .customer-stories-title,
+  .home-faq-title {
+    display: grid;
+    gap: .5rem;
+  }
+
+  .customer-stories-script,
+  .home-faq-script {
+    font-size: clamp(2.15rem, 11vw, 3rem);
+  }
+
+  .customer-stories-main,
+  .home-faq-main {
+    font-size: clamp(1.85rem, 9vw, 2.7rem);
+  }
+
+  .customer-story-card,
+  .home-faq-list,
+  .home-faq-cta {
+    border-radius: 14px;
+  }
+
+  .customer-story-quote {
+    padding: 1.4rem 1rem;
+  }
+
+  .customer-story-actions {
+    gap: .55rem;
+  }
+
+  .customer-story-action {
+    min-height: 46px;
+    border-radius: 8px;
+    font-size: .75rem;
+  }
+
+  .home-faq-item summary {
+    min-height: 62px;
+    padding: .85rem 1rem;
+    font-size: 1rem;
+  }
+
+  .home-faq-item p {
+    margin-bottom: 1rem;
+    padding: 0 1rem;
+    font-size: .92rem;
+  }
+}
