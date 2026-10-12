@@ -19,14 +19,14 @@
 @media (max-width: 767px) {
   .factory-hero .hero-v2-container {
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     justify-content: center;
     min-height: 100%;
     padding: 0 1rem !important;
   }
 
   .factory-hero .hero-v2-content {
-    width: min(100%, 34rem);
+    width: 100%;
     max-width: none;
     padding: 0 !important;
     background: transparent !important;
@@ -34,7 +34,7 @@
     box-shadow: none;
     backdrop-filter: none;
     -webkit-backdrop-filter: none;
-    text-align: center;
+    text-align: left;
   }
 
   .factory-hero .hero-script-eyebrow {
