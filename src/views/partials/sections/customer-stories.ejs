@@ -20,9 +20,37 @@
         </iframe>
       </div>
       <div class="customer-story-quote">
-        <span class="customer-story-mark" aria-hidden="true">“</span>
-        <blockquote>Cảm nhận của gia chủ về thiết kế, thi công và quá trình đồng hành.</blockquote>
-        <p>Tên khách hàng <span>•</span> Tên công trình</p>
+        <div class="customer-story-slides" aria-live="polite">
+          <div class="customer-story-slide is-active" data-customer-story-slide>
+            <span class="customer-story-mark" aria-hidden="true">“</span>
+            <blockquote>Cảm nhận của gia chủ về thiết kế, thi công và quá trình đồng hành.</blockquote>
+            <p>Chị Minh Anh <span>•</span> Căn hộ Vinhomes</p>
+          </div>
+          <div class="customer-story-slide" data-customer-story-slide hidden>
+            <span class="customer-story-mark" aria-hidden="true">“</span>
+            <blockquote>Không gian sau hoàn thiện vượt mong đợi: ấm áp, tiện nghi và rất đúng với lối sống của gia đình.</blockquote>
+            <p>Anh Hoàng Nam <span>•</span> Nhà phố Ecopark</p>
+          </div>
+          <div class="customer-story-slide" data-customer-story-slide hidden>
+            <span class="customer-story-mark" aria-hidden="true">“</span>
+            <blockquote>Đội ngũ tư vấn kỹ, thi công chỉn chu và bàn giao đúng tiến độ như cam kết ban đầu.</blockquote>
+            <p>Chị Thu Trang <span>•</span> Biệt thự Park City</p>
+          </div>
+        </div>
+
+        <div class="customer-story-navigation" aria-label="Điều hướng đánh giá khách hàng">
+          <button type="button" class="customer-story-nav" data-customer-story-prev aria-label="Xem đánh giá trước">
+            <span aria-hidden="true">‹</span>
+          </button>
+          <div class="customer-story-dots" role="tablist" aria-label="Chọn đánh giá khách hàng">
+            <button type="button" class="is-active" data-customer-story-dot aria-label="Xem đánh giá 1" aria-selected="true"></button>
+            <button type="button" data-customer-story-dot aria-label="Xem đánh giá 2" aria-selected="false"></button>
+            <button type="button" data-customer-story-dot aria-label="Xem đánh giá 3" aria-selected="false"></button>
+          </div>
+          <button type="button" class="customer-story-nav" data-customer-story-next aria-label="Xem đánh giá tiếp theo">
+            <span aria-hidden="true">›</span>
+          </button>
+        </div>
       </div>
     </article>
 

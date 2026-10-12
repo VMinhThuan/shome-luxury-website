@@ -152,6 +152,34 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
+  // 3.1 HOME CUSTOMER STORY SLIDER
+  const customerStory = document.querySelector('.customer-story-card');
+  if (customerStory) {
+    const slides = Array.from(customerStory.querySelectorAll('[data-customer-story-slide]'));
+    const dots = Array.from(customerStory.querySelectorAll('[data-customer-story-dot]'));
+    const previousButton = customerStory.querySelector('[data-customer-story-prev]');
+    const nextButton = customerStory.querySelector('[data-customer-story-next]');
+    let activeStoryIndex = 0;
+
+    const showCustomerStory = (nextIndex) => {
+      activeStoryIndex = (nextIndex + slides.length) % slides.length;
+      slides.forEach((slide, index) => {
+        const isActive = index === activeStoryIndex;
+        slide.hidden = !isActive;
+        slide.classList.toggle('is-active', isActive);
+      });
+      dots.forEach((dot, index) => {
+        const isActive = index === activeStoryIndex;
+        dot.classList.toggle('is-active', isActive);
+        dot.setAttribute('aria-selected', String(isActive));
+      });
+    };
+
+    previousButton?.addEventListener('click', () => showCustomerStory(activeStoryIndex - 1));
+    nextButton?.addEventListener('click', () => showCustomerStory(activeStoryIndex + 1));
+    dots.forEach((dot, index) => dot.addEventListener('click', () => showCustomerStory(index)));
+  }
+
   // 4. CONSULTATION MODAL
   const consultModal = document.getElementById('consultModal');
   const modalCloseBtn = document.getElementById('modalCloseBtn');
