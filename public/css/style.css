@@ -12580,3 +12580,137 @@ body.quote-project-gallery-open { overflow: hidden; }
     aspect-ratio: 16 / 9;
   }
 }
+
+/* Office & workshop — calm centred typography and a balanced capability panel. */
+.office-team-section,
+.home-workshop-section {
+  padding: clamp(3.25rem, 6vw, 5.5rem) 0;
+}
+
+.office-team-header,
+.home-workshop-header {
+  max-width: 980px;
+  margin: 0 auto clamp(1.55rem, 3vw, 2.35rem) !important;
+  text-align: center;
+}
+
+.office-team-title,
+.home-workshop-title {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  justify-content: center;
+  gap: .34em;
+  margin: 0 0 .72rem;
+  line-height: 1;
+}
+
+.office-team-script,
+.home-workshop-script {
+  color: var(--accent-gold);
+  font-size: clamp(2.2rem, 4.7vw, 3.75rem);
+  line-height: .9;
+  white-space: nowrap;
+}
+
+.office-team-main,
+.home-workshop-main {
+  color: #17120f;
+  font-size: clamp(1.85rem, 3.55vw, 3rem);
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.office-team-subtitle,
+.home-workshop-subtitle {
+  margin: 0 auto;
+  color: #68615b;
+  font-size: clamp(.9rem, 1.4vw, 1.08rem);
+  line-height: 1.45;
+}
+
+.office-team-banner {
+  max-width: 1120px;
+  border-radius: 18px;
+}
+
+.home-workshop-grid {
+  width: min(1120px, 100%);
+  max-width: none;
+  grid-template-columns: minmax(0, .96fr) minmax(0, 1.04fr);
+  align-items: stretch;
+  gap: clamp(.85rem, 1.8vw, 1.35rem);
+}
+
+.home-workshop-visual {
+  aspect-ratio: 3 / 2;
+  border-radius: 16px;
+}
+
+.home-workshop-visual img {
+  object-position: center;
+}
+
+.home-workshop-pills {
+  height: 100%;
+  gap: clamp(.5rem, .9vw, .75rem);
+}
+
+.home-workshop-pill {
+  flex: 1 1 0;
+  min-height: 0;
+  padding: clamp(.55rem, 1.1vw, .78rem) clamp(.8rem, 1.5vw, 1.15rem);
+}
+
+@media (max-width: 767px) {
+  .office-team-section,
+  .home-workshop-section {
+    padding: 3rem 0 3.5rem;
+  }
+
+  .office-team-title,
+  .home-workshop-title {
+    flex-wrap: wrap;
+    gap: .42rem .28em;
+  }
+
+  .office-team-script,
+  .home-workshop-script {
+    flex-basis: 100%;
+    font-size: clamp(2rem, 10.5vw, 2.75rem);
+    line-height: 1;
+  }
+
+  .office-team-main,
+  .home-workshop-main {
+    font-size: clamp(1.65rem, 8.3vw, 2.3rem);
+    line-height: 1.12;
+  }
+
+  .office-team-subtitle,
+  .home-workshop-subtitle {
+    font-size: .88rem;
+  }
+
+  .office-team-banner {
+    border-radius: 14px;
+  }
+
+  .home-workshop-grid {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: .55rem;
+  }
+
+  .home-workshop-visual {
+    aspect-ratio: 4 / 3;
+    border-radius: 12px;
+  }
+
+  .home-workshop-pills {
+    gap: .35rem;
+  }
+
+  .home-workshop-pill {
+    flex: initial;
+  }
+}
