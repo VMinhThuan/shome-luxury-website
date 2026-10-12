@@ -12714,3 +12714,49 @@ body.quote-project-gallery-open { overflow: hidden; }
     flex: initial;
   }
 }
+
+/* Homepage headings — centred consistently, without decorative separator strokes. */
+.story-divider-line,
+.partners-divider,
+.why-choose-sep,
+.type-card-name::after,
+.project-type-card--reverse .type-card-name::after {
+  display: none !important;
+}
+
+.hero-v2-content,
+.about-showroom-header,
+.professional-team-content,
+.project-consultation-header {
+  margin-right: auto;
+  margin-left: auto;
+  text-align: center;
+}
+
+.hero-v2-content {
+  width: 100%;
+}
+
+.about-showroom-desc,
+.team-desc-lines {
+  margin-right: auto;
+  margin-left: auto;
+}
+
+.project-consultation-header .hero-script-eyebrow {
+  display: inline-block;
+}
+
+@media (max-width: 767px) {
+  .hero-v2-content {
+    display: block !important;
+    max-width: 100% !important;
+    text-align: center;
+  }
+
+  .about-showroom-header,
+  .professional-team-content,
+  .project-consultation-header {
+    text-align: center;
+  }
+}
