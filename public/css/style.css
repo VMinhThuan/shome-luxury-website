@@ -14,6 +14,47 @@
   font-display: swap;
 }
 
+/* Keep the original Xưởng sản xuất banner composition independent of the
+   homepage hero. This only applies on phone-sized screens. */
+@media (max-width: 767px) {
+  .factory-hero .hero-v2-container {
+    display: flex;
+    align-items: flex-end;
+    min-height: 100%;
+    padding: 0 0.85rem 0.8rem !important;
+  }
+
+  .factory-hero .hero-v2-content {
+    width: min(84%, 34rem);
+    max-width: none;
+    padding: 0.8rem 1rem 0.72rem !important;
+    background: rgba(18, 14, 11, 0.78) !important;
+    border-radius: 10px;
+  }
+
+  .factory-hero .hero-script-eyebrow {
+    margin: 0 0 0.22rem;
+    font-size: clamp(1.65rem, 7.2vw, 2.35rem);
+    font-weight: 500;
+    line-height: 0.95;
+  }
+
+  .factory-hero .hero-v2-title,
+  .factory-hero .hero-v2-title .text-accent-brown {
+    color: #fff !important;
+    font-size: clamp(1.12rem, 4.75vw, 1.55rem) !important;
+    font-weight: 800;
+    line-height: 1.14 !important;
+  }
+
+  .factory-hero .hero-v2-sub-eyebrow {
+    margin-top: 0.35rem;
+    color: var(--accent-gold, #cda250) !important;
+    font-size: clamp(0.66rem, 2.8vw, 0.86rem);
+    line-height: 1.35;
+  }
+}
+
 :root {
   /* Color Palette */
   --bg-primary: #FAF9F6;
