@@ -7,7 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400&family=Playfair+Display:ital,wght@0,600;0,700;0,800;0,900;1,600&family=Great+Vibes&family=Alex+Brush&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="/css/style.css?v=6.5.73" />
+  <link rel="stylesheet" href="/css/style.css?v=6.5.75" />
   <style>
     /* Alternating section backgrounds on quote page handled by style.css design system */
     .quote-page .quote-video-card-link { display: block; cursor: pointer; }
@@ -340,7 +340,10 @@
       @media (max-width: 767px) {
         .quote-page .quote-hero {
           min-height: 0 !important;
-          padding: calc(var(--header-height-mobile) + 0.8rem) 0 0 !important;
+          /* The mobile header is fixed: reserve space outside the banner so
+             the brochure heading can never sit behind it. */
+          margin-top: var(--header-height-mobile) !important;
+          padding: 0 !important;
           background-image: none !important;
           background-color: #fffbf6 !important;
           display: block !important;
