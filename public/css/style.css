@@ -19,21 +19,26 @@
 @media (max-width: 767px) {
   .factory-hero .hero-v2-container {
     display: flex;
-    align-items: flex-end;
+    align-items: center;
+    justify-content: center;
     min-height: 100%;
-    padding: 0 0.85rem 0.8rem !important;
+    padding: 0 1rem !important;
   }
 
   .factory-hero .hero-v2-content {
-    width: min(84%, 34rem);
+    width: min(100%, 34rem);
     max-width: none;
-    padding: 0.8rem 1rem 0.72rem !important;
-    background: rgba(18, 14, 11, 0.78) !important;
-    border-radius: 10px;
+    padding: 0 !important;
+    background: transparent !important;
+    border-radius: 0;
+    box-shadow: none;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    text-align: center;
   }
 
   .factory-hero .hero-script-eyebrow {
-    margin: 0 0 0.22rem;
+    margin: 0 0 0.45rem;
     font-size: clamp(1.65rem, 7.2vw, 2.35rem);
     font-weight: 500;
     line-height: 0.95;
