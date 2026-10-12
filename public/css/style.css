@@ -12437,9 +12437,22 @@ body.quote-project-gallery-open { overflow: hidden; }
 
 @media (max-width: 767px) {
   .project-types-title {
-    flex-wrap: wrap;
-    gap: 0 .18em;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    align-items: center;
+    gap: .42rem;
     font-size: clamp(1.8rem, 9vw, 2.45rem);
+    line-height: 1.08;
+  }
+
+  .project-types-title .title-main,
+  .project-types-title .title-script {
+    display: block;
+    line-height: 1.08;
+  }
+
+  .project-types-title .title-script {
+    font-size: 1.06em;
   }
 
   .project-types-grid {
@@ -12541,24 +12554,30 @@ body.quote-project-gallery-open { overflow: hidden; }
 
   .brand-story-title {
     display: grid;
-    gap: .6rem;
+    gap: .72rem;
     line-height: 1;
   }
 
   .story-title-script {
     display: block;
-    font-size: clamp(2rem, 11vw, 3rem);
-    line-height: 1;
-    white-space: nowrap;
+    width: 100%;
+    max-width: 100%;
+    margin: 0 auto;
+    font-size: clamp(1.7rem, 8vw, 2.35rem);
+    line-height: 1.12;
+    white-space: normal;
+    overflow-wrap: anywhere;
   }
 
   .story-title-main {
     display: block;
-    font-size: clamp(1.8rem, 9vw, 2.6rem);
-    line-height: 1.18;
+    margin-top: .1rem;
+    font-size: clamp(1.75rem, 8.6vw, 2.45rem);
+    line-height: 1.12;
   }
 
   .brand-story-subtitle {
+    margin-top: .25rem;
     gap: .65rem;
     font-size: clamp(.82rem, 3.8vw, .98rem);
     line-height: 1.45;
@@ -12687,6 +12706,41 @@ body.quote-project-gallery-open { overflow: hidden; }
     line-height: 1.12;
   }
 
+  /* Keep the office/team heading as one calm, centred line on phones. */
+  .office-team-title {
+    flex-wrap: nowrap;
+    gap: .18em;
+    white-space: nowrap;
+  }
+
+  .home-workshop-title {
+    flex-wrap: nowrap;
+    gap: .18em;
+    white-space: nowrap;
+  }
+
+  .office-team-script {
+    flex-basis: auto;
+    font-size: clamp(1.15rem, 7vw, 2.25rem);
+    line-height: 1;
+  }
+
+  .office-team-main {
+    font-size: clamp(1.1rem, 6.55vw, 2.05rem);
+    line-height: 1;
+  }
+
+  .home-workshop-script {
+    flex-basis: auto;
+    font-size: clamp(1.15rem, 7vw, 2.25rem);
+    line-height: 1;
+  }
+
+  .home-workshop-main {
+    font-size: clamp(1.1rem, 6.55vw, 2.05rem);
+    line-height: 1;
+  }
+
   .office-team-subtitle,
   .home-workshop-subtitle {
     font-size: .88rem;
@@ -12798,10 +12852,15 @@ body.quote-project-gallery-open { overflow: hidden; }
 }
 
 @media (max-width: 767px) {
+  .home-page .hero-section-v2 {
+    justify-content: center;
+  }
+
   .home-page .hero-v2-container {
-    align-items: flex-end;
+    align-items: center;
     padding-right: 1rem !important;
     padding-left: 1.2rem !important;
+    transform: translateY(-5%);
   }
 
   .home-page .hero-v2-content {
@@ -12809,8 +12868,11 @@ body.quote-project-gallery-open { overflow: hidden; }
     max-width: 100% !important;
     margin: 0 !important;
     padding: .85rem 1rem .9rem !important;
-    border-radius: 8px;
-    background: rgba(18, 14, 11, .68) !important;
+    border-radius: 0;
+    background: transparent !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    box-shadow: none !important;
     text-align: left;
   }
 
@@ -12820,9 +12882,10 @@ body.quote-project-gallery-open { overflow: hidden; }
   }
 
   .home-page .hero-script-subtitle {
-    margin-top: .5rem !important;
-    font-size: clamp(1.2rem, 6.2vw, 1.9rem) !important;
-    line-height: 1.12 !important;
+    margin-top: .72rem !important;
+    font-size: clamp(1rem, 5.2vw, 1.6rem) !important;
+    line-height: 1.2 !important;
+    white-space: nowrap;
   }
 }
 
