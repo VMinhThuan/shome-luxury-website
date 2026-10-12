@@ -13917,6 +13917,10 @@ body.quote-project-gallery-open { overflow: hidden; }
 }
 
 @media (max-width: 767px) {
+  .home-page .professional-team-card {
+    min-height: clamp(270px, 72vw, 330px);
+  }
+
   /* Keep the handwritten brand-story heading on one calm line on phones. */
   .home-page .story-title-script {
     width: auto;
