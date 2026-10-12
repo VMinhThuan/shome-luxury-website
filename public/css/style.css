@@ -13917,6 +13917,26 @@ body.quote-project-gallery-open { overflow: hidden; }
 }
 
 @media (max-width: 767px) {
+  /* Keep the handwritten brand-story heading on one calm line on phones. */
+  .home-page .story-title-script {
+    width: auto;
+    max-width: none;
+    font-size: clamp(1.25rem, 5vw, 1.85rem);
+    line-height: 1;
+    white-space: nowrap;
+    overflow-wrap: normal;
+  }
+
+  /* Let the team photo fill the complete two-column card height on phones. */
+  .home-page .professional-team-media {
+    aspect-ratio: auto;
+  }
+
+  .home-page .professional-team-media img {
+    aspect-ratio: auto;
+    min-height: 100%;
+  }
+
   /* Pull copy in the right-hand project cards slightly toward centre. */
   .home-page .home-project-signature-card--copy-right .home-project-signature-copy {
     transform: translateX(-.8rem);
