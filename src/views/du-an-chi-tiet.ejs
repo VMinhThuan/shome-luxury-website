@@ -8,7 +8,7 @@
   <meta name="theme-color" content="#171717" />
 
   <!-- CSS Stylesheet -->
-  <link rel="stylesheet" href="/css/style.css?v=6.4.10" />
+  <link rel="stylesheet" href="/css/style.css?v=6.5.73" />
   <script src="/js/main.js?v=1.9.0" defer></script>
 </head>
 <body>
@@ -84,19 +84,21 @@
           <% }); %>
         </div>
       </section>
+    </div> <!-- /container for project detail -->
 
-      <!-- Related Projects -->
-      <% if (relatedProjects && relatedProjects.length > 0) { %>
-        <section class="related-projects-section">
+    <!-- Related Projects (Full-width section with alternating cream background) -->
+    <% if (relatedProjects && relatedProjects.length > 0) { %>
+      <section class="related-projects-section">
+        <div class="container">
           <h2 class="section-title">DỰ ÁN LIÊN QUAN</h2>
           <div class="project-list-vertical">
             <% relatedProjects.forEach(relProj => { %>
               <%- include("partials/project-card", { project: relProj }) %>
             <% }); %>
           </div>
-        </section>
-      <% } %>
-    </div>
+        </div>
+      </section>
+    <% } %>
   </main>
 
   <!-- Footer -->

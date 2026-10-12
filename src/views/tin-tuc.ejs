@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <title><%= title %></title>
   <meta name="description" content="Cập nhật xu hướng thiết kế, kinh nghiệm thi công và phong cách sống cùng SHOME LUXURY." />
-  <link rel="stylesheet" href="/css/style.css?v=6.2.8" />
+  <link rel="stylesheet" href="/css/style.css?v=6.5.73" />
   <script src="/js/main.js?v=1.9.0" defer></script>
 </head>
 <body class="page-news">
@@ -25,9 +25,10 @@
       </div>
     </section>
 
-    <section class="news-content-section">
-      <div class="container">
-        <% if (articles && articles.length > 0) { %>
+    <% if (articles && articles.length > 0) { %>
+      <!-- Featured Article Section (Alternating Cream Background) -->
+      <section class="news-featured-section">
+        <div class="container">
           <article class="news-featured" onclick="window.location.href='/tin-tuc/<%= articles[0].id %>'" style="cursor: pointer;">
             <a href="/tin-tuc/<%= articles[0].id %>">
               <img src="<%= articles[0].image %>" alt="<%= articles[0].title %>" width="900" height="480" />
@@ -39,8 +40,13 @@
               <div class="news-featured-meta"><span>◷ <%= articles[0].date %></span><span>◈ <%= articles[0].category %></span></div>
             </div>
           </article>
-        <% } %>
+        </div>
+      </section>
+    <% } %>
 
+    <!-- Latest Articles Section (Crisp White Background) -->
+    <section class="news-latest-section">
+      <div class="container">
         <div class="news-section-heading" id="moi-nhat">
           <div><h2>Bài viết mới nhất</h2></div>
         </div>
