@@ -12523,6 +12523,8 @@ body.quote-project-gallery-open { overflow: hidden; }
   max-width: 52%;
   margin-left: 0;
   padding: clamp(1.1rem, 2.2vw, 1.8rem);
+  align-self: stretch;
+  box-sizing: border-box;
   justify-content: center;
 }
 
@@ -13051,18 +13053,22 @@ body.quote-project-gallery-open { overflow: hidden; }
     flex-direction: column;
     justify-content: center;
     min-width: 0;
+    align-items: flex-start;
+    text-align: left;
   }
 
   .home-page .team-script-eyebrow {
     margin-bottom: .45rem;
-    font-size: clamp(1.2rem, 6vw, 1.7rem);
+    font-size: clamp(1rem, 5.3vw, 1.45rem);
     line-height: 1.08;
+    white-space: nowrap;
   }
 
   .home-page .team-title-main {
     margin-bottom: .65rem;
-    font-size: clamp(1.1rem, 5.2vw, 1.55rem);
+    font-size: clamp(1rem, 4.75vw, 1.4rem);
     line-height: 1.12;
+    white-space: nowrap;
   }
 
   .home-page .team-desc-lines {
@@ -13511,5 +13517,18 @@ body.quote-project-gallery-open { overflow: hidden; }
     margin-bottom: 1rem;
     padding: 0 1rem;
     font-size: .92rem;
+  }
+}
+
+/* Homepage only: keep the editorial sections visually connected, without excess white gaps. */
+.home-page #main-content > section:not(.hero-section-v2) {
+  padding-top: clamp(2.15rem, 3.8vw, 3.25rem) !important;
+  padding-bottom: clamp(2.15rem, 3.8vw, 3.25rem) !important;
+}
+
+@media (max-width: 767px) {
+  .home-page #main-content > section:not(.hero-section-v2) {
+    padding-top: 2.1rem !important;
+    padding-bottom: 2.1rem !important;
   }
 }
