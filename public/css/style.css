@@ -13526,9 +13526,94 @@ body.quote-project-gallery-open { overflow: hidden; }
   padding-bottom: clamp(2.15rem, 3.8vw, 3.25rem) !important;
 }
 
+/* Homepage materials and partner marks. */
+.material-partners-section {
+  background: linear-gradient(135deg, #fffdf9 0%, #f8f0e4 52%, #fffdf9 100%);
+}
+
+.material-partners-header {
+  margin: 0 auto clamp(1.25rem, 2.4vw, 2rem);
+  text-align: center;
+}
+
+.material-partners-header h2 {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: center;
+  gap: 0 .18em;
+  margin: 0;
+  color: #18130f;
+  font-family: 'Playfair Display', Georgia, serif;
+  line-height: 1;
+}
+
+.material-partners-script {
+  color: #bc781d;
+  font-size: clamp(2.25rem, 4.8vw, 4rem);
+  font-weight: 500;
+  line-height: .88;
+}
+
+.material-partners-main {
+  font-size: clamp(2rem, 4vw, 3.4rem);
+  font-weight: 800;
+  line-height: 1;
+}
+
+.material-partners-grid {
+  display: grid;
+  width: min(100%, 1000px);
+  margin: 0 auto;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(.65rem, 1.25vw, 1rem);
+}
+
+.material-partner-logo {
+  display: grid;
+  min-height: clamp(68px, 8vw, 98px);
+  place-items: center;
+  overflow: hidden;
+  border: 1px solid rgba(195, 164, 117, .12);
+  border-radius: 10px;
+  background: #fff;
+  box-shadow: 0 7px 20px rgba(68, 46, 20, .06);
+}
+
+.material-partner-logo img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
 @media (max-width: 767px) {
   .home-page #main-content > section:not(.hero-section-v2) {
     padding-top: 2.1rem !important;
     padding-bottom: 2.1rem !important;
+  }
+
+  .material-partners-header h2 {
+    flex-direction: column;
+    align-items: center;
+    gap: .45rem;
+  }
+
+  .material-partners-script {
+    font-size: clamp(2rem, 10vw, 2.8rem);
+  }
+
+  .material-partners-main {
+    font-size: clamp(1.8rem, 8.2vw, 2.5rem);
+  }
+
+  .material-partners-grid {
+    gap: .55rem;
+  }
+
+  .material-partner-logo {
+    min-height: clamp(58px, 20vw, 78px);
+    border-radius: 8px;
   }
 }
