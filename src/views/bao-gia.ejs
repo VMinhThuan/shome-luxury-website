@@ -1137,6 +1137,15 @@
       justify-content: center !important;
       align-self: center !important;
     }
+
+    /* The header is fixed. Reserve its space outside the mobile brochure so
+       the first title line can never slide underneath it. */
+    @media (max-width: 767px) {
+      .quote-page .quote-hero {
+        margin-top: var(--header-height-mobile) !important;
+        padding-top: 0 !important;
+      }
+    }
   </style>
   <script src="/js/main.js?v=1.9.1" defer></script>
   <script src="/js/quote-page.js?v=1.2.1" defer></script>
