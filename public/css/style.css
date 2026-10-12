@@ -12351,6 +12351,150 @@ body.quote-project-gallery-open { overflow: hidden; }
   gap: clamp(.75rem, 1.4vw, 1.15rem);
 }
 
+/* Homepage: a separate project-signature gallery, placed after the workshop. */
+.home-project-signatures-section {
+  padding: clamp(3.4rem, 6vw, 5.75rem) 0;
+  background: #fffdf9;
+}
+
+.home-project-signatures-header {
+  margin: 0 auto clamp(1.65rem, 3vw, 2.5rem);
+  text-align: center;
+}
+
+.home-project-signatures-title {
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  gap: .16em;
+  margin: 0;
+  color: #17120f;
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: clamp(2rem, 4vw, 3.35rem);
+  line-height: 1;
+}
+
+.home-project-signatures-main {
+  font-weight: 700;
+}
+
+.home-project-signatures-script {
+  color: var(--accent-gold);
+  font-family: var(--font-script) !important;
+  font-size: 1.12em;
+  font-weight: 500;
+  line-height: .8;
+  white-space: nowrap;
+}
+
+.home-project-signatures-header > p {
+  margin: .78rem 0 0;
+  color: #827a71;
+  font-size: clamp(.8rem, 1.2vw, 1rem);
+}
+
+.home-project-signatures-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  width: min(100%, 1120px);
+  margin: 0 auto;
+  gap: clamp(.8rem, 1.45vw, 1.2rem);
+}
+
+.home-project-signature-card {
+  position: relative;
+  isolation: isolate;
+  display: flex;
+  min-height: clamp(265px, 27vw, 355px);
+  overflow: hidden;
+  border-radius: 15px;
+  background-image: url('/images/home-project-signatures-v1.png');
+  background-size: 200% 200%;
+  box-shadow: 0 10px 26px rgba(61, 40, 16, .1);
+}
+
+.home-project-signature-card::before {
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  content: '';
+  background: linear-gradient(90deg, rgba(255, 252, 246, .98) 0%, rgba(255, 252, 246, .9) 38%, rgba(255, 252, 246, 0) 66%);
+}
+
+.home-project-signature-card--apartment { background-position: left top; }
+.home-project-signature-card--townhouse { background-position: right top; }
+.home-project-signature-card--villa { background-position: left bottom; }
+.home-project-signature-card--office { background-position: right bottom; }
+
+.home-project-signature-card--copy-right {
+  justify-content: flex-end;
+}
+
+.home-project-signature-card--copy-right::before {
+  background: linear-gradient(270deg, rgba(255, 252, 246, .98) 0%, rgba(255, 252, 246, .9) 38%, rgba(255, 252, 246, 0) 66%);
+}
+
+.home-project-signature-copy {
+  width: 49%;
+  padding: clamp(1.35rem, 3vw, 2.45rem);
+}
+
+.home-project-signature-number {
+  display: block;
+  color: #bc4b4b;
+  font-size: .75rem;
+  font-weight: 700;
+  letter-spacing: .06em;
+}
+
+.home-project-signature-copy h3 {
+  margin: .62rem 0 0;
+  color: #17120f;
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: clamp(1.45rem, 2.5vw, 2.15rem);
+  font-weight: 700;
+  line-height: 1.05;
+}
+
+.home-project-signature-rule {
+  display: block;
+  width: 31px;
+  height: 1px;
+  margin: .7rem 0;
+  background: #c64e4e;
+}
+
+.home-project-signature-copy p {
+  margin: 0;
+  color: #77716b;
+  font-size: clamp(.72rem, 1.1vw, .9rem);
+  line-height: 1.45;
+}
+
+.home-project-signature-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 110px;
+  min-height: 35px;
+  margin-top: 1rem;
+  padding: .4rem .9rem;
+  border: 1px solid #c54f4f;
+  border-radius: 5px;
+  color: #ab3434;
+  background: rgba(255, 255, 255, .66);
+  font-size: .76rem;
+  font-weight: 700;
+  text-decoration: none;
+  transition: background-color .2s ease, color .2s ease, transform .2s ease;
+}
+
+.home-project-signature-link:hover {
+  color: #fff;
+  background: #b64040;
+  transform: translateY(-2px);
+}
+
 .project-type-card,
 .project-type-card--reverse {
   min-height: clamp(215px, 20vw, 285px);
@@ -12436,6 +12580,59 @@ body.quote-project-gallery-open { overflow: hidden; }
 }
 
 @media (max-width: 767px) {
+  .home-project-signatures-section {
+    padding: 3.25rem 0;
+  }
+
+  .home-project-signatures-title {
+    flex-direction: column;
+    align-items: center;
+    gap: .36rem;
+    font-size: clamp(1.9rem, 9vw, 2.45rem);
+    line-height: 1.08;
+  }
+
+  .home-project-signatures-script {
+    font-size: 1.08em;
+    line-height: 1;
+  }
+
+  .home-project-signatures-header > p {
+    margin-top: .7rem;
+  }
+
+  .home-project-signatures-grid {
+    grid-template-columns: 1fr;
+    gap: .7rem;
+  }
+
+  .home-project-signature-card {
+    min-height: clamp(210px, 61vw, 300px);
+    border-radius: 10px;
+  }
+
+  .home-project-signature-copy {
+    width: 48%;
+    padding: clamp(1.1rem, 5vw, 1.65rem);
+  }
+
+  .home-project-signature-copy h3 {
+    margin-top: .5rem;
+    font-size: clamp(1.4rem, 7vw, 2rem);
+  }
+
+  .home-project-signature-rule {
+    margin: .55rem 0;
+  }
+
+  .home-project-signature-link {
+    min-width: 96px;
+    min-height: 31px;
+    margin-top: .75rem;
+    padding: .32rem .65rem;
+    font-size: .68rem;
+  }
+
   .project-types-title {
     flex-direction: column;
     flex-wrap: nowrap;
