@@ -13132,17 +13132,17 @@ body.quote-project-gallery-open { overflow: hidden; }
 .home-page .project-type-card .type-card-gradient {
   background: linear-gradient(90deg,
       rgba(255, 255, 255, .97) 0%,
-      rgba(255, 255, 255, .90) 40%,
-      rgba(255, 255, 255, .62) 70%,
-      rgba(255, 255, 255, .34) 100%);
+      rgba(255, 255, 255, .93) 48%,
+      rgba(255, 255, 255, .18) 60%,
+      rgba(255, 255, 255, 0) 70%);
 }
 
 .home-page .project-type-card--reverse .type-card-gradient {
   background: linear-gradient(270deg,
       rgba(255, 255, 255, .97) 0%,
-      rgba(255, 255, 255, .90) 40%,
-      rgba(255, 255, 255, .62) 70%,
-      rgba(255, 255, 255, .34) 100%);
+      rgba(255, 255, 255, .93) 48%,
+      rgba(255, 255, 255, .18) 60%,
+      rgba(255, 255, 255, 0) 70%);
 }
 
 .home-page .project-type-card .type-card-content {
