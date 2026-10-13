@@ -19,7 +19,7 @@
 @media (max-width: 767px) {
   .factory-hero .hero-v2-container {
     display: flex;
-    align-items: flex-start;
+    align-items: center;
     justify-content: center;
     min-height: 100%;
     padding: 0 1rem !important;
@@ -13976,6 +13976,17 @@ body.quote-project-gallery-open { overflow: hidden; }
 
 .home-page .customer-testimonial-nav--prev { left: -30px; }
 .home-page .customer-testimonial-nav--next { right: -30px; }
+
+/* Homepage-only surface trial: a light version of the charcoal used in the
+   Shome mark replaces the alternating cream and white section backgrounds. */
+.home-page,
+.home-page #main-content {
+  background-color: #e7e8e9;
+}
+
+.home-page #main-content > section:not(.hero-section-v2) {
+  background: #e7e8e9 !important;
+}
 
 @media (max-width: 767px) {
   .home-page .customer-testimonial-grid {
