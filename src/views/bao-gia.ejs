@@ -7,7 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400&family=Playfair+Display:ital,wght@0,600;0,700;0,800;0,900;1,600&family=Great+Vibes&family=Alex+Brush&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="/css/style.css?v=6.5.76" />
+  <link rel="stylesheet" href="/css/style.css?v=6.5.77" />
   <style>
     /* Alternating section backgrounds on quote page handled by style.css design system */
     .quote-page .quote-video-card-link { display: block; cursor: pointer; }
@@ -365,27 +365,30 @@
           width: 51% !important;
           max-width: none !important;
           min-height: 0 !important;
-          padding: 8% 3.75% 14% !important;
+          box-sizing: border-box !important;
+          padding: 5% 3.75% 7% !important;
           background: linear-gradient(90deg, rgba(255, 252, 247, .98) 0%, rgba(255, 252, 247, .89) 80%, rgba(255, 252, 247, .16) 100%) !important;
           align-self: stretch !important;
+          justify-content: center !important;
         }
         .quote-page .quote-brochure-copy h1 {
           margin-bottom: 0.75rem !important;
         }
         .quote-page .quote-brochure-copy h1 em {
-          font-size: clamp(2rem, 8vw, 2.7rem) !important;
+          font-size: clamp(1.3rem, 5.6vw, 1.9rem) !important;
         }
         .quote-page .quote-brochure-copy h1 .quote-title-line1,
         .quote-page .quote-brochure-copy h1 .quote-title-line2 {
-          font-size: clamp(2rem, 8.5vw, 2.8rem) !important;
+          font-size: clamp(1.4rem, 5.9vw, 2.05rem) !important;
         }
         .quote-page .quote-brochure-copy .quote-lead {
           max-width: 100% !important;
-          font-size: 0.95rem !important;
-          margin-bottom: 1.2rem !important;
+          font-size: clamp(.68rem, 2.6vw, .84rem) !important;
+          line-height: 1.32 !important;
+          margin-bottom: .55rem !important;
         }
         .quote-page .quote-hero-traits {
-          font-size: 0.65rem !important;
+          font-size: clamp(.48rem, 1.85vw, .62rem) !important;
           letter-spacing: 0.1em !important;
         }
         .quote-page .quote-hero-traits span:first-child::after {
