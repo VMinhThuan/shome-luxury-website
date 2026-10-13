@@ -8,73 +8,46 @@
       <p>Lắng nghe trải nghiệm sau mỗi công trình.</p>
     </header>
 
-    <article class="customer-story-card">
-      <div class="customer-story-video">
-        <iframe
-          src="https://www.youtube-nocookie.com/embed/hoUvh1w9tII?rel=0&amp;modestbranding=1"
-          title="Video chia sẻ khách hàng Shome Luxury"
-          loading="lazy"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-          referrerpolicy="strict-origin-when-cross-origin"
-          allowfullscreen>
-        </iframe>
+    <div class="customer-testimonial-wrap">
+      <button class="customer-testimonial-nav customer-testimonial-nav--prev" type="button" aria-label="Xem đánh giá trước">‹</button>
+      <div class="customer-testimonial-grid" aria-label="Các chia sẻ từ khách hàng">
+        <article class="customer-testimonial-card">
+          <div class="customer-testimonial-user">
+            <img src="/images/avatars/avatar-anh-vu.jpg" alt="Anh Vũ" width="64" height="64" />
+            <div><h3>Anh Vũ</h3><span aria-label="5 trên 5 sao">★★★★★</span></div>
+          </div>
+          <p class="customer-testimonial-message">Tôi tới phút này cảm nhận quyết định đúng vì đã chọn bên em.</p>
+          <div class="customer-testimonial-footer">
+            <div class="customer-testimonial-reply"><strong>Minh Hiếu</strong><span>@minhhieu Dạ em cảm ơn anh nhiều nha.</span></div>
+            <b aria-hidden="true">”</b>
+          </div>
+        </article>
+
+        <article class="customer-testimonial-card">
+          <div class="customer-testimonial-user">
+            <img src="/images/avatars/avatar-hue-luong.jpg" alt="Chị Hue Luong" width="64" height="64" />
+            <div><h3>Chị Hue Luong</h3><span aria-label="5 trên 5 sao">★★★★★</span></div>
+          </div>
+          <p class="customer-testimonial-message">Chị gửi lời cảm ơn đến đội ngũ Nội thất Shome Luxury, cả nhà chị đều hài lòng với tư vấn thiết kế cũng như đội ngũ thi công của bên em.</p>
+          <div class="customer-testimonial-footer">
+            <div class="customer-testimonial-reply"><strong>Shome Luxury</strong><span>@shome Dạ cảm ơn chị đã tin tưởng ủng hộ đội ngũ!</span></div>
+            <b aria-hidden="true">”</b>
+          </div>
+        </article>
+
+        <article class="customer-testimonial-card">
+          <div class="customer-testimonial-user">
+            <img src="/images/avatars/avatar-rena-ngoc-thuy.jpg" alt="Chị Rena Ngọc Thùy" width="64" height="64" />
+            <div><h3>Chị Rena Ngọc Thùy</h3><span aria-label="5 trên 5 sao">★★★★★</span></div>
+          </div>
+          <p class="customer-testimonial-message">Cảm ơn đội ngũ Nội thất Shome Luxury đã đem đến 1 sản phẩm hoàn mỹ về chất lượng, giá cả, mẫu mã thiết kế và đặc biệt là thái độ làm việc rất tích cực.</p>
+          <div class="customer-testimonial-footer">
+            <div class="customer-testimonial-reply"><strong>Tuấn Anh</strong><span>@tuananh KTS Chúc gia đình chị Thùy luôn hạnh phúc!</span></div>
+            <b aria-hidden="true">”</b>
+          </div>
+        </article>
       </div>
-      <div class="customer-story-quote">
-        <div class="customer-story-slides" aria-live="polite">
-          <div class="customer-story-slide is-active" data-customer-story-slide>
-            <span class="customer-story-mark" aria-hidden="true">“</span>
-            <blockquote>Cảm nhận của gia chủ về thiết kế, thi công và quá trình đồng hành.</blockquote>
-            <p>Chị Minh Anh <span>•</span> Căn hộ Vinhomes</p>
-          </div>
-          <div class="customer-story-slide" data-customer-story-slide hidden>
-            <span class="customer-story-mark" aria-hidden="true">“</span>
-            <blockquote>Không gian sau hoàn thiện vượt mong đợi: ấm áp, tiện nghi và rất đúng với lối sống của gia đình.</blockquote>
-            <p>Anh Hoàng Nam <span>•</span> Nhà phố Ecopark</p>
-          </div>
-          <div class="customer-story-slide" data-customer-story-slide hidden>
-            <span class="customer-story-mark" aria-hidden="true">“</span>
-            <blockquote>Đội ngũ tư vấn kỹ, thi công chỉn chu và bàn giao đúng tiến độ như cam kết ban đầu.</blockquote>
-            <p>Chị Thu Trang <span>•</span> Biệt thự Park City</p>
-          </div>
-        </div>
-
-        <div class="customer-story-navigation" aria-label="Điều hướng đánh giá khách hàng">
-          <button type="button" class="customer-story-nav" data-customer-story-prev aria-label="Xem đánh giá trước">
-            <span aria-hidden="true">‹</span>
-          </button>
-          <div class="customer-story-dots" role="tablist" aria-label="Chọn đánh giá khách hàng">
-            <button type="button" class="is-active" data-customer-story-dot aria-label="Xem đánh giá 1" aria-selected="true"></button>
-            <button type="button" data-customer-story-dot aria-label="Xem đánh giá 2" aria-selected="false"></button>
-            <button type="button" data-customer-story-dot aria-label="Xem đánh giá 3" aria-selected="false"></button>
-          </div>
-          <button type="button" class="customer-story-nav" data-customer-story-next aria-label="Xem đánh giá tiếp theo">
-            <span aria-hidden="true">›</span>
-          </button>
-        </div>
-      </div>
-    </article>
-
-    <div class="customer-stories-desktop-grid" aria-label="Các chia sẻ từ khách hàng">
-      <article class="customer-story-desktop-card">
-        <span class="customer-story-mark" aria-hidden="true">“</span>
-        <blockquote>Cảm nhận của gia chủ về thiết kế, thi công và quá trình đồng hành.</blockquote>
-        <p>Chị Minh Anh <span>•</span> Căn hộ Vinhomes</p>
-      </article>
-      <article class="customer-story-desktop-card">
-        <span class="customer-story-mark" aria-hidden="true">“</span>
-        <blockquote>Không gian sau hoàn thiện vượt mong đợi: ấm áp, tiện nghi và rất đúng với lối sống của gia đình.</blockquote>
-        <p>Anh Hoàng Nam <span>•</span> Nhà phố Ecopark</p>
-      </article>
-      <article class="customer-story-desktop-card">
-        <span class="customer-story-mark" aria-hidden="true">“</span>
-        <blockquote>Đội ngũ tư vấn kỹ, thi công chỉn chu và bàn giao đúng tiến độ như cam kết ban đầu.</blockquote>
-        <p>Chị Thu Trang <span>•</span> Biệt thự Park City</p>
-      </article>
-    </div>
-
-    <div class="customer-story-actions">
-      <a href="/tin-tuc" class="customer-story-action">Xem câu chuyện</a>
-      <a href="/cong-trinh" class="customer-story-action">Xem công trình</a>
+      <button class="customer-testimonial-nav customer-testimonial-nav--next" type="button" aria-label="Xem đánh giá tiếp theo">›</button>
     </div>
   </div>
 </section>

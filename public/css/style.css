@@ -1685,6 +1685,7 @@ ol {
   z-index: 10;
   margin-top: -2.25rem;
   padding-bottom: 0.375rem;
+  background-color: #FFFFFF;
 }
 
 @media (max-width: 767px) {
@@ -1841,6 +1842,7 @@ ol {
 .about-showroom-media {
   position: relative;
   width: 100%;
+  aspect-ratio: 16 / 9;
   border-radius: 16px;
   overflow: hidden;
   box-shadow: 0 14px 38px rgba(0, 0, 0, 0.08);
@@ -1857,7 +1859,7 @@ ol {
 
 .about-showroom-media img {
   width: 100%;
-  height: auto;
+  height: 100%;
   display: block;
   object-fit: cover;
   transition: transform 0.65s cubic-bezier(0.16, 1, 0.3, 1);
@@ -3017,6 +3019,7 @@ ol {
 .booking-hero,
 .booking-estimate,
 .booking-testimonial,
+.usp-section-v2,
 .process-header-section,
 .factory-detail-section,
 .material-inspiration-section,
@@ -3045,7 +3048,6 @@ ol {
 .home-faq-section,
 .booking-process-section,
 .booking-faq,
-.usp-section-v2,
 .capacity-section-v2,
 .factory-tour-section,
 .surface-finish-section,
@@ -5502,37 +5504,6 @@ ol {
   .trust-badge-item {
     border-right: none;
     justify-content: flex-start;
-  }
-}
-
-/* Slightly larger, more legible footer type on mobile without affecting web. */
-@media (max-width: 767px) {
-  .footer-col-header {
-    font-size: 0.96rem;
-  }
-
-  .footer-address-line,
-  .footer-factory-list li {
-    font-size: 0.9rem;
-    line-height: 1.45;
-  }
-
-  .footer-company-title {
-    font-size: 0.92rem;
-  }
-
-  .footer-company-desc {
-    font-size: 0.86rem;
-    line-height: 1.45;
-  }
-
-  .footer-social-heading,
-  .card-header-title {
-    font-size: 0.82rem;
-  }
-
-  .card-header-link {
-    font-size: 0.8rem;
   }
 }
 
@@ -13141,6 +13112,44 @@ body.quote-project-gallery-open { overflow: hidden; }
   display: none !important;
 }
 
+/* Keep every project-category card consistent: image on the left, editorial
+   copy on the right and vertically centred, at every viewport size. */
+.home-page .project-type-card,
+.home-page .project-type-card--reverse {
+  align-items: stretch;
+}
+
+.home-page .project-type-card .type-card-bg img,
+.home-page .project-type-card--reverse .type-card-bg img {
+  right: auto;
+  left: 0;
+}
+
+.home-page .project-type-card .type-card-gradient,
+.home-page .project-type-card--reverse .type-card-gradient {
+  background: linear-gradient(270deg, #fcf8f1 0%, #fcf8f1 35%, rgba(252,248,241,.94) 48%, rgba(252,248,241,.28) 73%, transparent 100%);
+}
+
+.home-page .project-type-card .type-card-content,
+.home-page .project-type-card--reverse .type-card-content {
+  display: flex;
+  width: 52%;
+  max-width: 52%;
+  height: 100%;
+  margin-left: auto;
+  flex-direction: column;
+  justify-content: center;
+}
+
+@media (max-width: 767px) {
+  .home-page .project-type-card .type-card-content,
+  .home-page .project-type-card--reverse .type-card-content {
+    width: 58%;
+    max-width: 58%;
+    margin-left: auto;
+  }
+}
+
 .home-page .hero-v2-content,
 .home-page .about-showroom-header,
 .home-page .professional-team-content,
@@ -13820,6 +13829,17 @@ body.quote-project-gallery-open { overflow: hidden; }
   object-fit: cover;
 }
 
+/* The team portrait is a transparent cutout, so show the entire group rather
+   than cropping it to the editorial 16:9 media frame. */
+.home-page .professional-team-media {
+  background-color: transparent;
+}
+
+.home-page .professional-team-media img.professional-team-cutout {
+  object-fit: contain;
+  object-position: center bottom;
+}
+
 .quote-page .quote-price-image,
 .quote-page .quote-craft-photo,
 .quote-page .quote-workshop-gallery figure,
@@ -13842,6 +13862,133 @@ body.quote-project-gallery-open { overflow: hidden; }
   align-items: center;
   gap: .62rem;
   margin-bottom: 1.2rem;
+}
+
+/* Homepage customer reviews: detailed cards matching the booking review UI. */
+.home-page .customer-testimonial-wrap {
+  position: relative;
+  width: 100%;
+  max-width: var(--container-max);
+  margin: 0 auto;
+}
+
+.home-page .customer-testimonial-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(1rem, 1.55vw, 1.35rem);
+}
+
+.home-page .customer-testimonial-card {
+  display: flex;
+  min-height: 440px;
+  flex-direction: column;
+  padding: clamp(1.4rem, 2vw, 2rem);
+  border: 1px solid rgba(255, 255, 255, .9);
+  border-radius: 24px;
+  background: #fff;
+  box-shadow: 0 12px 30px rgba(80, 55, 25, .08);
+}
+
+.home-page .customer-testimonial-user {
+  display: flex;
+  align-items: center;
+  gap: .85rem;
+}
+
+.home-page .customer-testimonial-user img {
+  width: 64px;
+  height: 64px;
+  flex: 0 0 64px;
+  border: 2px solid #c89b4b;
+  border-radius: 50%;
+  object-fit: cover;
+  box-shadow: 0 4px 10px rgba(185, 128, 50, .25);
+}
+
+.home-page .customer-testimonial-user h3 {
+  margin: 0 0 .18rem;
+  color: #1f1710;
+  font-size: clamp(1.05rem, 1.45vw, 1.35rem);
+  line-height: 1.2;
+}
+
+.home-page .customer-testimonial-user span {
+  color: #c89b4b;
+  font-size: 1rem;
+  letter-spacing: .12em;
+}
+
+.home-page .customer-testimonial-message {
+  flex: 1;
+  margin: clamp(1.5rem, 2.7vw, 2.5rem) 0 1.35rem;
+  color: #2c2219;
+  font-size: clamp(1rem, 1.45vw, 1.25rem);
+  line-height: 1.65;
+}
+
+.home-page .customer-testimonial-footer {
+  display: flex;
+  align-items: end;
+  gap: .75rem;
+}
+
+.home-page .customer-testimonial-reply {
+  display: grid;
+  flex: 1;
+  gap: .15rem;
+  padding: .85rem 1rem;
+  border: 1px solid rgba(185, 128, 50, .12);
+  border-radius: 14px;
+  background: #f8f4ed;
+  color: #5c4e42;
+  font-size: clamp(.78rem, 1vw, .92rem);
+  line-height: 1.4;
+}
+
+.home-page .customer-testimonial-reply strong { color: #2c2219; }
+
+.home-page .customer-testimonial-footer > b {
+  flex: 0 0 auto;
+  color: #d2a243;
+  font-family: Georgia, serif;
+  font-size: 3.3rem;
+  line-height: .55;
+}
+
+.home-page .customer-testimonial-nav {
+  position: absolute;
+  z-index: 1;
+  top: 50%;
+  display: grid;
+  width: 60px;
+  height: 60px;
+  padding: 0;
+  place-items: center;
+  border: 0;
+  border-radius: 50%;
+  color: #1f1710;
+  background: #d2a243;
+  font-size: 2.3rem;
+  line-height: 1;
+  transform: translateY(-50%);
+  box-shadow: 0 5px 14px rgba(126, 81, 14, .18);
+}
+
+.home-page .customer-testimonial-nav--prev { left: -30px; }
+.home-page .customer-testimonial-nav--next { right: -30px; }
+
+@media (max-width: 767px) {
+  .home-page .customer-testimonial-grid {
+    display: flex;
+    gap: .9rem;
+    overflow-x: auto;
+    padding: .35rem .15rem .8rem;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+  }
+  .home-page .customer-testimonial-grid::-webkit-scrollbar { display: none; }
+  .home-page .customer-testimonial-card { min-width: min(86vw, 360px); min-height: 390px; scroll-snap-align: center; }
+  .home-page .customer-testimonial-nav { display: none; }
 }
 
 @media (min-width: 768px) {
