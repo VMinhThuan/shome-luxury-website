@@ -13112,33 +13112,58 @@ body.quote-project-gallery-open { overflow: hidden; }
   display: none !important;
 }
 
-/* Keep every project-category card consistent: image on the left, editorial
-   copy on the right and vertically centred, at every viewport size. */
+/* Alternate the category-card composition: 01/03 read from the left and
+   02/04 read from the right, with each copy block vertically centred. */
 .home-page .project-type-card,
 .home-page .project-type-card--reverse {
   align-items: stretch;
 }
 
-.home-page .project-type-card .type-card-bg img,
+.home-page .project-type-card .type-card-bg img {
+  right: 0;
+  left: auto;
+}
+
 .home-page .project-type-card--reverse .type-card-bg img {
   right: auto;
   left: 0;
 }
 
-.home-page .project-type-card .type-card-gradient,
-.home-page .project-type-card--reverse .type-card-gradient {
-  background: linear-gradient(270deg, #fcf8f1 0%, #fcf8f1 35%, rgba(252,248,241,.94) 48%, rgba(252,248,241,.28) 73%, transparent 100%);
+.home-page .project-type-card .type-card-gradient {
+  background: linear-gradient(90deg,
+      rgba(255, 255, 255, .97) 0%,
+      rgba(255, 255, 255, .90) 40%,
+      rgba(255, 255, 255, .62) 70%,
+      rgba(255, 255, 255, .34) 100%);
 }
 
-.home-page .project-type-card .type-card-content,
-.home-page .project-type-card--reverse .type-card-content {
+.home-page .project-type-card--reverse .type-card-gradient {
+  background: linear-gradient(270deg,
+      rgba(255, 255, 255, .97) 0%,
+      rgba(255, 255, 255, .90) 40%,
+      rgba(255, 255, 255, .62) 70%,
+      rgba(255, 255, 255, .34) 100%);
+}
+
+.home-page .project-type-card .type-card-content {
   display: flex;
+  position: absolute;
+  z-index: 3;
+  top: 0;
+  right: auto;
+  bottom: 0;
+  left: 0;
   width: 52%;
   max-width: 52%;
-  height: 100%;
-  margin-left: auto;
+  height: auto;
+  margin-left: 0;
   flex-direction: column;
   justify-content: center;
+}
+
+.home-page .project-type-card--reverse .type-card-content {
+  right: 0;
+  left: auto;
 }
 
 @media (max-width: 767px) {
@@ -13146,7 +13171,7 @@ body.quote-project-gallery-open { overflow: hidden; }
   .home-page .project-type-card--reverse .type-card-content {
     width: 58%;
     max-width: 58%;
-    margin-left: auto;
+    margin-left: 0;
   }
 }
 
@@ -13977,14 +14002,18 @@ body.quote-project-gallery-open { overflow: hidden; }
 .home-page .customer-testimonial-nav--prev { left: -30px; }
 .home-page .customer-testimonial-nav--next { right: -30px; }
 
-/* Homepage-only surface trial: a light version of the charcoal used in the
-   Shome mark replaces the alternating cream and white section backgrounds. */
+/* Homepage-only surface: alternate clean white with a light version of the
+   charcoal used in the Shome mark. The hero keeps its own visual treatment. */
 .home-page,
 .home-page #main-content {
   background-color: #e7e8e9;
 }
 
 .home-page #main-content > section:not(.hero-section-v2) {
+  background: #fff !important;
+}
+
+.home-page #main-content > section:nth-child(odd):not(.hero-section-v2) {
   background: #e7e8e9 !important;
 }
 
