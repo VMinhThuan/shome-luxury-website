@@ -1707,6 +1707,16 @@ ol {
   gap: 0.5rem;
 }
 
+/* Informational groups shown as three cards always keep a clean white surface,
+   independent of their surrounding cream section. */
+.usp-floating-card,
+.project-consultation-item,
+.work-process-steps-item,
+.quote-page .quote-benefit-card,
+.quote-page .quote-handover-item {
+  background-color: #fff !important;
+}
+
 @media (max-width: 767px) {
   .usp-floating-card {
     padding: 0.85rem 0.5rem;
@@ -5290,9 +5300,8 @@ ol {
 }
 
 .footer-brand-logo img {
-  /* Match the company-title width while preserving the logo's proportions. */
-  width: 100%;
-  max-width: 100%;
+  width: min(180px, 100%);
+  max-width: 180px;
   height: auto;
   display: block;
 }
@@ -13255,6 +13264,22 @@ body.quote-project-gallery-open { overflow: hidden; }
   font-size: clamp(2rem, 4.2vw, 3.8rem);
   font-weight: 500;
   line-height: 1.08;
+}
+
+/* Keep the homepage hero at the source image ratio on tablet and desktop so
+   the full banner image is visible instead of being cropped into a shallow strip. */
+@media (min-width: 768px) {
+  .home-page .hero-section-v2 {
+    min-height: 0;
+    aspect-ratio: 16 / 9;
+    padding: 0;
+    justify-content: center;
+  }
+
+  .home-page .hero-v2-container {
+    min-height: 100%;
+    width: 100%;
+  }
 }
 
 @media (max-width: 767px) {
