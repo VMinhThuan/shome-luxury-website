@@ -5852,7 +5852,7 @@ ol {
   position: fixed !important;
   z-index: 9999 !important;
   margin: 0 !important;
-  padding: 0 3.25rem !important;
+  padding: 0 !important;
   pointer-events: auto !important;
   opacity: 1 !important;
   visibility: visible !important;
@@ -6113,7 +6113,7 @@ ol {
     height: auto !important;
     z-index: 9999 !important;
     margin: 0 !important;
-    padding: 0 2.75rem !important;
+    padding: 0 !important;
     transition: transform 0.3s ease, opacity 0.3s ease, visibility 0.3s ease !important;
   }
 
@@ -14410,8 +14410,8 @@ main .news-list-body p {
   }
 }
 
-/* Footer brand treatment for phones only: enlarge the logo up to the available
-   viewport width and give each social icon a larger touch target. */
+/* Footer brand treatment for phones only. Keep all social links on one row
+   and scale them to the available viewport instead of wrapping into large tiles. */
 @media (max-width: 767px) {
   .site-footer .footer-brand-logo img {
     width: min(900px, 100%) !important;
@@ -14420,20 +14420,19 @@ main .news-list-body p {
   }
 
   .site-footer .footer-social-icons-row {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: clamp(.6rem, 3vw, 1rem);
+    display: grid;
+    grid-template-columns: repeat(7, minmax(0, 1fr));
+    gap: clamp(4px, 1.5vw, 8px);
   }
 
   .site-footer .footer-social-icons-row .social-circle-icon {
-    width: calc((100% - 1.8rem) / 4);
-    max-width: 120px;
-    border-width: 2px;
+    width: 100%;
+    max-width: none;
+    border-width: 1.5px;
   }
 
   .site-footer .footer-social-icons-row .social-circle-icon svg {
-    width: clamp(22px, 7vw, 34px);
-    height: clamp(22px, 7vw, 34px);
+    width: clamp(13px, 4vw, 18px);
+    height: clamp(13px, 4vw, 18px);
   }
 }
