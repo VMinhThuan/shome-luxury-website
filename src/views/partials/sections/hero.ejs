@@ -1,16 +1,57 @@
-<section class="hero-section-v2" id="hero">
-  <div class="hero-v2-bg">
-    <img src="/images/home-hero-banner.jpg" alt="Độc bản cá nhân hoá - Nâng tầm không gian sống" width="1920" height="1080" fetchpriority="high" decoding="async" />
-    <div class="hero-v2-fade-overlay"></div>
-  </div>
+<section class="hero-section-v2" id="hero" aria-label="Banner trang chủ">
+  <div class="hero-slider-track" id="heroSliderTrack" aria-label="Danh sách banner">
+    <!-- Slide 1 -->
+    <div class="hero-slide" data-slide-index="0" aria-label="Banner 1 trên 3">
+      <div class="hero-v2-bg">
+        <img src="/images/home-hero-banner.jpg" alt="Độc bản cá nhân hoá - Nâng tầm không gian sống" width="1920" height="1080" fetchpriority="high" decoding="async" draggable="false" />
+        <div class="hero-v2-fade-overlay"></div>
+      </div>
+      <div class="container hero-v2-container">
+        <div class="hero-v2-content">
+          <h1 class="hero-v2-title">
+            <span class="hero-title-line">ĐỘC BẢN</span>
+            <span class="hero-title-line">CÁ NHÂN HOÁ</span>
+          </h1>
+          <div class="hero-script-subtitle font-script">Nâng Tầm không gian sống</div>
+        </div>
+      </div>
+    </div>
 
-  <div class="container hero-v2-container">
-    <div class="hero-v2-content">
-      <h1 class="hero-v2-title">
-        <span class="hero-title-line">ĐỘC BẢN</span>
-        <span class="hero-title-line">CÁ NHÂN HOÁ</span>
-      </h1>
-      <div class="hero-script-subtitle font-script">nâng tầm không gian sống</div>
+    <!-- Slide 2 -->
+    <div class="hero-slide" data-slide-index="1" aria-label="Banner 2 trên 3">
+      <div class="hero-v2-bg">
+        <img src="/images/home-hero-banner-2.jpg" alt="Cá nhân hóa không gian - Nâng tầm trải nghiệm sống" width="1920" height="1080" loading="lazy" decoding="async" draggable="false" />
+        <div class="hero-v2-fade-overlay"></div>
+      </div>
+      <div class="container hero-v2-container">
+        <div class="hero-v2-content">
+          <div class="hero-v2-title" role="heading" aria-level="2">
+            <span class="hero-title-line">CÁ NHÂN HÓA</span>
+            <span class="hero-title-line">KHÔNG GIAN</span>
+          </div>
+          <div class="hero-script-subtitle font-script">Nâng Tầm trải nghiệm sống</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Slide 3 -->
+    <div class="hero-slide" data-slide-index="2" aria-label="Banner 3 trên 3">
+      <div class="hero-v2-bg">
+        <img src="/images/home-hero-banner-3.jpg" alt="Tinh hoa nội thất - Chuẩn mực từng đường nét" width="1920" height="1080" loading="lazy" decoding="async" draggable="false" />
+        <div class="hero-v2-fade-overlay"></div>
+      </div>
+      <div class="container hero-v2-container">
+        <div class="hero-v2-content">
+          <div class="hero-v2-title" role="heading" aria-level="2">
+            <span class="hero-title-line">TINH HOA</span>
+            <span class="hero-title-line">NỘI THẤT</span>
+          </div>
+          <div class="hero-script-subtitle font-script">Chuẩn mực từng đường nét</div>
+        </div>
+      </div>
     </div>
   </div>
+
+  <div class="hero-slider-dots" id="heroSliderDots" role="tablist" aria-label="Chọn banner"></div>
 </section>
+

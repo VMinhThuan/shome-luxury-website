@@ -254,7 +254,143 @@ document.addEventListener('DOMContentLoaded', () => {
   document.querySelectorAll('.customer-testimonial-grid').forEach(track => {
     window.ShomeluxuryReviewCarousel(track, track.closest('.customer-testimonial-wrap')?.querySelector('.testimonial-dots'));
   });
+
+  document.querySelectorAll('.material-partners-slider').forEach(track => {
+    window.ShomeluxuryReviewCarousel(track, track.closest('.material-partners-wrap')?.querySelector('.material-partners-dots'));
+  });
   document.dispatchEvent(new Event('shomeluxuryreviewcarouselready'));
+
+  // 3.3 HERO BANNER CAROUSEL: drag, trackpad/wheel, swipe, dot navigation & autoplay
+  const initHeroSlider = () => {
+    const track = document.getElementById('heroSliderTrack');
+    const dotsContainer = document.getElementById('heroSliderDots');
+    if (!track || !dotsContainer || track.dataset.heroSliderReady) return;
+    track.dataset.heroSliderReady = 'true';
+
+    const slides = Array.from(track.querySelectorAll('.hero-slide'));
+    if (slides.length <= 1) {
+      dotsContainer.hidden = true;
+      return;
+    }
+
+    let isPointerDown = false;
+    let pointerStartX = 0;
+    let scrollStartX = 0;
+    let autoPlayTimer = null;
+
+    const getSlidePositions = () => {
+      const width = track.clientWidth;
+      return slides.map((_, i) => i * width);
+    };
+
+    const setActiveDot = () => {
+      const positions = getSlidePositions();
+      const currentScroll = track.scrollLeft;
+      const closestIndex = positions.reduce((best, pos, idx) =>
+        Math.abs(currentScroll - pos) < Math.abs(currentScroll - positions[best]) ? idx : best, 0);
+
+      Array.from(dotsContainer.children).forEach((dot, idx) => {
+        const active = idx === closestIndex;
+        dot.classList.toggle('is-active', active);
+        dot.setAttribute('aria-selected', String(active));
+      });
+    };
+
+    const buildDots = () => {
+      dotsContainer.replaceChildren();
+      slides.forEach((_, idx) => {
+        const dot = document.createElement('button');
+        dot.type = 'button';
+        dot.className = 'testimonial-dot';
+        dot.setAttribute('role', 'tab');
+        dot.setAttribute('aria-label', `Xem banner ${idx + 1}`);
+        dot.addEventListener('click', (e) => {
+          e.preventDefault();
+          const targetLeft = idx * track.clientWidth;
+          track.scrollTo({ left: targetLeft, behavior: 'smooth' });
+          resetAutoPlay();
+        });
+        dotsContainer.append(dot);
+      });
+      setActiveDot();
+    };
+
+    // Drag / swipe handling
+    track.addEventListener('pointerdown', event => {
+      isPointerDown = true;
+      pointerStartX = event.clientX;
+      scrollStartX = track.scrollLeft;
+      track.setPointerCapture?.(event.pointerId);
+      track.classList.add('is-dragging');
+      stopAutoPlay();
+    });
+
+    track.addEventListener('pointermove', event => {
+      if (!isPointerDown) return;
+      track.scrollLeft = scrollStartX - (event.clientX - pointerStartX);
+    });
+
+    const endDrag = () => {
+      if (!isPointerDown) return;
+      isPointerDown = false;
+      track.classList.remove('is-dragging');
+      startAutoPlay();
+    };
+
+    track.addEventListener('pointerup', endDrag);
+    track.addEventListener('pointercancel', endDrag);
+
+    // Trackpad / wheel horizontal support
+    track.addEventListener('wheel', event => {
+      if (Math.abs(event.deltaY) <= Math.abs(event.deltaX)) return;
+      event.preventDefault();
+      track.scrollLeft += event.deltaY;
+      resetAutoPlay();
+    }, { passive: false });
+
+    track.addEventListener('scroll', setActiveDot, { passive: true });
+
+    // Auto-play (advance every 5.5s)
+    const nextSlide = () => {
+      if (isPointerDown) return;
+      const positions = getSlidePositions();
+      const currentScroll = track.scrollLeft;
+      const currentIndex = positions.reduce((best, pos, idx) =>
+        Math.abs(currentScroll - pos) < Math.abs(currentScroll - positions[best]) ? idx : best, 0);
+      const nextIndex = (currentIndex + 1) % slides.length;
+      track.scrollTo({ left: nextIndex * track.clientWidth, behavior: 'smooth' });
+    };
+
+    const startAutoPlay = () => {
+      stopAutoPlay();
+      autoPlayTimer = setInterval(nextSlide, 5500);
+    };
+
+    const stopAutoPlay = () => {
+      if (autoPlayTimer) {
+        clearInterval(autoPlayTimer);
+        autoPlayTimer = null;
+      }
+    };
+
+    const resetAutoPlay = () => {
+      stopAutoPlay();
+      startAutoPlay();
+    };
+
+    track.parentElement?.addEventListener('mouseenter', stopAutoPlay);
+    track.parentElement?.addEventListener('mouseleave', startAutoPlay);
+
+    new ResizeObserver(() => {
+      buildDots();
+    }).observe(track);
+
+    buildDots();
+    startAutoPlay();
+  };
+
+  initHeroSlider();
+
 
   // 4. CONSULTATION MODAL
   const consultModal = document.getElementById('consultModal');

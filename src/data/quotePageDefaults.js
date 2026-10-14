@@ -87,7 +87,7 @@ module.exports = {
     description: 'Minh bạch chi phí - Tối ưu ngân sách - Hiệu quả vượt mong đợi',
     items: [
       { number: '01', title: 'Chung cư 1 ngủ', price: '55 triệu', area: '< 70m²', description: 'Thiết kế trọn gói', image: '/images/anh_san_pham_1.png', ctaLabel: 'Nhận tư vấn', ctaHref: '#nhan-du-toan', isVisible: true, order: 1 },
-      { number: '02', title: 'Chung cư 2 ngủ', price: '90 triệu', area: '70 - 100m²', description: 'Thiết kế trọn gói', image: '/images/anh_san_pham_2.png', ctaLabel: 'Nhận tư vấn', ctaHref: '#nhan-du-toan', isVisible: true, order: 2 },
+      { number: '02', title: 'Chung cư 2 ngủ', price: '90 triệu', area: '= 70 - 100m²', description: 'Thiết kế trọn gói', image: '/images/anh_san_pham_2.png', ctaLabel: 'Nhận tư vấn', ctaHref: '#nhan-du-toan', isVisible: true, order: 2 },
       { number: '03', title: 'Chung cư 3 ngủ', price: '125 triệu', area: '> 100m²', description: 'Thiết kế trọn gói', image: '/images/anh_san_pham_3.png', ctaLabel: 'Nhận tư vấn', ctaHref: '#nhan-du-toan', isVisible: true, order: 3 }
     ],
     isVisible: true

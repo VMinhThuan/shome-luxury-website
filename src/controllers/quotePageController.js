@@ -45,6 +45,11 @@ class QuotePageController {
     const isOriginalPricing = page.sections?.pricing?.title === 'Dự toán rõ ràng'
       && page.sections?.pricing?.script === 'để an tâm bắt đầu';
     if (isOriginalPricing) sections.pricing = { ...sections.pricing, ...quotePageDefaults.pricing };
+    sections.pricing?.items?.forEach(item => {
+      if (item && item.area === '70 - 100m²') {
+        item.area = '= 70 - 100m²';
+      }
+    });
     if (page.sections?.constructionCta?.image === '/images/booking-luxury-interior.png') {
       sections.constructionCta = { ...sections.constructionCta, ...quotePageDefaults.constructionCta };
     }

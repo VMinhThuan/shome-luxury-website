@@ -343,9 +343,9 @@
           /* The mobile header is fixed: reserve space outside the banner so
              the brochure heading can never sit behind it. */
           margin-top: var(--header-height-mobile) !important;
-          padding: 0 !important;
+          padding: 12px var(--mobile-page-spacing) 0 !important;
           background-image: none !important;
-          background-color: #fffbf6 !important;
+          background-color: transparent !important;
           display: block !important;
         }
         .quote-page .quote-hero-inner {
@@ -356,7 +356,13 @@
           justify-content: flex-start !important;
           min-height: 0 !important;
           aspect-ratio: 16 / 9 !important;
+          width: 100% !important;
+          max-width: 100% !important;
           padding: 0 !important;
+          border-radius: clamp(14px, 2vw, 20px) !important;
+          overflow: hidden !important;
+          border: 1px solid #efe5d8 !important;
+          box-shadow: 0 10px 28px rgba(45, 30, 15, .08) !important;
           background: var(--quote-hero-image) center / cover no-repeat !important;
         }
         .quote-page .quote-brochure-copy {
@@ -931,24 +937,38 @@
       aspect-ratio: 16 / 9 !important;
     }
 
-    /* Keep the two full-width videos at compact cinematic ratio on desktop, normal 16:9 on mobile */
+    /* Keep the brand video at compact cinematic ratio on desktop, normal 16:9 on mobile */
     @media (min-width: 768px) {
       .quote-page .quote-brand-video .quote-video-card,
-      .quote-page .quote-brand-video .quote-video-frame,
-      .quote-page .quote-workshop-video-card,
-      .quote-page .quote-workshop-video-card .quote-video-frame {
+      .quote-page .quote-brand-video .quote-video-frame {
         aspect-ratio: 32 / 9 !important;
       }
     }
 
     @media (max-width: 767px) {
       .quote-page .quote-brand-video .quote-video-card,
-      .quote-page .quote-brand-video .quote-video-frame,
-      .quote-page .quote-workshop-video-card,
-      .quote-page .quote-workshop-video-card .quote-video-frame {
+      .quote-page .quote-brand-video .quote-video-frame {
         aspect-ratio: 16 / 9 !important;
         border-radius: 14px;
       }
+    }
+
+    /* Workshop capability image card: display full 16:9 photo without cropping or black gap */
+    .quote-page .quote-workshop-video-card,
+    .quote-page .quote-workshop-video-card .quote-video-frame {
+      aspect-ratio: 16 / 9 !important;
+      width: 100% !important;
+      height: auto !important;
+      overflow: hidden !important;
+    }
+
+    .quote-page .quote-workshop-video-card .quote-video-frame > img {
+      width: 100% !important;
+      height: 100% !important;
+      aspect-ratio: 16 / 9 !important;
+      object-fit: cover !important;
+      object-position: center !important;
+      display: block !important;
     }
 
     .quote-page :is(
@@ -1082,7 +1102,7 @@
     }
     @media (max-width: 767px) {
       .quote-page .quote-hero-corner-script {
-        right: var(--mobile-page-spacing) !important;
+        right: 0.8rem !important;
         bottom: .8rem !important;
         font-size: clamp(1rem, 3.8vw, 1.25rem) !important;
         transform: rotate(-8deg) !important;
@@ -1152,11 +1172,15 @@
     @media (max-width: 767px) {
       .quote-page .quote-hero {
         margin-top: var(--header-height-mobile) !important;
-        padding-top: 0 !important;
+        padding: 12px var(--mobile-page-spacing) 0 !important;
+        background-color: transparent !important;
       }
       .quote-page .quote-hero-inner {
         aspect-ratio: 16 / 9 !important;
+        border-radius: clamp(14px, 2vw, 20px) !important;
         overflow: hidden !important;
+        border: 1px solid #efe5d8 !important;
+        box-shadow: 0 10px 28px rgba(45, 30, 15, .08) !important;
       }
       .quote-page .quote-brochure-copy {
         width: 51% !important;
@@ -1250,7 +1274,7 @@
     <% } %>
 
     <% if (sections.pricing?.isVisible !== false) { %>
-      <section class="quote-section quote-pricing" id="bao-gia-tham-khao"><div class="container"><header class="quote-heading quote-heading-center"><p class="quote-kicker"><%= sections.pricing.eyebrow %></p><h2><%= sections.pricing.title %> <em><%= sections.pricing.script %></em></h2><p><%= sections.pricing.description %></p></header><div class="quote-pricing-list"><% sections.pricing.items.filter(item => item.isVisible !== false).sort((a,b) => (a.order||0)-(b.order||0)).forEach((item, index) => { %><article class="quote-price-card"><div class="quote-price-image" role="img" aria-label="<%= item.title %>" style="--pricing-image-position: <%= index === 0 ? 'left' : index === 1 ? 'center' : 'right' %>"></div><div class="quote-price-copy"><span class="quote-price-title"><%= item.title %></span><h3><span class="quote-price-prefix">Chỉ từ</span><%= item.price || '' %></h3><p><%= item.description %></p><span class="quote-price-area"><b aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M9 3H3v6m0-6 6 6M15 3h6v6m0-6-6 6M9 21H3v-6m0 6 6-6m6 6-6-6"/></svg></b><%= item.area || '' %></span><a class="quote-text-link" href="<%= item.ctaHref %>"><%= item.ctaLabel %> <span>→</span></a></div></article><% }) %></div></div></section>
+      <section class="quote-section quote-pricing" id="bao-gia-tham-khao"><div class="container"><header class="quote-heading quote-heading-center"><p class="quote-kicker"><%= sections.pricing.eyebrow %></p><h2><%= sections.pricing.title %> <em><%= sections.pricing.script %></em></h2><p><%= sections.pricing.description %></p></header><div class="quote-pricing-list"><% sections.pricing.items.filter(item => item.isVisible !== false).sort((a,b) => (a.order||0)-(b.order||0)).forEach((item, index) => { %><article class="quote-price-card"><div class="quote-price-image" role="img" aria-label="<%= item.title %>" style="--pricing-image-position: <%= index === 0 ? 'left' : index === 1 ? 'center' : 'right' %>"></div><div class="quote-price-copy"><span class="quote-price-title"><%= item.title %></span><h3><span class="quote-price-prefix">Chỉ từ</span><%= item.price || '' %></h3><p><%= item.description %></p><span class="quote-price-area">Diện tích <%= (item.area || '').replace(/^70 - 100m²$/, '= 70 - 100m²') %></span><a class="quote-text-link" href="<%= item.ctaHref %>"><%= item.ctaLabel %> <span>→</span></a></div></article><% }) %></div></div></section>
     <% } %>
 
     <% if (sections.constructionCta?.isVisible !== false) { %>
