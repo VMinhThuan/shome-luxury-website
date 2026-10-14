@@ -5142,7 +5142,8 @@ ol {
 }
 
 .footer-address-line {
-  font-size: clamp(0.84rem, 0.9vw, 0.88rem);
+  /* Match the company-name scale in the adjacent footer information block. */
+  font-size: 0.82rem;
   font-family: var(--font-menu);
   font-weight: 500;
   color: #FFFFFF !important;
@@ -5682,6 +5683,11 @@ ol {
     grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
     gap: 1.25rem !important;
     align-items: stretch !important;
+  }
+
+  /* Keep the address column level with the fixed-height Facebook card. */
+  .footer-col-address {
+    height: 235px;
   }
 }
 
