@@ -14258,3 +14258,181 @@ body.quote-project-gallery-open { overflow: hidden; }
     border-radius: 8px;
   }
 }
+
+/* ======================================================================
+   CONTENT TYPOGRAPHY STANDARD
+   ----------------------------------------------------------------------
+   Shared type scale for page banners and content sections.  The scope is
+   deliberately limited to <main>, so the site header and footer retain
+   their existing typography.
+   ====================================================================== */
+:root {
+  --content-heading-color: #414549;
+  --content-body-color: #565e64;
+  --fs-banner-title: 40px;
+  --fs-section-title: 40px;
+  --fs-section-subtitle: 20px;
+  --fs-section-body: 14px;
+}
+
+/* Banner titles: a clear 40px desktop / 24px mobile reading hierarchy. */
+main .hero-v2-title,
+main .recruitment-hero-title-main,
+main .recruitment-hero-title-sub,
+main .news-hero h1,
+main .booking-hero h1,
+main .company-profile-hero h1,
+main .quote-brochure-copy h1 {
+  font-family: var(--font-heading) !important;
+  font-size: var(--fs-banner-title) !important;
+  font-weight: 600 !important;
+  line-height: 1.25 !important;
+}
+
+/* Page-specific hero rules elsewhere in this sheet use higher specificity. */
+body.home-page main .hero-v2-title,
+main .factory-hero .hero-v2-title {
+  font-family: var(--font-heading) !important;
+  font-size: var(--fs-banner-title) !important;
+  font-weight: 600 !important;
+  line-height: 1.25 !important;
+}
+
+/* Primary section headings. Card titles are intentionally excluded. */
+main .section-title,
+main .gallery-v2-title,
+main .capacity-v2-title,
+main .process-v2-title,
+main .section-v2-title,
+main .about-showroom-title,
+main .project-types-title,
+main .home-project-signatures-title,
+main .brand-story-title,
+main .why-choose-title,
+main .office-team-main,
+main .home-workshop-main,
+main .customer-stories-main,
+main .home-faq-main,
+main .material-partners-main,
+main .factory-detail-title,
+main .factory-tour-title,
+main .surface-finish-title,
+main .renovation-showcase-title,
+main .furniture-care-title,
+main .workshop-heart-title,
+main .booking-process-heading h2,
+main .booking-estimate-header h2,
+main .booking-faq-header h2,
+main .testimonial-heading h2,
+main .news-section-heading h2 {
+  color: var(--content-heading-color) !important;
+  font-family: var(--font-heading) !important;
+  font-size: var(--fs-section-title) !important;
+  font-weight: 600 !important;
+  line-height: 1.25 !important;
+}
+
+/* Handwritten accent words share the same hierarchy, but stay lightweight. */
+main .hero-script-eyebrow,
+main .hero-script-subtitle,
+main .about-showroom-script,
+main .project-types-title .title-script,
+main .home-project-signatures-script,
+main .why-choose-script,
+main .office-team-script,
+main .home-workshop-script,
+main .customer-stories-script,
+main .home-faq-script,
+main .material-partners-script,
+main .workshop-heart-script,
+main .booking-process-kicker {
+  font-family: var(--font-script) !important;
+  font-size: var(--fs-section-title) !important;
+  font-weight: 400 !important;
+  line-height: 1.1 !important;
+}
+
+/* Intro copy directly associated with a section title. */
+main .section-subtitle,
+main .section-v2-desc,
+main .about-showroom-desc,
+main .project-types-desc,
+main .home-project-signatures-header > p,
+main .brand-story-subtitle,
+main .why-choose-subtitle,
+main .office-team-subtitle,
+main .home-workshop-subtitle,
+main .customer-stories-header > p,
+main .home-faq-header > p,
+main .factory-tour-header > p,
+main .renovation-showcase-header > p,
+main .news-hero-copy > p,
+main .booking-hero-copy > p {
+  color: var(--content-body-color) !important;
+  font-family: var(--font-sans) !important;
+  font-size: var(--fs-section-subtitle) !important;
+  font-weight: 500 !important;
+  line-height: 1.4 !important;
+}
+
+/* Descriptive text inside content cards and process items. */
+main .service-desc,
+main .why-choose-desc,
+main .capacity-card-desc,
+main .factory-tour-step p,
+main .project-consultation-copy p,
+main .work-process-steps-item p,
+main .booking-process-list p,
+main .job-card-summary,
+main .news-list-body p {
+  color: var(--content-body-color);
+  font-size: var(--fs-section-body);
+  font-weight: 400;
+  line-height: 1.4;
+}
+
+@media (max-width: 767px) {
+  :root {
+    --fs-banner-title: 24px;
+    --fs-section-title: 24px;
+    --fs-section-subtitle: 16px;
+  }
+
+  main .hero-v2-title,
+  main .recruitment-hero-title-main,
+  main .recruitment-hero-title-sub,
+  main .news-hero h1,
+  main .booking-hero h1,
+  main .company-profile-hero h1,
+  main .quote-brochure-copy h1,
+  body.home-page main .hero-v2-title,
+  main .factory-hero .hero-v2-title,
+  main .section-title,
+  main .gallery-v2-title,
+  main .capacity-v2-title,
+  main .process-v2-title,
+  main .section-v2-title,
+  main .about-showroom-title,
+  main .project-types-title,
+  main .home-project-signatures-title,
+  main .brand-story-title,
+  main .why-choose-title,
+  main .office-team-main,
+  main .home-workshop-main,
+  main .customer-stories-main,
+  main .home-faq-main,
+  main .material-partners-main,
+  main .factory-detail-title,
+  main .factory-tour-title,
+  main .surface-finish-title,
+  main .renovation-showcase-title,
+  main .furniture-care-title,
+  main .workshop-heart-title,
+  main .booking-process-heading h2,
+  main .booking-estimate-header h2,
+  main .booking-faq-header h2,
+  main .testimonial-heading h2,
+  main .news-section-heading h2 {
+    line-height: 1.35 !important;
+  }
+}
