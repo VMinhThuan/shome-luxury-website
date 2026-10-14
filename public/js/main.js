@@ -180,44 +180,81 @@ document.addEventListener('DOMContentLoaded', () => {
     dots.forEach((dot, index) => dot.addEventListener('click', () => showCustomerStory(index)));
   }
 
-  // 3.2 HOME TESTIMONIALS: show three reviews at a time on desktop.
-  const testimonialGrid = document.querySelector('.customer-testimonial-grid');
-  if (testimonialGrid) {
-    const testimonialCards = Array.from(testimonialGrid.querySelectorAll('.customer-testimonial-card'));
-    const previousTestimonial = document.querySelector('.customer-testimonial-nav--prev');
-    const nextTestimonial = document.querySelector('.customer-testimonial-nav--next');
-    const desktopTestimonials = window.matchMedia('(min-width: 768px)');
-    const testimonialsPerView = 3;
-    let testimonialStartIndex = 0;
+  // 3.2 REVIEW CAROUSELS: drag, trackpad/wheel scroll and dot navigation.
+  window.ShomeluxuryReviewCarousel = (track, dotsContainer) => {
+    if (!track || !dotsContainer || track.dataset.reviewCarouselReady) return;
+    track.dataset.reviewCarouselReady = 'true';
+    const cards = Array.from(track.children);
+    let pages = [];
+    let isPointerDown = false;
+    let pointerStartX = 0;
+    let scrollStartX = 0;
 
-    const renderTestimonials = () => {
-      const isDesktop = desktopTestimonials.matches;
-      const maxStartIndex = Math.max(0, testimonialCards.length - testimonialsPerView);
-      testimonialStartIndex = Math.min(testimonialStartIndex, maxStartIndex);
-
-      testimonialCards.forEach((card, index) => {
-        card.hidden = isDesktop && (index < testimonialStartIndex || index >= testimonialStartIndex + testimonialsPerView);
-      });
-
-      const hasMoreThanOneDesktopView = testimonialCards.length > testimonialsPerView;
-      if (previousTestimonial) previousTestimonial.hidden = !isDesktop || !hasMoreThanOneDesktopView;
-      if (nextTestimonial) nextTestimonial.hidden = !isDesktop || !hasMoreThanOneDesktopView;
+    const visibleCards = () => {
+      if (!cards[0]) return 1;
+      const styles = window.getComputedStyle(track);
+      const gap = Number.parseFloat(styles.columnGap || styles.gap) || 0;
+      return Math.max(1, Math.round((track.clientWidth + gap) / (cards[0].getBoundingClientRect().width + gap)));
     };
 
-    previousTestimonial?.addEventListener('click', () => {
-      const maxStartIndex = Math.max(0, testimonialCards.length - testimonialsPerView);
-      testimonialStartIndex = testimonialStartIndex === 0 ? maxStartIndex : testimonialStartIndex - 1;
-      renderTestimonials();
-    });
-    nextTestimonial?.addEventListener('click', () => {
-      const maxStartIndex = Math.max(0, testimonialCards.length - testimonialsPerView);
-      testimonialStartIndex = testimonialStartIndex === maxStartIndex ? 0 : testimonialStartIndex + 1;
-      renderTestimonials();
-    });
+    const setActiveDot = () => {
+      if (!pages.length) return;
+      const closest = pages.reduce((best, page, index) =>
+        Math.abs(track.scrollLeft - page) < Math.abs(track.scrollLeft - pages[best]) ? index : best, 0);
+      Array.from(dotsContainer.children).forEach((dot, index) => {
+        const active = index === closest;
+        dot.classList.toggle('is-active', active);
+        dot.setAttribute('aria-current', String(active));
+      });
+    };
 
-    desktopTestimonials.addEventListener('change', renderTestimonials);
-    renderTestimonials();
-  }
+    const buildDots = () => {
+      const cardsPerPage = visibleCards();
+      const pageCount = Math.ceil(cards.length / cardsPerPage);
+      const maxScroll = Math.max(0, track.scrollWidth - track.clientWidth);
+      pages = Array.from({ length: pageCount }, (_, index) => Math.min(index * cardsPerPage * (cards[0]?.getBoundingClientRect().width + (Number.parseFloat(window.getComputedStyle(track).gap) || 0)), maxScroll));
+      dotsContainer.replaceChildren();
+      dotsContainer.hidden = pageCount < 2;
+      pages.forEach((position, index) => {
+        const dot = document.createElement('button');
+        dot.type = 'button';
+        dot.className = 'testimonial-dot';
+        dot.setAttribute('aria-label', `Xem nhóm đánh giá ${index + 1}`);
+        dot.addEventListener('click', () => track.scrollTo({ left: position, behavior: 'smooth' }));
+        dotsContainer.append(dot);
+      });
+      setActiveDot();
+    };
+
+    track.addEventListener('scroll', setActiveDot, { passive: true });
+    track.addEventListener('wheel', event => {
+      if (Math.abs(event.deltaY) <= Math.abs(event.deltaX)) return;
+      event.preventDefault();
+      track.scrollLeft += event.deltaY;
+    }, { passive: false });
+    track.addEventListener('pointerdown', event => {
+      isPointerDown = true;
+      pointerStartX = event.clientX;
+      scrollStartX = track.scrollLeft;
+      track.setPointerCapture?.(event.pointerId);
+      track.classList.add('is-dragging');
+    });
+    track.addEventListener('pointermove', event => {
+      if (!isPointerDown) return;
+      track.scrollLeft = scrollStartX - (event.clientX - pointerStartX);
+    });
+    ['pointerup', 'pointercancel'].forEach(type => track.addEventListener(type, () => {
+      isPointerDown = false;
+      track.classList.remove('is-dragging');
+    }));
+    new ResizeObserver(buildDots).observe(track);
+    buildDots();
+  };
+
+  document.querySelectorAll('.customer-testimonial-grid').forEach(track => {
+    window.ShomeluxuryReviewCarousel(track, track.closest('.customer-testimonial-wrap')?.querySelector('.testimonial-dots'));
+  });
+  document.dispatchEvent(new Event('shomeluxuryreviewcarouselready'));
 
   // 4. CONSULTATION MODAL
   const consultModal = document.getElementById('consultModal');

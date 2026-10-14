@@ -253,11 +253,7 @@
             </div>
           </div>
 
-          <!-- Slider navigation -->
-          <div class="testimonial-nav">
-            <button class="nav-prev" aria-label="Review trước">‹</button>
-            <button class="nav-next" aria-label="Review tiếp">›</button>
-          </div>
+          <div class="testimonial-dots" aria-label="Chọn nhóm đánh giá"></div>
         </div>
       </div>
     </section>
@@ -285,39 +281,12 @@
     (function() {
       const slider = document.getElementById('testimonialSlider');
       if (!slider) return;
-      const cards = slider.querySelectorAll('.testimonial-card');
-      const prevBtn = document.querySelector('.testimonial-nav .nav-prev');
-      const nextBtn = document.querySelector('.testimonial-nav .nav-next');
-
-      function getStepWidth() {
-        if (!cards.length) return 0;
-        const cardWidth = cards[0].offsetWidth;
-        const style = window.getComputedStyle(slider);
-        const gap = parseFloat(style.gap) || 24;
-        return cardWidth + gap;
-      }
-
-      function scrollToCard(index) {
-        if (index < 0) index = cards.length - 1;
-        if (index >= cards.length) index = 0;
-        const step = getStepWidth();
-        const maxScroll = slider.scrollWidth - slider.clientWidth;
-        const targetLeft = Math.min(index * step, maxScroll);
-        slider.scrollTo({ left: targetLeft, behavior: 'auto' });
-      }
-
-      prevBtn?.addEventListener('click', () => {
-        const step = getStepWidth();
-        const currentIdx = Math.round(slider.scrollLeft / step);
-        scrollToCard(currentIdx - 1);
-      });
-
-      nextBtn?.addEventListener('click', () => {
-        const step = getStepWidth();
-        const currentIdx = Math.round(slider.scrollLeft / step);
-        scrollToCard(currentIdx + 1);
-      });
-
+      const initialiseReviews = () => window.ShomeluxuryReviewCarousel?.(
+        slider,
+        slider.closest('.testimonial-slider-wrapper')?.querySelector('.testimonial-dots')
+      );
+      if (window.ShomeluxuryReviewCarousel) initialiseReviews();
+      else document.addEventListener('shomeluxuryreviewcarouselready', initialiseReviews, { once: true });
     })();
   </script>
 </body>

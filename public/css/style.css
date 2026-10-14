@@ -10012,14 +10012,14 @@ ol {
   max-width: 1200px;
   margin: 0 auto;
   width: 100%;
-  padding: 0 3.25rem !important;
+  padding: 0 !important;
   box-sizing: border-box;
   overflow: visible;
 }
 
 @media (max-width: 767px) {
   .testimonial-slider-wrapper {
-    padding: 0 2.75rem !important;
+    padding: 0 !important;
   }
 }
 
@@ -10226,43 +10226,28 @@ ol {
   color: #726456;
 }
 
-.testimonial-nav {
-  position: static;
+.testimonial-dots {
+  display: flex;
+  justify-content: center;
+  gap: .65rem;
+  padding-top: .6rem;
 }
 
-.testimonial-nav button {
-  position: absolute;
-  top: 50%;
-  z-index: 2;
-  width: 40px !important;
-  height: 40px !important;
-  border-radius: 50% !important;
-  border: 1px solid #C89B4B !important;
-  background: linear-gradient(135deg, #F5D38A 0%, #C89B4B 50%, #B78029 100%) !important;
-  color: #111111 !important;
+.testimonial-dot {
+  width: 11px;
+  height: 11px;
+  padding: 0;
+  border: 1px solid #8f8f8f;
+  border-radius: 50%;
+  background: #e5e5e5;
   cursor: pointer;
-  font: 700 1.4rem/1 var(--font-sans);
-  display: grid;
-  place-items: center;
-  transition: none !important;
-  transform: translateY(-50%) !important;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1) !important;
+  transition: background-color .2s ease, transform .2s ease;
 }
 
-.testimonial-nav .nav-prev {
-  left: 0.25rem !important;
-}
-
-.testimonial-nav .nav-next {
-  right: 0.25rem !important;
-}
-
-.testimonial-nav button:hover {
-  background: linear-gradient(135deg, #F8E0A3 0%, #D4A340 50%, #C89B4B 100%) !important;
-  color: #000000 !important;
-  transform: translateY(-50%) !important;
-  transition: none !important;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1) !important;
+.testimonial-dot.is-active {
+  border-color: #777;
+  background: #fff;
+  transform: scale(1.08);
 }
 
 .related-projects-section .project-card-image-wrapper {
@@ -11699,21 +11684,6 @@ main .section-v2-title,
 }
 
 /* Strictly remove box-shadow, hover lift, scale, glow and animations from testimonial slider nav buttons */
-.booking-testimonial .testimonial-nav button,
-.testimonial-nav button,
-.testimonial-nav .nav-prev,
-.testimonial-nav .nav-next,
-.testimonial-nav button:hover,
-.testimonial-nav button:focus,
-.testimonial-nav button:active {
-  box-shadow: none !important;
-  transform: translateY(-50%) !important;
-  transition: none !important;
-  animation: none !important;
-  filter: none !important;
-  backdrop-filter: none !important;
-}
-
 /* Long handwritten section labels need a much calmer scale on phone screens. */
 @media (max-width: 767px) {
   main .factory-detail-section .hero-script-eyebrow,
@@ -13896,13 +13866,20 @@ body.quote-project-gallery-open { overflow: hidden; }
 }
 
 .home-page .customer-testimonial-grid {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  display: flex;
   gap: clamp(1rem, 1.55vw, 1.35rem);
+  overflow-x: auto;
+  padding: .35rem .15rem .8rem;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  scrollbar-width: none;
 }
+
+.home-page .customer-testimonial-grid::-webkit-scrollbar { display: none; }
 
 .home-page .customer-testimonial-card {
   display: flex;
+  flex: 0 0 calc((100% - 2.7rem) / 3);
   min-height: 440px;
   flex-direction: column;
   padding: clamp(1.4rem, 2vw, 2rem);
@@ -13910,6 +13887,7 @@ body.quote-project-gallery-open { overflow: hidden; }
   border-radius: 24px;
   background: #fff;
   box-shadow: 0 12px 30px rgba(80, 55, 25, .08);
+  scroll-snap-align: start;
 }
 
 .home-page .customer-testimonial-user {
@@ -13978,27 +13956,7 @@ body.quote-project-gallery-open { overflow: hidden; }
   line-height: .55;
 }
 
-.home-page .customer-testimonial-nav {
-  position: absolute;
-  z-index: 1;
-  top: 50%;
-  display: grid;
-  width: 60px;
-  height: 60px;
-  padding: 0;
-  place-items: center;
-  border: 0;
-  border-radius: 50%;
-  color: #1f1710;
-  background: #d2a243;
-  font-size: 2.3rem;
-  line-height: 1;
-  transform: translateY(-50%);
-  box-shadow: 0 5px 14px rgba(126, 81, 14, .18);
-}
-
-.home-page .customer-testimonial-nav--prev { left: -30px; }
-.home-page .customer-testimonial-nav--next { right: -30px; }
+.home-page .customer-testimonial-dots { padding-top: .85rem; }
 
 /* Homepage-only surface: alternate clean white with a light version of the
    charcoal used in the Shome mark. The hero keeps its own visual treatment. */
@@ -14018,9 +13976,7 @@ body.quote-project-gallery-open { overflow: hidden; }
 /* Navigation arrows must remain fixed when hovered. Global button styling adds
    a hover lift, so preserve each control's positioning transform explicitly. */
 .project-gallery-control:is(:hover, :focus, :active),
-.quote-page .quote-project-gallery-control:is(:hover, :focus, :active),
-.home-page .customer-testimonial-nav:is(:hover, :focus, :active),
-.testimonial-nav button:is(:hover, :focus, :active) {
+.quote-page .quote-project-gallery-control:is(:hover, :focus, :active) {
   transform: translateY(-50%) !important;
 }
 
@@ -14031,7 +13987,6 @@ body.quote-project-gallery-open { overflow: hidden; }
 
 @media (max-width: 767px) {
   .home-page .customer-testimonial-grid {
-    display: flex;
     gap: .9rem;
     overflow-x: auto;
     padding: .35rem .15rem .8rem;
@@ -14040,8 +13995,14 @@ body.quote-project-gallery-open { overflow: hidden; }
   }
   .home-page .customer-testimonial-grid::-webkit-scrollbar { display: none; }
   .home-page .customer-testimonial-card { min-width: min(86vw, 360px); min-height: 390px; scroll-snap-align: center; }
-  .home-page .customer-testimonial-nav { display: none; }
+  .home-page .customer-testimonial-card { flex-basis: min(86vw, 360px); }
 }
+
+.testimonial-slider.is-dragging,
+.home-page .customer-testimonial-grid.is-dragging { cursor: grabbing; scroll-snap-type: none; }
+
+.testimonial-slider,
+.home-page .customer-testimonial-grid { cursor: grab; }
 
 @media (min-width: 768px) {
   /* FAQ cards are closed by default and use the full desktop content width. */
