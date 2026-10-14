@@ -180,6 +180,45 @@ document.addEventListener('DOMContentLoaded', () => {
     dots.forEach((dot, index) => dot.addEventListener('click', () => showCustomerStory(index)));
   }
 
+  // 3.2 HOME TESTIMONIALS: show three reviews at a time on desktop.
+  const testimonialGrid = document.querySelector('.customer-testimonial-grid');
+  if (testimonialGrid) {
+    const testimonialCards = Array.from(testimonialGrid.querySelectorAll('.customer-testimonial-card'));
+    const previousTestimonial = document.querySelector('.customer-testimonial-nav--prev');
+    const nextTestimonial = document.querySelector('.customer-testimonial-nav--next');
+    const desktopTestimonials = window.matchMedia('(min-width: 768px)');
+    const testimonialsPerView = 3;
+    let testimonialStartIndex = 0;
+
+    const renderTestimonials = () => {
+      const isDesktop = desktopTestimonials.matches;
+      const maxStartIndex = Math.max(0, testimonialCards.length - testimonialsPerView);
+      testimonialStartIndex = Math.min(testimonialStartIndex, maxStartIndex);
+
+      testimonialCards.forEach((card, index) => {
+        card.hidden = isDesktop && (index < testimonialStartIndex || index >= testimonialStartIndex + testimonialsPerView);
+      });
+
+      const hasMoreThanOneDesktopView = testimonialCards.length > testimonialsPerView;
+      if (previousTestimonial) previousTestimonial.hidden = !isDesktop || !hasMoreThanOneDesktopView;
+      if (nextTestimonial) nextTestimonial.hidden = !isDesktop || !hasMoreThanOneDesktopView;
+    };
+
+    previousTestimonial?.addEventListener('click', () => {
+      const maxStartIndex = Math.max(0, testimonialCards.length - testimonialsPerView);
+      testimonialStartIndex = testimonialStartIndex === 0 ? maxStartIndex : testimonialStartIndex - 1;
+      renderTestimonials();
+    });
+    nextTestimonial?.addEventListener('click', () => {
+      const maxStartIndex = Math.max(0, testimonialCards.length - testimonialsPerView);
+      testimonialStartIndex = testimonialStartIndex === maxStartIndex ? 0 : testimonialStartIndex + 1;
+      renderTestimonials();
+    });
+
+    desktopTestimonials.addEventListener('change', renderTestimonials);
+    renderTestimonials();
+  }
+
   // 4. CONSULTATION MODAL
   const consultModal = document.getElementById('consultModal');
   const modalCloseBtn = document.getElementById('modalCloseBtn');
