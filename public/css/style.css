@@ -5689,6 +5689,12 @@ ol {
   .footer-col-address {
     height: 235px;
   }
+
+  /* Keep the brand slogan within the same footprint as the media cards. */
+  .footer-script-slogan {
+    font-size: 1.2rem;
+    line-height: 1.05;
+  }
 }
 
 .bottom-bar-container {
