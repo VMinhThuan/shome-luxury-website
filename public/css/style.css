@@ -5852,7 +5852,7 @@ ol {
   position: fixed !important;
   z-index: 9999 !important;
   margin: 0 !important;
-  padding: 0 !important;
+  padding: 0 3.25rem !important;
   pointer-events: auto !important;
   opacity: 1 !important;
   visibility: visible !important;
@@ -6113,7 +6113,7 @@ ol {
     height: auto !important;
     z-index: 9999 !important;
     margin: 0 !important;
-    padding: 0 !important;
+    padding: 0 2.75rem !important;
     transition: transform 0.3s ease, opacity 0.3s ease, visibility 0.3s ease !important;
   }
 
