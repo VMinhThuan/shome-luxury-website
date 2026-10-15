@@ -14091,7 +14091,6 @@ body.quote-project-gallery-open { overflow: hidden; }
     padding: 3rem 0;
   }
 
-  .customer-stories-title,
   .home-faq-title {
     display: grid;
     gap: .5rem;
@@ -14798,18 +14797,23 @@ body.quote-project-gallery-open { overflow: hidden; }
     padding-bottom: 1rem !important;
   }
 
-  .material-partners-header h2 {
-    flex-direction: column;
-    align-items: center;
-    gap: .45rem;
+  .material-partners-header h2,
+  .customer-stories-title,
+  .home-page .customer-stories-title {
+    display: flex !important;
+    flex-direction: row !important;
+    flex-wrap: nowrap !important;
+    align-items: baseline !important;
+    justify-content: center !important;
+    gap: .28em !important;
+    white-space: nowrap !important;
   }
 
-  .material-partners-script {
-    font-size: clamp(2rem, 10vw, 2.8rem);
-  }
-
-  .material-partners-main {
-    font-size: clamp(1.8rem, 8.2vw, 2.5rem);
+  .material-partners-script,
+  .material-partners-main,
+  .customer-stories-script,
+  .customer-stories-main {
+    white-space: nowrap !important;
   }
 
   .material-partners-grid:not(.material-partners-slider) {
@@ -15212,4 +15216,72 @@ main :is(
   main .job-detail-title {
     font-size: 24px !important;
   }
+
+  /* News page: reduced banner text size on mobile */
+  .page-news .news-hero-script,
+  .news-page .news-hero-script {
+    font-size: clamp(1.75rem, 7.2vw, 2.2rem) !important;
+    line-height: 0.95 !important;
+    margin-bottom: 0.15rem !important;
+  }
+
+  .page-news .news-hero h1,
+  .news-page .news-hero h1 {
+    margin: 0 0 0.3rem !important;
+    font-size: clamp(1.15rem, 4.4vw, 1.45rem) !important;
+    line-height: 1.15 !important;
+  }
+
+  .page-news .news-hero h1 em,
+  .news-page .news-hero h1 em {
+    font-size: clamp(1.05rem, 4.2vw, 1.35rem) !important;
+    line-height: 1.15 !important;
+  }
+
+  .page-news .news-hero-copy > p,
+  .news-page .news-hero-copy > p,
+  .page-news .news-hero p,
+  .news-page .news-hero p {
+    color: #ffffff !important;
+    font-size: clamp(0.72rem, 2.8vw, 0.82rem) !important;
+    line-height: 1.4 !important;
+    max-width: 255px !important;
+    margin: 0 !important;
+  }
+
+  .page-news .news-hero-grid,
+  .news-page .news-hero-grid {
+    min-height: clamp(185px, 48vw, 225px) !important;
+  }
+
+  .page-news .news-hero-copy,
+  .news-page .news-hero-copy {
+    width: 68% !important;
+    padding: 0.95rem 0 0.95rem 0.5rem !important;
+  }
+
+  /* News page: eliminate excessive whitespace between banner, featured card, and latest articles */
+  .news-page .news-featured-section {
+    padding-top: 0.4rem !important;
+    padding-bottom: 0 !important;
+  }
+
+  .news-page .news-featured {
+    margin-bottom: 0 !important;
+  }
+
+  .news-page .news-latest-section {
+    padding-top: 0.5rem !important;
+  }
+
+  .news-page .news-section-heading {
+    margin: 0.35rem 0 0.4rem !important;
+  }
+
+  .news-page .news-section-heading h2 {
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+    font-size: 20px !important;
+  }
 }
+
