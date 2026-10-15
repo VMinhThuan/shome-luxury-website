@@ -8137,9 +8137,14 @@ ol {
 }
 
 @media (max-width: 767px) {
-  .construction-video-grid .construction-video-card:nth-child(n+4) {
+  .construction-video-grid:not(.is-expanded) .construction-video-card:nth-child(n+4) {
     display: none !important;
   }
+
+  .completed-video-grid:not(.is-expanded) .construction-video-card:nth-child(n+4) {
+    display: none !important;
+  }
+
 }
 
 @media (min-width: 768px) {
@@ -8147,10 +8152,245 @@ ol {
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 1.25rem;
   }
+
+  .construction-video-grid:not(.is-expanded) .construction-video-card:nth-child(n+7) {
+    display: none !important;
+  }
+
+  .completed-video-grid:not(.is-expanded) .construction-video-card:nth-child(n+7) {
+    display: none !important;
+  }
+
+  .construction-video-more.has-more-mobile {
+    display: none;
+  }
 }
 
 @media (min-width: 1024px) {
   .construction-video-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1.5rem;
+  }
+}
+
+.construction-video-more {
+  display: flex;
+  justify-content: center;
+  margin-top: clamp(1.5rem, 3vw, 2.5rem);
+}
+
+.completed-projects-more {
+  display: flex;
+  justify-content: center;
+  margin-top: clamp(1.5rem, 3vw, 2.5rem);
+}
+
+.completed-videos-section {
+  padding: clamp(3rem, 6vw, 5rem) 0 clamp(3.5rem, 7vw, 6rem);
+  border-top: 1px solid rgba(200, 155, 75, .2);
+  background: linear-gradient(180deg, #fdfaf5 0%, #fff 100%);
+}
+
+.completed-videos-heading {
+  max-width: 820px;
+  margin: 0 auto clamp(1.75rem, 3vw, 2.75rem);
+  text-align: center;
+}
+
+.completed-videos-heading p {
+  margin: 0 0 .5rem;
+  color: var(--accent-gold, #c89b4b);
+  font-size: clamp(.72rem, 1.25vw, .9rem);
+  font-weight: 700;
+  letter-spacing: .08em;
+  line-height: 1.4;
+}
+
+.completed-videos-heading h2 {
+  margin: 0;
+  color: var(--text-primary);
+  font-size: clamp(1.75rem, 4.2vw, 3.15rem);
+  font-weight: 800;
+  letter-spacing: -.035em;
+  line-height: 1.15;
+}
+
+.completed-videos-heading h2 em {
+  display: inline-block;
+  margin-left: .12em;
+  color: var(--accent-gold, #c89b4b);
+  font-size: 1.1em;
+  font-style: normal;
+  font-weight: 500;
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+.completed-videos-heading strong {
+  display: block;
+  max-width: 660px;
+  margin: .9rem auto 0;
+  color: var(--text-secondary);
+  font-size: clamp(.82rem, 1.4vw, 1rem);
+  font-weight: 400;
+  line-height: 1.55;
+}
+
+.completed-video-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 1rem;
+}
+
+.completed-videos-more {
+  display: flex;
+  justify-content: center;
+  margin-top: clamp(1.5rem, 3vw, 2.5rem);
+}
+
+@media (max-width: 767px) {
+  .completed-videos-heading h2 em {
+    display: block;
+    margin: .15rem 0 0;
+  }
+}
+
+@media (min-width: 768px) {
+  .completed-video-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1.25rem;
+  }
+
+  .completed-videos-more.has-more-mobile {
+    display: none;
+  }
+}
+
+@media (min-width: 1024px) {
+  .completed-video-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1.5rem;
+  }
+}
+
+.construction-video-more-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: .7rem;
+  min-height: 46px;
+  padding: .75rem 1.35rem;
+  border: 1px solid var(--accent-gold, #c89b4b);
+  border-radius: 999px;
+  background: var(--accent-gold, #c89b4b);
+  color: #1b1611;
+  font: inherit;
+  font-size: .78rem;
+  font-weight: 700;
+  letter-spacing: .06em;
+  text-decoration: none;
+  text-transform: uppercase;
+  cursor: pointer;
+  box-shadow: 0 4px 14px rgba(200, 155, 75, .28);
+  transition: background .25s ease, border-color .25s ease, color .25s ease, box-shadow .25s ease, transform .25s ease;
+}
+
+.construction-video-more-button:hover {
+  border-color: var(--accent-gold-hover, #d2a653);
+  background: var(--accent-gold-hover, #d2a653);
+  color: #111;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(200, 155, 75, .45);
+}
+
+.construction-video-more-button:focus-visible {
+  outline: 3px solid rgba(200, 155, 75, .4);
+  outline-offset: 3px;
+}
+
+.construction-video-more-button span {
+  font-size: 1.25em;
+  line-height: 1;
+}
+
+/* Completed-project gallery below the construction videos. */
+.completed-projects-section {
+  padding: clamp(3rem, 6vw, 5rem) 0 clamp(3.5rem, 7vw, 6rem);
+  border-top: 1px solid rgba(200, 155, 75, .18);
+  background: #fff;
+}
+
+.completed-projects-heading {
+  max-width: 820px;
+  margin: 0 auto clamp(1.75rem, 3vw, 2.75rem);
+  text-align: center;
+}
+
+.completed-projects-heading p {
+  margin: 0 0 .5rem;
+  color: var(--accent-gold, #c89b4b);
+  font-size: clamp(.72rem, 1.25vw, .9rem);
+  font-weight: 700;
+  letter-spacing: .08em;
+  line-height: 1.4;
+}
+
+.completed-projects-heading h2 {
+  margin: 0;
+  color: var(--text-primary);
+  font-size: clamp(1.75rem, 4.2vw, 3.15rem);
+  font-weight: 800;
+  letter-spacing: -.035em;
+  line-height: 1.15;
+}
+
+.completed-projects-heading h2 em {
+  display: inline-block;
+  margin-left: .12em;
+  color: var(--accent-gold, #c89b4b);
+  font-size: 1.1em;
+  font-style: normal;
+  font-weight: 500;
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+.completed-projects-heading strong {
+  display: block;
+  max-width: 690px;
+  margin: .9rem auto 0;
+  color: var(--text-secondary);
+  font-size: clamp(.82rem, 1.4vw, 1rem);
+  font-weight: 400;
+  line-height: 1.55;
+}
+
+.completed-projects-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 1rem;
+}
+
+@media (max-width: 767px) {
+  .completed-projects-grid .project-showcase-card:nth-child(n+4) {
+    display: none;
+  }
+
+  .completed-projects-heading h2 em {
+    display: block;
+    margin: .15rem 0 0;
+  }
+}
+
+@media (min-width: 768px) {
+  .completed-projects-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1.25rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .completed-projects-grid {
     grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 1.5rem;
   }

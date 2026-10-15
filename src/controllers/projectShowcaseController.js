@@ -169,6 +169,7 @@ const PAGE_CONFIGS = {
     categoryCode: 'tc-kt-nha-cap-4',
     parentCode: 'thi-cong-cong-trinh',
     contentType: 'videos',
+    completedProjectCategory: 'tk-nt-chung-cu',
     filters: []
   }
 };
@@ -192,6 +193,14 @@ class ProjectShowcaseController {
           compact: true
         });
       const videos = isVideoShowcase ? await constructionVideoService.getVisibleVideos() : [];
+      const completedProjectsData = config.completedProjectCategory
+        ? await projectService.getProjects({
+          category: config.completedProjectCategory,
+          page: 1,
+          limit: 6,
+          compact: true
+        })
+        : { projects: [] };
 
       const pageTitle = `${config.titleMain} ${config.titleScript} | LUXURY HOME`.trim();
 
@@ -203,6 +212,7 @@ class ProjectShowcaseController {
         activeCategoryCode: categoryCode,
         isVideoShowcase,
         videos,
+        completedProjects: completedProjectsData.projects,
         initialProjects: initialData.projects,
         initialPagination: {
           page: initialData.page,
