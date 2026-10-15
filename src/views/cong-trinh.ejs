@@ -115,8 +115,8 @@
         <div class="container">
           <header class="completed-projects-heading">
             <p>─── NHỮNG HÌNH ẢNH HOÀN CÔNG TIÊU BIỂU ───</p>
-            <h2>HOÀN CÔNG NỘI THẤT <em class="font-script">Chung Cư</em></h2>
-            <strong>Những hình ảnh thực tế sau khi hoàn thiện, mang đến không gian sống sang trọng, tinh tế và đúng “chất” của từng gia chủ.</strong>
+            <h2><%= pageConfig.completedTitleMain || 'HOÀN CÔNG NỘI THẤT' %> <em class="font-script"><%= pageConfig.completedTitleScript || 'Chung Cư' %></em></h2>
+            <strong><%= pageConfig.completedDescription || 'Những hình ảnh thực tế sau khi hoàn thiện, mang đến không gian sống sang trọng, tinh tế và đúng “chất” của từng gia chủ.' %></strong>
           </header>
 
           <% if (completedProjects && completedProjects.length > 0) { %>
@@ -132,7 +132,7 @@
           <% } %>
 
           <div class="completed-projects-more">
-            <a class="construction-video-more-button" href="/thiet-ke-noi-that/chung-cu">
+            <a class="construction-video-more-button" href="<%= pageConfig.completedProjectUrl || '/thiet-ke-cong-trinh' %>">
               Xem thêm <span aria-hidden="true">→</span>
             </a>
           </div>
@@ -143,8 +143,8 @@
         <div class="container">
           <header class="completed-videos-heading">
             <p>─── NHỮNG VIDEO HOÀN THIỆN TIÊU BIỂU ───</p>
-            <h2>HOÀN CÔNG NỘI THẤT <em class="font-script">Chung Cư</em></h2>
-            <strong>Khám phá những video hoàn thiện thực tế các dự án căn hộ với không gian sống tinh tế, hiện đại và đẳng cấp.</strong>
+            <h2><%= pageConfig.completedTitleMain || 'HOÀN CÔNG NỘI THẤT' %> <em class="font-script"><%= pageConfig.completedTitleScript || 'Chung Cư' %></em></h2>
+            <strong><%= pageConfig.completedVideoDescription || 'Khám phá những video hoàn thiện thực tế với không gian sống tinh tế, hiện đại và đẳng cấp.' %></strong>
           </header>
 
           <div id="completed-video-grid" class="completed-video-grid" aria-label="Video hoàn công nội thất chung cư">

@@ -3,6 +3,34 @@ const constructionVideoService = require('../services/constructionVideoService')
 const categoryService = require('../services/categoryService');
 const navigationData = require('../data/navigationData');
 
+const PROJECT_CATEGORY_PATHS = {
+  'tk-kt-nha-cap-4': '/thiet-ke-kien-truc/nha-cap-4',
+  'tk-kt-nha-pho': '/thiet-ke-kien-truc/nha-pho',
+  'tk-kt-biet-thu': '/thiet-ke-kien-truc/biet-thu',
+  'tk-kt-villa': '/thiet-ke-kien-truc/villa',
+  'tk-nt-chung-cu': '/thiet-ke-noi-that/chung-cu',
+  'tk-nt-nha-pho': '/thiet-ke-noi-that/nha-pho',
+  'tk-nt-biet-thu': '/thiet-ke-noi-that/biet-thu',
+  'tk-nt-van-phong': '/thiet-ke-noi-that/van-phong'
+};
+
+const createConstructionConfig = ({ titleMain, titleScript, completedProjectCategory, description }) => ({
+  eyebrow: 'HÌNH ẢNH ĐANG THI CÔNG',
+  titleMain,
+  titleScript,
+  description: description || `Cập nhật hình ảnh thi công thực tế ${titleScript ? `công trình ${titleScript}` : 'tại công trình'}, đảm bảo đúng tiến độ, đúng kỹ thuật và chất lượng trong từng hạng mục.`,
+  categoryCode: '',
+  parentCode: 'thi-cong-cong-trinh',
+  contentType: 'videos',
+  completedProjectCategory,
+  completedProjectUrl: PROJECT_CATEGORY_PATHS[completedProjectCategory],
+  completedTitleMain: titleMain.replace('THI CÔNG', 'HOÀN CÔNG'),
+  completedTitleScript: titleScript,
+  completedDescription: `Những hình ảnh thực tế sau khi hoàn thiện công trình ${titleScript}, mang đến không gian sống sang trọng, tinh tế và đúng “chất” của từng gia chủ.`,
+  completedVideoDescription: `Khám phá những video hoàn thiện thực tế công trình ${titleScript}, với không gian sống tinh tế, hiện đại và đẳng cấp.`,
+  filters: []
+});
+
 // Category page configurations
 const PAGE_CONFIGS = {
   'thiet-ke-cong-trinh': {
@@ -170,7 +198,68 @@ const PAGE_CONFIGS = {
     parentCode: 'thi-cong-cong-trinh',
     contentType: 'videos',
     completedProjectCategory: 'tk-nt-chung-cu',
+    completedProjectUrl: '/thiet-ke-noi-that/chung-cu',
+    completedTitleMain: 'HOÀN CÔNG NỘI THẤT',
+    completedTitleScript: 'Chung Cư',
+    completedDescription: 'Những hình ảnh thực tế sau khi hoàn thiện, mang đến không gian sống sang trọng, tinh tế và đúng “chất” của từng gia chủ.',
+    completedVideoDescription: 'Khám phá những video hoàn thiện thực tế các dự án căn hộ với không gian sống tinh tế, hiện đại và đẳng cấp.',
     filters: []
+  },
+  'tc-kt-nha-pho': {
+    ...createConstructionConfig({
+      titleMain: 'THI CÔNG KIẾN TRÚC',
+      titleScript: 'Nhà Phố',
+      completedProjectCategory: 'tk-kt-nha-pho'
+    }),
+    categoryCode: 'tc-kt-nha-pho'
+  },
+  'tc-kt-biet-thu': {
+    ...createConstructionConfig({
+      titleMain: 'THI CÔNG KIẾN TRÚC',
+      titleScript: 'Biệt Thự',
+      completedProjectCategory: 'tk-kt-biet-thu'
+    }),
+    categoryCode: 'tc-kt-biet-thu'
+  },
+  'tc-kt-villa': {
+    ...createConstructionConfig({
+      titleMain: 'THI CÔNG KIẾN TRÚC',
+      titleScript: 'Villa',
+      completedProjectCategory: 'tk-kt-villa'
+    }),
+    categoryCode: 'tc-kt-villa'
+  },
+  'tc-nt-chung-cu': {
+    ...createConstructionConfig({
+      titleMain: 'THI CÔNG NỘI THẤT',
+      titleScript: 'Chung Cư',
+      completedProjectCategory: 'tk-nt-chung-cu'
+    }),
+    categoryCode: 'tc-nt-chung-cu'
+  },
+  'tc-nt-nha-pho': {
+    ...createConstructionConfig({
+      titleMain: 'THI CÔNG NỘI THẤT',
+      titleScript: 'Nhà Phố',
+      completedProjectCategory: 'tk-nt-nha-pho'
+    }),
+    categoryCode: 'tc-nt-nha-pho'
+  },
+  'tc-nt-biet-thu': {
+    ...createConstructionConfig({
+      titleMain: 'THI CÔNG NỘI THẤT',
+      titleScript: 'Biệt Thự',
+      completedProjectCategory: 'tk-nt-biet-thu'
+    }),
+    categoryCode: 'tc-nt-biet-thu'
+  },
+  'tc-nt-van-phong': {
+    ...createConstructionConfig({
+      titleMain: 'THI CÔNG NỘI THẤT',
+      titleScript: 'Văn Phòng',
+      completedProjectCategory: 'tk-nt-van-phong'
+    }),
+    categoryCode: 'tc-nt-van-phong'
   }
 };
 

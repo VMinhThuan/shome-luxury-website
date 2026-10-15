@@ -52,6 +52,13 @@ router.get("/thiet-ke-noi-that/van-phong", createShowcaseHandler("tk-nt-van-phon
 // Construction Route
 router.get("/thi-cong-cong-trinh", createShowcaseHandler("thi-cong-cong-trinh"));
 router.get("/thi-cong-cong-trinh/kien-truc/nha-cap-4", createShowcaseHandler("tc-kt-nha-cap-4"));
+router.get("/thi-cong-cong-trinh/kien-truc/nha-pho", createShowcaseHandler("tc-kt-nha-pho"));
+router.get("/thi-cong-cong-trinh/kien-truc/biet-thu", createShowcaseHandler("tc-kt-biet-thu"));
+router.get("/thi-cong-cong-trinh/kien-truc/villa", createShowcaseHandler("tc-kt-villa"));
+router.get("/thi-cong-cong-trinh/noi-that/chung-cu", createShowcaseHandler("tc-nt-chung-cu"));
+router.get("/thi-cong-cong-trinh/noi-that/nha-pho", createShowcaseHandler("tc-nt-nha-pho"));
+router.get("/thi-cong-cong-trinh/noi-that/biet-thu", createShowcaseHandler("tc-nt-biet-thu"));
+router.get("/thi-cong-cong-trinh/noi-that/van-phong", createShowcaseHandler("tc-nt-van-phong"));
 
 // Project Detail Page Routes (support both /cong-trinh/:slug and /san-pham/:slug)
 router.get("/cong-trinh/:slug", projectShowcaseController.renderDetailPage.bind(projectShowcaseController));
