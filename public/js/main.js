@@ -261,9 +261,9 @@ document.addEventListener('DOMContentLoaded', () => {
   document.dispatchEvent(new Event('shomeluxuryreviewcarouselready'));
 
   // 3.3 HERO BANNER CAROUSEL: drag, trackpad/wheel, swipe, dot navigation & autoplay
-  const initHeroSlider = () => {
-    const track = document.getElementById('heroSliderTrack');
-    const dotsContainer = document.getElementById('heroSliderDots');
+  const initHeroSlider = (trackId = 'heroSliderTrack', dotsId = 'heroSliderDots') => {
+    const track = document.getElementById(trackId);
+    const dotsContainer = document.getElementById(dotsId);
     if (!track || !dotsContainer || track.dataset.heroSliderReady) return;
     track.dataset.heroSliderReady = 'true';
 
@@ -277,23 +277,41 @@ document.addEventListener('DOMContentLoaded', () => {
     let pointerStartX = 0;
     let scrollStartX = 0;
     let autoPlayTimer = null;
+    let wheelDelta = 0;
+    let wheelResetTimer = null;
+    let lastWheelSlideAt = 0;
 
     const getSlidePositions = () => {
       const width = track.clientWidth;
       return slides.map((_, i) => i * width);
     };
 
-    const setActiveDot = () => {
+    const getCurrentIndex = () => {
       const positions = getSlidePositions();
       const currentScroll = track.scrollLeft;
-      const closestIndex = positions.reduce((best, pos, idx) =>
+      return positions.reduce((best, pos, idx) =>
         Math.abs(currentScroll - pos) < Math.abs(currentScroll - positions[best]) ? idx : best, 0);
+    };
+
+    const setActiveDot = () => {
+      const closestIndex = getCurrentIndex();
 
       Array.from(dotsContainer.children).forEach((dot, idx) => {
         const active = idx === closestIndex;
         dot.classList.toggle('is-active', active);
         dot.setAttribute('aria-selected', String(active));
       });
+
+      slides.forEach((slide, idx) => {
+        const active = idx === closestIndex;
+        slide.classList.toggle('is-active', active);
+        slide.setAttribute('aria-hidden', String(!active));
+      });
+    };
+
+    const goToSlide = (index) => {
+      const targetIndex = (index + slides.length) % slides.length;
+      track.scrollTo({ left: targetIndex * track.clientWidth, behavior: 'smooth' });
     };
 
     const buildDots = () => {
@@ -306,8 +324,7 @@ document.addEventListener('DOMContentLoaded', () => {
         dot.setAttribute('aria-label', `Xem banner ${idx + 1}`);
         dot.addEventListener('click', (e) => {
           e.preventDefault();
-          const targetLeft = idx * track.clientWidth;
-          track.scrollTo({ left: targetLeft, behavior: 'smooth' });
+          goToSlide(idx);
           resetAutoPlay();
         });
         dotsContainer.append(dot);
@@ -340,11 +357,25 @@ document.addEventListener('DOMContentLoaded', () => {
     track.addEventListener('pointerup', endDrag);
     track.addEventListener('pointercancel', endDrag);
 
-    // Trackpad / wheel horizontal support
+    // Let a mouse wheel or vertical trackpad gesture advance the banner while it is hovered.
+    // We move one complete slide at a time so scroll-snap cannot leave the carousel between slides.
     track.addEventListener('wheel', event => {
-      if (Math.abs(event.deltaY) <= Math.abs(event.deltaX)) return;
-      event.preventDefault();
-      track.scrollLeft += event.deltaY;
+      const delta = Math.abs(event.deltaY) > Math.abs(event.deltaX) ? event.deltaY : event.deltaX;
+      if (!delta) return;
+
+      if (event.cancelable) event.preventDefault();
+      wheelDelta += delta;
+      clearTimeout(wheelResetTimer);
+      wheelResetTimer = setTimeout(() => { wheelDelta = 0; }, 140);
+
+      // Small trackpad deltas are accumulated; one physical wheel notch works immediately.
+      const threshold = event.deltaMode === 1 ? 1 : 42;
+      const now = Date.now();
+      if (Math.abs(wheelDelta) < threshold || now - lastWheelSlideAt < 550) return;
+
+      goToSlide(getCurrentIndex() + (wheelDelta > 0 ? 1 : -1));
+      wheelDelta = 0;
+      lastWheelSlideAt = now;
       resetAutoPlay();
     }, { passive: false });
 
@@ -353,12 +384,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Auto-play (advance every 5.5s)
     const nextSlide = () => {
       if (isPointerDown) return;
-      const positions = getSlidePositions();
-      const currentScroll = track.scrollLeft;
-      const currentIndex = positions.reduce((best, pos, idx) =>
-        Math.abs(currentScroll - pos) < Math.abs(currentScroll - positions[best]) ? idx : best, 0);
-      const nextIndex = (currentIndex + 1) % slides.length;
-      track.scrollTo({ left: nextIndex * track.clientWidth, behavior: 'smooth' });
+      goToSlide(getCurrentIndex() + 1);
     };
 
     const startAutoPlay = () => {
@@ -390,6 +416,7 @@ document.addEventListener('DOMContentLoaded', () => {
   };
 
   initHeroSlider();
+  initHeroSlider('factoryHeroSliderTrack', 'factoryHeroSliderDots');
 
 
   // 4. CONSULTATION MODAL

@@ -1551,16 +1551,83 @@ ol {
   width: 10px;
   height: 10px;
   border-radius: 50%;
-  border: 1px solid rgba(255, 255, 255, 0.45);
-  background: rgba(255, 255, 255, 0.25);
+  border: 1px solid rgba(255, 255, 255, 0.92);
+  background: #fff;
   cursor: pointer;
   transition: all 0.25s ease;
   padding: 0;
 }
 
 .hero-slider-dots .testimonial-dot:hover {
-  background: rgba(255, 255, 255, 0.7);
+  background: #fff;
   transform: scale(1.15);
+}
+
+/* Each slide's copy enters afresh when it becomes the active banner. */
+.hero-slide .hero-title-line,
+.hero-slide .hero-script-subtitle {
+  opacity: 0;
+  will-change: opacity, transform;
+}
+
+.hero-slide .hero-title-line {
+  transform: translateY(1.1rem);
+}
+
+.hero-slide .hero-script-subtitle {
+  transform: translateY(1rem) scale(.98);
+  transform-origin: left center;
+}
+
+.hero-slide.is-active .hero-title-line {
+  animation: hero-copy-reveal .72s cubic-bezier(.22, 1, .36, 1) both;
+}
+
+.hero-slide.is-active .hero-title-line:nth-child(2) {
+  animation-delay: .12s;
+}
+
+.hero-slide.is-active .hero-script-subtitle {
+  animation: hero-script-reveal .8s cubic-bezier(.22, 1, .36, 1) .3s both;
+}
+
+/* The factory carousel uses the same calm staged copy reveal as the homepage. */
+.factory-hero .hero-slide .hero-v2-content > * {
+  opacity: 0;
+  transform: translateY(1rem);
+  will-change: opacity, transform;
+}
+
+.factory-hero .hero-slide.is-active .hero-v2-content > * {
+  animation: hero-copy-reveal .72s cubic-bezier(.22, 1, .36, 1) both;
+}
+
+.factory-hero .hero-slide.is-active .hero-v2-content > :nth-child(2) {
+  animation-delay: .12s;
+}
+
+.factory-hero .hero-slide.is-active .hero-v2-content > :nth-child(3) {
+  animation-delay: .24s;
+}
+
+@keyframes hero-copy-reveal {
+  from { opacity: 0; transform: translateY(1.1rem); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes hero-script-reveal {
+  from { opacity: 0; transform: translateY(1rem) scale(.98); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-slide .hero-title-line,
+  .hero-slide .hero-script-subtitle,
+  .factory-hero .hero-slide .hero-v2-content > * {
+    animation: none !important;
+    opacity: 1;
+    transform: none;
+  }
 }
 
 .hero-slider-dots .testimonial-dot.is-active {
@@ -1794,8 +1861,9 @@ ol {
 .usp-section-v2 {
   position: relative;
   z-index: 10;
-  margin-top: -2.25rem;
-  padding-bottom: 0.375rem;
+  margin-top: 0;
+  padding-top: 0.75rem;
+  padding-bottom: 0.75rem;
   background-color: #FFFFFF;
 }
 
@@ -3133,7 +3201,7 @@ ol {
   background-image: none !important;
 }
 
-/* Nền kem sang trọng (Warm Luxury Cream & Texture) */
+/* Neutral gray alternating surface, matching the homepage visual system. */
 .section-bg-cream,
 .project-showcase-hero,
 .about-showroom-section,
@@ -3158,7 +3226,19 @@ ol {
 .related-projects-section,
 .news-featured-section,
 .cta-banner-v2-section {
-  background: linear-gradient(180deg, rgba(250, 246, 237, .94) 0%, rgba(247, 242, 233, .98) 100%), url('/images/booking-faq-interior.png') center / cover !important;
+  background: #f4f4f4 !important;
+}
+
+/* News and recruitment stay crisp white from top to bottom; other pages retain
+   the alternating cream section rhythm declared above. */
+.news-page,
+.news-page .news-featured-section,
+.news-page .news-latest-section,
+body.page-recruitment,
+.page-recruitment .main-content,
+.page-recruitment .recruitment-jobs-section {
+  background-color: #fff !important;
+  background-image: none !important;
 }
 
 @media (max-width: 767px) {
@@ -13639,6 +13719,11 @@ body.quote-project-gallery-open { overflow: hidden; }
 
 /* Keep the homepage hero at the source image ratio on tablet and desktop so
    the full banner image is visible instead of being cropped into a shallow strip. */
+.home-page .hero-section-v2,
+.home-page .hero-v2-bg {
+  border-radius: 0;
+}
+
 @media (min-width: 768px) {
   .home-page .hero-section-v2 {
     min-height: 0;
