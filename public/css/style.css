@@ -8274,7 +8274,7 @@ body.page-recruitment,
 .completed-videos-section {
   padding: clamp(1.75rem, 3vw, 2.5rem) 0;
   border-top: 1px solid rgba(200, 155, 75, .2);
-  background: #fff;
+  background: #f4f4f4;
 }
 
 .completed-videos-heading {
@@ -10821,10 +10821,10 @@ button,
 .booking-form button[type="submit"],
 form button[type="submit"],
 .btn-cta-gold {
-  background: linear-gradient(135deg, #F5D38A 0%, #C89B4B 50%, #B78029 100%) !important;
+  background: var(--accent-gold, #C89B4B) !important;
   color: #111111 !important;
   font-weight: 700 !important;
-  border: 1px solid #C89B4B !important;
+  border: 1px solid var(--accent-gold, #C89B4B) !important;
   box-shadow: 0 4px 14px rgba(200, 155, 75, 0.3) !important;
   transition: all 0.25s ease !important;
 }
@@ -10868,10 +10868,10 @@ button,
 .booking-form button[type="submit"],
 form button[type="submit"],
 .quick-contact-trigger {
-  background: linear-gradient(135deg, #F5D38A 0%, #C89B4B 50%, #B78029 100%) !important;
+  background: var(--accent-gold, #C89B4B) !important;
   color: #111111 !important;
   font-weight: 700 !important;
-  border: 1px solid #C89B4B !important;
+  border: 1px solid var(--accent-gold, #C89B4B) !important;
   box-shadow: 0 4px 14px rgba(200, 155, 75, 0.3) !important;
 }
 
@@ -11594,8 +11594,8 @@ html {
   justify-content: center;
   padding: 0.75rem 1.4rem;
   border-radius: 999px;
-  background: #e2bd70;
-  color: #292013;
+  background: var(--accent-gold, #C89B4B);
+  color: #111111;
   font-weight: 800;
   font-size: 0.84rem;
   transition: all 0.2s ease;
@@ -11603,7 +11603,7 @@ html {
 }
 
 .btn-cta-gold-full:hover {
-  background: #f0cb7e;
+  background: var(--accent-gold-hover, #D2A653);
   transform: translateY(-2px);
   color: #1a140b;
 }
@@ -11614,17 +11614,17 @@ html {
   justify-content: center;
   padding: 0.75rem 1.4rem;
   border-radius: 999px;
-  background: #C89B4B;
-  color: #ffffff;
+  background: var(--accent-gold, #C89B4B);
+  color: #111111;
   font-weight: 700;
   font-size: 0.84rem;
   transition: all 0.2s ease;
 }
 
 .btn-cta-zalo:hover {
-  background: #D2A653;
+  background: var(--accent-gold-hover, #D2A653);
   transform: translateY(-2px);
-  color: #ffffff;
+  color: #000000;
 }
 
 /* Sidebar Styles */
@@ -13758,8 +13758,8 @@ body.quote-project-gallery-open { overflow: hidden !important; }
   line-height: 1.08;
 }
 
-/* Keep the homepage hero at the source image ratio on tablet and desktop so
-   the full banner image is visible instead of being cropped into a shallow strip. */
+/* Use a compact, responsive height on tablet and desktop while preserving
+   enough vertical space for the banner image and headline. */
 .home-page .hero-section-v2,
 .home-page .hero-v2-bg {
   border-radius: 0;
@@ -13767,8 +13767,9 @@ body.quote-project-gallery-open { overflow: hidden !important; }
 
 @media (min-width: 768px) {
   .home-page .hero-section-v2 {
+    height: clamp(460px, 42vw, 800px);
     min-height: 0;
-    aspect-ratio: 16 / 9;
+    aspect-ratio: auto;
     padding: 0;
     justify-content: center;
   }
@@ -14858,8 +14859,8 @@ body.quote-project-gallery-open { overflow: hidden !important; }
   --content-body-color: #565e64;
   --fs-banner-title: 40px;
   --fs-section-title: 40px;
-  --fs-section-subtitle: 20px;
-  --fs-section-body: 14px;
+  --fs-section-subtitle: 16px;
+  --fs-section-body: 16px;
 }
 
 /* Banner titles: a clear 40px desktop / 24px mobile reading hierarchy. */
@@ -14892,6 +14893,7 @@ main .capacity-v2-title,
 main .process-v2-title,
 main .section-v2-title,
 main .about-showroom-title,
+main .team-title-main,
 main .project-types-title,
 main .home-project-signatures-title,
 main .brand-story-title,
@@ -14922,17 +14924,24 @@ main .news-section-heading h2 {
 /* Handwritten accent words share the same hierarchy, but stay lightweight. */
 main .hero-script-eyebrow,
 main .hero-script-subtitle,
+main .team-script-eyebrow,
 main .about-showroom-script,
 main .project-types-title .title-script,
 main .home-project-signatures-script,
+main .story-title-script,
 main .why-choose-script,
 main .office-team-script,
+main .office-team-ampersand,
 main .home-workshop-script,
 main .customer-stories-script,
 main .home-faq-script,
 main .material-partners-script,
+main .process-v2-script,
+main .font-script-heading,
 main .workshop-heart-script,
-main .booking-process-kicker {
+main .booking-process-kicker,
+main .completed-projects-heading h2 em,
+main .completed-videos-heading h2 em {
   font-family: var(--font-script) !important;
   font-size: var(--fs-section-title) !important;
   font-weight: 400 !important;
@@ -14943,6 +14952,7 @@ main .booking-process-kicker {
 main .section-subtitle,
 main .section-v2-desc,
 main .about-showroom-desc,
+main .team-desc-lines,
 main .project-types-desc,
 main .home-project-signatures-header > p,
 main .brand-story-subtitle,
@@ -15063,8 +15073,8 @@ main .news-list-body p {
   color: #000000 !important;
 }
 
-/* Content scale aligned with Lã Nhà: section 40px, secondary 30px,
-   in-article heading 20px and reading copy 14px. Header/footer are excluded. */
+/* Content scale: section titles use one shared scale and reading copy is 16px.
+   Header/footer are excluded. */
 main .project-detail-content,
 main .job-article-body {
   font-size: var(--fs-section-body) !important;
@@ -15091,6 +15101,7 @@ main :is(
   .process-v2-title,
   .section-v2-title,
   .about-showroom-title,
+  .team-title-main,
   .project-types-title,
   .home-project-signatures-title,
   .brand-story-title,
@@ -15303,4 +15314,3 @@ main :is(
     font-size: 20px !important;
   }
 }
-
