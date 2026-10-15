@@ -87,6 +87,8 @@
   /* Crisp White on dark */
 
   --accent-gold: #C89B4B;
+  /* Single brand gold for all highlighted text in page content. */
+  --brand-gold-text: #D6A23E;
   --accent-gold-gradient: linear-gradient(135deg, #F5D38A 0%, #C89B4B 50%, #B78029 100%);
   /* Champagne Gold */
   --accent-gold-hover: #D2A653;
@@ -5720,7 +5722,7 @@ body.page-recruitment,
   /* This beats the desktop iframe selector above (which includes `iframe`).
      Without it the legacy iframe and the SDK plugin render together. */
   .footer-col-fb .fb-card-box .card-iframe-wrapper > iframe.facebook-page-plugin {
-    display: none !important;
+    display: block !important;
   }
 
   .footer-col-fb .facebook-mobile-plugin {
@@ -14829,6 +14831,7 @@ body.quote-project-gallery-open { overflow: hidden; }
    ====================================================================== */
 :root {
   --content-heading-color: #414549;
+  --content-heading-weight: 600;
   --content-body-color: #565e64;
   --fs-banner-title: 40px;
   --fs-section-title: 40px;
@@ -14846,7 +14849,7 @@ main .company-profile-hero h1,
 main .quote-brochure-copy h1 {
   font-family: var(--font-heading) !important;
   font-size: var(--fs-banner-title) !important;
-  font-weight: 600 !important;
+  font-weight: var(--content-heading-weight) !important;
   line-height: 1.25 !important;
 }
 
@@ -14855,7 +14858,7 @@ body.home-page main .hero-v2-title,
 main .factory-hero .hero-v2-title {
   font-family: var(--font-heading) !important;
   font-size: var(--fs-banner-title) !important;
-  font-weight: 600 !important;
+  font-weight: var(--content-heading-weight) !important;
   line-height: 1.25 !important;
 }
 
@@ -15035,4 +15038,113 @@ main .news-list-body p {
 .booking-submit:hover {
   background: var(--accent-gold-hover, #D2A653) !important;
   color: #000000 !important;
+}
+
+/* Content scale aligned with Lã Nhà: section 40px, secondary 30px,
+   in-article heading 20px and reading copy 14px. Header/footer are excluded. */
+main .project-detail-content,
+main .job-article-body {
+  font-size: var(--fs-section-body) !important;
+  line-height: 1.5 !important;
+}
+
+main .article-heading {
+  font-size: 20px !important;
+  line-height: 1.35 !important;
+}
+
+main .job-detail-title {
+  font-size: 30px !important;
+  line-height: 1.25 !important;
+}
+
+/* One consistent content-title treatment across pages. The selectors are
+   intentionally scoped to main, preserving the header/footer and white hero
+   titles that sit on photography. */
+main :is(
+  .section-title,
+  .gallery-v2-title,
+  .capacity-v2-title,
+  .process-v2-title,
+  .section-v2-title,
+  .about-showroom-title,
+  .project-types-title,
+  .home-project-signatures-title,
+  .brand-story-title,
+  .why-choose-title,
+  .office-team-main,
+  .home-workshop-main,
+  .customer-stories-main,
+  .home-faq-main,
+  .material-partners-main,
+  .factory-detail-title,
+  .factory-tour-title,
+  .surface-finish-title,
+  .renovation-showcase-title,
+  .furniture-care-title,
+  .workshop-heart-title,
+  .booking-estimate-header h2,
+  .booking-faq-header h2,
+  .testimonial-heading h2,
+  .news-section-heading h2
+) {
+  color: var(--content-heading-color) !important;
+  font-size: var(--fs-section-title) !important;
+  font-weight: var(--content-heading-weight) !important;
+  font-synthesis: none;
+}
+
+/* Brand-gold text: keep this separate from --accent-gold so buttons,
+   surfaces and borders retain their existing treatment. Header/footer are
+   deliberately excluded. */
+main :is(
+  .text-accent-brown,
+  .hero-v2-sub-eyebrow,
+  .gallery-v2-eyebrow,
+  .capacity-v2-eyebrow,
+  .process-v2-eyebrow,
+  .eyebrow-text,
+  .recruitment-eyebrow,
+  .eyebrow,
+  .hero-script-eyebrow,
+  .hero-script-subtitle,
+  .team-script-eyebrow,
+  .process-v2-script,
+  .font-script-heading,
+  .about-showroom-script,
+  .project-types-title .title-script,
+  .home-project-signatures-script,
+  .story-title-script,
+  .why-choose-script,
+  .office-team-script,
+  .home-workshop-script,
+  .customer-stories-script,
+  .home-faq-script,
+  .material-partners-script,
+  .workshop-heart-script,
+  .booking-eyebrow,
+  .booking-hero h1 em,
+  .booking-process-kicker,
+  .booking-process-heading h2,
+  .booking-process-heading h2 i,
+  .booking-process-heading p b,
+  .quote-brochure-copy .quote-kicker,
+  .quote-brochure-copy h1 em,
+  .quote-construction-copy h2,
+  .quote-free-estimate-copy h2 em,
+  .quote-video-heading p,
+  .quote-featured-heading p,
+  .quote-featured-heading h2 em
+) {
+  color: var(--brand-gold-text) !important;
+}
+
+@media (max-width: 767px) {
+  main .article-heading {
+    font-size: 20px !important;
+  }
+
+  main .job-detail-title {
+    font-size: 24px !important;
+  }
 }
