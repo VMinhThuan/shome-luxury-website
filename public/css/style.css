@@ -5452,17 +5452,22 @@ body.page-recruitment,
 }
 
 .facebook-page-preview {
-  display: flex;
+  display: grid;
+  grid-template-columns: 56px minmax(0, 1fr);
+  grid-template-areas:
+    "logo copy"
+    "button button";
   align-items: center;
   gap: .65rem;
   height: 100%;
   padding: .85rem;
   box-sizing: border-box;
-  background: linear-gradient(135deg, #f8fafc 0%, #eaf1fb 100%);
+  background: linear-gradient(135deg, #f8fafc 0%, #e8f0fd 100%);
   color: #1d3557;
 }
 
 .facebook-page-preview-logo {
+  grid-area: logo;
   width: 56px;
   height: 56px;
   flex: 0 0 56px;
@@ -5474,8 +5479,8 @@ body.page-recruitment,
 }
 
 .facebook-page-preview-copy {
+  grid-area: copy;
   min-width: 0;
-  flex: 1;
 }
 
 .facebook-page-preview-copy strong,
@@ -5497,19 +5502,21 @@ body.page-recruitment,
 }
 
 .facebook-page-preview-copy p {
-  margin: .35rem 0 0;
+  margin: .25rem 0 0;
   color: #43546b;
-  font-size: .68rem;
-  line-height: 1.4;
+  font-size: .72rem;
+  line-height: 1.35;
 }
 
 .facebook-page-preview-button {
-  flex: 0 0 auto;
-  padding: .5rem .6rem;
+  grid-area: button;
+  width: 100%;
+  box-sizing: border-box;
+  padding: .58rem .75rem;
   border-radius: 6px;
   background: #1877f2;
   color: #fff;
-  font-size: .68rem;
+  font-size: .75rem;
   font-weight: 700;
   line-height: 1.2;
   text-align: center;
