@@ -15139,6 +15139,71 @@ main :is(
   color: var(--brand-gold-text) !important;
 }
 
+/* Slider indicators: the current item is brand gold; every other item is
+   white, regardless of which content carousel it belongs to. */
+:is(
+  .testimonial-dots .testimonial-dot,
+  .material-partners-dots .testimonial-dot,
+  .hero-slider-dots .testimonial-dot,
+  .customer-story-dots button,
+  .slider-dots .dot,
+  #factoryDots .dot
+) {
+  border-color: rgba(255, 255, 255, .96) !important;
+  background: #fff !important;
+  box-shadow: none !important;
+}
+
+:is(
+  .testimonial-dots .testimonial-dot.is-active,
+  .testimonial-dots .testimonial-dot[aria-current="true"],
+  .material-partners-dots .testimonial-dot.is-active,
+  .material-partners-dots .testimonial-dot[aria-current="true"],
+  .hero-slider-dots .testimonial-dot.is-active,
+  .hero-slider-dots .testimonial-dot[aria-selected="true"],
+  .customer-story-dots button.is-active,
+  .customer-story-dots button[aria-selected="true"],
+  .slider-dots .dot.active,
+  #factoryDots .dot.active
+) {
+  border-color: var(--brand-gold-text) !important;
+  background: var(--brand-gold-text) !important;
+  box-shadow: 0 0 8px rgba(214, 162, 62, .45) !important;
+}
+
+/* Professional-team card: on phones the transparent cutout needs its own
+   centred row. This prevents the narrow two-column layout from shrinking or
+   cropping the people; desktop keeps its existing composition. */
+@media (max-width: 767px) {
+  .home-page .professional-team-card {
+    grid-template-columns: minmax(0, 1fr) !important;
+    min-height: 0;
+    gap: 1rem;
+  }
+
+  .home-page .professional-team-content {
+    align-items: center;
+    text-align: center;
+  }
+
+  .home-page .professional-team-media {
+    display: flex;
+    min-height: clamp(230px, 78vw, 330px);
+    align-items: center;
+    justify-content: center;
+    aspect-ratio: auto;
+  }
+
+  .home-page .professional-team-media img.professional-team-cutout {
+    width: auto;
+    max-width: 100%;
+    height: 100%;
+    min-height: 0;
+    object-fit: contain !important;
+    object-position: center center !important;
+  }
+}
+
 @media (max-width: 767px) {
   main .article-heading {
     font-size: 20px !important;
