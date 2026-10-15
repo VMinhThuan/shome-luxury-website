@@ -119,15 +119,33 @@ class QuotePageController {
     })).then(items => items.filter(Boolean));
   }
 
-  async getHighlightedProjects() {
+  async getHighlightedProjects(categorySlug = 'tk-nt-chung-cu') {
+    const targetCategory = categorySlug || 'tk-nt-chung-cu';
     const highlighted = await projectService.getProjects({
-      category: 'tk-nt-chung-cu',
+      category: targetCategory,
       isHighlight: true,
-      isVisible: true,
-      limit: 3,
+      limit: 6,
       sort: 'highlight'
     });
-    return highlighted.projects;
+    let projects = highlighted.projects || [];
+    if (projects.length < 6) {
+      const more = await projectService.getProjects({
+        category: targetCategory,
+        excludeIds: projects.map(p => p._id),
+        limit: 6 - projects.length,
+        sort: 'newest'
+      });
+      projects = [...projects, ...(more.projects || [])];
+    }
+    if (projects.length < 6) {
+      const fallback = await projectService.getProjects({
+        excludeIds: projects.map(p => p._id),
+        limit: 6 - projects.length,
+        sort: 'highlight'
+      });
+      projects = [...projects, ...(fallback.projects || [])];
+    }
+    return projects;
   }
 
   async renderPage(req, res, next) {
@@ -140,7 +158,7 @@ class QuotePageController {
         return res.redirect('/');
       }
       const sections = quotePage.sections || quotePageDefaults;
-      const highlightProjects = await this.getHighlightedProjects();
+      const highlightProjects = await this.getHighlightedProjects(selectedCategory?.slug || rawCategory);
       const selectedName = selectedCategory?.name?.replace(/^Thiết kế\s+/i, '') || '';
       const isInterior = /^nội thất\b/i.test(selectedName);
       const quoteTitle = `${selectedName.replace(/^(nội thất|kiến trúc)\s+/i, '')} trọn gói`;

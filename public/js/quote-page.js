@@ -91,6 +91,10 @@ document.addEventListener('DOMContentLoaded', () => {
       current.textContent = String(activeIndex + 1).padStart(2, '0');
       total.textContent = String(images.length).padStart(2, '0');
       thumbnails.querySelectorAll('button').forEach((button, buttonIndex) => button.classList.toggle('is-active', buttonIndex === activeIndex));
+      const activeThumb = thumbnails.querySelectorAll('button')[activeIndex];
+      if (activeThumb && typeof activeThumb.scrollIntoView === 'function') {
+        activeThumb.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+      }
     };
 
     const close = () => { modal.hidden = true; document.body.classList.remove('quote-project-gallery-open'); };
@@ -108,7 +112,7 @@ document.addEventListener('DOMContentLoaded', () => {
         button.append(thumb); button.addEventListener('click', () => show(index)); thumbnails.append(button);
       });
       modal.hidden = false; document.body.classList.add('quote-project-gallery-open'); show(0);
-      modal.querySelector('.quote-project-gallery-close').focus();
+      modal.querySelector('.quote-project-gallery-close')?.focus();
     };
 
     document.addEventListener('click', event => {
@@ -128,7 +132,17 @@ document.addEventListener('DOMContentLoaded', () => {
     stage.addEventListener('pointerup', event => {
       if (pointerStartX === null) return;
       const distance = event.clientX - pointerStartX; pointerStartX = null;
-      if (Math.abs(distance) > 45) show(activeIndex + (distance < 0 ? 1 : -1));
+      if (Math.abs(distance) > 40) show(activeIndex + (distance < 0 ? 1 : -1));
     });
+    let touchStartX = null;
+    stage.addEventListener('touchstart', event => {
+      if (event.touches?.length) touchStartX = event.touches[0].clientX;
+    }, { passive: true });
+    stage.addEventListener('touchend', event => {
+      if (touchStartX === null || !event.changedTouches?.length) return;
+      const diff = event.changedTouches[0].clientX - touchStartX;
+      touchStartX = null;
+      if (Math.abs(diff) > 40) show(activeIndex + (diff < 0 ? 1 : -1));
+    }, { passive: true });
   })();
 });

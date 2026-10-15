@@ -190,20 +190,12 @@ const PAGE_CONFIGS = {
     filters: []
   },
   'tc-kt-nha-cap-4': {
-    eyebrow: 'HÌNH ẢNH ĐANG THI CÔNG',
-    titleMain: 'THI CÔNG NỘI THẤT',
-    titleScript: 'Chung Cư',
-    description: 'Cập nhật hình ảnh thi công thực tế tại công trình, đảm bảo đúng tiến độ, đúng kỹ thuật và chất lượng trong từng hạng mục.',
-    categoryCode: 'tc-kt-nha-cap-4',
-    parentCode: 'thi-cong-cong-trinh',
-    contentType: 'videos',
-    completedProjectCategory: 'tk-nt-chung-cu',
-    completedProjectUrl: '/thiet-ke-noi-that/chung-cu',
-    completedTitleMain: 'HOÀN CÔNG NỘI THẤT',
-    completedTitleScript: 'Chung Cư',
-    completedDescription: 'Những hình ảnh thực tế sau khi hoàn thiện, mang đến không gian sống sang trọng, tinh tế và đúng “chất” của từng gia chủ.',
-    completedVideoDescription: 'Khám phá những video hoàn thiện thực tế các dự án căn hộ với không gian sống tinh tế, hiện đại và đẳng cấp.',
-    filters: []
+    ...createConstructionConfig({
+      titleMain: 'THI CÔNG KIẾN TRÚC',
+      titleScript: 'Nhà Cấp 4',
+      completedProjectCategory: 'tk-kt-nha-cap-4'
+    }),
+    categoryCode: 'tc-kt-nha-cap-4'
   },
   'tc-kt-nha-pho': {
     ...createConstructionConfig({
@@ -272,24 +264,55 @@ class ProjectShowcaseController {
       const categoryCode = req.params.categoryCode || 'thiet-ke-cong-trinh';
       const config = PAGE_CONFIGS[categoryCode] || PAGE_CONFIGS['thiet-ke-cong-trinh'];
 
-      const isVideoShowcase = config.contentType === 'videos';
-      const initialData = isVideoShowcase
-        ? { projects: [], page: 1, limit: 0, totalPages: 0, totalItems: 0 }
-        : await projectService.getProjects({
+      const isConstructionShowcase = Boolean(config.completedProjectCategory);
+      const isVideoShowcase = config.contentType === 'videos' && !isConstructionShowcase;
+
+      let constructionProjects = [];
+      let completedProjects = [];
+      let videos = [];
+      let initialData = { projects: [], page: 1, limit: 0, totalPages: 0, totalItems: 0 };
+
+      if (isConstructionShowcase) {
+        // 1. Fetch projects for Section 1 (HÌNH ẢNH ĐANG THI CÔNG)
+        let cData = await projectService.getProjects({
+          category: categoryCode,
+          page: 1,
+          limit: 12,
+          compact: true
+        });
+        if (!cData.projects || cData.projects.length === 0) {
+          cData = await projectService.getProjects({
+            category: config.completedProjectCategory,
+            page: 1,
+            limit: 12,
+            compact: true
+          });
+        }
+        constructionProjects = cData.projects || [];
+
+        // 2. Fetch projects for Section 2 (HOÀN CÔNG), strictly excluding Section 1 projects
+        const excludeIds = constructionProjects.map(p => p._id);
+        const compData = await projectService.getProjects({
+          category: config.completedProjectCategory,
+          excludeIds,
+          page: 1,
+          limit: 6,
+          compact: true
+        });
+        completedProjects = compData.projects || [];
+
+        // 3. Videos for Section 3 (NHỮNG VIDEO HOÀN THIỆN TIÊU BIỂU)
+        videos = await constructionVideoService.getVisibleVideos();
+      } else if (isVideoShowcase) {
+        videos = await constructionVideoService.getVisibleVideos();
+      } else {
+        initialData = await projectService.getProjects({
           category: categoryCode,
           page: 1,
           limit: 4,
           compact: true
         });
-      const videos = isVideoShowcase ? await constructionVideoService.getVisibleVideos() : [];
-      const completedProjectsData = config.completedProjectCategory
-        ? await projectService.getProjects({
-          category: config.completedProjectCategory,
-          page: 1,
-          limit: 6,
-          compact: true
-        })
-        : { projects: [] };
+      }
 
       const pageTitle = `${config.titleMain} ${config.titleScript} | LUXURY HOME`.trim();
 
@@ -299,9 +322,11 @@ class ProjectShowcaseController {
         navigation: navigationData,
         pageConfig: config,
         activeCategoryCode: categoryCode,
+        isConstructionShowcase,
+        constructionProjects,
         isVideoShowcase,
         videos,
-        completedProjects: completedProjectsData.projects,
+        completedProjects,
         initialProjects: initialData.projects,
         initialPagination: {
           page: initialData.page,

@@ -35,6 +35,10 @@ class ProjectService {
       filter.isVisible = { $ne: false };
     }
 
+    if (options.excludeIds && Array.isArray(options.excludeIds) && options.excludeIds.length > 0) {
+      filter._id = { $nin: options.excludeIds.map(id => (typeof id === 'string' ? new mongoose.Types.ObjectId(id) : id)) };
+    }
+
     // Search filter (Title, Investor, Location, Excerpt, Content)
     if (options.search) {
       const searchRegex = new RegExp(options.search.trim(), 'i');

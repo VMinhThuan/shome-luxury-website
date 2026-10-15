@@ -14,7 +14,7 @@
   <meta name="theme-color" content="#171717" />
 
   <!-- CSS Stylesheet -->
-  <link rel="stylesheet" href="/css/style.css?v=6.5.99" />
+  <link rel="stylesheet" href="/css/style.css?v=6.6.0" />
   <script src="/js/main.js?v=1.9.0" defer></script>
 </head>
 <body>
@@ -49,7 +49,28 @@
     <!-- Construction videos or project showcase -->
     <section class="project-showcase-section">
       <div class="container">
-        <% if (isVideoShowcase) { %>
+        <% if (isConstructionShowcase) { %>
+          <% const hasMoreProjects = constructionProjects && constructionProjects.length > 3; %>
+          <% const hasMoreDesktopProjects = constructionProjects && constructionProjects.length > 6; %>
+          <div id="construction-project-grid" class="completed-projects-grid construction-project-grid" aria-label="Hình ảnh đang thi công công trình">
+            <% if (constructionProjects && constructionProjects.length > 0) { %>
+              <% constructionProjects.forEach(project => { %>
+                <%- include("partials/project-card", { project }) %>
+              <% }); %>
+            <% } else { %>
+              <div class="empty-state-box">
+                <p class="empty-state-title">Chưa có hình ảnh thi công</p>
+              </div>
+            <% } %>
+          </div>
+          <% if (hasMoreProjects) { %>
+            <div class="construction-video-more <%= hasMoreDesktopProjects ? 'has-more-desktop' : 'has-more-mobile' %>">
+              <button class="construction-video-more-button" type="button" data-expand-grid="construction-project-grid" aria-controls="construction-project-grid" aria-expanded="false" data-more-text="XEM THÊM" data-less-text="THU GỌN">
+                XEM THÊM
+              </button>
+            </div>
+          <% } %>
+        <% } else if (isVideoShowcase) { %>
           <% const hasMoreVideos = videos && videos.length > 3; %>
           <% const hasMoreDesktopVideos = videos && videos.length > 6; %>
           <div id="construction-video-grid" class="construction-video-grid" aria-label="Video thi công công trình">
@@ -73,8 +94,8 @@
           </div>
           <% if (hasMoreVideos) { %>
             <div class="construction-video-more <%= hasMoreDesktopVideos ? 'has-more-desktop' : 'has-more-mobile' %>">
-              <button class="construction-video-more-button" type="button" data-expand-video-grid="construction-video-grid" aria-controls="construction-video-grid" aria-expanded="false">
-                Xem thêm <span aria-hidden="true">→</span>
+              <button class="construction-video-more-button" type="button" data-expand-grid="construction-video-grid" aria-controls="construction-video-grid" aria-expanded="false" data-more-text="XEM THÊM" data-less-text="THU GỌN">
+                XEM THÊM
               </button>
             </div>
           <% } %>
@@ -110,7 +131,7 @@
       </div>
     </section>
 
-    <% if (isVideoShowcase && pageConfig.completedProjectCategory) { %>
+    <% if (isConstructionShowcase) { %>
       <section class="completed-projects-section">
         <div class="completed-projects-heading-band">
           <div class="container">
@@ -137,7 +158,7 @@
 
           <div class="completed-projects-more">
             <a class="construction-video-more-button" href="<%= pageConfig.completedProjectUrl || '/thiet-ke-cong-trinh' %>">
-              Xem thêm <span aria-hidden="true">→</span>
+              XEM THÊM
             </a>
           </div>
         </div>
@@ -151,13 +172,13 @@
             <strong><%= pageConfig.completedVideoDescription || 'Khám phá những video hoàn thiện thực tế với không gian sống tinh tế, hiện đại và đẳng cấp.' %></strong>
           </header>
 
-          <div id="completed-video-grid" class="completed-video-grid" aria-label="Video hoàn công nội thất chung cư">
+          <div id="completed-video-grid" class="completed-video-grid" aria-label="Video hoàn công nội thất">
             <% if (videos && videos.length > 0) { %>
               <% videos.forEach(video => { %>
                 <div class="construction-video-card">
                   <iframe
                     src="https://www.youtube-nocookie.com/embed/<%= video.youtubeId %>?rel=0&amp;modestbranding=1"
-                    title="Video hoàn công nội thất chung cư"
+                    title="Video hoàn công nội thất"
                     loading="lazy"
                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                     referrerpolicy="strict-origin-when-cross-origin"
@@ -173,8 +194,8 @@
 
           <% if (videos && videos.length > 3) { %>
             <div class="completed-videos-more <%= videos.length > 6 ? 'has-more-desktop' : 'has-more-mobile' %>">
-              <button class="construction-video-more-button" type="button" data-expand-video-grid="completed-video-grid" aria-controls="completed-video-grid" aria-expanded="false">
-                Xem thêm <span aria-hidden="true">→</span>
+              <button class="construction-video-more-button" type="button" data-expand-grid="completed-video-grid" aria-controls="completed-video-grid" aria-expanded="false" data-more-text="XEM THÊM" data-less-text="THU GỌN">
+                XEM THÊM
               </button>
             </div>
           <% } %>
@@ -186,17 +207,28 @@
   <!-- Footer -->
   <%- include("partials/footer") %>
 
-  <% if (isVideoShowcase && videos && videos.length > 3) { %>
-    <script>
-      document.querySelectorAll('[data-expand-video-grid]').forEach(function (button) {
-        button.addEventListener('click', function () {
-          document.getElementById(this.dataset.expandVideoGrid)?.classList.add('is-expanded');
-          this.setAttribute('aria-expanded', 'true');
-          this.parentElement?.setAttribute('hidden', '');
-        });
+  <script>
+    document.querySelectorAll('[data-expand-grid]').forEach(function (button) {
+      button.addEventListener('click', function () {
+        var targetId = this.dataset.expandGrid;
+        var grid = document.getElementById(targetId);
+        if (!grid) return;
+
+        var isExpanded = grid.classList.toggle('is-expanded');
+        this.setAttribute('aria-expanded', isExpanded ? 'true' : 'false');
+
+        var moreText = this.dataset.moreText || 'XEM THÊM';
+        var lessText = this.dataset.lessText || 'THU GỌN';
+        this.textContent = isExpanded ? lessText : moreText;
+
+        if (!isExpanded) {
+          var yOffset = -90;
+          var y = grid.getBoundingClientRect().top + window.pageYOffset + yOffset;
+          window.scrollTo({ top: Math.max(0, y), behavior: 'smooth' });
+        }
       });
-    </script>
-  <% } %>
+    });
+  </script>
 
 </body>
 </html>

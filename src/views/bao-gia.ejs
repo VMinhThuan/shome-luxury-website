@@ -7,7 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400&family=Playfair+Display:ital,wght@0,600;0,700;0,800;0,900;1,600&family=Great+Vibes&family=Alex+Brush&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="/css/style.css?v=6.5.99" />
+  <link rel="stylesheet" href="/css/style.css?v=6.6.1" />
   <style>
     /* Alternating section backgrounds on quote page handled by style.css design system */
     .quote-page .quote-video-card-link { display: block; cursor: pointer; }
@@ -983,7 +983,7 @@
       object-fit: cover;
     }
 
-    /* Hiển thị 1 hàng 3 card cho section công trình chung cư nổi bật */
+    /* Hiển thị 2 hàng 3 card (tổng 6 card) trên web, 3 card trên mobile cho section công trình chung cư nổi bật */
     .quote-page .quote-featured-project-list {
       display: grid;
       width: 100%;
@@ -991,9 +991,266 @@
       gap: clamp(1rem, 1.8vw, 1.75rem);
       margin: 0 auto;
     }
+    @media (max-width: 767px) {
+      .quote-page .quote-featured-project-list .quote-featured-project-card:nth-child(n+4) {
+        display: none !important;
+      }
+    }
     @media (min-width: 768px) {
       .quote-page .quote-featured-project-list {
         grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+      }
+    }
+
+    /* ==========================================================================
+       QUOTE PAGE: PROJECT GALLERY MODAL (MOBILE RESPONSIVE & LUXURY STYLING)
+       ========================================================================== */
+    .quote-page .quote-project-gallery-modal {
+      position: fixed !important;
+      inset: 0 !important;
+      z-index: 99999 !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      padding: clamp(0.6rem, 2.5vw, 1.5rem) !important;
+      box-sizing: border-box !important;
+      width: 100vw !important;
+      height: 100vh !important;
+    }
+    .quote-page .quote-project-gallery-modal[hidden] {
+      display: none !important;
+    }
+    .quote-page .quote-project-gallery-modal-backdrop {
+      position: absolute !important;
+      inset: 0 !important;
+      background: rgba(10, 8, 6, 0.88) !important;
+      backdrop-filter: blur(12px) !important;
+      -webkit-backdrop-filter: blur(12px) !important;
+    }
+    .quote-page .quote-project-gallery-dialog {
+      position: relative !important;
+      z-index: 2 !important;
+      width: 100% !important;
+      max-width: min(1080px, calc(100vw - 1.2rem)) !important;
+      min-width: 0 !important;
+      margin: 0 auto !important;
+      display: flex !important;
+      flex-direction: column !important;
+      gap: 0.65rem !important;
+      box-sizing: border-box !important;
+    }
+    .quote-page .quote-project-gallery-stage {
+      position: relative !important;
+      width: 100% !important;
+      aspect-ratio: 16 / 9 !important;
+      overflow: hidden !important;
+      border-radius: 16px !important;
+      background: #17120e !important;
+      box-shadow: 0 16px 48px rgba(0, 0, 0, 0.6) !important;
+      touch-action: pan-y !important;
+      user-select: none !important;
+    }
+    .quote-page .quote-project-gallery-stage > img {
+      display: block !important;
+      width: 100% !important;
+      height: 100% !important;
+      object-fit: cover !important;
+      user-select: none !important;
+    }
+    .quote-page .quote-project-gallery-close {
+      position: absolute !important;
+      top: 0.85rem !important;
+      right: 0.85rem !important;
+      z-index: 30 !important;
+      width: 38px !important;
+      height: 38px !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      border-radius: 50% !important;
+      background: rgba(18, 15, 12, 0.72) !important;
+      background-color: rgba(18, 15, 12, 0.72) !important;
+      border: 1px solid rgba(255, 255, 255, 0.28) !important;
+      color: #ffffff !important;
+      backdrop-filter: blur(8px) !important;
+      -webkit-backdrop-filter: blur(8px) !important;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.35) !important;
+      cursor: pointer !important;
+      padding: 0 !important;
+      margin: 0 !important;
+      transition: background 0.2s ease, transform 0.2s ease, border-color 0.2s ease !important;
+    }
+    .quote-page .quote-project-gallery-close:hover,
+    .quote-page .quote-project-gallery-close:active {
+      background: var(--accent-gold, #C89B4B) !important;
+      background-color: var(--accent-gold, #C89B4B) !important;
+      color: #111111 !important;
+      border-color: var(--accent-gold, #C89B4B) !important;
+      transform: scale(1.08) !important;
+    }
+    .quote-page .quote-project-gallery-close svg {
+      width: 18px !important;
+      height: 18px !important;
+      stroke: currentColor !important;
+      fill: none !important;
+      stroke-width: 2.2 !important;
+    }
+    .quote-page .quote-project-gallery-control {
+      position: absolute !important;
+      top: 50% !important;
+      z-index: 25 !important;
+      width: 44px !important;
+      height: 44px !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      border-radius: 50% !important;
+      background: rgba(18, 15, 12, 0.72) !important;
+      background-color: rgba(18, 15, 12, 0.72) !important;
+      border: 1px solid rgba(255, 255, 255, 0.28) !important;
+      color: #ffffff !important;
+      backdrop-filter: blur(8px) !important;
+      -webkit-backdrop-filter: blur(8px) !important;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.35) !important;
+      cursor: pointer !important;
+      padding: 0 !important;
+      margin: 0 !important;
+      transform: translateY(-50%) !important;
+      transition: background 0.2s ease, transform 0.2s ease, border-color 0.2s ease, color 0.2s ease !important;
+    }
+    .quote-page .quote-project-gallery-control.previous {
+      left: 0.85rem !important;
+    }
+    .quote-page .quote-project-gallery-control.next {
+      right: 0.85rem !important;
+    }
+    .quote-page .quote-project-gallery-control:hover,
+    .quote-page .quote-project-gallery-control:active {
+      background: var(--accent-gold, #C89B4B) !important;
+      background-color: var(--accent-gold, #C89B4B) !important;
+      color: #111111 !important;
+      border-color: var(--accent-gold, #C89B4B) !important;
+      transform: translateY(-50%) scale(1.08) !important;
+    }
+    .quote-page .quote-project-gallery-control svg {
+      width: 20px !important;
+      height: 20px !important;
+      stroke: currentColor !important;
+      fill: none !important;
+      stroke-width: 2.4 !important;
+    }
+    .quote-page .quote-project-gallery-count {
+      position: absolute !important;
+      right: 0.85rem !important;
+      bottom: 0.85rem !important;
+      z-index: 20 !important;
+      display: inline-flex !important;
+      align-items: center !important;
+      gap: 0.2rem !important;
+      padding: 0.28rem 0.65rem !important;
+      border: 1px solid rgba(255, 255, 255, 0.22) !important;
+      border-radius: 999px !important;
+      color: #ffffff !important;
+      background: rgba(18, 15, 12, 0.75) !important;
+      backdrop-filter: blur(8px) !important;
+      -webkit-backdrop-filter: blur(8px) !important;
+      font-size: 0.72rem !important;
+      font-weight: 600 !important;
+      letter-spacing: 0.05em !important;
+      pointer-events: none !important;
+    }
+    .quote-page .quote-project-gallery-thumbnails {
+      display: flex !important;
+      flex-direction: row !important;
+      gap: 0.55rem !important;
+      width: 100% !important;
+      max-width: 100% !important;
+      min-width: 0 !important;
+      overflow-x: auto !important;
+      overscroll-behavior-x: contain !important;
+      -webkit-overflow-scrolling: touch !important;
+      scrollbar-width: none !important;
+      padding: 0.25rem 0.15rem 0.45rem !important;
+      margin: 0 auto !important;
+      box-sizing: border-box !important;
+    }
+    .quote-page .quote-project-gallery-thumbnails::-webkit-scrollbar {
+      display: none !important;
+    }
+    .quote-page .quote-project-gallery-thumbnail {
+      flex: 0 0 88px !important;
+      width: 88px !important;
+      aspect-ratio: 4 / 3 !important;
+      overflow: hidden !important;
+      padding: 0 !important;
+      border: 2px solid transparent !important;
+      border-radius: 9px !important;
+      opacity: 0.55 !important;
+      background: #17120e !important;
+      cursor: pointer !important;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3) !important;
+      transition: transform 0.2s ease, opacity 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease !important;
+      transform: none !important;
+    }
+    .quote-page .quote-project-gallery-thumbnail:hover {
+      opacity: 0.85 !important;
+      transform: translateY(-2px) !important;
+    }
+    .quote-page .quote-project-gallery-thumbnail.is-active {
+      border-color: var(--accent-gold, #C89B4B) !important;
+      opacity: 1 !important;
+      transform: scale(1.04) !important;
+      box-shadow: 0 0 12px rgba(200, 155, 75, 0.45) !important;
+    }
+    .quote-page .quote-project-gallery-thumbnail img {
+      display: block !important;
+      width: 100% !important;
+      height: 100% !important;
+      object-fit: cover !important;
+      pointer-events: none !important;
+    }
+    @media (max-width: 767px) {
+      .quote-page .quote-project-gallery-stage {
+        aspect-ratio: 4 / 3 !important;
+        border-radius: 14px !important;
+      }
+      .quote-page .quote-project-gallery-control {
+        width: 36px !important;
+        height: 36px !important;
+      }
+      .quote-page .quote-project-gallery-control.previous {
+        left: 0.55rem !important;
+      }
+      .quote-page .quote-project-gallery-control.next {
+        right: 0.55rem !important;
+      }
+      .quote-page .quote-project-gallery-control svg {
+        width: 16px !important;
+        height: 16px !important;
+      }
+      .quote-page .quote-project-gallery-close {
+        width: 34px !important;
+        height: 34px !important;
+        top: 0.55rem !important;
+        right: 0.55rem !important;
+      }
+      .quote-page .quote-project-gallery-close svg {
+        width: 15px !important;
+        height: 15px !important;
+      }
+      .quote-page .quote-project-gallery-count {
+        right: 0.55rem !important;
+        bottom: 0.55rem !important;
+        font-size: 0.68rem !important;
+        padding: 0.2rem 0.55rem !important;
+      }
+      .quote-page .quote-project-gallery-thumbnails {
+        gap: 0.45rem !important;
+      }
+      .quote-page .quote-project-gallery-thumbnail {
+        flex: 0 0 68px !important;
+        width: 68px !important;
+        border-radius: 7px !important;
       }
     }
 
@@ -1211,7 +1468,7 @@
     }
   </style>
   <script src="/js/main.js?v=1.9.1" defer></script>
-  <script src="/js/quote-page.js?v=1.2.1" defer></script>
+  <script src="/js/quote-page.js?v=1.2.2" defer></script>
 </head>
 <body>
   <%- include('partials/header') %>
@@ -1299,7 +1556,7 @@
           <header class="quote-featured-heading"><h2>Thiết kế <em>Chung Cư</em></h2><strong>Nội thất căn hộ chung cư hiện đại, tối ưu công năng từng phòng chức năng.</strong></header>
           <% if (highlightProjects.length) { %>
             <div class="quote-featured-project-list">
-              <% highlightProjects.slice(0, 3).forEach((project, index) => {
+              <% highlightProjects.slice(0, 6).forEach((project, index) => {
                    const projectImage = project.thumbnail || '/images/quote-featured-villa-living-room.png';
                    const fallbackGalleryImages = ['/images/project_apartment.jpg', '/images/project_villa.jpg', '/images/hero_interior.jpg', '/images/hero_sofa_light.jpg', '/images/service_interior.jpg'];
                    const galleryImages = [...new Set([projectImage, ...((project.gallery && project.gallery.length) ? project.gallery : fallbackGalleryImages)].filter(Boolean))];
@@ -1335,12 +1592,18 @@
             <div class="quote-project-gallery-modal" data-quote-project-gallery-modal hidden role="dialog" aria-modal="true" aria-label="Thư viện ảnh công trình">
               <div class="quote-project-gallery-modal-backdrop" data-quote-gallery-close></div>
               <div class="quote-project-gallery-dialog">
-                <button class="quote-project-gallery-close" type="button" data-quote-gallery-close aria-label="Đóng thư viện ảnh">×</button>
                 <div class="quote-project-gallery-stage" data-quote-gallery-stage>
                   <img src="" alt="" data-quote-gallery-image draggable="false" />
+                  <button class="quote-project-gallery-close" type="button" data-quote-gallery-close aria-label="Đóng thư viện ảnh">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                  </button>
                   <span class="quote-project-gallery-count"><b data-quote-gallery-current>01</b>/<span data-quote-gallery-total>01</span></span>
-                  <button class="quote-project-gallery-control previous" type="button" data-quote-gallery-prev aria-label="Ảnh trước">‹</button>
-                  <button class="quote-project-gallery-control next" type="button" data-quote-gallery-next aria-label="Ảnh tiếp theo">›</button>
+                  <button class="quote-project-gallery-control previous" type="button" data-quote-gallery-prev aria-label="Ảnh trước">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+                  </button>
+                  <button class="quote-project-gallery-control next" type="button" data-quote-gallery-next aria-label="Ảnh tiếp theo">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                  </button>
                 </div>
                 <div class="quote-project-gallery-thumbnails" data-quote-gallery-thumbnails aria-label="Chọn ảnh công trình"></div>
               </div>
