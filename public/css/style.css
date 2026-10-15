@@ -8162,9 +8162,6 @@ ol {
     display: none !important;
   }
 
-  .construction-video-more.has-more-mobile {
-    display: none;
-  }
 }
 
 @media (min-width: 1024px) {
@@ -8263,9 +8260,6 @@ ol {
     gap: 1.25rem;
   }
 
-  .completed-videos-more.has-more-mobile {
-    display: none;
-  }
 }
 
 @media (min-width: 1024px) {
