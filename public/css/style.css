@@ -8380,6 +8380,18 @@ ol {
 }
 
 @media (min-width: 768px) {
+  .completed-projects-heading h2 em,
+  .completed-videos-heading h2 em {
+    display: block;
+    margin: .16em 0 .42em;
+    line-height: .9;
+  }
+
+  .completed-projects-heading strong,
+  .completed-videos-heading strong {
+    margin-top: 0;
+  }
+
   .completed-projects-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 1.25rem;
