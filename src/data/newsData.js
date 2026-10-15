@@ -1,207 +1,198 @@
+function article({ intro, image, alt, sections, faqs, conclusion }) {
+  const toc = sections.map(s => `<li><a href="#${s.id}">${s.title}</a></li>`).join('');
+  const content = sections.map(s => `<section><h2 id="${s.id}" class="article-heading">${s.title}</h2>${s.paragraphs.map(p => `<p>${p}</p>`).join('')}${s.bullets ? `<ul class="article-list">${s.bullets.map(item => `<li>${item}</li>`).join('')}</ul>` : ''}</section>`).join('');
+  const faq = faqs.map(item => `<h3>${item.q}</h3><p>${item.a}</p>`).join('');
+  return `<div class="old-web-article"><p class="article-intro">${intro}</p><div class="article-image-box"><img src="${image}" alt="${alt}" class="article-main-img" /></div><div class="ftoc-box"><div class="ftoc-header"><span class="ftoc-icon">☰</span><span class="ftoc-title">Nội dung chính</span></div><ol class="ftoc-list">${toc}<li><a href="#faq">Câu hỏi thường gặp</a></li></ol></div>${content}<section><h2 id="faq" class="article-heading">Câu hỏi thường gặp</h2>${faq}</section><p><strong>${conclusion}</strong></p></div>`;
+}
+
 module.exports = [
   {
-    id: "xu-huong-noi-that-2026",
-    title: "5 xu hướng thiết kế nội thất gỗ công nghiệp cao cấp 2026",
-    author: "KTS. Lê Sang",
-    date: "12/11/2026",
-    category: "Xu hướng",
-    readTime: "5 phút đọc",
-    isHot: true,
-    thumbnail: "/images/service_interior.jpg",
-    summary: "Khám phá sự kết hợp giữa nét tối giản hiện đại và vật liệu gỗ phủ veneer, An Cường cao cấp trong kiến trúc không gian sống đương đại.",
-    sections: [
-      {
-        id: "trend-1",
-        title: "1. Gam màu trung tính & Tự nhiên",
-        items: [
-          "Sử dụng tone màu kem, beige, xám ghi kết hợp gỗ óc chó hoặc sồi ấm áp.",
-          "Tạo cảm giác thư thái, gần gũi thiên nhiên nhưng vẫn giữ nét sang trọng.",
-          "Dễ dàng kết hợp với hệ thống ánh sáng thông minh hiện đại."
-        ]
-      },
-      {
-        id: "trend-2",
-        title: "2. Vật liệu gỗ công nghiệp phủ Veneer & Melamine An Cường",
-        items: [
-          "Bề mặt phẳng phiu, chống trầy xước, chống ẩm vượt trội.",
-          "Màu sắc đồng nhất, đường nét thi công sắc sảo bằng công nghệ dán cạnh không đường line."
-        ]
-      },
-      {
-        id: "trend-3",
-        title: "3. Tích hợp thiết bị thông minh ẩn",
-        items: [
-          "Hệ tủ quầy bar, tủ quần áo kết hợp cảm biến LED tự động.",
-          "Tối ưu không gian lưu trữ thông minh, giữ cho ngôi nhà luôn ngăn nắp."
-        ]
-      }
-    ],
-    fullHtmlContent: `
-      <div class="old-web-article">
-        <p class="article-intro">Năm 2026 đánh dấu sự bùng nổ của phong cách Modern Luxury tối giản nhưng đầy tinh tế. Không gian sống không chỉ cần đẹp mắt mà còn phải mang lại cảm giác bình yên, tiện nghi vượt trội cho gia chủ.</p>
-        
-        <div class="article-image-box">
-          <img src="/images/service_interior.jpg" alt="Xu hướng thiết kế nội thất 2026" class="article-main-img" />
-        </div>
-
-        <div class="ftoc-box">
-          <div class="ftoc-header">
-            <span class="ftoc-icon">☰</span>
-            <span class="ftoc-title">Nội dung chính</span>
-          </div>
-          <ol class="ftoc-list">
-            <li><a href="#trend-1">1. Gam màu trung tính & Tự nhiên</a></li>
-            <li><a href="#trend-2">2. Vật liệu gỗ công nghiệp phủ Veneer cao cấp</a></li>
-            <li><a href="#trend-3">3. Thiết kế tủ kệ không tay nắm (Tip-on & Cánh móc)</a></li>
-            <li><a href="#trend-4">4. Ánh sáng cảm xúc (Mood Lighting)</a></li>
-            <li><a href="#trend-5">5. Giải pháp sản xuất CNC chuẩn 99% 3D</a></li>
-          </ol>
-        </div>
-
-        <h2 id="trend-1" class="article-heading">1. Gam màu trung tính & Tự nhiên</h2>
-        <p>Sự kết hợp giữa các tone màu kem nhã nhặn, be trầm cùng vân gỗ óc chó sẫm màu tạo nên chiều sâu cuốn hút cho phòng khách và phòng ngủ. Sự chuyển màu mượt mà giúp không gian trông rộng rãi và ấm cúng hơn.</p>
-
-        <h2 id="trend-2" class="article-heading">2. Vật liệu gỗ công nghiệp phủ Veneer cao cấp</h2>
-        <p>Gỗ công nghiệp cốt xanh chống ẩm An Cường phủ Veneer vân gỗ tự nhiên hoặc Melamine texture cao cấp đang là lựa chọn ưu tiên số 1 của các công trình biệt thự và chung cư cao cấp nhờ độ bền, chống mối mọt và tính thẩm mỹ tối đa.</p>
-        <ul class="article-list">
-          <li>Cốt gỗ MDF/HDF chống ẩm tiêu chuẩn E1 an toàn sức khỏe.</li>
-          <li>Công nghệ dán cạnh PUR / Zero-line không nẹp viền lộ vân.</li>
-          <li>Độ bền màu trên 15 năm không biến dạng.</li>
-        </ul>
-
-        <h2 id="trend-3" class="article-heading">3. Thiết kế tủ kệ không tay nắm</h2>
-        <p>Xu hướng phẳng hóa giúp mặt đứng tủ quần áo và hệ tủ bếp trở nên gọn gàng tuyệt đối. Sử dụng phụ kiện nhấn mở Blum / Hafele mang đến trải nghiệm đóng mở nhẹ nhàng, tinh tế.</p>
-
-        <h2 id="trend-4" class="article-heading">4. Ánh sáng cảm xúc (Mood Lighting)</h2>
-        <p>Hệ đèn LED âm tủ nhiệt độ màu 3000K-4000K hắt nhẹ theo các đường nẹp nhôm mạ PVD tạo hiệu ứng tôn vinh từng bề mặt gỗ, mang đến vẻ sang trọng đặc trưng của SHOME LUXURY.</p>
-
-        <h2 id="trend-5" class="article-heading">5. Giải pháp sản xuất CNC chuẩn 99% 3D</h2>
-        <p>Với hệ thống máy cắt CNC tự động tại xưởng Thạch Thất, từng chi tiết lắp ráp đều đạt chuẩn xác từng milimet, giúp công trình thực tế khớp hoàn hảo với bản vẽ phối cảnh 3D.</p>
-      </div>
-    `
+    id: 'xu-huong-noi-that-2026', title: '5 xu hướng thiết kế nội thất gỗ công nghiệp cao cấp 2026', author: 'KTS. Lê Sang', date: '12/11/2026', category: 'Xu hướng', readTime: '9 phút đọc', isHot: true,
+    thumbnail: '/images/service_interior.jpg', summary: 'Cập nhật xu hướng nội thất gỗ công nghiệp cao cấp 2026: bảng màu, vật liệu, ánh sáng và giải pháp lưu trữ để không gian đẹp bền vững.', sections: [],
+    fullHtmlContent: article({
+      intro: 'Xu hướng thiết kế nội thất gỗ công nghiệp cao cấp năm 2026 ưu tiên không gian có tỷ lệ hài hòa, vật liệu dễ bảo trì và trải nghiệm sử dụng được cá nhân hóa. Thay vì chạy theo chi tiết cầu kỳ ngắn hạn, gia chủ quan tâm hơn đến cách thiết kế phục vụ cuộc sống hàng ngày mà vẫn giữ vẻ sang trọng.',
+      image: '/images/service_interior.jpg', alt: 'Xu hướng thiết kế nội thất gỗ công nghiệp cao cấp 2026',
+      sections: [
+        { id: 'mau-trung-tinh', title: '1. Bảng màu trung tính có chiều sâu', paragraphs: ['Kem, be, ghi ấm và nâu gỗ tiếp tục là nền tảng của nội thất hiện đại. Khác biệt nằm ở cách phối nhiều sắc độ trong cùng một tông, giúp phòng khách và phòng ngủ có chiều sâu thay vì phẳng và đơn điệu.', 'Màu mẫu cần được xem dưới ánh sáng thực tế của công trình. Hướng nhà, nguồn sáng tự nhiên, sàn và rèm đều có thể làm một màu be trở nên ấm hơn hoặc lạnh hơn dự kiến.'], bullets: ['Dùng một tông nền chủ đạo, một tông gỗ và một màu nhấn tiết chế.', 'Ưu tiên bề mặt mờ để hạn chế lộ dấu vân tay.', 'Lặp lại màu nhấn ở đèn, nẹp hoặc phụ kiện để tạo liên kết.'] },
+        { id: 'vat-lieu', title: '2. Vật liệu gỗ công nghiệp chống ẩm và bề mặt tinh tế', paragraphs: ['Vật liệu không chỉ được đánh giá qua màu sắc. Với tủ bếp, logia hoặc khu vực có độ ẩm cao, cốt ván, cạnh dán và giải pháp thoát khí quyết định độ bền sử dụng.', 'Veneer, Melamine texture, Laminate và sơn bề mặt đều có thế mạnh riêng. Phương án hiệu quả là chọn theo vị trí, mức độ va chạm và ngân sách, thay vì dùng một loại vật liệu cho toàn bộ căn nhà.'] },
+        { id: 'luu-tru', title: '3. Lưu trữ ẩn để không gian luôn gọn gàng', paragraphs: ['Tủ kịch trần, khoang thiết bị và hộc lưu trữ theo thói quen sử dụng giúp nhà ở thoáng hơn mà không cần tăng diện tích. Thiết kế tốt không đồng nghĩa với nhiều tủ; mỗi khoang cần có mục đích rõ ràng.', 'Đồ dùng thường xuyên nên nằm trong vùng thao tác thuận tay, còn đồ theo mùa hoặc vali có thể đặt ở khoang cao. Cần chừa khoảng kỹ thuật cho ổ cắm, thiết bị và bảo trì.'] },
+        { id: 'anh-sang', title: '4. Ánh sáng cảm xúc đi cùng ánh sáng chức năng', paragraphs: ['Đèn nền, đèn tác vụ và đèn hắt vật liệu tạo nên các lớp ánh sáng khác nhau. Thay vì chỉ tăng số lượng đèn, thiết kế cần xác định mỗi lớp sáng phục vụ hoạt động nào: tiếp khách, nấu ăn, đọc sách hay thư giãn.', 'Hệ đèn âm tủ và hắt khe nên được tính từ bản vẽ kỹ thuật để đường dây, nguồn và công tắc được gọn gàng.'] },
+        { id: 'san-xuat', title: '5. Thiết kế đi cùng năng lực sản xuất', paragraphs: ['Phối cảnh đẹp chỉ là điểm khởi đầu. Giá trị của nội thất hoàn thiện nằm ở hồ sơ kỹ thuật, cách xử lý giao nhau, dữ liệu sản xuất và trình tự lắp đặt.', 'Sự phối hợp giữa thiết kế, xưởng và đội lắp đặt giúp kiểm soát màu sắc, kích thước và hạn chế chỉnh sửa tại chỗ.'] }
+      ],
+      faqs: [{ q: 'Gỗ công nghiệp có phù hợp nhà có trẻ nhỏ không?', a: 'Có, nếu chọn vật liệu phù hợp vị trí sử dụng, cạnh dán kín và bề mặt dễ vệ sinh. Nên trao đổi rõ nhu cầu an toàn và chống va đập từ bước thiết kế.' }, { q: 'Nên chọn Veneer hay Melamine?', a: 'Veneer phù hợp khi cần cảm nhận vân gỗ tự nhiên; Melamine phù hợp khi ưu tiên tính đồng đều và bảo trì đơn giản. Hai vật liệu có thể kết hợp theo từng khu vực.' }],
+      conclusion: 'Hãy bắt đầu bằng mặt bằng công năng, bảng vật liệu và ngân sách mục tiêu để biến xu hướng thành một không gian phù hợp lâu dài.'
+    })
   },
   {
-    id: "toi-uu-anh-sang-biet-thu",
-    title: "Bí quyết tối ưu ánh sáng tự nhiên cho biệt thự hiện đại",
-    author: "KTS. Lê Sang",
-    date: "08/11/2026",
-    category: "Giải pháp",
-    readTime: "4 phút đọc",
-    isHot: false,
-    thumbnail: "/images/project_villa.jpg",
-    summary: "Cách sắp đặt hệ cửa kính lớn, giếng trời và vách ngăn kính để tạo luồng khí đối lưu mượt mà cho không gian sống biệt thự.",
-    sections: [
-      {
-        id: "light-1",
-        title: "Tầm quan trọng của ánh sáng tự nhiên",
-        items: [
-          "Giúp mở rộng thị giác không gian biệt thự.",
-          "Tiết kiệm điện năng chiếu sáng ban ngày.",
-          "Tăng cường năng lượng tích cực cho sức khỏe gia chủ."
-        ]
-      }
-    ],
-    fullHtmlContent: `
-      <div class="old-web-article">
-        <p class="article-intro">Ánh sáng tự nhiên là sinh khí của kiến trúc. Một căn biệt thự sang trọng không chỉ đắt giá bởi vật liệu đắt tiền mà còn ở cách ánh sáng len lỏi qua từng góc không gian.</p>
-        
-        <div class="article-image-box">
-          <img src="/images/project_villa.jpg" alt="Tối ưu ánh sáng tự nhiên biệt thự" class="article-main-img" />
-        </div>
-
-        <h2 class="article-heading">1. Thiết kế hệ cửa kính Low-E khổ lớn</h2>
-        <p>Sử dụng hệ vách kính nhôm xơ-pha hoặc nhôm cầu cách nhiệt khổ lớn kết hợp kính Low-E giúp lấy sáng tối đa mà không bị hấp thụ sức nóng nhiệt đới.</p>
-
-        <h2 class="article-heading">2. Giải pháp thông tầng & Giếng trời nghệ thuật</h2>
-        <p>Không gian thông tầng phòng khách kết hợp đèn chùm thả trần và giếng trời đón nắng đỉnh đầu tạo luồng không khí luôn tươi mới và tràn ngập sinh khí.</p>
-      </div>
-    `
+    id: 'toi-uu-anh-sang-biet-thu', title: 'Bí quyết tối ưu ánh sáng tự nhiên cho biệt thự hiện đại', author: 'KTS. Lê Sang', date: '08/11/2026', category: 'Giải pháp', readTime: '8 phút đọc', isHot: false,
+    thumbnail: '/images/project_villa.jpg', summary: 'Hướng dẫn tối ưu ánh sáng tự nhiên cho biệt thự bằng cửa kính, giếng trời, che nắng và bố trí nội thất hợp lý.', sections: [],
+    fullHtmlContent: article({
+      intro: 'Tối ưu ánh sáng tự nhiên cho biệt thự hiện đại không đơn thuần là mở nhiều cửa kính. Một phương án tốt cần đồng thời xử lý hướng nắng, nhiệt, riêng tư, thông gió và cách ánh sáng đi sâu vào các phòng.',
+      image: '/images/project_villa.jpg', alt: 'Tối ưu ánh sáng tự nhiên trong thiết kế biệt thự hiện đại',
+      sections: [
+        { id: 'huong-nang', title: '1. Khảo sát hướng nắng trước khi thiết kế', paragraphs: ['Mỗi mặt nhà nhận cường độ nắng khác nhau trong ngày. Hướng nắng mạnh cần giải pháp che chắn chủ động, còn mặt ít sáng có thể mở rộng ô cửa hoặc mượn sáng từ không gian liền kề.', 'Khảo sát cần tính đến cây xanh, nhà lân cận và cao độ xung quanh để tránh bản vẽ đẹp nhưng thiếu riêng tư khi đưa vào sử dụng.'] },
+        { id: 'cua-kinh', title: '2. Dùng cửa kính lớn đúng vị trí', paragraphs: ['Cửa kính khổ lớn tạo kết nối với sân vườn và mở rộng thị giác, đặc biệt tại phòng khách hoặc phòng ăn. Tuy nhiên, diện tích kính cần đi cùng hệ khung chắc chắn, giải pháp che nắng và loại kính phù hợp điều kiện nhiệt.', 'Nội thất sát cửa kính nên được tính toán để không cản luồng sáng và không bị xuống màu nhanh do nắng trực tiếp.'], bullets: ['Ưu tiên cửa mở ra hướng có cảnh quan đẹp hoặc khoảng lùi riêng tư.', 'Bố trí rèm hai lớp để linh hoạt lấy sáng và chống chói.', 'Không đặt màn hình hoặc bàn làm việc trực diện vùng nắng mạnh.'] },
+        { id: 'gieng-troi', title: '3. Giếng trời và thông tầng đưa sáng vào lõi nhà', paragraphs: ['Với biệt thự có chiều sâu lớn, giếng trời giúp đưa ánh sáng đến hành lang, cầu thang và khu vực giữa nhà. Khi kết hợp cây xanh hoặc tường vật liệu, khoảng thông tầng còn trở thành điểm nhấn kiến trúc.', 'Giếng trời cần có phương án thoát nước, thông gió và kiểm soát bức xạ. Kích thước quá lớn có thể làm tăng nhiệt, còn quá nhỏ lại không tạo hiệu quả lấy sáng.'] },
+        { id: 'noi-that', title: '4. Bố trí nội thất để ánh sáng lan tỏa', paragraphs: ['Màu tường, độ bóng vật liệu và vị trí vách ngăn ảnh hưởng trực tiếp đến cảm giác sáng tối. Bề mặt sáng vừa phải, vách kính hoặc lam thoáng giúp ánh sáng đi sâu hơn mà vẫn giữ phân khu chức năng.', 'Đèn nhân tạo nên là lớp bổ trợ cho buổi tối. Phân lớp đèn hợp lý giúp không gian giữ được nhịp sinh hoạt tự nhiên.'] },
+        { id: 'nhiet-rieng-tu', title: '5. Kiểm soát nhiệt và riêng tư', paragraphs: ['Một ngôi nhà sáng nhưng nóng hoặc lộ tầm nhìn không phải giải pháp bền vững. Lam đứng, mái đua, rèm, cây xanh và kính phù hợp sẽ cân bằng lấy sáng, tiện nghi nhiệt và riêng tư.', 'Nên mô phỏng cách sử dụng từng phòng theo các khung giờ trước khi triển khai thi công.'] }
+      ],
+      faqs: [{ q: 'Biệt thự hướng tây có nên dùng nhiều kính không?', a: 'Có thể, nếu kết hợp kính phù hợp, lam che nắng, mái đua và rèm. Mục tiêu là kiểm soát bức xạ trực tiếp chứ không chỉ giảm diện tích mở cửa.' }, { q: 'Giếng trời có gây nóng không?', a: 'Có thể, nếu không tính đến che nắng và thông gió. Thiết kế đúng cần giải pháp mái, thoát nước và điều tiết luồng khí.' }],
+      conclusion: 'Phương án ánh sáng tốt luôn bắt đầu từ khảo sát hiện trạng, sau đó mới đến lựa chọn cửa, vật liệu và nội thất.'
+    })
   },
   {
-    id: "quan-ly-chat-luong-xuong",
-    title: "Quy trình quản lý chất lượng thi công tại xưởng sản xuất",
-    author: "KTS. Lê Sang",
-    date: "02/11/2026",
-    category: "Kỹ thuật",
-    readTime: "6 phút đọc",
-    isHot: true,
-    thumbnail: "/images/sanxuat/1790821090608_6043215661779559246_6043215661779559246_c5b7a93c081c9ae283738868f4486898.jpg",
-    summary: "Tiêu chuẩn kiểm định khắt khe từng mối ghép CNC, keo dán dán cạnh PUR và sơn phủ gỗ trước khi xuất xưởng tới công trình.",
-    sections: [],
-    fullHtmlContent: `
-      <div class="old-web-article">
-        <p class="article-intro">Sở hữu 3 cơ sở xưởng sản xuất trực tiếp tại làng nghề Thạch Thất - Hà Nội, SHOME LUXURY tự hào kiểm soát chất lượng 100% sản phẩm từ khâu nhập ván đến khâu lắp đặt hoàn thiện.</p>
-        
-        <div class="article-image-box">
-          <img src="/images/sanxuat/1790821090608_6043215661779559246_6043215661779559246_c5b7a93c081c9ae283738868f4486898.jpg" alt="Quy trình sản xuất xưởng SHOME LUXURY" class="article-main-img" />
-        </div>
-
-        <h2 class="article-heading">1. Nhập khẩu và kiểm định cốt gỗ</h2>
-        <p>Toàn bộ nguyên liệu ván MDF chống ẩm, ván Plywood đều có chứng nhận xuất xứ CO/CQ rõ ràng, kiểm tra nồng độ Formaldehyde đảm bảo an toàn tuyệt đối cho người sử dụng.</p>
-
-        <h2 class="article-heading">2. Công nghệ Cắt & Phay CNC tự động</h2>
-        <p>Máy cắt trung tâm kết hợp phần mềm tối ưu ván giúp đường cắt sắc nét, không sứt mẻ cạnh, mối nối cam chốt liên kết đạt độ chính xác 100%.</p>
-      </div>
-    `
+    id: 'quan-ly-chat-luong-xuong', title: 'Quy trình quản lý chất lượng thi công tại xưởng sản xuất', author: 'KTS. Lê Sang', date: '02/11/2026', category: 'Kỹ thuật', readTime: '9 phút đọc', isHot: true,
+    thumbnail: '/images/sanxuat/1790821090608_6043215661779559246_6043215661779559246_c5b7a93c081c9ae283738868f4486898.jpg', summary: 'Các điểm kiểm soát chất lượng nội thất từ hồ sơ kỹ thuật, vật liệu, gia công xưởng đến lắp đặt và nghiệm thu.', sections: [],
+    fullHtmlContent: article({
+      intro: 'Quản lý chất lượng thi công nội thất tại xưởng là chuỗi kiểm soát xuyên suốt, không phải một lần kiểm tra trước khi giao hàng. Khi hồ sơ, vật liệu, gia công và lắp đặt được liên kết, sản phẩm hoàn thiện sẽ sát với thiết kế và hạn chế phát sinh.',
+      image: '/images/sanxuat/1790821090608_6043215661779559246_6043215661779559246_c5b7a93c081c9ae283738868f4486898.jpg', alt: 'Quy trình quản lý chất lượng nội thất tại xưởng sản xuất',
+      sections: [
+        { id: 'ho-so', title: '1. Chốt hồ sơ kỹ thuật trước khi sản xuất', paragraphs: ['Bản vẽ kỹ thuật cần thể hiện kích thước, vật liệu, phụ kiện, hướng vân, vị trí thiết bị và chi tiết giao nhau. Đây là ngôn ngữ chung giữa kiến trúc sư, kỹ thuật xưởng và đội lắp đặt.', 'Chốt hồ sơ trước khi xuống xưởng giúp hạn chế thay đổi kích thước sau khi đã cắt ván hoặc đặt phụ kiện.'] },
+        { id: 'vat-lieu-dau-vao', title: '2. Kiểm tra vật liệu đầu vào theo mã đã duyệt', paragraphs: ['Mỗi lô ván, bề mặt, nẹp, đá hoặc phụ kiện cần được đối chiếu với bảng vật liệu đã ký duyệt. Điều này quan trọng với bề mặt có vân, màu sơn hoặc kim loại mạ.', 'Mẫu vật liệu nên được lưu cùng hồ sơ dự án để đối chiếu khi cần bổ sung sản phẩm ở giai đoạn sau.'], bullets: ['Kiểm tra bề mặt, màu sắc và tình trạng cong vênh.', 'Phân loại vật liệu theo hạng mục để tránh nhầm lẫn.', 'Kiểm soát phụ kiện theo tải trọng và vị trí sử dụng.'] },
+        { id: 'gia-cong', title: '3. Kiểm soát cắt, dán cạnh và khoan liên kết', paragraphs: ['Độ chính xác của chi tiết phụ thuộc dữ liệu gia công và máy móc, nhưng khâu kiểm tra đầu ra vẫn cần thiết. Các cạnh lộ, góc giao và vị trí bản lề là những điểm ảnh hưởng rõ nhất đến thẩm mỹ khi lắp đặt.', 'Trước khi đóng gói, các module quan trọng nên được thử lắp để phát hiện sớm sai lệch kích thước hoặc vị trí liên kết.'] },
+        { id: 'xuat-xuong', title: '4. Kiểm tra trước khi xuất xưởng', paragraphs: ['Kiểm tra trước xuất xưởng bao gồm bề mặt, cạnh dán, mã chi tiết, phụ kiện đi kèm và phương án đóng gói. Hàng cần được đánh mã theo phòng hoặc khu vực để đội lắp đặt dễ đối chiếu tại công trình.', 'Checklist rõ ràng giúp giảm thất lạc phụ kiện và rút ngắn thời gian xử lý tại hiện trường.'] },
+        { id: 'nghiem-thu', title: '5. Lắp đặt, căn chỉnh và nghiệm thu', paragraphs: ['Khi lắp đặt, đội thi công kiểm tra cao độ, độ thẳng, khe hở cánh, hoạt động ray trượt và tương quan với điện nước. Nội thất chỉ hoàn thành sau khi bề mặt sạch, phụ kiện vận hành ổn định và các chi tiết được nghiệm thu.', 'Gia chủ nên nhận bàn giao kèm hướng dẫn sử dụng, bảo quản và danh mục phụ kiện để bảo trì thuận tiện.'] }
+      ],
+      faqs: [{ q: 'Vì sao cần kiểm tra lắp thử tại xưởng?', a: 'Lắp thử giúp phát hiện sai lệch trước khi vận chuyển, khi việc chỉnh sửa nhanh hơn và ít ảnh hưởng tiến độ công trình.' }, { q: 'Gia chủ cần chuẩn bị gì trước ngày lắp đặt?', a: 'Mặt bằng cần sạch, hoàn thiện các hạng mục liên quan và có vị trí tập kết hàng. Những thay đổi về ổ cắm hoặc thiết bị cần báo sớm.' }],
+      conclusion: 'Quy trình chất lượng tốt giúp gia chủ nhìn thấy sự minh bạch ở từng bước, từ mẫu vật liệu đến sản phẩm sau nghiệm thu.'
+    })
   },
   {
-    id: "thiet-ke-phong-khach-trung-tinh",
-    title: "Thiết kế phòng khách sang trọng với gam màu trung tính",
-    author: "SHOME LUXURY Team",
-    date: "28/10/2026",
-    category: "Xu hướng",
-    readTime: "4 phút đọc",
-    isHot: false,
-    thumbnail: "/images/hero_sofa_sharp.jpg",
-    summary: "Gam màu trung tính mang đến sự tinh tế, hiện đại và bền vững theo thời gian cho không gian phòng khách biệt thự & chung cư.",
-    sections: [],
-    fullHtmlContent: `
-      <div class="old-web-article">
-        <p class="article-intro">Gam màu trung tính chưa bao giờ lỗi mốt trong kiến trúc nội thất hạng sang. Sự kết hợp tài tình giữa sofa da bọc cao cấp, bàn trà đá marble và vách ốp gỗ công nghiệp làm tôn lên gu thẩm mỹ đẳng cấp của gia chủ.</p>
-        <div class="article-image-box">
-          <img src="/images/hero_sofa_sharp.jpg" alt="Phòng khách gam màu trung tính" class="article-main-img" />
-        </div>
-      </div>
-    `
+    id: 'thiet-ke-phong-khach-trung-tinh', title: 'Thiết kế phòng khách sang trọng với gam màu trung tính', author: 'SHOME LUXURY Team', date: '28/10/2026', category: 'Xu hướng', readTime: '7 phút đọc', isHot: false,
+    thumbnail: '/images/hero_sofa_sharp.jpg', summary: 'Cách phối màu trung tính, vật liệu và ánh sáng để phòng khách sang trọng, có chiều sâu và không nhanh lỗi mốt.', sections: [],
+    fullHtmlContent: article({
+      intro: 'Thiết kế phòng khách gam màu trung tính là lựa chọn bền vững cho căn hộ và biệt thự. Khi được phối đúng tỷ lệ, các tông be, xám, kem và nâu gỗ tạo cảm giác thư thái nhưng vẫn đủ chiều sâu để thể hiện cá tính gia chủ.',
+      image: '/images/hero_sofa_sharp.jpg', alt: 'Thiết kế phòng khách sang trọng gam màu trung tính',
+      sections: [
+        { id: 'chon-nen', title: '1. Chọn tông nền theo ánh sáng thực tế', paragraphs: ['Không có một màu trung tính phù hợp cho mọi phòng khách. Không gian thiếu sáng nên dùng tông sáng ấm; phòng nhiều nắng có thể dùng ghi hoặc be trầm để cân bằng thị giác.', 'Hãy xem mẫu màu cạnh sàn, rèm và nguồn sáng chính. Một màu đẹp trên bảng mẫu có thể trở nên lạnh hoặc ngả vàng trong không gian thực.'] },
+        { id: 'ty-le-vat-lieu', title: '2. Tạo điểm nhấn bằng tỷ lệ vật liệu', paragraphs: ['Đá, gỗ, vải, da và kim loại nên được phân vai thay vì xuất hiện với tỷ lệ ngang nhau. Bề mặt gỗ tạo sự ấm áp, đá mang độ sáng và vải giúp phòng khách mềm mại hơn.', 'Một mảng tường, bàn trà hoặc hệ kệ được xử lý kỹ sẽ hiệu quả hơn việc đưa quá nhiều vật liệu nổi bật vào cùng một vị trí.'], bullets: ['Ưu tiên hai đến ba vật liệu chính.', 'Giữ độ bóng ở mức vừa phải.', 'Lặp lại chi tiết kim loại ở đèn hoặc phụ kiện để tạo liên kết.'] },
+        { id: 'sofa', title: '3. Bố cục sofa và giao thông', paragraphs: ['Sofa cần phù hợp tỷ lệ phòng, khoảng cách trò chuyện và lối đi. Với căn hộ, sofa chữ L hoặc sofa thẳng kết hợp ghế đơn thường tạo sự linh hoạt; với biệt thự, có thể tổ chức nhiều nhóm ngồi theo nhu cầu tiếp khách.', 'Lối đi rõ ràng giúp không gian sang trọng hơn vì đồ đạc không bị chen chúc.'] },
+        { id: 'anh-sang-phong-khach', title: '4. Hoàn thiện bằng ánh sáng nhiều lớp', paragraphs: ['Đèn trần cung cấp ánh sáng nền, đèn bàn hoặc đèn sàn tạo vùng đọc sách, còn đèn hắt làm nổi vật liệu. Nhiều lớp sáng giúp phòng khách thay đổi không khí theo từng thời điểm trong ngày.'] }
+      ],
+      faqs: [{ q: 'Gam màu trung tính có làm phòng khách nhạt nhòa không?', a: 'Không, nếu có khác biệt về sắc độ, chất liệu và ánh sáng. Điểm nhấn có thể đến từ vân gỗ, tranh, cây xanh hoặc một màu nhấn nhỏ.' }, { q: 'Nên chọn sofa màu nào?', a: 'Sofa be, xám ấm hoặc nâu nhạt dễ phối. Cần cân nhắc khả năng vệ sinh, vật nuôi và cường độ sử dụng trước khi chọn chất liệu.' }],
+      conclusion: 'Phòng khách trung tính đẹp nhất khi màu sắc phục vụ cảm giác sống, còn vật liệu và ánh sáng làm rõ cá tính gia chủ.'
+    })
   },
   {
-    id: "can-bang-cong-nang",
-    title: "Cân bằng công năng cho không gian sống thông minh",
-    author: "SHOME LUXURY Team",
-    date: "22/10/2026",
-    category: "Kinh nghiệm",
-    readTime: "5 phút đọc",
-    isHot: false,
-    thumbnail: "/images/project_apartment.jpg",
-    summary: "Giải pháp thiết kế linh hoạt giúp tối ưu diện tích, mang đến trải nghiệm sống tiện nghi và thoải mái cho từng thành viên.",
-    sections: [],
-    fullHtmlContent: `
-      <div class="old-web-article">
-        <p class="article-intro">Tối ưu công năng là yếu tố cốt lõi trong thiết kế nội thất hiện đại. Mọi vật dụng nội thất đều phục vụ nhu cầu sử dụng thực tế của gia đình mà vẫn giữ tính thẩm mỹ cao.</p>
-        <div class="article-image-box">
-          <img src="/images/project_apartment.jpg" alt="Tối ưu công năng căn hộ" class="article-main-img" />
-        </div>
-      </div>
-    `
+    id: 'can-bang-cong-nang', title: 'Cân bằng công năng cho không gian sống thông minh', author: 'SHOME LUXURY Team', date: '22/10/2026', category: 'Kinh nghiệm', readTime: '8 phút đọc', isHot: false,
+    thumbnail: '/images/project_apartment.jpg', summary: 'Nguyên tắc tối ưu công năng nội thất để không gian đẹp, dễ sử dụng và phù hợp nhịp sống của từng gia đình.', sections: [],
+    fullHtmlContent: article({
+      intro: 'Không gian sống thông minh không được đo bằng số lượng thiết bị hay tủ kệ. Giá trị thực nằm ở việc mọi khu vực hỗ trợ đúng thói quen: cất đồ nhanh, di chuyển thuận tiện, dễ dọn dẹp và đủ linh hoạt khi gia đình thay đổi nhu cầu.',
+      image: '/images/project_apartment.jpg', alt: 'Thiết kế nội thất tối ưu công năng không gian sống',
+      sections: [
+        { id: 'thoi-quen', title: '1. Bắt đầu từ thói quen sử dụng', paragraphs: ['Trước khi chọn phong cách, hãy liệt kê số thành viên, giờ sinh hoạt, đồ dùng cần cất và các hoạt động diễn ra thường xuyên. Dữ liệu này giúp kiến trúc sư phân bổ diện tích đúng thay vì thiết kế theo hình ảnh tham khảo.', 'Gia đình nấu ăn hằng ngày cần ưu tiên kho chứa và mặt thao tác bếp; người làm việc tại nhà cần vị trí yên tĩnh, đủ sáng và có ổ cắm hợp lý.'] },
+        { id: 'phan-khu', title: '2. Phân khu rõ nhưng không chia cắt', paragraphs: ['Không gian mở cần dấu hiệu phân khu bằng thảm, ánh sáng, cao độ trần, tủ thấp hoặc vật liệu sàn. Cách làm này vẫn giữ độ thoáng nhưng giúp từng hoạt động có ranh giới dễ nhận biết.', 'Luồng di chuyển giữa cửa vào, bếp, bàn ăn và phòng khách phải thông suốt, đặc biệt với căn hộ diện tích vừa và nhỏ.'] },
+        { id: 'luu-tru-cong-nang', title: '3. Lưu trữ theo nhóm đồ dùng', paragraphs: ['Tủ lưu trữ hiệu quả cần được phân theo tần suất dùng. Đồ dùng mỗi ngày ở tầm dễ lấy; đồ theo mùa hoặc ít dùng đặt ở khoang cao, sâu hơn.', 'Các hộc tủ nên dựa trên vật dụng thật thay vì chỉ dựa theo mô-đun có sẵn.'], bullets: ['Đo vali, thiết bị bếp và đồ điện trước khi chốt kích thước tủ.', 'Dành một khoang dự phòng cho nhu cầu phát sinh.', 'Tránh tủ quá sâu nếu không có ray kéo hoặc phụ kiện phù hợp.'] },
+        { id: 'linh-hoat', title: '4. Tạo khả năng thích ứng cho tương lai', paragraphs: ['Bàn làm việc có thể trở thành bàn học, phòng đa năng có thể làm phòng khách ngủ hoặc khu đọc sách. Nội thất linh hoạt giúp ngôi nhà thích ứng mà không phải cải tạo lớn.', 'Tính linh hoạt cần đi cùng độ bền và sự đơn giản trong vận hành để trải nghiệm hằng ngày không trở nên phức tạp.'] }
+      ],
+      faqs: [{ q: 'Căn hộ nhỏ có cần làm nhiều tủ không?', a: 'Không nhất thiết. Điều quan trọng là bố trí đúng vị trí, đúng độ sâu và phân chia khoang tủ theo đồ dùng thực tế.' }, { q: 'Nên chốt công năng ở giai đoạn nào?', a: 'Nên chốt trước khi làm phối cảnh 3D và hồ sơ kỹ thuật, vì thay đổi sau đó thường ảnh hưởng vật liệu, chi phí và tiến độ.' }],
+      conclusion: 'Công năng tốt là nền tảng của một không gian đẹp lâu dài: ít bất tiện, ít đồ dư thừa và phù hợp với chính người sử dụng.'
+    })
   },
   {
-    id: "chat-lieu-tao-diem-nhan",
-    title: "Những chất liệu tạo điểm nhấn cho không gian đẳng cấp",
-    author: "SHOME LUXURY Team",
-    date: "15/10/2026",
-    category: "Xu hướng",
-    readTime: "5 phút đọc",
-    isHot: false,
-    thumbnail: "/images/hero_interior.jpg",
-    summary: "Khám phá các vật liệu nội thất cao cấp như nẹp PVD, kính gợn sóng, đá xuyên sáng giúp tăng thêm thẩm mỹ và điểm nhấn ấn tượng.",
-    sections: [],
-    fullHtmlContent: `
-      <div class="old-web-article">
-        <p class="article-intro">Sự tinh tế của không gian nội thất nằm ở điểm nhấn vật liệu. Nẹp inox mạ PVD ánh kim, vách đá nhân tạo gốc thạch anh hay mặt nẹp gỗ sọc trang trí đem lại điểm tựa thị giác ấn tượng.</p>
-        <div class="article-image-box">
-          <img src="/images/hero_interior.jpg" alt="Vật liệu tạo điểm nhấn nội thất" class="article-main-img" />
-        </div>
-      </div>
-    `
+    id: 'chat-lieu-tao-diem-nhan', title: 'Những chất liệu tạo điểm nhấn cho không gian đẳng cấp', author: 'SHOME LUXURY Team', date: '15/10/2026', category: 'Xu hướng', readTime: '8 phút đọc', isHot: false,
+    thumbnail: '/images/hero_interior.jpg', summary: 'Gợi ý lựa chọn đá, kính, kim loại và gỗ để tạo điểm nhấn nội thất sang trọng mà vẫn bền, cân đối và dễ bảo trì.', sections: [],
+    fullHtmlContent: article({
+      intro: 'Điểm nhấn vật liệu giúp nội thất có bản sắc, nhưng chỉ hiệu quả khi được đặt đúng vị trí và dùng đúng tỷ lệ. Một không gian đẳng cấp thường không cần quá nhiều chi tiết; vài bề mặt hoàn thiện kỹ sẽ tạo ấn tượng bền vững hơn.',
+      image: '/images/hero_interior.jpg', alt: 'Chất liệu tạo điểm nhấn trong thiết kế nội thất cao cấp',
+      sections: [
+        { id: 'go', title: '1. Gỗ và vân gỗ tạo cảm giác ấm áp', paragraphs: ['Gỗ là chất liệu dễ tạo chiều sâu cho tường, tủ, bàn hoặc trần. Với gỗ công nghiệp, mã vân, hướng vân và cách ghép tấm quyết định lớn đến cảm giác hoàn thiện.', 'Không nên phủ gỗ dày đặc ở mọi bề mặt. Một mảng vách, hệ tủ hoặc trần điểm nhấn thường đủ để tạo sự ấm áp mà vẫn giữ không gian thoáng.'] },
+        { id: 'da', title: '2. Đá ở vị trí cần độ sáng và độ bền', paragraphs: ['Đá tự nhiên, đá nhân tạo hoặc bề mặt gốc thạch anh phù hợp cho bàn trà, đảo bếp, mảng tường và lavabo. Mỗi loại có đặc tính khác nhau về vân, chống thấm và cách bảo trì.', 'Hãy xem tấm đá thật hoặc ảnh slab trước khi cắt để chủ động bố cục vân ở những vị trí quan trọng.'] },
+        { id: 'kim-loai-kinh', title: '3. Kim loại và kính làm không gian tinh tế hơn', paragraphs: ['Nẹp kim loại, kính gợn, kính màu hoặc khung mảnh có thể tạo độ phản chiếu vừa đủ cho nội thất. Chúng phù hợp với hộc trưng bày, vách ngăn, tủ bar hoặc mảng trang trí.', 'Màu kim loại cần đồng bộ với tay nắm, đèn và phụ kiện để tránh cảm giác chắp vá.'], bullets: ['Dùng kim loại như một đường nhấn, không dùng tràn lan.', 'Chọn kính phù hợp mức độ riêng tư của từng phòng.', 'Tính trước phương án vệ sinh ở bề mặt có nhiều dấu tay.'] },
+        { id: 'can-bang-vat-lieu', title: '4. Cân bằng bề mặt mờ, bóng và mềm', paragraphs: ['Không gian đẹp cần sự cân bằng: gỗ hoặc đá mờ tạo nền, kính hay kim loại tạo điểm bắt sáng, vải và da giảm cảm giác cứng. Khi các bề mặt cùng bóng hoặc cùng sần, nội thất dễ thiếu chiều sâu.', 'Mẫu vật liệu nên được đặt cạnh nhau trước khi chốt để kiểm tra màu dưới các điều kiện ánh sáng khác nhau.'] }
+      ],
+      faqs: [{ q: 'Có nên dùng nhiều vật liệu trong một phòng không?', a: 'Nên giới hạn vật liệu chính và xác định một vật liệu làm điểm nhấn. Quá nhiều bề mặt nổi bật có thể khiến không gian rối mắt.' }, { q: 'Vật liệu nào dễ bảo trì cho nhà ở?', a: 'Tùy vị trí sử dụng. Bề mặt mờ, cạnh dán kín, đá phù hợp khu vực ướt và vải có thể vệ sinh là những lựa chọn thực tế.' }],
+      conclusion: 'Chất liệu tạo điểm nhấn hiệu quả nhất khi vừa đẹp ở thời điểm bàn giao, vừa thuận tiện để gia chủ sử dụng và bảo trì trong nhiều năm.'
+    })
+  },
+  {
+    id: 'quy-trinh-thiet-ke-thi-cong-noi-that-tron-goi', title: 'Quy trình thiết kế thi công nội thất trọn gói từ A đến Z', author: 'KTS. Lê Sang', date: '10/10/2026', category: 'Kinh nghiệm', readTime: '10 phút đọc', isHot: true,
+    thumbnail: '/images/project_apartment.jpg', summary: 'Tìm hiểu quy trình thiết kế thi công nội thất trọn gói: khảo sát, thiết kế, sản xuất, lắp đặt và nghiệm thu.', sections: [],
+    fullHtmlContent: article({ intro: 'Quy trình thiết kế thi công nội thất trọn gói giúp gia chủ kiểm soát đúng ba yếu tố quan trọng: công năng, ngân sách và tiến độ. Khi các bước được xác lập rõ ràng từ đầu, phương án thiết kế sẽ khả thi hơn và việc thi công ít phát sinh hơn.', image: '/images/project_apartment.jpg', alt: 'Quy trình thiết kế thi công nội thất trọn gói', sections: [
+      { id: 'brief-khao-sat', title: '1. Tiếp nhận nhu cầu và khảo sát hiện trạng', paragraphs: ['Đơn vị thiết kế cần ghi nhận diện tích, kết cấu, hệ kỹ thuật, số thành viên, thói quen sinh hoạt và mức đầu tư dự kiến. Đây là dữ liệu nền để không gian đẹp nhưng vẫn phù hợp cách sống.', 'Khảo sát hiện trạng cần đo đạc các vị trí cột, dầm, cửa, cao độ trần, điện nước và điểm hạn chế của mặt bằng.'] },
+      { id: 'thiet-ke-ky-thuat', title: '2. Phát triển thiết kế và hồ sơ kỹ thuật', paragraphs: ['Sau khi chốt mặt bằng công năng, kiến trúc sư phát triển phong cách, vật liệu và phối cảnh 3D. Gia chủ nên phản hồi theo mục tiêu sử dụng, không chỉ dựa trên một góc nhìn hình ảnh.', 'Hồ sơ kỹ thuật là bước chuyển thiết kế sang sản xuất. Kích thước, vật liệu, phụ kiện, điện nước và các chi tiết giao nhau cần được thể hiện rõ ràng.'], bullets: ['Chốt mặt bằng trước khi duyệt phối cảnh.', 'Duyệt mẫu vật liệu trực tiếp khi có thể.', 'Lưu lại danh mục hạng mục và phạm vi công việc.'] },
+      { id: 'san-xuat-lap-dat', title: '3. Sản xuất, lắp đặt và nghiệm thu', paragraphs: ['Khi hồ sơ được chốt, vật liệu được chuẩn bị và sản phẩm gia công theo từng hạng mục. Khâu đóng gói, đánh mã và trình tự lắp đặt có vai trò lớn với tiến độ công trình.', 'Nghiệm thu cần kiểm tra bề mặt, khe hở, vận hành phụ kiện, vị trí thiết bị và vệ sinh hoàn thiện trước khi bàn giao.'] }
+    ], faqs: [{ q: 'Thiết kế và thi công trọn gói có lợi gì?', a: 'Một đầu mối chịu trách nhiệm giúp hồ sơ thiết kế, vật liệu và sản xuất được liên kết chặt chẽ hơn.' }, { q: 'Có thể thay đổi khi đã sản xuất không?', a: 'Có thể nhưng thường ảnh hưởng đến vật liệu, chi phí và tiến độ. Vì vậy nên chốt kỹ hồ sơ trước khi sản xuất.' }], conclusion: 'Quy trình rõ ràng là cách thực tế nhất để gia chủ biến ý tưởng thành công trình hoàn thiện đúng kỳ vọng.' })
+  },
+  {
+    id: 'bao-gia-thi-cong-noi-that-chung-cu', title: 'Báo giá thi công nội thất chung cư gồm những hạng mục nào?', author: 'SHOME LUXURY Team', date: '06/10/2026', category: 'Kinh nghiệm', readTime: '8 phút đọc', isHot: false,
+    thumbnail: '/images/project_apartment.jpg', summary: 'Cách đọc báo giá thi công nội thất chung cư: phạm vi công việc, vật liệu, phụ kiện và các khoản cần làm rõ.', sections: [],
+    fullHtmlContent: article({ intro: 'Báo giá thi công nội thất chung cư không nên chỉ được so sánh bằng con số tổng. Để lựa chọn đúng, gia chủ cần hiểu phạm vi hạng mục, vật liệu, phụ kiện, điều kiện thi công và phần việc đã bao gồm hoặc chưa bao gồm.', image: '/images/project_apartment.jpg', alt: 'Báo giá thi công nội thất chung cư', sections: [
+      { id: 'pham-vi', title: '1. Xác định phạm vi hạng mục trong báo giá', paragraphs: ['Một căn hộ có thể gồm phòng khách, bếp, phòng ngủ, khu thờ, logia và các hạng mục sửa chữa liên quan. Mỗi không gian cần tách rõ phần đồ rời, đồ đóng, thiết bị và hoàn thiện bề mặt.', 'Báo giá minh bạch sẽ nêu kích thước, đơn vị tính, số lượng và mô tả vật liệu thay vì chỉ ghi tên hạng mục chung chung.'] },
+      { id: 'vat-lieu-phu-kien', title: '2. So sánh vật liệu và phụ kiện cùng tiêu chuẩn', paragraphs: ['Giá của hệ tủ phụ thuộc vào cốt ván, bề mặt phủ, loại cạnh dán, ray, bản lề và chi tiết hoàn thiện. Hai báo giá cùng tên sản phẩm có thể chênh lệch lớn nếu thông số khác nhau.', 'Gia chủ nên yêu cầu bảng mã vật liệu và thương hiệu phụ kiện để việc so sánh có cùng cơ sở.'], bullets: ['Kiểm tra độ dày, cốt ván và loại bề mặt.', 'Hỏi rõ loại ray, bản lề và phạm vi bảo hành.', 'Đối chiếu kích thước thực tế với bản vẽ.'] },
+      { id: 'phat-sinh', title: '3. Kiểm soát các khoản có thể phát sinh', paragraphs: ['Phát sinh thường đến từ thay đổi thiết kế, hiện trạng điện nước, yêu cầu vận chuyển hoặc hạng mục ngoài phạm vi ban đầu. Những nội dung này nên được thống nhất bằng văn bản trước khi triển khai.', 'Một khoản dự phòng hợp lý giúp gia chủ chủ động hơn, nhưng không thay thế việc khảo sát và lập hồ sơ kỹ từ đầu.'] }
+    ], faqs: [{ q: 'Báo giá nội thất có bao gồm thiết bị bếp không?', a: 'Tùy gói dịch vụ. Cần tách rõ tủ bếp, mặt đá, chậu vòi, bếp từ và thiết bị để tránh hiểu nhầm.' }, { q: 'Nên chọn báo giá rẻ nhất không?', a: 'Nên chọn phương án có phạm vi, vật liệu và năng lực thực hiện phù hợp; giá thấp nhưng thiếu hạng mục thường dẫn đến chi phí bổ sung sau này.' }], conclusion: 'Một báo giá tốt phải giúp gia chủ biết chính xác mình nhận được gì, không chỉ đưa ra một con số tổng.' })
+  },
+  {
+    id: 'cai-tao-noi-that-chung-cu', title: 'Cải tạo nội thất chung cư: Những việc cần chuẩn bị trước khi thi công', author: 'KTS. Lê Sang', date: '02/10/2026', category: 'Giải pháp', readTime: '9 phút đọc', isHot: false,
+    thumbnail: '/images/hero_interior.jpg', summary: 'Checklist cải tạo nội thất chung cư: hiện trạng, quy định ban quản lý, thiết kế, vật liệu và kế hoạch thi công.', sections: [],
+    fullHtmlContent: article({ intro: 'Cải tạo nội thất chung cư là cơ hội để nâng cấp công năng, ánh sáng và trải nghiệm sống mà không cần thay đổi toàn bộ kết cấu. Để công việc diễn ra suôn sẻ, gia chủ cần chuẩn bị từ hiện trạng đến quy định vận hành của tòa nhà.', image: '/images/hero_interior.jpg', alt: 'Cải tạo nội thất chung cư hiện đại', sections: [
+      { id: 'hien-trang', title: '1. Đánh giá hiện trạng và nhu cầu mới', paragraphs: ['Hãy xác định những bất tiện đang gặp: thiếu chỗ chứa, bếp chật, ánh sáng yếu, phòng ngủ chưa riêng tư hoặc hệ điện không đủ. Danh sách ưu tiên giúp việc cải tạo tập trung vào giá trị sử dụng thay vì thay đổi dàn trải.', 'Kỹ thuật viên cần kiểm tra trần, sàn, tường, đường điện nước và kích thước thực tế trước khi lên phương án.'] },
+      { id: 'quy-dinh', title: '2. Làm rõ quy định của ban quản lý', paragraphs: ['Mỗi tòa nhà có quy định về giờ thi công, vận chuyển, đăng ký nhân sự, che chắn thang máy và xử lý phế thải. Việc chủ động làm thủ tục giúp hạn chế gián đoạn tiến độ.', 'Các hạng mục tác động đến hệ kỹ thuật chung hoặc kết cấu cần được xem xét kỹ và tuân theo quy định hiện hành.'] },
+      { id: 'ke-hoach', title: '3. Lập kế hoạch thi công và bảo vệ tài sản', paragraphs: ['Kế hoạch nên thể hiện trình tự tháo dỡ, điện nước, trần tường, lắp đặt nội thất và vệ sinh. Khi làm trong căn hộ đang ở, có thể chia giai đoạn để giảm ảnh hưởng sinh hoạt.', 'Khu vực chung, sàn và đồ đạc hiện hữu cần được che chắn trước khi đưa vật liệu vào công trình.'] }
+    ], faqs: [{ q: 'Cải tạo chung cư có cần thiết kế trước không?', a: 'Nên có thiết kế và hồ sơ kỹ thuật, đặc biệt khi thay đổi bếp, điện nước, trần hoặc hệ tủ đóng.' }, { q: 'Nên ở lại nhà trong quá trình cải tạo không?', a: 'Tùy quy mô. Với hạng mục có bụi, mùi sơn hoặc ảnh hưởng điện nước, nên có phương án lưu trú tạm thời.' }], conclusion: 'Cải tạo hiệu quả bắt đầu bằng việc giải đúng những bất tiện của hiện trạng và lập kế hoạch thi công thực tế.' })
+  },
+  {
+    id: 'thiet-ke-noi-that-phong-bep', title: 'Thiết kế nội thất phòng bếp đẹp và tiện dụng cho gia đình Việt', author: 'SHOME LUXURY Team', date: '28/09/2026', category: 'Giải pháp', readTime: '8 phút đọc', isHot: false,
+    thumbnail: '/images/service_interior.jpg', summary: 'Nguyên tắc thiết kế phòng bếp: tam giác công năng, tủ bếp, vật liệu, ánh sáng và lưu trữ dễ sử dụng.', sections: [],
+    fullHtmlContent: article({ intro: 'Thiết kế nội thất phòng bếp cần ưu tiên nhịp thao tác hàng ngày: lấy đồ, sơ chế, nấu, rửa và cất dọn. Một căn bếp đẹp sẽ thực sự tiện dụng khi khoảng cách, chiều cao tủ và giải pháp lưu trữ phù hợp người sử dụng.', image: '/images/service_interior.jpg', alt: 'Thiết kế nội thất phòng bếp hiện đại', sections: [
+      { id: 'tam-giac', title: '1. Tổ chức tam giác công năng bếp', paragraphs: ['Tủ lạnh, chậu rửa và bếp nấu là ba điểm vận hành chính. Cách bố trí hợp lý giúp giảm quãng di chuyển và tránh giao cắt khi nhiều người cùng sử dụng.', 'Bếp chữ I, chữ L, chữ U hay bếp có đảo cần được chọn theo diện tích và lối đi thực tế, không chỉ theo hình ảnh tham khảo.'] },
+      { id: 'tu-bep', title: '2. Chọn tủ bếp và mặt bàn theo thói quen', paragraphs: ['Tủ dưới chịu tải và tiếp xúc ẩm nhiều hơn nên cần chú ý cốt ván, cạnh dán và phụ kiện. Tủ trên cần độ sâu vừa phải để dễ lấy đồ và không gây vướng khi thao tác.', 'Mặt bàn bếp nên được chọn theo khả năng chống bám bẩn, chịu nhiệt và phong cách tổng thể.'], bullets: ['Chừa vị trí cho thiết bị âm tủ và ổ cắm.', 'Ưu tiên khoang kéo ở khu vực sơ chế.', 'Bố trí đèn dưới tủ trên để giảm bóng tay khi nấu.'] },
+      { id: 've-sinh', title: '3. Tối ưu vệ sinh và bảo trì', paragraphs: ['Bếp dễ vệ sinh thường có ít khe hở, bề mặt phù hợp và phụ kiện tháo lắp thuận tiện. Những điểm giao giữa mặt đá, chậu rửa và tường ốp cần được xử lý kỹ.', 'Hệ hút mùi, thông gió và vị trí thùng rác ảnh hưởng trực tiếp đến trải nghiệm sử dụng lâu dài.'] }
+    ], faqs: [{ q: 'Bếp nhỏ có nên làm đảo bếp không?', a: 'Chỉ nên làm khi vẫn giữ lối đi thoải mái. Nếu diện tích hạn chế, bàn phụ hoặc quầy bar gọn có thể hiệu quả hơn.' }, { q: 'Nên chọn tủ bếp kịch trần không?', a: 'Có thể, nếu cần tăng lưu trữ. Khoang trên cùng nên dùng cho đồ ít sử dụng và có giải pháp thao tác an toàn.' }], conclusion: 'Một căn bếp tốt là nơi mọi thao tác diễn ra tự nhiên, sạch sẽ và phù hợp với nhịp sinh hoạt của gia đình.' })
+  },
+  {
+    id: 'thiet-ke-phong-ngu-de-ngu-ngon', title: 'Thiết kế phòng ngủ giúp nghỉ ngơi sâu và tối ưu lưu trữ', author: 'SHOME LUXURY Team', date: '24/09/2026', category: 'Kinh nghiệm', readTime: '7 phút đọc', isHot: false,
+    thumbnail: '/images/hero_sofa_light.jpg', summary: 'Gợi ý thiết kế phòng ngủ: bố trí giường, ánh sáng, vật liệu, tủ quần áo và không gian thư giãn.', sections: [],
+    fullHtmlContent: article({ intro: 'Thiết kế phòng ngủ không chỉ là chọn giường và tủ quần áo. Một không gian nghỉ ngơi tốt cần kiểm soát ánh sáng, tiếng ồn, nhiệt độ, lưu trữ và cảm giác riêng tư để hỗ trợ giấc ngủ mỗi ngày.', image: '/images/hero_sofa_light.jpg', alt: 'Thiết kế phòng ngủ hiện đại và thư giãn', sections: [
+      { id: 'vi-tri-giuong', title: '1. Bố trí giường và lối đi hợp lý', paragraphs: ['Giường nên đặt ở vị trí tạo cảm giác an toàn, có lối đi hai bên khi diện tích cho phép và không bị ánh sáng chói trực tiếp. Mảng đầu giường có thể trở thành điểm nhấn bằng vật liệu ấm, nhưng cần giữ tỷ lệ vừa phải.', 'Kích thước giường cần đi cùng khoảng mở tủ, bàn đầu giường và lối đi thực tế.'] },
+      { id: 'anh-sang-ngu', title: '2. Thiết kế ánh sáng theo nhịp nghỉ ngơi', paragraphs: ['Phòng ngủ cần đèn nền dịu, đèn đọc sách và đèn tủ quần áo. Ánh sáng nên có khả năng điều chỉnh để không gây chói trước khi ngủ hoặc khi thức dậy.', 'Rèm cản sáng, thông gió và vật liệu giảm phản xạ cũng góp phần tạo chất lượng nghỉ ngơi tốt hơn.'] },
+      { id: 'tu-quan-ao', title: '3. Tối ưu tủ quần áo và đồ cá nhân', paragraphs: ['Tủ quần áo cần phân chia theo loại đồ, chiều dài trang phục và thói quen cất giữ. Khoang treo, ngăn kéo, kệ túi xách và vị trí gương nên được tính từ đầu.', 'Nếu phòng nhỏ, cửa lùa hoặc hệ tủ kịch trần có thể tăng lưu trữ mà vẫn giữ lối đi gọn gàng.'] }
+    ], faqs: [{ q: 'Nên dùng màu gì cho phòng ngủ?', a: 'Các tông trung tính ấm, xanh dịu hoặc màu đất thường dễ tạo cảm giác thư giãn. Cần xét ánh sáng tự nhiên và sở thích của người dùng.' }, { q: 'Có nên đặt bàn làm việc trong phòng ngủ không?', a: 'Có thể khi thiếu diện tích, nhưng nên phân tách bằng ánh sáng, vị trí và quy tắc sử dụng để không ảnh hưởng thời gian nghỉ ngơi.' }], conclusion: 'Phòng ngủ đẹp nhất khi giúp cơ thể và tinh thần thật sự được nghỉ, đồng thời vẫn đáp ứng đủ nhu cầu lưu trữ hằng ngày.' })
+  },
+  {
+    id: 'kinh-nghiem-chon-don-vi-thi-cong-noi-that', title: 'Kinh nghiệm chọn đơn vị thiết kế thi công nội thất uy tín', author: 'KTS. Lê Sang', date: '20/09/2026', category: 'Kinh nghiệm', readTime: '9 phút đọc', isHot: true,
+    thumbnail: '/images/project_villa.jpg', summary: 'Các tiêu chí chọn đơn vị thiết kế thi công nội thất: năng lực, hồ sơ, báo giá, vật liệu, tiến độ và bảo hành.', sections: [],
+    fullHtmlContent: article({ intro: 'Chọn đơn vị thiết kế thi công nội thất là quyết định ảnh hưởng trực tiếp đến chất lượng hoàn thiện, chi phí và tiến độ. Gia chủ nên đánh giá bằng hồ sơ năng lực, quy trình làm việc và mức độ minh bạch thay vì chỉ dựa trên hình ảnh hoặc giá chào.', image: '/images/project_villa.jpg', alt: 'Kinh nghiệm chọn đơn vị thi công nội thất uy tín', sections: [
+      { id: 'ho-so-nang-luc', title: '1. Xem công trình và năng lực thực tế', paragraphs: ['Hình ảnh phối cảnh cho thấy gu thẩm mỹ, nhưng công trình hoàn thiện mới phản ánh chất lượng thi công. Hãy xem các dự án tương đồng về loại hình, quy mô và phong cách với nhu cầu của mình.', 'Đơn vị chuyên nghiệp thường có quy trình rõ từ khảo sát, thiết kế, báo giá, sản xuất đến bảo hành.'] },
+      { id: 'bao-gia-minh-bach', title: '2. Đánh giá báo giá và phạm vi công việc', paragraphs: ['Báo giá cần mô tả vật liệu, kích thước, phụ kiện, số lượng và các phần việc liên quan. Khi hạng mục được chi tiết, gia chủ dễ đối chiếu và giảm nguy cơ phát sinh.', 'Đừng chỉ so sánh tổng giá. Hãy so sánh cùng tiêu chuẩn vật liệu, phụ kiện và điều kiện thi công.'], bullets: ['Yêu cầu bảng vật liệu có mã rõ ràng.', 'Làm rõ tiến độ và mốc thanh toán.', 'Xác nhận phần việc không nằm trong phạm vi báo giá.'] },
+      { id: 'hop-dong-bao-hanh', title: '3. Kiểm tra hợp đồng, bảo hành và đầu mối', paragraphs: ['Hợp đồng cần nêu rõ phạm vi, vật liệu, thời gian, trách nhiệm hai bên và cách xử lý thay đổi. Chính sách bảo hành nên gắn với từng nhóm hạng mục thay vì lời cam kết chung chung.', 'Một đầu mối quản lý dự án rõ ràng giúp thông tin phản hồi nhanh và hạn chế sai khác khi triển khai.'] }
+    ], faqs: [{ q: 'Có nên chọn đơn vị có xưởng riêng không?', a: 'Xưởng riêng có thể giúp kiểm soát sản xuất tốt hơn, nhưng vẫn cần đánh giá quy trình, máy móc, đội ngũ và chất lượng công trình thực tế.' }, { q: 'Cần chuẩn bị gì khi làm việc với đơn vị nội thất?', a: 'Nên chuẩn bị mặt bằng, nhu cầu sử dụng, hình ảnh phong cách tham khảo và ngân sách dự kiến để buổi tư vấn hiệu quả hơn.' }], conclusion: 'Đơn vị phù hợp là đơn vị hiểu nhu cầu, minh bạch về giải pháp và có khả năng biến hồ sơ thành sản phẩm hoàn thiện chất lượng.' })
+  },
+  {
+    id: 'checklist-nghiem-thu-noi-that', title: 'Checklist nghiệm thu nội thất trước khi bàn giao nhà', author: 'SHOME LUXURY Team', date: '16/09/2026', category: 'Kỹ thuật', readTime: '8 phút đọc', isHot: false,
+    thumbnail: '/images/project_apartment.jpg', summary: 'Checklist nghiệm thu nội thất: bề mặt, kích thước, phụ kiện, điện, ánh sáng và vệ sinh trước khi bàn giao.', sections: [],
+    fullHtmlContent: article({ intro: 'Nghiệm thu nội thất là bước giúp gia chủ xác nhận sản phẩm hoàn thiện đúng hồ sơ, vận hành ổn định và sẵn sàng sử dụng. Một checklist đơn giản sẽ giúp việc kiểm tra có hệ thống thay vì chỉ quan sát tổng thể.', image: '/images/project_apartment.jpg', alt: 'Checklist nghiệm thu nội thất trước bàn giao', sections: [
+      { id: 'be-mat', title: '1. Kiểm tra bề mặt và chi tiết hoàn thiện', paragraphs: ['Quan sát bề mặt tủ, đá, kính, sơn và nẹp ở cả ánh sáng tự nhiên lẫn ánh sáng đèn. Cần kiểm tra các vết xước, sứt cạnh, lệch vân và điểm giao vật liệu.', 'Những lỗi nhỏ nên được ghi nhận ngay tại thời điểm bàn giao để có phương án xử lý rõ ràng.'] },
+      { id: 'phu-kien', title: '2. Kiểm tra vận hành phụ kiện và thiết bị', paragraphs: ['Mở đóng toàn bộ cánh tủ, ngăn kéo, ray trượt và khóa. Khe hở cần đều, chuyển động êm và không cọ xát.', 'Kiểm tra ổ cắm, công tắc, đèn, thiết bị bếp và các điểm cấp thoát nước trong phạm vi hạng mục thi công.'], bullets: ['Mở từng khoang tủ và kiểm tra độ thẳng cánh.', 'Thử đèn, ổ cắm và thiết bị liên quan.', 'Đối chiếu đúng mã phụ kiện đã thống nhất.'] },
+      { id: 'ho-so-ban-giao', title: '3. Nhận hồ sơ và hướng dẫn sử dụng', paragraphs: ['Gia chủ nên nhận danh mục hạng mục, hướng dẫn bảo quản, chính sách bảo hành và thông tin liên hệ khi cần hỗ trợ. Với thiết bị, nên lưu lại phiếu bảo hành và tài liệu vận hành.', 'Việc bàn giao đầy đủ giúp quá trình sử dụng và bảo trì sau này chủ động hơn.'] }
+    ], faqs: [{ q: 'Nên nghiệm thu vào thời điểm nào?', a: 'Nên nghiệm thu sau khi lắp đặt, căn chỉnh, vệ sinh và hoàn tất các hạng mục liên quan trong phạm vi đã thống nhất.' }, { q: 'Nếu phát hiện lỗi nhỏ thì xử lý thế nào?', a: 'Ghi nhận bằng hình ảnh, vị trí và mô tả cụ thể trong biên bản để đơn vị thi công xác nhận kế hoạch khắc phục.' }], conclusion: 'Nghiệm thu kỹ là cách bảo vệ trải nghiệm sử dụng của gia chủ và giúp công trình được hoàn thiện chỉn chu hơn.' })
+  },
+  {
+    id: 'thiet-ke-noi-that-nha-pho', title: 'Thiết kế nội thất nhà phố: Giải pháp lấy sáng và tối ưu chiều sâu', author: 'KTS. Lê Sang', date: '12/09/2026', category: 'Giải pháp', readTime: '9 phút đọc', isHot: false,
+    thumbnail: '/images/hero_interior.jpg', summary: 'Giải pháp thiết kế nội thất nhà phố dài và hẹp: lấy sáng, thông gió, phân tầng công năng và lưu trữ.', sections: [],
+    fullHtmlContent: article({ intro: 'Thiết kế nội thất nhà phố thường đối mặt với chiều sâu lớn, mặt tiền hẹp và các khu vực thiếu sáng ở giữa nhà. Phương án tốt cần cân bằng ánh sáng, thông gió, riêng tư và giao thông giữa các tầng.', image: '/images/hero_interior.jpg', alt: 'Thiết kế nội thất nhà phố hiện đại', sections: [
+      { id: 'lay-sang-nha-pho', title: '1. Đưa ánh sáng vào khu vực giữa nhà', paragraphs: ['Giếng trời, khoảng thông tầng, sân trong hoặc vách kính là giải pháp đưa sáng sâu vào nhà phố. Tùy mặt bằng, có thể kết hợp cây xanh và vật liệu sáng để tăng hiệu quả phản xạ.', 'Cần đồng thời xử lý che mưa, thoát nước và kiểm soát nắng gắt để khoảng lấy sáng dễ sử dụng quanh năm.'] },
+      { id: 'phan-tang', title: '2. Phân tầng công năng hợp lý', paragraphs: ['Tầng một thường ưu tiên tiếp khách, bếp ăn hoặc chỗ để xe; các tầng trên dành cho phòng ngủ và không gian riêng. Tuy nhiên, cách phân chia cần bám theo thói quen gia đình, không nên áp dụng máy móc.', 'Khu vực cầu thang và hành lang có thể tích hợp tủ chứa, tủ sách hoặc mảng trang trí để sử dụng diện tích hiệu quả.'] },
+      { id: 'thong-gio', title: '3. Kết hợp thông gió và vật liệu', paragraphs: ['Luồng gió tự nhiên cần có điểm vào và điểm thoát. Cửa, ô thoáng, lam hoặc giếng trời nên được phối hợp với điều hòa và quạt để duy trì tiện nghi.', 'Vật liệu sáng, gương dùng đúng vị trí và hệ tủ gọn giúp nhà phố có cảm giác rộng hơn mà không làm không gian bị lạnh.'] }
+    ], faqs: [{ q: 'Nhà phố hẹp có nên làm không gian mở không?', a: 'Có thể, nếu vẫn xác định rõ khu vực sinh hoạt và xử lý riêng tư, mùi bếp, tiếng ồn phù hợp.' }, { q: 'Có nên dùng toàn bộ màu sáng cho nhà phố?', a: 'Màu sáng giúp tăng cảm giác thoáng, nhưng nên kết hợp vật liệu hoặc màu nhấn để không gian vẫn có chiều sâu.' }], conclusion: 'Nhà phố đẹp không nằm ở diện tích lớn hay nhỏ, mà ở cách ánh sáng, giao thông và công năng được giải quyết đồng thời.' })
+  },
+  {
+    id: 'tien-do-thi-cong-noi-that', title: 'Thi công nội thất mất bao lâu? Cách lập tiến độ thực tế', author: 'SHOME LUXURY Team', date: '08/09/2026', category: 'Kinh nghiệm', readTime: '7 phút đọc', isHot: false,
+    thumbnail: '/images/sanxuat/1790821090608_6043215661779559246_6043215661779559246_c5b7a93c081c9ae283738868f4486898.jpg', summary: 'Những yếu tố ảnh hưởng tiến độ thi công nội thất và cách gia chủ phối hợp để hạn chế chậm trễ.', sections: [],
+    fullHtmlContent: article({ intro: 'Thời gian thi công nội thất phụ thuộc quy mô công trình, mức độ hoàn thiện, tình trạng mặt bằng, vật liệu và tốc độ chốt quyết định. Một tiến độ thực tế cần có các mốc thiết kế, sản xuất, lắp đặt và nghiệm thu rõ ràng.', image: '/images/sanxuat/1790821090608_6043215661779559246_6043215661779559246_c5b7a93c081c9ae283738868f4486898.jpg', alt: 'Lập tiến độ thi công nội thất thực tế', sections: [
+      { id: 'cac-giai-doan', title: '1. Các giai đoạn chính của tiến độ', paragraphs: ['Tiến độ thường gồm khảo sát, thiết kế, chốt vật liệu, triển khai kỹ thuật, gia công, chuẩn bị mặt bằng, lắp đặt và hoàn thiện. Một số công đoạn có thể thực hiện song song, nhưng chỉ khi hồ sơ và đầu mối phối hợp rõ ràng.', 'Gia chủ nên yêu cầu mốc công việc thay vì chỉ một ngày bàn giao tổng.'] },
+      { id: 'yeu-to-cham', title: '2. Những yếu tố dễ làm chậm tiến độ', paragraphs: ['Thay đổi thiết kế sau khi chốt, mặt bằng chưa hoàn thiện, thiết bị về chậm hoặc quy định vận chuyển của tòa nhà đều có thể ảnh hưởng kế hoạch. Các yếu tố này cần được dự báo ngay từ đầu.', 'Trao đổi sớm khi có thay đổi giúp đơn vị thi công điều chỉnh thứ tự công việc và hạn chế thời gian chờ.'] },
+      { id: 'phoi-hop', title: '3. Gia chủ cần phối hợp như thế nào?', paragraphs: ['Phản hồi đúng hạn với bản vẽ, mẫu vật liệu và các câu hỏi kỹ thuật là cách quan trọng để giữ tiến độ. Nên có một đầu mối quyết định để tránh thông tin bị phân tán.', 'Mặt bằng cần sẵn sàng theo mốc đã thống nhất: điện nước, trần tường, khóa cửa và điều kiện vận chuyển.'] }
+    ], faqs: [{ q: 'Có thể rút ngắn tiến độ thi công không?', a: 'Có thể với một số hạng mục nếu hồ sơ, vật liệu và mặt bằng đã sẵn sàng; không nên rút ngắn bằng cách bỏ qua kiểm tra chất lượng.' }, { q: 'Khi nào nên đặt thiết bị?', a: 'Nên xác định từ giai đoạn thiết kế kỹ thuật để tủ, ổ cắm và kích thước chờ được làm chính xác.' }], conclusion: 'Tiến độ tốt là tiến độ có dự phòng hợp lý và minh bạch ở từng mốc, không chỉ là cam kết bàn giao nhanh.' })
+  },
+  {
+    id: 'chuan-bi-truoc-khi-thi-cong-noi-that', title: 'Checklist chuẩn bị trước khi thi công nội thất nhà ở', author: 'SHOME LUXURY Team', date: '04/09/2026', category: 'Kỹ thuật', readTime: '7 phút đọc', isHot: false,
+    thumbnail: '/images/service_interior.jpg', summary: 'Checklist chuẩn bị trước khi thi công nội thất: mặt bằng, hồ sơ, thiết bị, vật liệu và các mốc phối hợp.', sections: [],
+    fullHtmlContent: article({ intro: 'Chuẩn bị kỹ trước khi thi công nội thất giúp giảm phát sinh và bảo vệ tiến độ. Gia chủ không cần tự xử lý mọi việc, nhưng nên nắm những đầu mục quan trọng để phối hợp hiệu quả với kiến trúc sư và đội thi công.', image: '/images/service_interior.jpg', alt: 'Checklist chuẩn bị trước khi thi công nội thất nhà ở', sections: [
+      { id: 'ho-so-chot', title: '1. Chốt hồ sơ và danh mục hạng mục', paragraphs: ['Trước khi sản xuất, cần thống nhất mặt bằng, phối cảnh, bản vẽ kỹ thuật, mã vật liệu và danh mục hạng mục. Những thay đổi sau thời điểm này cần được đánh giá ảnh hưởng đến chi phí và tiến độ.', 'Nên lưu một bản hồ sơ dễ tra cứu cho gia chủ và đầu mối thi công.'] },
+      { id: 'mat-bang-san-sang', title: '2. Bảo đảm mặt bằng sẵn sàng', paragraphs: ['Trần, tường, sàn, điện nước và các vị trí chờ thiết bị cần hoàn thiện theo kế hoạch. Nếu hiện trạng thay đổi so với bản vẽ, cần đo lại trước khi sản xuất.', 'Khu vực tập kết vật liệu, thang máy, lối vận chuyển và quy định tòa nhà cũng cần được chuẩn bị.'] },
+      { id: 'thiet-bi', title: '3. Xác định thiết bị và phụ kiện liên quan', paragraphs: ['Bếp từ, lò, tủ lạnh, máy giặt, điều hòa, rèm hoặc thiết bị thông minh có thể ảnh hưởng trực tiếp đến kích thước nội thất. Cần chốt model hoặc thông số kỹ thuật trước khi triển khai.', 'Việc nhận thiết bị đúng thời điểm giúp đội lắp đặt kiểm tra liên kết và hoàn thiện đồng bộ.'], bullets: ['Gửi thông số thiết bị cho đơn vị thiết kế.', 'Xác nhận vị trí ổ cắm, cấp thoát nước và đường điện.', 'Kiểm tra điều kiện bảo quản thiết bị tại công trình.'] }
+    ], faqs: [{ q: 'Có cần dọn hết đồ trước khi thi công không?', a: 'Nên di chuyển hoặc che chắn đồ giá trị để tạo mặt bằng an toàn và thuận tiện cho đội thi công.' }, { q: 'Khi nào nên chốt màu vật liệu?', a: 'Nên chốt trước khi đặt hàng và sản xuất, sau khi đã xem mẫu dưới điều kiện ánh sáng phù hợp.' }], conclusion: 'Một checklist chuẩn bị đơn giản giúp mọi bên cùng hiểu việc cần làm và giảm rủi ro phát sinh trong quá trình thi công.' })
   }
 ];

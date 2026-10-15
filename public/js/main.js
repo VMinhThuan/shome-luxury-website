@@ -714,6 +714,82 @@ document.addEventListener('DOMContentLoaded', () => {
     const getHeroImage = () => gallery?.querySelector('[data-detail-image]');
     const getPreviewImage = () => gallery?.querySelector('[data-gallery-drag-preview]');
     const getProjectTitle = () => detailPage.querySelector('[data-project-field="title"]')?.textContent || 'Công trình Shome Luxury';
+    let galleryLightbox = null;
+
+    function createGalleryLightbox() {
+      if (galleryLightbox) return galleryLightbox;
+      const modal = document.createElement('div');
+      modal.className = 'project-gallery-lightbox';
+      modal.hidden = true;
+      modal.innerHTML = `
+        <div class="project-gallery-lightbox-backdrop" data-gallery-lightbox-close></div>
+        <div class="project-gallery-lightbox-dialog" role="dialog" aria-modal="true" aria-label="Xem ảnh công trình">
+          <div class="project-gallery-lightbox-stage">
+            <img data-gallery-lightbox-image alt="" draggable="false" />
+            <button type="button" class="project-gallery-lightbox-close" data-gallery-lightbox-close aria-label="Đóng ảnh phóng to">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"></path></svg>
+            </button>
+            <button type="button" class="project-gallery-lightbox-control previous" data-gallery-lightbox-prev aria-label="Ảnh trước">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="15 18 9 12 15 6"></polyline></svg>
+            </button>
+            <button type="button" class="project-gallery-lightbox-control next" data-gallery-lightbox-next aria-label="Ảnh tiếp theo">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="9 18 15 12 9 6"></polyline></svg>
+            </button>
+            <span class="project-gallery-lightbox-count" aria-live="polite"><span data-gallery-lightbox-current>01</span> / <span data-gallery-lightbox-total>01</span></span>
+          </div>
+          <div class="project-gallery-lightbox-thumbnails" data-gallery-lightbox-thumbnails aria-label="Chọn ảnh phóng to"></div>
+        </div>`;
+      document.body.append(modal);
+      galleryLightbox = modal;
+      return modal;
+    }
+
+    function showLightboxImage(index) {
+      const modal = createGalleryLightbox();
+      if (!galleryImages.length) return;
+      const normalizedIndex = (index + galleryImages.length) % galleryImages.length;
+      const image = modal.querySelector('[data-gallery-lightbox-image]');
+      image.src = galleryImages[normalizedIndex];
+      image.alt = `${getProjectTitle()} - ảnh ${normalizedIndex + 1}`;
+      modal.querySelector('[data-gallery-lightbox-current]').textContent = String(normalizedIndex + 1).padStart(2, '0');
+      modal.querySelector('[data-gallery-lightbox-total]').textContent = String(galleryImages.length).padStart(2, '0');
+      modal.querySelectorAll('[data-gallery-lightbox-thumb]').forEach((thumbnail, thumbnailIndex) => {
+        thumbnail.classList.toggle('is-active', thumbnailIndex === normalizedIndex);
+        thumbnail.setAttribute('aria-current', thumbnailIndex === normalizedIndex ? 'true' : 'false');
+      });
+      modal.dataset.galleryLightboxIndex = String(normalizedIndex);
+    }
+
+    function openGalleryLightbox() {
+      if (!galleryImages.length) return;
+      const modal = createGalleryLightbox();
+      const thumbnails = modal.querySelector('[data-gallery-lightbox-thumbnails]');
+      thumbnails.replaceChildren();
+      galleryImages.forEach((src, index) => {
+        const thumbnail = document.createElement('button');
+        thumbnail.type = 'button';
+        thumbnail.className = 'project-gallery-lightbox-thumbnail';
+        thumbnail.dataset.galleryLightboxThumb = '';
+        thumbnail.setAttribute('aria-label', `Xem ảnh ${index + 1}`);
+        const image = document.createElement('img');
+        image.src = src;
+        image.alt = '';
+        image.loading = 'lazy';
+        thumbnail.append(image);
+        thumbnails.append(thumbnail);
+      });
+      modal.hidden = false;
+      document.body.classList.add('project-gallery-lightbox-open');
+      showLightboxImage(activeGalleryIndex);
+      modal.querySelector('.project-gallery-lightbox-close')?.focus();
+    }
+
+    function closeGalleryLightbox() {
+      if (!galleryLightbox) return;
+      galleryLightbox.hidden = true;
+      document.body.classList.remove('project-gallery-lightbox-open');
+      getGalleryStage()?.focus();
+    }
 
     function updateSlideImage(image, src, index) {
       image.src = src;
@@ -841,13 +917,50 @@ document.addEventListener('DOMContentLoaded', () => {
       selectGalleryImage(0, true);
       gallery.addEventListener('click', event => {
         const thumbnail = event.target.closest('[data-gallery-thumb]');
-        if (thumbnail) selectGalleryImage(Number(thumbnail.dataset.index));
-        if (event.target.closest('[data-gallery-prev]')) selectGalleryImage(activeGalleryIndex - 1, false, -1);
-        if (event.target.closest('[data-gallery-next]')) selectGalleryImage(activeGalleryIndex + 1, false, 1);
+        if (thumbnail) {
+          selectGalleryImage(Number(thumbnail.dataset.index));
+          return;
+        }
+        if (event.target.closest('[data-gallery-prev]')) {
+          selectGalleryImage(activeGalleryIndex - 1, false, -1);
+          return;
+        }
+        if (event.target.closest('[data-gallery-next]')) {
+          selectGalleryImage(activeGalleryIndex + 1, false, 1);
+          return;
+        }
+        if (event.target.closest('[data-gallery-open]')) openGalleryLightbox();
       });
       gallery.addEventListener('keydown', event => {
         if (event.key === 'ArrowLeft') { event.preventDefault(); selectGalleryImage(activeGalleryIndex - 1, false, -1); }
         if (event.key === 'ArrowRight') { event.preventDefault(); selectGalleryImage(activeGalleryIndex + 1, false, 1); }
+        if ((event.key === 'Enter' || event.key === ' ') && event.target.closest('[data-gallery-open]')) {
+          event.preventDefault();
+          openGalleryLightbox();
+        }
+      });
+
+      document.addEventListener('click', event => {
+        if (!galleryLightbox || galleryLightbox.hidden) return;
+        if (event.target.closest('[data-gallery-lightbox-close]')) closeGalleryLightbox();
+        if (event.target.closest('[data-gallery-lightbox-prev]')) {
+          showLightboxImage(Number(galleryLightbox.dataset.galleryLightboxIndex || 0) - 1);
+        }
+        if (event.target.closest('[data-gallery-lightbox-next]')) {
+          showLightboxImage(Number(galleryLightbox.dataset.galleryLightboxIndex || 0) + 1);
+        }
+        const thumbnail = event.target.closest('[data-gallery-lightbox-thumb]');
+        if (thumbnail) {
+          const allThumbnails = Array.from(galleryLightbox.querySelectorAll('[data-gallery-lightbox-thumb]'));
+          showLightboxImage(allThumbnails.indexOf(thumbnail));
+        }
+      });
+
+      document.addEventListener('keydown', event => {
+        if (!galleryLightbox || galleryLightbox.hidden) return;
+        if (event.key === 'Escape') closeGalleryLightbox();
+        if (event.key === 'ArrowLeft') showLightboxImage(Number(galleryLightbox.dataset.galleryLightboxIndex || 0) - 1);
+        if (event.key === 'ArrowRight') showLightboxImage(Number(galleryLightbox.dataset.galleryLightboxIndex || 0) + 1);
       });
       gallery.addEventListener('mouseenter', stopGalleryAutoplay);
       gallery.addEventListener('mouseleave', startGalleryAutoplay);
