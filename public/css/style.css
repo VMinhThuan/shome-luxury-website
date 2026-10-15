@@ -7906,6 +7906,15 @@ body.page-recruitment,
   object-fit: cover;
 }
 
+.old-web-article .article-inline-image figcaption {
+  padding: .5rem .75rem;
+  color: #6d665e;
+  font-size: .8125rem;
+  font-style: italic;
+  line-height: 1.45;
+  text-align: left;
+}
+
 .ftoc-box {
   background: #FFFAF0;
   border: 1px dashed #C89B4B;

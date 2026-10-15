@@ -1,8 +1,46 @@
+const editorialImagePool = [
+  '/images/hero_interior.jpg',
+  '/images/project_apartment.jpg',
+  '/images/project_villa.jpg',
+  '/images/hero_sofa_sharp.jpg',
+  '/images/showroom-shome-luxury.jpg',
+  '/images/craftsmanship-hardware-details-grid.png',
+  '/images/quote-construction-interior.png'
+];
+
+const seoDepthThemes = [
+  ['Xác định nhu cầu và phạm vi', 'thói quen sinh hoạt, số người sử dụng, diện tích thực tế và mức đầu tư ưu tiên'],
+  ['Khảo sát hiện trạng trước khi quyết định', 'kích thước, cao độ, nguồn điện nước, ánh sáng, lối vận chuyển và các hạng mục đã hoàn thiện'],
+  ['Lên phương án công năng có thứ tự', 'lối đi, khu vực sử dụng thường xuyên, nhu cầu lưu trữ và khoảng kỹ thuật cho thiết bị'],
+  ['Chọn phong cách theo thời gian sử dụng', 'tỷ lệ không gian, bảng màu nền, vật liệu chủ đạo và những chi tiết phản ánh cá tính gia chủ'],
+  ['Chốt vật liệu bằng mẫu thực tế', 'cốt vật liệu, màu bề mặt, hướng vân, độ bền, khả năng vệ sinh và điều kiện ánh sáng tại công trình'],
+  ['Kiểm soát ngân sách minh bạch', 'khối lượng, quy cách, phụ kiện, thiết bị liên quan, vận chuyển, lắp đặt và các hạng mục loại trừ'],
+  ['Triển khai hồ sơ kỹ thuật đầy đủ', 'kích thước, vị trí liên kết, mã vật liệu, phụ kiện, ổ cắm, cấp thoát nước và các điểm giao nhau'],
+  ['Phối hợp tiến độ giữa các bên', 'mốc chốt bản vẽ, đặt vật liệu, sản xuất, chuẩn bị mặt bằng, vận chuyển, lắp đặt và nghiệm thu'],
+  ['Kiểm tra chất lượng trong quá trình thực hiện', 'bề mặt, đường nét, độ chính xác kích thước, phụ kiện, an toàn lao động và vệ sinh công trình'],
+  ['Tổ chức ánh sáng và tiện nghi sử dụng', 'ánh sáng nền, ánh sáng tác vụ, ánh sáng điểm nhấn, công tắc điều khiển và sự thoải mái thị giác'],
+  ['Tối ưu lưu trữ và khả năng bảo trì', 'vị trí để đồ, khả năng thao tác, khe kỹ thuật, thông gió, vệ sinh và thay thế phụ kiện sau này'],
+  ['Xử lý thay đổi có kiểm soát', 'nguyên nhân thay đổi, ảnh hưởng đến bản vẽ, vật liệu, chi phí, thời gian và trách nhiệm phối hợp'],
+  ['Nghiệm thu theo checklist rõ ràng', 'màu sắc, bề mặt, khe hở, độ thẳng, vận hành thiết bị, vệ sinh và hồ sơ bàn giao'],
+  ['Sử dụng và bảo dưỡng sau bàn giao', 'cách vệ sinh đúng vật liệu, điều kiện chống ẩm, tải trọng phụ kiện và đầu mối bảo hành khi cần hỗ trợ']
+];
+
+function seoLongForm(topic) {
+  const sections = seoDepthThemes.slice(0, 7).map(([heading, focus], index) => `<section class="article-seo-depth"><h2 class="article-heading">${index + 1}. ${heading}</h2><p>Đối với ${topic.toLowerCase()}, ${heading.toLowerCase()} không nên được xem là một việc làm cho có. Gia chủ và đơn vị triển khai cần cùng làm rõ ${focus}. Khi các thông tin này được ghi nhận từ đầu, phương án đề xuất sẽ bám sát điều kiện sử dụng thay vì chỉ đẹp trên hình ảnh tham khảo. Đây cũng là cơ sở để các quyết định sau đó có cùng một tiêu chuẩn đánh giá.</p><p>Một cách làm hiệu quả là ưu tiên theo mức độ ảnh hưởng: việc nào tác động đến an toàn, công năng, chất lượng hoàn thiện và chi phí cần được chốt trước; các chi tiết trang trí có thể phát triển sau. Mọi thay đổi nên được xác nhận bằng bản vẽ, mẫu hoặc biên bản ngắn để tránh hiểu khác nhau. Cách phối hợp này giúp quá trình triển khai chủ động hơn, hạn chế làm lại và giữ trải nghiệm sử dụng lâu dài cho gia đình.</p></section>`).join('');
+  return `${sections}<section class="article-seo-depth"><h2 class="article-heading">Lưu ý khi áp dụng vào công trình thực tế</h2><p>Mỗi không gian có hiện trạng, ngân sách và nhịp sống riêng nên không có một công thức duy nhất cho mọi dự án. Trước khi lựa chọn giải pháp, hãy đối chiếu lại nhu cầu sử dụng, bản vẽ kỹ thuật, mẫu vật liệu và tiến độ của chính công trình. Việc trao đổi minh bạch với kiến trúc sư, bộ phận kỹ thuật và đội thi công sẽ giúp các quyết định được thực hiện đồng bộ, tạo nên kết quả bền đẹp, dễ sử dụng và phù hợp với mục tiêu ban đầu.</p></section>`;
+}
+
 function article({ intro, image, alt, sections, faqs, conclusion }) {
   const toc = sections.map(s => `<li><a href="#${s.id}">${s.title}</a></li>`).join('');
-  const content = sections.map(s => `<section><h2 id="${s.id}" class="article-heading">${s.title}</h2>${s.paragraphs.map(p => `<p>${p}</p>`).join('')}${s.bullets ? `<ul class="article-list">${s.bullets.map(item => `<li>${item}</li>`).join('')}</ul>` : ''}</section>`).join('');
+  const seed = [...intro].reduce((total, char) => total + char.charCodeAt(0), 0) % editorialImagePool.length;
+  const rotatedImages = [...editorialImagePool.slice(seed), ...editorialImagePool.slice(0, seed)];
+  const supportingImages = rotatedImages.filter(src => src !== image).slice(0, 4);
+  const inlineImage = (src, index) => `<figure class="article-image-box article-inline-image"><img src="${src}" alt="${alt} – hình minh họa ${index + 2}" class="article-main-img" loading="lazy" decoding="async" /><figcaption>Hình minh họa không gian và giải pháp nội thất Shome Luxury.</figcaption></figure>`;
+  const content = sections.map((s, index) => `<section><h2 id="${s.id}" class="article-heading">${s.title}</h2>${s.paragraphs.map(p => `<p>${p}</p>`).join('')}${s.bullets ? `<ul class="article-list">${s.bullets.map(item => `<li>${item}</li>`).join('')}</ul>` : ''}${supportingImages[index] ? inlineImage(supportingImages[index], index) : ''}</section>`).join('');
+  const remainingImages = supportingImages.slice(sections.length).map((src, index) => inlineImage(src, sections.length + index)).join('');
+  const extendedContent = seoLongForm(alt);
   const faq = faqs.map(item => `<h3>${item.q}</h3><p>${item.a}</p>`).join('');
-  return `<div class="old-web-article"><p class="article-intro">${intro}</p><div class="article-image-box"><img src="${image}" alt="${alt}" class="article-main-img" /></div><div class="ftoc-box"><div class="ftoc-header"><span class="ftoc-icon">☰</span><span class="ftoc-title">Nội dung chính</span></div><ol class="ftoc-list">${toc}<li><a href="#faq">Câu hỏi thường gặp</a></li></ol></div>${content}<section><h2 id="faq" class="article-heading">Câu hỏi thường gặp</h2>${faq}</section><p><strong>${conclusion}</strong></p></div>`;
+  return `<div class="old-web-article"><p class="article-intro">${intro}</p><div class="article-image-box"><img src="${image}" alt="${alt}" class="article-main-img" /></div><div class="ftoc-box"><div class="ftoc-header"><span class="ftoc-icon">☰</span><span class="ftoc-title">Nội dung chính</span></div><ol class="ftoc-list">${toc}<li><a href="#faq">Câu hỏi thường gặp</a></li></ol></div>${content}${remainingImages}${extendedContent}<section><h2 id="faq" class="article-heading">Câu hỏi thường gặp</h2>${faq}</section><p><strong>${conclusion}</strong></p></div>`;
 }
 
 module.exports = [
