@@ -15463,3 +15463,34 @@ main :is(
     font-size: 20px !important;
   }
 }
+
+/* Keep the customer-review title as a single visual lock-up at every
+   responsive width.  It used to switch to a vertical stack on tablets. */
+.home-page main .customer-stories-title {
+  display: flex !important;
+  flex-direction: row !important;
+  flex-wrap: nowrap !important;
+  align-items: baseline !important;
+  justify-content: center !important;
+  gap: .28em !important;
+  white-space: nowrap !important;
+}
+
+.home-page main .customer-stories-script,
+.home-page main .customer-stories-main {
+  white-space: nowrap !important;
+}
+
+@media (max-width: 767px) {
+  .home-page main .customer-stories-title {
+    flex-wrap: wrap !important;
+  }
+
+  .home-page main .customer-stories-script {
+    font-size: clamp(1.5rem, 7.5vw, 2.15rem) !important;
+  }
+
+  .home-page main .customer-stories-main {
+    font-size: clamp(1.35rem, 6.3vw, 1.75rem) !important;
+  }
+}
