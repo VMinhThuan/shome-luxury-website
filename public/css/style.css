@@ -5382,7 +5382,7 @@ body.page-recruitment,
   overflow: hidden !important;
   display: flex;
   flex-direction: column;
-  height: 360px;
+  height: 235px;
   width: 100% !important;
   box-sizing: border-box !important;
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
@@ -5447,19 +5447,78 @@ body.page-recruitment,
 }
 
 .fb-card-box .card-iframe-wrapper {
-  background-color: #2f2f2f !important;
+  background-color: #FFFFFF !important;
   overflow: hidden !important;
 }
 
-.fb-card-box .card-iframe-wrapper iframe {
-  display: block !important;
-  width: 100% !important;
-  min-width: 100% !important;
-  max-width: 100% !important;
-  height: 100% !important;
-  min-height: 100% !important;
-  border: 0 !important;
-  background: #fff !important;
+.facebook-page-preview {
+  display: flex;
+  align-items: center;
+  gap: .65rem;
+  height: 100%;
+  padding: .85rem;
+  box-sizing: border-box;
+  background: linear-gradient(135deg, #f8fafc 0%, #eaf1fb 100%);
+  color: #1d3557;
+}
+
+.facebook-page-preview-logo {
+  width: 56px;
+  height: 56px;
+  flex: 0 0 56px;
+  padding: 4px;
+  border: 1px solid #d5dce8;
+  border-radius: 8px;
+  background: #2b2b2b;
+  object-fit: contain;
+}
+
+.facebook-page-preview-copy {
+  min-width: 0;
+  flex: 1;
+}
+
+.facebook-page-preview-copy strong,
+.facebook-page-preview-copy span,
+.facebook-page-preview-copy p {
+  display: block;
+}
+
+.facebook-page-preview-copy strong {
+  color: #214f9a;
+  font-size: .9rem;
+  line-height: 1.2;
+}
+
+.facebook-page-preview-copy span {
+  margin-top: .1rem;
+  color: #50627b;
+  font-size: .7rem;
+}
+
+.facebook-page-preview-copy p {
+  margin: .35rem 0 0;
+  color: #43546b;
+  font-size: .68rem;
+  line-height: 1.4;
+}
+
+.facebook-page-preview-button {
+  flex: 0 0 auto;
+  padding: .5rem .6rem;
+  border-radius: 6px;
+  background: #1877f2;
+  color: #fff;
+  font-size: .68rem;
+  font-weight: 700;
+  line-height: 1.2;
+  text-align: center;
+  text-decoration: none;
+}
+
+.facebook-page-preview-button:hover {
+  background: #1468d2;
+  color: #fff;
 }
 
 .map-card-box .card-iframe-wrapper iframe {
@@ -5867,9 +5926,9 @@ body.page-recruitment,
     align-items: stretch !important;
   }
 
-  /* Keep the address column level with the Facebook and map cards. */
+  /* Keep the address column level with the compact Facebook and map cards. */
   .footer-col-address {
-    height: 360px;
+    height: 235px;
   }
 
   /* Keep the brand slogan within the same footprint as the media cards. */
