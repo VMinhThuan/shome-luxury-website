@@ -936,11 +936,11 @@
       aspect-ratio: 16 / 9 !important;
     }
 
-    /* Keep the brand video at compact cinematic ratio on desktop, normal 16:9 on mobile */
+    /* Double the desktop brand-video height while retaining the normal mobile ratio. */
     @media (min-width: 768px) {
       .quote-page .quote-brand-video .quote-video-card,
       .quote-page .quote-brand-video .quote-video-frame {
-        aspect-ratio: 32 / 9 !important;
+        aspect-ratio: 16 / 9 !important;
       }
     }
 

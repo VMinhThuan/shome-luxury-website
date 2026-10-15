@@ -8137,7 +8137,7 @@ ol {
 }
 
 @media (max-width: 767px) {
-  .construction-video-grid .construction-video-card:nth-child(n+5) {
+  .construction-video-grid .construction-video-card:nth-child(n+4) {
     display: none !important;
   }
 }

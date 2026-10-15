@@ -14,7 +14,7 @@
   <meta name="theme-color" content="#171717" />
 
   <!-- CSS Stylesheet -->
-  <link rel="stylesheet" href="/css/style.css?v=6.5.80" />
+  <link rel="stylesheet" href="/css/style.css?v=6.5.81" />
   <script src="/js/main.js?v=1.9.0" defer></script>
 </head>
 <body>
@@ -52,7 +52,7 @@
         <% if (isVideoShowcase) { %>
           <div class="construction-video-grid" aria-label="Video thi công công trình">
             <% if (videos && videos.length > 0) { %>
-              <% videos.forEach(video => { %>
+              <% videos.slice(0, 6).forEach(video => { %>
                 <div class="construction-video-card">
                   <iframe
                     src="https://www.youtube-nocookie.com/embed/<%= video.youtubeId %>?rel=0&modestbranding=1"

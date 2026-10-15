@@ -162,11 +162,10 @@ const PAGE_CONFIGS = {
     filters: []
   },
   'tc-kt-nha-cap-4': {
-    eyebrow: 'VIDEO THI CÔNG',
-    titleMain: 'THI CÔNG KIẾN TRÚC',
-    titleMainClass: 'title-main-compact',
-    titleScript: 'Nhà Cấp 4',
-    description: '',
+    eyebrow: 'HÌNH ẢNH ĐANG THI CÔNG',
+    titleMain: 'THI CÔNG NỘI THẤT',
+    titleScript: 'Chung Cư',
+    description: 'Cập nhật hình ảnh thi công thực tế tại công trình, đảm bảo đúng tiến độ, đúng kỹ thuật và chất lượng trong từng hạng mục.',
     categoryCode: 'tc-kt-nha-cap-4',
     parentCode: 'thi-cong-cong-trinh',
     contentType: 'videos',
