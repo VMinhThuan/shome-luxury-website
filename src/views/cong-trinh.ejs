@@ -14,7 +14,7 @@
   <meta name="theme-color" content="#171717" />
 
   <!-- CSS Stylesheet -->
-  <link rel="stylesheet" href="/css/style.css?v=6.5.88" />
+  <link rel="stylesheet" href="/css/style.css?v=6.5.89" />
   <script src="/js/main.js?v=1.9.0" defer></script>
 </head>
 <body>
@@ -112,13 +112,17 @@
 
     <% if (isVideoShowcase && pageConfig.completedProjectCategory) { %>
       <section class="completed-projects-section">
-        <div class="container">
-          <header class="completed-projects-heading">
-            <p>─── NHỮNG HÌNH ẢNH HOÀN CÔNG TIÊU BIỂU ───</p>
-            <h2><%= pageConfig.completedTitleMain || 'HOÀN CÔNG NỘI THẤT' %> <em class="font-script"><%= pageConfig.completedTitleScript || 'Chung Cư' %></em></h2>
-            <strong><%= pageConfig.completedDescription || 'Những hình ảnh thực tế sau khi hoàn thiện, mang đến không gian sống sang trọng, tinh tế và đúng “chất” của từng gia chủ.' %></strong>
-          </header>
+        <div class="completed-projects-heading-band">
+          <div class="container">
+            <header class="completed-projects-heading">
+              <p>─── NHỮNG HÌNH ẢNH HOÀN CÔNG TIÊU BIỂU ───</p>
+              <h2><%= pageConfig.completedTitleMain || 'HOÀN CÔNG NỘI THẤT' %> <em class="font-script"><%= pageConfig.completedTitleScript || 'Chung Cư' %></em></h2>
+              <strong><%= pageConfig.completedDescription || 'Những hình ảnh thực tế sau khi hoàn thiện, mang đến không gian sống sang trọng, tinh tế và đúng “chất” của từng gia chủ.' %></strong>
+            </header>
+          </div>
+        </div>
 
+        <div class="container">
           <% if (completedProjects && completedProjects.length > 0) { %>
             <div class="completed-projects-grid">
               <% completedProjects.forEach(project => { %>

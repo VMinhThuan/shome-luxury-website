@@ -1637,6 +1637,13 @@ ol {
   box-shadow: 0 0 8px rgba(200, 155, 75, 0.6);
 }
 
+/* Explicitly keep every non-current banner indicator white. */
+.hero-slider-dots .testimonial-dot[aria-selected="false"] {
+  background: #fff !important;
+  border-color: rgba(255, 255, 255, 0.92) !important;
+  box-shadow: none;
+}
+
 @media (max-width: 767px) {
   .hero-slider-dots {
     bottom: 0.45rem;
@@ -8266,7 +8273,7 @@ body.page-recruitment,
 .completed-videos-section {
   padding: clamp(1.75rem, 3vw, 2.5rem) 0;
   border-top: 1px solid rgba(200, 155, 75, .2);
-  background: linear-gradient(180deg, #fdfaf5 0%, #fff 100%);
+  background: #fff;
 }
 
 .completed-videos-heading {
@@ -8391,15 +8398,24 @@ body.page-recruitment,
 
 /* Completed-project gallery below the construction videos. */
 .completed-projects-section {
-  padding: clamp(1.75rem, 3vw, 2.5rem) 0;
+  padding: 0 0 clamp(1.75rem, 3vw, 2.5rem);
   border-top: 1px solid rgba(200, 155, 75, .18);
   background: #fff;
 }
 
+.completed-projects-heading-band {
+  padding: clamp(1.75rem, 3vw, 2.5rem) 0;
+  background: #f4f4f4;
+}
+
 .completed-projects-heading {
   max-width: 820px;
-  margin: 0 auto clamp(1.75rem, 3vw, 2.75rem);
+  margin: 0 auto;
   text-align: center;
+}
+
+.completed-projects-section .completed-projects-grid {
+  margin-top: clamp(1.75rem, 3vw, 2.75rem);
 }
 
 .completed-projects-heading p {
@@ -9934,6 +9950,10 @@ body.page-recruitment,
   align-items: center;
   justify-content: center;
   gap: .6rem;
+  width: fit-content;
+  min-width: 230px;
+  margin-top: 1.15rem;
+  padding: 0 1.4rem;
   min-height: 54px;
   border: 0;
   border-radius: 14px;
@@ -14257,15 +14277,15 @@ body.quote-project-gallery-open { overflow: hidden; }
   width: 10px;
   height: 10px;
   border-radius: 50%;
-  border: 1px solid rgba(200, 155, 75, 0.4);
-  background: #d8d4cd;
+  border: 1px solid rgba(255, 255, 255, 0.92);
+  background: #fff;
   cursor: pointer;
   transition: all 0.25s ease;
   padding: 0;
 }
 
 .material-partners-dots .testimonial-dot:hover {
-  background: rgba(200, 155, 75, 0.65);
+  background: #fff;
   transform: scale(1.15);
 }
 
@@ -15003,4 +15023,16 @@ main .news-list-body p {
     width: clamp(13px, 4vw, 18px);
     height: clamp(13px, 4vw, 18px);
   }
+}
+
+/* Match the booking hero CTA to the solid brand-gold consultation button. */
+.booking-submit {
+  background: var(--accent-gold, #C89B4B) !important;
+  color: #111111 !important;
+  border-color: var(--accent-gold, #C89B4B) !important;
+}
+
+.booking-submit:hover {
+  background: var(--accent-gold-hover, #D2A653) !important;
+  color: #000000 !important;
 }
