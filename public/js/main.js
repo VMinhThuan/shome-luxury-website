@@ -266,6 +266,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const dotsContainer = document.getElementById(dotsId);
     if (!track || !dotsContainer || track.dataset.heroSliderReady) return;
     track.dataset.heroSliderReady = 'true';
+    // Listen on the whole banner rather than only the scroll track. The text
+    // layer and pagination dots sit above the track, so they otherwise absorb
+    // the wheel event before it reaches the carousel.
+    const heroSection = track.closest('.hero-section-v2') || track;
 
     const slides = Array.from(track.querySelectorAll('.hero-slide'));
     if (slides.length <= 1) {
@@ -304,6 +308,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
       slides.forEach((slide, idx) => {
         const active = idx === closestIndex;
+        const wasActive = slide.classList.contains('is-active');
+
+        // Keep the outgoing copy visible for a brief, graceful exit instead
+        // of removing it abruptly the moment the next slide becomes active.
+        if (wasActive && !active) {
+          slide.classList.add('is-exiting');
+          window.setTimeout(() => slide.classList.remove('is-exiting'), 680);
+        }
+
         slide.classList.toggle('is-active', active);
         slide.setAttribute('aria-hidden', String(!active));
       });
@@ -359,7 +372,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Let a mouse wheel or vertical trackpad gesture advance the banner while it is hovered.
     // We move one complete slide at a time so scroll-snap cannot leave the carousel between slides.
-    track.addEventListener('wheel', event => {
+    heroSection.addEventListener('wheel', event => {
       const delta = Math.abs(event.deltaY) > Math.abs(event.deltaX) ? event.deltaY : event.deltaX;
       if (!delta) return;
 
