@@ -238,6 +238,34 @@ ol {
   }
 }
 
+/* Mobile completed-project cards: retain the photo on the left and give every
+   card the same clean white copy panel on the right. */
+@media (max-width: 767px) {
+  .home-page .home-project-signatures-section {
+    background: #FFFFFF !important;
+  }
+
+  .home-page .home-project-signature-card,
+  .home-page .home-project-signature-card--copy-right {
+    justify-content: flex-end !important;
+    background-color: #FFFFFF;
+  }
+
+  .home-page .home-project-signature-card::before,
+  .home-page .home-project-signature-card--copy-right::before {
+    background: linear-gradient(270deg,
+        rgba(255, 255, 255, .99) 0%,
+        rgba(255, 255, 255, .96) 48%,
+        rgba(255, 255, 255, .18) 64%,
+        rgba(255, 255, 255, 0) 74%) !important;
+  }
+
+  .home-page .home-project-signature-card .home-project-signature-copy,
+  .home-page .home-project-signature-card--copy-right .home-project-signature-copy {
+    transform: none !important;
+  }
+}
+
 /* Quote hero mobile art direction: vertically composed brochure, matching the supplied mobile banner. */
 .quote-hero-traits span:first-child::after { display: none; }
 @media (max-width: 767px) {
@@ -15660,5 +15688,39 @@ main :is(
 
   .home-page main .customer-stories-main {
     font-size: clamp(1.35rem, 6.3vw, 1.75rem) !important;
+  }
+}
+
+/* Sub-page banners share one desktop frame.  Homepage keeps its independent
+   slider proportions; each other image hero uses the same visual height and
+   centres its copy vertically within the artwork. */
+@media (min-width: 768px) {
+  :root {
+    --subpage-banner-height: clamp(500px, 33vw, 640px);
+  }
+
+  .page-recruitment .recruitment-banner-card,
+  .news-page .news-hero,
+  .booking-page .booking-hero,
+  .quote-page .quote-hero,
+  .factory-hero {
+    height: var(--subpage-banner-height) !important;
+    min-height: var(--subpage-banner-height) !important;
+    box-sizing: border-box;
+  }
+
+  .page-recruitment .recruitment-banner-container,
+  .news-page .news-hero-grid,
+  .booking-page .booking-hero-grid,
+  .quote-page .quote-hero-inner {
+    height: 100%;
+    min-height: 0 !important;
+    align-items: center;
+  }
+
+  .factory-hero .hero-v2-container {
+    height: 100%;
+    display: flex;
+    align-items: center;
   }
 }

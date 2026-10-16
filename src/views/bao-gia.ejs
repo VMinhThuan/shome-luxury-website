@@ -199,8 +199,7 @@
       .quote-category-section,
       .quote-completed,
       .quote-craftsmanship,
-      .quote-free-estimate,
-      .home-faq-section
+      .quote-free-estimate
     ) { background: #f4f4f4 !important; }
     .quote-page :is(
       .quote-benefits,
@@ -208,7 +207,8 @@
       .quote-brand-video,
       .quote-capability,
       .quote-handover-check,
-      .customer-stories-section
+      .customer-stories-section,
+      .home-faq-section
     ) { background: #fff !important; }
     /* Keep the assurance and pricing sections visually connected. */
     .quote-page .quote-benefits { padding-bottom: 10px !important; }
@@ -1514,6 +1514,79 @@
         font-size: clamp(.4rem, 1.55vw, .54rem) !important;
         letter-spacing: .055em !important;
       }
+    }
+
+    /* Final FAQ on the quotation page uses the same generous desktop scale as
+       the homepage reference: full-width three-column questions and a roomy CTA. */
+    @media (min-width: 768px) {
+      .quote-page .home-faq-section {
+        padding: clamp(3.25rem, 4.5vw, 4.75rem) 0 2.25rem !important;
+        background: #FFFFFF !important;
+      }
+      .quote-page .home-faq-header {
+        margin-bottom: clamp(2rem, 3.1vw, 2.8rem) !important;
+      }
+      .quote-page .home-faq-script {
+        font-size: clamp(2.6rem, 3.5vw, 3.55rem) !important;
+      }
+      .quote-page .home-faq-main {
+        font-size: clamp(2rem, 2.45vw, 2.55rem) !important;
+      }
+      .quote-page .home-faq-header > p {
+        font-size: clamp(.98rem, 1.15vw, 1.12rem) !important;
+      }
+      .quote-page .home-faq-list,
+      .quote-page .home-faq-cta {
+        width: min(100%, 1360px) !important;
+      }
+      .quote-page .home-faq-list {
+        gap: clamp(1rem, 1.25vw, 1.3rem) !important;
+      }
+      .quote-page .home-faq-item {
+        border-radius: 16px !important;
+      }
+      .quote-page .home-faq-item summary {
+        min-height: 102px !important;
+        padding: clamp(1rem, 1.45vw, 1.35rem) clamp(1.25rem, 1.6vw, 1.55rem) !important;
+        font-size: clamp(1rem, 1.12vw, 1.18rem) !important;
+        line-height: 1.3 !important;
+      }
+      .quote-page .home-faq-item summary b::before {
+        font-size: 1.75rem !important;
+      }
+      .quote-page .home-faq-cta {
+        display: grid;
+        min-height: 236px;
+        place-items: center;
+        margin-top: clamp(1.1rem, 1.5vw, 1.4rem) !important;
+        padding: 2rem !important;
+        border-radius: 18px !important;
+        box-sizing: border-box;
+      }
+      .quote-page .home-faq-cta h3 {
+        font-size: clamp(2rem, 2.4vw, 2.55rem) !important;
+      }
+      .quote-page .home-faq-cta p {
+        font-size: clamp(.96rem, 1.1vw, 1.08rem) !important;
+      }
+      .quote-page .home-faq-cta button {
+        width: min(100%, 544px) !important;
+        min-height: 54px !important;
+        font-size: .98rem !important;
+      }
+    }
+
+    /* Keep the three assurance cards pure white; avoid warm translucent fills
+       picking up a cream cast from their previous background layers. */
+    .quote-page .quote-benefits,
+    .quote-page .quote-benefit-grid,
+    .quote-page .quote-benefit-card,
+    .quote-page .quote-benefit-icon {
+      background: #FFFFFF !important;
+    }
+    .quote-page .quote-benefit-card {
+      border-color: #ECECEC !important;
+      box-shadow: 0 8px 22px rgba(20, 20, 20, .06) !important;
     }
   </style>
   <script src="/js/main.js?v=1.9.1" defer></script>
