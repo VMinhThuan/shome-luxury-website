@@ -13200,7 +13200,7 @@ body.project-gallery-lightbox-open { overflow: hidden !important; }
 /* Homepage: a separate project-signature gallery, placed after the workshop. */
 .home-project-signatures-section {
   padding: clamp(3.4rem, 6vw, 5.75rem) 0;
-  background: #fffdf9;
+  background: #FFFFFF;
 }
 
 .home-project-signatures-header {
@@ -13266,7 +13266,7 @@ body.project-gallery-lightbox-open { overflow: hidden !important; }
   z-index: -1;
   inset: 0;
   content: '';
-  background: linear-gradient(90deg, rgba(255, 252, 246, .98) 0%, rgba(255, 252, 246, .9) 38%, rgba(255, 252, 246, 0) 66%);
+  background: linear-gradient(90deg, rgba(255, 255, 255, .98) 0%, rgba(255, 255, 255, .9) 38%, rgba(255, 255, 255, 0) 66%);
 }
 
 .home-project-signature-card--apartment { background-position: left top; }
@@ -13279,7 +13279,7 @@ body.project-gallery-lightbox-open { overflow: hidden !important; }
 }
 
 .home-project-signature-card--copy-right::before {
-  background: linear-gradient(270deg, rgba(255, 252, 246, .98) 0%, rgba(255, 252, 246, .9) 38%, rgba(255, 252, 246, 0) 66%);
+  background: linear-gradient(270deg, rgba(255, 255, 255, .98) 0%, rgba(255, 255, 255, .9) 38%, rgba(255, 255, 255, 0) 66%);
 }
 
 .home-project-signature-copy {
