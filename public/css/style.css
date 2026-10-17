@@ -4594,6 +4594,17 @@ body.page-recruitment,
   margin-bottom: 1.75rem;
 }
 
+.work-process-title {
+  margin: 0;
+  color: var(--accent-gold, #D2A044);
+  font-family: var(--font-heading);
+  font-size: clamp(1.8rem, 3vw, 2.65rem);
+  font-weight: 800;
+  letter-spacing: -0.035em;
+  line-height: 1.15;
+  text-transform: none;
+}
+
 .work-process-steps-header .hero-script-eyebrow {
   margin-bottom: 0;
 }
@@ -10144,8 +10155,8 @@ body.page-recruitment,
   overflow: hidden;
   color: #30241b;
   padding: 1.5rem 0 1rem;
-  /* Match the warm beige surface used by the FAQ section. */
-  background: linear-gradient(180deg, rgba(250, 246, 237, .92) 0%, rgba(247, 242, 233, .97) 100%), url('/images/booking-faq-interior.png') center / cover !important;
+  /* Match the light-gray alternating surface used on the homepage. */
+  background: #eceeef !important;
 }
 
 @media (min-width: 1024px) {
@@ -11679,7 +11690,7 @@ html {
   margin-top: 2rem;
   padding: 1.5rem;
   border-radius: 12px;
-  background: linear-gradient(125deg, #231f1a 0%, #352c1f 100%);
+  background: var(--surface-charcoal-gray, #303030);
   color: #ffffff;
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
 }
@@ -11746,7 +11757,7 @@ html {
   padding: 0.75rem 1.4rem;
   border-radius: 999px;
   background: var(--accent-gold, #D2A044);
-  color: #111111;
+  color: #ffffff;
   font-weight: 800;
   font-size: 0.84rem;
   transition: all 0.2s ease;
@@ -11756,7 +11767,20 @@ html {
 .btn-cta-gold-full:hover {
   background: var(--accent-gold-hover, #D2A653);
   transform: translateY(-2px);
-  color: #1a140b;
+  color: #ffffff;
+}
+
+/* Article consultation CTA: use the same charcoal surface as the footer. */
+.job-detail-apply-box .btn-cta-gold-full {
+  background: var(--surface-charcoal-gray, #303030);
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  box-shadow: none;
+}
+
+.job-detail-apply-box .btn-cta-gold-full:hover {
+  background: #404040;
+  color: #ffffff;
 }
 
 .btn-cta-zalo {

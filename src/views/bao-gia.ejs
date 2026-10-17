@@ -458,6 +458,27 @@
         }
       }
 
+      /* Quote page uses the same draggable three-banner carousel as home. */
+      .quote-page .quote-hero.quote-hero-carousel { background-image: none !important; }
+      .quote-page .quote-hero-carousel .quote-hero-slider-track { position: absolute !important; inset: 0 !important; z-index: 1 !important; }
+      .quote-page .quote-hero-carousel .quote-hero-slide { background: var(--quote-hero-image) center / cover no-repeat !important; }
+      .quote-page .quote-hero-carousel .quote-hero-inner { position: relative !important; z-index: 2 !important; background: transparent !important; }
+      .quote-page .quote-hero-carousel .hero-slider-dots { z-index: 12 !important; }
+      /* Keep the copy deliberately compact on the left, leaving the room image open. */
+      .quote-page .quote-hero-carousel .quote-brochure-copy { width: 46% !important; max-width: 470px !important; padding: 1rem 0 !important; }
+      .quote-page .quote-hero-carousel .quote-brochure-copy h1 { margin-bottom: .7rem !important; }
+      .quote-page .quote-hero-carousel .quote-brochure-copy h1 em { font-size: clamp(2.2rem, 3.35vw, 3.6rem) !important; line-height: .96 !important; }
+      .quote-page .quote-hero-carousel .quote-brochure-copy h1 .quote-title-line1,
+      .quote-page .quote-hero-carousel .quote-brochure-copy h1 .quote-title-line2 { font-size: clamp(2.25rem, 3.25vw, 3.55rem) !important; line-height: .94 !important; }
+      .quote-page .quote-hero-carousel .quote-brochure-copy .quote-lead { max-width: 370px !important; margin-bottom: 1.1rem !important; font-size: clamp(.9rem, 1.05vw, 1.04rem) !important; line-height: 1.42 !important; }
+      .quote-page .quote-hero-carousel .quote-hero-traits { max-width: 470px !important; gap: .45rem .7rem !important; font-size: clamp(.66rem, .75vw, .76rem) !important; letter-spacing: .06em !important; flex-wrap: wrap !important; }
+      .quote-page .quote-hero-carousel .quote-booking-button { min-height: 46px !important; margin-top: 1rem !important; padding: .7rem 1.45rem !important; }
+      @media (max-width: 767px) {
+        .quote-page .quote-hero.quote-hero-carousel { aspect-ratio: 16 / 9 !important; height: auto !important; }
+        .quote-page .quote-hero-carousel .quote-hero-slide .quote-hero-inner { height: 100% !important; min-height: 0 !important; background: transparent !important; }
+        .quote-page .quote-hero-carousel .quote-brochure-copy { width: 51% !important; max-width: none !important; padding: 4.5% 3.5% 10% !important; }
+      }
+
       .quote-page .quote-pricing-list { width: 100%; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(1rem, 2vw, 1.5rem); }
       .quote-page .quote-price-card { grid-template-columns: 1fr; min-height: 0; }
       .quote-page .quote-price-image { min-height: 0; margin: 0; border-radius: 17px 17px 0 0; aspect-ratio: 16 / 9; }
@@ -1694,39 +1715,25 @@
   <%- include('partials/mobile-drawer') %>
   <main id="main-content" class="quote-page">
     <% if (sections.hero?.isVisible !== false) { %>
-      <section class="quote-hero" style="--quote-hero-image: url('<%= sections.hero.image %>')">
-        <div class="container quote-hero-inner">
-          <div class="quote-hero-copy quote-brochure-copy">
-            <% const quoteTitleMatch = /^(.*)\s+(trọn gói)$/i.exec(quoteTitle); %>
-            <h1>
-              <em><%= quoteScript || 'Nội thất' %></em>
-              <span class="quote-hero-title-main">
-                <span class="quote-title-line1"><%= quoteTitleMatch ? quoteTitleMatch[1] : quoteTitle %></span>
-                <% if (quoteTitleMatch) { %>
-                  <span class="quote-title-line2"><%= quoteTitleMatch[2] %></span>
-                <% } %>
-              </span>
-            </h1>
-            <p class="quote-lead"><%= sections.hero.description %></p>
-            <div class="quote-hero-traits">
-              <span>TINH TẾ</span>
-              <i></i>
-              <span>ĐẲNG CẤP</span>
-              <i></i>
-              <span>KHÁC BIỆT</span>
+      <% const quoteHeroSlides = [sections.hero.image, '/images/quote-hero-banner-bedroom.png', '/images/quote-hero-banner-dining.png']; %>
+      <section class="quote-hero quote-hero-carousel" aria-label="Banner báo giá">
+        <div class="hero-slider-track quote-hero-slider-track" id="quoteHeroSliderTrack" aria-label="Danh sách banner báo giá">
+          <% quoteHeroSlides.forEach((image, index) => { %>
+            <div class="hero-slide quote-hero-slide" data-slide-index="<%= index %>" aria-label="Banner báo giá <%= index + 1 %> trên 3" style="--quote-hero-image: url('<%= image %>')">
+              <div class="container quote-hero-inner">
+                <div class="quote-hero-copy quote-brochure-copy">
+                  <% const quoteTitleMatch = /^(.*)\s+(trọn gói)$/i.exec(quoteTitle); %>
+                  <h1><em><%= quoteScript || 'Nội thất' %></em><span class="quote-hero-title-main"><span class="quote-title-line1"><%= quoteTitleMatch ? quoteTitleMatch[1] : quoteTitle %></span><% if (quoteTitleMatch) { %><span class="quote-title-line2"><%= quoteTitleMatch[2] %></span><% } %></span></h1>
+                  <p class="quote-lead"><%= sections.hero.description %></p>
+                  <div class="quote-hero-traits"><span>TINH TẾ</span><i></i><span>ĐẲNG CẤP</span><i></i><span>KHÁC BIỆT</span></div>
+                </div>
+                <% const cornerScriptRaw = sections.hero.cornerScript || 'Không gian\nkiến tạo hạnh phúc'; const cornerScriptLines = cornerScriptRaw.trim().split(/\r?\n/); const line1 = cornerScriptLines[0] || 'Không gian'; const line2 = cornerScriptLines.slice(1).join(' ') || 'kiến tạo hạnh phúc'; %>
+                <div class="quote-hero-corner-script"><span class="quote-hero-corner-line1"><%= line1 %></span><span class="quote-hero-corner-line2"><%= line2 %></span></div>
+              </div>
             </div>
-          </div>
-          <%
-            const cornerScriptRaw = sections.hero.cornerScript || 'Không gian\nkiến tạo hạnh phúc';
-            const cornerScriptLines = cornerScriptRaw.trim().split(/\r?\n/);
-            const line1 = cornerScriptLines[0] || 'Không gian';
-            const line2 = cornerScriptLines.slice(1).join(' ') || 'kiến tạo hạnh phúc';
-          %>
-          <div class="quote-hero-corner-script">
-            <span class="quote-hero-corner-line1"><%= line1 %></span>
-            <span class="quote-hero-corner-line2"><%= line2 %></span>
-          </div>
+          <% }) %>
         </div>
+        <div class="hero-slider-dots" id="quoteHeroSliderDots" role="tablist" aria-label="Chọn banner báo giá"></div>
       </section>
     <% } %>
 
