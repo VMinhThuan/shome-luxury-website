@@ -8397,14 +8397,25 @@ body.page-recruitment,
 }
 
 .completed-videos-section {
-  padding: clamp(1.75rem, 3vw, 2.5rem) 0;
+  padding: 0 0 clamp(1.75rem, 3vw, 2.5rem);
   border-top: 1px solid rgba(200, 155, 75, .2);
+  background: #fff;
+}
+
+/* The neutral-gray surface belongs to the video title only; the video grid
+   below returns to the standard white content background. */
+.completed-videos-heading-band {
+  padding: clamp(1.75rem, 3vw, 2.5rem) 0;
   background: #f4f4f4;
+}
+
+.completed-videos-section > .container {
+  padding-top: clamp(1.75rem, 3vw, 2.5rem);
 }
 
 .completed-videos-heading {
   max-width: 820px;
-  margin: 0 auto clamp(1.75rem, 3vw, 2.75rem);
+  margin: 0 auto;
   text-align: center;
 }
 

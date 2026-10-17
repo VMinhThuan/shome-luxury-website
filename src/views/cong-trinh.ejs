@@ -165,13 +165,17 @@
       </section>
 
       <section class="completed-videos-section">
-        <div class="container">
-          <header class="completed-videos-heading">
-            <p>─── NHỮNG VIDEO HOÀN THIỆN TIÊU BIỂU ───</p>
-            <h2><%= pageConfig.completedTitleMain || 'HOÀN CÔNG NỘI THẤT' %> <em class="font-script"><%= pageConfig.completedTitleScript || 'Chung Cư' %></em></h2>
-            <strong><%= pageConfig.completedVideoDescription || 'Khám phá những video hoàn thiện thực tế với không gian sống tinh tế, hiện đại và đẳng cấp.' %></strong>
-          </header>
+        <div class="completed-videos-heading-band">
+          <div class="container">
+            <header class="completed-videos-heading">
+              <p>─── NHỮNG VIDEO HOÀN THIỆN TIÊU BIỂU ───</p>
+              <h2><%= pageConfig.completedTitleMain || 'HOÀN CÔNG NỘI THẤT' %> <em class="font-script"><%= pageConfig.completedTitleScript || 'Chung Cư' %></em></h2>
+              <strong><%= pageConfig.completedVideoDescription || 'Khám phá những video hoàn thiện thực tế với không gian sống tinh tế, hiện đại và đẳng cấp.' %></strong>
+            </header>
+          </div>
+        </div>
 
+        <div class="container">
           <div id="completed-video-grid" class="completed-video-grid" aria-label="Video hoàn công nội thất">
             <% if (videos && videos.length > 0) { %>
               <% videos.forEach(video => { %>
