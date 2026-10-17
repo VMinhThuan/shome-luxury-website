@@ -9936,6 +9936,10 @@ body.page-recruitment,
   z-index: 0;
 }
 
+.booking-hero-slider-track {
+  z-index: 0;
+}
+
 .booking-hero-media::after {
   position: absolute;
   inset: 0;
@@ -10178,7 +10182,7 @@ body.page-recruitment,
   color: #7a5426;
   font: 700 clamp(.95rem, 3vw, 1.1rem)/1 var(--font-menu);
   letter-spacing: .14em;
-  text-transform: uppercase;
+  text-transform: none;
   margin-bottom: .25rem;
 }
 

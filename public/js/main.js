@@ -459,6 +459,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initHeroSlider();
   initHeroSlider('factoryHeroSliderTrack', 'factoryHeroSliderDots');
   initHeroSlider('quoteHeroSliderTrack', 'quoteHeroSliderDots');
+  initHeroSlider('bookingHeroSliderTrack', 'bookingHeroSliderDots');
 
 
   // 4. CONSULTATION MODAL

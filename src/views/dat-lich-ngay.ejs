@@ -14,8 +14,19 @@
 
   <main id="main-content" class="booking-page">
     <section class="booking-hero">
-      <div class="booking-hero-media" aria-hidden="true">
-        <img src="/images/booking-luxury-interior.png" alt="" width="2048" height="2048" fetchpriority="high" decoding="async" />
+      <% const bookingHeroSlides = [
+        '/images/booking-luxury-interior.png',
+        '/images/booking-hero-banner-bedroom.png',
+        '/images/booking-hero-banner-dining.png'
+      ]; %>
+      <div class="hero-slider-track booking-hero-slider-track" id="bookingHeroSliderTrack" aria-label="Danh sách banner nhận dự toán">
+        <% bookingHeroSlides.forEach((image, index) => { %>
+          <div class="hero-slide booking-hero-slide" data-slide-index="<%= index %>" aria-label="Banner nhận dự toán <%= index + 1 %> trên 3">
+            <div class="booking-hero-media" aria-hidden="true">
+              <img src="<%= image %>" alt="" width="2048" height="2048" <%= index === 0 ? 'fetchpriority="high"' : 'loading="lazy"' %> decoding="async" draggable="false" />
+            </div>
+          </div>
+        <% }) %>
       </div>
       <div class="container booking-hero-grid">
         <div class="booking-hero-copy">
@@ -27,6 +38,7 @@
           <button class="booking-submit trigger-consult-modal" type="button">Đặt lịch ngay</button>
         </div>
       </div>
+      <div class="hero-slider-dots" id="bookingHeroSliderDots" role="tablist" aria-label="Chọn banner nhận dự toán"></div>
     </section>
 
     <section class="booking-process-section">
