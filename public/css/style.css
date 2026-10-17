@@ -15188,7 +15188,7 @@ body.project-gallery-lightbox-open { overflow: hidden !important; }
     flex-wrap: nowrap !important;
     align-items: baseline !important;
     justify-content: center !important;
-    gap: .28em !important;
+    gap: .55em !important;
     white-space: nowrap !important;
   }
 
@@ -15850,7 +15850,7 @@ main :is(
   flex-wrap: nowrap !important;
   align-items: baseline !important;
   justify-content: center !important;
-  gap: .28em !important;
+  gap: .55em !important;
   white-space: nowrap !important;
 }
 
@@ -15905,4 +15905,96 @@ main :is(
     display: flex;
     align-items: center;
   }
+}
+
+/* Editorial title case: black content headings read as sentences rather than
+   all caps. Gold handwritten lettering keeps its own brand treatment. */
+main :is(
+  .section-title,
+  .gallery-v2-title,
+  .capacity-v2-title,
+  .process-v2-title,
+  .section-v2-title,
+  .about-showroom-title,
+  .team-title-main,
+  .project-types-title .title-main,
+  .home-project-signatures-main,
+  .story-title-main,
+  .why-choose-main,
+  .office-team-main,
+  .home-workshop-main,
+  .customer-stories-main,
+  .home-faq-main,
+  .material-partners-main,
+  .factory-detail-title,
+  .factory-tour-title,
+  .surface-finish-title,
+  .renovation-showcase-title,
+  .furniture-care-title,
+  .workshop-heart-title,
+  .booking-process-heading h2,
+  .booking-estimate-header h2,
+  .booking-faq-header h2,
+  .testimonial-heading h2,
+  .news-section-heading h2,
+  .showcase-title .title-main,
+  .completed-projects-heading h2,
+  .completed-videos-heading h2,
+  .quote-heading h2,
+  .quote-featured-heading h2,
+  .quote-completed-heading h2,
+  .quote-workshop-heading h2,
+  .quote-craftsmanship-heading h2,
+  .quote-handover-heading h2,
+  .quote-construction-copy h2,
+  .quote-free-estimate-copy h2
+) {
+  text-transform: lowercase !important;
+}
+
+main :is(
+  .section-title,
+  .gallery-v2-title,
+  .capacity-v2-title,
+  .process-v2-title,
+  .section-v2-title,
+  .about-showroom-title,
+  .team-title-main,
+  .project-types-title .title-main,
+  .home-project-signatures-main,
+  .story-title-main,
+  .why-choose-main,
+  .office-team-main,
+  .home-workshop-main,
+  .customer-stories-main,
+  .home-faq-main,
+  .material-partners-main,
+  .factory-detail-title,
+  .factory-tour-title,
+  .surface-finish-title,
+  .renovation-showcase-title,
+  .furniture-care-title,
+  .workshop-heart-title,
+  .booking-process-heading h2,
+  .booking-estimate-header h2,
+  .booking-faq-header h2,
+  .testimonial-heading h2,
+  .news-section-heading h2,
+  .showcase-title .title-main,
+  .completed-projects-heading h2,
+  .completed-videos-heading h2,
+  .quote-heading h2,
+  .quote-featured-heading h2,
+  .quote-completed-heading h2,
+  .quote-workshop-heading h2,
+  .quote-craftsmanship-heading h2,
+  .quote-handover-heading h2,
+  .quote-construction-copy h2,
+  .quote-free-estimate-copy h2
+)::first-letter {
+  text-transform: uppercase;
+}
+
+main :is(.font-script, [class*="script"], h1 em, h2 em) {
+  text-transform: none !important;
 }
