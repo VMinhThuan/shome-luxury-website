@@ -15395,9 +15395,10 @@ main :is(.font-script, [class*="script"]) {
 
 :is(.font-script, [class*="script"]) {
   font-weight: 700 !important;
-  -webkit-text-stroke: 0.5px currentColor;
-  text-stroke: 0.5px currentColor;
-  text-shadow: 0 0 0.2px currentColor;
+  font-synthesis: weight;
+  -webkit-text-stroke: 0.85px currentColor;
+  text-stroke: 0.85px currentColor;
+  text-shadow: 0 0 0.45px currentColor;
 }
 
 /* Intro copy directly associated with a section title. */
