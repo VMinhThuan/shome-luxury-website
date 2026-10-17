@@ -5,70 +5,44 @@
         <span class="customer-stories-script font-script">Khách hàng</span>
         <span class="customer-stories-main">CHIA SẺ</span>
       </h2>
-      <p>Lắng nghe trải nghiệm sau mỗi công trình.</p>
+      <p>Những phản hồi được trích từ cuộc trò chuyện thực tế cùng khách hàng.</p>
     </header>
 
+    <% const feedbacks = [
+      { name: 'Chị Linh', project: 'Biệt thự sân vườn', image: '1792222115348_6043215661779559246_6043215661779559246_01b44922101989e305f01bad5accb18d.jpg', quote: 'Hoàn công còn đẹp hơn thiết kế; đội ngũ làm việc rất chuyên nghiệp và tinh tế.' },
+      { name: 'Chị Thắm', project: 'Chuỗi cafe', image: '1792222116061_6043215661779559246_6043215661779559246_5125bee0bd4dc54dccea59475e93e70e.jpg', quote: 'Bên em làm có tâm, chị còn muốn nhờ setup thêm cơ sở nữa.' },
+      { name: 'Chị Huyền', project: 'Văn phòng The Address', image: '1792222116666_6043215661779559246_6043215661779559246_43f8098458f4b617f70e0543f424e99c.jpg', quote: 'Xưởng làm có tâm, đội ngũ thi công tỉ mỉ nên cả anh chị đều rất thích.' },
+      { name: 'Anh Thắng', project: 'Công trình Hoàn Kiếm', image: '1792222117834_6043215661779559246_6043215661779559246_538359c82f5edaadd11615b29b92b4ee.jpg', quote: 'Mọi giai đoạn thực hiện chuyên nghiệp, công trình hoàn thiện trọn vẹn.' },
+      { name: 'Bác Kiên', project: 'Biệt thự Ecopark', image: '1792222118526_6043215661779559246_6043215661779559246_2b8d5dd9b1bdc6fb1f3c7e477b96d548.jpg', quote: 'Phòng khách đẹp, long lanh và rất ưng ý.' },
+      { name: 'Chị Thắm', project: 'Chuỗi cafe', image: '1792222119213_6043215661779559246_6043215661779559246_cad9e060752cce8d5c76e9f94ccb8b65.jpg', quote: 'Cảm ơn Shome nhiều, có tâm và trách nhiệm.' },
+      { name: 'Anh Bình', project: 'Nhà phố Cầu Giấy', image: '1792222119987_6043215661779559246_6043215661779559246_fb0bc1d1403b47e6cc49cb513faae79b.jpg', quote: 'Thi công ngoài mong đợi; ai vào cũng khen nhà đẹp.' },
+      { name: 'Anh Trọng', project: 'Công trình Thái Hà', image: '1792222120845_6043215661779559246_6043215661779559246_ecdfc43fcd12227cfe0033f43f12e196.jpg', quote: 'Thiết kế đẹp, thi công chất lượng và hoàn thiện nhanh chóng.' },
+      { name: 'Cô Nga', project: 'Vinhomes Riverside', image: '1792222122127_6043215661779559246_6043215661779559246_3b34868292132fdc1c97d45410cc629a.jpg', quote: 'Hẹn 10 ngày mà mới 7 ngày đã xong; màu sơn và đồ sản xuất rất tỉ mỉ.' },
+      { name: 'Chị Nhung', project: 'Công trình Bạch Mai', image: '1792222123036_6043215661779559246_6043215661779559246_2babcfde9a165d462a5ecea4d8538e0f.jpg', quote: 'Từ lúc thiết kế đã ưng, phần thi công cũng chuyên nghiệp.' },
+      { name: 'Chị Lệ', project: 'Time City 703', image: '1792222123788_6043215661779559246_6043215661779559246_7ec6445f346f1b40a77466a09ae5aff5.jpg', quote: 'Sử dụng nội thất rất hài lòng, bảo hành chu đáo như mới làm hôm qua.' }
+    ]; %>
+
     <div class="customer-testimonial-wrap">
-      <div class="customer-testimonial-grid" aria-label="Các chia sẻ từ khách hàng">
-        <article class="customer-testimonial-card">
-          <div class="customer-testimonial-user">
-            <img src="/images/avatars/avatar-anh-vu.jpg" alt="Anh Vũ" width="64" height="64" />
-            <div><h3>Anh Vũ</h3><span aria-label="5 trên 5 sao">★★★★★</span></div>
-          </div>
-          <p class="customer-testimonial-message">Tôi tới phút này cảm nhận quyết định đúng vì đã chọn bên em.</p>
-          <div class="customer-testimonial-footer">
-            <div class="customer-testimonial-reply"><strong>Minh Hiếu</strong><span>@minhhieu Dạ em cảm ơn anh nhiều nha.</span></div>
-            <b aria-hidden="true">”</b>
-          </div>
-        </article>
-
-        <article class="customer-testimonial-card">
-          <div class="customer-testimonial-user">
-            <img src="/images/avatars/avatar-hue-luong.jpg" alt="Chị Hue Luong" width="64" height="64" />
-            <div><h3>Chị Hue Luong</h3><span aria-label="5 trên 5 sao">★★★★★</span></div>
-          </div>
-          <p class="customer-testimonial-message">Chị gửi lời cảm ơn đến đội ngũ Nội thất Shome Luxury, cả nhà chị đều hài lòng với tư vấn thiết kế cũng như đội ngũ thi công của bên em.</p>
-          <div class="customer-testimonial-footer">
-            <div class="customer-testimonial-reply"><strong>Shome Luxury</strong><span>@shome Dạ cảm ơn chị đã tin tưởng ủng hộ đội ngũ!</span></div>
-            <b aria-hidden="true">”</b>
-          </div>
-        </article>
-
-        <article class="customer-testimonial-card">
-          <div class="customer-testimonial-user">
-            <img src="/images/avatars/avatar-rena-ngoc-thuy.jpg" alt="Chị Rena Ngọc Thùy" width="64" height="64" />
-            <div><h3>Chị Rena Ngọc Thùy</h3><span aria-label="5 trên 5 sao">★★★★★</span></div>
-          </div>
-          <p class="customer-testimonial-message">Cảm ơn đội ngũ Nội thất Shome Luxury đã đem đến 1 sản phẩm hoàn mỹ về chất lượng, giá cả, mẫu mã thiết kế và đặc biệt là thái độ làm việc rất tích cực.</p>
-          <div class="customer-testimonial-footer">
-            <div class="customer-testimonial-reply"><strong>Tuấn Anh</strong><span>@tuananh KTS Chúc gia đình chị Thùy luôn hạnh phúc!</span></div>
-            <b aria-hidden="true">”</b>
-          </div>
-        </article>
-
-        <article class="customer-testimonial-card">
-          <div class="customer-testimonial-user">
-            <img src="/images/avatars/avatar-bich-thu.jpg" alt="Chị Bích Thu" width="64" height="64" />
-            <div><h3>Chị Bích Thu</h3><span aria-label="5 trên 5 sao">★★★★★</span></div>
-          </div>
-          <p class="customer-testimonial-message">Bảng dự toán chi tiết rõ ràng, không phát sinh chi phí ngoài hợp đồng. Tôi rất an tâm khi làm việc cùng đội ngũ.</p>
-          <div class="customer-testimonial-footer">
-            <div class="customer-testimonial-reply"><strong>Shome Luxury</strong><span>@shome Cảm ơn sự đồng hành quý báu của chị Thu ạ.</span></div>
-            <b aria-hidden="true">”</b>
-          </div>
-        </article>
-
-        <article class="customer-testimonial-card">
-          <div class="customer-testimonial-user">
-            <img src="/images/avatars/avatar-viet-duc.jpg" alt="Anh Việt Đức" width="64" height="64" />
-            <div><h3>Anh Việt Đức</h3><span aria-label="5 trên 5 sao">★★★★★</span></div>
-          </div>
-          <p class="customer-testimonial-message">Kiến trúc sư lắng nghe ý kiến gia đình và xử lý ánh sáng không gian sống rất tinh tế.</p>
-          <div class="customer-testimonial-footer">
-            <div class="customer-testimonial-reply"><strong>Đức Anh</strong><span>@ducanh Dạ em cảm ơn anh Đức nhiều ạ!</span></div>
-            <b aria-hidden="true">”</b>
-          </div>
-        </article>
+      <div class="customer-testimonial-grid" aria-label="Các phản hồi khách hàng từ Zalo">
+        <% feedbacks.forEach((feedback) => { %>
+          <article class="customer-testimonial-card">
+            <div class="customer-testimonial-copy">
+              <div class="customer-testimonial-user">
+                <div>
+                  <h3><%= feedback.name %></h3>
+                  <p><%= feedback.project %></p>
+                  <span aria-label="5 trên 5 sao">★★★★★</span>
+                </div>
+              </div>
+              <p class="customer-testimonial-message">“<%= feedback.quote %>”</p>
+              <small class="customer-feedback-source">Phản hồi qua Zalo</small>
+            </div>
+            <figure class="customer-feedback-proof">
+              <img src="/images/feedback/<%= feedback.image %>" alt="Ảnh chụp phản hồi Zalo của <%= feedback.name %>" loading="lazy" />
+              <figcaption>Ảnh phản hồi</figcaption>
+            </figure>
+          </article>
+        <% }); %>
       </div>
       <div class="testimonial-dots customer-testimonial-dots" aria-label="Chọn nhóm đánh giá"></div>
     </div>

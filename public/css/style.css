@@ -15932,6 +15932,10 @@ main :is(
   .renovation-showcase-title,
   .furniture-care-title,
   .workshop-heart-title,
+  .partners-main,
+  .feature-title,
+  .job-card-title,
+  .job-modal-title,
   .booking-process-heading h2,
   .booking-estimate-header h2,
   .booking-faq-header h2,
@@ -15940,14 +15944,20 @@ main :is(
   .showcase-title .title-main,
   .completed-projects-heading h2,
   .completed-videos-heading h2,
+  .company-profile-hero h1,
+  .quote-brochure-copy h1 .quote-title-line1,
+  .quote-brochure-copy h1 .quote-title-line2,
+  .quote-category-featured-heading h2,
   .quote-heading h2,
+  .quote-video-heading h2,
   .quote-featured-heading h2,
   .quote-completed-heading h2,
   .quote-workshop-heading h2,
   .quote-craftsmanship-heading h2,
   .quote-handover-heading h2,
   .quote-construction-copy h2,
-  .quote-free-estimate-copy h2
+  .quote-free-estimate-copy h2,
+  .quote-final-faq h2
 ) {
   text-transform: lowercase !important;
 }
@@ -15975,6 +15985,10 @@ main :is(
   .renovation-showcase-title,
   .furniture-care-title,
   .workshop-heart-title,
+  .partners-main,
+  .feature-title,
+  .job-card-title,
+  .job-modal-title,
   .booking-process-heading h2,
   .booking-estimate-header h2,
   .booking-faq-header h2,
@@ -15983,18 +15997,96 @@ main :is(
   .showcase-title .title-main,
   .completed-projects-heading h2,
   .completed-videos-heading h2,
+  .company-profile-hero h1,
+  .quote-brochure-copy h1 .quote-title-line1,
+  .quote-brochure-copy h1 .quote-title-line2,
+  .quote-category-featured-heading h2,
   .quote-heading h2,
+  .quote-video-heading h2,
   .quote-featured-heading h2,
   .quote-completed-heading h2,
   .quote-workshop-heading h2,
   .quote-craftsmanship-heading h2,
   .quote-handover-heading h2,
   .quote-construction-copy h2,
-  .quote-free-estimate-copy h2
+  .quote-free-estimate-copy h2,
+  .quote-final-faq h2
 )::first-letter {
-  text-transform: uppercase;
+  text-transform: uppercase !important;
 }
 
 main :is(.font-script, [class*="script"], h1 em, h2 em) {
   text-transform: none !important;
+}
+
+/* Paired section titles use the same bold sans-serif face for every black
+   word. Older section rules used a serif face on these inner spans. */
+main :is(
+  .project-types-title .title-main,
+  .home-project-signatures-main,
+  .story-title-main,
+  .why-choose-main,
+  .office-team-main,
+  .home-workshop-main,
+  .customer-stories-main,
+  .home-faq-main,
+  .material-partners-main
+) {
+  font-family: var(--font-heading) !important;
+  font-weight: var(--content-heading-weight) !important;
+  letter-spacing: -.035em;
+}
+
+/* On desktop, the brand statement is a single balanced headline. It scales
+   down before wrapping; narrower devices retain the more readable two lines. */
+@media (min-width: 1000px) {
+  main .about-showroom-header {
+    max-width: none;
+  }
+
+  main .about-showroom-title {
+    font-size: clamp(32px, 3.4vw, 40px) !important;
+    white-space: nowrap;
+  }
+
+  main .about-showroom-title .title-line {
+    display: inline;
+  }
+
+  main .about-showroom-title .title-line + .title-line {
+    margin-top: 0;
+  }
+}
+
+/* Verified Zalo feedback: each card keeps the original screenshot visible as
+   supporting evidence while presenting the customer's name and key message in
+   a clean editorial layout. */
+.home-page .customer-testimonial-card {
+  display: grid;
+  grid-template-columns: minmax(0, 1.12fr) minmax(132px, .88fr);
+  min-height: 365px;
+  gap: clamp(.8rem, 1.4vw, 1.25rem);
+  padding: clamp(1rem, 1.6vw, 1.45rem);
+  overflow: hidden;
+  border: 1px solid rgba(210, 160, 68, .34);
+  border-radius: 18px;
+  background: linear-gradient(135deg, #fffefa, #faf5eb);
+}
+
+.home-page .customer-testimonial-card::before { display: none; }
+.home-page .customer-testimonial-copy { display: flex; min-width: 0; flex-direction: column; }
+.home-page .customer-testimonial-user { display: block; }
+.home-page .customer-testimonial-user h3 { margin: 0; font-family: var(--font-heading); font-size: clamp(1rem, 1.25vw, 1.22rem); font-weight: 800; }
+.home-page .customer-testimonial-user p { margin: .18rem 0 .36rem; color: #756e65; font-size: .82rem; }
+.home-page .customer-testimonial-user span { display: block; color: #d79d2f; font-size: .92rem; letter-spacing: .1em; }
+.home-page .customer-testimonial-message { margin: clamp(1rem, 2vw, 1.7rem) 0 auto; color: #34291f; font-family: Georgia, serif; font-size: clamp(1rem, 1.4vw, 1.22rem); font-style: italic; line-height: 1.48; }
+.home-page .customer-feedback-source { display: block; margin-top: 1rem; color: #917448; font-size: .68rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; }
+.home-page .customer-feedback-proof { position: relative; min-width: 0; margin: 0; overflow: hidden; border: 3px solid #fff; border-radius: 13px; background: #e3e6f2; box-shadow: 0 7px 18px rgba(47, 50, 79, .16); }
+.home-page .customer-feedback-proof img { display: block; width: 100%; height: 100%; min-height: 310px; object-fit: cover; object-position: center 26%; }
+.home-page .customer-feedback-proof figcaption { position: absolute; right: .5rem; bottom: .5rem; padding: .24rem .42rem; border-radius: 999px; background: rgba(0, 0, 0, .62); color: #fff; font-size: .58rem; font-weight: 700; letter-spacing: .04em; }
+
+@media (max-width: 767px) {
+  .home-page .customer-testimonial-card { grid-template-columns: minmax(0, 1fr) 118px; min-height: 320px; gap: .75rem; padding: .9rem; }
+  .home-page .customer-testimonial-message { font-size: .96rem; }
+  .home-page .customer-feedback-proof img { min-height: 270px; }
 }
