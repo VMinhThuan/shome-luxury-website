@@ -8216,11 +8216,13 @@ body.page-recruitment,
 }
 
 .showcase-title .title-script {
-  display: inline-block;
+  /* Keep the signature project type on its own centered line, matching the
+     construction-page heading layout rather than crowding the black title. */
+  display: block;
   font-family: var(--font-script);
   color: var(--accent-gold);
   font-weight: 700;
-  margin-left: 0.4rem;
+  margin: 0.16em 0 0;
   word-spacing: .22em;
   text-transform: none;
 }
@@ -8418,7 +8420,7 @@ body.page-recruitment,
 .completed-videos-heading h2 {
   margin: 0;
   color: var(--text-primary);
-  font-size: clamp(1.75rem, 4.2vw, 3.15rem);
+  font-size: 40px;
   font-weight: 800;
   letter-spacing: -.035em;
   line-height: 1.15;
@@ -8554,7 +8556,7 @@ body.page-recruitment,
 .completed-projects-heading h2 {
   margin: 0;
   color: var(--text-primary);
-  font-size: clamp(1.75rem, 4.2vw, 3.15rem);
+  font-size: 40px;
   font-weight: 800;
   letter-spacing: -.035em;
   line-height: 1.15;
@@ -8589,6 +8591,11 @@ body.page-recruitment,
 }
 
 @media (max-width: 767px) {
+  .completed-projects-heading h2,
+  .completed-videos-heading h2 {
+    font-size: var(--fs-section-title);
+  }
+
   .completed-projects-grid:not(.is-expanded) .project-showcase-card:nth-child(n+4) {
     display: none;
   }
