@@ -15246,7 +15246,7 @@ main .news-section-heading h2 {
   line-height: 1.25 !important;
 }
 
-/* Handwritten accent words share the same hierarchy, but stay lightweight. */
+/* Handwritten gold accents use the logo's confident, clearly legible stroke. */
 main .hero-script-eyebrow,
 main .hero-script-subtitle,
 main .team-script-eyebrow,
@@ -15269,8 +15269,24 @@ main .completed-projects-heading h2 em,
 main .completed-videos-heading h2 em {
   font-family: var(--font-script) !important;
   font-size: var(--fs-section-title) !important;
-  font-weight: 400 !important;
+  font-weight: 600 !important;
   line-height: 1.1 !important;
+}
+
+main .font-script,
+main :is(
+  .quote-heading h2 em,
+  .quote-featured-heading h2 em,
+  .quote-completed-heading h2 em,
+  .quote-workshop-heading h2 em,
+  .quote-craftsmanship-heading h2 em,
+  .quote-handover-heading h2 em,
+  .quote-construction-copy h2,
+  .quote-free-estimate-copy h2 em,
+  .recruitment-hero-script
+) {
+  color: var(--accent-gold) !important;
+  font-weight: 600 !important;
 }
 
 /* Intro copy directly associated with a section title. */
