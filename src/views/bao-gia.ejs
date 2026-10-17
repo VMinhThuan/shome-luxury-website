@@ -1564,7 +1564,11 @@
         box-sizing: border-box;
       }
       .quote-page .home-faq-cta h3 {
-        font-size: clamp(2rem, 2.4vw, 2.55rem) !important;
+        /* Match the black FAQ heading's exact visual hierarchy. */
+        font-family: var(--font-heading) !important;
+        font-size: clamp(2rem, 2.45vw, 2.55rem) !important;
+        font-weight: 800 !important;
+        line-height: 1.25 !important;
       }
       .quote-page .home-faq-cta p {
         font-size: clamp(.96rem, 1.1vw, 1.08rem) !important;
@@ -1588,6 +1592,57 @@
       border-color: #ECECEC !important;
       box-shadow: 0 8px 22px rgba(20, 20, 20, .06) !important;
     }
+
+    /* One black type system for quotation headings and card labels. */
+    .quote-page :is(
+      .quote-heading h2,
+      .quote-featured-heading h2,
+      .quote-completed-heading h2,
+      .quote-workshop-heading h2,
+      .quote-craftsmanship-heading h2,
+      .quote-handover-heading h2,
+      .quote-benefit-card h3,
+      .quote-price-title,
+      .quote-featured-project-info h3,
+      .home-faq-item summary,
+      .home-faq-cta h3
+    ) {
+      color: #1D1D1D !important;
+      font-family: var(--font-heading) !important;
+      font-weight: 700 !important;
+    }
+    .quote-page .home-faq-cta h3 { font-weight: 800 !important; }
+
+    /* Inline quotation-page styles load after the shared stylesheet, so make
+       its handwritten gold labels obey the same brand token and stroke. */
+    .quote-page :is(.font-script, [class*="script"], h1 em, h2 em) {
+      color: var(--accent-gold) !important;
+      font-family: var(--font-script) !important;
+      font-weight: 700 !important;
+      -webkit-text-stroke: .5px currentColor;
+      text-stroke: .5px currentColor;
+      text-shadow: 0 0 .2px currentColor;
+    }
+    .quote-page .quote-completed-heading h2 .font-script {
+      letter-spacing: 0 !important;
+      text-transform: none !important;
+    }
+    @media (max-width: 767px) {
+      .quote-page .quote-completed-heading h2 {
+        font-size: clamp(.9rem, 4.3vw, 1.25rem) !important;
+      }
+    }
+    .quote-page :is(
+      .quote-kicker,
+      .quote-completed-heading p,
+      .quote-category-featured-heading > p,
+      .quote-price-copy h3,
+      .quote-price-area b,
+      .quote-construction-points i,
+      .quote-video-heading p,
+      .quote-featured-heading p,
+      .quote-final-faq-chevron
+    ) { color: var(--accent-gold) !important; }
   </style>
   <script src="/js/main.js?v=1.9.1" defer></script>
   <script src="/js/quote-page.js?v=1.2.2" defer></script>
@@ -1788,14 +1843,7 @@
       <section class="quote-section quote-completed" id="thuoc-phim-thuc-te">
         <div class="container">
           <header class="quote-completed-heading">
-            <p><%= sections.completed.eyebrow || 'Thước phim thực tế' %></p>
-            <% if (isSubMenuPage && activeCategoryData) { %>
-              <h2><%= activeCategoryData.name %> <em>hoàn thiện</em></h2>
-              <span>Ghi lại không gian thực tế sau khi hoàn tất thi công.</span>
-            <% } else { %>
-              <h2><%= sections.completed.title || 'Công trình' %> <em><%= sections.completed.script || 'hoàn thiện' %></em></h2>
-              <span><%= sections.completed.description || 'Ghi lại không gian thực tế sau khi hoàn tất thi công.' %></span>
-            <% } %>
+            <h2>THƯỚC PHIM THỰC TẾ <em class="font-script">Chung cư</em></h2>
           </header>
 
           <% if (!isSubMenuPage) { %>

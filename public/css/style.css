@@ -15179,8 +15179,8 @@ body.project-gallery-lightbox-open { overflow: hidden !important; }
    their existing typography.
    ====================================================================== */
 :root {
-  --content-heading-color: #414549;
-  --content-heading-weight: 600;
+  --content-heading-color: #1D1D1D;
+  --content-heading-weight: 700;
   --content-body-color: #565e64;
   --fs-banner-title: 40px;
   --fs-section-title: 40px;
@@ -15242,7 +15242,7 @@ main .news-section-heading h2 {
   color: var(--content-heading-color) !important;
   font-family: var(--font-heading) !important;
   font-size: var(--fs-section-title) !important;
-  font-weight: 600 !important;
+  font-weight: var(--content-heading-weight) !important;
   line-height: 1.25 !important;
 }
 
@@ -15269,7 +15269,10 @@ main .completed-projects-heading h2 em,
 main .completed-videos-heading h2 em {
   font-family: var(--font-script) !important;
   font-size: var(--fs-section-title) !important;
-  font-weight: 600 !important;
+  font-weight: 700 !important;
+  -webkit-text-stroke: 0.5px currentColor;
+  text-stroke: 0.5px currentColor;
+  text-shadow: 0 0 0.2px currentColor;
   line-height: 1.1 !important;
 }
 
@@ -15286,7 +15289,45 @@ main :is(
   .recruitment-hero-script
 ) {
   color: var(--accent-gold) !important;
-  font-weight: 600 !important;
+  font-weight: 700 !important;
+  -webkit-text-stroke: 0.5px currentColor;
+  text-stroke: 0.5px currentColor;
+  text-shadow: 0 0 0.2px currentColor;
+}
+
+/* A few route-specific sections combine their script class with additional
+   component classes. Keep every gold handwritten accent equally saturated
+   and weighted, regardless of the page it appears on. */
+main :is(.font-script, [class*="script"]) {
+  color: var(--accent-gold) !important;
+  font-weight: 700 !important;
+  -webkit-text-stroke: 0.5px currentColor;
+  text-stroke: 0.5px currentColor;
+  text-shadow: 0 0 0.2px currentColor;
+}
+
+/* Non-script gold labels (eyebrows, metadata and small accents) use the
+   exact same brand swatch. Unlike the signature font, they retain their
+   component's own weight and therefore stay readable at small sizes. */
+:is(
+  .font-script,
+  [class*="script"],
+  .eyebrow,
+  .eyebrow-text,
+  .quote-kicker,
+  .text-accent,
+  .text-accent-brown,
+  .testimonial-kicker,
+  .testimonial-gold-quote
+) {
+  color: var(--accent-gold) !important;
+}
+
+:is(.font-script, [class*="script"]) {
+  font-weight: 700 !important;
+  -webkit-text-stroke: 0.5px currentColor;
+  text-stroke: 0.5px currentColor;
+  text-shadow: 0 0 0.2px currentColor;
 }
 
 /* Intro copy directly associated with a section title. */
@@ -15430,6 +15471,33 @@ main .article-heading {
 main .job-detail-title {
   font-size: 30px !important;
   line-height: 1.25 !important;
+}
+
+/* Content-card headings follow the same black, weight and family on every
+   route. This stays inside <main> so text deliberately styled white in hero
+   photography, navigation and the footer is not overridden. */
+main :is(
+  .feature-title,
+  .job-card-title,
+  .job-detail-title,
+  .project-card-title,
+  .project-detail-title,
+  .service-title,
+  .why-choose-card-title,
+  .work-process-step-title,
+  .step-title,
+  .equipment-card-title,
+  .article-heading,
+  .news-title,
+  .quote-price-title,
+  .quote-featured-project-info h3,
+  .home-faq-item summary,
+  .home-faq-cta h3
+) {
+  color: var(--content-heading-color) !important;
+  font-family: var(--font-heading) !important;
+  font-weight: var(--content-heading-weight) !important;
+  font-synthesis: none;
 }
 
 /* One consistent content-title treatment across pages. The selectors are
