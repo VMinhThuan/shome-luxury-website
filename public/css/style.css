@@ -8227,6 +8227,16 @@ body.page-recruitment,
   text-transform: none;
 }
 
+/* Keep the black service name and gold handwritten project name aligned at
+   the requested 40px desktop scale for both design and construction pages. */
+@media (min-width: 768px) {
+  .project-showcase-hero .showcase-title,
+  .project-showcase-hero .showcase-title .title-main-compact,
+  .project-showcase-hero .showcase-title .title-script {
+    font-size: 40px;
+  }
+}
+
 /* Keep each title group intact on phones: the black service name first,
    followed by the gold project name on its own line. */
 @media (max-width: 767px) {
@@ -10792,7 +10802,7 @@ body.page-recruitment,
 .testimonial-body p {
   margin: 0;
   color: #2c2219;
-  font-size: clamp(0.92rem, 1.6vw, 1.05rem);
+  font-size: clamp(0.82rem, 1.2vw, 0.95rem);
   line-height: 1.65;
   font-style: normal;
   position: relative;
@@ -14416,7 +14426,7 @@ body.project-gallery-lightbox-open { overflow: hidden !important; }
   margin: 0 0 .2rem;
   color: #201914;
   font-family: 'Playfair Display', Georgia, serif;
-  font-size: clamp(1.45rem, 2.7vw, 2.25rem);
+  font-size: 40px;
   font-weight: 500;
 }
 
@@ -14433,6 +14443,10 @@ body.project-gallery-lightbox-open { overflow: hidden !important; }
 }
 
 @media (max-width: 767px) {
+  .home-faq-cta h3 {
+    font-size: clamp(1.65rem, 8vw, 2.15rem);
+  }
+
   .customer-stories-section,
   .home-faq-section {
     padding: 3rem 0;
