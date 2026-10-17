@@ -14141,7 +14141,7 @@ body.project-gallery-lightbox-open { overflow: hidden !important; }
   flex-wrap: wrap;
   align-items: baseline;
   justify-content: center;
-  gap: 0 .24em;
+  gap: 0 clamp(.45rem, 1.15vw, .95rem);
   margin: 0 0 .75rem;
   color: #18130f;
   font-family: 'Playfair Display', Georgia, serif;
@@ -14154,6 +14154,12 @@ body.project-gallery-lightbox-open { overflow: hidden !important; }
   font-size: clamp(2.35rem, 5vw, 4rem);
   font-weight: 500;
   line-height: .88;
+}
+
+/* The signature font's final stroke extends beyond its text box; reserve a
+   little extra room before the adjacent all-caps title. */
+.customer-stories-script {
+  margin-right: .12em;
 }
 
 .customer-stories-main,

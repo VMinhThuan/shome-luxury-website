@@ -1252,16 +1252,17 @@
     @media (max-width: 767px) {
       .quote-page .quote-project-gallery-dialog {
         width: 100% !important;
-        height: calc(100dvh - 1rem) !important;
+        height: auto !important;
       }
       .quote-page .quote-project-gallery-stage {
-        flex: 1 1 auto !important;
-        min-height: 0 !important;
-        aspect-ratio: auto !important;
+        flex: 0 0 auto !important;
+        min-height: unset !important;
+        height: auto !important;
+        aspect-ratio: 16 / 9 !important;
         border-radius: 14px !important;
       }
       .quote-page .quote-project-gallery-stage > img {
-        object-fit: contain !important;
+        object-fit: cover !important;
       }
       .quote-page .quote-project-gallery-control {
         width: 36px !important;
