@@ -15554,6 +15554,117 @@ main .news-list-body p {
   color: #000000 !important;
 }
 
+/* Booking banner: keep the consultation copy as one calm, left-aligned block. */
+.booking-page .booking-hero-grid {
+  grid-template-columns: minmax(0, 640px) !important;
+  justify-content: start;
+}
+
+.booking-page .booking-hero-copy {
+  max-width: 640px;
+  padding: clamp(.5rem, 2vw, 1.5rem) 0;
+}
+
+.booking-page .booking-hero h1 {
+  margin: 0;
+  font-size: clamp(2.8rem, 4.25vw, 4.5rem);
+  line-height: 1.04;
+  letter-spacing: -.025em;
+}
+
+.booking-page .booking-hero h1 em {
+  margin: .28rem 0 0;
+  padding: 0;
+  font-size: .98em;
+  line-height: 1.05;
+}
+
+.booking-page main .booking-hero-copy > p {
+  max-width: 510px;
+  margin: 1.15rem 0 0;
+  color: rgba(255, 255, 255, .84) !important;
+  line-height: 1.5 !important;
+}
+
+.booking-page .booking-hero-points {
+  display: grid;
+  grid-template-columns: repeat(3, max-content);
+  gap: .65rem 1.55rem;
+  margin-top: 1.35rem;
+  font-size: .92rem;
+  line-height: 1.35;
+}
+
+.booking-page .booking-submit {
+  min-width: 245px;
+  min-height: 52px;
+  margin-top: 1.45rem;
+  padding-inline: 1.65rem;
+  border-radius: 15px;
+  color: #fff !important;
+}
+
+@media (max-width: 767px) {
+  .booking-page .booking-hero-copy {
+    padding: .5rem 0;
+  }
+
+  .booking-page .booking-hero-points {
+    grid-template-columns: 1fr;
+    gap: .45rem;
+  }
+}
+
+/* The homepage opener fills the visible viewport below the site header. */
+.home-page .hero-section-v2 {
+  height: calc(100svh - var(--header-height-desktop));
+  min-height: calc(100svh - var(--header-height-desktop));
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
+.home-page .hero-section-v2 .hero-v2-container {
+  display: flex;
+  align-items: center;
+  height: 100%;
+}
+
+/* Preserve the requested title case: only the initial “Q” is uppercase. */
+.booking-page .booking-process-kicker {
+  font-family: var(--font-heading) !important;
+  font-size: clamp(2rem, 4vw, 3.25rem) !important;
+  font-weight: 800 !important;
+  letter-spacing: -.035em;
+  text-transform: none !important;
+}
+
+@media (max-width: 767px) {
+  .home-page .hero-section-v2 {
+    height: calc(100svh - var(--header-height-mobile));
+    min-height: calc(100svh - var(--header-height-mobile)) !important;
+    margin-top: var(--header-height-mobile) !important;
+    aspect-ratio: auto;
+  }
+}
+
+/* Banner pagination: standalone round controls, without a surrounding pill. */
+.hero-slider-dots {
+  gap: .65rem;
+  padding: 0;
+  background: transparent;
+  border: 0;
+  box-shadow: none;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+
+.hero-slider-dots .testimonial-dot,
+.hero-slider-dots .testimonial-dot[aria-selected="false"],
+.hero-slider-dots .testimonial-dot.is-active,
+.hero-slider-dots .testimonial-dot[aria-selected="true"] {
+  border: 1.5px solid #17130f !important;
+}
+
 /* Content scale: section titles use one shared scale and reading copy is 16px.
    Header/footer are excluded. */
 main .project-detail-content,
