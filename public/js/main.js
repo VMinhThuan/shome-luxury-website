@@ -280,6 +280,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let isPointerDown = false;
     let pointerStartX = 0;
     let scrollStartX = 0;
+    let didDrag = false;
     let autoPlayTimer = null;
     let wheelDelta = 0;
     let wheelResetTimer = null;
@@ -345,34 +346,50 @@ document.addEventListener('DOMContentLoaded', () => {
       setActiveDot();
     };
 
-    // Drag / swipe handling
-    track.addEventListener('pointerdown', event => {
+    // Drag / swipe handling. Bind to the whole banner because its copy layer
+    // sits above the scrolling track on desktop.
+    const startDrag = event => {
+      if (event.button !== undefined && event.button !== 0) return;
+      if (event.target.closest('button, a, input, select, textarea, label')) return;
+
       isPointerDown = true;
+      didDrag = false;
       pointerStartX = event.clientX;
       scrollStartX = track.scrollLeft;
-      track.setPointerCapture?.(event.pointerId);
+      heroSection.setPointerCapture?.(event.pointerId);
       track.classList.add('is-dragging');
       stopAutoPlay();
-    });
+    };
 
-    track.addEventListener('pointermove', event => {
+    const moveDrag = event => {
       if (!isPointerDown) return;
-      track.scrollLeft = scrollStartX - (event.clientX - pointerStartX);
-    });
+      const distance = event.clientX - pointerStartX;
+      if (Math.abs(distance) > 4) didDrag = true;
+      if (didDrag && event.cancelable) event.preventDefault();
+      track.scrollLeft = scrollStartX - distance;
+    };
 
-    const endDrag = () => {
+    const endDrag = event => {
       if (!isPointerDown) return;
       isPointerDown = false;
       track.classList.remove('is-dragging');
+      heroSection.releasePointerCapture?.(event?.pointerId);
+
+      // Explicitly settle on the nearest slide. This prevents a desktop mouse
+      // drag from stopping in the gap between two scroll-snap positions.
+      if (didDrag) goToSlide(getCurrentIndex());
       startAutoPlay();
     };
 
-    track.addEventListener('pointerup', endDrag);
-    track.addEventListener('pointercancel', endDrag);
+    heroSection.addEventListener('pointerdown', startDrag);
+    heroSection.addEventListener('pointermove', moveDrag, { passive: false });
+    heroSection.addEventListener('pointerup', endDrag);
+    heroSection.addEventListener('pointercancel', endDrag);
 
     // Let a mouse wheel or vertical trackpad gesture advance the banner while it is hovered.
     // We move one complete slide at a time so scroll-snap cannot leave the carousel between slides.
     heroSection.addEventListener('wheel', event => {
+      if (event.ctrlKey) return;
       const delta = Math.abs(event.deltaY) > Math.abs(event.deltaX) ? event.deltaY : event.deltaX;
       if (!delta) return;
 
@@ -382,7 +399,7 @@ document.addEventListener('DOMContentLoaded', () => {
       wheelResetTimer = setTimeout(() => { wheelDelta = 0; }, 140);
 
       // Small trackpad deltas are accumulated; one physical wheel notch works immediately.
-      const threshold = event.deltaMode === 1 ? 1 : 42;
+      const threshold = event.deltaMode === 1 ? 1 : 24;
       const now = Date.now();
       if (Math.abs(wheelDelta) < threshold || now - lastWheelSlideAt < 550) return;
 
@@ -390,7 +407,7 @@ document.addEventListener('DOMContentLoaded', () => {
       wheelDelta = 0;
       lastWheelSlideAt = now;
       resetAutoPlay();
-    }, { passive: false });
+    }, { passive: false, capture: true });
 
     track.addEventListener('scroll', setActiveDot, { passive: true });
 

@@ -15314,6 +15314,38 @@ main .completed-videos-heading h2 em {
   line-height: 1.1 !important;
 }
 
+/* A paired heading always uses one 40px scale: the black title and its
+   handwritten gold companion remain visually equal across all desktop pages. */
+@media (min-width: 768px) {
+  main :is(
+    .project-types-title .title-main,
+    .project-types-title .title-script,
+    .home-project-signatures-main,
+    .home-project-signatures-script,
+    .story-title-main,
+    .story-title-script,
+    .why-choose-main,
+    .why-choose-script,
+    .office-team-main,
+    .office-team-script,
+    .office-team-ampersand,
+    .home-workshop-main,
+    .home-workshop-script,
+    .customer-stories-main,
+    .customer-stories-script,
+    .home-faq-main,
+    .home-faq-script,
+    .material-partners-main,
+    .material-partners-script,
+    .completed-projects-heading h2,
+    .completed-projects-heading h2 em,
+    .completed-videos-heading h2,
+    .completed-videos-heading h2 em
+  ) {
+    font-size: 40px !important;
+  }
+}
+
 main .font-script,
 main :is(
   .quote-heading h2 em,

@@ -1629,6 +1629,30 @@
       letter-spacing: 0 !important;
       text-transform: none !important;
     }
+    @media (min-width: 768px) {
+      .quote-page :is(
+        .quote-heading h2,
+        .quote-featured-heading h2,
+        .quote-completed-heading h2,
+        .quote-workshop-heading h2,
+        .quote-craftsmanship-heading h2,
+        .quote-handover-heading h2,
+        .quote-construction-copy h2,
+        .quote-free-estimate-copy h2
+      ),
+      .quote-page :is(
+        .quote-heading h2 em,
+        .quote-featured-heading h2 em,
+        .quote-completed-heading h2 em,
+        .quote-workshop-heading h2 em,
+        .quote-craftsmanship-heading h2 em,
+        .quote-handover-heading h2 em,
+        .quote-construction-copy h2 em,
+        .quote-free-estimate-copy h2 em
+      ) {
+        font-size: 40px !important;
+      }
+    }
     @media (max-width: 767px) {
       .quote-page .quote-completed-heading h2 {
         font-size: clamp(.9rem, 4.3vw, 1.25rem) !important;
