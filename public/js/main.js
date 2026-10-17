@@ -280,8 +280,10 @@ document.addEventListener('DOMContentLoaded', () => {
     let isPointerDown = false;
     let pointerStartX = 0;
     let scrollStartX = 0;
+    let dragStartIndex = 0;
     let didDrag = false;
     let autoPlayTimer = null;
+    let isManuallyControlled = false;
     let wheelDelta = 0;
     let wheelResetTimer = null;
     let lastWheelSlideAt = 0;
@@ -323,8 +325,10 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     };
 
-    const goToSlide = (index) => {
-      const targetIndex = (index + slides.length) % slides.length;
+    const goToSlide = (index, { loop = true } = {}) => {
+      const targetIndex = loop
+        ? (index + slides.length) % slides.length
+        : Math.max(0, Math.min(index, slides.length - 1));
       track.scrollTo({ left: targetIndex * track.clientWidth, behavior: 'smooth' });
     };
 
@@ -339,7 +343,7 @@ document.addEventListener('DOMContentLoaded', () => {
         dot.addEventListener('click', (e) => {
           e.preventDefault();
           goToSlide(idx);
-          resetAutoPlay();
+          pauseForManualControl();
         });
         dotsContainer.append(dot);
       });
@@ -356,15 +360,16 @@ document.addEventListener('DOMContentLoaded', () => {
       didDrag = false;
       pointerStartX = event.clientX;
       scrollStartX = track.scrollLeft;
+      dragStartIndex = getCurrentIndex();
       heroSection.setPointerCapture?.(event.pointerId);
       track.classList.add('is-dragging');
-      stopAutoPlay();
+      pauseForManualControl();
     };
 
     const moveDrag = event => {
       if (!isPointerDown) return;
       const distance = event.clientX - pointerStartX;
-      if (Math.abs(distance) > 4) didDrag = true;
+      if (Math.abs(distance) > 24) didDrag = true;
       if (didDrag && event.cancelable) event.preventDefault();
       track.scrollLeft = scrollStartX - distance;
     };
@@ -375,10 +380,12 @@ document.addEventListener('DOMContentLoaded', () => {
       track.classList.remove('is-dragging');
       heroSection.releasePointerCapture?.(event?.pointerId);
 
-      // Explicitly settle on the nearest slide. This prevents a desktop mouse
-      // drag from stopping in the gap between two scroll-snap positions.
-      if (didDrag) goToSlide(getCurrentIndex());
-      startAutoPlay();
+      // A deliberate drag always follows its direction. Do not let scroll-snap
+      // pull a partly dragged banner back to the old slide.
+      if (didDrag) {
+        const direction = event.clientX < pointerStartX ? 1 : -1;
+        goToSlide(dragStartIndex + direction, { loop: false });
+      }
     };
 
     heroSection.addEventListener('pointerdown', startDrag);
@@ -403,10 +410,10 @@ document.addEventListener('DOMContentLoaded', () => {
       const now = Date.now();
       if (Math.abs(wheelDelta) < threshold || now - lastWheelSlideAt < 550) return;
 
-      goToSlide(getCurrentIndex() + (wheelDelta > 0 ? 1 : -1));
+      goToSlide(getCurrentIndex() + (wheelDelta > 0 ? 1 : -1), { loop: false });
       wheelDelta = 0;
       lastWheelSlideAt = now;
-      resetAutoPlay();
+      pauseForManualControl();
     }, { passive: false, capture: true });
 
     track.addEventListener('scroll', setActiveDot, { passive: true });
@@ -418,6 +425,7 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     const startAutoPlay = () => {
+      if (isManuallyControlled) return;
       stopAutoPlay();
       autoPlayTimer = setInterval(nextSlide, 5500);
     };
@@ -429,9 +437,9 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     };
 
-    const resetAutoPlay = () => {
+    const pauseForManualControl = () => {
+      isManuallyControlled = true;
       stopAutoPlay();
-      startAutoPlay();
     };
 
     track.parentElement?.addEventListener('mouseenter', stopAutoPlay);
