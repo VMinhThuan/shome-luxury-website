@@ -1806,7 +1806,7 @@ ol {
   line-height: 1.06;
   letter-spacing: 0.02em;
   margin: 0 0 0.35rem 0;
-  text-transform: uppercase;
+  text-transform: none;
   text-shadow: 0 3px 14px rgba(0, 0, 0, 0.8), 0 1px 3px rgba(0, 0, 0, 0.95);
 }
 
