@@ -286,7 +286,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let isManuallyControlled = false;
     let wheelDelta = 0;
     let wheelResetTimer = null;
-    let lastWheelSlideAt = 0;
+    let isWheelGestureLocked = false;
 
     const getSlidePositions = () => {
       const width = track.clientWidth;
@@ -403,16 +403,19 @@ document.addEventListener('DOMContentLoaded', () => {
       if (event.cancelable) event.preventDefault();
       wheelDelta += delta;
       clearTimeout(wheelResetTimer);
-      wheelResetTimer = setTimeout(() => { wheelDelta = 0; }, 140);
+      wheelResetTimer = setTimeout(() => {
+        wheelDelta = 0;
+        isWheelGestureLocked = false;
+      }, 260);
 
-      // Small trackpad deltas are accumulated; one physical wheel notch works immediately.
+      // A physical wheel notch can emit many events. Lock the current gesture
+      // so it advances exactly one banner instead of skipping the next one.
       const threshold = event.deltaMode === 1 ? 1 : 24;
-      const now = Date.now();
-      if (Math.abs(wheelDelta) < threshold || now - lastWheelSlideAt < 550) return;
+      if (isWheelGestureLocked || Math.abs(wheelDelta) < threshold) return;
 
       goToSlide(getCurrentIndex() + (wheelDelta > 0 ? 1 : -1), { loop: false });
       wheelDelta = 0;
-      lastWheelSlideAt = now;
+      isWheelGestureLocked = true;
       pauseForManualControl();
     }, { passive: false, capture: true });
 
