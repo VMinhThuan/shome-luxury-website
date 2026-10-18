@@ -15962,8 +15962,8 @@ main :is(
   color: var(--brand-gold-text) !important;
 }
 
-/* Slider indicators: the current item is brand gold; every other item is
-   white, regardless of which content carousel it belongs to. */
+/* Slider indicators: the resting item is a soft grey fill without an outline.
+   The selected slide/page is called out with the brand gold and a grey ring. */
 :is(
   .testimonial-dots .testimonial-dot,
   .material-partners-dots .testimonial-dot,
@@ -15972,8 +15972,21 @@ main :is(
   .slider-dots .dot,
   #factoryDots .dot
 ) {
-  border-color: #17130f !important;
-  background: #fff !important;
+  width: 20px !important;
+  height: 20px !important;
+  border: 0 !important;
+  background: #e1e4e8 !important;
+  box-shadow: none !important;
+}
+
+/* These selectors match the banner rules above in specificity, so an
+   unselected banner dot stays borderless as well. */
+:is(
+  .hero-slider-dots .testimonial-dot[aria-selected="false"],
+  .customer-story-dots button[aria-selected="false"]
+) {
+  border: 0 !important;
+  background: #e1e4e8 !important;
   box-shadow: none !important;
 }
 
@@ -15989,9 +16002,11 @@ main :is(
   .slider-dots .dot.active,
   #factoryDots .dot.active
 ) {
-  border-color: #17130f !important;
+  width: 20px !important;
+  height: 20px !important;
+  border: 1.5px solid #777 !important;
   background: var(--brand-gold-text) !important;
-  box-shadow: 0 0 8px rgba(214, 162, 62, .45) !important;
+  box-shadow: none !important;
 }
 
 /* Booking reviews use the same verified Zalo-feedback layout as the homepage. */
