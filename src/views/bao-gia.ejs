@@ -473,6 +473,7 @@
           min-height: 220px !important;
           max-height: 430px !important;
           aspect-ratio: auto !important;
+          background: var(--quote-mobile-hero-image) center / cover no-repeat !important;
         }
         .quote-page .quote-hero-carousel .quote-hero-slider-track,
         .quote-page .quote-hero-carousel .quote-hero-slide { height: 100% !important; }
@@ -1801,7 +1802,7 @@
   <main id="main-content" class="quote-page">
     <% if (sections.hero?.isVisible !== false) { %>
       <% const quoteHeroSlides = [sections.hero.image, '/images/quote-hero-banner-bedroom.png', '/images/quote-hero-banner-dining.png']; %>
-      <section class="quote-hero quote-hero-carousel" aria-label="Banner báo giá">
+      <section class="quote-hero quote-hero-carousel" aria-label="Banner báo giá" style="--quote-mobile-hero-image: url('<%= sections.hero.image %>')">
         <div class="hero-slider-track quote-hero-slider-track" id="quoteHeroSliderTrack" aria-label="Danh sách banner báo giá">
           <% quoteHeroSlides.forEach((image, index) => { %>
             <div class="hero-slide quote-hero-slide" data-slide-index="<%= index %>" aria-label="Banner báo giá <%= index + 1 %> trên 3" style="--quote-hero-image: url('<%= image %>')">
