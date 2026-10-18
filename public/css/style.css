@@ -15665,6 +15665,39 @@ main .news-list-body p {
   border: 1.5px solid #17130f !important;
 }
 
+@media (max-width: 767px) {
+  .home-page .about-showroom-title {
+    font-size: clamp(.98rem, 4.25vw, 1.3rem) !important;
+    letter-spacing: -.045em;
+    white-space: nowrap;
+  }
+}
+
+/* Match every black label in the project-category cards to the section title. */
+.home-project-signatures-section .home-project-signature-copy h3,
+.home-project-signatures-section .home-project-signature-link {
+  font-family: var(--font-heading) !important;
+  font-weight: var(--content-heading-weight, 800) !important;
+  letter-spacing: -.025em;
+}
+
+/* Partner-logo carousel uses the same black-outlined dots as the banners. */
+.material-partners-dots .testimonial-dot,
+.material-partners-dots .testimonial-dot.is-active,
+.material-partners-dots .testimonial-dot[aria-current="true"] {
+  border: 1.5px solid #17130f !important;
+}
+
+/* Apply the black outline to every remaining circular carousel indicator. */
+:is(
+  .testimonial-dots .testimonial-dot,
+  .customer-story-dots button,
+  .slider-dots .dot,
+  #factoryDots .dot
+) {
+  border: 1.5px solid #17130f !important;
+}
+
 /* Content scale: section titles use one shared scale and reading copy is 16px.
    Header/footer are excluded. */
 main .project-detail-content,

@@ -7,7 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400&family=Playfair+Display:ital,wght@0,600;0,700;0,800;0,900;1,600&family=Great+Vibes&family=Alex+Brush&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="/css/style.css?v=6.6.6" />
+  <link rel="stylesheet" href="/css/style.css?v=6.7.3" />
   <style>
     /* Alternating section backgrounds on quote page handled by style.css design system */
     .quote-page .quote-video-card-link { display: block; cursor: pointer; }
@@ -1707,8 +1707,37 @@
       .quote-featured-heading p,
       .quote-final-faq-chevron
     ) { color: var(--accent-gold) !important; }
+
+    /* Keep the original interior artwork visible; only add a soft dark scrim
+       behind the left-hand copy instead of washing the banner out in white. */
+    .quote-page .quote-hero-carousel .quote-hero-slide::before {
+      background: linear-gradient(90deg, rgba(16, 12, 8, .78) 0%, rgba(16, 12, 8, .58) 34%, rgba(16, 12, 8, .2) 57%, transparent 75%) !important;
+    }
+    .quote-page .quote-hero-carousel .quote-brochure-copy {
+      background: transparent !important;
+    }
+    .quote-page .quote-hero-carousel .quote-brochure-copy h1 .quote-title-line1,
+    .quote-page .quote-hero-carousel .quote-brochure-copy h1 .quote-title-line2 {
+      color: #ffffff !important;
+      text-shadow: 0 2px 12px rgba(0, 0, 0, .62) !important;
+    }
+    .quote-page .quote-hero-carousel .quote-brochure-copy .quote-lead {
+      color: rgba(255, 255, 255, .9) !important;
+      text-shadow: 0 1px 8px rgba(0, 0, 0, .55) !important;
+    }
+    .quote-page .quote-hero-carousel .quote-hero-corner-script {
+      color: #e1aa3e !important;
+      font-weight: 700 !important;
+      -webkit-text-stroke: .35px currentColor;
+      text-stroke: .35px currentColor;
+      filter: drop-shadow(0 2px 3px rgba(0, 0, 0, .82)) !important;
+      opacity: 1 !important;
+    }
+    .quote-page .quote-hero-carousel .quote-hero-corner-script .quote-hero-corner-line2::after {
+      background: linear-gradient(90deg, #e1aa3e 0%, rgba(225, 170, 62, .8) 100%) !important;
+    }
   </style>
-  <script src="/js/main.js?v=1.9.1" defer></script>
+  <script src="/js/main.js?v=1.9.4" defer></script>
   <script src="/js/quote-page.js?v=1.2.2" defer></script>
 </head>
 <body>
