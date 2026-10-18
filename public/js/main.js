@@ -272,7 +272,7 @@ document.addEventListener('DOMContentLoaded', () => {
   });
   document.dispatchEvent(new Event('shomeluxuryreviewcarouselready'));
 
-  // 3.3 HERO BANNER CAROUSEL: drag, trackpad/wheel, swipe, dot navigation & autoplay
+  // 3.3 HERO BANNER CAROUSEL: drag, mouse-wheel, swipe, dot navigation & autoplay
   const initHeroSlider = (trackId = 'heroSliderTrack', dotsId = 'heroSliderDots') => {
     const track = document.getElementById(trackId);
     const dotsContainer = document.getElementById(dotsId);
@@ -280,7 +280,7 @@ document.addEventListener('DOMContentLoaded', () => {
     track.dataset.heroSliderReady = 'true';
     // Listen on the whole banner rather than only the scroll track. The text
     // layer and pagination dots sit above the track, so they otherwise absorb
-    // the wheel event before it reaches the carousel.
+    // drag and wheel events before they reach the carousel.
     const heroSection = track.closest('.hero-section-v2') || track;
 
     const slides = Array.from(track.querySelectorAll('.hero-slide'));
@@ -405,11 +405,12 @@ document.addEventListener('DOMContentLoaded', () => {
     heroSection.addEventListener('pointerup', endDrag);
     heroSection.addEventListener('pointercancel', endDrag);
 
-    // Let a mouse wheel or vertical trackpad gesture advance the banner while it is hovered.
-    // We move one complete slide at a time so scroll-snap cannot leave the carousel between slides.
+    // While the pointer is over a banner, a vertical wheel gesture changes
+    // one slide. The short lock prevents a trackpad gesture from skipping
+    // through several banners at once.
     heroSection.addEventListener('wheel', event => {
       if (event.ctrlKey) return;
-      const delta = Math.abs(event.deltaY) > Math.abs(event.deltaX) ? event.deltaY : event.deltaX;
+      const delta = Math.abs(event.deltaY) >= Math.abs(event.deltaX) ? event.deltaY : event.deltaX;
       if (!delta) return;
 
       if (event.cancelable) event.preventDefault();
@@ -420,12 +421,10 @@ document.addEventListener('DOMContentLoaded', () => {
         isWheelGestureLocked = false;
       }, 260);
 
-      // A physical wheel notch can emit many events. Lock the current gesture
-      // so it advances exactly one banner instead of skipping the next one.
       const threshold = event.deltaMode === 1 ? 1 : 24;
       if (isWheelGestureLocked || Math.abs(wheelDelta) < threshold) return;
 
-      goToSlide(getCurrentIndex() + (wheelDelta > 0 ? 1 : -1), { loop: false });
+      goToSlide(getCurrentIndex() + (wheelDelta > 0 ? 1 : -1));
       wheelDelta = 0;
       isWheelGestureLocked = true;
       pauseForManualControl();

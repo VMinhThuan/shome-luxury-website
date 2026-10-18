@@ -7,7 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400&family=Playfair+Display:ital,wght@0,600;0,700;0,800;0,900;1,600&family=Great+Vibes&family=Alex+Brush&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="/css/style.css?v=6.7.3" />
+  <link rel="stylesheet" href="/css/style.css?v=6.7.4" />
   <style>
     /* Alternating section backgrounds on quote page handled by style.css design system */
     .quote-page .quote-video-card-link { display: block; cursor: pointer; }
@@ -447,10 +447,15 @@
       }
 
       /* Quote page uses the same draggable three-banner carousel as home. */
-      .quote-page .quote-hero.quote-hero-carousel { background-image: none !important; }
+      .quote-page .quote-hero.quote-hero-carousel {
+        height: clamp(320px, 50vh, 560px) !important;
+        min-height: 0 !important;
+        padding: 0 !important;
+        background-image: none !important;
+      }
       .quote-page .quote-hero-carousel .quote-hero-slider-track { position: absolute !important; inset: 0 !important; z-index: 1 !important; }
       .quote-page .quote-hero-carousel .quote-hero-slide { background: var(--quote-hero-image) center / cover no-repeat !important; }
-      .quote-page .quote-hero-carousel .quote-hero-slide::before { content: '' !important; position: absolute !important; inset: 0 !important; z-index: 1 !important; pointer-events: none !important; background: linear-gradient(90deg, #fffdf9 0%, #fffdf9 43%, rgba(255, 253, 249, .94) 52%, rgba(255, 253, 249, .45) 65%, transparent 80%) !important; }
+      .quote-page .quote-hero-carousel .quote-hero-slide::before { display: none !important; }
       .quote-page .quote-hero-carousel .quote-hero-inner { position: relative !important; z-index: 2 !important; background: transparent !important; }
       .quote-page .quote-hero-carousel .hero-slider-dots { z-index: 12 !important; }
       /* Keep the copy deliberately compact on the left, leaving the room image open. */
@@ -1780,7 +1785,7 @@
       }
     }
   </style>
-  <script src="/js/main.js?v=1.9.4" defer></script>
+  <script src="/js/main.js?v=1.9.5" defer></script>
   <script src="/js/quote-page.js?v=1.2.2" defer></script>
 </head>
 <body>
@@ -1793,16 +1798,6 @@
         <div class="hero-slider-track quote-hero-slider-track" id="quoteHeroSliderTrack" aria-label="Danh sách banner báo giá">
           <% quoteHeroSlides.forEach((image, index) => { %>
             <div class="hero-slide quote-hero-slide" data-slide-index="<%= index %>" aria-label="Banner báo giá <%= index + 1 %> trên 3" style="--quote-hero-image: url('<%= image %>')">
-              <div class="container quote-hero-inner">
-                <div class="quote-hero-copy quote-brochure-copy">
-                  <% const quoteTitleMatch = /^(.*)\s+(trọn gói)$/i.exec(quoteTitle); %>
-                  <h1><em><%= quoteScript || 'Nội thất' %></em><span class="quote-hero-title-main"><span class="quote-title-line1"><%= quoteTitleMatch ? quoteTitleMatch[1] : quoteTitle %></span><% if (quoteTitleMatch) { %><span class="quote-title-line2"><%= quoteTitleMatch[2] %></span><% } %></span></h1>
-                  <p class="quote-lead"><%= sections.hero.description %></p>
-                  <div class="quote-hero-traits"><span>TINH TẾ</span><i></i><span>ĐẲNG CẤP</span><i></i><span>KHÁC BIỆT</span></div>
-                </div>
-                <% const cornerScriptRaw = sections.hero.cornerScript || 'Không gian\nkiến tạo hạnh phúc'; const cornerScriptLines = cornerScriptRaw.trim().split(/\r?\n/); const line1 = cornerScriptLines[0] || 'Không gian'; const line2 = cornerScriptLines.slice(1).join(' ') || 'kiến tạo hạnh phúc'; %>
-                <div class="quote-hero-corner-script"><span class="quote-hero-corner-line1"><%= line1 %></span><span class="quote-hero-corner-line2"><%= line2 %></span></div>
-              </div>
             </div>
           <% }) %>
         </div>

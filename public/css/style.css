@@ -15974,6 +15974,10 @@ main :is(
 ) {
   width: 20px !important;
   height: 20px !important;
+  flex: 0 0 20px !important;
+  box-sizing: border-box !important;
+  appearance: none;
+  -webkit-appearance: none;
   border: 0 !important;
   background: #e1e4e8 !important;
   box-shadow: none !important;
@@ -16004,8 +16008,9 @@ main :is(
 ) {
   width: 20px !important;
   height: 20px !important;
+  flex-basis: 20px !important;
   border: 1.5px solid #777 !important;
-  background: var(--brand-gold-text) !important;
+  background: #D2A044 !important;
   box-shadow: none !important;
 }
 
