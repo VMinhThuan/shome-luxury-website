@@ -279,6 +279,23 @@ document.addEventListener('DOMContentLoaded', () => {
       video?.focus();
     }, { once: true });
   });
+
+  // Quote-page brand film: retain the branded cover, then play the supplied
+  // YouTube film in place when the visitor selects it.
+  document.querySelectorAll('[data-quote-brand-video]').forEach(cover => {
+    cover.addEventListener('click', () => {
+      const videoUrl = cover.dataset.videoUrl || '';
+      const videoId = videoUrl.match(/(?:youtu\.be\/|youtube(?:-nocookie)?\.com\/(?:watch\?v=|embed\/|shorts\/))([\w-]{11})/)?.[1];
+      if (!videoId) return;
+      const iframe = document.createElement('iframe');
+      iframe.src = `https://www.youtube-nocookie.com/embed/${videoId}?autoplay=1&rel=0&modestbranding=1`;
+      iframe.title = 'Video giới thiệu Shome Luxury';
+      iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share';
+      iframe.allowFullscreen = true;
+      cover.replaceChildren(iframe);
+      cover.classList.add('is-playing');
+    }, { once: true });
+  });
   document.dispatchEvent(new Event('shomeluxuryreviewcarouselready'));
 
   // 3.3 HERO BANNER CAROUSEL: drag, mouse-wheel, swipe, dot navigation & autoplay
