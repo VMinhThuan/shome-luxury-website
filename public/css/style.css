@@ -15641,11 +15641,19 @@ main .news-list-body p {
 
 @media (max-width: 767px) {
   .home-page .hero-section-v2 {
-    height: 50svh;
-    min-height: 50svh !important;
+    height: auto;
+    min-height: 0 !important;
     margin-top: var(--header-height-mobile) !important;
-    aspect-ratio: auto;
+    aspect-ratio: 16 / 9;
   }
+
+  .home-page .hero-section-v2 .hero-slider-track,
+  .home-page .hero-section-v2 .hero-slide,
+  .home-page .hero-section-v2 .hero-v2-bg {
+    height: 100%;
+  }
+
+  .home-page .hero-section-v2 .hero-v2-bg img { display: block; height: 100%; }
 }
 
 /* Banner pagination: standalone round controls, without a surrounding pill. */
@@ -16426,4 +16434,12 @@ main :is(
   .home-page .customer-testimonial-card { grid-template-columns: minmax(0, 1fr) 118px; min-height: 320px; gap: .75rem; padding: .9rem; }
   .home-page .customer-testimonial-message { font-size: .96rem; }
   .home-page .customer-feedback-proof img { min-height: 270px; }
+}
+
+/* The quotation-page artwork occupies half of the desktop viewport. */
+@media (min-width: 768px) {
+  .quote-page .quote-hero.quote-hero-carousel {
+    height: 50vh !important;
+    min-height: 50vh !important;
+  }
 }
