@@ -15688,6 +15688,18 @@ main .news-list-body p {
   border: 1.5px solid #17130f !important;
 }
 
+/* The process eyebrow is a gold handwritten accent, not an all-caps label. */
+.booking-page .booking-process-kicker {
+  font-family: 'Great Vibes', 'Alex Brush', cursive !important;
+  font-size: clamp(2.7rem, 5.2vw, 4.5rem) !important;
+  font-weight: 400 !important;
+  letter-spacing: 0 !important;
+  line-height: .9 !important;
+  text-transform: none !important;
+  -webkit-text-stroke: .2px currentColor;
+  text-stroke: .2px currentColor;
+}
+
 /* Apply the black outline to every remaining circular carousel indicator. */
 :is(
   .testimonial-dots .testimonial-dot,
