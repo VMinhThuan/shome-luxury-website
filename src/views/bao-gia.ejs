@@ -469,17 +469,19 @@
       .quote-page .quote-hero-carousel .quote-booking-button { min-height: 46px !important; margin-top: 1rem !important; padding: .7rem 1.45rem !important; }
       @media (max-width: 767px) {
         .quote-page .quote-hero.quote-hero-carousel {
-          height: 56.25vw !important;
-          min-height: 220px !important;
-          max-height: 430px !important;
-          aspect-ratio: auto !important;
-          background: var(--quote-mobile-hero-image) center / cover no-repeat !important;
+          height: auto !important;
+          min-height: 0 !important;
+          max-height: none !important;
+          background: none !important;
         }
+        .quote-page .quote-hero-mobile-fallback { display: block !important; width: 100% !important; aspect-ratio: 16 / 9; object-fit: cover; }
         .quote-page .quote-hero-carousel .quote-hero-slider-track,
-        .quote-page .quote-hero-carousel .quote-hero-slide { height: 100% !important; }
+        .quote-page .quote-hero-carousel .hero-slider-dots { display: none !important; }
         .quote-page .quote-hero-carousel .quote-hero-slide .quote-hero-inner { height: 100% !important; min-height: 0 !important; background: transparent !important; }
         .quote-page .quote-hero-carousel .quote-brochure-copy { width: 51% !important; max-width: none !important; padding: 4.5% 3.5% 10% !important; }
       }
+
+      .quote-page .quote-hero-mobile-fallback { display: none; }
 
       .quote-page .quote-pricing-list { width: 100%; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(1rem, 2vw, 1.5rem); }
       .quote-page .quote-price-card { grid-template-columns: 1fr; min-height: 0; }
@@ -1802,7 +1804,8 @@
   <main id="main-content" class="quote-page">
     <% if (sections.hero?.isVisible !== false) { %>
       <% const quoteHeroSlides = [sections.hero.image, '/images/quote-hero-banner-bedroom.png', '/images/quote-hero-banner-dining.png']; %>
-      <section class="quote-hero quote-hero-carousel" aria-label="Banner báo giá" style="--quote-mobile-hero-image: url('<%= sections.hero.image %>')">
+      <section class="quote-hero quote-hero-carousel" aria-label="Banner báo giá">
+        <img class="quote-hero-mobile-fallback" src="<%= sections.hero.image %>" alt="Banner báo giá thiết kế và thi công nội thất" fetchpriority="high" />
         <div class="hero-slider-track quote-hero-slider-track" id="quoteHeroSliderTrack" aria-label="Danh sách banner báo giá">
           <% quoteHeroSlides.forEach((image, index) => { %>
             <div class="hero-slide quote-hero-slide" data-slide-index="<%= index %>" aria-label="Banner báo giá <%= index + 1 %> trên 3" style="--quote-hero-image: url('<%= image %>')">
@@ -1919,7 +1922,7 @@
     <% } %>
 
     <% if (sections.brandVideo?.isVisible !== false) { %>
-      <% const brandVideoUrl = sections.brandVideo.videoUrl || sections.brandVideo.ctaHref || 'https://www.youtube.com/watch?v=hoUvh1w9tII'; %>
+      <% const brandVideoUrl = 'https://www.youtube.com/watch?v=hoUvh1w9tII'; %>
       <% const brandVideoTitle = String(sections.brandVideo.title || '').trim().toLowerCase() === 'đơn vị thiết kế & thi công nội thất hàng đầu việt nam' ? 'Đơn vị thiết kế & thi công nội thất uy tín chất lượng' : sections.brandVideo.title; %>
       <section class="quote-brand-video">
         <div class="container">
