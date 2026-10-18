@@ -56,8 +56,8 @@ class QuotePageController {
     if (page.sections?.brandVideo?.image === '/images/booking-luxury-interior.png') {
       sections.brandVideo = { ...sections.brandVideo, ...quotePageDefaults.brandVideo };
     }
-    // Restore the brand card's original YouTube channel link. Custom links remain untouched.
-    if (page.sections?.brandVideo?.videoUrl === 'https://www.youtube.com/watch?v=hoUvh1w9tII') {
+    // Update the legacy channel card to the approved brand-film link. Custom links remain untouched.
+    if (page.sections?.brandVideo?.videoUrl === 'https://www.youtube.com/channel/UCcW0-8y0EMYZ381uBjcccjA') {
       sections.brandVideo = {
         ...sections.brandVideo,
         videoUrl: quotePageDefaults.brandVideo.videoUrl,

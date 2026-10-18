@@ -7,7 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400&family=Playfair+Display:ital,wght@0,600;0,700;0,800;0,900;1,600&family=Great+Vibes&family=Alex+Brush&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="/css/style.css?v=6.8.1" />
+  <link rel="stylesheet" href="/css/style.css?v=6.8.3" />
   <style>
     /* Alternating section backgrounds on quote page handled by style.css design system */
     .quote-page .quote-video-card-link { display: block; cursor: pointer; }
@@ -448,7 +448,7 @@
 
       /* Quote page uses the same draggable three-banner carousel as home. */
       .quote-page .quote-hero.quote-hero-carousel {
-        height: 50vh !important;
+        height: 75vh !important;
         min-height: 0 !important;
         padding: 0 !important;
         background-image: none !important;
@@ -1918,7 +1918,7 @@
     <% } %>
 
     <% if (sections.brandVideo?.isVisible !== false) { %>
-      <% const brandVideoUrl = sections.brandVideo.videoUrl || sections.brandVideo.ctaHref || 'https://www.youtube.com/channel/UCcW0-8y0EMYZ381uBjcccjA'; %>
+      <% const brandVideoUrl = sections.brandVideo.videoUrl || sections.brandVideo.ctaHref || 'https://www.youtube.com/watch?v=hoUvh1w9tII'; %>
       <% const brandVideoTitle = String(sections.brandVideo.title || '').trim().toLowerCase() === 'đơn vị thiết kế & thi công nội thất hàng đầu việt nam' ? 'Đơn vị thiết kế & thi công nội thất uy tín chất lượng' : sections.brandVideo.title; %>
       <section class="quote-brand-video">
         <div class="container">
@@ -1933,7 +1933,6 @@
             <div class="quote-video-scrim"></div>
             <span class="quote-video-play" aria-hidden="true">▶</span>
             <div class="quote-video-copy"><span>SHOME LUXURY</span><h3>Đơn vị thiết kế</h3><p>Thiết kế &amp; thi công<br /><b>uy tín, chất lượng</b></p><div class="quote-video-points"><i>✦<small>Thẩm mỹ<br />tinh tế</small></i><i>◌<small>Chuyên nghiệp<br />tận tâm</small></i><i>⌂<small>Chất lượng<br />bền vững</small></i></div></div>
-            <div class="quote-video-footer"><div><b><%= sections.brandVideo.caption %></b><span><%= sections.brandVideo.description %></span></div><time><%= sections.brandVideo.duration %></time><strong><%= sections.brandVideo.ctaLabel %> <i aria-hidden="true">▶</i></strong></div>
           </a>
         </div>
       </section>

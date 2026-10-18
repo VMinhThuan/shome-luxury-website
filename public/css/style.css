@@ -15568,15 +15568,15 @@ main .news-list-body p {
 
 .booking-page .booking-hero h1 {
   margin: 0;
-  font-size: clamp(2.8rem, 4.25vw, 4.5rem);
-  line-height: 1.04;
+  font-size: clamp(3.25rem, 5.2vw, 5.5rem);
+  line-height: 1.02;
   letter-spacing: -.025em;
 }
 
 .booking-page .booking-hero h1 em {
   margin: .28rem 0 0;
   padding: 0;
-  font-size: .98em;
+  font-size: 1.04em;
   line-height: 1.05;
 }
 
@@ -16436,10 +16436,10 @@ main :is(
   .home-page .customer-feedback-proof img { min-height: 270px; }
 }
 
-/* The quotation-page artwork occupies half of the desktop viewport. */
+/* The quotation-page artwork uses a taller desktop canvas. */
 @media (min-width: 768px) {
   .quote-page .quote-hero.quote-hero-carousel {
-    height: 50vh !important;
-    min-height: 50vh !important;
+    height: 75vh !important;
+    min-height: 75vh !important;
   }
 }
