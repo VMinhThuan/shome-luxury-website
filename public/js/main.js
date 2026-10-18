@@ -258,6 +258,18 @@ document.addEventListener('DOMContentLoaded', () => {
   document.querySelectorAll('.material-partners-slider').forEach(track => {
     window.ShomeluxuryReviewCarousel(track, track.closest('.material-partners-wrap')?.querySelector('.material-partners-dots'));
   });
+
+  // Brand-story video: use the local branded cover until the visitor chooses to play.
+  document.querySelectorAll('[data-brand-story-video]').forEach(frame => {
+    const cover = frame.querySelector('.brand-story-video-cover');
+    if (!cover) return;
+    cover.addEventListener('click', () => {
+      const video = frame.querySelector('iframe');
+      if (video && !video.src.includes('autoplay=1')) video.src += '&autoplay=1';
+      frame.classList.add('is-playing');
+      video?.focus();
+    }, { once: true });
+  });
   document.dispatchEvent(new Event('shomeluxuryreviewcarouselready'));
 
   // 3.3 HERO BANNER CAROUSEL: drag, trackpad/wheel, swipe, dot navigation & autoplay

@@ -14994,6 +14994,7 @@ body.project-gallery-lightbox-open { overflow: hidden !important; }
     border-radius: 0;
     grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: clamp(.8rem, 1.5vw, 1.25rem);
+    border: 0;
     background: transparent;
   }
 
@@ -15700,6 +15701,101 @@ main .news-list-body p {
   text-stroke: .2px currentColor;
 }
 
+/* Local cover keeps the brand-film entry consistent with the site's gold script headings. */
+.brand-story-video-frame {
+  isolation: isolate;
+}
+
+.brand-story-video-cover {
+  position: absolute;
+  z-index: 2;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(.55rem, 1.3vw, 1.05rem);
+  width: 100%;
+  border: 0;
+  color: #211914;
+  background: linear-gradient(125deg, #fbfaf8 0%, #f4f2ee 48%, #fcfaf7 100%);
+  cursor: pointer;
+  text-align: center;
+  transition: opacity .3s ease, visibility .3s ease;
+}
+
+.brand-story-video-frame.is-playing .brand-story-video-cover {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.brand-story-video-cover-brand {
+  color: var(--accent-gold, #d2a044);
+  font-family: 'Great Vibes', 'Alex Brush', cursive;
+  font-size: clamp(2.6rem, 5.2vw, 5rem);
+  font-weight: 400;
+  line-height: .8;
+  text-transform: uppercase;
+  -webkit-text-stroke: .2px currentColor;
+  text-stroke: .2px currentColor;
+}
+
+.brand-story-video-cover-title {
+  max-width: min(85%, 1080px);
+  color: #201813;
+  font-family: var(--font-heading);
+  font-size: clamp(1rem, 2vw, 2rem);
+  font-weight: 800;
+  line-height: 1.25;
+}
+
+.brand-story-video-cover-title strong {
+  color: inherit;
+  font: inherit;
+}
+
+.brand-story-video-cover-desc {
+  color: #756c64;
+  font-family: var(--font-sans);
+  font-size: clamp(.72rem, 1.1vw, 1.05rem);
+  font-weight: 500;
+}
+
+.brand-story-video-cover-play {
+  display: grid;
+  width: clamp(2.2rem, 3.2vw, 3rem);
+  height: clamp(2.2rem, 3.2vw, 3rem);
+  place-items: center;
+  padding-left: .14em;
+  border: 1.5px solid var(--accent-gold, #d2a044);
+  border-radius: 50%;
+  color: #fff;
+  background: var(--accent-gold, #d2a044);
+  font-size: clamp(.7rem, 1vw, .9rem);
+  box-shadow: 0 6px 16px rgba(131, 91, 31, .22);
+}
+
+@media (max-width: 767px) {
+  .brand-story-video-cover {
+    gap: .45rem;
+    padding: 1rem;
+  }
+
+  .brand-story-video-cover-brand {
+    font-size: clamp(2rem, 11vw, 3rem);
+  }
+
+  .brand-story-video-cover-title {
+    max-width: 92%;
+    font-size: clamp(.78rem, 3.8vw, 1.05rem);
+  }
+
+  .brand-story-video-cover-desc {
+    font-size: clamp(.56rem, 2.6vw, .72rem);
+  }
+}
+
 /* Apply the black outline to every remaining circular carousel indicator. */
 :is(
   .testimonial-dots .testimonial-dot,
@@ -15876,7 +15972,7 @@ main :is(
   .slider-dots .dot,
   #factoryDots .dot
 ) {
-  border-color: rgba(255, 255, 255, .96) !important;
+  border-color: #17130f !important;
   background: #fff !important;
   box-shadow: none !important;
 }
@@ -15893,9 +15989,46 @@ main :is(
   .slider-dots .dot.active,
   #factoryDots .dot.active
 ) {
-  border-color: var(--brand-gold-text) !important;
+  border-color: #17130f !important;
   background: var(--brand-gold-text) !important;
   box-shadow: 0 0 8px rgba(214, 162, 62, .45) !important;
+}
+
+/* Booking reviews use the same verified Zalo-feedback layout as the homepage. */
+.booking-testimonial .testimonial-card-zalo {
+  display: grid !important;
+  grid-template-columns: minmax(0, 1.12fr) minmax(132px, .88fr);
+  min-height: 365px !important;
+  gap: .9rem;
+  padding: 1rem !important;
+  overflow: hidden;
+  border: 1px solid rgba(210, 160, 68, .34) !important;
+  border-radius: 18px;
+  background: linear-gradient(135deg, #fffefa, #faf5eb);
+  box-shadow: 0 8px 20px rgba(80, 55, 25, .08);
+}
+
+.booking-testimonial .testimonial-zalo-copy {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+}
+
+.booking-testimonial .testimonial-card-zalo .testimonial-user { display: block; margin: 0; }
+.booking-testimonial .testimonial-card-zalo .testimonial-user p { margin: .18rem 0 .36rem; color: #756e65; font-size: .82rem; }
+.booking-testimonial .testimonial-card-zalo .user-name { font-family: var(--font-heading); font-size: clamp(1rem, 1.25vw, 1.22rem); font-weight: 800; }
+.booking-testimonial .testimonial-card-zalo .user-stars { color: #d79d2f; font-size: .92rem; letter-spacing: .1em; }
+.booking-testimonial .testimonial-card-zalo .testimonial-body { margin: clamp(1rem, 2vw, 1.7rem) 0 auto; padding: 0; }
+.booking-testimonial .testimonial-card-zalo .testimonial-body p { color: #34291f; font-family: Georgia, serif; font-size: clamp(1rem, 1.4vw, 1.22rem); font-style: italic; line-height: 1.48; }
+.booking-testimonial .testimonial-card-zalo small { display: block; margin-top: 1rem; color: #917448; font-size: .68rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; }
+.booking-testimonial .testimonial-zalo-proof { position: relative; min-width: 0; margin: 0; overflow: hidden; border: 3px solid #fff; border-radius: 13px; background: #e3e6f2; box-shadow: 0 7px 18px rgba(47, 50, 79, .16); }
+.booking-testimonial .testimonial-zalo-proof img { display: block; width: 100%; height: 100%; min-height: 310px; object-fit: cover; object-position: center 26%; }
+.booking-testimonial .testimonial-zalo-proof figcaption { position: absolute; right: .5rem; bottom: .5rem; padding: .24rem .42rem; border-radius: 999px; background: rgba(0, 0, 0, .62); color: #fff; font-size: .58rem; font-weight: 700; letter-spacing: .04em; }
+
+@media (max-width: 767px) {
+  .booking-testimonial .testimonial-card-zalo { grid-template-columns: minmax(0, 1fr) 118px; min-height: 320px !important; gap: .75rem; padding: .9rem !important; }
+  .booking-testimonial .testimonial-card-zalo .testimonial-body p { font-size: .96rem; }
+  .booking-testimonial .testimonial-zalo-proof img { min-height: 270px; }
 }
 
 /* Professional-team card: keep the mobile composition compact, with copy
