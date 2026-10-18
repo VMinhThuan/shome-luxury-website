@@ -141,7 +141,7 @@
         <div class="testimonial-slider-wrapper">
           <div class="testimonial-slider" id="testimonialSlider">
             <% const zaloFeedbacks = [
-              { name: 'Chị Linh', project: 'Biệt thự sân vườn', image: '1792222115348_6043215661779559246_6043215661779559246_01b44922101989e305f01bad5accb18d.jpg', quote: 'Hoàn công còn đẹp hơn thiết kế; đội ngũ làm việc rất chuyên nghiệp và tinh tế.' },
+              { name: 'Chị Linh', project: 'Biệt thự sân vườn', image: '1792222115348_6043215661779559246_6043215661779559246_01b44922101989e305f01bad5accb18d.jpg' },
               { name: 'Chị Thắm', project: 'Chuỗi cafe', image: '1792222116061_6043215661779559246_6043215661779559246_5125bee0bd4dc54dccea59475e93e70e.jpg', quote: 'Bên em làm có tâm, chị còn muốn nhờ setup thêm cơ sở nữa.' },
               { name: 'Chị Huyền', project: 'Văn phòng The Address', image: '1792222116666_6043215661779559246_6043215661779559246_43f8098458f4b617f70e0543f424e99c.jpg', quote: 'Xưởng làm có tâm, đội ngũ thi công tỉ mỉ nên cả anh chị đều rất thích.' },
               { name: 'Anh Thắng', project: 'Công trình Hoàn Kiếm', image: '1792222117834_6043215661779559246_6043215661779559246_538359c82f5edaadd11615b29b92b4ee.jpg', quote: 'Mọi giai đoạn thực hiện chuyên nghiệp, công trình hoàn thiện trọn vẹn.' },
@@ -157,12 +157,13 @@
                       <div class="user-stars" aria-label="5 trên 5 sao">★★★★★</div>
                     </div>
                   </div>
-                  <div class="testimonial-body"><p>“<%= feedback.quote %>”</p></div>
+                  <% if (feedback.quote) { %>
+                    <div class="testimonial-body"><p>“<%= feedback.quote %>”</p></div>
+                  <% } %>
                   <small>Phản hồi qua Zalo</small>
                 </div>
                 <figure class="testimonial-zalo-proof">
                   <img src="/images/feedback/<%= feedback.image %>" alt="Ảnh chụp phản hồi Zalo của <%= feedback.name %>" loading="lazy" />
-                  <figcaption>Ảnh phản hồi</figcaption>
                 </figure>
               </article>
             <% }) %>

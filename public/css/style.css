@@ -16004,7 +16004,7 @@ main :is(
   overflow: hidden;
   border: 1px solid rgba(210, 160, 68, .34) !important;
   border-radius: 18px;
-  background: linear-gradient(135deg, #fffefa, #faf5eb);
+  background: #fff;
   box-shadow: 0 8px 20px rgba(80, 55, 25, .08);
 }
 
@@ -16016,7 +16016,7 @@ main :is(
 
 .booking-testimonial .testimonial-card-zalo .testimonial-user { display: block; margin: 0; }
 .booking-testimonial .testimonial-card-zalo .testimonial-user p { margin: .18rem 0 .36rem; color: #756e65; font-size: .82rem; }
-.booking-testimonial .testimonial-card-zalo .user-name { font-family: var(--font-heading); font-size: clamp(1rem, 1.25vw, 1.22rem); font-weight: 800; }
+.booking-testimonial .testimonial-card-zalo .user-name { color: #17130f; font-family: var(--font-heading); font-size: clamp(1rem, 1.25vw, 1.22rem); font-weight: 800; }
 .booking-testimonial .testimonial-card-zalo .user-stars { color: #d79d2f; font-size: .92rem; letter-spacing: .1em; }
 .booking-testimonial .testimonial-card-zalo .testimonial-body { margin: clamp(1rem, 2vw, 1.7rem) 0 auto; padding: 0; }
 .booking-testimonial .testimonial-card-zalo .testimonial-body p { color: #34291f; font-family: Georgia, serif; font-size: clamp(1rem, 1.4vw, 1.22rem); font-style: italic; line-height: 1.48; }
