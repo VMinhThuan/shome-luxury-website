@@ -698,7 +698,7 @@
     }
     .quote-page .quote-construction-copy .quote-kicker {
       margin: 0 0 clamp(.25rem, 0.8vw, .65rem);
-      color: #171412;
+      color: #171412 !important;
       font-family: var(--font-heading);
       font-size: clamp(.85rem, 1.8vw, 1.85rem);
       font-weight: 800;
@@ -1752,15 +1752,12 @@
     .quote-page .quote-price-amount {
       display: inline-block;
       color: var(--accent-gold) !important;
-      font-family: var(--font-script) !important;
+      font-family: var(--font-heading) !important;
       font-size: 1.18em;
-      font-weight: 700;
-      line-height: .82;
+      font-weight: 800;
+      line-height: 1;
       letter-spacing: 0;
       white-space: nowrap;
-      -webkit-text-stroke: .55px currentColor;
-      text-stroke: .55px currentColor;
-      text-shadow: 0 0 .35px currentColor;
     }
 
     /* The script word starts after a deliberate gap instead of touching the title. */
@@ -1772,6 +1769,27 @@
     @media (max-width: 767px) {
       .quote-page .quote-completed-heading h2 em { margin-left: .25em !important; }
       .quote-page .quote-price-amount { font-size: 1.1em; }
+    }
+
+    /* On desktop, keep the apartment package title on one line and use the
+       same sans-serif heading family as the black section headings below. */
+    @media (min-width: 768px) {
+      .quote-page .quote-hero-carousel .quote-brochure-copy h1 .quote-hero-title-main {
+        white-space: nowrap !important;
+      }
+      .quote-page .quote-hero-carousel .quote-brochure-copy h1 .quote-title-line1,
+      .quote-page .quote-hero-carousel .quote-brochure-copy h1 .quote-title-line2 {
+        display: inline !important;
+        font-family: var(--font-heading) !important;
+        font-size: clamp(2rem, 3.2vw, 3.45rem) !important;
+        font-weight: 800 !important;
+        letter-spacing: -.035em !important;
+        line-height: 1 !important;
+        text-transform: none !important;
+      }
+      .quote-page .quote-hero-carousel .quote-brochure-copy h1 .quote-title-line2 {
+        margin: 0 0 0 .24em !important;
+      }
     }
   </style>
   <script src="/js/main.js?v=1.9.4" defer></script>

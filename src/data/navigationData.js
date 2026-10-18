@@ -77,17 +77,6 @@ module.exports = [
     href: "javascript:void(0)",
     children: [
       {
-        id: "bao-gia-thiet-ke-noi-that",
-        label: "Thiết kế thi công nội thất",
-        href: "javascript:void(0)",
-        children: [
-          { id: "bg-nt-chung-cu", label: "Nội thất chung cư trọn gói", href: "/bao-gia?category=tk-nt-chung-cu" },
-          { id: "bg-nt-nha-pho", label: "Nội thất nhà phố trọn gói", href: "/bao-gia?category=tk-nt-nha-pho" },
-          { id: "bg-nt-biet-thu", label: "Nội thất biệt thự trọn gói", href: "/bao-gia?category=tk-nt-biet-thu" },
-          { id: "bg-nt-van-phong", label: "Nội thất văn phòng trọn gói", href: "/bao-gia?category=tk-nt-van-phong" }
-        ]
-      },
-      {
         id: "bao-gia-thiet-ke-kien-truc",
         label: "Thiết kế thi công kiến trúc",
         href: "javascript:void(0)",
@@ -96,6 +85,17 @@ module.exports = [
           { id: "bg-kt-nha-pho", label: "Kiến trúc nhà phố trọn gói", href: "/bao-gia?category=tk-kt-nha-pho" },
           { id: "bg-kt-biet-thu", label: "Kiến trúc biệt thự trọn gói", href: "/bao-gia?category=tk-kt-biet-thu" },
           { id: "bg-kt-villa", label: "Kiến trúc villa trọn gói", href: "/bao-gia?category=tk-kt-villa" }
+        ]
+      },
+      {
+        id: "bao-gia-thiet-ke-noi-that",
+        label: "Thiết kế thi công nội thất",
+        href: "javascript:void(0)",
+        children: [
+          { id: "bg-nt-chung-cu", label: "Nội thất chung cư trọn gói", href: "/bao-gia?category=tk-nt-chung-cu" },
+          { id: "bg-nt-nha-pho", label: "Nội thất nhà phố trọn gói", href: "/bao-gia?category=tk-nt-nha-pho" },
+          { id: "bg-nt-biet-thu", label: "Nội thất biệt thự trọn gói", href: "/bao-gia?category=tk-nt-biet-thu" },
+          { id: "bg-nt-van-phong", label: "Nội thất văn phòng trọn gói", href: "/bao-gia?category=tk-nt-van-phong" }
         ]
       }
     ]
