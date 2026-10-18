@@ -15641,8 +15641,8 @@ main .news-list-body p {
 
 @media (max-width: 767px) {
   .home-page .hero-section-v2 {
-    height: calc(100svh - var(--header-height-mobile));
-    min-height: calc(100svh - var(--header-height-mobile)) !important;
+    height: 50svh;
+    min-height: 50svh !important;
     margin-top: var(--header-height-mobile) !important;
     aspect-ratio: auto;
   }

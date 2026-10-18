@@ -189,6 +189,10 @@ document.addEventListener('DOMContentLoaded', () => {
     let isPointerDown = false;
     let pointerStartX = 0;
     let scrollStartX = 0;
+    let wheelLocked = false;
+
+    const currentPageIndex = () => pages.reduce((best, page, index) =>
+      Math.abs(track.scrollLeft - page) < Math.abs(track.scrollLeft - pages[best]) ? index : best, 0);
 
     const visibleCards = () => {
       if (!cards[0]) return 1;
@@ -199,8 +203,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const setActiveDot = () => {
       if (!pages.length) return;
-      const closest = pages.reduce((best, page, index) =>
-        Math.abs(track.scrollLeft - page) < Math.abs(track.scrollLeft - pages[best]) ? index : best, 0);
+      const closest = currentPageIndex();
       Array.from(dotsContainer.children).forEach((dot, index) => {
         const active = index === closest;
         dot.classList.toggle('is-active', active);
@@ -229,8 +232,14 @@ document.addEventListener('DOMContentLoaded', () => {
     track.addEventListener('scroll', setActiveDot, { passive: true });
     track.addEventListener('wheel', event => {
       if (Math.abs(event.deltaY) <= Math.abs(event.deltaX)) return;
+      const nextIndex = currentPageIndex() + (event.deltaY > 0 ? 1 : -1);
+      // Keep normal page scrolling at the first and last group of reviews.
+      if (nextIndex < 0 || nextIndex >= pages.length) return;
       event.preventDefault();
-      track.scrollLeft += event.deltaY;
+      if (wheelLocked) return;
+      wheelLocked = true;
+      track.scrollTo({ left: pages[nextIndex], behavior: 'smooth' });
+      window.setTimeout(() => { wheelLocked = false; }, 450);
     }, { passive: false });
     track.addEventListener('pointerdown', event => {
       isPointerDown = true;

@@ -39,11 +39,11 @@ module.exports = {
     title: 'Đơn vị thiết kế & thi công nội thất uy tín chất lượng',
     description: 'Kiến tạo không gian sống thượng lưu',
     image: '/images/Luxury Interior with Golden Wave Accents.png',
-    videoUrl: 'https://www.youtube.com/watch?v=hoUvh1w9tII',
+    videoUrl: 'https://www.youtube.com/channel/UCcW0-8y0EMYZ381uBjcccjA',
     caption: 'Giới thiệu về Shome Luxury',
     duration: '02:15',
     ctaLabel: 'Xem trên YouTube',
-    ctaHref: 'https://www.youtube.com/watch?v=hoUvh1w9tII',
+    ctaHref: 'https://www.youtube.com/channel/UCcW0-8y0EMYZ381uBjcccjA',
     isVisible: true
   },
   capability: {
