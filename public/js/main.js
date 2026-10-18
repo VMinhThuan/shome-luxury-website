@@ -281,7 +281,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Listen on the whole banner rather than only the scroll track. The text
     // layer and pagination dots sit above the track, so they otherwise absorb
     // drag and wheel events before they reach the carousel.
-    const heroSection = track.closest('.hero-section-v2') || track;
+    const heroSection = track.closest('.hero-section-v2, .quote-hero, .booking-hero, .factory-hero') || track;
 
     const slides = Array.from(track.querySelectorAll('.hero-slide'));
     if (slides.length <= 1) {
