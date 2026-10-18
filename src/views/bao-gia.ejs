@@ -7,7 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400&family=Playfair+Display:ital,wght@0,600;0,700;0,800;0,900;1,600&family=Great+Vibes&family=Alex+Brush&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="/css/style.css?v=6.8.0" />
+  <link rel="stylesheet" href="/css/style.css?v=6.8.1" />
   <style>
     /* Alternating section backgrounds on quote page handled by style.css design system */
     .quote-page .quote-video-card-link { display: block; cursor: pointer; }
@@ -469,9 +469,13 @@
       .quote-page .quote-hero-carousel .quote-booking-button { min-height: 46px !important; margin-top: 1rem !important; padding: .7rem 1.45rem !important; }
       @media (max-width: 767px) {
         .quote-page .quote-hero.quote-hero-carousel {
-          aspect-ratio: 16 / 9 !important;
-          height: auto !important;
+          height: 56.25vw !important;
+          min-height: 220px !important;
+          max-height: 430px !important;
+          aspect-ratio: auto !important;
         }
+        .quote-page .quote-hero-carousel .quote-hero-slider-track,
+        .quote-page .quote-hero-carousel .quote-hero-slide { height: 100% !important; }
         .quote-page .quote-hero-carousel .quote-hero-slide .quote-hero-inner { height: 100% !important; min-height: 0 !important; background: transparent !important; }
         .quote-page .quote-hero-carousel .quote-brochure-copy { width: 51% !important; max-width: none !important; padding: 4.5% 3.5% 10% !important; }
       }
@@ -1909,6 +1913,28 @@
             <p class="quote-empty-state">Các công trình nổi bật sẽ được cập nhật tại đây.</p>
           <% } %>
           <div class="quote-featured-view-all"><a href="https://shome-luxury-website.vercel.app/thiet-ke-noi-that/chung-cu">Xem tất cả dự án <span aria-hidden="true">→</span></a></div>
+        </div>
+      </section>
+    <% } %>
+
+    <% if (sections.brandVideo?.isVisible !== false) { %>
+      <% const brandVideoUrl = sections.brandVideo.videoUrl || sections.brandVideo.ctaHref || 'https://www.youtube.com/channel/UCcW0-8y0EMYZ381uBjcccjA'; %>
+      <% const brandVideoTitle = String(sections.brandVideo.title || '').trim().toLowerCase() === 'đơn vị thiết kế & thi công nội thất hàng đầu việt nam' ? 'Đơn vị thiết kế & thi công nội thất uy tín chất lượng' : sections.brandVideo.title; %>
+      <section class="quote-brand-video">
+        <div class="container">
+          <header class="quote-video-heading">
+            <p><%= sections.brandVideo.eyebrow %></p>
+            <h2><%= brandVideoTitle %></h2>
+            <strong><%= sections.brandVideo.description %></strong>
+          </header>
+          <a class="quote-video-card quote-video-card-link" href="<%= brandVideoUrl %>" target="_blank" rel="noopener noreferrer" aria-label="<%= sections.brandVideo.ctaLabel || 'Xem trên YouTube' %>">
+            <img src="/images/quote-brand-video-shome-luxury.png" alt="Video giới thiệu Shome Luxury" loading="lazy" />
+            <div class="quote-video-logo"><b>SHOME <em>LUXURY</em></b><span>KIẾN TẠO KHÔNG GIAN<br />SỐNG THƯỢNG LƯU</span></div>
+            <div class="quote-video-scrim"></div>
+            <span class="quote-video-play" aria-hidden="true">▶</span>
+            <div class="quote-video-copy"><span>SHOME LUXURY</span><h3>Đơn vị thiết kế</h3><p>Thiết kế &amp; thi công<br /><b>uy tín, chất lượng</b></p><div class="quote-video-points"><i>✦<small>Thẩm mỹ<br />tinh tế</small></i><i>◌<small>Chuyên nghiệp<br />tận tâm</small></i><i>⌂<small>Chất lượng<br />bền vững</small></i></div></div>
+            <div class="quote-video-footer"><div><b><%= sections.brandVideo.caption %></b><span><%= sections.brandVideo.description %></span></div><time><%= sections.brandVideo.duration %></time><strong><%= sections.brandVideo.ctaLabel %> <i aria-hidden="true">▶</i></strong></div>
+          </a>
         </div>
       </section>
     <% } %>
