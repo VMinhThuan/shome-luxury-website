@@ -7,7 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400&family=Playfair+Display:ital,wght@0,600;0,700;0,800;0,900;1,600&family=Great+Vibes&family=Alex+Brush&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="/css/style.css?v=6.7.6" />
+  <link rel="stylesheet" href="/css/style.css?v=6.7.7" />
   <style>
     /* Alternating section backgrounds on quote page handled by style.css design system */
     .quote-page .quote-video-card-link { display: block; cursor: pointer; }
@@ -469,9 +469,8 @@
       .quote-page .quote-hero-carousel .quote-booking-button { min-height: 46px !important; margin-top: 1rem !important; padding: .7rem 1.45rem !important; }
       @media (max-width: 767px) {
         .quote-page .quote-hero.quote-hero-carousel {
-          aspect-ratio: auto !important;
-          height: 50vh !important;
-          height: 50svh !important;
+          aspect-ratio: 16 / 9 !important;
+          height: auto !important;
         }
         .quote-page .quote-hero-carousel .quote-hero-slide .quote-hero-inner { height: 100% !important; min-height: 0 !important; background: transparent !important; }
         .quote-page .quote-hero-carousel .quote-brochure-copy { width: 51% !important; max-width: none !important; padding: 4.5% 3.5% 10% !important; }
@@ -1918,11 +1917,12 @@
       <% const brandVideoUrl = sections.brandVideo.videoUrl || 'https://www.youtube.com/watch?v=hoUvh1w9tII'; %>
       <% const videoIdMatch = brandVideoUrl.match(/(?:youtu\.be\/|youtube(?:-nocookie)?\.com\/(?:watch\?v=|embed\/|shorts\/))([\w-]{11})/); %>
       <% const brandVideoEmbedUrl = videoIdMatch ? `https://www.youtube-nocookie.com/embed/${videoIdMatch[1]}?rel=0&modestbranding=1` : 'https://www.youtube-nocookie.com/embed/hoUvh1w9tII?rel=0&modestbranding=1'; %>
+      <% const brandVideoTitle = String(sections.brandVideo.title || '').trim().toLowerCase() === 'đơn vị thiết kế & thi công nội thất hàng đầu việt nam' ? 'Đơn vị thiết kế & thi công nội thất uy tín chất lượng' : sections.brandVideo.title; %>
       <section class="quote-brand-video">
         <div class="container">
           <header class="quote-video-heading">
             <p><%= sections.brandVideo.eyebrow %></p>
-            <h2><%= sections.brandVideo.title %></h2>
+            <h2><%= brandVideoTitle %></h2>
             <strong><%= sections.brandVideo.description %></strong>
           </header>
           <figure class="quote-video-card">
