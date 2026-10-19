@@ -1819,6 +1819,22 @@
         min-height: 100% !important;
         aspect-ratio: auto !important;
       }
+      .quote-page .quote-hero-carousel .quote-hero-media {
+        position: absolute;
+        inset: 0;
+        display: block;
+        z-index: 0;
+      }
+      .quote-page .quote-hero-carousel .quote-hero-media img {
+        display: block;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: center;
+      }
+    }
+    @media (min-width: 768px) {
+      .quote-page .quote-hero-carousel .quote-hero-media { display: none; }
     }
   </style>
   <script src="/js/main.js?v=1.9.9" defer></script>
@@ -1829,11 +1845,19 @@
   <%- include('partials/mobile-drawer') %>
   <main id="main-content" class="quote-page">
     <% if (sections.hero?.isVisible !== false) { %>
-      <% const quoteHeroSlides = [sections.hero.image, '/images/quote-hero-banner-bedroom.png', '/images/quote-hero-banner-dining.png']; %>
+      <% const quoteHeroSlides = [
+        { desktop: sections.hero.image, mobile: '/images/quote-hero-mobile-living.png' },
+        { desktop: '/images/quote-hero-banner-bedroom.png', mobile: '/images/quote-hero-mobile-bedroom.png' },
+        { desktop: '/images/quote-hero-banner-dining.png', mobile: '/images/quote-hero-mobile-dining.png' }
+      ]; %>
       <section class="quote-hero quote-hero-carousel" aria-label="Banner báo giá">
         <div class="hero-slider-track quote-hero-slider-track" id="quoteHeroSliderTrack" data-hero-slider data-hero-dots="quoteHeroSliderDots" aria-label="Danh sách banner báo giá">
           <% quoteHeroSlides.forEach((image, index) => { %>
-            <div class="hero-slide quote-hero-slide" data-slide-index="<%= index %>" aria-label="Banner báo giá <%= index + 1 %> trên 3" style="--quote-hero-image: url('<%= image %>')">
+            <div class="hero-slide quote-hero-slide" data-slide-index="<%= index %>" aria-label="Banner báo giá <%= index + 1 %> trên 3" style="--quote-hero-image: url('<%= image.desktop %>')">
+              <picture class="quote-hero-media" aria-hidden="true">
+                <source media="(max-width: 767px)" srcset="<%= image.mobile %>" />
+                <img src="<%= image.desktop %>" alt="" width="1536" height="1024" <%= index === 0 ? 'fetchpriority="high"' : 'loading="lazy"' %> decoding="async" />
+              </picture>
             </div>
           <% }) %>
         </div>
