@@ -37,6 +37,9 @@
               <p class="customer-testimonial-message">“<%= feedback.quote %>”</p>
               <small class="customer-feedback-source">Phản hồi qua Zalo</small>
             </div>
+            <figure class="customer-feedback-proof">
+              <img src="/images/feedback/<%= feedback.image %>" alt="Ảnh chụp phản hồi Zalo của <%= feedback.name %>" loading="lazy" />
+            </figure>
           </article>
         <% }); %>
       </div>

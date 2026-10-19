@@ -326,9 +326,6 @@ document.addEventListener('DOMContentLoaded', () => {
     let didDrag = false;
     let autoPlayTimer = null;
     let isManuallyControlled = false;
-    let wheelDelta = 0;
-    let wheelResetTimer = null;
-    let isWheelGestureLocked = false;
     let scrollFrame = null;
 
     const getSlidePositions = () => {
@@ -435,31 +432,6 @@ document.addEventListener('DOMContentLoaded', () => {
     heroSection.addEventListener('pointermove', moveDrag, { passive: false });
     heroSection.addEventListener('pointerup', endDrag);
     heroSection.addEventListener('pointercancel', endDrag);
-
-    // While the pointer is over a banner, a vertical wheel gesture changes
-    // one slide. The short lock prevents a trackpad gesture from skipping
-    // through several banners at once.
-    heroSection.addEventListener('wheel', event => {
-      if (event.ctrlKey) return;
-      const delta = Math.abs(event.deltaY) >= Math.abs(event.deltaX) ? event.deltaY : event.deltaX;
-      if (!delta) return;
-
-      if (event.cancelable) event.preventDefault();
-      wheelDelta += delta;
-      clearTimeout(wheelResetTimer);
-      wheelResetTimer = setTimeout(() => {
-        wheelDelta = 0;
-        isWheelGestureLocked = false;
-      }, 260);
-
-      const threshold = event.deltaMode === 1 ? 1 : 24;
-      if (isWheelGestureLocked || Math.abs(wheelDelta) < threshold) return;
-
-      goToSlide(getCurrentIndex() + (wheelDelta > 0 ? 1 : -1));
-      wheelDelta = 0;
-      isWheelGestureLocked = true;
-      pauseForManualControl();
-    }, { passive: false, capture: true });
 
     // Scrolling emits many events while native smooth-scroll is running.
     // Limit DOM class updates to one per frame to keep the transition as fluid
