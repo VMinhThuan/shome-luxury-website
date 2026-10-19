@@ -1850,23 +1850,21 @@
     @media (min-width: 768px) {
       .quote-page .quote-hero-carousel .quote-hero-media { display: none; }
     }
-    /* 16:9 version of the complimentary-design feature.
-       The full composed card (copy + interior image) now uses a video-style canvas
-       on desktop; the existing compact split layout is retained on phones so the
-       offer remains legible rather than being reduced to thumbnail-sized type. */
+    /* Complimentary-design feature: retain the wide composition and give the room
+       photo more vertical room without turning the entire promotion into a 16:9 card. */
     @media (min-width: 768px) {
       .quote-page .quote-construction-card {
-        aspect-ratio: 16 / 9 !important;
-        min-height: 0 !important;
+        aspect-ratio: auto !important;
+        min-height: clamp(360px, 27vw, 460px) !important;
       }
       .quote-page .quote-construction-copy {
-        padding: clamp(1.5rem, 3vw, 3.4rem) clamp(1.4rem, 3.2vw, 3.8rem) !important;
+        padding: clamp(1.5rem, 3vw, 3rem) clamp(1.4rem, 3.2vw, 3.2rem) !important;
       }
       .quote-page .quote-construction-copy .quote-kicker {
-        font-size: clamp(1rem, 1.7vw, 1.8rem) !important;
+        font-size: clamp(1rem, 1.55vw, 1.6rem) !important;
       }
       .quote-page .quote-construction-copy h2 {
-        font-size: clamp(2rem, 4.15vw, 4.5rem) !important;
+        font-size: clamp(1.8rem, 3.25vw, 3.25rem) !important;
       }
       .quote-page .quote-construction-copy > p {
         font-size: clamp(.78rem, 1.25vw, 1.18rem) !important;
