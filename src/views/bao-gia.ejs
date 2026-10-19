@@ -1832,6 +1832,20 @@
         object-fit: cover;
         object-position: center;
       }
+
+      /* Keep this paired heading intentionally on two readable lines only
+         on phones; desktop retains the single editorial line. */
+      .quote-page .quote-handover-heading h2 {
+        display: block !important;
+        white-space: normal !important;
+        line-height: 1.05 !important;
+      }
+      .quote-page .quote-handover-heading h2 em {
+        display: block !important;
+        margin: .12em 0 0 !important;
+        font-size: 1.15em !important;
+        line-height: .85 !important;
+      }
     }
     @media (min-width: 768px) {
       .quote-page .quote-hero-carousel .quote-hero-media { display: none; }
