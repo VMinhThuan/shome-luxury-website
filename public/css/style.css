@@ -8260,6 +8260,20 @@ body.page-recruitment,
     display: inline;
     margin-left: 0.2em;
   }
+
+  /* The compact architecture title (Nhà Cấp 4) is short enough to be a
+     single editorial line on web/tablet. Keep its two spans together; the
+     narrow-phone rule below still deliberately stacks them. */
+  .project-showcase-hero .showcase-title .title-main-compact,
+  .project-showcase-hero .showcase-title .title-main-compact + .title-script {
+    display: inline-block !important;
+    vertical-align: baseline;
+    white-space: nowrap;
+  }
+
+  .project-showcase-hero .showcase-title .title-main-compact + .title-script {
+    margin: 0 0 0 .2em !important;
+  }
 }
 
 /* Keep each title group intact on phones: the black service name first,
@@ -14994,10 +15008,19 @@ body.project-gallery-lightbox-open { overflow: hidden !important; }
 }
 
 .testimonial-slider.is-dragging,
-.home-page .customer-testimonial-grid.is-dragging { cursor: grabbing; scroll-snap-type: none; }
+.customer-testimonial-grid.is-dragging,
+.home-page .customer-testimonial-grid.is-dragging {
+  cursor: grabbing;
+  scroll-snap-type: none;
+  scroll-behavior: auto;
+}
 
 .testimonial-slider,
-.home-page .customer-testimonial-grid { cursor: grab; }
+.customer-testimonial-grid,
+.home-page .customer-testimonial-grid {
+  cursor: grab;
+  touch-action: pan-y;
+}
 
 @media (min-width: 768px) {
   /* FAQ cards are closed by default and use the full desktop content width. */
@@ -15414,7 +15437,7 @@ main :is(
 /* A few route-specific sections combine their script class with additional
    component classes. Keep every gold handwritten accent equally saturated
    and weighted, regardless of the page it appears on. */
-main :is(.font-script, [class*="script"]) {
+main :is(.font-script, [class^="script-"], [class*="-script-"], [class$="-script"]) {
   color: var(--accent-gold) !important;
   font-weight: 700 !important;
   -webkit-text-stroke: 0.5px currentColor;
@@ -15427,7 +15450,9 @@ main :is(.font-script, [class*="script"]) {
    component's own weight and therefore stay readable at small sizes. */
 :is(
   .font-script,
-  [class*="script"],
+  [class^="script-"],
+  [class*="-script-"],
+  [class$="-script"],
   .eyebrow,
   .eyebrow-text,
   .quote-kicker,
@@ -15439,7 +15464,7 @@ main :is(.font-script, [class*="script"]) {
   color: var(--accent-gold) !important;
 }
 
-:is(.font-script, [class*="script"]) {
+:is(.font-script, [class^="script-"], [class*="-script-"], [class$="-script"]) {
   font-weight: 700 !important;
   font-synthesis: weight;
   -webkit-text-stroke: 0.85px currentColor;
@@ -16064,7 +16089,7 @@ main :is(
 .booking-testimonial .testimonial-card-zalo .user-name { color: #17130f; font-family: var(--font-heading); font-size: clamp(1rem, 1.25vw, 1.22rem); font-weight: 800; }
 .booking-testimonial .testimonial-card-zalo .user-stars { color: #d79d2f; font-size: .92rem; letter-spacing: .1em; }
 .booking-testimonial .testimonial-card-zalo .testimonial-body { margin: clamp(1rem, 2vw, 1.7rem) 0 auto; padding: 0; }
-.booking-testimonial .testimonial-card-zalo .testimonial-body p { color: #34291f; font-family: Georgia, serif; font-size: clamp(1rem, 1.4vw, 1.22rem); font-style: italic; line-height: 1.48; }
+.booking-testimonial .testimonial-card-zalo .testimonial-body p { color: var(--text-primary); font-family: var(--font-sans); font-size: clamp(1rem, 1.4vw, 1.22rem); font-style: normal; font-weight: 400; line-height: 1.48; }
 .booking-testimonial .testimonial-card-zalo small { display: block; margin-top: 1rem; color: #917448; font-size: .68rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; }
 .booking-testimonial .testimonial-zalo-proof { position: relative; min-width: 0; margin: 0; overflow: hidden; border: 3px solid #fff; border-radius: 13px; background: #e3e6f2; box-shadow: 0 7px 18px rgba(47, 50, 79, .16); }
 .booking-testimonial .testimonial-zalo-proof img { display: block; width: 100%; height: 100%; min-height: 310px; object-fit: cover; object-position: center 26%; }
@@ -16377,7 +16402,7 @@ main :is(
   text-transform: uppercase !important;
 }
 
-main :is(.font-script, [class*="script"], h1 em, h2 em) {
+main :is(.font-script, [class^="script-"], [class*="-script-"], [class$="-script"], h1 em, h2 em) {
   text-transform: none !important;
 }
 
@@ -16420,19 +16445,17 @@ main :is(
   }
 }
 
-/* Verified Zalo feedback: each card keeps the original screenshot visible as
-   supporting evidence while presenting the customer's name and key message in
-   a clean editorial layout. */
+/* Customer feedback cards keep the review copy in a clean, image-free layout. */
 .home-page .customer-testimonial-card {
   display: grid;
-  grid-template-columns: minmax(0, 1.12fr) minmax(132px, .88fr);
-  min-height: 365px;
+  grid-template-columns: minmax(0, 1fr);
+  min-height: 250px;
   gap: clamp(.8rem, 1.4vw, 1.25rem);
   padding: clamp(1rem, 1.6vw, 1.45rem);
   overflow: hidden;
   border: 1px solid rgba(210, 160, 68, .34);
   border-radius: 18px;
-  background: linear-gradient(135deg, #fffefa, #faf5eb);
+  background: #fff;
 }
 
 .home-page .customer-testimonial-card::before { display: none; }
@@ -16441,16 +16464,20 @@ main :is(
 .home-page .customer-testimonial-user h3 { margin: 0; font-family: var(--font-heading); font-size: clamp(1rem, 1.25vw, 1.22rem); font-weight: 800; }
 .home-page .customer-testimonial-user p { margin: .18rem 0 .36rem; color: #756e65; font-size: .82rem; }
 .home-page .customer-testimonial-user span { display: block; color: #d79d2f; font-size: .92rem; letter-spacing: .1em; }
-.home-page .customer-testimonial-message { margin: clamp(1rem, 2vw, 1.7rem) 0 auto; color: #34291f; font-family: Georgia, serif; font-size: clamp(1rem, 1.4vw, 1.22rem); font-style: italic; line-height: 1.48; }
+.home-page .customer-testimonial-message { margin: clamp(1rem, 2vw, 1.7rem) 0 auto; color: var(--text-primary); font-family: var(--font-sans); font-size: clamp(1rem, 1.4vw, 1.22rem); font-style: normal; font-weight: 400; line-height: 1.48; }
 .home-page .customer-feedback-source { display: block; margin-top: 1rem; color: #917448; font-size: .68rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; }
-.home-page .customer-feedback-proof { position: relative; min-width: 0; margin: 0; overflow: hidden; border: 3px solid #fff; border-radius: 13px; background: #e3e6f2; box-shadow: 0 7px 18px rgba(47, 50, 79, .16); }
+.home-page .customer-feedback-proof { display: none; }
 .home-page .customer-feedback-proof img { display: block; width: 100%; height: 100%; min-height: 310px; object-fit: cover; object-position: center 26%; }
 .home-page .customer-feedback-proof figcaption { position: absolute; right: .5rem; bottom: .5rem; padding: .24rem .42rem; border-radius: 999px; background: rgba(0, 0, 0, .62); color: #fff; font-size: .58rem; font-weight: 700; letter-spacing: .04em; }
 
 @media (max-width: 767px) {
-  .home-page .customer-testimonial-card { grid-template-columns: minmax(0, 1fr) 118px; min-height: 320px; gap: .75rem; padding: .9rem; }
+  .home-page .customer-testimonial-card { grid-template-columns: minmax(0, 1fr); min-height: 250px; gap: .75rem; padding: .9rem; }
   .home-page .customer-testimonial-message { font-size: .96rem; }
   .home-page .customer-feedback-proof img { min-height: 270px; }
+}
+
+.home-page .customer-stories-section {
+  background: #fff !important;
 }
 
 /* The quotation-page artwork uses a taller desktop canvas. */
@@ -16459,4 +16486,74 @@ main :is(
     height: 75vh !important;
     min-height: 75vh !important;
   }
+}
+
+/* One treatment for every brand-gold text accent. The reference signature
+   uses the core gold with a confident, filled stroke; controls and gold
+   surfaces are deliberately excluded from this typography-only rule. */
+main :is(
+  .font-script,
+  [class^="script-"],
+  [class*="-script-"],
+  [class$="-script"],
+  .title-script,
+  h1 em,
+  h2 em,
+  h3 em,
+  h4 em,
+  .text-accent,
+  .text-accent-brown,
+  .highlight-gold,
+  .text-gold,
+  .gold-text,
+  .eyebrow,
+  .eyebrow-text,
+  .quote-kicker,
+  .recruitment-eyebrow,
+  .booking-eyebrow,
+  .testimonial-kicker,
+  .user-stars,
+  .customer-testimonial-user span,
+  .quote-price-copy h3,
+  .quote-price-area,
+  .quote-featured-heading p,
+  .company-profile-hero p,
+  .company-profile-hero h1 em
+) {
+  color: var(--brand-gold-text) !important;
+}
+
+main :is(
+  .font-script,
+  [class^="script-"],
+  [class*="-script-"],
+  [class$="-script"],
+  .title-script,
+  h1 em,
+  h2 em,
+  h3 em,
+  h4 em,
+  .company-profile-hero h1 em
+) {
+  font-weight: 700 !important;
+  font-synthesis: weight;
+  -webkit-text-stroke: 0.85px currentColor;
+  text-stroke: 0.85px currentColor;
+  text-shadow: 0 0 0.45px currentColor;
+}
+
+main :is(
+  .eyebrow,
+  .eyebrow-text,
+  .quote-kicker,
+  .recruitment-eyebrow,
+  .booking-eyebrow,
+  .testimonial-kicker,
+  .text-accent,
+  .text-accent-brown,
+  .highlight-gold,
+  .text-gold,
+  .gold-text
+) {
+  font-weight: 700 !important;
 }

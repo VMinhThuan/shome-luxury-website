@@ -190,6 +190,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let pointerStartX = 0;
     let scrollStartX = 0;
     let wheelLocked = false;
+    const dragSpeed = 1.15;
 
     const currentPageIndex = () => pages.reduce((best, page, index) =>
       Math.abs(track.scrollLeft - page) < Math.abs(track.scrollLeft - pages[best]) ? index : best, 0);
@@ -242,6 +243,7 @@ document.addEventListener('DOMContentLoaded', () => {
       window.setTimeout(() => { wheelLocked = false; }, 450);
     }, { passive: false });
     track.addEventListener('pointerdown', event => {
+      if (!event.isPrimary || (event.pointerType === 'mouse' && event.button !== 0)) return;
       isPointerDown = true;
       pointerStartX = event.clientX;
       scrollStartX = track.scrollLeft;
@@ -250,7 +252,8 @@ document.addEventListener('DOMContentLoaded', () => {
     });
     track.addEventListener('pointermove', event => {
       if (!isPointerDown) return;
-      track.scrollLeft = scrollStartX - (event.clientX - pointerStartX);
+      event.preventDefault();
+      track.scrollLeft = scrollStartX - ((event.clientX - pointerStartX) * dragSpeed);
     });
     ['pointerup', 'pointercancel'].forEach(type => track.addEventListener(type, () => {
       isPointerDown = false;
