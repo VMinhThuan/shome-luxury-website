@@ -4604,7 +4604,7 @@ body.page-recruitment,
 .work-process-title {
   margin: 0;
   color: var(--accent-gold, #D2A044);
-  font-family: var(--font-heading);
+  font-family: var(--font-script);
   font-size: clamp(1.8rem, 3vw, 2.65rem);
   font-weight: 800;
   letter-spacing: -0.035em;
@@ -8253,6 +8253,13 @@ body.page-recruitment,
   .project-showcase-hero .showcase-title .title-script {
     font-size: 40px;
   }
+
+  /* Keep the service and project type together on desktop; the phone layout
+     below deliberately retains the two-line treatment. */
+  .project-showcase-hero .showcase-title .title-script {
+    display: inline;
+    margin-left: 0.2em;
+  }
 }
 
 /* Keep each title group intact on phones: the black service name first,
@@ -10622,7 +10629,7 @@ body.page-recruitment,
 .testimonial-kicker {
   display: inline-block;
   color: #D2A044;
-  font: 700 0.78rem var(--font-menu);
+  font: 800 0.78rem var(--font-menu);
   letter-spacing: 0.14em;
   text-transform: uppercase;
   margin-bottom: 0.4rem;
@@ -10637,11 +10644,14 @@ body.page-recruitment,
 .testimonial-heading h2 em {
   color: #D2A044;
   font-family: var(--font-script);
-  font-weight: 400;
+  font-weight: 700;
   font-style: normal;
   font-size: 1.18em;
   margin-left: 0.25rem;
   display: inline-block;
+  -webkit-text-stroke: 0.85px currentColor;
+  text-stroke: 0.85px currentColor;
+  text-shadow: 0 0 0.45px currentColor;
 }
 
 .testimonial-heading p {
@@ -15987,9 +15997,9 @@ main :is(
   .slider-dots .dot,
   #factoryDots .dot
 ) {
-  width: 20px !important;
-  height: 20px !important;
-  flex: 0 0 20px !important;
+  width: 12px !important;
+  height: 12px !important;
+  flex: 0 0 12px !important;
   box-sizing: border-box !important;
   appearance: none;
   -webkit-appearance: none;
@@ -16021,10 +16031,10 @@ main :is(
   .slider-dots .dot.active,
   #factoryDots .dot.active
 ) {
-  width: 20px !important;
-  height: 20px !important;
-  flex-basis: 20px !important;
-  border: 1.5px solid #777 !important;
+  width: 12px !important;
+  height: 12px !important;
+  flex-basis: 12px !important;
+  border: 1px solid #777 !important;
   background: #D2A044 !important;
   box-shadow: none !important;
 }
@@ -16225,12 +16235,12 @@ main :is(
   }
 }
 
-/* Sub-page banners share one desktop frame.  Homepage keeps its independent
-   slider proportions; each other image hero uses the same visual height and
-   centres its copy vertically within the artwork. */
+/* Sub-page banners share a half-viewport desktop frame. Homepage keeps its
+   independent slider proportions; each other image hero centres its copy
+   vertically within the artwork. */
 @media (min-width: 768px) {
   :root {
-    --subpage-banner-height: clamp(500px, 33vw, 640px);
+    --subpage-banner-height: 50svh;
   }
 
   .page-recruitment .recruitment-banner-card,
