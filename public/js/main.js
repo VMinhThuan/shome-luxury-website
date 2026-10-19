@@ -298,10 +298,11 @@ document.addEventListener('DOMContentLoaded', () => {
   });
   document.dispatchEvent(new Event('shomeluxuryreviewcarouselready'));
 
-  // 3.3 HERO BANNER CAROUSEL: drag, mouse-wheel, swipe, dot navigation & autoplay
-  const initHeroSlider = (trackId = 'heroSliderTrack', dotsId = 'heroSliderDots') => {
-    const track = document.getElementById(trackId);
-    const dotsContainer = document.getElementById(dotsId);
+  // 3.3 HERO BANNER CAROUSEL: the homepage interaction is shared by every
+  // multi-slide banner. Markup only needs data-hero-slider and its dot target,
+  // so sub-pages cannot slowly drift into separate carousel behaviours.
+  const initHeroSlider = track => {
+    const dotsContainer = document.getElementById(track.dataset.heroDots);
     if (!track || !dotsContainer || track.dataset.heroSliderReady) return;
     track.dataset.heroSliderReady = 'true';
     // Listen on the whole banner rather than only the scroll track. The text
@@ -325,6 +326,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let wheelDelta = 0;
     let wheelResetTimer = null;
     let isWheelGestureLocked = false;
+    let scrollFrame = null;
 
     const getSlidePositions = () => {
       const width = track.clientWidth;
@@ -456,7 +458,16 @@ document.addEventListener('DOMContentLoaded', () => {
       pauseForManualControl();
     }, { passive: false, capture: true });
 
-    track.addEventListener('scroll', setActiveDot, { passive: true });
+    // Scrolling emits many events while native smooth-scroll is running.
+    // Limit DOM class updates to one per frame to keep the transition as fluid
+    // on the booking, quotation and factory pages as it is on the homepage.
+    track.addEventListener('scroll', () => {
+      if (scrollFrame) return;
+      scrollFrame = window.requestAnimationFrame(() => {
+        scrollFrame = null;
+        setActiveDot();
+      });
+    }, { passive: true });
 
     // Auto-play (advance every 5.5s)
     const nextSlide = () => {
@@ -493,10 +504,7 @@ document.addEventListener('DOMContentLoaded', () => {
     startAutoPlay();
   };
 
-  initHeroSlider();
-  initHeroSlider('factoryHeroSliderTrack', 'factoryHeroSliderDots');
-  initHeroSlider('quoteHeroSliderTrack', 'quoteHeroSliderDots');
-  initHeroSlider('bookingHeroSliderTrack', 'bookingHeroSliderDots');
+  document.querySelectorAll('[data-hero-slider]').forEach(initHeroSlider);
 
 
   // 4. CONSULTATION MODAL

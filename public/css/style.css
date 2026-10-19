@@ -1518,6 +1518,12 @@ ol {
   cursor: grab;
   user-select: none;
   -webkit-user-select: none;
+  /* Keep the browser's composited native scroll path for every hero, not
+     only the homepage. Vertical page scrolling remains available on touch. */
+  touch-action: pan-y;
+  overscroll-behavior-x: contain;
+  contain: layout paint;
+  will-change: scroll-position;
   z-index: 1;
 }
 
@@ -1542,6 +1548,7 @@ ol {
   display: flex;
   align-items: center;
   overflow: hidden;
+  contain: layout paint;
 }
 
 .hero-slide .hero-v2-bg img {

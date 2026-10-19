@@ -7,7 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400&family=Playfair+Display:ital,wght@0,600;0,700;0,800;0,900;1,600&family=Great+Vibes&family=Alex+Brush&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="/css/style.css?v=6.8.3" />
+  <link rel="stylesheet" href="/css/style.css?v=6.8.4" />
   <style>
     /* Alternating section backgrounds on quote page handled by style.css design system */
     .quote-page .quote-video-card-link { display: block; padding: 0; color: inherit; font: inherit; text-align: left; cursor: pointer; }
@@ -1796,8 +1796,32 @@
         margin: 0 0 0 .24em !important;
       }
     }
+
+    /* The carousel previously used an auto-height scroll track on phones.
+       Because its slides are background-only elements, the track could
+       collapse to zero height and hide all three banners. Keep one explicit
+       16:9 viewport, then let the shared hero slider scroll its three slides. */
+    @media (max-width: 767px) {
+      .quote-page .quote-hero.quote-hero-carousel {
+        position: relative !important;
+        height: 56.25vw !important;
+        min-height: 0 !important;
+        overflow: hidden !important;
+      }
+      .quote-page .quote-hero-carousel .quote-hero-slider-track {
+        position: absolute !important;
+        inset: 0 !important;
+        height: 100% !important;
+      }
+      .quote-page .quote-hero-carousel .quote-hero-slide {
+        display: flex !important;
+        height: 100% !important;
+        min-height: 100% !important;
+        aspect-ratio: auto !important;
+      }
+    }
   </style>
-  <script src="/js/main.js?v=1.9.8" defer></script>
+  <script src="/js/main.js?v=1.9.9" defer></script>
   <script src="/js/quote-page.js?v=1.2.2" defer></script>
 </head>
 <body>
@@ -1807,7 +1831,7 @@
     <% if (sections.hero?.isVisible !== false) { %>
       <% const quoteHeroSlides = [sections.hero.image, '/images/quote-hero-banner-bedroom.png', '/images/quote-hero-banner-dining.png']; %>
       <section class="quote-hero quote-hero-carousel" aria-label="Banner báo giá">
-        <div class="hero-slider-track quote-hero-slider-track" id="quoteHeroSliderTrack" aria-label="Danh sách banner báo giá">
+        <div class="hero-slider-track quote-hero-slider-track" id="quoteHeroSliderTrack" data-hero-slider data-hero-dots="quoteHeroSliderDots" aria-label="Danh sách banner báo giá">
           <% quoteHeroSlides.forEach((image, index) => { %>
             <div class="hero-slide quote-hero-slide" data-slide-index="<%= index %>" aria-label="Banner báo giá <%= index + 1 %> trên 3" style="--quote-hero-image: url('<%= image %>')">
             </div>
@@ -1923,7 +1947,6 @@
     <% } %>
 
     <% if (sections.brandVideo?.isVisible !== false) { %>
-      <% const brandVideoUrl = 'https://www.youtube.com/watch?v=hoUvh1w9tII'; %>
       <% const brandVideoTitle = String(sections.brandVideo.title || '').trim().toLowerCase() === 'đơn vị thiết kế & thi công nội thất hàng đầu việt nam' ? 'Đơn vị thiết kế & thi công nội thất uy tín chất lượng' : sections.brandVideo.title; %>
       <section class="quote-brand-video">
         <div class="container">
@@ -1932,13 +1955,18 @@
             <h2><%= brandVideoTitle %></h2>
             <strong><%= sections.brandVideo.description %></strong>
           </header>
-          <button class="quote-video-card quote-video-card-link" type="button" data-quote-brand-video data-video-url="<%= brandVideoUrl %>" aria-label="<%= sections.brandVideo.ctaLabel || 'Xem trên YouTube' %>">
-            <img src="/images/quote-brand-video-shome-luxury.png" alt="Video giới thiệu Shome Luxury" loading="lazy" />
-            <div class="quote-video-logo"><b>SHOME <em>LUXURY</em></b><span>KIẾN TẠO KHÔNG GIAN<br />SỐNG THƯỢNG LƯU</span></div>
-            <div class="quote-video-scrim"></div>
-            <span class="quote-video-play" aria-hidden="true">▶</span>
-            <div class="quote-video-copy"><span>SHOME LUXURY</span><h3>Đơn vị thiết kế</h3><p>Thiết kế &amp; thi công<br /><b>uy tín, chất lượng</b></p><div class="quote-video-points"><i>✦<small>Thẩm mỹ<br />tinh tế</small></i><i>◌<small>Chuyên nghiệp<br />tận tâm</small></i><i>⌂<small>Chất lượng<br />bền vững</small></i></div></div>
-          </button>
+          <div class="quote-video-card">
+            <div class="quote-video-frame">
+              <iframe
+                src="https://www.youtube-nocookie.com/embed/hoUvh1w9tII?rel=0&amp;modestbranding=1"
+                title="Công Ty Shome luxury - Đơn vị thiết kế thi công tại Hà Nội"
+                loading="lazy"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                referrerpolicy="strict-origin-when-cross-origin"
+                allowfullscreen>
+              </iframe>
+            </div>
+          </div>
         </div>
       </section>
     <% } %>
