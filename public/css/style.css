@@ -16485,8 +16485,8 @@ main .customer-stories-section,
 /* The quotation-page artwork uses a taller desktop canvas. */
 @media (min-width: 768px) {
   .quote-page .quote-hero.quote-hero-carousel {
-    height: 75vh !important;
-    min-height: 75vh !important;
+    height: var(--subpage-banner-height) !important;
+    min-height: var(--subpage-banner-height) !important;
   }
 }
 

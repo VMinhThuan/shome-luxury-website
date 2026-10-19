@@ -449,8 +449,8 @@
 
       /* Quote page uses the same draggable three-banner carousel as home. */
       .quote-page .quote-hero.quote-hero-carousel {
-        height: 75vh !important;
-        min-height: 0 !important;
+        height: 50svh !important;
+        min-height: 50svh !important;
         padding: 0 !important;
         background-image: none !important;
       }
@@ -1849,6 +1849,37 @@
     }
     @media (min-width: 768px) {
       .quote-page .quote-hero-carousel .quote-hero-media { display: none; }
+    }
+    /* 16:9 version of the complimentary-design feature.
+       The full composed card (copy + interior image) now uses a video-style canvas
+       on desktop; the existing compact split layout is retained on phones so the
+       offer remains legible rather than being reduced to thumbnail-sized type. */
+    @media (min-width: 768px) {
+      .quote-page .quote-construction-card {
+        aspect-ratio: 16 / 9 !important;
+        min-height: 0 !important;
+      }
+      .quote-page .quote-construction-copy {
+        padding: clamp(1.5rem, 3vw, 3.4rem) clamp(1.4rem, 3.2vw, 3.8rem) !important;
+      }
+      .quote-page .quote-construction-copy .quote-kicker {
+        font-size: clamp(1rem, 1.7vw, 1.8rem) !important;
+      }
+      .quote-page .quote-construction-copy h2 {
+        font-size: clamp(2rem, 4.15vw, 4.5rem) !important;
+      }
+      .quote-page .quote-construction-copy > p {
+        font-size: clamp(.78rem, 1.25vw, 1.18rem) !important;
+        line-height: 1.4 !important;
+      }
+      .quote-page .quote-construction-points {
+        gap: clamp(.4rem, .8vw, .75rem) !important;
+        font-size: clamp(.67rem, 1vw, .98rem) !important;
+      }
+      .quote-page .quote-construction-copy .quote-button {
+        min-height: clamp(36px, 3vw, 50px) !important;
+        font-size: clamp(.62rem, .92vw, .9rem) !important;
+      }
     }
   </style>
   <script src="/js/main.js?v=1.9.9" defer></script>
