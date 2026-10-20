@@ -15739,16 +15739,18 @@ main .news-list-body p {
   border: 1.5px solid #17130f !important;
 }
 
-/* The process eyebrow is a gold handwritten accent, not an all-caps label. */
+/* Keep the process eyebrow in the same signature treatment as brand-gold
+   lettering used throughout the site. */
 .booking-page .booking-process-kicker {
-  font-family: 'Great Vibes', 'Alex Brush', cursive !important;
-  font-size: clamp(2.7rem, 5.2vw, 4.5rem) !important;
+  font-family: var(--font-script) !important;
+  font-size: var(--fs-section-title) !important;
   font-weight: 400 !important;
   letter-spacing: 0 !important;
-  line-height: .9 !important;
+  line-height: 1.1 !important;
   text-transform: none !important;
-  -webkit-text-stroke: .2px currentColor;
-  text-stroke: .2px currentColor;
+  -webkit-text-stroke: 0 !important;
+  text-stroke: 0 !important;
+  text-shadow: none !important;
 }
 
 /* Local cover keeps the brand-film entry consistent with the site's gold script headings. */
@@ -16490,8 +16492,7 @@ main .customer-stories-section,
   }
 }
 
-/* One treatment for every brand-gold text accent. The reference signature
-   uses the core gold with a confident, filled stroke; controls and gold
+/* One lighter treatment for every brand-gold text accent. Controls and gold
    surfaces are deliberately excluded from this typography-only rule. */
 main :is(
   .font-script,
@@ -16537,11 +16538,11 @@ main :is(
   h4 em,
   .company-profile-hero h1 em
 ) {
-  font-weight: 700 !important;
-  font-synthesis: weight;
-  -webkit-text-stroke: 0.85px currentColor;
-  text-stroke: 0.85px currentColor;
-  text-shadow: 0 0 0.45px currentColor;
+  font-weight: 400 !important;
+  font-synthesis: none;
+  -webkit-text-stroke: 0 !important;
+  text-stroke: 0 !important;
+  text-shadow: none !important;
 }
 
 main :is(
@@ -16557,7 +16558,7 @@ main :is(
   .text-gold,
   .gold-text
 ) {
-  font-weight: 700 !important;
+  font-weight: 500 !important;
 }
 
 /* Hero banner handwritten script subtitles: maintain elegant, refined signature stroke matching homepage banner */
