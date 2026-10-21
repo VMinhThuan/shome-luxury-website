@@ -15045,7 +15045,8 @@ body.project-gallery-lightbox-open { overflow: hidden !important; }
 
 @media (min-width: 768px) {
   /* FAQ cards are closed by default and use the full desktop content width. */
-  .home-page .home-faq-list {
+  .home-page .home-faq-list,
+  .booking-page .home-faq-list {
     display: grid;
     width: 100%;
     max-width: var(--container-max);
@@ -15060,26 +15061,31 @@ body.project-gallery-lightbox-open { overflow: hidden !important; }
   }
 
   .home-page .home-faq-item,
-  .home-page .home-faq-item + .home-faq-item {
+  .home-page .home-faq-item + .home-faq-item,
+  .booking-page .home-faq-item,
+  .booking-page .home-faq-item + .home-faq-item {
     border: 1px solid #dcc9a8;
     border-radius: 16px;
     background: #fff;
   }
 
-  .home-page .home-faq-item summary {
+  .home-page .home-faq-item summary,
+  .booking-page .home-faq-item summary {
     min-height: 96px;
     padding: clamp(1rem, 1.65vw, 1.4rem);
     font-size: clamp(1rem, 1.35vw, 1.22rem);
     line-height: 1.35;
   }
 
-  .home-page .home-faq-item p {
+  .home-page .home-faq-item p,
+  .booking-page .home-faq-item p {
     margin-bottom: 1.25rem;
     padding: 0 clamp(1rem, 1.65vw, 1.4rem);
     font-size: clamp(.88rem, 1.1vw, 1rem);
   }
 
-  .home-page .home-faq-cta {
+  .home-page .home-faq-cta,
+  .booking-page .home-faq-cta {
     width: 100%;
     max-width: var(--container-max);
   }
@@ -16506,14 +16512,13 @@ main .customer-stories-section,
   background: #fff !important;
 }
 
-/* Keep the three editorial banners on the exact same desktop canvas. */
+/* Match the visible desktop image height used by the recruitment banner. */
 @media (min-width: 768px) {
-  .news-page .news-hero,
   .quote-page .quote-hero.quote-hero-carousel,
   .factory-hero {
-    height: var(--subpage-banner-height) !important;
-    min-height: var(--subpage-banner-height) !important;
-    max-height: var(--subpage-banner-height) !important;
+    height: clamp(420px, 34vw, 540px) !important;
+    min-height: clamp(420px, 34vw, 540px) !important;
+    max-height: clamp(420px, 34vw, 540px) !important;
   }
 }
 
