@@ -4606,7 +4606,10 @@ body.page-recruitment,
   color: var(--accent-gold, #D2A044);
   font-family: var(--font-script);
   font-size: clamp(1.8rem, 3vw, 2.65rem);
-  font-weight: 800;
+  font-weight: 400;
+  font-synthesis: none;
+  -webkit-text-stroke: 0;
+  text-stroke: 0;
   letter-spacing: -0.035em;
   line-height: 1.15;
   text-transform: none;
@@ -16503,17 +16506,14 @@ main .customer-stories-section,
   background: #fff !important;
 }
 
-/* The quotation-page artwork uses a taller desktop canvas. */
+/* Keep the three editorial banners on the exact same desktop canvas. */
 @media (min-width: 768px) {
-  .quote-page .quote-hero.quote-hero-carousel {
+  .news-page .news-hero,
+  .quote-page .quote-hero.quote-hero-carousel,
+  .factory-hero {
     height: var(--subpage-banner-height) !important;
     min-height: var(--subpage-banner-height) !important;
-  }
-
-  /* Match the factory banner to the News page's half-viewport hero frame. */
-  .factory-hero {
-    height: 50dvh !important;
-    min-height: 50dvh !important;
+    max-height: var(--subpage-banner-height) !important;
   }
 }
 
