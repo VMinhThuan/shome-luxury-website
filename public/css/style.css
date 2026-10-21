@@ -16300,10 +16300,7 @@ main :is(
   }
 
   .page-recruitment .recruitment-banner-card,
-  .news-page .news-hero,
-  .booking-page .booking-hero,
-  .quote-page .quote-hero,
-  .factory-hero {
+  .booking-page .booking-hero {
     height: var(--subpage-banner-height) !important;
     min-height: var(--subpage-banner-height) !important;
     box-sizing: border-box;
@@ -16519,6 +16516,16 @@ main .customer-stories-section,
     height: var(--subpage-banner-height) !important;
     min-height: var(--subpage-banner-height) !important;
     max-height: var(--subpage-banner-height) !important;
+    box-sizing: border-box !important;
+    overflow: hidden !important;
+  }
+
+  .subpage-banner-frame > .hero-slider-track,
+  .subpage-banner-frame > .news-hero-image,
+  .subpage-banner-frame > .hero-slider-track > .hero-slide {
+    height: 100% !important;
+    min-height: 0 !important;
+    max-height: 100% !important;
   }
 }
 
