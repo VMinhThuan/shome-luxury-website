@@ -16533,6 +16533,11 @@ main .customer-stories-section,
   .subpage-banner-frame {
     --subpage-banner-height: 455px;
   }
+
+  .quote-page .subpage-banner-frame,
+  .factory-hero.subpage-banner-frame {
+    --subpage-banner-height: 910px;
+  }
 }
 
 /* One lighter treatment for every brand-gold text accent. Controls and gold
