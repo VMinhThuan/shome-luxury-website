@@ -15679,8 +15679,8 @@ main .news-list-body p {
    of the following section below it. */
 @media (min-width: 768px) {
   .home-page .hero-section-v2 {
-    height: calc(100dvh - var(--header-height-desktop));
-    min-height: calc(100dvh - var(--header-height-desktop));
+    height: calc(100dvh - 2.5rem);
+    min-height: calc(100dvh - 2.5rem);
     padding-top: 0;
     padding-bottom: 0;
   }
@@ -16508,6 +16508,12 @@ main .customer-stories-section,
   .quote-page .quote-hero.quote-hero-carousel {
     height: var(--subpage-banner-height) !important;
     min-height: var(--subpage-banner-height) !important;
+  }
+
+  /* Match the factory banner to the News page's desktop hero frame. */
+  .factory-hero {
+    height: clamp(280px, 25vw, 380px) !important;
+    min-height: clamp(280px, 25vw, 380px) !important;
   }
 }
 

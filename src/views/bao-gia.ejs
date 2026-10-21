@@ -1884,7 +1884,11 @@
     .quote-page :is(
       .quote-brochure-copy h1 em,
       .quote-hero-corner-script,
+      .customer-stories-script,
+      .home-faq-script,
       .quote-heading h2 em,
+      .quote-featured-heading h2 em,
+      .quote-completed-heading h2 em,
       .quote-workshop-heading h2 em,
       .quote-craftsmanship-heading h2 em,
       .quote-handover-heading h2 em,
@@ -1905,11 +1909,11 @@
       }
 
       .quote-page .quote-price-copy h3 {
-        font-size: clamp(1.55rem, 2.4vw, 2.3rem) !important;
+        font-size: clamp(1.35rem, 2vw, 1.95rem) !important;
       }
 
       .quote-page .quote-price-amount {
-        font-size: 1.08em;
+        font-size: 1.04em;
       }
 
       .quote-page .quote-construction-image-section,
@@ -1921,7 +1925,12 @@
 
     .quote-page .quote-construction-image-section {
       padding: 0 !important;
+      margin-top: -1px;
       background: #fff;
+    }
+
+    .quote-page .quote-pricing {
+      padding-bottom: 0 !important;
     }
 
     .quote-page .quote-construction-image-only {
