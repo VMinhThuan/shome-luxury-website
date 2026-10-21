@@ -8673,9 +8673,10 @@ body.page-recruitment,
 @media (min-width: 768px) {
   .completed-projects-heading h2 em,
   .completed-videos-heading h2 em {
-    display: block;
-    margin: .16em 0 .42em;
-    line-height: .9;
+    display: inline-block;
+    margin: 0 0 0 .12em;
+    line-height: 1;
+    vertical-align: baseline;
   }
 
   /* The short Nhà Cấp 4 label sits alongside its completed-architecture
@@ -16512,13 +16513,13 @@ main .customer-stories-section,
   background: #fff !important;
 }
 
-/* Match the visible desktop image height used by the recruitment banner. */
+/* Keep these desktop banners at the same half-screen height as News. */
 @media (min-width: 768px) {
   .quote-page .quote-hero.quote-hero-carousel,
   .factory-hero {
-    height: clamp(420px, 34vw, 540px) !important;
-    min-height: clamp(420px, 34vw, 540px) !important;
-    max-height: clamp(420px, 34vw, 540px) !important;
+    height: 50svh !important;
+    min-height: 50svh !important;
+    max-height: 50svh !important;
   }
 }
 
