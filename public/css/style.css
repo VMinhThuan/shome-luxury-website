@@ -16510,10 +16510,10 @@ main .customer-stories-section,
     min-height: var(--subpage-banner-height) !important;
   }
 
-  /* Match the factory banner to the News page's desktop hero frame. */
+  /* Match the factory banner to the News page's half-viewport hero frame. */
   .factory-hero {
-    height: clamp(280px, 25vw, 380px) !important;
-    min-height: clamp(280px, 25vw, 380px) !important;
+    height: 50dvh !important;
+    min-height: 50dvh !important;
   }
 }
 
@@ -16584,6 +16584,15 @@ main :is(
   .gold-text
 ) {
   font-weight: 500 !important;
+}
+
+/* The booking estimate's gold line is a brand heading, not handwritten copy. */
+.booking-estimate-header h2 em {
+  font-family: var(--font-heading) !important;
+  font-weight: 800 !important;
+  font-synthesis: none;
+  -webkit-text-stroke: 0 !important;
+  text-stroke: 0 !important;
 }
 
 /* Hero banner handwritten script subtitles: maintain elegant, refined signature stroke matching homepage banner */
