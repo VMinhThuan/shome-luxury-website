@@ -7,7 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400&family=Playfair+Display:ital,wght@0,600;0,700;0,800;0,900;1,600&family=Great+Vibes&family=Alex+Brush&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="/css/style.css?v=6.8.13" />
+  <link rel="stylesheet" href="/css/style.css?v=6.8.14" />
   <style>
     /* Alternating section backgrounds on quote page handled by style.css design system */
     .quote-page .quote-video-card-link { display: block; padding: 0; color: inherit; font: inherit; text-align: left; cursor: pointer; }
@@ -449,8 +449,8 @@
 
       /* Quote page uses the same draggable three-banner carousel as home. */
       .quote-page .quote-hero.quote-hero-carousel {
-        height: 50dvh !important;
-        min-height: 50dvh !important;
+        height: var(--subpage-banner-height) !important;
+        min-height: var(--subpage-banner-height) !important;
         padding: 0 !important;
         background-image: none !important;
       }
@@ -1976,7 +1976,7 @@
         { desktop: '/images/quote-hero-banner-bedroom.png', mobile: '/images/quote-hero-mobile-bedroom.png' },
         { desktop: '/images/quote-hero-banner-dining.png', mobile: '/images/quote-hero-mobile-dining.png' }
       ]; %>
-      <section class="quote-hero quote-hero-carousel" aria-label="Banner báo giá">
+      <section class="quote-hero quote-hero-carousel subpage-banner-frame" aria-label="Banner báo giá">
         <div class="hero-slider-track quote-hero-slider-track" id="quoteHeroSliderTrack" data-hero-slider data-hero-dots="quoteHeroSliderDots" aria-label="Danh sách banner báo giá">
           <% quoteHeroSlides.forEach((image, index) => { %>
             <div class="hero-slide quote-hero-slide" data-slide-index="<%= index %>" aria-label="Banner báo giá <%= index + 1 %> trên 3" style="--quote-hero-image: url('<%= image.desktop %>')">

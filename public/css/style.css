@@ -16513,13 +16513,18 @@ main .customer-stories-section,
   background: #fff !important;
 }
 
-/* Keep these desktop banners at the same half-screen height as News. */
+/* A single frame keeps the News, Factory, and Quote banners identical. */
 @media (min-width: 768px) {
-  .quote-page .quote-hero.quote-hero-carousel,
-  .factory-hero {
-    height: 50svh !important;
-    min-height: 50svh !important;
-    max-height: 50svh !important;
+  .subpage-banner-frame {
+    height: var(--subpage-banner-height) !important;
+    min-height: var(--subpage-banner-height) !important;
+    max-height: var(--subpage-banner-height) !important;
+  }
+}
+
+@media (min-width: 1024px) {
+  .subpage-banner-frame {
+    --subpage-banner-height: 455px;
   }
 }
 
