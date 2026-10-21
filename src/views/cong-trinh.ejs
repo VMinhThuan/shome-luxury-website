@@ -137,7 +137,7 @@
           <div class="container">
             <header class="completed-projects-heading">
               <p>─── NHỮNG HÌNH ẢNH HOÀN CÔNG TIÊU BIỂU ───</p>
-              <h2><%= pageConfig.completedTitleMain || 'HOÀN CÔNG NỘI THẤT' %> <em class="font-script"><%= pageConfig.completedTitleScript || 'Chung Cư' %></em></h2>
+              <h2 class="<%= pageConfig.completedTitleScript === 'Nhà Cấp 4' ? 'completed-title--nha-cap-4' : '' %>"><%= pageConfig.completedTitleMain || 'HOÀN CÔNG NỘI THẤT' %> <em class="font-script"><%= pageConfig.completedTitleScript || 'Chung Cư' %></em></h2>
               <strong><%= pageConfig.completedDescription || 'Những hình ảnh thực tế sau khi hoàn thiện, mang đến không gian sống sang trọng, tinh tế và đúng “chất” của từng gia chủ.' %></strong>
             </header>
           </div>
@@ -169,7 +169,7 @@
           <div class="container">
             <header class="completed-videos-heading">
               <p>─── NHỮNG VIDEO HOÀN THIỆN TIÊU BIỂU ───</p>
-              <h2><%= pageConfig.completedTitleMain || 'HOÀN CÔNG NỘI THẤT' %> <em class="font-script"><%= pageConfig.completedTitleScript || 'Chung Cư' %></em></h2>
+              <h2 class="<%= pageConfig.completedTitleScript === 'Nhà Cấp 4' ? 'completed-title--nha-cap-4' : '' %>"><%= pageConfig.completedTitleMain || 'HOÀN CÔNG NỘI THẤT' %> <em class="font-script"><%= pageConfig.completedTitleScript || 'Chung Cư' %></em></h2>
               <strong><%= pageConfig.completedVideoDescription || 'Khám phá những video hoàn thiện thực tế với không gian sống tinh tế, hiện đại và đẳng cấp.' %></strong>
             </header>
           </div>

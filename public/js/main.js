@@ -187,10 +187,17 @@ document.addEventListener('DOMContentLoaded', () => {
     const cards = Array.from(track.children);
     let pages = [];
     let isPointerDown = false;
+    let isDragging = false;
+    let activePointerId = null;
     let pointerStartX = 0;
     let scrollStartX = 0;
+    let pendingScrollLeft = 0;
+    let animationFrame = null;
+    let lastMoveX = 0;
+    let lastMoveTime = 0;
+    let velocityX = 0;
     let wheelLocked = false;
-    const dragSpeed = 1.15;
+    const dragThreshold = 4;
 
     const currentPageIndex = () => pages.reduce((best, page, index) =>
       Math.abs(track.scrollLeft - page) < Math.abs(track.scrollLeft - pages[best]) ? index : best, 0);
@@ -245,20 +252,59 @@ document.addEventListener('DOMContentLoaded', () => {
     track.addEventListener('pointerdown', event => {
       if (!event.isPrimary || (event.pointerType === 'mouse' && event.button !== 0)) return;
       isPointerDown = true;
+      isDragging = false;
+      activePointerId = event.pointerId;
       pointerStartX = event.clientX;
       scrollStartX = track.scrollLeft;
+      pendingScrollLeft = scrollStartX;
+      lastMoveX = event.clientX;
+      lastMoveTime = event.timeStamp;
+      velocityX = 0;
       track.setPointerCapture?.(event.pointerId);
-      track.classList.add('is-dragging');
     });
     track.addEventListener('pointermove', event => {
-      if (!isPointerDown) return;
+      if (!isPointerDown || event.pointerId !== activePointerId) return;
+      const distance = event.clientX - pointerStartX;
+      if (!isDragging && Math.abs(distance) < dragThreshold) return;
+      if (!isDragging) {
+        isDragging = true;
+        track.classList.add('is-dragging');
+      }
       event.preventDefault();
-      track.scrollLeft = scrollStartX - ((event.clientX - pointerStartX) * dragSpeed);
+      const elapsed = Math.max(1, event.timeStamp - lastMoveTime);
+      velocityX = (event.clientX - lastMoveX) / elapsed;
+      lastMoveX = event.clientX;
+      lastMoveTime = event.timeStamp;
+      pendingScrollLeft = scrollStartX - distance;
+      if (animationFrame) return;
+      animationFrame = window.requestAnimationFrame(() => {
+        track.scrollLeft = pendingScrollLeft;
+        animationFrame = null;
+      });
     });
-    ['pointerup', 'pointercancel'].forEach(type => track.addEventListener(type, () => {
+    const endDrag = event => {
+      if (!isPointerDown || event.pointerId !== activePointerId) return;
+      if (animationFrame) {
+        window.cancelAnimationFrame(animationFrame);
+        animationFrame = null;
+        track.scrollLeft = pendingScrollLeft;
+      }
+      if (track.hasPointerCapture?.(event.pointerId)) track.releasePointerCapture(event.pointerId);
       isPointerDown = false;
+      activePointerId = null;
       track.classList.remove('is-dragging');
-    }));
+      if (!isDragging || !pages.length) return;
+
+      // Finish on the closest group. A quick flick biases the destination one
+      // group in its direction, which makes desktop dragging feel responsive.
+      let targetIndex = currentPageIndex();
+      if (Math.abs(velocityX) > 0.35) {
+        targetIndex += velocityX < 0 ? 1 : -1;
+      }
+      targetIndex = Math.max(0, Math.min(pages.length - 1, targetIndex));
+      track.scrollTo({ left: pages[targetIndex], behavior: 'smooth' });
+    };
+    ['pointerup', 'pointercancel'].forEach(type => track.addEventListener(type, endDrag));
     new ResizeObserver(buildDots).observe(track);
     buildDots();
   };

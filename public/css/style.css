@@ -8675,6 +8675,15 @@ body.page-recruitment,
     line-height: .9;
   }
 
+  /* The short Nhà Cấp 4 label sits alongside its completed-architecture
+     heading on web/tablet; phone layouts retain the stacked treatment. */
+  .completed-projects-heading h2.completed-title--nha-cap-4 em,
+  .completed-videos-heading h2.completed-title--nha-cap-4 em {
+    display: inline-block;
+    margin: 0 0 0 .12em;
+    vertical-align: baseline;
+  }
+
   .completed-projects-heading strong,
   .completed-videos-heading strong {
     margin-top: 0;
@@ -15021,6 +15030,14 @@ body.project-gallery-lightbox-open { overflow: hidden !important; }
 .home-page .customer-testimonial-grid {
   cursor: grab;
   touch-action: pan-y;
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.customer-testimonial-grid img {
+  -webkit-user-drag: none;
+  user-select: none;
 }
 
 @media (min-width: 768px) {
@@ -15658,12 +15675,15 @@ main .news-list-body p {
   }
 }
 
-/* The homepage opener fills the visible viewport below the site header. */
-.home-page .hero-section-v2 {
-  height: calc(100svh - var(--header-height-desktop));
-  min-height: calc(100svh - var(--header-height-desktop));
-  padding-top: 0;
-  padding-bottom: 0;
+/* On desktop, keep the opener almost viewport-height while leaving a glimpse
+   of the following section below it. */
+@media (min-width: 768px) {
+  .home-page .hero-section-v2 {
+    height: calc(100dvh - var(--header-height-desktop));
+    min-height: calc(100dvh - var(--header-height-desktop));
+    padding-top: 0;
+    padding-bottom: 0;
+  }
 }
 
 .home-page .hero-section-v2 .hero-v2-container {
@@ -16262,12 +16282,11 @@ main :is(
   }
 }
 
-/* Sub-page banners share a half-viewport desktop frame. Homepage keeps its
-   independent slider proportions; each other image hero centres its copy
-   vertically within the artwork. */
+/* Sub-page banners share the same half-viewport desktop frame as the News
+   banner. Homepage keeps its independent slider proportions. */
 @media (min-width: 768px) {
   :root {
-    --subpage-banner-height: 50svh;
+    --subpage-banner-height: 50dvh;
   }
 
   .page-recruitment .recruitment-banner-card,

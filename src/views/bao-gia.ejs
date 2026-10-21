@@ -7,7 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400&family=Playfair+Display:ital,wght@0,600;0,700;0,800;0,900;1,600&family=Great+Vibes&family=Alex+Brush&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="/css/style.css?v=6.8.6" />
+  <link rel="stylesheet" href="/css/style.css?v=6.8.9" />
   <style>
     /* Alternating section backgrounds on quote page handled by style.css design system */
     .quote-page .quote-video-card-link { display: block; padding: 0; color: inherit; font: inherit; text-align: left; cursor: pointer; }
@@ -1879,6 +1879,80 @@
         font-size: clamp(.62rem, .92vw, .9rem) !important;
       }
     }
+    /* Use the same refined, lighter handwritten gold accent as the other
+       site pages. Price figures are intentionally a little quieter. */
+    .quote-page :is(
+      .quote-brochure-copy h1 em,
+      .quote-hero-corner-script,
+      .quote-heading h2 em,
+      .quote-workshop-heading h2 em,
+      .quote-craftsmanship-heading h2 em,
+      .quote-handover-heading h2 em,
+      .quote-construction-copy h2,
+      .quote-video-copy h3,
+      .quote-free-estimate-copy h2 em
+    ) {
+      font-weight: 400 !important;
+      font-synthesis: none !important;
+      -webkit-text-stroke: 0 !important;
+      text-stroke: 0 !important;
+      text-shadow: none !important;
+    }
+
+    @media (min-width: 768px) {
+      .quote-page .quote-completed-heading h2 em {
+        margin-left: .58em !important;
+      }
+
+      .quote-page .quote-price-copy h3 {
+        font-size: clamp(1.55rem, 2.4vw, 2.3rem) !important;
+      }
+
+      .quote-page .quote-price-amount {
+        font-size: 1.08em;
+      }
+
+      .quote-page .quote-construction-image-section,
+      .quote-page .quote-construction-image-only {
+        height: 50dvh;
+        min-height: 50dvh;
+      }
+    }
+
+    .quote-page .quote-construction-image-section {
+      padding: 0 !important;
+      background: #fff;
+    }
+
+    .quote-page .quote-construction-image-only {
+      display: block !important;
+      width: 100%;
+      min-height: 0;
+      overflow: hidden;
+      border: 0 !important;
+      border-radius: 0 !important;
+      background: transparent !important;
+      box-shadow: none !important;
+    }
+
+    .quote-page .quote-construction-image-only > img {
+      display: block;
+      width: 100% !important;
+      height: 100% !important;
+      min-height: 0 !important;
+      max-height: none !important;
+      border-radius: 0 !important;
+      object-fit: cover;
+      object-position: center;
+    }
+
+    @media (max-width: 767px) {
+      .quote-page .quote-construction-image-section,
+      .quote-page .quote-construction-image-only {
+        height: 56.25vw !important;
+        min-height: 0 !important;
+      }
+    }
   </style>
   <script src="/js/main.js?v=1.9.9" defer></script>
   <script src="/js/quote-page.js?v=1.2.2" defer></script>
@@ -1927,22 +2001,9 @@
     <% } %>
 
     <% if (sections.constructionCta?.isVisible !== false) { %>
-      <section class="quote-construction-cta">
-        <div class="container">
-          <div class="quote-construction-card">
-            <div class="quote-construction-copy">
-              <p class="quote-kicker"><%= sections.constructionCta.eyebrow %></p>
-              <h2><%= sections.constructionCta.title %></h2>
-              <p><%= sections.constructionCta.description %></p>
-              <div class="quote-construction-points">
-                <span><i aria-hidden="true"><svg viewBox="0 0 24 24"><ellipse cx="12" cy="7" rx="6.5" ry="2.5"/><path d="M5.5 7v5c0 1.4 2.9 2.5 6.5 2.5s6.5-1.1 6.5-2.5V7M5.5 12v5c0 1.4 2.9 2.5 6.5 2.5s6.5-1.1 6.5-2.5v-5"/></svg></i>Tối ưu chi phí</span>
-                <span><i aria-hidden="true"><svg viewBox="0 0 24 24"><path d="m12 3 7 5-7 13L5 8l7-5Z"/><path d="m5 8 7 4 7-4M12 12v9"/></svg></i>Đồng bộ thẩm mỹ</span>
-                <span><i aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 10.5 12 4l8 6.5V20H4v-9.5Z"/><path d="M9 20v-5h6v5"/></svg></i>Trọn gói cho căn hộ, nhà phố, văn phòng</span>
-              </div>
-              <a class="quote-button quote-booking-button" href="/dat-lich-ngay"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" /></svg><span>Đặt lịch ngay</span></a>
-            </div>
-            <img src="<%= sections.constructionCta.image %>" alt="Thi công nội thất Shome Luxury" loading="lazy" />
-          </div>
+      <section class="quote-construction-cta quote-construction-image-section">
+        <div class="quote-construction-card quote-construction-image-only">
+          <img src="<%= sections.constructionCta.image %>" alt="Thi công nội thất Shome Luxury" loading="lazy" />
         </div>
       </section>
     <% } %>
