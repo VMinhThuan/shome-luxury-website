@@ -16775,3 +16775,91 @@ main :is(.hero-script-subtitle, .recruitment-hero-script, .recruitment-hero-bott
     object-position: center;
   }
 }
+
+/* Homepage banner: image dissolves first, then its copy arrives in layers. */
+.home-page .hero-slider--fade {
+  display: block;
+  overflow: hidden;
+  scroll-snap-type: none;
+}
+
+.home-page .hero-slider--fade .hero-slide {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  min-width: 0;
+  height: 100%;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 1s ease, visibility 0s linear 1s;
+}
+
+.home-page .hero-slider--fade .hero-slide.is-active,
+.home-page .hero-slider--fade .hero-slide.is-exiting {
+  visibility: visible;
+}
+
+.home-page .hero-slider--fade .hero-slide.is-active {
+  z-index: 2;
+  opacity: 1;
+  pointer-events: auto;
+  transition-delay: 0s;
+}
+
+.home-page .hero-slider--fade .hero-slide.is-exiting {
+  z-index: 1;
+  opacity: 0;
+  transition-delay: 0s;
+}
+
+.home-page .hero-slider--fade .hero-v2-bg img {
+  transform: scale(1.035);
+  transition: transform 5.5s linear;
+}
+
+.home-page .hero-slider--fade .hero-slide.is-active .hero-v2-bg img {
+  transform: scale(1);
+}
+
+.home-page .hero-slider--fade .hero-slide.is-active .hero-title-line {
+  animation: home-hero-copy-from-left .82s cubic-bezier(.22, 1, .36, 1) .72s both;
+}
+
+.home-page .hero-slider--fade .hero-slide.is-active .hero-title-line:nth-child(2) {
+  animation-delay: .86s;
+}
+
+.home-page .hero-slider--fade .hero-slide.is-active .hero-script-subtitle {
+  animation: home-hero-copy-from-bottom .78s cubic-bezier(.22, 1, .36, 1) 1.04s both;
+}
+
+.home-page .hero-slider--fade .hero-slide.is-exiting .hero-title-line,
+.home-page .hero-slider--fade .hero-slide.is-exiting .hero-script-subtitle {
+  animation: hero-script-fade-out .38s ease-in both;
+}
+
+@keyframes home-hero-copy-from-left {
+  from { opacity: 0; transform: translate3d(-3rem, 0, 0); }
+  to { opacity: 1; transform: translate3d(0, 0, 0); }
+}
+
+@keyframes home-hero-copy-from-bottom {
+  from { opacity: 0; transform: translate3d(0, 1.8rem, 0); }
+  to { opacity: 1; transform: translate3d(0, 0, 0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .home-page .hero-slider--fade .hero-slide,
+  .home-page .hero-slider--fade .hero-v2-bg img {
+    transition: none;
+  }
+
+  .home-page .hero-slider--fade .hero-slide.is-active .hero-title-line,
+  .home-page .hero-slider--fade .hero-slide.is-active .hero-script-subtitle,
+  .home-page .hero-slider--fade .hero-slide.is-exiting .hero-title-line,
+  .home-page .hero-slider--fade .hero-slide.is-exiting .hero-script-subtitle {
+    animation: none;
+  }
+}

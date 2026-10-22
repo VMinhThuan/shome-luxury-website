@@ -358,6 +358,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // layer and pagination dots sit above the track, so they otherwise absorb
     // drag and wheel events before they reach the carousel.
     const heroSection = track.closest('.hero-section-v2, .quote-hero, .booking-hero, .factory-hero') || track;
+    const isFadeSlider = track.classList.contains('hero-slider--fade');
 
     const slides = Array.from(track.querySelectorAll('.hero-slide'));
     if (slides.length <= 1) {
@@ -373,6 +374,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let autoPlayTimer = null;
     let isManuallyControlled = false;
     let scrollFrame = null;
+    let activeIndex = 0;
 
     const getSlidePositions = () => {
       const width = track.clientWidth;
@@ -380,6 +382,7 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     const getCurrentIndex = () => {
+      if (isFadeSlider) return activeIndex;
       const positions = getSlidePositions();
       const currentScroll = track.scrollLeft;
       return positions.reduce((best, pos, idx) =>
@@ -415,6 +418,13 @@ document.addEventListener('DOMContentLoaded', () => {
       const targetIndex = loop
         ? (index + slides.length) % slides.length
         : Math.max(0, Math.min(index, slides.length - 1));
+
+      if (isFadeSlider) {
+        activeIndex = targetIndex;
+        setActiveDot();
+        return;
+      }
+
       track.scrollTo({ left: targetIndex * track.clientWidth, behavior: 'smooth' });
     };
 
@@ -483,6 +493,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Limit DOM class updates to one per frame to keep the transition as fluid
     // on the booking, quotation and factory pages as it is on the homepage.
     track.addEventListener('scroll', () => {
+      if (isFadeSlider) return;
       if (scrollFrame) return;
       scrollFrame = window.requestAnimationFrame(() => {
         scrollFrame = null;
