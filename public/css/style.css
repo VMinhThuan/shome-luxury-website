@@ -3358,6 +3358,21 @@ body.page-recruitment,
   }
 }
 
+/* News: keep the latest-articles heading close to the featured story. */
+@media (min-width: 768px) {
+  .news-page .news-featured-section {
+    padding-bottom: .5rem !important;
+  }
+
+  .news-page .news-latest-section {
+    padding-top: .5rem !important;
+  }
+
+  .news-page .news-section-heading {
+    margin-top: 0;
+  }
+}
+
 
 /* 7. PROCESS & WORKSHOP VIDEO - MATCHING REFERENCE IMAGE 2 */
 .process-header-section {
@@ -4193,11 +4208,17 @@ body.page-recruitment,
   gap: 0.5rem;
 }
 
-/* Preserve the before/after order but stack each pair on phones. */
+/* On phones, keep each before/after comparison as one connected pair. */
 @media (max-width: 767px) {
   .renovation-showcase-pair {
-    grid-template-columns: minmax(0, 1fr);
-    gap: 0.75rem;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0;
+    overflow: hidden;
+    border-radius: 10px;
+  }
+
+  .renovation-showcase-pair .renovation-showcase-media {
+    border-radius: 0;
   }
 
   .renovation-showcase-list {
@@ -12876,9 +12897,9 @@ main .section-v2-title,
 
 /* Free-estimate CTA: compact consultation panel following the handover check. */
 .quote-page .quote-free-estimate { padding: clamp(1.25rem, 3vw, 2.5rem) 0; background: #fff; }
-.quote-page .quote-free-estimate-card { position: relative; min-height: clamp(420px, 48vw, 540px); overflow: hidden; border: 1px solid #eadfce; border-radius: 20px; background: #fdf8ef; isolation: isolate; box-shadow: 0 10px 30px rgba(50, 35, 20, 0.05); }
+.quote-page .quote-free-estimate-card { position: relative; min-height: clamp(420px, 48vw, 540px); overflow: hidden; border: 1px solid #eadfce; border-radius: 20px; background: #fff; isolation: isolate; box-shadow: 0 10px 30px rgba(50, 35, 20, 0.05); }
 .quote-page .quote-free-estimate-image { position: absolute; inset: 0; z-index: -2; width: 100%; height: 100%; object-fit: cover; object-position: center; }
-.quote-page .quote-free-estimate-card::before { position: absolute; z-index: -1; inset: 0; content: ''; background: linear-gradient(90deg, rgba(255,253,248,.98) 0%, rgba(255,253,248,.95) 45%, rgba(255,253,248,.32) 74%, transparent 100%); }
+.quote-page .quote-free-estimate-card::before { position: absolute; z-index: -1; inset: 0; content: ''; background: linear-gradient(90deg, rgba(255,255,255,.98) 0%, rgba(255,255,255,.95) 45%, rgba(255,255,255,.32) 74%, transparent 100%); }
 .quote-page .quote-free-estimate-copy { display: flex; width: min(52%, 540px); min-height: inherit; flex-direction: column; justify-content: center; padding: clamp(2rem, 4.5vw, 4rem); color: #211912; }
 .quote-page .quote-free-estimate-copy h2 { max-width: 480px; margin: 0 0 .85rem; font-family: var(--font-heading); font-size: clamp(2rem, 3.8vw, 3.6rem); font-weight: 800; letter-spacing: -.04em; line-height: 1.05; }
 .quote-page .quote-free-estimate-copy h2 em { display: inline-block; margin-left: .25em; color: #c47a1c; font-family: var(--font-script); font-weight: 500; font-style: normal; }
@@ -12893,13 +12914,13 @@ main .section-v2-title,
 .quote-page .quote-free-estimate-button:hover { background: var(--accent-gold-hover, #D2A653); border-color: var(--accent-gold-hover, #D2A653); color: #000000; transform: translateY(-2px); box-shadow: 0 6px 20px rgba(200, 155, 75, 0.45); }
 @media (max-width: 900px) {
   .quote-page .quote-free-estimate-copy { width: min(64%, 480px); padding: 2rem 1.75rem; }
-  .quote-page .quote-free-estimate-card::before { background: linear-gradient(90deg, rgba(255,253,248,.98) 0%, rgba(255,253,248,.95) 58%, rgba(255,253,248,.38) 82%, transparent 100%); }
+  .quote-page .quote-free-estimate-card::before { background: linear-gradient(90deg, rgba(255,255,255,.98) 0%, rgba(255,255,255,.95) 58%, rgba(255,255,255,.38) 82%, transparent 100%); }
 }
 @media (max-width: 767px) {
   .quote-page .quote-free-estimate { padding: 1.25rem 0; }
   .quote-page .quote-free-estimate-card { min-height: auto; border-radius: 16px; }
   .quote-page .quote-free-estimate-image { object-position: 70% center; }
-  .quote-page .quote-free-estimate-card::before { background: linear-gradient(180deg, rgba(255,253,248,.98) 0%, rgba(255,253,248,.95) 65%, rgba(255,253,248,.82) 100%); }
+  .quote-page .quote-free-estimate-card::before { background: linear-gradient(180deg, rgba(255,255,255,.98) 0%, rgba(255,255,255,.95) 65%, rgba(255,255,255,.82) 100%); }
   .quote-page .quote-free-estimate-copy { width: 100%; padding: 1.75rem 1.25rem 2rem; }
   .quote-page .quote-free-estimate-copy h2 { font-size: clamp(1.85rem, 8vw, 2.5rem); white-space: normal; margin-bottom: .6rem; }
   .quote-page .quote-free-estimate-copy h2 em { display: block; margin-left: 0; margin-top: .12rem; }
@@ -13163,7 +13184,7 @@ body.project-gallery-lightbox-open { overflow: hidden !important; }
 /* Desktop uses the same full-width rhythm as the header: a full hero and three assurance cards in one row. */
 @media (min-width: 768px) { .quote-page .quote-hero { padding-right: 0; padding-left: 0; }.quote-page .quote-hero-inner { width: 100%; max-width: var(--container-max); margin-left: auto; margin-right: auto; padding-right: 24px; padding-left: 24px; }.quote-page .quote-brochure-copy { padding-left: 0; }.quote-page .quote-benefit-grid { width: 100%; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(.75rem, 1.6vw, 1.4rem); }.quote-page .quote-benefit-card { grid-template-columns: 58px minmax(0, 1fr); min-height: 142px; padding: clamp(1rem, 1.8vw, 1.35rem); }.quote-page .quote-benefit-icon { width: 54px; height: 54px; }.quote-page .quote-benefit-card h3 { font-size: clamp(1rem, 1.5vw, 1.2rem); }.quote-page .quote-benefit-card p { font-size: clamp(.74rem, 1vw, .84rem); } }
 
-@media (min-width: 768px) { .quote-page .quote-free-estimate-card::before { background: linear-gradient(90deg, rgba(255,253,248,.98) 0%, rgba(255,253,248,.9) 34%, rgba(255,253,248,.18) 61%, transparent 78%); }.quote-page .quote-free-estimate-copy { width: min(52%, 560px); }.quote-page .quote-free-estimate-copy h2 { max-width: 520px; } }
+@media (min-width: 768px) { .quote-page .quote-free-estimate-card::before { background: linear-gradient(90deg, rgba(255,255,255,.98) 0%, rgba(255,255,255,.9) 34%, rgba(255,255,255,.18) 61%, transparent 78%); }.quote-page .quote-free-estimate-copy { width: min(52%, 560px); }.quote-page .quote-free-estimate-copy h2 { max-width: 520px; } }
 
 /* The supplied brochure is already art-directed; do not retain the legacy dark hero overlay on desktop. */
 @media (min-width: 768px) { .quote-page .quote-hero { background-color: #fffbf6; background-image: var(--quote-hero-image); background-position: center; background-repeat: no-repeat; background-size: cover; } }
@@ -14428,6 +14449,12 @@ body.project-gallery-lightbox-open { overflow: hidden !important; }
   background: #fffcf7;
 }
 
+/* Booking page: the consultation CTA sits immediately before the footer, so
+   it needs a compact ending rather than the homepage's large section rhythm. */
+.booking-page .home-faq-section {
+  padding-bottom: 1.5rem;
+}
+
 .home-faq-list,
 .home-faq-cta {
   width: min(100%, 900px);
@@ -15685,14 +15712,23 @@ main .news-list-body p {
   }
 }
 
-/* On desktop, keep the opener almost viewport-height while leaving a glimpse
-   of the following section below it. */
-@media (min-width: 768px) {
+/* On PC, let the homepage banner fill the entire viewport.  The mobile
+   aspect-ratio rules below remain unchanged. */
+@media (min-width: 1024px) {
   .home-page .hero-section-v2 {
-    height: calc(100dvh - 2.5rem);
-    min-height: calc(100dvh - 2.5rem);
+    height: 100vh;
+    min-height: 100vh;
     padding-top: 0;
     padding-bottom: 0;
+  }
+}
+
+@supports (height: 100dvh) {
+  @media (min-width: 1024px) {
+    .home-page .hero-section-v2 {
+      height: 100dvh;
+      min-height: 100dvh;
+    }
   }
 }
 
@@ -16182,6 +16218,26 @@ main :is(
     font-size: clamp(.7rem, 3.2vw, .86rem) !important;
     line-height: 1.35 !important;
   }
+
+  /* Keep the showroom image and team panel visually connected on phones. */
+  .home-page .about-showroom-section {
+    padding-bottom: .5rem !important;
+  }
+
+  .home-page .professional-team-section {
+    padding-top: .5rem !important;
+  }
+
+  /* Flatten the eight mobile project cards while preserving room for their
+     labels, descriptions and CTAs. */
+  .home-page .project-type-card,
+  .home-page .project-type-card--reverse {
+    min-height: 195px;
+  }
+
+  .home-page .home-project-signature-card {
+    min-height: clamp(185px, 52vw, 240px);
+  }
 }
 
 @media (max-width: 767px) {
@@ -16660,5 +16716,62 @@ main :is(.hero-script-subtitle, .recruitment-hero-script, .recruitment-hero-bott
   .recruitment-hero-script {
     font-size: clamp(1.15rem, 5vw, 1.75rem) !important;
     margin-bottom: 0.32em !important;
+  }
+}
+
+/* The News banner contains only artwork, so give its absolute-positioned
+   image a stable mobile frame and show it without the desktop text scrim. */
+@media (max-width: 767px) {
+  .news-page .news-hero {
+    height: 56.25vw;
+    min-height: 0;
+    aspect-ratio: 16 / 9;
+  }
+
+  .news-page .news-hero-image::before {
+    display: none;
+  }
+
+  .news-page .news-hero-image img {
+    object-position: center;
+  }
+
+  /* The featured article image is wrapped in a link; make that wrapper fill
+     its grid cell so no dark empty area appears under the photo. */
+  .news-page .news-featured > a {
+    display: block;
+    min-height: 100%;
+  }
+
+  .news-page .news-featured > a > img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+}
+
+/* The booking slider is image-only on mobile, so reserve its visual frame. */
+@media (max-width: 767px) {
+  .booking-page .booking-hero {
+    height: 56.25vw;
+    min-height: 0;
+    padding: 0;
+    aspect-ratio: 16 / 9;
+  }
+
+  .booking-page .booking-hero-slider-track,
+  .booking-page .booking-hero-slide,
+  .booking-page .booking-hero-media {
+    height: 100%;
+    min-height: 0;
+  }
+
+  .booking-page .booking-hero-media::after {
+    display: none;
+  }
+
+  .booking-page .booking-hero-media img {
+    object-position: center;
   }
 }
