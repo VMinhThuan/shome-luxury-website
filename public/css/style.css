@@ -16527,6 +16527,27 @@ main .customer-stories-section,
     min-height: 0 !important;
     max-height: 100% !important;
   }
+
+  /* These two carousels also carry older page-specific hero rules. Lock their
+     outer frames to the recruitment-banner height so those rules cannot make
+     either artwork taller or shorter than the other sub-page banners. */
+  .quote-page .quote-hero.quote-hero-carousel,
+  .factory-hero.subpage-banner-frame {
+    height: 50dvh !important;
+    min-height: 50dvh !important;
+    max-height: 50dvh !important;
+  }
+
+  /* News reserves space for the fixed desktop header before its banner. Do
+     the same here: otherwise the first 84px of these frames sits behind the
+     header and makes the visible artwork look shorter despite equal heights. */
+  .quote-page {
+    padding-top: var(--header-height-desktop);
+  }
+
+  .factory-hero.subpage-banner-frame {
+    margin-top: var(--header-height-desktop);
+  }
 }
 
 /* One lighter treatment for every brand-gold text accent. Controls and gold
