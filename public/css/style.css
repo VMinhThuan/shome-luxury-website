@@ -16823,21 +16823,58 @@ main :is(.hero-script-subtitle, .recruitment-hero-script, .recruitment-hero-bott
   transform: scale(1);
 }
 
-.home-page .hero-slider--fade .hero-slide.is-active .hero-title-line {
+/* Slide 1: the XHOME-style horizontal caption entrance. */
+.home-page .hero-slider--fade .hero-slide[data-slide-index="0"].is-active .hero-title-line {
   animation: home-hero-copy-from-left .82s cubic-bezier(.22, 1, .36, 1) .72s both;
 }
 
-.home-page .hero-slider--fade .hero-slide.is-active .hero-title-line:nth-child(2) {
+.home-page .hero-slider--fade .hero-slide[data-slide-index="0"].is-active .hero-title-line:nth-child(2) {
   animation-delay: .86s;
 }
 
-.home-page .hero-slider--fade .hero-slide.is-active .hero-script-subtitle {
-  animation: home-hero-copy-from-bottom .78s cubic-bezier(.22, 1, .36, 1) 1.04s both;
+.home-page .hero-slider--fade .hero-slide[data-slide-index="0"].is-active .hero-script-subtitle {
+  animation: home-hero-copy-from-right .78s cubic-bezier(.22, 1, .36, 1) 1.04s both;
 }
 
-.home-page .hero-slider--fade .hero-slide.is-exiting .hero-title-line,
-.home-page .hero-slider--fade .hero-slide.is-exiting .hero-script-subtitle {
-  animation: hero-script-fade-out .38s ease-in both;
+/* Slide 2: each copy layer tumbles in, matching XHOME's random-rotate slide. */
+.home-page .hero-slider--fade .hero-slide[data-slide-index="1"].is-active .hero-title-line {
+  animation: home-hero-copy-rotate-in .86s cubic-bezier(.22, 1, .36, 1) .72s both;
+}
+
+.home-page .hero-slider--fade .hero-slide[data-slide-index="1"].is-active .hero-title-line:nth-child(2) {
+  animation-delay: .88s;
+}
+
+.home-page .hero-slider--fade .hero-slide[data-slide-index="1"].is-active .hero-script-subtitle {
+  animation: home-hero-copy-rotate-in .82s cubic-bezier(.22, 1, .36, 1) 1.06s both;
+}
+
+/* Slide 3: the copy skews across the image instead of rotating. */
+.home-page .hero-slider--fade .hero-slide[data-slide-index="2"].is-active .hero-title-line {
+  animation: home-hero-copy-skew-in .78s cubic-bezier(.22, 1, .36, 1) .72s both;
+}
+
+.home-page .hero-slider--fade .hero-slide[data-slide-index="2"].is-active .hero-title-line:nth-child(2) {
+  animation-delay: .86s;
+}
+
+.home-page .hero-slider--fade .hero-slide[data-slide-index="2"].is-active .hero-script-subtitle {
+  animation: home-hero-copy-skew-in .74s cubic-bezier(.22, 1, .36, 1) 1.04s both;
+}
+
+.home-page .hero-slider--fade .hero-slide[data-slide-index="0"].is-exiting .hero-title-line,
+.home-page .hero-slider--fade .hero-slide[data-slide-index="0"].is-exiting .hero-script-subtitle {
+  animation: home-hero-copy-to-right .36s ease-in both;
+}
+
+.home-page .hero-slider--fade .hero-slide[data-slide-index="1"].is-exiting .hero-title-line,
+.home-page .hero-slider--fade .hero-slide[data-slide-index="1"].is-exiting .hero-script-subtitle {
+  animation: home-hero-copy-rotate-out .4s ease-in both;
+}
+
+.home-page .hero-slider--fade .hero-slide[data-slide-index="2"].is-exiting .hero-title-line,
+.home-page .hero-slider--fade .hero-slide[data-slide-index="2"].is-exiting .hero-script-subtitle {
+  animation: home-hero-copy-skew-out .36s ease-in both;
 }
 
 @keyframes home-hero-copy-from-left {
@@ -16848,6 +16885,36 @@ main :is(.hero-script-subtitle, .recruitment-hero-script, .recruitment-hero-bott
 @keyframes home-hero-copy-from-bottom {
   from { opacity: 0; transform: translate3d(0, 1.8rem, 0); }
   to { opacity: 1; transform: translate3d(0, 0, 0); }
+}
+
+@keyframes home-hero-copy-from-right {
+  from { opacity: 0; transform: translate3d(3rem, 0, 0); }
+  to { opacity: 1; transform: translate3d(0, 0, 0); }
+}
+
+@keyframes home-hero-copy-to-right {
+  from { opacity: 1; transform: translate3d(0, 0, 0); }
+  to { opacity: 0; transform: translate3d(1.5rem, 0, 0); }
+}
+
+@keyframes home-hero-copy-rotate-in {
+  from { opacity: 0; transform: perspective(800px) translate3d(-1.6rem, .8rem, 0) rotateX(-55deg) rotateY(70deg) rotateZ(-13deg) scale(.78); }
+  to { opacity: 1; transform: perspective(800px) translate3d(0, 0, 0) rotateX(0) rotateY(0) rotateZ(0) scale(1); }
+}
+
+@keyframes home-hero-copy-rotate-out {
+  from { opacity: 1; transform: perspective(800px) rotateX(0) rotateY(0) rotateZ(0) scale(1); }
+  to { opacity: 0; transform: perspective(800px) translate3d(1rem, -.4rem, 0) rotateX(38deg) rotateY(-55deg) rotateZ(10deg) scale(.88); }
+}
+
+@keyframes home-hero-copy-skew-in {
+  from { opacity: 0; transform: translate3d(-3rem, .5rem, 0) skewX(-20deg); }
+  to { opacity: 1; transform: translate3d(0, 0, 0) skewX(0); }
+}
+
+@keyframes home-hero-copy-skew-out {
+  from { opacity: 1; transform: translate3d(0, 0, 0) skewX(0); }
+  to { opacity: 0; transform: translate3d(1.2rem, 0, 0) skewX(16deg); }
 }
 
 @media (prefers-reduced-motion: reduce) {
