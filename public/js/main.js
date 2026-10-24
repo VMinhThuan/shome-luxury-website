@@ -1315,6 +1315,33 @@ document.addEventListener('DOMContentLoaded', () => {
     observer.observe(projectLoadSentinel);
   }
 
+  // Related projects on the detail page: offer visible previous/next controls
+  // in addition to the native swipe gesture on mobile.
+  const relatedProjectsCarousel = document.querySelector('[data-related-projects-carousel]');
+  const relatedProjectsPrev = document.querySelector('[data-related-projects-prev]');
+  const relatedProjectsNext = document.querySelector('[data-related-projects-next]');
+
+  if (relatedProjectsCarousel && relatedProjectsPrev && relatedProjectsNext) {
+    const updateRelatedProjectsControls = () => {
+      const maxScroll = relatedProjectsCarousel.scrollWidth - relatedProjectsCarousel.clientWidth;
+      relatedProjectsPrev.disabled = relatedProjectsCarousel.scrollLeft <= 2;
+      relatedProjectsNext.disabled = relatedProjectsCarousel.scrollLeft >= maxScroll - 2;
+    };
+
+    const scrollRelatedProjects = (direction) => {
+      const firstCard = relatedProjectsCarousel.querySelector('.project-showcase-card');
+      const gap = parseFloat(window.getComputedStyle(relatedProjectsCarousel).gap) || 0;
+      const amount = firstCard ? firstCard.getBoundingClientRect().width + gap : relatedProjectsCarousel.clientWidth;
+      relatedProjectsCarousel.scrollBy({ left: direction * amount, behavior: 'smooth' });
+    };
+
+    relatedProjectsPrev.addEventListener('click', () => scrollRelatedProjects(-1));
+    relatedProjectsNext.addEventListener('click', () => scrollRelatedProjects(1));
+    relatedProjectsCarousel.addEventListener('scroll', updateRelatedProjectsControls, { passive: true });
+    window.addEventListener('resize', updateRelatedProjectsControls);
+    updateRelatedProjectsControls();
+  }
+
   // Mail link handler: Copies email to clipboard and prompts user
   document.querySelectorAll("a[href^='mailto:']").forEach(link => {
     link.addEventListener("click", function(e) {

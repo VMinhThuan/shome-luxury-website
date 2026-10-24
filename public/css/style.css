@@ -17120,6 +17120,60 @@ main .home-faq-item p {
     flex: 0 0 min(82vw, 360px) !important;
     scroll-snap-align: start;
   }
+
+  .project-detail-page .related-projects-heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: .8rem;
+  }
+
+  .project-detail-page .related-projects-heading .section-title {
+    margin-bottom: 1.35rem;
+  }
+
+  .project-detail-page .related-projects-controls {
+    display: flex;
+    flex: none;
+    gap: .45rem;
+    margin: 0 0 1.35rem auto;
+  }
+
+  .project-detail-page .related-projects-control {
+    display: grid;
+    width: 34px;
+    height: 34px;
+    place-items: center;
+    border: 1px solid #caa35f;
+    border-radius: 50%;
+    background: #fff;
+    color: #9a6a1d;
+    cursor: pointer;
+    transition: background-color .2s ease, color .2s ease, opacity .2s ease;
+  }
+
+  .project-detail-page .related-projects-control svg {
+    width: 18px;
+    height: 18px;
+    fill: none;
+    stroke: currentColor;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-width: 2;
+  }
+
+  .project-detail-page .related-projects-control:disabled {
+    border-color: #d9d9d9;
+    color: #aaa;
+    cursor: default;
+    opacity: .55;
+  }
+}
+
+@media (min-width: 768px) {
+  .project-detail-page .related-projects-controls {
+    display: none;
+  }
 }
 
 /* Keep the copy in the pale panel of each real-project tile on phones. */
