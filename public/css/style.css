@@ -17089,6 +17089,10 @@ main .home-faq-item p {
 .project-detail-summary {
   display: flow-root;
   background: #f2f3f5;
+  /* Extend the summary surface to both viewport edges without changing the
+     existing content container alignment. */
+  box-shadow: 0 0 0 100vmax #f2f3f5;
+  clip-path: inset(0 -100vmax);
 }
 
 /* Related projects become a swipeable horizontal gallery on phones. */
@@ -17135,6 +17139,9 @@ main .home-faq-item p {
   }
 
   .home-page .home-project-signature-copy {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
     width: 67%;
     padding: clamp(.8rem, 3.2vw, 1.1rem);
   }
