@@ -17094,6 +17094,8 @@ main .home-faq-item p {
 /* Related projects become a swipeable horizontal gallery on phones. */
 @media (max-width: 767px) {
   .project-detail-page .related-projects-section .project-list-vertical {
+    /* Override the related-project grid used elsewhere in the site. */
+    display: flex !important;
     flex-direction: row;
     align-items: stretch;
     gap: .85rem;
@@ -17111,7 +17113,7 @@ main .home-faq-item p {
   }
 
   .project-detail-page .related-projects-section .project-showcase-card {
-    flex: 0 0 min(82vw, 360px);
+    flex: 0 0 min(82vw, 360px) !important;
     scroll-snap-align: start;
   }
 }
