@@ -14,7 +14,7 @@ cloudinary.config({
  * @param {String} folderName - Cloudinary folder name (e.g. 'shome-luxury/recruitment')
  * @returns {Promise<Object>} Cloudinary upload result
  */
-const uploadToCloudinary = (fileBuffer, folderName = "shome-luxury/recruitment") => {
+const uploadToCloudinary = (fileBuffer, folderName = "shome-luxury/recruitment", options = {}) => {
   return new Promise((resolve, reject) => {
     // If Cloudinary keys are missing, reject with helpful message
     if (!process.env.CLOUDINARY_CLOUD_NAME || !process.env.CLOUDINARY_API_KEY || !process.env.CLOUDINARY_API_SECRET) {
@@ -24,7 +24,8 @@ const uploadToCloudinary = (fileBuffer, folderName = "shome-luxury/recruitment")
     const uploadStream = cloudinary.uploader.upload_stream(
       {
         folder: folderName,
-        resource_type: "auto"
+        resource_type: "image",
+        ...options
       },
       (error, result) => {
         if (error) return reject(error);
@@ -36,7 +37,10 @@ const uploadToCloudinary = (fileBuffer, folderName = "shome-luxury/recruitment")
   });
 };
 
+const destroyCloudinaryImage = (publicId) => cloudinary.uploader.destroy(publicId, { resource_type: 'image', invalidate: true });
+
 module.exports = {
   cloudinary,
-  uploadToCloudinary
+  uploadToCloudinary,
+  destroyCloudinaryImage
 };

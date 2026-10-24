@@ -9,6 +9,7 @@ const constructionVideoController = require('../controllers/constructionVideoCon
 const projectShowcaseController = require("../controllers/projectShowcaseController");
 const authController = require("../controllers/authController");
 const quotePageController = require("../controllers/quotePageController");
+const homeImageController = require('../controllers/homeImageController');
 const { authenticateAdmin, requireAdminPage } = require("../middleware/auth");
 const { requireAdminHost } = require("../middleware/adminSubdomain");
 
@@ -20,6 +21,7 @@ router.get("/ho-so-nang-luc", homeController.getCompanyProfilePage);
 router.get("/bao-gia", quotePageController.renderPage.bind(quotePageController));
 router.get("/admin/login", requireAdminHost, quotePageController.renderAdminLoginPage.bind(quotePageController));
 router.get("/admin/bao-gia", requireAdminHost, requireAdminPage, quotePageController.renderAdminPage.bind(quotePageController));
+router.get('/admin/images', requireAdminHost, (req, res) => res.render('admin-images', { title: 'Quản lý ảnh trang chủ | SHOME LUXURY' }));
 router.get("/tin-tuc", homeController.getNewsPage);
 router.get("/tin-tuc/:id", homeController.getNewsDetailPage);
 router.get("/tin-tuc-chi-tiet/:id", homeController.getNewsDetailPage);
@@ -83,6 +85,9 @@ router.get("/api/projects/:idOrSlug", projectController.getProjectByIdOrSlug.bin
 router.get('/api/construction-videos', constructionVideoController.getVideos.bind(constructionVideoController));
 router.get("/api/quote-page", quotePageController.getPublicContent.bind(quotePageController));
 router.put("/api/admin/quote-page", authenticateAdmin, quotePageController.updateContent.bind(quotePageController));
+router.get('/api/home-images', homeImageController.getPublicImages);
+router.get('/api/admin/home-images', authenticateAdmin, homeImageController.getAdminImages);
+router.put('/api/admin/home-images/:imageKey', authenticateAdmin, homeImageController.uploadMiddleware, homeImageController.updateImage);
 
 // Admin Project CRUD & Gallery API Endpoints
 router.post("/api/admin/projects", authenticateAdmin, projectController.createProject.bind(projectController));

@@ -1,7 +1,16 @@
 const navigationData = require("../data/navigationData");
 const newsData = require("../data/newsData");
+const HomeImage = require('../models/HomeImage');
+const homeImageSlots = require('../data/homeImageSlots');
 
-exports.getHomePage = (req, res) => {
+async function getHomeImages() {
+  const saved = await HomeImage.find({ image_key: { $in: homeImageSlots.map(slot => slot.image_key) } }).lean();
+  const byKey = new Map(saved.map(image => [image.image_key, image.image_url]));
+  return Object.fromEntries(homeImageSlots.map(slot => [slot.image_key, byKey.get(slot.image_key) || slot.image_url]));
+}
+
+exports.getHomePage = async (req, res, next) => {
+  try {
   const pageData = {
     title: "LUXURY HOME | Thiết Kế & Thi Công Nội Thất, Kiến Trúc Cao Cấp",
     headerSlogan: "Nâng tầm cuộc sống",
@@ -128,7 +137,9 @@ exports.getHomePage = (req, res) => {
     }))
   };
 
-  res.render("index", pageData);
+    pageData.homeImages = await getHomeImages();
+    res.render("index", pageData);
+  } catch (error) { next(error); }
 };
 
 exports.getFactoryPage = (req, res) => {

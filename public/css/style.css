@@ -16930,3 +16930,82 @@ main :is(.hero-script-subtitle, .recruitment-hero-script, .recruitment-hero-bott
     animation: none;
   }
 }
+
+/* Homepage project categories: keep two cards on each phone row. The card
+   copy is compact so labels and photography remain legible on narrow phones. */
+@media (max-width: 767px) {
+  .home-page .project-types-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: .55rem;
+  }
+
+  .home-page .project-type-card,
+  .home-page .project-type-card--reverse {
+    min-height: 0;
+    aspect-ratio: .8 / 1;
+    border-radius: 10px;
+  }
+
+  .home-page .project-type-card .type-card-bg img,
+  .home-page .project-type-card--reverse .type-card-bg img {
+    right: 0;
+    left: auto;
+    width: 62%;
+  }
+
+  .home-page .project-type-card .type-card-gradient,
+  .home-page .project-type-card--reverse .type-card-gradient {
+    background: linear-gradient(90deg,
+      rgba(255, 255, 255, .98) 0%,
+      rgba(255, 255, 255, .95) 48%,
+      rgba(255, 255, 255, .45) 68%,
+      rgba(255, 255, 255, 0) 100%);
+  }
+
+  .home-page .project-type-card .type-card-content,
+  .home-page .project-type-card--reverse .type-card-content {
+    right: auto;
+    left: 0;
+    width: 72%;
+    max-width: 72%;
+    padding: clamp(.7rem, 3vw, 1rem);
+  }
+
+  .home-page .type-card-number {
+    margin-bottom: .3rem;
+    font-size: clamp(.62rem, 2.7vw, .74rem);
+  }
+
+  .home-page .type-card-name {
+    margin-bottom: .35rem;
+    font-size: clamp(1.15rem, 5.3vw, 1.55rem);
+    line-height: 1.02;
+  }
+
+  .home-page .type-card-features {
+    margin-bottom: .55rem;
+    font-size: clamp(.61rem, 2.45vw, .72rem);
+    line-height: 1.28;
+  }
+
+  .home-page .type-card-btn {
+    padding: .38rem .52rem;
+    font-size: clamp(.58rem, 2.35vw, .68rem);
+    line-height: 1.1;
+  }
+}
+
+@media (max-width: 359px) {
+  .home-page .project-type-card,
+  .home-page .project-type-card--reverse {
+    aspect-ratio: .76 / 1;
+  }
+
+  .home-page .type-card-features {
+    display: none;
+  }
+
+  .home-page .type-card-name {
+    margin-bottom: .55rem;
+  }
+}
