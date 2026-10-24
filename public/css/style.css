@@ -17122,21 +17122,24 @@ main .home-faq-item p {
   }
 
   .project-detail-page .related-projects-heading {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: .8rem;
+    display: block;
   }
 
   .project-detail-page .related-projects-heading .section-title {
-    margin-bottom: 1.35rem;
+    margin-bottom: .7rem;
+  }
+
+  .project-detail-page .related-projects-carousel-bar {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: .65rem;
   }
 
   .project-detail-page .related-projects-controls {
     display: flex;
     flex: none;
     gap: .45rem;
-    margin: 0 0 1.35rem auto;
+    margin: 0;
   }
 
   .project-detail-page .related-projects-control {
@@ -17171,7 +17174,7 @@ main .home-faq-item p {
 }
 
 @media (min-width: 768px) {
-  .project-detail-page .related-projects-controls {
+  .project-detail-page .related-projects-carousel-bar {
     display: none;
   }
 }
