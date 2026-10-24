@@ -22,46 +22,48 @@
   <!-- Main Content -->
   <main id="main-content" class="project-detail-page" data-project-slug="<%= project.slug %>">
     <div class="container">
-      <!-- Project Detail Header -->
-      <header class="project-detail-header">
-        <h1 class="project-detail-title" data-project-field="title"><%= project.title %></h1>
-        <span class="project-detail-title-rule" aria-hidden="true"></span>
-      </header>
-
       <% const detailMockImages = ['/images/project_apartment.jpg', '/images/project_villa.jpg', '/images/hero_interior.jpg', '/images/hero_sofa_light.jpg', '/images/service_interior.jpg']; %>
       <% const detailImageSrc = project.thumbnail || detailMockImages[(project.title || '').length % detailMockImages.length]; %>
       <% const projectGallery = project.gallery && project.gallery.length ? project.gallery : detailMockImages; %>
       <% const galleryImages = [...new Set([detailImageSrc, ...projectGallery].filter(Boolean))]; %>
-      <aside class="project-info-banner" aria-label="Thông tin dự án">
-        <div class="project-info-container">
-          <div class="project-meta-grid">
-            <% if (project.area) { %>
-              <div class="meta-item">
-                <span class="meta-label">Diện tích</span>
-                <span class="meta-value" data-project-field="area"><%= project.area %></span>
-              </div>
-            <% } %>
-            <% if (project.propertyType) { %>
-              <div class="meta-item">
-                <span class="meta-label">Loại hình</span>
-                <span class="meta-value" data-project-field="propertyType"><%= project.propertyType %></span>
-              </div>
-            <% } %>
-            <% if (project.style) { %>
-              <div class="meta-item">
-                <span class="meta-label">Phong cách</span>
-                <span class="meta-value" data-project-field="style"><%= project.style %></span>
-              </div>
-            <% } %>
-            <% if (Number.isFinite(Number(project.cost))) { %>
-              <div class="meta-item">
-                <span class="meta-label">Chi phí</span>
-                <span class="meta-value" data-project-field="cost" data-project-cost><%= Math.round(Number(project.cost) / 1000000).toLocaleString('vi-VN') %> triệu</span>
-              </div>
-            <% } %>
+      <section class="project-detail-summary" aria-label="Tóm tắt dự án">
+        <!-- Project Detail Header -->
+        <header class="project-detail-header">
+          <h1 class="project-detail-title" data-project-field="title"><%= project.title %></h1>
+          <span class="project-detail-title-rule" aria-hidden="true"></span>
+        </header>
+
+        <aside class="project-info-banner" aria-label="Thông tin dự án">
+          <div class="project-info-container">
+            <div class="project-meta-grid">
+              <% if (project.area) { %>
+                <div class="meta-item">
+                  <span class="meta-label">Diện tích</span>
+                  <span class="meta-value" data-project-field="area"><%= project.area %></span>
+                </div>
+              <% } %>
+              <% if (project.propertyType) { %>
+                <div class="meta-item">
+                  <span class="meta-label">Loại hình</span>
+                  <span class="meta-value" data-project-field="propertyType"><%= project.propertyType %></span>
+                </div>
+              <% } %>
+              <% if (project.style) { %>
+                <div class="meta-item">
+                  <span class="meta-label">Phong cách</span>
+                  <span class="meta-value" data-project-field="style"><%= project.style %></span>
+                </div>
+              <% } %>
+              <% if (Number.isFinite(Number(project.cost))) { %>
+                <div class="meta-item">
+                  <span class="meta-label">Chi phí</span>
+                  <span class="meta-value" data-project-field="cost" data-project-cost><%= Math.round(Number(project.cost) / 1000000).toLocaleString('vi-VN') %> triệu</span>
+                </div>
+              <% } %>
+            </div>
           </div>
-        </div>
-      </aside>
+        </aside>
+      </section>
       <section class="project-showcase-gallery" data-project-gallery aria-label="Thư viện ảnh công trình <%= project.title %>">
         <div class="project-gallery-stage" data-gallery-open tabindex="0" aria-label="Bấm để xem ảnh phóng to">
           <img src="<%= galleryImages[0] %>" alt="<%= project.title %> - ảnh 1" class="hero-img" data-detail-image loading="eager" draggable="false"
