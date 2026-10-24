@@ -126,7 +126,7 @@ const PAGE_CONFIGS = {
   },
   'tk-nt-chung-cu': {
     eyebrow: 'DỰ ÁN TIÊU BIỂU',
-    titleMain: 'NỘI THẤT',
+    titleMain: 'THIẾT KẾ NỘI THẤT',
     titleScript: 'Chung Cư',
     description: 'Nội thất căn hộ chung cư hiện đại, tối ưu công năng từng phòng chức năng.',
     categoryCode: 'tk-nt-chung-cu',
@@ -140,7 +140,7 @@ const PAGE_CONFIGS = {
   },
   'tk-nt-nha-pho': {
     eyebrow: 'DỰ ÁN TIÊU BIỂU',
-    titleMain: 'NỘI THẤT',
+    titleMain: 'THIẾT KẾ NỘI THẤT',
     titleScript: 'Nhà Phố',
     description: 'Giải pháp nội thất nhà phố ấm cúng, sang trọng và tối ưu luồng thông gió tự nhiên.',
     categoryCode: 'tk-nt-nha-pho',
@@ -154,7 +154,7 @@ const PAGE_CONFIGS = {
   },
   'tk-nt-biet-thu': {
     eyebrow: 'DỰ ÁN TIÊU BIỂU',
-    titleMain: 'NỘI THẤT',
+    titleMain: 'THIẾT KẾ NỘI THẤT',
     titleScript: 'Biệt Thự',
     description: 'Thiết kế nội thất biệt thự xa hoa, khẳng định gu thẩm mỹ thượng lưu của gia chủ.',
     categoryCode: 'tk-nt-biet-thu',
@@ -168,7 +168,7 @@ const PAGE_CONFIGS = {
   },
   'tk-nt-van-phong': {
     eyebrow: 'DỰ ÁN TIÊU BIỂU',
-    titleMain: 'NỘI THẤT',
+    titleMain: 'THIẾT KẾ NỘI THẤT',
     titleScript: 'Văn Phòng',
     description: 'Không gian làm việc chuyên nghiệp, truyền cảm hứng và nâng tầm giá trị thương hiệu.',
     categoryCode: 'tk-nt-van-phong',
