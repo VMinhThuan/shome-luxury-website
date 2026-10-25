@@ -16383,8 +16383,6 @@ main :is(
 main :is(
   .section-title,
   .gallery-v2-title,
-  .capacity-v2-title,
-  .process-v2-title,
   .section-v2-title,
   .about-showroom-title,
   .team-title-main,
@@ -16436,8 +16434,6 @@ main :is(
 main :is(
   .section-title,
   .gallery-v2-title,
-  .capacity-v2-title,
-  .process-v2-title,
   .section-v2-title,
   .about-showroom-title,
   .team-title-main,
@@ -17258,6 +17254,7 @@ main .home-faq-item p {
   font-size: clamp(2rem, 4.15vw, 3.7rem) !important;
   font-weight: 800 !important;
   line-height: 1.08 !important;
+  text-transform: none !important;
 }
 
 .process-header-section .process-v2-title-main {
@@ -17266,15 +17263,17 @@ main .home-faq-item p {
   font-size: 1em;
   font-weight: 800;
   white-space: nowrap;
+  text-transform: none !important;
 }
 
 .process-header-section .process-v2-title-script {
   color: var(--accent-gold, #D2A044);
-  font-family: var(--font-heading) !important;
-  font-size: 1em;
-  font-weight: 800;
-  line-height: 1.08;
+  font-family: var(--font-script) !important;
+  font-size: 1.08em;
+  font-weight: 500;
+  line-height: .85;
   white-space: nowrap;
+  text-transform: none !important;
 }
 
 .process-header-section .process-v2-desc {
@@ -17320,6 +17319,7 @@ main .home-faq-item p {
   text-align: center;
 }
 
+.capacity-section-v2 .capacity-v2-title,
 .capacity-section-v2 .capacity-paired-title {
   display: flex;
   align-items: baseline;
@@ -17331,6 +17331,7 @@ main .home-faq-item p {
   font-size: clamp(2rem, 4.15vw, 3.7rem) !important;
   font-weight: 800 !important;
   line-height: 1.08 !important;
+  text-transform: none !important;
 }
 
 .capacity-section-v2 .capacity-paired-title-main {
@@ -17339,6 +17340,7 @@ main .home-faq-item p {
   font-size: 1em;
   font-weight: 800;
   white-space: nowrap;
+  text-transform: none !important;
 }
 
 .capacity-section-v2 .capacity-paired-title-accent {
@@ -17348,6 +17350,7 @@ main .home-faq-item p {
   font-weight: 500;
   line-height: .85;
   white-space: nowrap;
+  text-transform: none !important;
 }
 
 .capacity-section-v2 .capacity-v2-desc {
