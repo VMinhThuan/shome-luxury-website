@@ -46,9 +46,15 @@ exports.getAdminImages = async (req, res, next) => {
     const saved = await HomeImage.find({ image_key: { $in: targetSlots.map(slot => slot.image_key) } }).lean();
     const byKey = new Map(saved.map(item => [item.image_key, item]));
 
+    const pagesWithCounts = PAGES_LIST.map(p => ({
+      key: p.key,
+      label: p.label,
+      count: p.key === 'all' ? slots.length : slots.filter(s => s.page_key === p.key).length
+    }));
+
     return res.json({
       success: true,
-      pages: PAGES_LIST,
+      pages: pagesWithCounts,
       data: targetSlots.map(slot => {
         const replacement = byKey.get(slot.image_key);
         return {

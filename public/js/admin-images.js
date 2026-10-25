@@ -155,7 +155,7 @@
     // Delete replacement button (remove custom image & revert to website default)
     const deleteReplacementBtn = create('button', 'btn-delete-replacement', '🗑️ Xóa ảnh thay thế');
     deleteReplacementBtn.type = 'button';
-    deleteReplacementBtn.hidden = !slot.replacement_image_url;
+    deleteReplacementBtn.hidden = !Boolean(slot.replacement_image_url);
 
     actionBar.append(fileLabel, cancelSelectionBtn, deleteReplacementBtn);
 
@@ -397,9 +397,19 @@
     $('[data-logout]').hidden = false;
 
     allSlots = result.data || [];
-    pagesList = result.pages || [
-      { key: 'all', label: 'Tất cả', count: allSlots.length }
+    pagesList = (result.pages && result.pages.length) ? result.pages : [
+      { key: 'all', label: 'Tất cả trang' },
+      { key: 'home', label: 'Trang chủ' },
+      { key: 'factory', label: 'Xưởng sản xuất' },
+      { key: 'quote', label: 'Báo giá' },
+      { key: 'news', label: 'Tin tức' },
+      { key: 'recruitment', label: 'Tuyển dụng' },
+      { key: 'booking', label: 'Đặt lịch tư vấn' }
     ];
+
+    pagesList.forEach(p => {
+      p.count = p.key === 'all' ? allSlots.length : allSlots.filter(s => s.page_key === p.key).length;
+    });
 
     // Determine initial page from URL param
     const urlParams = new URLSearchParams(window.location.search);
