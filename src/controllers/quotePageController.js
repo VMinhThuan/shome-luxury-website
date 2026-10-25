@@ -4,6 +4,7 @@ const categoryService = require('../services/categoryService');
 const projectService = require('../services/projectService');
 const navigation = require('../data/navigationData');
 const completedVideosData = require('../data/completedVideosData');
+const { getRequestToken, verifyAdminToken } = require('../middleware/auth');
 
 class QuotePageController {
   async getContent() {
@@ -183,6 +184,15 @@ class QuotePageController {
   }
 
   renderAdminLoginPage(req, res) {
+    const token = getRequestToken(req);
+    if (token) {
+      try {
+        verifyAdminToken(token);
+        return res.redirect('/admin/images');
+      } catch (error) {
+        // Token invalid/expired, render login
+      }
+    }
     return res.render('admin-bao-gia', { title: 'Đăng nhập quản trị | SHOME LUXURY', isAuthenticated: false });
   }
 

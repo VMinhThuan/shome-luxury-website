@@ -5,12 +5,12 @@ const express = require("express");
 const compression = require("compression");
 const connectDB = require("./src/config/db");
 const routes = require("./src/routes");
-const { redirectAdminRoot } = require("./src/middleware/adminSubdomain");
 
 const app = express();
 const PORT = process.env.PORT || 3030;
 
 // Performance & Security Settings
+app.set("trust proxy", 1);
 app.disable("x-powered-by");
 app.set("view cache", process.env.NODE_ENV === "production");
 
@@ -46,8 +46,6 @@ app.use(async (req, res, next) => {
   }
 });
 
-// admin.shome-luxury... has its own entry point while sharing the same deployment.
-app.use(redirectAdminRoot);
 
 // Routes
 app.use("/", routes);

@@ -17225,3 +17225,153 @@ main .home-faq-item p {
     font-size: clamp(.6rem, 2.2vw, .69rem);
   }
 }
+
+/* Factory video introduction: centred editorial heading treatment. */
+.process-header-section {
+  padding: clamp(3.25rem, 6vw, 5.5rem) 0 !important;
+  background: #f1f2f3 !important;
+}
+
+.process-header-section .process-v2-header {
+  max-width: 980px;
+  margin: 0 auto clamp(1.75rem, 3vw, 2.5rem) !important;
+  text-align: center;
+}
+
+.process-header-section .hero-script-eyebrow {
+  margin: 0 0 .65rem !important;
+  color: var(--accent-gold, #D2A044) !important;
+  font-family: var(--font-script) !important;
+  font-size: clamp(2.25rem, 5vw, 4.25rem) !important;
+  font-weight: 500 !important;
+  line-height: .95 !important;
+}
+
+.process-header-section .process-v2-title {
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  gap: .22em;
+  margin: 0 !important;
+  color: #1d1916 !important;
+  font-family: var(--font-heading) !important;
+  font-size: clamp(2rem, 4.15vw, 3.7rem) !important;
+  font-weight: 800 !important;
+  line-height: 1.08 !important;
+}
+
+.process-header-section .process-v2-title-main {
+  color: #1d1916;
+  font-family: var(--font-heading);
+  font-size: 1em;
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+.process-header-section .process-v2-title-script {
+  color: var(--accent-gold, #D2A044);
+  font-family: var(--font-heading) !important;
+  font-size: 1em;
+  font-weight: 800;
+  line-height: 1.08;
+  white-space: nowrap;
+}
+
+.process-header-section .process-v2-desc {
+  max-width: 780px;
+  margin: clamp(.85rem, 1.8vw, 1.25rem) auto 0 !important;
+  color: #5f666c !important;
+  font-family: var(--font-sans) !important;
+  font-size: clamp(.9rem, 1.45vw, 1.15rem) !important;
+  line-height: 1.5 !important;
+}
+
+@media (max-width: 767px) {
+  .process-header-section {
+    padding: 2.75rem 0 !important;
+  }
+
+  .process-header-section .hero-script-eyebrow {
+    font-size: clamp(2rem, 11vw, 2.8rem) !important;
+  }
+
+  .process-header-section .process-v2-title {
+    flex-direction: column;
+    align-items: center;
+    gap: .15rem;
+    font-size: clamp(1.7rem, 8vw, 2.25rem) !important;
+  }
+
+  .process-header-section .process-v2-desc {
+    max-width: 34rem;
+    font-size: clamp(.82rem, 3.7vw, 1rem) !important;
+  }
+}
+
+/* Equipment heading follows the same paired-title system as the workshop title. */
+.capacity-section-v2 {
+  padding: clamp(3.25rem, 6vw, 5.5rem) 0 !important;
+  background: #f1f2f3 !important;
+}
+
+.capacity-section-v2 .capacity-v2-header {
+  max-width: 980px;
+  margin: 0 auto clamp(1.75rem, 3vw, 2.5rem) !important;
+  text-align: center;
+}
+
+.capacity-section-v2 .capacity-paired-title {
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  gap: .22em;
+  margin: 0 !important;
+  color: #1d1916 !important;
+  font-family: var(--font-heading) !important;
+  font-size: clamp(2rem, 4.15vw, 3.7rem) !important;
+  font-weight: 800 !important;
+  line-height: 1.08 !important;
+}
+
+.capacity-section-v2 .capacity-paired-title-main {
+  color: #1d1916;
+  font-family: var(--font-heading);
+  font-size: 1em;
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+.capacity-section-v2 .capacity-paired-title-accent {
+  color: var(--accent-gold, #D2A044);
+  font-family: var(--font-script) !important;
+  font-size: 1.08em;
+  font-weight: 500;
+  line-height: .85;
+  white-space: nowrap;
+}
+
+.capacity-section-v2 .capacity-v2-desc {
+  max-width: 46rem;
+  margin: clamp(.85rem, 1.8vw, 1.25rem) auto 0;
+  color: #5f666c;
+  font-family: var(--font-sans);
+  font-size: clamp(.9rem, 1.45vw, 1.15rem);
+  line-height: 1.5;
+}
+
+@media (max-width: 767px) {
+  .capacity-section-v2 {
+    padding: 2.75rem 0 !important;
+  }
+
+  .capacity-section-v2 .capacity-paired-title {
+    flex-direction: column;
+    align-items: center;
+    gap: .15rem;
+    font-size: clamp(1.7rem, 8vw, 2.25rem) !important;
+  }
+
+  .capacity-section-v2 .capacity-v2-desc {
+    font-size: clamp(.82rem, 3.7vw, 1rem);
+  }
+}

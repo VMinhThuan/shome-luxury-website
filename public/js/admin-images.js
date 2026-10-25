@@ -32,11 +32,30 @@
     };
     [position, vertical, zoom].forEach(control => control.oninput = crop);
     input.onchange = () => { file = input.files[0]; if (!file) return; if (file.size > 10 * 1024 * 1024) { setStatus('Ảnh tối đa 10 MB.', true); input.value = ''; return; } const image = new Image(); sourceUrl = URL.createObjectURL(file); image.onload = () => { dimensions = { width: image.naturalWidth, height: image.naturalHeight }; cropper.hidden = false; save.hidden = false; crop(); }; image.src = sourceUrl; };
-    save.onclick = async () => { if (!file || !dimensions) return; save.disabled = true; setStatus('Đang tải ảnh và lưu thay đổi...'); const form = new FormData(); form.append('image', file); Object.entries(crop()).forEach(([key, value]) => form.append(key, value)); try { const result = await request(`/api/admin/home-images/${encodeURIComponent(slot.image_key)}`, { method: 'PUT', body: form }); current.src = result.data.image_url; replacementNote.textContent = 'Đang hiển thị trên website'; setStatus(`Đã cập nhật: ${slot.label}.`); } catch (error) { setStatus(error.message, true); } finally { save.disabled = false; } };
-    cropper.append(preview, controls); article.append(heading, imagePair, input, cropper, save); return article;
+    const reset = create('button', 'reset-image', 'Khôi phục ảnh mặc định');
+    reset.type = 'button';
+    reset.style.cssText = 'width: 100%; margin-top: 8px; background: transparent; color: #8c857b; border: 1px solid #d5cfc5; font-size: 12px; padding: 8px; cursor: pointer;';
+    reset.hidden = !slot.replacement_image_url;
+    reset.onclick = async () => {
+      if (!confirm(`Khôi phục ảnh mặc định cho "${slot.label}"?`)) return;
+      reset.disabled = true;
+      try {
+        await request(`/api/admin/home-images/${encodeURIComponent(slot.image_key)}`, { method: 'DELETE' });
+        current.src = slot.default_image_url;
+        replacementNote.textContent = 'Chưa có ảnh thay thế — website đang dùng ảnh mặc định';
+        reset.hidden = true;
+        setStatus(`Đã khôi phục ảnh mặc định: ${slot.label}.`);
+      } catch (error) {
+        setStatus(error.message, true);
+      } finally {
+        reset.disabled = false;
+      }
+    };
+    save.onclick = async () => { if (!file || !dimensions) return; save.disabled = true; setStatus('Đang tải ảnh và lưu thay đổi...'); const form = new FormData(); form.append('image', file); Object.entries(crop()).forEach(([key, value]) => form.append(key, value)); try { const result = await request(`/api/admin/home-images/${encodeURIComponent(slot.image_key)}`, { method: 'PUT', body: form }); current.src = result.data.image_url; replacementNote.textContent = 'Đang hiển thị trên website'; reset.hidden = false; setStatus(`Đã cập nhật: ${slot.label}.`); } catch (error) { setStatus(error.message, true); } finally { save.disabled = false; } };
+    cropper.append(preview, controls); article.append(heading, imagePair, input, cropper, save, reset); return article;
   }
   async function startEditor() { const result = await request('/api/admin/home-images'); $('[data-editor]').hidden = false; $('[data-logout]').hidden = false; slotsHost.replaceChildren(...result.data.map(card)); }
   const login = $('[data-login-form]'); login.onsubmit = async event => { event.preventDefault(); const loginStatus = $('[data-login-status]'); try { await request('/api/auth/login', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ ...Object.fromEntries(new FormData(login)), redirectUrl: '/admin/images' }) }); window.location.assign('/admin/images'); } catch (error) { loginStatus.textContent = error.message; } };
-  $('[data-logout]').onclick = async () => { await request('/api/auth/logout', { method: 'POST' }); window.location.reload(); };
-  startEditor().catch(() => { $('[data-login-panel]').hidden = false; });
+  $('[data-logout]').onclick = async () => { await request('/api/auth/logout', { method: 'POST' }); window.location.assign('/admin/login'); };
+  startEditor().catch((error) => { if (error && (error.status === 401 || /phiên đăng nhập|hết hạn|không hợp lệ|unauthorized/i.test(error.message))) { window.location.assign('/admin/login'); } else { $('[data-login-panel]').hidden = false; } });
 })();

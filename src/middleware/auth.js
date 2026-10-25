@@ -84,6 +84,8 @@ module.exports = {
   authenticateAdmin,
   requireAdminPage,
   generateToken,
+  getRequestToken,
+  verifyAdminToken,
   JWT_SECRET,
   ADMIN_SESSION_COOKIE,
   sessionCookieOptions

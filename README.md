@@ -16,16 +16,30 @@ npm run dev
 ```
 Truy cập: `http://localhost:3030`
 
-## Quản trị trang Báo giá
+## Quản trị CMS Admin (Báo giá & Hình ảnh)
 
-Khu vực quản trị chọn công trình **Highlight** được tách theo subdomain. Khi chạy local, mở `http://admin.localhost:3030/admin/login`. Trên môi trường production, trỏ DNS `admin.ten-mien-cua-ban` vào cùng deployment và thiết lập các biến môi trường sau (không commit mật khẩu vào source):
+Website public và CMS Admin sử dụng chung domain Vercel (không cần subdomain hay `ADMIN_HOST`).
+- **`/`**: Website public
+- **`/admin/login`**: Trang đăng nhập quản trị
+- **`/admin/images`**: Quản lý hình ảnh trang chủ
+- **`/admin/bao-gia`**: Quản trị nội dung & Highlight công trình Báo giá
 
+### Cấu hình biến môi trường trên Vercel:
 ```bash
 NODE_ENV=production
-ADMIN_HOST=admin.ten-mien-cua-ban
+MONGODB_URI=<chuoi-ket-noi-mongodb>
+JWT_SECRET=<chuoi-ngau-nhien-dai>
 ADMIN_USER=<tai-khoan-admin>
 ADMIN_PASS=<mat-khau-manh>
-JWT_SECRET=<chuoi-ngau-nhien-dai>
+CLOUDINARY_CLOUD_NAME=<cloud-name>
+CLOUDINARY_API_KEY=<api-key>
+CLOUDINARY_API_SECRET=<api-secret>
 ```
+*Lưu ý: Không cần cấu hình `ADMIN_HOST` hay `ADMIN_COOKIE_DOMAIN` khi dùng chung domain.*
 
-Trang `/admin/bao-gia` bắt buộc có phiên đăng nhập. Phiên được lưu bằng cookie HTTP-only, thời hạn 7 ngày; đăng xuất sẽ xoá phiên. Trong màn hình quản trị, bật **Highlight**, bật **Hiển thị** và đặt **Thứ tự** để đưa công trình lên trang Báo giá (tối đa 4 công trình mỗi category).
+### Cơ chế bảo mật:
+- Khi chưa đăng nhập, truy cập `/admin/images` hoặc `/admin/bao-gia` sẽ được máy chủ tự động chuyển hướng về `/admin/login`.
+- Đăng nhập thành công sẽ tự động chuyển hướng đến `/admin/images`.
+- Phiên làm việc được quản trị bằng HTTP-only cookie (`shome_admin_session`) có thời hạn 7 ngày.
+- Toàn bộ API chỉnh sửa, tải lên và xóa ảnh (`/api/admin/*`, `/api/upload`) được bảo vệ nghiêm ngặt bằng JWT xác thực và phân quyền phía server.
+

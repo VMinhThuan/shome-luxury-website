@@ -1,33 +1,20 @@
-function cleanHost(value = '') {
-  return value.split(':')[0].toLowerCase();
-}
+/**
+ * DEPRECATED: Admin host & subdomain separation has been removed.
+ * CMS Admin and Public website share the same domain under /admin/* routes.
+ * Kept as pass-through for backwards compatibility.
+ */
 
-function configuredAdminHost() {
-  if (process.env.ADMIN_HOST) return cleanHost(process.env.ADMIN_HOST);
-  if (process.env.APP_BASE_DOMAIN) return `admin.${cleanHost(process.env.APP_BASE_DOMAIN)}`;
-  return null;
-}
-
-function isAdminHost(req) {
-  const host = cleanHost(req.headers.host || '');
-  const configured = configuredAdminHost();
-  if (configured) return host === configured;
-  // Local preview works at admin.localhost:3030; localhost remains available for dev/tests.
-  return process.env.NODE_ENV !== 'production' && (host === 'admin.localhost' || host === 'localhost' || host === '127.0.0.1');
+function isAdminHost() {
+  return true;
 }
 
 function requireAdminHost(req, res, next) {
-  if (isAdminHost(req)) return next();
-  return res.status(404).render('404', { title: 'Không tìm thấy trang | SHOME LUXURY' });
+  return next();
 }
 
 function redirectAdminRoot(req, res, next) {
-  const host = cleanHost(req.headers.host || '');
-  const configured = configuredAdminHost();
-  if ((host === 'admin.localhost' || (configured && host === configured)) && req.path === '/') {
-    return res.redirect('/admin/bao-gia');
-  }
   return next();
 }
 
 module.exports = { isAdminHost, requireAdminHost, redirectAdminRoot };
+

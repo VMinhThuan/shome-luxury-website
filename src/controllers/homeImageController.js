@@ -78,3 +78,29 @@ exports.updateImage = async (req, res, next) => {
     return next(error);
   }
 };
+
+exports.deleteImage = async (req, res, next) => {
+  try {
+    const slot = slotByKey.get(req.params.imageKey);
+    if (!slot) return res.status(404).json({ success: false, message: 'Vị trí ảnh không hợp lệ.' });
+
+    const existing = await HomeImage.findOne({ image_key: slot.image_key }).lean();
+    if (!existing) {
+      return res.json({ success: true, message: 'Ảnh đã ở trạng thái mặc định.' });
+    }
+
+    await HomeImage.deleteOne({ image_key: slot.image_key });
+
+    if (existing.cloudinary_public_id) {
+      const stillUsed = await HomeImage.exists({ cloudinary_public_id: existing.cloudinary_public_id });
+      if (!stillUsed) {
+        destroyCloudinaryImage(existing.cloudinary_public_id).catch(err => console.error('[Home image delete cleanup]', err.message));
+      }
+    }
+
+    return res.json({ success: true, message: 'Đã khôi phục ảnh mặc định.' });
+  } catch (error) {
+    return next(error);
+  }
+};
+
