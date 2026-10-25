@@ -10,32 +10,59 @@ const upload = multer({
   fileFilter: (req, file, cb) => cb(null, /^image\/(jpeg|png|webp)$/i.test(file.mimetype))
 });
 
+const PAGES_LIST = [
+  { key: 'all', label: 'Tất cả trang' },
+  { key: 'home', label: 'Trang chủ' },
+  { key: 'factory', label: 'Xưởng sản xuất' },
+  { key: 'quote', label: 'Báo giá' },
+  { key: 'news', label: 'Tin tức' },
+  { key: 'recruitment', label: 'Tuyển dụng' },
+  { key: 'booking', label: 'Đặt lịch tư vấn' }
+];
+
 exports.uploadMiddleware = upload.single('image');
 
 exports.getPublicImages = async (req, res, next) => {
   try {
-    const saved = await HomeImage.find({ image_key: { $in: slots.map(slot => slot.image_key) } }).lean();
+    const pageFilter = req.query.page;
+    const targetSlots = pageFilter && pageFilter !== 'all'
+      ? slots.filter(s => s.page_key === pageFilter)
+      : slots;
+
+    const saved = await HomeImage.find({ image_key: { $in: targetSlots.map(slot => slot.image_key) } }).lean();
     const byKey = new Map(saved.map(item => [item.image_key, item]));
-    const images = Object.fromEntries(slots.map(slot => [slot.image_key, byKey.get(slot.image_key)?.image_url || slot.image_url]));
+    const images = Object.fromEntries(targetSlots.map(slot => [slot.image_key, byKey.get(slot.image_key)?.image_url || slot.image_url]));
     return res.json({ success: true, data: images });
   } catch (error) { next(error); }
 };
 
 exports.getAdminImages = async (req, res, next) => {
   try {
-    const saved = await HomeImage.find({ image_key: { $in: slots.map(slot => slot.image_key) } }).lean();
+    const pageFilter = req.query.page;
+    const targetSlots = pageFilter && pageFilter !== 'all'
+      ? slots.filter(slot => slot.page_key === pageFilter)
+      : slots;
+
+    const saved = await HomeImage.find({ image_key: { $in: targetSlots.map(slot => slot.image_key) } }).lean();
     const byKey = new Map(saved.map(item => [item.image_key, item]));
-    return res.json({ success: true, data: slots.map(slot => {
-      const replacement = byKey.get(slot.image_key);
-      return {
-        section_key: slot.section_key,
-        image_key: slot.image_key,
-        label: slot.label,
-        default_image_url: slot.image_url,
-        replacement_image_url: replacement?.image_url || null,
-        updated_at: replacement?.updated_at || null
-      };
-    }) });
+
+    return res.json({
+      success: true,
+      pages: PAGES_LIST,
+      data: targetSlots.map(slot => {
+        const replacement = byKey.get(slot.image_key);
+        return {
+          page_key: slot.page_key,
+          page_label: slot.page_label || slot.page_key,
+          section_key: slot.section_key,
+          image_key: slot.image_key,
+          label: slot.label,
+          default_image_url: slot.image_url,
+          replacement_image_url: replacement?.image_url || null,
+          updated_at: replacement?.updated_at || null
+        };
+      })
+    });
   } catch (error) { next(error); }
 };
 
@@ -51,7 +78,8 @@ exports.updateImage = async (req, res, next) => {
       return res.status(400).json({ success: false, message: 'Vùng cắt phải hợp lệ và đúng tỷ lệ 16:9.' });
     }
 
-    uploaded = await uploadToCloudinary(req.file.buffer, 'shome-luxury/homepage', {
+    const folder = `shome-luxury/${slot.page_key || 'general'}`;
+    uploaded = await uploadToCloudinary(req.file.buffer, folder, {
       format: 'webp',
       transformation: [
         { crop: 'crop', x: Math.round(crop.x), y: Math.round(crop.y), width: Math.round(crop.width), height: Math.round(crop.height) },
@@ -62,7 +90,7 @@ exports.updateImage = async (req, res, next) => {
     const previous = await HomeImage.findOne({ image_key: slot.image_key }).lean();
     const saved = await HomeImage.findOneAndUpdate(
       { image_key: slot.image_key },
-      { $set: { section_key: slot.section_key, image_url: uploaded.secure_url, cloudinary_public_id: uploaded.public_id } },
+      { $set: { page_key: slot.page_key, section_key: slot.section_key, image_url: uploaded.secure_url, cloudinary_public_id: uploaded.public_id } },
       { new: true, upsert: true, runValidators: true }
     ).lean();
 
@@ -103,4 +131,3 @@ exports.deleteImage = async (req, res, next) => {
     return next(error);
   }
 };
-

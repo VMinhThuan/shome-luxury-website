@@ -10,22 +10,22 @@
       {
         number: '01', title: 'Tiếp nhận & lưu trữ vật liệu',
         description: 'Phân loại vật liệu, kiểm tra bề mặt và bố trí vị trí lưu trữ.',
-        image: '/images/img-xuong-san-xuat/factory-tour-storage.png', alt: 'Khu vực tiếp nhận và lưu trữ vật liệu tại xưởng'
+        image: (locals.factoryImages && factoryImages.factory_tour_1) || '/images/img-xuong-san-xuat/factory-tour-storage.png', alt: 'Khu vực tiếp nhận và lưu trữ vật liệu tại xưởng'
       },
       {
         number: '02', title: 'Gia công chi tiết',
         description: 'Gia công theo bản vẽ và nhận diện từng chi tiết.',
-        image: '/images/img-xuong-san-xuat/factory-tour-cnc.png', alt: 'Máy CNC gia công chi tiết nội thất'
+        image: (locals.factoryImages && factoryImages.factory_tour_2) || '/images/img-xuong-san-xuat/factory-tour-cnc.png', alt: 'Máy CNC gia công chi tiết nội thất'
       },
       {
         number: '03', title: 'Lắp thử & đối chiếu',
         description: 'Kiểm tra kích thước, liên kết và sự đồng bộ của sản phẩm.',
-        image: '/images/img-xuong-san-xuat/factory-tour-assembly.png', alt: 'Đội ngũ lắp thử sản phẩm tại xưởng'
+        image: (locals.factoryImages && factoryImages.factory_tour_3) || '/images/img-xuong-san-xuat/factory-tour-assembly.png', alt: 'Đội ngũ lắp thử sản phẩm tại xưởng'
       },
       {
         number: '04', title: 'Kiểm tra trước xuất xưởng',
         description: 'Đối chiếu số lượng, bề mặt và phụ kiện theo từng hạng mục.',
-        image: '/images/img-xuong-san-xuat/factory-tour-quality-check.png', alt: 'Kiểm tra chất lượng sản phẩm trước khi xuất xưởng'
+        image: (locals.factoryImages && factoryImages.factory_tour_4) || '/images/img-xuong-san-xuat/factory-tour-quality-check.png', alt: 'Kiểm tra chất lượng sản phẩm trước khi xuất xưởng'
       }
     ]; %>
 

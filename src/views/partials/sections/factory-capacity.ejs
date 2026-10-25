@@ -12,14 +12,14 @@
     <!-- Equipment Cards Grid -->
     <div class="capacity-cards-grid">
       <% const defaultImages = [
-        '/images/cnc_machine.jpg',
-        '/images/auto_line.jpg',
-        '/images/drill_machine.jpg',
-        '/images/edge_banding.jpg'
+        (locals.factoryImages && factoryImages.factory_equip_1) || '/images/cnc_machine.jpg',
+        (locals.factoryImages && factoryImages.factory_equip_2) || '/images/auto_line.jpg',
+        (locals.factoryImages && factoryImages.factory_equip_3) || '/images/drill_machine.jpg',
+        (locals.factoryImages && factoryImages.factory_equip_4) || '/images/edge_banding.jpg'
       ];
       const equipmentCards = (capacityItems || []).map((item, index) => ({
         ...item,
-        image: item.image || defaultImages[index] || '/images/edge_banding.jpg',
+        image: defaultImages[index] || item.image || '/images/edge_banding.jpg',
         title: item.title,
         description: item.description
       })); %>

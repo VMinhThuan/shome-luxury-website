@@ -166,7 +166,26 @@ async function runAdminRoutesTest() {
     console.log('\n--- TEST 9: Authenticated Admin Image API access ---');
     const authGetImages = await makeRequest('GET', '/api/admin/home-images', null, { 'Cookie': cookieHeader });
     assert(authGetImages.status === 200 && Array.isArray(authGetImages.body.data), 'GET /api/admin/home-images returns 200 and image slots array');
-    assert(authGetImages.body.data.length > 0, `Returned ${authGetImages.body.data.length} home image slots`);
+    assert(authGetImages.body.data.length === 48, `Returned all 48 image slots across 6 pages (received ${authGetImages.body.data.length})`);
+    assert(Array.isArray(authGetImages.body.pages) && authGetImages.body.pages.length === 7, 'Returns 7 page tab entries (all + 6 pages)');
+
+    const authGetFactory = await makeRequest('GET', '/api/admin/home-images?page=factory', null, { 'Cookie': cookieHeader });
+    assert(authGetFactory.status === 200 && authGetFactory.body.data.length === 21, `GET ?page=factory returns 21 slots (received ${authGetFactory.body.data.length})`);
+
+    const authGetHome = await makeRequest('GET', '/api/admin/home-images?page=home', null, { 'Cookie': cookieHeader });
+    assert(authGetHome.status === 200 && authGetHome.body.data.length === 14, `GET ?page=home returns 14 slots (received ${authGetHome.body.data.length})`);
+
+    const authGetQuote = await makeRequest('GET', '/api/admin/home-images?page=quote', null, { 'Cookie': cookieHeader });
+    assert(authGetQuote.status === 200 && authGetQuote.body.data.length === 7, `GET ?page=quote returns 7 slots (received ${authGetQuote.body.data.length})`);
+
+    const authGetNews = await makeRequest('GET', '/api/admin/home-images?page=news', null, { 'Cookie': cookieHeader });
+    assert(authGetNews.status === 200 && authGetNews.body.data.length === 1, `GET ?page=news returns 1 slot (received ${authGetNews.body.data.length})`);
+
+    const authGetRecruitment = await makeRequest('GET', '/api/admin/home-images?page=recruitment', null, { 'Cookie': cookieHeader });
+    assert(authGetRecruitment.status === 200 && authGetRecruitment.body.data.length === 1, `GET ?page=recruitment returns 1 slot (received ${authGetRecruitment.body.data.length})`);
+
+    const authGetBooking = await makeRequest('GET', '/api/admin/home-images?page=booking', null, { 'Cookie': cookieHeader });
+    assert(authGetBooking.status === 200 && authGetBooking.body.data.length === 4, `GET ?page=booking returns 4 slots (received ${authGetBooking.body.data.length})`);
 
     // 10. Logout flow
     console.log('\n--- TEST 10: Logout flow ---');

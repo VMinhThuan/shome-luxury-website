@@ -15,7 +15,7 @@
   <main id="main-content" class="news-page">
     <section class="news-hero subpage-banner-frame">
       <div class="news-hero-image" aria-hidden="true">
-        <img src="/images/hero_sofa_sharp.jpg" alt="" width="1376" height="768" fetchpriority="high" />
+        <img src="<%= (locals.newsImages && newsImages.news_hero_banner) || '/images/hero_sofa_sharp.jpg' %>" alt="" width="1376" height="768" fetchpriority="high" />
       </div>
     </section>
 

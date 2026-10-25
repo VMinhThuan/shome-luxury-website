@@ -15,9 +15,9 @@
   <main id="main-content" class="booking-page">
     <section class="booking-hero">
       <% const bookingHeroSlides = [
-        '/images/booking-luxury-interior.png',
-        '/images/booking-hero-banner-bedroom.png',
-        '/images/booking-hero-banner-dining.png'
+        (locals.bookingImages && bookingImages.booking_hero_banner_1) || '/images/booking-luxury-interior.png',
+        (locals.bookingImages && bookingImages.booking_hero_banner_2) || '/images/booking-hero-banner-bedroom.png',
+        (locals.bookingImages && bookingImages.booking_hero_banner_3) || '/images/booking-hero-banner-dining.png'
       ]; %>
       <div class="hero-slider-track booking-hero-slider-track" id="bookingHeroSliderTrack" data-hero-slider data-hero-dots="bookingHeroSliderDots" aria-label="Danh sách banner nhận dự toán">
         <% bookingHeroSlides.forEach((image, index) => { %>
@@ -71,7 +71,7 @@
           </div>
           <div class="booking-estimate-col-right">
             <div class="booking-estimate-image-wrap">
-              <img src="/images/booking-estimate-visual.png" alt="Báo giá chi tiết cân đối ngân sách Shome Luxury" class="booking-estimate-img" width="600" height="340" loading="lazy" />
+              <img src="<%= (locals.bookingImages && bookingImages.booking_estimate_visual) || '/images/booking-estimate-visual.png' %>" alt="Báo giá chi tiết cân đối ngân sách Shome Luxury" class="booking-estimate-img" width="600" height="340" loading="lazy" />
             </div>
           </div>
         </div>

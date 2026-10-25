@@ -2,19 +2,19 @@
   <div class="hero-slider-track" id="factoryHeroSliderTrack" data-hero-slider data-hero-dots="factoryHeroSliderDots" aria-label="Danh sách banner xưởng sản xuất">
     <div class="hero-slide" data-slide-index="0" aria-label="Banner xưởng sản xuất 1 trên 3">
       <div class="hero-v2-bg">
-        <img src="/images/factory_cnc.jpg" alt="Xưởng sản xuất nội thất gỗ công nghiệp Shome Luxury" width="2752" height="1536" fetchpriority="high" decoding="async" draggable="false" />
+        <img src="<%= (locals.factoryImages && factoryImages.factory_hero_banner_1) || '/images/factory_cnc.jpg' %>" alt="Xưởng sản xuất nội thất gỗ công nghiệp Shome Luxury" width="2752" height="1536" fetchpriority="high" decoding="async" draggable="false" />
       </div>
     </div>
 
     <div class="hero-slide" data-slide-index="1" aria-label="Banner xưởng sản xuất 2 trên 3">
       <div class="hero-v2-bg">
-        <img src="/images/cnc_machine.jpg" alt="Hệ thống máy CNC hiện đại tại xưởng Shome Luxury" width="2560" height="1429" loading="lazy" decoding="async" draggable="false" />
+        <img src="<%= (locals.factoryImages && factoryImages.factory_hero_banner_2) || '/images/cnc_machine.jpg' %>" alt="Hệ thống máy CNC hiện đại tại xưởng Shome Luxury" width="2560" height="1429" loading="lazy" decoding="async" draggable="false" />
       </div>
     </div>
 
     <div class="hero-slide" data-slide-index="2" aria-label="Banner xưởng sản xuất 3 trên 3">
       <div class="hero-v2-bg">
-        <img src="/images/drill_machine.jpg" alt="Đội ngũ Shome Luxury làm việc tại xưởng sản xuất" width="2560" height="1429" loading="lazy" decoding="async" draggable="false" />
+        <img src="<%= (locals.factoryImages && factoryImages.factory_hero_banner_3) || '/images/drill_machine.jpg' %>" alt="Đội ngũ Shome Luxury làm việc tại xưởng sản xuất" width="2560" height="1429" loading="lazy" decoding="async" draggable="false" />
       </div>
     </div>
   </div>

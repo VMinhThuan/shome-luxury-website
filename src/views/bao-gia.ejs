@@ -1973,9 +1973,9 @@
   <main id="main-content" class="quote-page">
     <% if (sections.hero?.isVisible !== false) { %>
       <% const quoteHeroSlides = [
-        { desktop: sections.hero.image, mobile: '/images/quote-hero-mobile-living.png' },
-        { desktop: '/images/quote-hero-banner-bedroom.png', mobile: '/images/quote-hero-mobile-bedroom.png' },
-        { desktop: '/images/quote-hero-banner-dining.png', mobile: '/images/quote-hero-mobile-dining.png' }
+        { desktop: (locals.quoteImages && quoteImages.quote_hero_banner_1) || sections.hero.image, mobile: '/images/quote-hero-mobile-living.png' },
+        { desktop: (locals.quoteImages && quoteImages.quote_hero_banner_2) || '/images/quote-hero-banner-bedroom.png', mobile: '/images/quote-hero-mobile-bedroom.png' },
+        { desktop: (locals.quoteImages && quoteImages.quote_hero_banner_3) || '/images/quote-hero-banner-dining.png', mobile: '/images/quote-hero-mobile-dining.png' }
       ]; %>
       <section class="quote-hero quote-hero-carousel subpage-banner-frame" aria-label="Banner báo giá">
         <div class="hero-slider-track quote-hero-slider-track" id="quoteHeroSliderTrack" data-hero-slider data-hero-dots="quoteHeroSliderDots" aria-label="Danh sách banner báo giá">
@@ -2219,7 +2219,7 @@
           <figure class="quote-video-card quote-workshop-video-card">
             <div class="quote-video-frame">
               <img
-                src="<%= sections.capability.image || '/images/factory_workers.jpg' %>"
+                src="<%= (locals.quoteImages && quoteImages.quote_capability_image) || sections.capability.image || '/images/factory_workers.jpg' %>"
                 alt="<%= sections.capability.caption || 'Xưởng sản xuất Shome Luxury - Đơn vị thiết kế thi công tại Hà Nội' %>"
                 loading="lazy"
                 decoding="async"
@@ -2254,7 +2254,7 @@
       <section class="quote-handover-check"><div class="container quote-handover-inner"><header class="quote-handover-heading"><h2>Kiểm tra bàn giao <em>Chăm chút từng bước</em></h2><p class="quote-handover-desc">Từng hạng mục được rà soát kỹ lưỡng trước khi bàn giao.<br />Đảm bảo công trình hoàn thiện chỉn chu, sẵn sàng sử dụng.</p></header><div class="quote-handover-list"><article class="quote-handover-item"><b>1.</b><div><h3>Đo kiểm kích thước</h3><p>Đối chiếu chỉ số với bản vẽ.</p></div></article><article class="quote-handover-item"><b>2.</b><div><h3>Lắp thử &amp; căn chỉnh</h3><p>Kiểm tra liên kết, bản lề và ray trượt.</p></div></article><article class="quote-handover-item"><b>3.</b><div><h3>Rà soát &amp; đóng gói</h3><p>Vệ sinh bề mặt, bảo vệ góc cạnh khi vận chuyển.</p></div></article></div></div></section>
 
     <% if (sections.estimate?.isVisible !== false) { %>
-      <section class="quote-free-estimate" id="nhan-du-toan"><div class="container"><div class="quote-free-estimate-card"><img class="quote-free-estimate-image" src="/images/quote-free-estimate-interior.png" alt="Nhận dự toán miễn phí từ SHome Luxury" loading="lazy" /><div class="quote-free-estimate-copy"><h2>Nhận dự toán <em>miễn phí</em></h2><p>Để lại thông tin, chuyên gia <strong>SHome Luxury</strong> sẽ liên hệ tư vấn trong 24h.</p><ul><li><i aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 13V9a7 7 0 0 1 14 0v4"/><path d="M5 13H3v4a2 2 0 0 0 2 2h2v-6H5Zm14 0h2v4a2 2 0 0 1-2 2h-2v-6h2Zm-2 6c0 1.4-1.6 2-3 2h-2"/></svg></i><span>Tư vấn nhanh trong 24h</span></li><li><i aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M6 3h9l4 4v14H6z"/><path d="M15 3v5h5M9 12h6M9 16h6"/></svg></i><span>Báo giá chi tiết, minh bạch</span></li><li><i aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3 20 6v5c0 5-3.4 8.2-8 10-4.6-1.8-8-5-8-10V6l8-3Z"/><path d="m8.5 12 2.2 2.2 4.8-5"/></svg></i><span>Không cam kết, không ràng buộc</span></li></ul><a class="quote-free-estimate-button trigger-consult-modal" href="#consultModal">Đặt lịch tư vấn</a></div></div></div></section>
+      <section class="quote-free-estimate" id="nhan-du-toan"><div class="container"><div class="quote-free-estimate-card"><img class="quote-free-estimate-image" src="<%= (locals.quoteImages && quoteImages.quote_estimate_image) || '/images/quote-free-estimate-interior.png' %>" alt="Nhận dự toán miễn phí từ SHome Luxury" loading="lazy" /><div class="quote-free-estimate-copy"><h2>Nhận dự toán <em>miễn phí</em></h2><p>Để lại thông tin, chuyên gia <strong>SHome Luxury</strong> sẽ liên hệ tư vấn trong 24h.</p><ul><li><i aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 13V9a7 7 0 0 1 14 0v4"/><path d="M5 13H3v4a2 2 0 0 0 2 2h2v-6H5Zm14 0h2v4a2 2 0 0 1-2 2h-2v-6h2Zm-2 6c0 1.4-1.6 2-3 2h-2"/></svg></i><span>Tư vấn nhanh trong 24h</span></li><li><i aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M6 3h9l4 4v14H6z"/><path d="M15 3v5h5M9 12h6M9 16h6"/></svg></i><span>Báo giá chi tiết, minh bạch</span></li><li><i aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3 20 6v5c0 5-3.4 8.2-8 10-4.6-1.8-8-5-8-10V6l8-3Z"/><path d="m8.5 12 2.2 2.2 4.8-5"/></svg></i><span>Không cam kết, không ràng buộc</span></li></ul><a class="quote-free-estimate-button trigger-consult-modal" href="#consultModal">Đặt lịch tư vấn</a></div></div></div></section>
     <% } %>
 
     <%- include('partials/sections/customer-stories') %>

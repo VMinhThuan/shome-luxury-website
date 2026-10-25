@@ -5,6 +5,7 @@ const projectService = require('../services/projectService');
 const navigation = require('../data/navigationData');
 const completedVideosData = require('../data/completedVideosData');
 const { getRequestToken, verifyAdminToken } = require('../middleware/auth');
+const { getPageImages } = require('../services/imageService');
 
 class QuotePageController {
   async getContent() {
@@ -169,6 +170,7 @@ class QuotePageController {
       const isInterior = /^nội thất\b/i.test(selectedName);
       const quoteTitle = `${selectedName.replace(/^(nội thất|kiến trúc)\s+/i, '')} trọn gói`;
       const quoteScript = isInterior ? 'Nội thất' : 'Kiến trúc';
+      const quoteImages = await getPageImages('quote');
       return res.render('bao-gia', {
         title: `${selectedCategory?.name ? `Báo giá ${selectedCategory.name.toLowerCase()}` : 'Báo giá thiết kế & thi công'} | SHOME LUXURY`,
         navigation,
@@ -178,7 +180,8 @@ class QuotePageController {
         categoryQuery: rawCategory,
         quoteTitle,
         quoteScript,
-        completedVideosData
+        completedVideosData,
+        quoteImages
       });
     } catch (error) { next(error); }
   }
