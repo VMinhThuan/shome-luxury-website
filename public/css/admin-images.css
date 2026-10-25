@@ -154,4 +154,137 @@
   font-size: 14px;
 }
 
+/* Crop Mode Bar */
+.crop-mode-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin: 10px 0;
+  padding: 8px 12px;
+  background: #fdfbf7;
+  border: 1px solid #e7dfd2;
+  border-radius: 6px;
+  font-size: 12px;
+}
+.crop-mode-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-weight: 700;
+  color: #2e6621;
+}
+.crop-mode-badge::before {
+  content: "✓";
+  display: inline-block;
+  font-weight: bold;
+}
+.crop-mode-badge.is-custom {
+  color: #a88754;
+}
+.crop-mode-badge.is-custom::before {
+  content: "✂";
+}
+.btn-toggle-crop {
+  appearance: none;
+  background: transparent;
+  border: 1px solid #d5cbba;
+  padding: 5px 10px;
+  border-radius: 5px;
+  font-size: 11px;
+  font-weight: 600;
+  color: #6b6459;
+  cursor: pointer;
+  transition: all .15s ease;
+}
+.btn-toggle-crop:hover {
+  background: #f0ebe1;
+  color: #222;
+  border-color: #a88754;
+}
+
+/* Custom File Upload & Action Buttons */
+.slot-action-bar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin: 14px 0 10px;
+}
+.btn-select-file {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: #171717;
+  color: #fff;
+  padding: 9px 15px;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all .18s ease;
+  user-select: none;
+}
+.btn-select-file:hover {
+  background: #a88754;
+}
+.btn-select-file input[type="file"] {
+  display: none;
+}
+.btn-cancel-selection {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background: #fdf2f2;
+  color: #b42318;
+  border: 1px solid #f5c8c8;
+  padding: 8px 13px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all .18s ease;
+}
+.btn-cancel-selection:hover {
+  background: #fee4e2;
+  border-color: #fda29b;
+}
+.btn-delete-replacement {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background: transparent;
+  color: #7b7367;
+  border: 1px solid #dcd4c6;
+  padding: 8px 12px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all .18s ease;
+}
+.btn-delete-replacement:hover {
+  background: #fdf2f2;
+  color: #b42318;
+  border-color: #fda29b;
+}
+.selected-file-info {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  color: #4b4843;
+  background: #f4efe6;
+  padding: 7px 11px;
+  border-radius: 6px;
+  width: 100%;
+  margin-bottom: 10px;
+  word-break: break-all;
+}
+.selected-file-info strong {
+  color: #171717;
+}
+
+
+
 

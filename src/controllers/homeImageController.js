@@ -73,19 +73,35 @@ exports.updateImage = async (req, res, next) => {
     if (!slot) return res.status(404).json({ success: false, message: 'Vị trí ảnh không hợp lệ.' });
     if (!req.file) return res.status(400).json({ success: false, message: 'Vui lòng chọn ảnh JPG, PNG hoặc WebP (tối đa 10 MB).' });
 
-    const crop = ['x', 'y', 'width', 'height'].reduce((out, key) => ({ ...out, [key]: Number(req.body[key]) }), {});
-    if (!Object.values(crop).every(Number.isFinite) || crop.x < 0 || crop.y < 0 || crop.width <= 0 || crop.height <= 0 || Math.abs(crop.width / crop.height - 16 / 9) > 0.015) {
-      return res.status(400).json({ success: false, message: 'Vùng cắt phải hợp lệ và đúng tỷ lệ 16:9.' });
+    const folder = `shome-luxury/${slot.page_key || 'general'}`;
+    const useOriginal = req.body.use_original === 'true' || req.body.mode === 'original' || !req.body.width;
+    let transformation;
+
+    if (useOriginal) {
+      // Mặc định: Dùng ảnh gốc, tự động vừa khít khung 16:9 và tối ưu WebP
+      transformation = [
+        { width: 1920, height: 1080, crop: 'fill', gravity: 'auto' },
+        { fetch_format: 'webp' }
+      ];
+    } else {
+      const crop = ['x', 'y', 'width', 'height'].reduce((out, key) => ({ ...out, [key]: Number(req.body[key]) }), {});
+      if (Object.values(crop).every(Number.isFinite) && crop.x >= 0 && crop.y >= 0 && crop.width > 0 && crop.height > 0) {
+        transformation = [
+          { crop: 'crop', x: Math.round(crop.x), y: Math.round(crop.y), width: Math.round(crop.width), height: Math.round(crop.height) },
+          { width: 1920, height: 1080, crop: 'limit' },
+          { fetch_format: 'webp' }
+        ];
+      } else {
+        transformation = [
+          { width: 1920, height: 1080, crop: 'fill', gravity: 'auto' },
+          { fetch_format: 'webp' }
+        ];
+      }
     }
 
-    const folder = `shome-luxury/${slot.page_key || 'general'}`;
     uploaded = await uploadToCloudinary(req.file.buffer, folder, {
       format: 'webp',
-      transformation: [
-        { crop: 'crop', x: Math.round(crop.x), y: Math.round(crop.y), width: Math.round(crop.width), height: Math.round(crop.height) },
-        { width: 1920, height: 1080, crop: 'limit' },
-        { fetch_format: 'webp' }
-      ]
+      transformation
     });
     const previous = await HomeImage.findOne({ image_key: slot.image_key }).lean();
     const saved = await HomeImage.findOneAndUpdate(

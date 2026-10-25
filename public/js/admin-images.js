@@ -136,14 +136,47 @@
 
     imagePair.append(defaultWrap, replacementWrap);
 
+    // Action bar
+    const actionBar = create('div', 'slot-action-bar');
+
+    // Styled choose file button
+    const fileLabel = create('label', 'btn-select-file');
     const input = create('input');
     input.type = 'file';
     input.accept = 'image/jpeg,image/png,image/webp';
+    const fileLabelText = create('span', '', slot.replacement_image_url ? '🔄 Đổi ảnh khác' : '📷 Chọn ảnh tải lên');
+    fileLabel.append(input, fileLabelText);
+
+    // Cancel selection button (when a new file is chosen but not saved yet)
+    const cancelSelectionBtn = create('button', 'btn-cancel-selection', '✕ Hủy ảnh vừa chọn');
+    cancelSelectionBtn.type = 'button';
+    cancelSelectionBtn.hidden = true;
+
+    // Delete replacement button (remove custom image & revert to website default)
+    const deleteReplacementBtn = create('button', 'btn-delete-replacement', '🗑️ Xóa ảnh thay thế');
+    deleteReplacementBtn.type = 'button';
+    deleteReplacementBtn.hidden = !slot.replacement_image_url;
+
+    actionBar.append(fileLabel, cancelSelectionBtn, deleteReplacementBtn);
+
+    // Selected file notice
+    const fileInfoNotice = create('div', 'selected-file-info');
+    fileInfoNotice.hidden = true;
 
     const cropper = create('div', 'cropper');
     cropper.hidden = true;
     const preview = create('div', 'crop-preview');
+
+    let isCustomCrop = false;
+    const modeBar = create('div', 'crop-mode-bar');
+    const modeBadge = create('span', 'crop-mode-badge', 'Mặc định: Ảnh gốc 16:9');
+    const toggleCropBtn = create('button', 'btn-toggle-crop', '✂ Cắt & căn chỉnh');
+    toggleCropBtn.type = 'button';
+    modeBar.append(modeBadge, toggleCropBtn);
+
     const controls = create('div', 'crop-controls');
+    controls.hidden = true;
+
     const position = create('input');
     position.type = 'range';
     position.min = 0;
@@ -167,7 +200,7 @@
       controls.append(wrap);
     });
 
-    const save = create('button', 'save-image', 'Lưu ảnh');
+    const save = create('button', 'save-image', 'Lưu ảnh này');
     save.type = 'button';
     save.hidden = true;
 
@@ -185,7 +218,53 @@
       return { x, y, width, height };
     };
 
+    const updatePreview = () => {
+      if (!isCustomCrop) {
+        preview.style.backgroundImage = `url("${sourceUrl}")`;
+        preview.style.backgroundSize = 'cover';
+        preview.style.backgroundPosition = 'center';
+      } else {
+        crop();
+      }
+    };
+
+    toggleCropBtn.onclick = () => {
+      isCustomCrop = !isCustomCrop;
+      controls.hidden = !isCustomCrop;
+      if (isCustomCrop) {
+        modeBadge.textContent = 'Đang chỉnh vùng cắt';
+        modeBadge.className = 'crop-mode-badge is-custom';
+        toggleCropBtn.textContent = '↺ Về mặc định ảnh gốc 16:9';
+        crop();
+      } else {
+        modeBadge.textContent = 'Mặc định: Ảnh gốc 16:9';
+        modeBadge.className = 'crop-mode-badge';
+        toggleCropBtn.textContent = '✂ Cắt & căn chỉnh';
+        position.value = 50;
+        vertical.value = 50;
+        zoom.value = 1;
+        updatePreview();
+      }
+    };
+
     [position, vertical, zoom].forEach(control => (control.oninput = crop));
+
+    const clearSelectedFile = () => {
+      file = null;
+      sourceUrl = null;
+      dimensions = null;
+      input.value = '';
+      cropper.hidden = true;
+      save.hidden = true;
+      fileInfoNotice.hidden = true;
+      fileInfoNotice.textContent = '';
+      cancelSelectionBtn.hidden = true;
+      fileLabelText.textContent = slot.replacement_image_url ? '🔄 Đổi ảnh khác' : '📷 Chọn ảnh tải lên';
+      preview.style.backgroundImage = 'none';
+      setStatus('');
+    };
+
+    cancelSelectionBtn.onclick = clearSelectedFile;
 
     input.onchange = () => {
       file = input.files[0];
@@ -199,35 +278,47 @@
       sourceUrl = URL.createObjectURL(file);
       image.onload = () => {
         dimensions = { width: image.naturalWidth, height: image.naturalHeight };
+        isCustomCrop = false;
+        controls.hidden = true;
+        modeBadge.textContent = 'Mặc định: Ảnh gốc 16:9';
+        modeBadge.className = 'crop-mode-badge';
+        toggleCropBtn.textContent = '✂ Cắt & căn chỉnh';
+        position.value = 50;
+        vertical.value = 50;
+        zoom.value = 1;
         cropper.hidden = false;
         save.hidden = false;
-        save.textContent = 'Lưu ảnh';
-        crop();
+        save.textContent = 'Lưu ảnh này';
+
+        fileLabelText.textContent = '🔄 Chọn file khác';
+        cancelSelectionBtn.hidden = false;
+        const fileSizeMB = (file.size / (1024 * 1024)).toFixed(2);
+        fileInfoNotice.innerHTML = `📎 Đang chọn: <strong>${file.name}</strong> (${fileSizeMB} MB) — Nhấn "Lưu ảnh này" để áp dụng`;
+        fileInfoNotice.hidden = false;
+
+        updatePreview();
       };
       image.src = sourceUrl;
     };
 
-    const reset = create('button', 'reset-image', 'Khôi phục ảnh mặc định');
-    reset.type = 'button';
-    reset.style.cssText = 'width: 100%; margin-top: 8px; background: transparent; color: #8c857b; border: 1px solid #d5cfc5; font-size: 12px; padding: 8px; cursor: pointer;';
-    reset.hidden = !slot.replacement_image_url;
-
-    reset.onclick = async () => {
-      if (!confirm(`Khôi phục ảnh mặc định cho "${slot.label}"?`)) return;
-      reset.disabled = true;
-      reset.textContent = 'Đang khôi phục...';
+    deleteReplacementBtn.onclick = async () => {
+      if (!confirm(`Xóa ảnh thay thế của "${slot.label}" và quay về ảnh mặc định của website?`)) return;
+      deleteReplacementBtn.disabled = true;
+      deleteReplacementBtn.textContent = 'Đang xóa...';
       try {
         await request(`/api/admin/home-images/${encodeURIComponent(slot.image_key)}`, { method: 'DELETE' });
         slot.replacement_image_url = null;
         current.src = slot.default_image_url;
         replacementNote.textContent = 'Chưa có ảnh thay thế — website đang dùng ảnh mặc định';
-        reset.hidden = true;
-        setStatus(`Đã khôi phục ảnh mặc định: ${slot.label}.`);
+        deleteReplacementBtn.hidden = true;
+        fileLabelText.textContent = '📷 Chọn ảnh tải lên';
+        clearSelectedFile();
+        setStatus(`Đã xóa ảnh thay thế và khôi phục mặc định: ${slot.label}.`);
       } catch (error) {
         setStatus(error.message, true);
       } finally {
-        reset.disabled = false;
-        reset.textContent = 'Khôi phục ảnh mặc định';
+        deleteReplacementBtn.disabled = false;
+        deleteReplacementBtn.textContent = '🗑️ Xóa ảnh thay thế';
       }
     };
 
@@ -238,7 +329,13 @@
       setStatus(`Đang tải ảnh và lưu "${slot.label}"...`);
       const form = new FormData();
       form.append('image', file);
-      Object.entries(crop()).forEach(([key, value]) => form.append(key, value));
+
+      if (isCustomCrop) {
+        form.append('use_original', 'false');
+        Object.entries(crop()).forEach(([key, value]) => form.append(key, value));
+      } else {
+        form.append('use_original', 'true');
+      }
 
       try {
         const result = await request(`/api/admin/home-images/${encodeURIComponent(slot.image_key)}`, {
@@ -248,12 +345,15 @@
         slot.replacement_image_url = result.data.image_url;
         current.src = result.data.image_url;
         replacementNote.textContent = 'Đang hiển thị trên website';
-        reset.hidden = false;
-        save.textContent = '✓ Đã lưu thành công';
+        deleteReplacementBtn.hidden = false;
+        fileLabelText.textContent = '🔄 Đổi ảnh khác';
+        cancelSelectionBtn.hidden = true;
+        fileInfoNotice.hidden = true;
+        cropper.hidden = true;
+        save.hidden = true;
+        input.value = '';
+        file = null;
         setStatus(`Đã cập nhật thành công: ${slot.label}.`);
-        setTimeout(() => {
-          save.textContent = 'Lưu ảnh';
-        }, 2500);
       } catch (error) {
         save.textContent = 'Lưu lại';
         setStatus(error.message, true);
@@ -262,8 +362,8 @@
       }
     };
 
-    cropper.append(preview, controls);
-    article.append(badge, heading, imagePair, input, cropper, save, reset);
+    cropper.append(preview, modeBar, controls);
+    article.append(badge, heading, imagePair, actionBar, fileInfoNotice, cropper, save);
     return article;
   }
 
