@@ -17271,172 +17271,225 @@ main .home-faq-item p {
   }
 }
 
-/* Factory video introduction: centred editorial heading treatment. */
-.process-header-section {
-  padding: clamp(3.25rem, 6vw, 5.5rem) 0 !important;
-  background: #f1f2f3 !important;
-}
+/* ======================================================================
+   XƯỞNG SẢN XUẤT - SECTION TYPOGRAPHY & CENTERING STANDARD
+   Matches the homepage & sitewide conventions:
+   - All section titles & text descriptions centered
+   - Black section title: var(--font-heading) / 40px desktop / 24px mobile / weight 700 / #1D1D1D
+   - Brand gold script: var(--font-script) / 40px desktop / 24px mobile / weight 700 / stroke & shadow / #D2A044
+   - Intro / text section: var(--font-sans) / 16px / weight 500 / #565e64 / centered
+   ====================================================================== */
 
-.process-header-section .process-v2-header {
-  max-width: 980px;
-  margin: 0 auto clamp(1.75rem, 3vw, 2.5rem) !important;
-  text-align: center;
-}
-
-.process-header-section .hero-script-eyebrow {
-  margin: 0 0 .65rem !important;
-  color: var(--accent-gold, #D2A044) !important;
-  font-family: var(--font-script) !important;
-  font-size: clamp(2.25rem, 5vw, 4.25rem) !important;
-  font-weight: 500 !important;
-  line-height: .95 !important;
-}
-
-.process-header-section .process-v2-title {
-  display: flex;
-  align-items: baseline;
-  justify-content: center;
-  gap: .22em;
-  margin: 0 !important;
-  color: #1d1916 !important;
-  font-family: var(--font-heading) !important;
-  font-size: clamp(2rem, 4.15vw, 3.7rem) !important;
-  font-weight: 800 !important;
-  line-height: 1.08 !important;
-  text-transform: none !important;
-}
-
-.process-header-section .process-v2-title-main {
-  color: #1d1916;
-  font-family: var(--font-heading);
-  font-size: 1em;
-  font-weight: 800;
-  white-space: nowrap;
-  text-transform: none !important;
-}
-
-.process-header-section .process-v2-title-script {
-  color: var(--accent-gold, #D2A044);
-  font-family: var(--font-script) !important;
-  font-size: 1.08em;
-  font-weight: 500;
-  line-height: .85;
-  white-space: nowrap;
-  text-transform: none !important;
-}
-
-.process-header-section .process-v2-desc {
-  max-width: 780px;
-  margin: clamp(.85rem, 1.8vw, 1.25rem) auto 0 !important;
-  color: #5f666c !important;
-  font-family: var(--font-sans) !important;
-  font-size: clamp(.9rem, 1.45vw, 1.15rem) !important;
-  line-height: 1.5 !important;
-}
-
-@media (max-width: 767px) {
-  .process-header-section {
-    padding: 2.75rem 0 !important;
-  }
-
-  .process-header-section .hero-script-eyebrow {
-    font-size: clamp(2rem, 11vw, 2.8rem) !important;
-  }
-
-  .process-header-section .process-v2-title {
-    flex-direction: column;
-    align-items: center;
-    gap: .15rem;
-    font-size: clamp(1.7rem, 8vw, 2.25rem) !important;
-  }
-
-  .process-header-section .process-v2-desc {
-    max-width: 34rem;
-    font-size: clamp(.82rem, 3.7vw, 1rem) !important;
-  }
-}
-
-/* Equipment heading follows the same paired-title system as the workshop title. */
-.capacity-section-v2 {
-  padding: clamp(3.25rem, 6vw, 5.5rem) 0 !important;
-  background: #f1f2f3 !important;
-}
-
-.capacity-section-v2 .capacity-v2-header {
-  max-width: 980px;
-  margin: 0 auto clamp(1.75rem, 3vw, 2.5rem) !important;
-  text-align: center;
-}
-
-.capacity-section-v2 .capacity-v2-title,
-.capacity-section-v2 .capacity-paired-title {
-  display: flex;
-  align-items: baseline;
-  justify-content: center;
-  gap: .22em;
-  margin: 0 !important;
-  color: #1d1916 !important;
-  font-family: var(--font-heading) !important;
-  font-size: clamp(2rem, 4.15vw, 3.7rem) !important;
-  font-weight: 800 !important;
-  line-height: 1.08 !important;
-  text-transform: none !important;
-}
-
-.capacity-section-v2 .capacity-paired-title-main {
-  color: #1d1916;
-  font-family: var(--font-heading);
-  font-size: 1em;
-  font-weight: 800;
-  white-space: nowrap;
-  text-transform: none !important;
-}
-
-.capacity-section-v2 .capacity-paired-title-accent {
-  color: var(--accent-gold, #D2A044);
-  font-family: var(--font-script) !important;
-  font-size: 1.08em;
-  font-weight: 500;
-  line-height: .85;
-  white-space: nowrap;
-  text-transform: none !important;
-}
-
-.capacity-section-v2 .capacity-v2-desc {
-  max-width: 46rem;
-  margin: clamp(.85rem, 1.8vw, 1.25rem) auto 0;
-  color: #5f666c;
-  font-family: var(--font-sans);
-  font-size: clamp(.9rem, 1.45vw, 1.15rem);
-  line-height: 1.5;
-}
-
-@media (max-width: 767px) {
-  .capacity-section-v2 {
-    padding: 2.75rem 0 !important;
-  }
-
-  .capacity-section-v2 .capacity-paired-title {
-    flex-direction: column;
-    align-items: center;
-    gap: .15rem;
-    font-size: clamp(1.7rem, 8vw, 2.25rem) !important;
-  }
-
-  .capacity-section-v2 .capacity-v2-desc {
-    font-size: clamp(.82rem, 3.7vw, 1rem);
-  }
-}
-
-/* Keep the factory page's long-form sections as compact as the other pages. */
 .factory-page .process-header-section,
 .factory-page .capacity-section-v2 {
   padding-block: clamp(2.25rem, 4vw, 3.5rem) !important;
+  background: #f1f2f3 !important;
 }
 
 @media (max-width: 767px) {
   .factory-page .process-header-section,
   .factory-page .capacity-section-v2 {
     padding-block: 2rem !important;
+  }
+}
+
+/* 1. All Section Headers Centered */
+.factory-page :is(
+  .process-v2-header,
+  .capacity-v2-header,
+  .factory-detail-header,
+  .factory-tour-header,
+  .material-inspiration-header,
+  .surface-finish-header,
+  .renovation-showcase-header,
+  .furniture-care-header,
+  .project-consultation-header,
+  .work-process-steps-header,
+  .workshop-heart-header
+) {
+  text-align: center !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+}
+
+/* 2. All Section Titles Centered Flex */
+.factory-page :is(
+  .process-v2-title,
+  .capacity-v2-title,
+  .capacity-paired-title,
+  .factory-detail-title,
+  .factory-tour-title,
+  .material-inspiration-title,
+  .surface-finish-title,
+  .renovation-showcase-title,
+  .furniture-care-title,
+  .project-consultation-title,
+  .work-process-title,
+  .workshop-heart-title
+) {
+  display: flex !important;
+  flex-wrap: wrap !important;
+  align-items: baseline !important;
+  justify-content: center !important;
+  text-align: center !important;
+  gap: 0.3em !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  line-height: 1.25 !important;
+  text-transform: none !important;
+}
+
+/* 3. Black Section Titles: size, font, weight matching homepage */
+.factory-page :is(
+  .process-v2-title-main,
+  .capacity-paired-title-main,
+  .factory-detail-main,
+  .factory-tour-main,
+  .material-inspiration-main,
+  .surface-finish-main,
+  .renovation-showcase-title,
+  .furniture-care-title,
+  .project-consultation-title,
+  .work-process-title-main,
+  .workshop-heart-title
+) {
+  color: var(--content-heading-color) !important;
+  font-family: var(--font-heading) !important;
+  font-size: var(--fs-section-title) !important;
+  font-weight: var(--content-heading-weight) !important;
+  letter-spacing: -0.035em !important;
+  line-height: 1.25 !important;
+  text-transform: none !important;
+}
+
+/* 4. Brand Gold Script Text: size, font, weight, stroke matching homepage & sitewide */
+.factory-page :is(
+  .process-v2-title-script,
+  .capacity-paired-title-accent,
+  .factory-detail-script,
+  .factory-tour-accent,
+  .material-inspiration-accent,
+  .surface-finish-accent,
+  .work-process-title-accent,
+  .hero-script-eyebrow,
+  .font-script
+) {
+  color: var(--accent-gold) !important;
+  font-family: var(--font-script) !important;
+  font-size: var(--fs-section-title) !important;
+  font-weight: 700 !important;
+  font-synthesis: weight !important;
+  -webkit-text-stroke: 0.85px currentColor !important;
+  text-stroke: 0.85px currentColor !important;
+  text-shadow: 0 0 0.45px currentColor !important;
+  line-height: 1.1 !important;
+  text-transform: none !important;
+  white-space: nowrap !important;
+}
+
+/* 5. Desktop (min-width: 768px): Unified 40px scale */
+@media (min-width: 768px) {
+  .factory-page :is(
+    .process-v2-title,
+    .process-v2-title-main,
+    .process-v2-title-script,
+    .capacity-v2-title,
+    .capacity-paired-title,
+    .capacity-paired-title-main,
+    .capacity-paired-title-accent,
+    .factory-detail-title,
+    .factory-detail-main,
+    .factory-detail-script,
+    .factory-tour-title,
+    .factory-tour-main,
+    .factory-tour-accent,
+    .material-inspiration-title,
+    .material-inspiration-main,
+    .material-inspiration-accent,
+    .surface-finish-title,
+    .surface-finish-main,
+    .surface-finish-accent,
+    .renovation-showcase-title,
+    .furniture-care-title,
+    .project-consultation-title,
+    .work-process-title,
+    .work-process-title-main,
+    .work-process-title-accent,
+    .workshop-heart-title,
+    .hero-script-eyebrow
+  ) {
+    font-size: 40px !important;
+  }
+}
+
+/* 6. Mobile (max-width: 767px): Unified 24px scale */
+@media (max-width: 767px) {
+  .factory-page :is(
+    .process-v2-title,
+    .process-v2-title-main,
+    .process-v2-title-script,
+    .capacity-v2-title,
+    .capacity-paired-title,
+    .capacity-paired-title-main,
+    .capacity-paired-title-accent,
+    .factory-detail-title,
+    .factory-detail-main,
+    .factory-detail-script,
+    .factory-tour-title,
+    .factory-tour-main,
+    .factory-tour-accent,
+    .material-inspiration-title,
+    .material-inspiration-main,
+    .material-inspiration-accent,
+    .surface-finish-title,
+    .surface-finish-main,
+    .surface-finish-accent,
+    .renovation-showcase-title,
+    .furniture-care-title,
+    .project-consultation-title,
+    .work-process-title,
+    .work-process-title-main,
+    .work-process-title-accent,
+    .workshop-heart-title,
+    .hero-script-eyebrow
+  ) {
+    font-size: 24px !important;
+    line-height: 1.35 !important;
+  }
+}
+
+/* 7. All Section Intro / Subtitle Text Centered */
+.factory-page :is(
+  .process-v2-desc,
+  .capacity-v2-desc,
+  .factory-tour-header > p,
+  .material-inspiration-header > p,
+  .renovation-showcase-header > p,
+  .workshop-heart-desc,
+  .workshop-heart-header > p
+) {
+  color: var(--content-body-color) !important;
+  font-family: var(--font-sans) !important;
+  font-size: var(--fs-section-subtitle) !important;
+  font-weight: 500 !important;
+  line-height: 1.5 !important;
+  text-align: center !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  max-width: 780px !important;
+}
+
+@media (max-width: 767px) {
+  .factory-page :is(
+    .process-v2-desc,
+    .capacity-v2-desc,
+    .factory-tour-header > p,
+    .material-inspiration-header > p,
+    .renovation-showcase-header > p,
+    .workshop-heart-desc,
+    .workshop-heart-header > p
+  ) {
+    font-size: 0.9rem !important;
+    max-width: 34rem !important;
   }
 }
