@@ -17651,4 +17651,23 @@ main .home-faq-item p {
     height: auto;
     aspect-ratio: 1 / 1;
   }
+
+  /* Extend the opaque side of the fade so every text element sits on white. */
+  .home-page .home-project-signature-card::before,
+  .home-page .home-project-signature-card--copy-right::before {
+    background: linear-gradient(270deg,
+      rgba(255, 255, 255, .99) 0%,
+      rgba(255, 255, 255, .97) 72%,
+      rgba(255, 255, 255, .62) 84%,
+      rgba(255, 255, 255, 0) 100%) !important;
+  }
+
+  .home-page .home-project-signature-card--apartment::before,
+  .home-page .home-project-signature-card--villa::before {
+    background: linear-gradient(90deg,
+      rgba(255, 255, 255, .99) 0%,
+      rgba(255, 255, 255, .97) 72%,
+      rgba(255, 255, 255, .62) 84%,
+      rgba(255, 255, 255, 0) 100%) !important;
+  }
 }
