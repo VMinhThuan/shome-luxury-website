@@ -17639,15 +17639,16 @@ main .home-faq-item p {
   margin-bottom: 0 !important;
 }
 
-/* Make the complete 2×2 real-project grid exactly as tall as a 16:9 banner. */
+/* On phones, each real-project tile keeps the square card height of the
+   reference layout instead of flattening the full 2×2 grid. */
 @media (max-width: 767px) {
   .home-page .home-project-signatures-grid {
-    aspect-ratio: 16 / 9;
-    grid-template-rows: repeat(2, minmax(0, 1fr));
+    aspect-ratio: auto;
+    grid-template-rows: none;
   }
 
   .home-page .home-project-signature-card {
-    height: 100%;
-    aspect-ratio: auto;
+    height: auto;
+    aspect-ratio: 1 / 1;
   }
 }
