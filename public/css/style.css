@@ -17680,9 +17680,7 @@ main .home-faq-item p {
   .work-process-title-accent
 ) {
   padding-inline: 0 !important;
-  /* The signature face has taller ascenders/descenders than Montserrat;
-     .9em gives it the same perceived height as the 40px black title. */
-  font-size: .9em !important;
+  font-size: var(--fs-section-title) !important;
 }
 
 /* On phones, each real-project tile keeps the square card height of the
