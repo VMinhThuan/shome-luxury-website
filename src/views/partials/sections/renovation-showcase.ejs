@@ -11,25 +11,33 @@
         before: (locals.factoryImages && factoryImages.factory_reno_living_before) || '/images/img-xuong-san-xuat/renovation-living-before.png',
         after: (locals.factoryImages && factoryImages.factory_reno_living_after) || '/images/img-xuong-san-xuat/renovation-living-after.png',
         beforeAlt: 'Hiện trạng phòng khách trước thi công',
-        afterAlt: 'Phòng khách hoàn thiện sau thi công'
-      },
-      {
-        before: (locals.factoryImages && factoryImages.factory_reno_office_before) || '/images/img-xuong-san-xuat/renovation-office-before.png',
-        after: (locals.factoryImages && factoryImages.factory_reno_office_after) || '/images/img-xuong-san-xuat/renovation-office-after.png',
-        beforeAlt: 'Hiện trạng không gian làm việc trước thi công',
-        afterAlt: 'Không gian làm việc hoàn thiện sau thi công'
-      },
-      {
-        before: (locals.factoryImages && factoryImages.factory_reno_bath_before) || '/images/img-xuong-san-xuat/renovation-bathroom-before.png',
-        after: (locals.factoryImages && factoryImages.factory_reno_bath_after) || '/images/img-xuong-san-xuat/renovation-bathroom-after.png',
-        beforeAlt: 'Hiện trạng phòng tắm trước thi công',
-        afterAlt: 'Phòng tắm hoàn thiện sau thi công'
+        afterAlt: 'Phòng khách hoàn thiện sau thi công',
+        title: 'Phòng khách & bếp',
+        description: 'Từ hiện trạng thô đến không gian sinh hoạt chung ấm cúng, liền mạch.'
       },
       {
         before: (locals.factoryImages && factoryImages.factory_reno_bed_before) || '/images/img-xuong-san-xuat/renovation-bedroom-before.png',
         after: (locals.factoryImages && factoryImages.factory_reno_bed_after) || '/images/img-xuong-san-xuat/renovation-bedroom-after.png',
         beforeAlt: 'Hiện trạng phòng ngủ trước thi công',
-        afterAlt: 'Phòng ngủ hoàn thiện sau thi công'
+        afterAlt: 'Phòng ngủ hoàn thiện sau thi công',
+        title: 'Phòng ngủ',
+        description: 'Từ khung phòng trống đến chốn nghỉ ngơi riêng tư, thư thái.'
+      },
+      {
+        before: (locals.factoryImages && factoryImages.factory_reno_bath_before) || '/images/img-xuong-san-xuat/renovation-bathroom-before.png',
+        after: (locals.factoryImages && factoryImages.factory_reno_bath_after) || '/images/img-xuong-san-xuat/renovation-bathroom-after.png',
+        beforeAlt: 'Hiện trạng phòng tắm trước thi công',
+        afterAlt: 'Phòng tắm hoàn thiện sau thi công',
+        title: 'Phòng tắm & vệ sinh',
+        description: 'Từ khu vệ sinh cơ bản đến không gian gọn gàng, sạch thoáng.'
+      },
+      {
+        before: (locals.factoryImages && factoryImages.factory_reno_office_before) || '/images/img-xuong-san-xuat/renovation-office-before.png',
+        after: (locals.factoryImages && factoryImages.factory_reno_office_after) || '/images/img-xuong-san-xuat/renovation-office-after.png',
+        beforeAlt: 'Hiện trạng văn phòng trước thi công',
+        afterAlt: 'Văn phòng hoàn thiện sau thi công',
+        title: 'Văn phòng',
+        description: 'Từ mặt bằng trống đến không gian làm việc tập trung, hiệu quả.'
       }
     ]; %>
 
@@ -44,6 +52,10 @@
             <img src="<%= pair.after %>" alt="<%= pair.afterAlt %>" loading="lazy" decoding="async" width="1672" height="941" />
             <figcaption>Sau thi công</figcaption>
           </figure>
+          <div class="renovation-showcase-pair-copy">
+            <h3><%= pair.title %></h3>
+            <p><%= pair.description %></p>
+          </div>
         </article>
       <% }); %>
     </div>
