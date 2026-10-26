@@ -4681,7 +4681,7 @@ main .surface-finish-section .surface-finish-title {
   color: var(--accent-gold, #D2A044);
   font-family: var(--font-script);
   font-size: 1.08em;
-  font-weight: 700;
+  font-weight: 400;
   line-height: 0.9;
 }
 
@@ -16449,7 +16449,6 @@ main :is(
   .surface-finish-title,
   .renovation-showcase-title,
   .furniture-care-title,
-  .workshop-heart-title,
   .partners-main,
   .feature-title,
   .job-card-title,
@@ -16500,7 +16499,6 @@ main :is(
   .surface-finish-title,
   .renovation-showcase-title,
   .furniture-care-title,
-  .workshop-heart-title,
   .partners-main,
   .feature-title,
   .job-card-title,
@@ -17065,7 +17063,7 @@ main :is(.hero-script-subtitle, .recruitment-hero-script, .recruitment-hero-bott
 
   .home-page .home-project-signature-card {
     min-height: 0;
-    aspect-ratio: .86 / 1;
+    aspect-ratio: 1.8 / 1;
     border-radius: 10px;
   }
 
@@ -17110,7 +17108,7 @@ main :is(.hero-script-subtitle, .recruitment-hero-script, .recruitment-hero-bott
 
 @media (max-width: 359px) {
   .home-page .home-project-signature-card {
-    aspect-ratio: .78 / 1;
+    aspect-ratio: 1.8 / 1;
   }
 
   .home-page .home-project-signature-copy p,
@@ -17226,6 +17224,22 @@ main .home-faq-item p {
 
 /* Keep the copy in the pale panel of each real-project tile on phones. */
 @media (max-width: 767px) {
+  /* Apartment and villa keep the desktop reading direction: white copy panel
+     on the left, with the project photo revealed on the right. */
+  .home-page .home-project-signature-card--apartment,
+  .home-page .home-project-signature-card--villa {
+    justify-content: flex-start !important;
+  }
+
+  .home-page .home-project-signature-card--apartment::before,
+  .home-page .home-project-signature-card--villa::before {
+    background: linear-gradient(90deg,
+      rgba(255, 255, 255, .98) 0%,
+      rgba(255, 255, 255, .94) 53%,
+      rgba(255, 255, 255, .3) 74%,
+      rgba(255, 255, 255, 0) 100%) !important;
+  }
+
   .home-page .home-project-signature-card,
   .home-page .home-project-signature-card--copy-right {
     justify-content: flex-end;
@@ -17268,6 +17282,39 @@ main .home-faq-item p {
   .home-page .home-project-signature-link {
     padding: .4rem .58rem;
     font-size: clamp(.6rem, 2.2vw, .69rem);
+  }
+}
+
+/* The shallow 2×2 cards need a tighter content rhythm on narrow phones so
+   their labels and CTA remain fully visible. */
+@media (max-width: 480px) {
+  .home-page .home-project-signature-copy {
+    padding: .35rem .42rem;
+  }
+
+  .home-page .home-project-signature-number {
+    font-size: .55rem;
+  }
+
+  .home-page .home-project-signature-copy h3 {
+    margin-top: .18rem;
+    font-size: clamp(.94rem, 4vw, 1.1rem);
+    line-height: 1;
+  }
+
+  .home-page .home-project-signature-rule {
+    margin: .23rem 0;
+  }
+
+  .home-page .home-project-signature-copy p {
+    font-size: .56rem;
+    line-height: 1.12;
+  }
+
+  .home-page .home-project-signature-link {
+    margin-top: .35rem;
+    padding: .28rem .4rem;
+    font-size: .56rem;
   }
 }
 
@@ -17332,7 +17379,8 @@ main .home-faq-item p {
   align-items: baseline !important;
   justify-content: center !important;
   text-align: center !important;
-  gap: 0.3em !important;
+  column-gap: clamp(0.6em, 2vw, 0.85em) !important;
+  row-gap: 0.25em !important;
   margin-left: auto !important;
   margin-right: auto !important;
   line-height: 1.25 !important;
@@ -17350,6 +17398,7 @@ main .home-faq-item p {
   .renovation-showcase-title,
   .furniture-care-title,
   .project-consultation-title,
+  .project-consultation-main,
   .work-process-title-main,
   .workshop-heart-title
 ) {
@@ -17362,7 +17411,7 @@ main .home-faq-item p {
   text-transform: none !important;
 }
 
-/* 4. Brand Gold Script Text: size, font, weight, stroke matching homepage & sitewide */
+/* 4. Brand Gold Script Text: slender/thin stroke matching homepage & sitewide */
 .factory-page :is(
   .process-v2-title-script,
   .capacity-paired-title-accent,
@@ -17370,21 +17419,38 @@ main .home-faq-item p {
   .factory-tour-accent,
   .material-inspiration-accent,
   .surface-finish-accent,
+  .project-consultation-accent,
   .work-process-title-accent,
   .hero-script-eyebrow,
   .font-script
 ) {
-  color: var(--accent-gold) !important;
+  color: var(--brand-gold-text, var(--accent-gold)) !important;
   font-family: var(--font-script) !important;
   font-size: var(--fs-section-title) !important;
-  font-weight: 700 !important;
-  font-synthesis: weight !important;
-  -webkit-text-stroke: 0.85px currentColor !important;
-  text-stroke: 0.85px currentColor !important;
-  text-shadow: 0 0 0.45px currentColor !important;
+  font-weight: 400 !important;
+  font-synthesis: none !important;
+  -webkit-text-stroke: 0 !important;
+  text-stroke: 0 !important;
+  text-shadow: none !important;
   line-height: 1.1 !important;
   text-transform: none !important;
   white-space: nowrap !important;
+}
+
+/* 4b. Ensure script flourish has clean left clearance so it never collides or sticks with preceding text/symbols */
+.factory-page :is(
+  .process-v2-title-script,
+  .capacity-paired-title-accent,
+  .factory-detail-script,
+  .factory-tour-accent,
+  .material-inspiration-accent,
+  .surface-finish-accent,
+  .project-consultation-accent,
+  .work-process-title-accent
+) {
+  display: inline-block !important;
+  padding-left: 0.18em !important;
+  padding-right: 0.05em !important;
 }
 
 /* 5. Desktop (min-width: 768px): Unified 40px scale */
@@ -17412,6 +17478,8 @@ main .home-faq-item p {
     .renovation-showcase-title,
     .furniture-care-title,
     .project-consultation-title,
+    .project-consultation-main,
+    .project-consultation-accent,
     .work-process-title,
     .work-process-title-main,
     .work-process-title-accent,
@@ -17447,6 +17515,8 @@ main .home-faq-item p {
     .renovation-showcase-title,
     .furniture-care-title,
     .project-consultation-title,
+    .project-consultation-main,
+    .project-consultation-accent,
     .work-process-title,
     .work-process-title-main,
     .work-process-title-accent,
