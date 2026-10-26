@@ -17639,6 +17639,50 @@ main .home-faq-item p {
   margin-bottom: 0 !important;
 }
 
+/* Factory paired headings use the same black/gold scale and spacing as the
+   homepage's “Loại hình Thiết Kế” heading. */
+.factory-page :is(
+  .process-v2-title,
+  .capacity-v2-title,
+  .capacity-paired-title,
+  .factory-detail-title,
+  .factory-tour-title,
+  .material-inspiration-title,
+  .surface-finish-title,
+  .project-consultation-title,
+  .work-process-title
+) {
+  column-gap: .22em !important;
+  row-gap: 0 !important;
+}
+
+.factory-page :is(
+  .process-v2-title-main,
+  .capacity-paired-title-main,
+  .factory-detail-main,
+  .factory-tour-main,
+  .material-inspiration-main,
+  .surface-finish-main,
+  .project-consultation-main,
+  .work-process-title-main
+) {
+  font-size: var(--fs-section-title) !important;
+}
+
+.factory-page :is(
+  .process-v2-title-script,
+  .capacity-paired-title-accent,
+  .factory-detail-script,
+  .factory-tour-accent,
+  .material-inspiration-accent,
+  .surface-finish-accent,
+  .project-consultation-accent,
+  .work-process-title-accent
+) {
+  padding-inline: 0 !important;
+  font-size: var(--fs-section-title) !important;
+}
+
 /* On phones, each real-project tile keeps the square card height of the
    reference layout instead of flattening the full 2×2 grid. */
 @media (max-width: 767px) {
