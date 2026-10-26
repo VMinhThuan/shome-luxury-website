@@ -17563,3 +17563,78 @@ main .home-faq-item p {
     max-width: 34rem !important;
   }
 }
+
+/* Keep the equipment heading closely tied to its banner and machinery grid. */
+.factory-page .capacity-section-v2 {
+  padding-block: clamp(1rem, 1.5vw, 1.25rem) !important;
+}
+
+.factory-page .capacity-v2-header {
+  margin-bottom: 0 !important;
+}
+
+.factory-page .capacity-v2-title {
+  margin-top: 0 !important;
+  margin-bottom: .45rem !important;
+}
+
+.factory-page .capacity-v2-desc {
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
+}
+
+.factory-page .capacity-cards-grid {
+  margin-top: clamp(.7rem, 1vw, .9rem) !important;
+}
+
+/* Material heading: keep the script close to “&” and clear of its subtitle. */
+.factory-page .material-inspiration-title {
+  column-gap: .3em !important;
+  margin-bottom: 1.15rem !important;
+}
+
+.factory-page .material-inspiration-accent {
+  padding-left: 0 !important;
+}
+
+/* Keep the script companion visually attached to the surface-finish title. */
+.factory-page .surface-finish-title {
+  column-gap: .2em !important;
+}
+
+.factory-page .surface-finish-accent {
+  padding-left: 0 !important;
+}
+
+/* The factory-page script-heading rule must not enlarge the footer slogan. */
+.factory-page .site-footer .footer-script-slogan {
+  color: #D2A044 !important;
+  font-family: var(--font-script) !important;
+  font-size: 1.2rem !important;
+  font-weight: 400 !important;
+  font-synthesis: none !important;
+  -webkit-text-stroke: 0 !important;
+  text-stroke: 0 !important;
+  text-shadow: none !important;
+  line-height: 1.05 !important;
+  white-space: nowrap;
+}
+
+/* Match the homepage's tighter section rhythm around the quality showcase. */
+.factory-page .workshop-heart-section {
+  padding-block: 1.25rem !important;
+}
+
+.factory-page .workshop-heart-header {
+  margin-bottom: .7rem !important;
+}
+
+.factory-page .workshop-heart-title {
+  margin-top: 0 !important;
+  margin-bottom: .4rem !important;
+}
+
+.factory-page .workshop-heart-desc {
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
+}
