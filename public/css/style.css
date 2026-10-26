@@ -17638,3 +17638,16 @@ main .home-faq-item p {
   margin-top: 0 !important;
   margin-bottom: 0 !important;
 }
+
+/* Make the complete 2×2 real-project grid exactly as tall as a 16:9 banner. */
+@media (max-width: 767px) {
+  .home-page .home-project-signatures-grid {
+    aspect-ratio: 16 / 9;
+    grid-template-rows: repeat(2, minmax(0, 1fr));
+  }
+
+  .home-page .home-project-signature-card {
+    height: 100%;
+    aspect-ratio: auto;
+  }
+}
