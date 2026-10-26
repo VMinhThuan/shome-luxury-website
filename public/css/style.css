@@ -3862,11 +3862,7 @@ body.page-recruitment,
 
 .factory-detail-header {
   margin-bottom: 0.75rem;
-}
-
-.factory-detail-script {
-  /* Inherit the shared handwritten heading treatment used by the sections above. */
-  margin-bottom: 1.15rem;
+  text-align: center;
 }
 
 .factory-detail-title {
@@ -3878,8 +3874,12 @@ body.page-recruitment,
   margin: 0;
 }
 
-.factory-detail-title span {
-  color: #D2A044;
+main .factory-detail-section .factory-detail-title {
+  text-transform: none !important;
+}
+
+.factory-detail-title .factory-detail-script {
+  margin: 0;
 }
 
 .factory-detail-media {
@@ -17376,5 +17376,18 @@ main .home-faq-item p {
 
   .capacity-section-v2 .capacity-v2-desc {
     font-size: clamp(.82rem, 3.7vw, 1rem);
+  }
+}
+
+/* Keep the factory page's long-form sections as compact as the other pages. */
+.factory-page .process-header-section,
+.factory-page .capacity-section-v2 {
+  padding-block: clamp(2.25rem, 4vw, 3.5rem) !important;
+}
+
+@media (max-width: 767px) {
+  .factory-page .process-header-section,
+  .factory-page .capacity-section-v2 {
+    padding-block: 2rem !important;
   }
 }
