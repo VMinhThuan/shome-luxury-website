@@ -17652,22 +17652,22 @@ main .home-faq-item p {
     aspect-ratio: 1 / 1;
   }
 
-  /* Extend the opaque side of the fade so every text element sits on white. */
-  .home-page .home-project-signature-card::before,
+  /* Right-hand copy panels remain white just beyond half of the card. */
   .home-page .home-project-signature-card--copy-right::before {
     background: linear-gradient(270deg,
       rgba(255, 255, 255, .99) 0%,
-      rgba(255, 255, 255, .97) 72%,
-      rgba(255, 255, 255, .62) 84%,
-      rgba(255, 255, 255, 0) 100%) !important;
+      rgba(255, 255, 255, .97) 58%,
+      rgba(255, 255, 255, .55) 70%,
+      rgba(255, 255, 255, 0) 88%) !important;
   }
 
+  /* Restore the original, lighter left-hand fade for apartment and villa. */
   .home-page .home-project-signature-card--apartment::before,
   .home-page .home-project-signature-card--villa::before {
     background: linear-gradient(90deg,
-      rgba(255, 255, 255, .99) 0%,
-      rgba(255, 255, 255, .97) 72%,
-      rgba(255, 255, 255, .62) 84%,
+      rgba(255, 255, 255, .98) 0%,
+      rgba(255, 255, 255, .94) 53%,
+      rgba(255, 255, 255, .3) 74%,
       rgba(255, 255, 255, 0) 100%) !important;
   }
 }
