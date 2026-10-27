@@ -21,8 +21,12 @@ const rawSlots = [
   ['home', 'why_choose_us', 'why_choose_warranty', 'Tại sao chọn chúng tôi — Bảo hành', '/images/why-choose-warranty-v2.webp'],
   ['home', 'why_choose_us', 'why_choose_craftsman', 'Tại sao chọn chúng tôi — Thợ lành nghề', '/images/why-choose-craftsman-v2.webp'],
   ['home', 'why_choose_us', 'why_choose_pricing', 'Tại sao chọn chúng tôi — Giá cả', '/images/why-choose-pricing-v2.webp'],
+  ['home', 'why_choose_us', 'why_choose_background', 'Tại sao chọn chúng tôi — Ảnh nền (giao diện sáng)', '/images/home-why-choose-background.png'],
   ['home', 'office_team', 'office_team_image', 'Văn phòng & đội ngũ', '/images/office-team-meeting.jpg'],
   ['home', 'home_workshop', 'home_workshop_image', 'Xưởng sản xuất', '/images/factory-worker-shome-v2.png'],
+  ['home', 'home_workshop', 'home_workshop_background', 'Xưởng sản xuất — Ảnh nền (giao diện tối)', '/images/home-workshop-background.png'],
+  ['home', 'home_faq', 'home_faq_background', 'Câu hỏi thường gặp — Ảnh nền (giao diện sáng)', '/images/home-faq-background.png'],
+  ['home', 'about_showroom', 'about_showroom_background', 'Về chúng tôi — Ảnh nền (giao diện tối)', '/images/home-about-background.png'],
 
   // 2. XƯỞNG SẢN XUẤT (factory) - 21 slots
   ['factory', 'hero', 'factory_hero_banner_1', 'Hero — Banner 1 (Máy CNC)', '/images/factory_cnc.jpg'],

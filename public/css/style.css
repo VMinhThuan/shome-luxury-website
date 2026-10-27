@@ -1592,45 +1592,56 @@ ol {
   transform: scale(1.15);
 }
 
-/* Each slide's copy enters afresh when it becomes the active banner. */
-.hero-slide .hero-title-line,
-.hero-slide .hero-script-subtitle {
+/* Homepage copy enters like a refined editorial reveal: each title line
+   resolves from a soft mask while the signature line catches a gold glint. */
+.hero-slider--fade .hero-slide .hero-title-line,
+.hero-slider--fade .hero-slide .hero-script-subtitle {
   opacity: 0;
-  will-change: opacity, transform;
+  clip-path: inset(0 100% 0 0);
+  will-change: clip-path, filter, opacity, transform;
 }
 
-.hero-slide .hero-title-line {
-  transform: translateY(1.1rem);
+.hero-slider--fade .hero-slide .hero-title-line {
+  filter: blur(8px);
+  transform: translate3d(-.85rem, .38rem, 0);
 }
 
-.hero-slide .hero-script-subtitle {
-  transform: translateY(1rem) scale(.98);
+.hero-slider--fade .hero-slide .hero-script-subtitle {
+  transform: translate3d(-.55rem, .42rem, 0) rotate(-1.25deg) scale(.985);
   transform-origin: left center;
+  background: linear-gradient(105deg, #b77b20 0%, #d2a044 36%, #ffe1a0 50%, #d2a044 64%, #aa6e1c 100%);
+  background-size: 220% 100%;
+  background-position: 100% 0;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent !important;
+  filter: drop-shadow(0 3px 5px rgba(25, 15, 4, .32));
 }
 
-.hero-slide.is-active .hero-title-line {
-  animation: hero-title-spin-in .78s cubic-bezier(.22, 1, .36, 1) both;
+.hero-slider--fade .hero-slide.is-active .hero-title-line {
+  animation: hero-title-cinematic-in .9s cubic-bezier(.16, 1, .3, 1) both;
 }
 
-.hero-slide.is-active .hero-title-line:nth-child(2) {
+.hero-slider--fade .hero-slide.is-active .hero-title-line:nth-child(2) {
   animation-delay: .14s;
 }
 
-.hero-slide.is-active .hero-script-subtitle {
-  animation: hero-script-reveal .86s cubic-bezier(.22, 1, .36, 1) .32s both;
+.hero-slider--fade .hero-slide.is-active .hero-script-subtitle {
+  animation: hero-script-gold-reveal 1.1s cubic-bezier(.16, 1, .3, 1) .31s both;
 }
 
-/* Let the outgoing banner copy finish its movement before disappearing. */
-.hero-slide.is-exiting .hero-title-line {
-  animation: hero-title-spin-out .54s cubic-bezier(.55, 0, 1, .45) both;
+/* The copy leaves with the same restrained movement, rather than a hard cut. */
+.hero-slider--fade .hero-slide.is-exiting .hero-title-line {
+  animation: hero-title-cinematic-out .48s cubic-bezier(.55, 0, 1, .45) both;
 }
 
-.hero-slide.is-exiting .hero-title-line:nth-child(2) {
-  animation-delay: .05s;
+.hero-slider--fade .hero-slide.is-exiting .hero-title-line:nth-child(2) {
+  animation-delay: .045s;
 }
 
-.hero-slide.is-exiting .hero-script-subtitle {
-  animation: hero-script-fade-out .48s ease-in both;
+.hero-slider--fade .hero-slide.is-exiting .hero-script-subtitle {
+  animation: hero-script-gold-out .42s ease-in both;
 }
 
 /* The factory carousel uses the same calm staged copy reveal as the homepage. */
@@ -1657,26 +1668,26 @@ ol {
   to { opacity: 1; transform: translateY(0); }
 }
 
-@keyframes hero-title-spin-in {
-  0% { opacity: 0; transform: perspective(700px) translate3d(-2rem, 1rem, 0) rotateY(-115deg) rotateZ(-8deg); }
-  64% { opacity: 1; transform: perspective(700px) translate3d(.12rem, -.05rem, 0) rotateY(8deg) rotateZ(.5deg); }
-  100% { opacity: 1; transform: perspective(700px) translate3d(0, 0, 0) rotateY(0) rotateZ(0); }
+@keyframes hero-title-cinematic-in {
+  0% { opacity: 0; clip-path: inset(0 100% 0 0); filter: blur(8px); transform: translate3d(-.85rem, .38rem, 0); }
+  62% { opacity: 1; clip-path: inset(0 0 0 0); filter: blur(0); transform: translate3d(.06rem, -.02rem, 0); }
+  100% { opacity: 1; clip-path: inset(0 0 0 0); filter: blur(0); transform: translate3d(0, 0, 0); }
 }
 
-@keyframes hero-title-spin-out {
-  from { opacity: 1; transform: perspective(700px) translate3d(0, 0, 0) rotateY(0) rotateZ(0); }
-  to { opacity: 0; transform: perspective(700px) translate3d(.9rem, -.5rem, 0) rotateY(85deg) rotateZ(5deg); }
+@keyframes hero-title-cinematic-out {
+  from { opacity: 1; clip-path: inset(0 0 0 0); filter: blur(0); transform: translate3d(0, 0, 0); }
+  to { opacity: 0; clip-path: inset(0 0 0 100%); filter: blur(5px); transform: translate3d(.45rem, -.16rem, 0); }
 }
 
-@keyframes hero-script-reveal {
-  0% { opacity: 0; transform: translateY(1rem) rotate(-4deg) scale(.94); }
-  70% { opacity: 1; transform: translateY(-.12rem) rotate(.7deg) scale(1.02); }
-  100% { opacity: 1; transform: translateY(0) rotate(0) scale(1); }
+@keyframes hero-script-gold-reveal {
+  0% { opacity: 0; clip-path: inset(0 100% 0 0); background-position: 100% 0; transform: translate3d(-.55rem, .42rem, 0) rotate(-1.25deg) scale(.985); }
+  65% { opacity: 1; clip-path: inset(0 0 0 0); background-position: 42% 0; transform: translate3d(.04rem, -.02rem, 0) rotate(.12deg) scale(1.005); }
+  100% { opacity: 1; clip-path: inset(0 0 0 0); background-position: 0 0; transform: translate3d(0, 0, 0) rotate(0) scale(1); }
 }
 
-@keyframes hero-script-fade-out {
-  from { opacity: 1; transform: translateY(0) rotate(0) scale(1); }
-  to { opacity: 0; transform: translateY(-.65rem) rotate(3deg) scale(.96); }
+@keyframes hero-script-gold-out {
+  from { opacity: 1; clip-path: inset(0 0 0 0); transform: translate3d(0, 0, 0) rotate(0) scale(1); }
+  to { opacity: 0; clip-path: inset(0 0 0 100%); transform: translate3d(.4rem, -.18rem, 0) rotate(.7deg) scale(.985); }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -1684,6 +1695,8 @@ ol {
   .hero-slide .hero-script-subtitle,
   .factory-hero .hero-slide .hero-v2-content > * {
     animation: none !important;
+    clip-path: none;
+    filter: none;
     opacity: 1;
     transform: none;
   }
@@ -16598,9 +16611,9 @@ main :is(
 .home-page .customer-feedback-proof figcaption { position: absolute; right: .5rem; bottom: .5rem; padding: .24rem .42rem; border-radius: 999px; background: rgba(0, 0, 0, .62); color: #fff; font-size: .58rem; font-weight: 700; letter-spacing: .04em; }
 
 @media (max-width: 767px) {
-  .home-page .customer-testimonial-card { grid-template-columns: minmax(0, 1fr) 118px; min-height: 320px; gap: .75rem; padding: .9rem; }
+  .home-page .customer-testimonial-card { grid-template-columns: minmax(0, 1fr); min-height: 235px; gap: 0; padding: .9rem; }
   .home-page .customer-testimonial-message { font-size: .96rem; }
-  .home-page .customer-feedback-proof img { min-height: 270px; }
+  .home-page .customer-feedback-proof { display: none; }
 }
 
 main .customer-stories-section,
@@ -17013,6 +17026,26 @@ main :is(.hero-script-subtitle, .recruitment-hero-script, .recruitment-hero-bott
     width: 72%;
     max-width: 72%;
     padding: clamp(.7rem, 3vw, 1rem);
+  }
+
+  /* Keep cards 02 and 04 mirrored on phones: their photo stays left while
+     the white copy panel and its content sit against the right edge. */
+  .home-page .project-type-card--reverse .type-card-bg img {
+    right: auto;
+    left: 0;
+  }
+
+  .home-page .project-type-card--reverse .type-card-gradient {
+    background: linear-gradient(270deg,
+      rgba(255, 255, 255, .98) 0%,
+      rgba(255, 255, 255, .95) 48%,
+      rgba(255, 255, 255, .45) 68%,
+      rgba(255, 255, 255, 0) 100%);
+  }
+
+  .home-page .project-type-card--reverse .type-card-content {
+    right: 0;
+    left: auto;
   }
 
   .home-page .type-card-number {
@@ -17735,5 +17768,121 @@ main .home-faq-item p {
       rgba(255, 255, 255, .94) 53%,
       rgba(255, 255, 255, .3) 74%,
       rgba(255, 255, 255, 0) 100%) !important;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Homepage section backgrounds
+
+   These sections deliberately use two treatments: a soft, light editorial
+   surface for information-heavy cards and a dark showroom treatment for the
+   brand/factory moments. The image remains replaceable from Image Admin.
+   -------------------------------------------------------------------------- */
+.home-page .home-background-section {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  background: transparent !important;
+}
+
+.home-page .home-background-section::before,
+.home-page .home-background-section::after {
+  position: absolute;
+  inset: 0;
+  content: '';
+  pointer-events: none;
+}
+
+.home-page .home-background-section::before {
+  z-index: -2;
+  background: var(--section-background-image) center / cover no-repeat;
+  transform: scale(1.025);
+}
+
+.home-page .home-background-section::after {
+  z-index: -1;
+}
+
+.home-page .home-background-section > .container {
+  position: relative;
+  z-index: 1;
+}
+
+/* Bright background: the photo reads as a quiet material texture, keeping
+   the information cards crisp and the black brand typography unchanged. */
+.home-page .home-background-section--light {
+  box-shadow: inset 0 1px rgba(210, 160, 68, .36), inset 0 -1px rgba(210, 160, 68, .18);
+}
+
+.home-page .home-background-section--light::after {
+  background:
+    linear-gradient(115deg, rgba(255, 253, 249, .96) 0%, rgba(255, 253, 249, .9) 48%, rgba(249, 244, 236, .94) 100%),
+    rgba(255, 253, 249, .9);
+}
+
+.home-page .home-background-section--light :is(
+  .why-choose-card,
+  .home-faq-list,
+  .home-faq-cta
+) {
+  background: rgba(255, 255, 255, .88);
+  -webkit-backdrop-filter: blur(7px);
+  backdrop-filter: blur(7px);
+}
+
+/* Dark background: a controlled charcoal-to-walnut scrim keeps the factory
+   and brand photography visible while preserving excellent white-text contrast. */
+.home-page .home-background-section--dark {
+  box-shadow: inset 0 1px rgba(224, 176, 84, .8), inset 0 -1px rgba(224, 176, 84, .45);
+}
+
+.home-page .home-background-section--dark::after {
+  background:
+    linear-gradient(105deg, rgba(12, 10, 8, .91) 0%, rgba(24, 18, 12, .83) 47%, rgba(12, 10, 8, .88) 100%),
+    rgba(12, 10, 8, .76);
+}
+
+.home-page .home-background-section--dark :is(
+  .about-showroom-title,
+  .home-workshop-main
+) {
+  color: #fff !important;
+  text-shadow: 0 2px 16px rgba(0, 0, 0, .45);
+}
+
+.home-page .home-background-section--dark :is(
+  .about-showroom-desc,
+  .home-workshop-subtitle
+) {
+  color: rgba(255, 255, 255, .82) !important;
+}
+
+.home-page .home-background-section--dark :is(
+  .home-workshop-pill,
+  .home-workshop-visual,
+  .about-showroom-media
+) {
+  border-color: rgba(240, 207, 148, .34);
+  box-shadow: 0 18px 44px rgba(0, 0, 0, .27);
+}
+
+.home-page .home-background-section--dark .home-workshop-pill {
+  background: rgba(255, 253, 248, .91);
+  -webkit-backdrop-filter: blur(9px);
+  backdrop-filter: blur(9px);
+}
+
+@media (max-width: 767px) {
+  .home-page .home-background-section::before {
+    transform: none;
+    background-position: center;
+  }
+
+  .home-page .home-background-section--light::after {
+    background: rgba(255, 253, 249, .94);
+  }
+
+  .home-page .home-background-section--dark::after {
+    background: linear-gradient(120deg, rgba(12, 10, 8, .92), rgba(27, 19, 12, .84));
   }
 }
