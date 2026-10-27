@@ -17683,6 +17683,28 @@ main .home-faq-item p {
   font-size: var(--fs-section-title) !important;
 }
 
+/* Pricing cards present the apartment artwork without the copy panel. */
+.quote-page .quote-price-card {
+  display: block !important;
+  min-height: 0 !important;
+  aspect-ratio: 16 / 9 !important;
+  overflow: hidden !important;
+}
+
+.quote-page .quote-price-image {
+  display: block !important;
+  width: 100% !important;
+  height: 100% !important;
+  min-height: 0 !important;
+  margin: 0 !important;
+  border-radius: inherit !important;
+  background-size: 300% 100% !important;
+}
+
+.quote-page .quote-price-copy {
+  display: none !important;
+}
+
 /* On phones, each real-project tile keeps the square card height of the
    reference layout instead of flattening the full 2×2 grid. */
 @media (max-width: 767px) {

@@ -170,6 +170,11 @@ class QuotePageController {
       const isInterior = /^nội thất\b/i.test(selectedName);
       const quoteTitle = `${selectedName.replace(/^(nội thất|kiến trúc)\s+/i, '')} trọn gói`;
       const quoteScript = isInterior ? 'Nội thất' : 'Kiến trúc';
+      // The project sections show the leaf menu name, rather than a fixed
+      // apartment label, for every selected quotation category.
+      const featuredCategoryName = selectedName
+        .replace(/^(nội thất|kiến trúc)\s+/i, '')
+        .trim() || 'Chung cư';
       const quoteImages = await getPageImages('quote');
       return res.render('bao-gia', {
         title: `${selectedCategory?.name ? `Báo giá ${selectedCategory.name.toLowerCase()}` : 'Báo giá thiết kế & thi công'} | SHOME LUXURY`,
@@ -180,6 +185,7 @@ class QuotePageController {
         categoryQuery: rawCategory,
         quoteTitle,
         quoteScript,
+        featuredCategoryName,
         completedVideosData,
         quoteImages
       });
