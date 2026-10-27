@@ -17836,6 +17836,13 @@ main .home-faq-item p {
     rgba(255, 253, 249, .72) 100%);
 }
 
+.home-page .home-background-section--light.home-workshop-section::after {
+  background: linear-gradient(105deg,
+    rgba(255, 253, 249, .76) 0%,
+    rgba(255, 253, 249, .64) 52%,
+    rgba(255, 253, 249, .72) 100%);
+}
+
 .home-page .home-background-section--light :is(
   .why-choose-card,
   .home-faq-list,
@@ -17902,6 +17909,13 @@ main .home-faq-item p {
     background: linear-gradient(105deg,
       rgba(255, 253, 249, .8) 0%,
       rgba(255, 253, 249, .7) 52%,
+      rgba(255, 253, 249, .76) 100%);
+  }
+
+  .home-page .home-background-section--light.home-workshop-section::after {
+    background: linear-gradient(105deg,
+      rgba(255, 253, 249, .8) 0%,
+      rgba(255, 253, 249, .68) 52%,
       rgba(255, 253, 249, .76) 100%);
   }
 

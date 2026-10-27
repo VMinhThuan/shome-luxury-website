@@ -24,7 +24,7 @@ const rawSlots = [
   ['home', 'why_choose_us', 'why_choose_background', 'Tại sao chọn chúng tôi — Ảnh nền (giao diện sáng)', '/images/home-why-choose-background.png'],
   ['home', 'office_team', 'office_team_image', 'Văn phòng & đội ngũ', '/images/office-team-meeting.jpg'],
   ['home', 'home_workshop', 'home_workshop_image', 'Xưởng sản xuất', '/images/factory-worker-shome-v2.png'],
-  ['home', 'home_workshop', 'home_workshop_background', 'Xưởng sản xuất — Ảnh nền (giao diện tối)', '/images/home-workshop-background.png'],
+  ['home', 'home_workshop', 'home_workshop_background', 'Xưởng sản xuất — Ảnh nền xưởng', '/images/factory_workers.jpg'],
   ['home', 'home_faq', 'home_faq_background', 'Câu hỏi thường gặp — Ảnh nền (giao diện sáng)', '/images/home-faq-background.png'],
   ['home', 'about_showroom', 'about_showroom_background', 'Về chúng tôi — Ảnh nền nội thất', '/images/quote-construction-interior.png'],
 
