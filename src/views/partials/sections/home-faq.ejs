@@ -1,4 +1,5 @@
-<section class="home-faq-section home-background-section home-background-section--light" id="cau-hoi-thuong-gap" style="--section-background-image: url('<%= homeImages.home_faq_background %>');">
+<% const homeFaqBackground = (typeof homeImages !== 'undefined' && homeImages.home_faq_background) || '/images/home-faq-background.png'; %>
+<section class="home-faq-section home-background-section home-background-section--light" id="cau-hoi-thuong-gap" style="--section-background-image: url('<%= homeFaqBackground %>');">
   <div class="container">
     <header class="home-faq-header">
       <h2 class="home-faq-title">
