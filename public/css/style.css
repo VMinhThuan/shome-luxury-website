@@ -16880,6 +16880,12 @@ main :is(.hero-script-subtitle, .recruitment-hero-script, .recruitment-hero-bott
   transform: scale(1);
 }
 
+/* The slide-specific animations below replace the generic hero animation.
+   Explicitly reset the generic mask/blur so the copy is not left clipped. */
+.home-page .hero-slider--fade .hero-slide.is-active .hero-title-line {
+  filter: none;
+}
+
 /* Slide 1: the XHOME-style horizontal caption entrance. */
 .home-page .hero-slider--fade .hero-slide[data-slide-index="0"].is-active .hero-title-line {
   animation: home-hero-copy-from-left .82s cubic-bezier(.22, 1, .36, 1) .72s both;
@@ -16935,43 +16941,43 @@ main :is(.hero-script-subtitle, .recruitment-hero-script, .recruitment-hero-bott
 }
 
 @keyframes home-hero-copy-from-left {
-  from { opacity: 0; transform: translate3d(-3rem, 0, 0); }
-  to { opacity: 1; transform: translate3d(0, 0, 0); }
+  from { opacity: 0; clip-path: inset(0 100% 0 0); transform: translate3d(-3rem, 0, 0); }
+  to { opacity: 1; clip-path: inset(0 0 0 0); transform: translate3d(0, 0, 0); }
 }
 
 @keyframes home-hero-copy-from-bottom {
-  from { opacity: 0; transform: translate3d(0, 1.8rem, 0); }
-  to { opacity: 1; transform: translate3d(0, 0, 0); }
+  from { opacity: 0; clip-path: inset(0 100% 0 0); transform: translate3d(0, 1.8rem, 0); }
+  to { opacity: 1; clip-path: inset(0 0 0 0); transform: translate3d(0, 0, 0); }
 }
 
 @keyframes home-hero-copy-from-right {
-  from { opacity: 0; transform: translate3d(3rem, 0, 0); }
-  to { opacity: 1; transform: translate3d(0, 0, 0); }
+  from { opacity: 0; clip-path: inset(0 100% 0 0); transform: translate3d(3rem, 0, 0); }
+  to { opacity: 1; clip-path: inset(0 0 0 0); transform: translate3d(0, 0, 0); }
 }
 
 @keyframes home-hero-copy-to-right {
-  from { opacity: 1; transform: translate3d(0, 0, 0); }
-  to { opacity: 0; transform: translate3d(1.5rem, 0, 0); }
+  from { opacity: 1; clip-path: inset(0 0 0 0); transform: translate3d(0, 0, 0); }
+  to { opacity: 0; clip-path: inset(0 0 0 100%); transform: translate3d(1.5rem, 0, 0); }
 }
 
 @keyframes home-hero-copy-rotate-in {
-  from { opacity: 0; transform: perspective(800px) translate3d(-1.6rem, .8rem, 0) rotateX(-55deg) rotateY(70deg) rotateZ(-13deg) scale(.78); }
-  to { opacity: 1; transform: perspective(800px) translate3d(0, 0, 0) rotateX(0) rotateY(0) rotateZ(0) scale(1); }
+  from { opacity: 0; clip-path: inset(0 100% 0 0); transform: perspective(800px) translate3d(-1.6rem, .8rem, 0) rotateX(-55deg) rotateY(70deg) rotateZ(-13deg) scale(.78); }
+  to { opacity: 1; clip-path: inset(0 0 0 0); transform: perspective(800px) translate3d(0, 0, 0) rotateX(0) rotateY(0) rotateZ(0) scale(1); }
 }
 
 @keyframes home-hero-copy-rotate-out {
-  from { opacity: 1; transform: perspective(800px) rotateX(0) rotateY(0) rotateZ(0) scale(1); }
-  to { opacity: 0; transform: perspective(800px) translate3d(1rem, -.4rem, 0) rotateX(38deg) rotateY(-55deg) rotateZ(10deg) scale(.88); }
+  from { opacity: 1; clip-path: inset(0 0 0 0); transform: perspective(800px) rotateX(0) rotateY(0) rotateZ(0) scale(1); }
+  to { opacity: 0; clip-path: inset(0 0 0 100%); transform: perspective(800px) translate3d(1rem, -.4rem, 0) rotateX(38deg) rotateY(-55deg) rotateZ(10deg) scale(.88); }
 }
 
 @keyframes home-hero-copy-skew-in {
-  from { opacity: 0; transform: translate3d(-3rem, .5rem, 0) skewX(-20deg); }
-  to { opacity: 1; transform: translate3d(0, 0, 0) skewX(0); }
+  from { opacity: 0; clip-path: inset(0 100% 0 0); transform: translate3d(-3rem, .5rem, 0) skewX(-20deg); }
+  to { opacity: 1; clip-path: inset(0 0 0 0); transform: translate3d(0, 0, 0) skewX(0); }
 }
 
 @keyframes home-hero-copy-skew-out {
-  from { opacity: 1; transform: translate3d(0, 0, 0) skewX(0); }
-  to { opacity: 0; transform: translate3d(1.2rem, 0, 0) skewX(16deg); }
+  from { opacity: 1; clip-path: inset(0 0 0 0); transform: translate3d(0, 0, 0) skewX(0); }
+  to { opacity: 0; clip-path: inset(0 0 0 100%); transform: translate3d(1.2rem, 0, 0) skewX(16deg); }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -17821,6 +17827,15 @@ main .home-faq-item p {
     rgba(255, 253, 249, .9);
 }
 
+/* Let the living-room image remain a visible, warm backdrop behind the
+   showroom introduction instead of treating this section as a dark panel. */
+.home-page .home-background-section--light.about-showroom-section::after {
+  background: linear-gradient(105deg,
+    rgba(255, 253, 249, .78) 0%,
+    rgba(255, 253, 249, .66) 52%,
+    rgba(255, 253, 249, .72) 100%);
+}
+
 .home-page .home-background-section--light :is(
   .why-choose-card,
   .home-faq-list,
@@ -17881,6 +17896,13 @@ main .home-faq-item p {
 
   .home-page .home-background-section--light::after {
     background: rgba(255, 253, 249, .94);
+  }
+
+  .home-page .home-background-section--light.about-showroom-section::after {
+    background: linear-gradient(105deg,
+      rgba(255, 253, 249, .8) 0%,
+      rgba(255, 253, 249, .7) 52%,
+      rgba(255, 253, 249, .76) 100%);
   }
 
   .home-page .home-background-section--dark::after {

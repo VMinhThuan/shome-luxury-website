@@ -26,7 +26,7 @@ const rawSlots = [
   ['home', 'home_workshop', 'home_workshop_image', 'Xưởng sản xuất', '/images/factory-worker-shome-v2.png'],
   ['home', 'home_workshop', 'home_workshop_background', 'Xưởng sản xuất — Ảnh nền (giao diện tối)', '/images/home-workshop-background.png'],
   ['home', 'home_faq', 'home_faq_background', 'Câu hỏi thường gặp — Ảnh nền (giao diện sáng)', '/images/home-faq-background.png'],
-  ['home', 'about_showroom', 'about_showroom_background', 'Về chúng tôi — Ảnh nền (giao diện tối)', '/images/home-about-background.png'],
+  ['home', 'about_showroom', 'about_showroom_background', 'Về chúng tôi — Ảnh nền nội thất', '/images/quote-construction-interior.png'],
 
   // 2. XƯỞNG SẢN XUẤT (factory) - 21 slots
   ['factory', 'hero', 'factory_hero_banner_1', 'Hero — Banner 1 (Máy CNC)', '/images/factory_cnc.jpg'],
