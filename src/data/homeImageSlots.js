@@ -21,12 +21,12 @@ const rawSlots = [
   ['home', 'why_choose_us', 'why_choose_warranty', 'Tại sao chọn chúng tôi — Bảo hành', '/images/why-choose-warranty-v2.webp'],
   ['home', 'why_choose_us', 'why_choose_craftsman', 'Tại sao chọn chúng tôi — Thợ lành nghề', '/images/why-choose-craftsman-v2.webp'],
   ['home', 'why_choose_us', 'why_choose_pricing', 'Tại sao chọn chúng tôi — Giá cả', '/images/why-choose-pricing-v2.webp'],
-  ['home', 'why_choose_us', 'why_choose_background', 'Tại sao chọn chúng tôi — Ảnh nền (giao diện sáng)', '/images/home-why-choose-background.png'],
+  ['home', 'why_choose_us', 'why_choose_background', 'Tại sao chọn chúng tôi — Ảnh nền tối', '/images/background/1793129513212_6043215661779559246_6043215661779559246_f2ba52d47d902705547739b26ef66555.jpg'],
   ['home', 'office_team', 'office_team_image', 'Văn phòng & đội ngũ', '/images/office-team-meeting.jpg'],
   ['home', 'home_workshop', 'home_workshop_image', 'Xưởng sản xuất', '/images/factory-worker-shome-v2.png'],
-  ['home', 'home_workshop', 'home_workshop_background', 'Xưởng sản xuất — Ảnh nền xưởng', '/images/factory_workers.jpg'],
-  ['home', 'home_faq', 'home_faq_background', 'Câu hỏi thường gặp — Ảnh nền (giao diện sáng)', '/images/home-faq-background.png'],
-  ['home', 'about_showroom', 'about_showroom_background', 'Về chúng tôi — Ảnh nền nội thất', '/images/quote-construction-interior.png'],
+  ['home', 'home_workshop', 'home_workshop_background', 'Xưởng sản xuất — Ảnh nền tối', '/images/background/1793129514232_6043215661779559246_6043215661779559246_a0d8a13c2e77885d913206cf4d4b3b41.jpg'],
+  ['home', 'home_faq', 'home_faq_background', 'Câu hỏi thường gặp — Ảnh nền tối', '/images/background/1793129515218_6043215661779559246_6043215661779559246_bb3402190775a313002b3616fddfd2e4.jpg'],
+  ['home', 'about_showroom', 'about_showroom_background', 'Về chúng tôi — Ảnh nền tối', '/images/background/1793129512539_6043215661779559246_6043215661779559246_d1b9a620a137ee0b6653f0d3f11cc5a5.jpg'],
 
   // 2. XƯỞNG SẢN XUẤT (factory) - 21 slots
   ['factory', 'hero', 'factory_hero_banner_1', 'Hero — Banner 1 (Máy CNC)', '/images/factory_cnc.jpg'],
