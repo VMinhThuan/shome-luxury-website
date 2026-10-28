@@ -17961,3 +17961,235 @@ main .home-faq-item p {
     box-shadow: 0 1px 5px rgba(200, 155, 75, .28) !important;
   }
 }
+
+/* Quote page — production-activity carousel placed after the craftsmanship
+   detail section. Captions live in HTML so Vietnamese copy stays sharp and
+   accessible while the image gallery remains lightweight. */
+.quote-page .quote-factory-activities {
+  overflow: hidden;
+  padding: clamp(2.75rem, 5.5vw, 5rem) 0;
+  background: #fff;
+}
+
+.quote-page .quote-factory-activities-heading {
+  margin: 0 auto clamp(1.35rem, 2.8vw, 2.25rem);
+  text-align: center;
+}
+
+.quote-page .quote-factory-activities-heading > p {
+  margin: 0 0 .4rem;
+  color: #b78029;
+  font-size: clamp(.65rem, .95vw, .78rem);
+  font-weight: 800;
+  letter-spacing: .16em;
+}
+
+.quote-page .quote-factory-activities-heading h2 {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: center;
+  gap: .2em;
+  margin: 0;
+  color: #171412;
+  font-family: var(--font-heading);
+  font-size: clamp(1.7rem, 3.4vw, 3rem);
+  font-weight: 800;
+  letter-spacing: -.04em;
+  line-height: 1.12;
+  text-transform: uppercase;
+}
+
+.quote-page .quote-factory-activities-heading h2 em {
+  color: var(--accent-gold, #d2a044);
+  font-family: var(--font-heading);
+  font-size: 1em;
+  font-style: normal;
+}
+
+.quote-page .quote-factory-activities-carousel {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: clamp(.55rem, 1.4vw, 1.1rem);
+}
+
+.quote-page .quote-factory-activity-track {
+  display: flex;
+  gap: clamp(.75rem, 1.4vw, 1.15rem);
+  overflow-x: auto;
+  padding: .2rem;
+  scroll-behavior: smooth;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+  touch-action: pan-y;
+  cursor: grab;
+  user-select: none;
+}
+
+.quote-page .quote-factory-activity-track::-webkit-scrollbar {
+  display: none;
+}
+
+.quote-page .quote-factory-activity-track.is-dragging {
+  cursor: grabbing;
+  scroll-snap-type: none;
+}
+
+.quote-page .quote-factory-activity-card {
+  flex: 0 0 calc((100% - 2.3rem) / 3);
+  min-width: 0;
+  scroll-snap-align: start;
+}
+
+.quote-page .quote-factory-activity-card figure {
+  position: relative;
+  margin: 0;
+  overflow: hidden;
+  border: 1px solid rgba(190, 143, 70, .28);
+  border-radius: 16px;
+  background: #201710;
+  box-shadow: 0 9px 24px rgba(58, 37, 17, .1);
+}
+
+.quote-page .quote-factory-activity-card img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  object-fit: cover;
+  transition: transform .45s ease;
+  -webkit-user-drag: none;
+}
+
+.quote-page .quote-factory-activity-card:hover img {
+  transform: scale(1.035);
+}
+
+.quote-page .quote-factory-activity-card figcaption {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  column-gap: .65rem;
+  align-items: end;
+  padding: clamp(.8rem, 1.6vw, 1.15rem);
+  color: #fff;
+  background: linear-gradient(0deg, rgba(15, 10, 7, .91) 0%, rgba(15, 10, 7, .63) 63%, transparent 100%);
+}
+
+.quote-page .quote-factory-activity-card figcaption span {
+  grid-row: span 2;
+  align-self: start;
+  color: #f0bf62;
+  font-size: clamp(.68rem, 1vw, .82rem);
+  font-weight: 800;
+  letter-spacing: .08em;
+}
+
+.quote-page .quote-factory-activity-card figcaption b {
+  color: #fff;
+  font-family: var(--font-heading);
+  font-size: clamp(.9rem, 1.25vw, 1.12rem);
+  line-height: 1.2;
+}
+
+.quote-page .quote-factory-activity-card figcaption p {
+  grid-column: 2;
+  margin: .15rem 0 0;
+  color: rgba(255, 255, 255, .82);
+  font-size: clamp(.62rem, .86vw, .74rem);
+  line-height: 1.35;
+}
+
+.quote-page .quote-factory-activity-control {
+  display: grid;
+  width: 46px;
+  height: 46px;
+  padding: 0;
+  place-items: center;
+  border: 1px solid #c99a49;
+  border-radius: 50%;
+  background: #fff;
+  color: #241a12;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(86, 55, 23, .12);
+  transition: background .2s ease, color .2s ease, transform .2s ease;
+}
+
+.quote-page .quote-factory-activity-control svg {
+  width: 22px;
+  height: 22px;
+}
+
+.quote-page .quote-factory-activity-control:hover,
+.quote-page .quote-factory-activity-control:focus-visible {
+  background: var(--accent-gold, #d2a044);
+  color: #17120f;
+  outline: none;
+  transform: translateY(-2px);
+}
+
+.quote-page .quote-factory-activity-dots {
+  display: flex;
+  justify-content: center;
+  gap: .42rem;
+  margin-top: 1rem;
+}
+
+.quote-page .quote-factory-activity-dots .testimonial-dot {
+  width: 7px;
+  height: 7px;
+  padding: 0;
+  border: 0;
+  border-radius: 999px;
+  background: #d9d1c6;
+  cursor: pointer;
+  transition: width .2s ease, background .2s ease;
+}
+
+.quote-page .quote-factory-activity-dots .testimonial-dot.is-active {
+  width: 23px;
+  background: var(--accent-gold, #d2a044);
+}
+
+@media (max-width: 767px) {
+  .quote-page .quote-factory-activities {
+    padding: 2.5rem 0;
+  }
+
+  .quote-page .quote-factory-activities-heading h2 {
+    font-size: clamp(1.4rem, 7vw, 2rem);
+  }
+
+  .quote-page .quote-factory-activities-carousel {
+    grid-template-columns: 1fr 1fr;
+    gap: .75rem;
+  }
+
+  .quote-page .quote-factory-activity-track {
+    grid-column: 1 / -1;
+    gap: .7rem;
+    padding: .15rem;
+  }
+
+  .quote-page .quote-factory-activity-card {
+    flex-basis: min(82vw, 335px);
+  }
+
+  .quote-page .quote-factory-activity-control {
+    width: 44px;
+    height: 44px;
+  }
+
+  .quote-page .quote-factory-activity-control.previous {
+    grid-column: 1;
+    justify-self: end;
+  }
+
+  .quote-page .quote-factory-activity-control.next {
+    grid-column: 2;
+    justify-self: start;
+  }
+}

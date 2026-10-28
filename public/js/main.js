@@ -198,6 +198,11 @@ document.addEventListener('DOMContentLoaded', () => {
     let velocityX = 0;
     let wheelLocked = false;
     const dragThreshold = 4;
+    const controls = track.closest('[data-carousel-controls]');
+    const previousButton = controls?.querySelector('[data-carousel-prev]');
+    const nextButton = controls?.querySelector('[data-carousel-next]');
+    const autoplayDelay = Number.parseInt(track.dataset.carouselAutoplay, 10) || 0;
+    let autoplayTimer = null;
 
     const currentPageIndex = () => pages.reduce((best, page, index) =>
       Math.abs(track.scrollLeft - page) < Math.abs(track.scrollLeft - pages[best]) ? index : best, 0);
@@ -236,6 +241,32 @@ document.addEventListener('DOMContentLoaded', () => {
       });
       setActiveDot();
     };
+
+    const goToPage = (index) => {
+      if (!pages.length) return;
+      const targetIndex = (index + pages.length) % pages.length;
+      track.scrollTo({ left: pages[targetIndex], behavior: 'smooth' });
+    };
+
+    const stopAutoplay = () => {
+      if (autoplayTimer) window.clearInterval(autoplayTimer);
+      autoplayTimer = null;
+    };
+
+    const startAutoplay = () => {
+      stopAutoplay();
+      if (!autoplayDelay || pages.length < 2 || document.hidden) return;
+      autoplayTimer = window.setInterval(() => goToPage(currentPageIndex() + 1), autoplayDelay);
+    };
+
+    previousButton?.addEventListener('click', () => {
+      goToPage(currentPageIndex() - 1);
+      startAutoplay();
+    });
+    nextButton?.addEventListener('click', () => {
+      goToPage(currentPageIndex() + 1);
+      startAutoplay();
+    });
 
     track.addEventListener('scroll', setActiveDot, { passive: true });
     track.addEventListener('wheel', event => {
@@ -305,8 +336,15 @@ document.addEventListener('DOMContentLoaded', () => {
       track.scrollTo({ left: pages[targetIndex], behavior: 'smooth' });
     };
     ['pointerup', 'pointercancel'].forEach(type => track.addEventListener(type, endDrag));
-    new ResizeObserver(buildDots).observe(track);
+    ['pointerdown', 'mouseenter', 'focusin'].forEach(type => track.addEventListener(type, stopAutoplay));
+    ['pointerup', 'mouseleave', 'focusout'].forEach(type => track.addEventListener(type, startAutoplay));
+    document.addEventListener('visibilitychange', () => document.hidden ? stopAutoplay() : startAutoplay());
+    new ResizeObserver(() => {
+      buildDots();
+      startAutoplay();
+    }).observe(track);
     buildDots();
+    startAutoplay();
   };
 
   document.querySelectorAll('.customer-testimonial-grid').forEach(track => {
@@ -315,6 +353,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
   document.querySelectorAll('.material-partners-slider').forEach(track => {
     window.ShomeluxuryReviewCarousel(track, track.closest('.material-partners-wrap')?.querySelector('.material-partners-dots'));
+  });
+
+  document.querySelectorAll('.quote-factory-activity-track').forEach(track => {
+    window.ShomeluxuryReviewCarousel(track, track.closest('.quote-factory-activities')?.querySelector('.quote-factory-activity-dots'));
   });
 
   // Brand-story video: use the local branded cover until the visitor chooses to play.
