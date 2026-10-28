@@ -17868,8 +17868,8 @@ main .home-faq-item p {
 
 .home-page .home-background-section--dark::after {
   background:
-    linear-gradient(105deg, rgba(10, 8, 6, .84) 0%, rgba(25, 18, 11, .74) 47%, rgba(10, 8, 6, .8) 100%),
-    rgba(10, 8, 6, .68);
+    linear-gradient(105deg, rgba(10, 8, 6, .58) 0%, rgba(25, 18, 11, .46) 47%, rgba(10, 8, 6, .54) 100%),
+    rgba(10, 8, 6, .42);
 }
 
 .home-page .home-background-section--dark :is(
@@ -17938,6 +17938,26 @@ main .home-faq-item p {
   }
 
   .home-page .home-background-section--dark::after {
-    background: linear-gradient(120deg, rgba(10, 8, 6, .88), rgba(25, 18, 11, .78));
+    background: linear-gradient(120deg, rgba(10, 8, 6, .62), rgba(25, 18, 11, .5));
+  }
+}
+
+/* Project-category CTAs need a true touch target on phones while the two-card
+   layout stays compact. The button fills its copy panel so every card behaves
+   consistently, including the mirrored cards. */
+@media (max-width: 767px) {
+  .home-page .type-card-btn {
+    width: 100%;
+    min-height: 44px;
+    padding: .5rem .4rem;
+    border-radius: 9px;
+    font-size: 16px;
+    line-height: 1.2;
+    white-space: nowrap;
+  }
+
+  .home-page .type-card-btn:active {
+    transform: translateY(1px);
+    box-shadow: 0 1px 5px rgba(200, 155, 75, .28) !important;
   }
 }
