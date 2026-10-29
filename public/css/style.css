@@ -18008,10 +18008,7 @@ main .home-faq-item p {
 }
 
 .quote-page .quote-factory-activities-carousel {
-  display: grid;
-  grid-template-columns: auto minmax(0, 1fr) auto;
-  align-items: center;
-  gap: clamp(.55rem, 1.4vw, 1.1rem);
+  display: block;
 }
 
 .quote-page .quote-factory-activity-track {
@@ -18163,13 +18160,7 @@ main .home-faq-item p {
     font-size: clamp(1.4rem, 7vw, 2rem);
   }
 
-  .quote-page .quote-factory-activities-carousel {
-    grid-template-columns: 1fr 1fr;
-    gap: .75rem;
-  }
-
   .quote-page .quote-factory-activity-track {
-    grid-column: 1 / -1;
     gap: .7rem;
     padding: .15rem;
   }
@@ -18178,18 +18169,4 @@ main .home-faq-item p {
     flex-basis: min(82vw, 335px);
   }
 
-  .quote-page .quote-factory-activity-control {
-    width: 44px;
-    height: 44px;
-  }
-
-  .quote-page .quote-factory-activity-control.previous {
-    grid-column: 1;
-    justify-self: end;
-  }
-
-  .quote-page .quote-factory-activity-control.next {
-    grid-column: 2;
-    justify-self: start;
-  }
 }

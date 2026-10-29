@@ -1,4 +1,5 @@
 const multer = require('multer');
+const path = require('path');
 const HomeImage = require('../models/HomeImage');
 const slots = require('../data/homeImageSlots');
 const { uploadToCloudinary, destroyCloudinaryImage } = require('../utils/cloudinary');
@@ -70,6 +71,56 @@ exports.getAdminImages = async (req, res, next) => {
       })
     });
   } catch (error) { next(error); }
+};
+
+exports.downloadImage = async (req, res, next) => {
+  try {
+    const slot = slotByKey.get(req.params.imageKey);
+    if (!slot) return res.status(404).json({ success: false, message: 'Vị trí ảnh không hợp lệ.' });
+
+    const replacement = await HomeImage.findOne({ image_key: slot.image_key }).lean();
+    const imageUrl = replacement?.image_url || slot.image_url;
+    const publicDirectory = path.resolve(__dirname, '../../public');
+    const filenameStem = slot.image_key.replace(/[^a-z0-9_-]/gi, '-');
+
+    if (imageUrl.startsWith('/images/')) {
+      const imagePath = path.resolve(publicDirectory, `.${imageUrl}`);
+      if (!imagePath.startsWith(`${publicDirectory}${path.sep}`)) {
+        return res.status(400).json({ success: false, message: 'Đường dẫn ảnh không hợp lệ.' });
+      }
+      return res.download(imagePath, `${filenameStem}${path.extname(imagePath)}`);
+    }
+
+    let remoteUrl;
+    try {
+      remoteUrl = new URL(imageUrl);
+    } catch (error) {
+      return res.status(400).json({ success: false, message: 'Không thể tải ảnh hiện tại.' });
+    }
+    if (remoteUrl.protocol !== 'https:' || remoteUrl.hostname !== 'res.cloudinary.com') {
+      return res.status(400).json({ success: false, message: 'Nguồn ảnh tải xuống không được hỗ trợ.' });
+    }
+
+    const remoteResponse = await fetch(remoteUrl);
+    if (!remoteResponse.ok) {
+      return res.status(502).json({ success: false, message: 'Không thể tải ảnh từ kho lưu trữ.' });
+    }
+    const contentType = (remoteResponse.headers.get('content-type') || 'application/octet-stream').split(';')[0];
+    if (!contentType.startsWith('image/')) {
+      return res.status(502).json({ success: false, message: 'Tệp tải về không phải là ảnh hợp lệ.' });
+    }
+    const extensions = { 'image/jpeg': '.jpg', 'image/png': '.png', 'image/webp': '.webp', 'image/avif': '.avif' };
+    const imageBuffer = Buffer.from(await remoteResponse.arrayBuffer());
+    res.set({
+      'Content-Type': contentType,
+      'Content-Length': imageBuffer.length,
+      'Content-Disposition': `attachment; filename="${filenameStem}${extensions[contentType] || '.img'}"`,
+      'Cache-Control': 'no-store'
+    });
+    return res.send(imageBuffer);
+  } catch (error) {
+    return next(error);
+  }
 };
 
 exports.updateImage = async (req, res, next) => {

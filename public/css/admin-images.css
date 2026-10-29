@@ -287,6 +287,27 @@
   color: #b42318 !important;
   border-color: #fda29b !important;
 }
+.image-admin-shell .btn-download-current {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background: #f4efe6 !important;
+  color: #5e4824 !important;
+  border: 1px solid #d9c9aa !important;
+  padding: 8px 12px !important;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1.2;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all .18s ease;
+}
+.image-admin-shell .btn-download-current:hover {
+  background: #a88754 !important;
+  color: #fff !important;
+  border-color: #a88754 !important;
+}
 .selected-file-info {
   display: flex;
   align-items: center;

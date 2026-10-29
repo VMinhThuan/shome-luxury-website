@@ -117,16 +117,11 @@
     const heading = create('h2', '', slot.label);
     const imagePair = create('div', 'image-pair');
 
-    const defaultWrap = create('div', 'image-version');
-    defaultWrap.append(create('p', 'image-version-title', 'Ảnh mặc định từ source'));
-    const defaultImage = create('img', 'current-image');
-    defaultImage.src = slot.default_image_url;
-    defaultImage.alt = '';
-    defaultImage.loading = 'lazy';
-    defaultWrap.append(defaultImage);
-
     const replacementWrap = create('div', 'image-version');
-    replacementWrap.append(create('p', 'image-version-title', 'Ảnh thay thế từ Cloudinary'));
+    const currentImageTitle = create('p', 'image-version-title', slot.replacement_image_url
+      ? 'Ảnh đang hiển thị trên website'
+      : 'Ảnh mặc định đang hiển thị trên website');
+    replacementWrap.append(currentImageTitle);
     const current = create('img', 'current-image');
     current.src = slot.replacement_image_url || slot.default_image_url;
     current.alt = '';
@@ -134,7 +129,7 @@
     const replacementNote = create('p', 'image-version-note', slot.replacement_image_url ? 'Đang hiển thị trên website' : 'Chưa có ảnh thay thế — website đang dùng ảnh mặc định');
     replacementWrap.append(current, replacementNote);
 
-    imagePair.append(defaultWrap, replacementWrap);
+    imagePair.append(replacementWrap);
 
     // Action bar
     const actionBar = create('div', 'slot-action-bar');
@@ -157,7 +152,13 @@
     deleteReplacementBtn.type = 'button';
     deleteReplacementBtn.hidden = !Boolean(slot.replacement_image_url);
 
-    actionBar.append(fileLabel, cancelSelectionBtn, deleteReplacementBtn);
+    // The download endpoint resolves the replacement first, then falls back to
+    // the source image, so the saved file always matches what visitors see.
+    const downloadCurrentLink = create('a', 'btn-download-current', '⬇ Tải ảnh hiện tại');
+    downloadCurrentLink.href = `/api/admin/home-images/${encodeURIComponent(slot.image_key)}/download`;
+    downloadCurrentLink.setAttribute('download', '');
+
+    actionBar.append(fileLabel, cancelSelectionBtn, deleteReplacementBtn, downloadCurrentLink);
 
     // Selected file notice
     const fileInfoNotice = create('div', 'selected-file-info');
@@ -309,6 +310,7 @@
         await request(`/api/admin/home-images/${encodeURIComponent(slot.image_key)}`, { method: 'DELETE' });
         slot.replacement_image_url = null;
         current.src = slot.default_image_url;
+        currentImageTitle.textContent = 'Ảnh mặc định đang hiển thị trên website';
         replacementNote.textContent = 'Chưa có ảnh thay thế — website đang dùng ảnh mặc định';
         deleteReplacementBtn.hidden = true;
         fileLabelText.textContent = '📷 Chọn ảnh tải lên';
@@ -344,6 +346,7 @@
         });
         slot.replacement_image_url = result.data.image_url;
         current.src = result.data.image_url;
+        currentImageTitle.textContent = 'Ảnh đang hiển thị trên website';
         replacementNote.textContent = 'Đang hiển thị trên website';
         deleteReplacementBtn.hidden = false;
         fileLabelText.textContent = '🔄 Đổi ảnh khác';

@@ -89,6 +89,7 @@ router.get("/api/quote-page", quotePageController.getPublicContent.bind(quotePag
 router.put("/api/admin/quote-page", authenticateAdmin, quotePageController.updateContent.bind(quotePageController));
 router.get('/api/home-images', homeImageController.getPublicImages);
 router.get('/api/admin/home-images', authenticateAdmin, homeImageController.getAdminImages);
+router.get('/api/admin/home-images/:imageKey/download', authenticateAdmin, homeImageController.downloadImage);
 router.put('/api/admin/home-images/:imageKey', authenticateAdmin, homeImageController.uploadMiddleware, homeImageController.updateImage);
 router.delete('/api/admin/home-images/:imageKey', authenticateAdmin, homeImageController.deleteImage);
 

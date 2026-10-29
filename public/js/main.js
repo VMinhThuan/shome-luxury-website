@@ -225,17 +225,22 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     const buildDots = () => {
-      const cardsPerPage = visibleCards();
+      const cardsPerPage = track.dataset.carouselStep === 'card' ? 1 : visibleCards();
       const pageCount = Math.ceil(cards.length / cardsPerPage);
       const maxScroll = Math.max(0, track.scrollWidth - track.clientWidth);
-      pages = Array.from({ length: pageCount }, (_, index) => Math.min(index * cardsPerPage * (cards[0]?.getBoundingClientRect().width + (Number.parseFloat(window.getComputedStyle(track).gap) || 0)), maxScroll));
+      const rawPages = Array.from({ length: pageCount }, (_, index) => Math.min(index * cardsPerPage * (cards[0]?.getBoundingClientRect().width + (Number.parseFloat(window.getComputedStyle(track).gap) || 0)), maxScroll));
+      // A one-card carousel cannot scroll beyond the final fully visible card.
+      // Deduplicate that capped endpoint so autoplay loops cleanly to the start.
+      pages = rawPages.filter((position, index) => index === 0 || position > rawPages[index - 1]);
       dotsContainer.replaceChildren();
       dotsContainer.hidden = pageCount < 2;
       pages.forEach((position, index) => {
         const dot = document.createElement('button');
         dot.type = 'button';
         dot.className = 'testimonial-dot';
-        dot.setAttribute('aria-label', `Xem nhóm đánh giá ${index + 1}`);
+        dot.setAttribute('aria-label', track.dataset.carouselStep === 'card'
+          ? `Xem ảnh hoạt động ${index + 1}`
+          : `Xem nhóm đánh giá ${index + 1}`);
         dot.addEventListener('click', () => track.scrollTo({ left: position, behavior: 'smooth' }));
         dotsContainer.append(dot);
       });
