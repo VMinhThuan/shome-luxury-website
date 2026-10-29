@@ -90,6 +90,7 @@ router.put("/api/admin/quote-page", authenticateAdmin, quotePageController.updat
 router.get('/api/home-images', homeImageController.getPublicImages);
 router.get('/api/admin/home-images', authenticateAdmin, homeImageController.getAdminImages);
 router.get('/api/admin/home-images/:imageKey/download', authenticateAdmin, homeImageController.downloadImage);
+router.post('/api/admin/home-images/preview', authenticateAdmin, homeImageController.uploadMiddleware, homeImageController.previewImage);
 router.put('/api/admin/home-images/:imageKey', authenticateAdmin, homeImageController.uploadMiddleware, homeImageController.updateImage);
 router.delete('/api/admin/home-images/:imageKey', authenticateAdmin, homeImageController.deleteImage);
 

@@ -3,6 +3,7 @@ const path = require('path');
 const HomeImage = require('../models/HomeImage');
 const slots = require('../data/homeImageSlots');
 const { uploadToCloudinary, destroyCloudinaryImage } = require('../utils/cloudinary');
+const { processImageBuffer } = require('../utils/imageProcessing');
 
 const slotByKey = new Map(slots.map(slot => [slot.image_key, slot]));
 const upload = multer({
@@ -22,6 +23,30 @@ const PAGES_LIST = [
 ];
 
 exports.uploadMiddleware = upload.single('image');
+
+exports.previewImage = async (req, res, next) => {
+  try {
+    if (!req.file) return res.status(400).json({ success: false, message: 'Vui lòng chọn ảnh JPG, PNG hoặc WebP để xem trước.' });
+    const processed = await processImageBuffer(req.file.buffer, req.body);
+    res.set({
+      'Content-Type': 'image/webp',
+      'Content-Length': processed.optimized.bytes,
+      'X-Original-Width': String(processed.original.width),
+      'X-Original-Height': String(processed.original.height),
+      'X-Original-Bytes': String(processed.original.bytes),
+      'X-Optimized-Width': String(processed.optimized.width),
+      'X-Optimized-Height': String(processed.optimized.height),
+      'X-Optimized-Bytes': String(processed.optimized.bytes),
+      'X-Optimized-Format': 'webp',
+      'X-Image-Quality': processed.settings.lossless ? 'lossless' : String(processed.settings.quality),
+      'X-Image-Sharpness': String(processed.settings.sharpness),
+      'Cache-Control': 'no-store'
+    });
+    return res.send(processed.buffer);
+  } catch (error) {
+    return next(error);
+  }
+};
 
 exports.getPublicImages = async (req, res, next) => {
   try {
@@ -131,35 +156,10 @@ exports.updateImage = async (req, res, next) => {
     if (!req.file) return res.status(400).json({ success: false, message: 'Vui lòng chọn ảnh JPG, PNG hoặc WebP (tối đa 10 MB).' });
 
     const folder = `shome-luxury/${slot.page_key || 'general'}`;
-    const useOriginal = req.body.use_original === 'true' || req.body.mode === 'original' || !req.body.width;
-    let transformation;
-
-    if (useOriginal) {
-      // Mặc định: Dùng ảnh gốc, tự động vừa khít khung 16:9 và tối ưu WebP
-      transformation = [
-        { width: 1920, height: 1080, crop: 'fill', gravity: 'auto' },
-        { fetch_format: 'webp' }
-      ];
-    } else {
-      const crop = ['x', 'y', 'width', 'height'].reduce((out, key) => ({ ...out, [key]: Number(req.body[key]) }), {});
-      if (Object.values(crop).every(Number.isFinite) && crop.x >= 0 && crop.y >= 0 && crop.width > 0 && crop.height > 0) {
-        transformation = [
-          { crop: 'crop', x: Math.round(crop.x), y: Math.round(crop.y), width: Math.round(crop.width), height: Math.round(crop.height) },
-          { width: 1920, height: 1080, crop: 'limit' },
-          { fetch_format: 'webp' }
-        ];
-      } else {
-        transformation = [
-          { width: 1920, height: 1080, crop: 'fill', gravity: 'auto' },
-          { fetch_format: 'webp' }
-        ];
-      }
-    }
-
-    uploaded = await uploadToCloudinary(req.file.buffer, folder, {
-      format: 'webp',
-      transformation
-    });
+    const processed = await processImageBuffer(req.file.buffer, req.body);
+    // Cloudinary receives the final WebP bytes directly. No incoming or URL
+    // transformation is added, preventing a second lossy encoding pass.
+    uploaded = await uploadToCloudinary(processed.buffer, folder);
     const previous = await HomeImage.findOne({ image_key: slot.image_key }).lean();
     const saved = await HomeImage.findOneAndUpdate(
       { image_key: slot.image_key },
@@ -173,7 +173,18 @@ exports.updateImage = async (req, res, next) => {
       const stillUsed = await HomeImage.exists({ image_key: { $ne: slot.image_key }, cloudinary_public_id: previous.cloudinary_public_id });
       if (!stillUsed) destroyCloudinaryImage(previous.cloudinary_public_id).catch(error => console.error('[Home image cleanup]', error.message));
     }
-    return res.json({ success: true, message: 'Ảnh đã được cập nhật.', data: saved });
+    return res.json({
+      success: true,
+      message: 'Ảnh đã được cập nhật.',
+      data: {
+        ...saved,
+        processing: {
+          original: processed.original,
+          optimized: processed.optimized,
+          settings: processed.settings
+        }
+      }
+    });
   } catch (error) {
     if (uploaded?.public_id) destroyCloudinaryImage(uploaded.public_id).catch(cleanupError => console.error('[Home image rollback]', cleanupError.message));
     return next(error);

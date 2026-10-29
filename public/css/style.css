@@ -14086,9 +14086,40 @@ body.project-gallery-lightbox-open { overflow: hidden !important; }
   justify-content: center;
 }
 
-.home-page .project-type-card--reverse .type-card-content {
+.home-page .project-type-card--reverse .type-card-content,
+.project-type-card--reverse .type-card-content {
   right: 0;
   left: auto;
+  text-align: right;
+  align-items: flex-end;
+}
+
+.home-page .project-type-card--reverse .type-card-number,
+.project-type-card--reverse .type-card-number {
+  justify-content: flex-end;
+  width: 100%;
+}
+
+.home-page .project-type-card--reverse .type-card-name,
+.project-type-card--reverse .type-card-name {
+  text-align: right;
+  width: 100%;
+}
+
+.home-page .project-type-card--reverse .type-card-features,
+.project-type-card--reverse .type-card-features {
+  text-align: right;
+  width: 100%;
+}
+
+.home-page .project-type-card--reverse .type-card-features p,
+.project-type-card--reverse .type-card-features p {
+  text-align: right;
+}
+
+.home-page .project-type-card--reverse .type-card-btn,
+.project-type-card--reverse .type-card-btn {
+  align-self: flex-end;
 }
 
 @media (max-width: 767px) {
@@ -14903,9 +14934,43 @@ body.project-gallery-lightbox-open { overflow: hidden !important; }
   background: var(--accent-gold-hover);
 }
 
-/* Right-side cards retain a left-aligned reading edge. */
-.home-page .home-project-signature-card--copy-right .home-project-signature-copy {
-  text-align: left;
+/* Right-side cards are right-aligned to sit flush against the right edge. */
+.home-page .home-project-signature-card--copy-right .home-project-signature-copy,
+.home-project-signature-card--copy-right .home-project-signature-copy {
+  text-align: right;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  transform: none !important;
+}
+
+.home-page .home-project-signature-card--copy-right .home-project-signature-number,
+.home-project-signature-card--copy-right .home-project-signature-number {
+  text-align: right;
+  width: 100%;
+}
+
+.home-page .home-project-signature-card--copy-right .home-project-signature-copy h3,
+.home-project-signature-card--copy-right .home-project-signature-copy h3 {
+  text-align: right;
+  width: 100%;
+}
+
+.home-page .home-project-signature-card--copy-right .home-project-signature-rule,
+.home-project-signature-card--copy-right .home-project-signature-rule {
+  margin-left: auto;
+  margin-right: 0;
+}
+
+.home-page .home-project-signature-card--copy-right .home-project-signature-copy p,
+.home-project-signature-card--copy-right .home-project-signature-copy p {
+  text-align: right;
+  width: 100%;
+}
+
+.home-page .home-project-signature-card--copy-right .home-project-signature-link,
+.home-project-signature-card--copy-right .home-project-signature-link {
+  align-self: flex-end;
 }
 
 /* Match the apartment-project heading scale to the editorial section titles. */
@@ -15330,9 +15395,9 @@ body.project-gallery-lightbox-open { overflow: hidden !important; }
     min-height: 100%;
   }
 
-  /* Pull copy in the right-hand project cards slightly toward centre. */
+  /* Right-hand project cards stay flush to the right edge. */
   .home-page .home-project-signature-card--copy-right .home-project-signature-copy {
-    transform: translateX(-.8rem);
+    transform: none;
   }
 
   /* Completed-project cards use one consistent mobile direction: a pure-white

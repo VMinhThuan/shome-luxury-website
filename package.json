@@ -9,7 +9,7 @@
     "seed:project-types": "node scripts/seed-project-property-types.js",
     "seed:construction-videos": "node scripts/seed-construction-videos.js",
     "seed:quote-apartment-highlights": "node scripts/seed-quote-apartment-highlights.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "node tests/image-processing.test.js"
   },
   "keywords": [],
   "author": "",
@@ -27,7 +27,8 @@
     "jsonwebtoken": "^9.0.3",
     "mongodb": "^6.21.0",
     "mongoose": "^8.24.4",
-    "multer": "^2.4.0"
+    "multer": "^2.4.0",
+    "sharp": "^0.35.5"
   },
   "devDependencies": {
     "nodemon": "^3.1.14"

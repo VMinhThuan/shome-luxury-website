@@ -1,15 +1,16 @@
 const multer = require("multer");
 const { uploadToCloudinary } = require("../utils/cloudinary");
+const { processImageBuffer } = require('../utils/imageProcessing');
 
 // Multer memory storage configuration (in-memory buffer for streaming to Cloudinary)
 const storage = multer.memoryStorage();
 
 // File filter: Only allow image MIME types
 const fileFilter = (req, file, cb) => {
-  if (file.mimetype.startsWith("image/")) {
+  if (/^image\/(jpeg|png|webp)$/i.test(file.mimetype)) {
     cb(null, true);
   } else {
-    cb(new Error("Chỉ hỗ trợ tải lên tệp tin hình ảnh (jpg, png, webp, gif, jpeg)!"), false);
+    cb(new Error("Chỉ hỗ trợ tải lên ảnh JPG, PNG hoặc WebP!"), false);
   }
 };
 
@@ -36,8 +37,10 @@ const handleImageUpload = async (req, res) => {
 
     const folder = req.body.folder || "shome-luxury/recruitment";
 
-    // Upload image buffer to Cloudinary
-    const result = await uploadToCloudinary(req.file.buffer, folder);
+    const processed = await processImageBuffer(req.file.buffer, req.body);
+    // Upload the already-encoded WebP directly. Keep Cloudinary free of a
+    // second transformation/quality decision.
+    const result = await uploadToCloudinary(processed.buffer, folder);
 
     return res.status(200).json({
       success: true,
@@ -49,7 +52,12 @@ const handleImageUpload = async (req, res) => {
         format: result.format,
         width: result.width,
         height: result.height,
-        bytes: result.bytes
+        bytes: result.bytes,
+        processing: {
+          original: processed.original,
+          optimized: processed.optimized,
+          settings: processed.settings
+        }
       }
     });
   } catch (error) {
