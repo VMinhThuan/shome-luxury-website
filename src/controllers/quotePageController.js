@@ -47,9 +47,13 @@ class QuotePageController {
     const isOriginalPricing = page.sections?.pricing?.title === 'Dự toán rõ ràng'
       && page.sections?.pricing?.script === 'để an tâm bắt đầu';
     if (isOriginalPricing) sections.pricing = { ...sections.pricing, ...quotePageDefaults.pricing };
-    sections.pricing?.items?.forEach(item => {
+    sections.pricing?.items?.forEach((item, index) => {
       if (item && item.area === '70 - 100m²') {
         item.area = '= 70 - 100m²';
+      }
+      const defaultImg = `/images/quote-pricing-${index + 1}.png`;
+      if (!item.image || item.image.startsWith('/images/anh_san_pham_')) {
+        item.image = defaultImg;
       }
     });
     if (page.sections?.constructionCta?.image === '/images/booking-luxury-interior.png') {
@@ -217,6 +221,27 @@ class QuotePageController {
     try {
       const sections = req.body.sections || req.body;
       const page = await QuotePage.findOneAndUpdate({ key: 'main' }, { $set: { sections, isVisible: req.body.isVisible !== false } }, { new: true, upsert: true, runValidators: true });
+
+      // Sync custom pricing images to HomeImage slots if present
+      if (sections?.pricing?.items && Array.isArray(sections.pricing.items)) {
+        try {
+          const HomeImage = require('../models/HomeImage');
+          for (let i = 0; i < Math.min(3, sections.pricing.items.length); i++) {
+            const item = sections.pricing.items[i];
+            const slotKey = `quote_pricing_image_${i + 1}`;
+            if (item?.image && !item.image.startsWith('/images/anh_san_pham_')) {
+              await HomeImage.findOneAndUpdate(
+                { image_key: slotKey },
+                { $set: { page_key: 'quote', section_key: 'pricing', image_url: item.image } },
+                { upsert: true }
+              );
+            }
+          }
+        } catch (syncErr) {
+          console.error('[Sync QuotePage pricing images error]', syncErr.message);
+        }
+      }
+
       return res.json({ success: true, data: page });
     } catch (error) { next(error); }
   }

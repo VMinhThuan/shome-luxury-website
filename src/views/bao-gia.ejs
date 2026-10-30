@@ -555,7 +555,16 @@
         margin: 7px 0 7px 7px !important;
         border-radius: 11px !important;
         aspect-ratio: auto !important;
-        background-size: 300% 100% !important;
+        background-size: cover !important;
+        background-position: center !important;
+      }
+      .quote-page .quote-price-image img {
+        display: block !important;
+        width: 100% !important;
+        height: 100% !important;
+        object-fit: cover !important;
+        object-position: center !important;
+        border-radius: inherit !important;
       }
       .quote-page .quote-price-copy {
         min-width: 0 !important;
@@ -2007,7 +2016,39 @@
     <% } %>
 
     <% if (sections.pricing?.isVisible !== false) { %>
-      <section class="quote-section quote-pricing" id="bao-gia-tham-khao"><div class="container"><header class="quote-heading quote-heading-center"><p class="quote-kicker"><%= sections.pricing.eyebrow %></p><h2><%= sections.pricing.title %> <em><%= featuredCategoryName || sections.pricing.script %></em></h2><p><%= sections.pricing.description %></p></header><div class="quote-pricing-list"><% sections.pricing.items.filter(item => item.isVisible !== false).sort((a,b) => (a.order||0)-(b.order||0)).forEach((item, index) => { %><article class="quote-price-card"><div class="quote-price-image" role="img" aria-label="<%= item.title %>" style="--pricing-image-position: <%= index === 0 ? 'left' : index === 1 ? 'center' : 'right' %>"></div><div class="quote-price-copy"><span class="quote-price-title"><%= item.title %></span><h3><span class="quote-price-prefix">Chỉ từ</span><span class="quote-price-amount"><%= item.price || '' %></span></h3><p><%= item.description %></p><span class="quote-price-area">Diện tích <%= (item.area || '').replace(/^70 - 100m²$/, '= 70 - 100m²') %></span><a class="quote-text-link" href="<%= item.ctaHref %>"><%= item.ctaLabel %> <span>→</span></a></div></article><% }) %></div></div></section>
+      <section class="quote-section quote-pricing" id="bao-gia-tham-khao">
+        <div class="container">
+          <header class="quote-heading quote-heading-center">
+            <p class="quote-kicker"><%= sections.pricing.eyebrow %></p>
+            <h2><%= sections.pricing.title %> <em><%= featuredCategoryName || sections.pricing.script %></em></h2>
+            <p><%= sections.pricing.description %></p>
+          </header>
+          <div class="quote-pricing-list">
+            <% sections.pricing.items.filter(item => item.isVisible !== false).sort((a,b) => (a.order||0)-(b.order||0)).forEach((item, index) => {
+                 const slotKey = `quote_pricing_image_${index + 1}`;
+                 const defaultImg = `/images/quote-pricing-${index + 1}.png`;
+                 const slotImg = (locals.quoteImages && quoteImages[slotKey]) || '';
+                 const itemImg = item.image && !item.image.includes('anh_san_pham_') ? item.image : '';
+                 const isSlotCustom = Boolean(slotImg && slotImg !== defaultImg);
+                 const isItemCustom = Boolean(itemImg && itemImg !== defaultImg);
+                 const cardImage = isSlotCustom ? slotImg : (isItemCustom ? itemImg : (slotImg || itemImg || defaultImg));
+            %>
+              <article class="quote-price-card">
+                <div class="quote-price-image" role="img" aria-label="<%= item.title %>" style="background-image: url('<%= cardImage %>'); background-size: cover; background-position: center;">
+                  <img src="<%= cardImage %>" alt="<%= item.title %>" loading="lazy" />
+                </div>
+                <div class="quote-price-copy">
+                  <span class="quote-price-title"><%= item.title %></span>
+                  <h3><span class="quote-price-prefix">Chỉ từ</span><span class="quote-price-amount"><%= item.price || '' %></span></h3>
+                  <p><%= item.description %></p>
+                  <span class="quote-price-area">Diện tích <%= (item.area || '').replace(/^70 - 100m²$/, '= 70 - 100m²') %></span>
+                  <a class="quote-text-link" href="<%= item.ctaHref %>"><%= item.ctaLabel %> <span>→</span></a>
+                </div>
+              </article>
+            <% }) %>
+          </div>
+        </div>
+      </section>
     <% } %>
 
     <% if (sections.categories?.isVisible !== false) { %>

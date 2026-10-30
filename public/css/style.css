@@ -12840,10 +12840,9 @@ main .section-v2-title,
   aspect-ratio: auto;
   margin: 10px 0 10px 10px;
   border-radius: 16px;
-  background-image: url('/images/quote-pricing-interiors-triptych.png');
-  background-position: var(--pricing-image-position) center;
+  background-position: center;
   background-repeat: no-repeat;
-  background-size: 300% 100%;
+  background-size: cover;
 }
 .quote-page .quote-price-copy { display: flex; flex-direction: column; justify-content: center; padding: 1.15rem clamp(1.3rem, 3.3vw, 3.1rem); min-width: 0; overflow: hidden; position: relative; }
 .quote-page .quote-price-copy::before { top: 23%; bottom: 23%; width: 2px; left: 0; background: #dfa756; }
@@ -12860,7 +12859,7 @@ main .section-v2-title,
   .quote-page .quote-pricing .quote-heading > p:not(.quote-kicker) { font-size: .79rem; }
   .quote-page .quote-pricing-list { width: 100%; gap: .65rem; }
   .quote-page .quote-price-card { grid-template-columns: minmax(0, 44%) minmax(0, 56%); min-height: 132px; border-radius: 16px; overflow: hidden; }
-  .quote-page .quote-price-image { margin: 7px 0 7px 7px; border-radius: 11px; aspect-ratio: auto; min-width: 0; max-width: 100%; width: auto; height: auto; align-self: stretch; background-size: 300% 100%; }
+  .quote-page .quote-price-image { margin: 7px 0 7px 7px; border-radius: 11px; aspect-ratio: auto; min-width: 0; max-width: 100%; width: auto; height: auto; align-self: stretch; background-size: cover; background-position: center; }
   .quote-page .quote-price-copy { padding: .65rem .85rem .65rem 1.15rem; min-width: 0; overflow: hidden; position: relative; }
   .quote-page .quote-price-copy::before { top: 18%; bottom: 18%; width: 1px; left: 0; }
   .quote-page .quote-price-title { font-size: .68rem; }
@@ -17045,6 +17044,36 @@ main :is(.hero-script-subtitle, .recruitment-hero-script, .recruitment-hero-bott
   to { opacity: 0; clip-path: inset(0 0 0 100%); transform: translate3d(1.2rem, 0, 0) skewX(16deg); }
 }
 
+/* The signature font deliberately extends its connecting strokes beyond the
+   glyph box.  A clip-path reveal slices those strokes apart, so the gold
+   homepage tagline uses the same gentle motion without a clipping mask. */
+.home-page .hero-slider--fade .hero-slide .hero-script-subtitle {
+  clip-path: none;
+  padding: .14em .18em .24em;
+  margin-right: -.18em !important;
+  margin-left: -.18em !important;
+  overflow: visible;
+  white-space: nowrap;
+}
+
+.home-page .hero-slider--fade .hero-slide.is-active .hero-script-subtitle {
+  animation: home-hero-script-reveal .78s cubic-bezier(.22, 1, .36, 1) 1.04s both;
+}
+
+.home-page .hero-slider--fade .hero-slide.is-exiting .hero-script-subtitle {
+  animation: home-hero-script-exit .36s ease-in both;
+}
+
+@keyframes home-hero-script-reveal {
+  from { opacity: 0; transform: translate3d(3rem, 0, 0); }
+  to { opacity: 1; transform: translate3d(0, 0, 0); }
+}
+
+@keyframes home-hero-script-exit {
+  from { opacity: 1; transform: translate3d(0, 0, 0); }
+  to { opacity: 0; transform: translate3d(1.5rem, 0, 0); }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .home-page .hero-slider--fade .hero-slide,
   .home-page .hero-slider--fade .hero-v2-bg img {
@@ -17803,7 +17832,17 @@ main .home-faq-item p {
   min-height: 0 !important;
   margin: 0 !important;
   border-radius: inherit !important;
-  background-size: 300% 100% !important;
+  background-size: cover !important;
+  background-position: center !important;
+}
+
+.quote-page .quote-price-image img {
+  display: block !important;
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+  object-position: center !important;
+  border-radius: inherit !important;
 }
 
 .quote-page .quote-price-copy {
@@ -17880,6 +17919,12 @@ main .home-faq-item p {
   z-index: 1;
 }
 
+/* Make the hand-off from the hero slider to the showroom introduction clear
+   without adding visual space between the two adjacent sections. */
+.home-page .hero-section-v2 + .about-showroom-section {
+  border-top: 1px solid var(--accent-gold, #D2A044);
+}
+
 /* Bright background: the photo reads as a quiet material texture, keeping
    the information cards crisp and the black brand typography unchanged. */
 .home-page .home-background-section--light {
@@ -17933,8 +17978,17 @@ main .home-faq-item p {
 
 .home-page .home-background-section--dark::after {
   background:
-    linear-gradient(105deg, rgba(10, 8, 6, .58) 0%, rgba(25, 18, 11, .46) 47%, rgba(10, 8, 6, .54) 100%),
-    rgba(10, 8, 6, .42);
+    linear-gradient(105deg, rgba(10, 8, 6, .44) 0%, rgba(25, 18, 11, .34) 47%, rgba(10, 8, 6, .41) 100%),
+    rgba(10, 8, 6, .26);
+}
+
+/* The workshop benefits from a little more of the production image showing
+   through, while the title and pale feature pills still sit on a calm dark
+   surface. */
+.home-page .home-background-section--dark.home-workshop-section::after {
+  background:
+    linear-gradient(105deg, rgba(10, 8, 6, .35) 0%, rgba(25, 18, 11, .27) 47%, rgba(10, 8, 6, .33) 100%),
+    rgba(10, 8, 6, .18);
 }
 
 /* FAQ retains the dark, atmospheric image while its reading surfaces stay
@@ -17942,23 +17996,25 @@ main .home-faq-item p {
    disappear into the photograph. */
 .home-page .home-background-section--dark.home-faq-section::after {
   background:
-    linear-gradient(105deg, rgba(9, 7, 5, .68) 0%, rgba(23, 16, 10, .58) 50%, rgba(9, 7, 5, .64) 100%),
-    rgba(9, 7, 5, .5);
+    linear-gradient(105deg, rgba(9, 7, 5, .54) 0%, rgba(23, 16, 10, .46) 50%, rgba(9, 7, 5, .51) 100%),
+    rgba(9, 7, 5, .34);
 }
 
+/* Keep the FAQ consultation CTA visually open to the photo, with light copy
+   that remains readable against its darkened background. */
 .home-page .home-background-section--dark.home-faq-section .home-faq-cta {
-  background: rgba(255, 253, 248, .94);
-  -webkit-backdrop-filter: blur(10px);
-  backdrop-filter: blur(10px);
-  box-shadow: 0 14px 34px rgba(0, 0, 0, .24);
+  background: transparent;
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+  box-shadow: none;
 }
 
 .home-page .home-background-section--dark.home-faq-section .home-faq-cta h3 {
-  color: #201914 !important;
+  color: #fff !important;
 }
 
 .home-page .home-background-section--dark.home-faq-section .home-faq-cta p {
-  color: #625b52 !important;
+  color: rgba(255, 255, 255, .82) !important;
 }
 
 .home-page .home-background-section--dark :is(
@@ -17989,10 +18045,74 @@ main .home-faq-item p {
   box-shadow: 0 18px 44px rgba(0, 0, 0, .27);
 }
 
+.home-page .home-background-section--dark .why-choose-card {
+  border-color: rgba(240, 207, 148, .62);
+  background: transparent;
+  box-shadow: none;
+}
+
+.home-page .home-background-section--dark .why-choose-card:hover {
+  border-color: rgba(240, 207, 148, .86);
+  background: transparent;
+  box-shadow: none;
+}
+
+.home-page .home-background-section--dark .why-choose-card-title {
+  color: #fff !important;
+}
+
+.home-page .home-background-section--dark .why-choose-desc {
+  color: rgba(255, 255, 255, .78) !important;
+}
+
+.home-page .home-background-section--dark .why-choose-sep {
+  color: rgba(255, 255, 255, .42);
+}
+
+/* Cards on dark homepage photography share the same transparent, gold-lined
+   treatment so the background remains part of the composition. */
+.home-page .home-background-section--dark .home-faq-list,
+.home-page .home-background-section--dark .home-faq-item,
+.home-page .home-background-section--dark .home-faq-item + .home-faq-item {
+  border-color: rgba(240, 207, 148, .62);
+  background: transparent;
+  box-shadow: none;
+}
+
+.home-page .home-background-section--dark .home-faq-item summary {
+  color: #fff !important;
+}
+
+.home-page .home-background-section--dark .home-faq-item p {
+  color: rgba(255, 255, 255, .78) !important;
+}
+
 .home-page .home-background-section--dark .home-workshop-pill {
-  background: rgba(255, 253, 248, .91);
-  -webkit-backdrop-filter: blur(9px);
-  backdrop-filter: blur(9px);
+  border-color: rgba(240, 207, 148, .62);
+  background: transparent;
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+  box-shadow: none;
+}
+
+.home-page .home-background-section--dark .home-workshop-pill-text {
+  color: #fff;
+}
+
+.home-page .home-background-section--dark .home-workshop-pill-icon {
+  border: 1px solid rgba(240, 207, 148, .52);
+  background: transparent !important;
+  box-shadow: none;
+}
+
+.home-page .home-background-section--dark .home-workshop-pill:hover {
+  border-color: rgba(240, 207, 148, .86);
+  background: transparent;
+  box-shadow: none;
+}
+
+.home-page .home-background-section--dark .home-workshop-pill:hover .home-workshop-pill-icon {
+  background: transparent !important;
 }
 
 @media (max-width: 767px) {
@@ -18027,7 +18147,7 @@ main .home-faq-item p {
   }
 
   .home-page .home-background-section--dark::after {
-    background: linear-gradient(120deg, rgba(10, 8, 6, .62), rgba(25, 18, 11, .5));
+    background: linear-gradient(120deg, rgba(10, 8, 6, .48), rgba(25, 18, 11, .38));
   }
 }
 

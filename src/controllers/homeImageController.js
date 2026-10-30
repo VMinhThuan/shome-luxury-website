@@ -173,6 +173,25 @@ exports.updateImage = async (req, res, next) => {
       const stillUsed = await HomeImage.exists({ image_key: { $ne: slot.image_key }, cloudinary_public_id: previous.cloudinary_public_id });
       if (!stillUsed) destroyCloudinaryImage(previous.cloudinary_public_id).catch(error => console.error('[Home image cleanup]', error.message));
     }
+
+    // Sync to QuotePage if updating pricing images
+    if (slot.page_key === 'quote' && slot.section_key === 'pricing') {
+      const itemIndex = parseInt(slot.image_key.replace('quote_pricing_image_', ''), 10) - 1;
+      if (!isNaN(itemIndex) && itemIndex >= 0) {
+        try {
+          const QuotePage = require('../models/QuotePage');
+          const page = await QuotePage.findOne({ key: 'main' });
+          if (page && page.sections?.pricing?.items?.[itemIndex]) {
+            page.sections.pricing.items[itemIndex].image = uploaded.secure_url;
+            page.markModified('sections');
+            await page.save();
+          }
+        } catch (syncErr) {
+          console.error('[Sync HomeImage to QuotePage error]', syncErr.message);
+        }
+      }
+    }
+
     return res.json({
       success: true,
       message: 'Ảnh đã được cập nhật.',
@@ -207,6 +226,23 @@ exports.deleteImage = async (req, res, next) => {
       const stillUsed = await HomeImage.exists({ cloudinary_public_id: existing.cloudinary_public_id });
       if (!stillUsed) {
         destroyCloudinaryImage(existing.cloudinary_public_id).catch(err => console.error('[Home image delete cleanup]', err.message));
+      }
+    }
+
+    if (slot.page_key === 'quote' && slot.section_key === 'pricing') {
+      const itemIndex = parseInt(slot.image_key.replace('quote_pricing_image_', ''), 10) - 1;
+      if (!isNaN(itemIndex) && itemIndex >= 0) {
+        try {
+          const QuotePage = require('../models/QuotePage');
+          const page = await QuotePage.findOne({ key: 'main' });
+          if (page && page.sections?.pricing?.items?.[itemIndex]) {
+            page.sections.pricing.items[itemIndex].image = slot.image_url;
+            page.markModified('sections');
+            await page.save();
+          }
+        } catch (syncErr) {
+          console.error('[Sync HomeImage to QuotePage delete error]', syncErr.message);
+        }
       }
     }
 

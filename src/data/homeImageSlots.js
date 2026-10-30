@@ -51,10 +51,13 @@ const rawSlots = [
   ['factory', 'renovation', 'factory_reno_bed_before', 'Hiện trạng đến hoàn thiện — Phòng ngủ (Trước)', '/images/img-xuong-san-xuat/renovation-bedroom-before.png'],
   ['factory', 'renovation', 'factory_reno_bed_after', 'Hiện trạng đến hoàn thiện — Phòng ngủ (Sau)', '/images/img-xuong-san-xuat/renovation-bedroom-after.png'],
 
-  // 3. BÁO GIÁ (quote) - 7 slots
+  // 3. BÁO GIÁ (quote) - 10 slots
   ['quote', 'hero', 'quote_hero_banner_1', 'Hero — Banner 1 (Chính)', '/images/banner-bao-gia.png'],
   ['quote', 'hero', 'quote_hero_banner_2', 'Hero — Banner 2 (Phòng ngủ)', '/images/booking-hero-banner-bedroom.png'],
   ['quote', 'hero', 'quote_hero_banner_3', 'Hero — Banner 3 (Phòng ăn)', '/images/booking-hero-banner-dining.png'],
+  ['quote', 'pricing', 'quote_pricing_image_1', 'Báo giá tham khảo — Ảnh 1 (Phòng khách)', '/images/quote-pricing-1.png'],
+  ['quote', 'pricing', 'quote_pricing_image_2', 'Báo giá tham khảo — Ảnh 2 (Phòng ăn)', '/images/quote-pricing-2.png'],
+  ['quote', 'pricing', 'quote_pricing_image_3', 'Báo giá tham khảo — Ảnh 3 (Phòng sinh hoạt)', '/images/quote-pricing-3.png'],
   ['quote', 'brand_video', 'quote_brand_video_thumb', 'Video thương hiệu — Ảnh bìa', '/images/Luxury Interior with Golden Wave Accents.png'],
   ['quote', 'capability', 'quote_capability_image', 'Năng lực Shome Luxury — Ảnh xưởng', '/images/factory_workers.jpg'],
   ['quote', 'cta', 'quote_construction_cta_image', 'CTA Thi công nội thất — Ảnh nền', '/images/banner-bao-gia.png'],
