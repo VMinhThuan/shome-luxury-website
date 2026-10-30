@@ -18421,17 +18421,6 @@ main .home-faq-item p {
   margin-inline: -.32em !important;
 }
 
-/* The terminal flourish of “Khách hàng” extends beyond the script's text
-   box. Give the paired review heading extra optical clearance before its
-   black companion title. */
-:is(.home-page, .quote-page) .customer-stories-title {
-  gap: .82em !important;
-}
-
-:is(.home-page, .quote-page) .customer-stories-script {
-  padding-right: .1em;
-}
-
 /* The capital flourish in “Chăm” needs more room after “bàn giao”; retain
    the intended lowercase “từng” instead of inheriting a title transform. */
 @media (min-width: 560px) {
@@ -18446,12 +18435,15 @@ main .home-faq-item p {
   }
 }
 
-/* The long final stroke in “Khách hàng” reaches well beyond its glyph box.
-   Space the paired review heading by its visible stroke, not its text box. */
+/* Keep the original horizontal lock-up, but leave enough vertical room for
+   the script descender before the supporting copy begins. */
 :is(.home-page, .quote-page) .customer-stories-title {
-  gap: .95em !important;
+  gap: .55em !important;
+  margin-bottom: clamp(1rem, 1.7vw, 1.35rem) !important;
 }
 
-:is(.home-page, .quote-page) .customer-stories-script {
-  padding-right: .22em;
+/* Give adjacent words in the hand-written handover phrase enough breathing
+   room; the script font's connecting strokes otherwise make them look joined. */
+.quote-page .quote-handover-heading h2 em {
+  word-spacing: .24em !important;
 }
