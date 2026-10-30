@@ -1971,6 +1971,52 @@
         height: 56.25vw !important;
         min-height: 0 !important;
       }
+
+      /* Pricing artwork is a true edge-to-edge 16:9 tile on phones.  The
+         brochure card keeps inheriting its old border and image inset from
+         the desktop layout, which leaves a white frame around the photo. */
+      .quote-page .quote-pricing-list {
+        width: 100% !important;
+      }
+
+      .quote-page .quote-price-card {
+        display: block !important;
+        width: 100% !important;
+        min-height: 0 !important;
+        padding: 0 !important;
+        border: 0 !important;
+        border-radius: 16px !important;
+        background: transparent !important;
+        box-shadow: none !important;
+        aspect-ratio: 16 / 9 !important;
+      }
+
+      .quote-page .quote-price-image {
+        display: block !important;
+        width: 100% !important;
+        height: 100% !important;
+        min-width: 0 !important;
+        min-height: 0 !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        border: 0 !important;
+        border-radius: inherit !important;
+        aspect-ratio: auto !important;
+        background-size: cover !important;
+        background-position: center !important;
+      }
+
+      .quote-page .quote-price-image img {
+        display: block !important;
+        width: 100% !important;
+        height: 100% !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        border: 0 !important;
+        border-radius: inherit !important;
+        object-fit: cover !important;
+        object-position: center !important;
+      }
     }
   </style>
   <script src="/js/main.js?v=2.0.2" defer></script>
@@ -2315,7 +2361,7 @@
           <h2 id="quote-factory-activities-title"><span>Hình ảnh hoạt động</span> <em class="font-script">Sản xuất</em></h2>
         </header>
         <div class="quote-factory-activities-carousel">
-          <div class="quote-factory-activity-track" data-carousel-autoplay="3000" data-carousel-autoplay-mobile="3000" data-carousel-step="card" aria-label="Hình ảnh hoạt động sản xuất">
+          <div class="quote-factory-activity-track" data-carousel-autoplay="2000" data-carousel-autoplay-mobile="2000" data-carousel-step="card" aria-label="Hình ảnh hoạt động sản xuất">
             <% factoryActivities.forEach(([image, title, description], index) => { %>
               <article class="quote-factory-activity-card">
                 <figure>
