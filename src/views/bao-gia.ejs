@@ -2023,6 +2023,7 @@
   <script src="/js/quote-page.js?v=1.2.2" defer></script>
 </head>
 <body>
+  <% const quoteConstructionUrls = { 'tk-kt-nha-cap-4': '/thi-cong-cong-trinh/kien-truc/nha-cap-4', 'tk-kt-nha-pho': '/thi-cong-cong-trinh/kien-truc/nha-pho', 'tk-kt-biet-thu': '/thi-cong-cong-trinh/kien-truc/biet-thu', 'tk-kt-villa': '/thi-cong-cong-trinh/kien-truc/villa', 'tk-nt-chung-cu': '/thi-cong-cong-trinh/noi-that/chung-cu', 'tk-nt-nha-pho': '/thi-cong-cong-trinh/noi-that/nha-pho', 'tk-nt-biet-thu': '/thi-cong-cong-trinh/noi-that/biet-thu', 'tk-nt-van-phong': '/thi-cong-cong-trinh/noi-that/van-phong' }; const dynamicConstructionUrl = quoteConstructionUrls[selectedCategory?.code] || '/thi-cong-cong-trinh'; %>
   <%- include('partials/header') %>
   <%- include('partials/mobile-drawer') %>
   <main id="main-content" class="quote-page">
@@ -2104,9 +2105,8 @@
           <% if (highlightProjects.length) { %>
             <div class="quote-featured-project-list">
               <% highlightProjects.slice(0, 6).forEach((project, index) => {
-                   const projectImage = project.thumbnail || '/images/quote-featured-villa-living-room.png';
-                   const fallbackGalleryImages = ['/images/project_apartment.jpg', '/images/project_villa.jpg', '/images/hero_interior.jpg', '/images/hero_sofa_light.jpg', '/images/service_interior.jpg'];
-                   const galleryImages = [...new Set([projectImage, ...((project.gallery && project.gallery.length) ? project.gallery : fallbackGalleryImages)].filter(Boolean))];
+                   const projectImage = project.thumbnail || '';
+                   const galleryImages = [...new Set([projectImage, ...(project.gallery || [])].filter(Boolean))];
                    const costLabel = project.cost ? `${Math.round(project.cost / 1000000)} triệu` : 'Liên hệ tư vấn';
                    const overlays = [
                      { title: 'Không gian truyền cảm hứng', sub: 'Mỗi góc nhỏ đều kể một câu chuyện' },
@@ -2117,7 +2117,7 @@
               %>
                 <article class="quote-featured-project-card">
                   <button class="quote-featured-project-image" type="button" data-quote-project-gallery data-project-title="<%= project.title %>" data-gallery-images="<%= JSON.stringify(galleryImages) %>" aria-label="Xem thư viện ảnh dự án <%= project.title %>">
-                    <img src="<%= projectImage %>" alt="<%= project.title %>" loading="lazy" />
+                    <% if (projectImage) { %><img src="<%= projectImage %>" alt="<%= project.title %>" loading="lazy" /><% } else { %><span class="quote-featured-project-image-placeholder">Chưa có ảnh</span><% } %>
                     <div class="quote-featured-project-overlay">
                       <b><%= overlay.title %></b>
                       <span><%= overlay.sub %></span>
@@ -2158,7 +2158,7 @@
           <% } else { %>
             <p class="quote-empty-state">Các công trình nổi bật sẽ được cập nhật tại đây.</p>
           <% } %>
-          <div class="quote-featured-view-all"><a href="https://shome-luxury-website.vercel.app/thiet-ke-noi-that/chung-cu">Xem tất cả dự án <span aria-hidden="true">→</span></a></div>
+          <div class="quote-featured-view-all"><a href="<%= dynamicConstructionUrl %>">Xem tất cả dự án <span aria-hidden="true">→</span></a></div>
         </div>
       </section>
     <% } %>
@@ -2208,18 +2208,8 @@
 
         const isSubMenuPage = Boolean(currentCatCode);
         const activeCategoryData = catList.find(c => c.id === activeCatId) || catList[0] || { name: 'Công trình hoàn thiện', videos: [] };
-        const constructionUrlsByCategory = {
-          'tk-kt-nha-cap-4': '/thi-cong-cong-trinh/kien-truc/nha-cap-4',
-          'tk-kt-nha-pho': '/thi-cong-cong-trinh/kien-truc/nha-pho',
-          'tk-kt-biet-thu': '/thi-cong-cong-trinh/kien-truc/biet-thu',
-          'tk-kt-villa': '/thi-cong-cong-trinh/kien-truc/villa',
-          'tk-nt-chung-cu': '/thi-cong-cong-trinh/noi-that/chung-cu',
-          'tk-nt-nha-pho': '/thi-cong-cong-trinh/noi-that/nha-pho',
-          'tk-nt-biet-thu': '/thi-cong-cong-trinh/noi-that/biet-thu',
-          'tk-nt-van-phong': '/thi-cong-cong-trinh/noi-that/van-phong'
-        };
         const selectedCategoryCode = selectedCategory?.code || rawCat;
-        const seeAllUrl = constructionUrlsByCategory[selectedCategoryCode] || '/thi-cong-cong-trinh';
+        const seeAllUrl = quoteConstructionUrls[selectedCategoryCode] || dynamicConstructionUrl;
       %>
       <section class="quote-section quote-completed" id="thuoc-phim-thuc-te">
         <div class="container">

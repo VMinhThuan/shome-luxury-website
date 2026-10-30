@@ -842,30 +842,19 @@ document.addEventListener('DOMContentLoaded', () => {
   const projectLoadSentinel = document.getElementById('project-load-sentinel');
   const projectListContainer = document.getElementById('project-list-container');
 
-  const mockProjectImages = [
-    '/images/project_apartment.jpg',
-    '/images/project_villa.jpg',
-    '/images/hero_interior.jpg',
-    '/images/hero_sofa_light.jpg',
-    '/images/service_interior.jpg'
-  ];
-
   function escapeHtml(value) {
     return String(value || '').replace(/[&<>'\"]/g, char => ({
       '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;'
     }[char]));
   }
 
-  function getProjectImage(project, charSum) {
-    return project.thumbnail || mockProjectImages[charSum % mockProjectImages.length];
+  function getProjectImage(project) {
+    return project.thumbnail || '';
   }
 
-  function getProjectGalleryImages(project, charSum) {
-    const primaryImage = getProjectImage(project, charSum);
-    const projectGallery = Array.isArray(project.gallery) && project.gallery.length
-      ? project.gallery
-      : mockProjectImages;
-    return [primaryImage, ...projectGallery];
+  function getProjectGalleryImages(project) {
+    const projectGallery = Array.isArray(project.gallery) ? project.gallery : [];
+    return [...new Set([project.thumbnail, ...projectGallery].filter(Boolean))];
   }
 
   function formatProjectCost(cost) {
@@ -1244,8 +1233,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (project[field]) element.textContent = project[field];
           });
 
-          const charSum = (project.title || '').split('').reduce((sum, ch) => sum + ch.charCodeAt(0), 0);
-          updateGallery(getProjectGalleryImages(project, charSum), project.title || 'Công trình Shome Luxury');
+          updateGallery(getProjectGalleryImages(project), project.title || 'Công trình Shome Luxury');
         })
         .catch(err => console.error('Failed loading project detail:', err));
     }
@@ -1270,7 +1258,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const selectedQuote = quotes[charSum % quotes.length];
 
     const safeTitle = escapeHtml(project.title);
-    const imageHtml = `<img src="${escapeHtml(getProjectImage(project, charSum))}" alt="${safeTitle}" class="project-card-img" loading="lazy" onerror="this.onerror=null;this.src='/images/project_apartment.jpg';" />`;
+    const imageHtml = project.thumbnail
+      ? `<img src="${escapeHtml(project.thumbnail)}" alt="${safeTitle}" class="project-card-img" loading="lazy" />`
+      : '<div class="project-card-image-placeholder" role="img" aria-label="Chưa có ảnh đại diện">Chưa có ảnh</div>';
     const attributesHtml = attrs.length ? `
       <div class="project-card-attributes">
         ${attributeSlots.map(attribute => attribute

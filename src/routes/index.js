@@ -16,6 +16,7 @@ const { authenticateAdmin, requireAdminPage } = require("../middleware/auth");
 router.get(["/admin", "/admin/"], (req, res) => res.redirect("/admin/images"));
 router.get("/admin/login", quotePageController.renderAdminLoginPage.bind(quotePageController));
 router.get("/admin/images", requireAdminPage, (req, res) => res.render('admin-images', { title: 'Quản lý ảnh trang chủ | SHOME LUXURY' }));
+router.get("/admin/projects", requireAdminPage, (req, res) => res.render('admin-projects', { title: 'Quản lý công trình | SHOME LUXURY' }));
 router.get("/admin/bao-gia", requireAdminPage, quotePageController.renderAdminPage.bind(quotePageController));
 
 // Page Routes - Homepage, Workshop & Recruitment
@@ -84,6 +85,7 @@ router.delete("/api/admin/categories/:id", authenticateAdmin, categoryController
 // Public Project API Endpoints (Search, Pagination, Descendant Filtering, Status & Featured Filtering, Sorting)
 router.get("/api/projects", projectController.getProjects.bind(projectController));
 router.get("/api/projects/:idOrSlug", projectController.getProjectByIdOrSlug.bind(projectController));
+router.get("/api/admin/projects", authenticateAdmin, projectController.getAdminProjects.bind(projectController));
 router.get('/api/construction-videos', constructionVideoController.getVideos.bind(constructionVideoController));
 router.get("/api/quote-page", quotePageController.getPublicContent.bind(quotePageController));
 router.put("/api/admin/quote-page", authenticateAdmin, quotePageController.updateContent.bind(quotePageController));
@@ -100,6 +102,7 @@ router.put("/api/admin/projects/:id", authenticateAdmin, projectController.updat
 router.delete("/api/admin/projects/:id", authenticateAdmin, projectController.deleteProject.bind(projectController));
 router.put("/api/admin/projects/:id/thumbnail", authenticateAdmin, projectController.updateThumbnail.bind(projectController));
 router.post("/api/admin/projects/:id/gallery", authenticateAdmin, projectController.addToGallery.bind(projectController));
+router.put("/api/admin/projects/:id/gallery", authenticateAdmin, projectController.reorderGallery.bind(projectController));
 router.delete("/api/admin/projects/:id/gallery", authenticateAdmin, projectController.removeFromGallery.bind(projectController));
 router.post('/api/admin/construction-videos', authenticateAdmin, constructionVideoController.createVideo.bind(constructionVideoController));
 router.put('/api/admin/construction-videos/:id', authenticateAdmin, constructionVideoController.updateVideo.bind(constructionVideoController));

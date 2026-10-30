@@ -22,10 +22,7 @@
   <!-- Main Content -->
   <main id="main-content" class="project-detail-page" data-project-slug="<%= project.slug %>">
     <div class="container">
-      <% const detailMockImages = ['/images/project_apartment.jpg', '/images/project_villa.jpg', '/images/hero_interior.jpg', '/images/hero_sofa_light.jpg', '/images/service_interior.jpg']; %>
-      <% const detailImageSrc = project.thumbnail || detailMockImages[(project.title || '').length % detailMockImages.length]; %>
-      <% const projectGallery = project.gallery && project.gallery.length ? project.gallery : detailMockImages; %>
-      <% const galleryImages = [...new Set([detailImageSrc, ...projectGallery].filter(Boolean))]; %>
+      <% const galleryImages = [...new Set([project.thumbnail, ...(project.gallery || [])].filter(Boolean))]; %>
       <section class="project-detail-summary" aria-label="Tóm tắt dự án">
         <!-- Project Detail Header -->
         <header class="project-detail-header">
@@ -66,9 +63,12 @@
       </section>
       <section class="project-showcase-gallery" data-project-gallery aria-label="Thư viện ảnh công trình <%= project.title %>">
         <div class="project-gallery-stage" data-gallery-open tabindex="0" aria-label="Bấm để xem ảnh phóng to">
-          <img src="<%= galleryImages[0] %>" alt="<%= project.title %> - ảnh 1" class="hero-img" data-detail-image loading="eager" draggable="false"
-               onerror="this.onerror=null;this.src='/images/project_apartment.jpg';" />
-          <img class="project-gallery-drag-preview" data-gallery-drag-preview alt="" aria-hidden="true" draggable="false" />
+          <% if (galleryImages.length) { %>
+            <img src="<%= galleryImages[0] %>" alt="<%= project.title %> - ảnh 1" class="hero-img" data-detail-image loading="eager" draggable="false" />
+            <img class="project-gallery-drag-preview" data-gallery-drag-preview alt="" aria-hidden="true" draggable="false" />
+          <% } else { %>
+            <div class="project-gallery-empty">Công trình chưa có hình ảnh</div>
+          <% } %>
           <div class="project-gallery-stage-shade" aria-hidden="true"></div>
           <div class="project-gallery-count" aria-live="polite"><span data-gallery-current>01</span><span>/</span><span data-gallery-total><%= String(galleryImages.length).padStart(2, '0') %></span></div>
           <button class="project-gallery-control previous" type="button" data-gallery-prev aria-label="Ảnh trước">

@@ -17,6 +17,11 @@ const projectSchema = new mongoose.Schema({
     default: null,
     trim: true
   },
+  clientName: {
+    type: String,
+    default: null,
+    trim: true
+  },
   location: {
     type: String,
     default: null,
@@ -41,8 +46,10 @@ const projectSchema = new mongoose.Schema({
       'Căn hộ 2 PN',
       'Căn hộ 3 PN',
       'Nhà phố',
+      'Nhà cấp 4',
       'Biệt thự',
       'Villa',
+      'Chung cư',
       'Văn phòng'
     ]
   },
@@ -85,6 +92,18 @@ const projectSchema = new mongoose.Schema({
     default: true,
     index: true
   },
+  sortOrder: {
+    type: Number,
+    default: 0,
+    index: true
+  },
+  // Kept alongside the legacy status field so existing integrations remain
+  // compatible while the CMS can expose a clear published toggle.
+  isPublished: {
+    type: Boolean,
+    default: true,
+    index: true
+  },
   categoryIds: [{
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Category',
@@ -94,8 +113,22 @@ const projectSchema = new mongoose.Schema({
     type: String,
     default: null
   },
+  thumbnailPublicId: {
+    type: String,
+    default: null
+  },
   gallery: [{
     type: String
+  }],
+  // Metadata for independently managed gallery assets. `gallery` remains a
+  // URL array for backwards compatibility with the existing public API.
+  galleryItems: [{
+    _id: false,
+    id: { type: String, trim: true },
+    url: { type: String, required: true, trim: true },
+    publicId: { type: String, default: null, trim: true },
+    order: { type: Number, default: 0 },
+    alt: { type: String, default: '', trim: true }
   }],
   legacy: {
     wordpressId: { type: Number, index: true },
@@ -109,5 +142,6 @@ const projectSchema = new mongoose.Schema({
 projectSchema.index({ status: 1, categoryIds: 1, createdAt: -1 });
 projectSchema.index({ status: 1, featured: 1, createdAt: -1 });
 projectSchema.index({ status: 1, isVisible: 1, isHighlight: 1, highlightOrder: 1 });
+projectSchema.index({ status: 1, isPublished: 1, sortOrder: 1, createdAt: -1 });
 
 module.exports = mongoose.models.Project || mongoose.model('Project', projectSchema);
