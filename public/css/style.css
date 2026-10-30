@@ -18185,35 +18185,30 @@ main .home-faq-item p {
   text-align: center;
 }
 
-.quote-page .quote-factory-activities-heading > p {
-  margin: 0 0 .4rem;
-  color: #b78029;
-  font-size: clamp(.65rem, .95vw, .78rem);
-  font-weight: 800;
-  letter-spacing: .16em;
-}
-
 .quote-page .quote-factory-activities-heading h2 {
   display: flex;
-  flex-wrap: wrap;
   align-items: baseline;
   justify-content: center;
   gap: .2em;
   margin: 0;
-  color: #171412;
+  color: #1d1d1d;
   font-family: var(--font-heading);
-  font-size: clamp(1.7rem, 3.4vw, 3rem);
-  font-weight: 800;
+  font-size: 40px;
+  font-weight: 700;
   letter-spacing: -.04em;
   line-height: 1.12;
-  text-transform: uppercase;
+  text-transform: none;
 }
 
 .quote-page .quote-factory-activities-heading h2 em {
   color: var(--accent-gold, #d2a044);
-  font-family: var(--font-heading);
+  font-family: var(--font-script);
   font-size: 1em;
   font-style: normal;
+  font-weight: 700;
+  letter-spacing: 0;
+  line-height: 1;
+  text-transform: none;
 }
 
 .quote-page .quote-factory-activities-carousel {
@@ -18366,7 +18361,11 @@ main .home-faq-item p {
   }
 
   .quote-page .quote-factory-activities-heading h2 {
-    font-size: clamp(1.4rem, 7vw, 2rem);
+    font-size: clamp(1.05rem, 5vw, 1.5rem);
+  }
+
+  .quote-page .quote-factory-activities-heading h2 em {
+    font-size: 1.05em;
   }
 
   .quote-page .quote-factory-activity-track {
