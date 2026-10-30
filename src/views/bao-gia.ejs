@@ -2208,12 +2208,18 @@
 
         const isSubMenuPage = Boolean(currentCatCode);
         const activeCategoryData = catList.find(c => c.id === activeCatId) || catList[0] || { name: 'Công trình hoàn thiện', videos: [] };
-        let seeAllUrl = '/thiet-ke-cong-trinh';
-        if (activeCatId === 'chung-cu') {
-          seeAllUrl = '/thiet-ke-noi-that/chung-cu';
-        } else if (activeCatId === 'biet-thu') {
-          seeAllUrl = '/thiet-ke-noi-that/biet-thu';
-        }
+        const constructionUrlsByCategory = {
+          'tk-kt-nha-cap-4': '/thi-cong-cong-trinh/kien-truc/nha-cap-4',
+          'tk-kt-nha-pho': '/thi-cong-cong-trinh/kien-truc/nha-pho',
+          'tk-kt-biet-thu': '/thi-cong-cong-trinh/kien-truc/biet-thu',
+          'tk-kt-villa': '/thi-cong-cong-trinh/kien-truc/villa',
+          'tk-nt-chung-cu': '/thi-cong-cong-trinh/noi-that/chung-cu',
+          'tk-nt-nha-pho': '/thi-cong-cong-trinh/noi-that/nha-pho',
+          'tk-nt-biet-thu': '/thi-cong-cong-trinh/noi-that/biet-thu',
+          'tk-nt-van-phong': '/thi-cong-cong-trinh/noi-that/van-phong'
+        };
+        const selectedCategoryCode = selectedCategory?.code || rawCat;
+        const seeAllUrl = constructionUrlsByCategory[selectedCategoryCode] || '/thi-cong-cong-trinh';
       %>
       <section class="quote-section quote-completed" id="thuoc-phim-thuc-te">
         <div class="container">
