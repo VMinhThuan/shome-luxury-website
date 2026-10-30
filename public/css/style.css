@@ -18273,6 +18273,12 @@ main .home-faq-item p {
   scroll-snap-align: start;
 }
 
+@media (min-width: 768px) {
+  .quote-page .quote-factory-activity-card {
+    flex-basis: calc((100% - 3.45rem) / 4);
+  }
+}
+
 .quote-page .quote-factory-activity-card figure {
   position: relative;
   margin: 0;
@@ -18404,7 +18410,7 @@ main .home-faq-item p {
   }
 
   .quote-page .quote-factory-activity-card {
-    flex-basis: min(82vw, 335px);
+    flex-basis: calc((100% - 1.4rem) / 3);
   }
 
 }
