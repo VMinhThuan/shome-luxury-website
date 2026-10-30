@@ -18251,6 +18251,7 @@ main .home-faq-item p {
   padding: .2rem;
   scroll-behavior: smooth;
   scroll-snap-type: x mandatory;
+  scroll-snap-stop: always;
   scrollbar-width: none;
   touch-action: pan-y;
   cursor: grab;

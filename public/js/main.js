@@ -203,6 +203,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const nextButton = controls?.querySelector('[data-carousel-next]');
     const autoplayDelay = Number.parseInt(track.dataset.carouselAutoplay, 10) || 0;
     let autoplayTimer = null;
+    let isCarouselVisible = true;
 
     const currentPageIndex = () => pages.reduce((best, page, index) =>
       Math.abs(track.scrollLeft - page) < Math.abs(track.scrollLeft - pages[best]) ? index : best, 0);
@@ -260,7 +261,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const startAutoplay = () => {
       stopAutoplay();
-      if (!autoplayDelay || pages.length < 2 || document.hidden) return;
+      if (!autoplayDelay || pages.length < 2 || document.hidden || !isCarouselVisible) return;
       autoplayTimer = window.setInterval(() => goToPage(currentPageIndex() + 1), autoplayDelay);
     };
 
@@ -344,6 +345,14 @@ document.addEventListener('DOMContentLoaded', () => {
     ['pointerdown', 'mouseenter', 'focusin'].forEach(type => track.addEventListener(type, stopAutoplay));
     ['pointerup', 'mouseleave', 'focusout'].forEach(type => track.addEventListener(type, startAutoplay));
     document.addEventListener('visibilitychange', () => document.hidden ? stopAutoplay() : startAutoplay());
+    if (autoplayDelay && 'IntersectionObserver' in window) {
+      const visibilityObserver = new IntersectionObserver(entries => {
+        isCarouselVisible = entries[0]?.isIntersecting === true;
+        if (isCarouselVisible) startAutoplay();
+        else stopAutoplay();
+      }, { threshold: 0.25 });
+      visibilityObserver.observe(track);
+    }
     new ResizeObserver(() => {
       buildDots();
       startAutoplay();
