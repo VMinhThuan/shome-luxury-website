@@ -176,9 +176,11 @@ class QuotePageController {
       const quoteScript = isInterior ? 'Nội thất' : 'Kiến trúc';
       // The project sections show the leaf menu name, rather than a fixed
       // apartment label, for every selected quotation category.
-      const featuredCategoryName = selectedName
+      const featuredCategoryNameRaw = selectedName
         .replace(/^(nội thất|kiến trúc)\s+/i, '')
         .trim() || 'Chung cư';
+      const featuredCategoryName = featuredCategoryNameRaw.charAt(0).toLocaleUpperCase('vi-VN')
+        + featuredCategoryNameRaw.slice(1);
       const quoteImages = await getPageImages('quote');
       return res.render('bao-gia', {
         title: `${selectedCategory?.name ? `Báo giá ${selectedCategory.name.toLowerCase()}` : 'Báo giá thiết kế & thi công'} | SHOME LUXURY`,

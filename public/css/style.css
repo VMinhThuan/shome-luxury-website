@@ -17817,6 +17817,35 @@ main .home-faq-item p {
   font-size: var(--fs-section-title) !important;
 }
 
+/* The handwritten face has a leftward flourish. Reserve its optical space so
+   every black/gold title pair reads with the same breathing room as home. */
+.factory-page :is(
+  .process-v2-title,
+  .capacity-v2-title,
+  .capacity-paired-title,
+  .factory-detail-title,
+  .factory-tour-title,
+  .material-inspiration-title,
+  .surface-finish-title,
+  .project-consultation-title,
+  .work-process-title
+) {
+  column-gap: .34em !important;
+}
+
+.factory-page :is(
+  .process-v2-title-script,
+  .capacity-paired-title-accent,
+  .factory-detail-script,
+  .factory-tour-accent,
+  .material-inspiration-accent,
+  .surface-finish-accent,
+  .project-consultation-accent,
+  .work-process-title-accent
+) {
+  padding-left: .28em !important;
+}
+
 /* Pricing cards present the apartment artwork without the copy panel. */
 .quote-page .quote-price-card {
   display: block !important;
@@ -18377,4 +18406,16 @@ main .home-faq-item p {
     flex-basis: min(82vw, 335px);
   }
 
+}
+
+/* Keep the homepage signature fully painted after all shared hero styles. */
+.home-page .hero-slider--fade .hero-slide .hero-script-subtitle {
+  display: block;
+  overflow: visible;
+  clip-path: none !important;
+  background: none !important;
+  color: var(--accent-gold, #D2A044) !important;
+  -webkit-text-fill-color: var(--accent-gold, #D2A044) !important;
+  padding: .2em .32em .3em;
+  margin-inline: -.32em !important;
 }
