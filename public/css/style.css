@@ -18420,3 +18420,14 @@ main .home-faq-item p {
   padding: .2em .32em .3em;
   margin-inline: -.32em !important;
 }
+
+/* The terminal flourish of “Khách hàng” extends beyond the script's text
+   box. Give the paired review heading extra optical clearance before its
+   black companion title. */
+:is(.home-page, .quote-page) .customer-stories-title {
+  gap: .82em !important;
+}
+
+:is(.home-page, .quote-page) .customer-stories-script {
+  padding-right: .1em;
+}
