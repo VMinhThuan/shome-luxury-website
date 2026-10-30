@@ -117,6 +117,10 @@ const projectSchema = new mongoose.Schema({
     type: String,
     default: null
   },
+  thumbnailFormat: { type: String, default: null },
+  thumbnailWidth: { type: Number, default: null },
+  thumbnailHeight: { type: Number, default: null },
+  thumbnailBytes: { type: Number, default: null },
   gallery: [{
     type: String
   }],
@@ -128,7 +132,11 @@ const projectSchema = new mongoose.Schema({
     url: { type: String, required: true, trim: true },
     publicId: { type: String, default: null, trim: true },
     order: { type: Number, default: 0 },
-    alt: { type: String, default: '', trim: true }
+    alt: { type: String, default: '', trim: true },
+    format: { type: String, default: null, trim: true },
+    width: { type: Number, default: null },
+    height: { type: Number, default: null },
+    bytes: { type: Number, default: null }
   }],
   legacy: {
     wordpressId: { type: Number, index: true },

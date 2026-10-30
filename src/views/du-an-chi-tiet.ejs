@@ -70,11 +70,11 @@
             <div class="project-gallery-empty">Công trình chưa có hình ảnh</div>
           <% } %>
           <div class="project-gallery-stage-shade" aria-hidden="true"></div>
-          <div class="project-gallery-count" aria-live="polite"><span data-gallery-current>01</span><span>/</span><span data-gallery-total><%= String(galleryImages.length).padStart(2, '0') %></span></div>
-          <button class="project-gallery-control previous" type="button" data-gallery-prev aria-label="Ảnh trước">
+          <div class="project-gallery-count" aria-live="polite"><span data-gallery-current><%= galleryImages.length ? '01' : '00' %></span><span>/</span><span data-gallery-total><%= String(galleryImages.length).padStart(2, '0') %></span></div>
+          <button class="project-gallery-control previous" type="button" data-gallery-prev aria-label="Ảnh trước" <%= galleryImages.length < 2 ? 'hidden' : '' %>>
             <svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="15 18 9 12 15 6"></polyline></svg>
           </button>
-          <button class="project-gallery-control next" type="button" data-gallery-next aria-label="Ảnh tiếp theo">
+          <button class="project-gallery-control next" type="button" data-gallery-next aria-label="Ảnh tiếp theo" <%= galleryImages.length < 2 ? 'hidden' : '' %>>
             <svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="9 18 15 12 9 6"></polyline></svg>
           </button>
         </div>

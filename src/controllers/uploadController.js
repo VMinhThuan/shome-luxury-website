@@ -23,7 +23,18 @@ const upload = multer({
 });
 
 // Middleware for single image upload with field name 'image' or 'file'
-const uploadSingleMiddleware = upload.single("image");
+const uploadSingle = upload.single("image");
+const uploadSingleMiddleware = (req, res, next) => uploadSingle(req, res, (error) => {
+  if (error) {
+    return res.status(400).json({
+      success: false,
+      message: error.code === 'LIMIT_FILE_SIZE'
+        ? 'Ảnh vượt quá dung lượng tối đa 10MB.'
+        : error.message || 'Tệp ảnh không hợp lệ.'
+    });
+  }
+  return next();
+});
 
 // Controller action to process Cloudinary upload
 const handleImageUpload = async (req, res) => {
@@ -35,12 +46,24 @@ const handleImageUpload = async (req, res) => {
       });
     }
 
-    const folder = req.body.folder || "shome-luxury/recruitment";
+    const folder = String(req.body.folder || "shome-luxury/recruitment");
 
-    const processed = await processImageBuffer(req.file.buffer, req.body);
+    const isProjectAsset = folder === 'shome-luxury/projects' || folder.startsWith('shome-luxury/projects/');
+    const processingBody = isProjectAsset
+      ? {
+          ...req.body,
+          resize_preset: 'project',
+          quality: req.body.quality || process.env.PROJECT_IMAGE_WEBP_QUALITY || '85',
+          sharpness: req.body.sharpness || '20'
+        }
+      : req.body;
+    const processed = await processImageBuffer(req.file.buffer, processingBody);
     // Upload the already-encoded WebP directly. Keep Cloudinary free of a
     // second transformation/quality decision.
     const result = await uploadToCloudinary(processed.buffer, folder);
+    if (isProjectAsset && String(result.format || '').toLowerCase() !== 'webp') {
+      throw new Error('Cloudinary không trả về ảnh WebP sau khi tối ưu. Ảnh cũ vẫn được giữ nguyên.');
+    }
 
     return res.status(200).json({
       success: true,
@@ -62,7 +85,8 @@ const handleImageUpload = async (req, res) => {
     });
   } catch (error) {
     console.error("[Upload Error]", error);
-    return res.status(500).json({
+    const validationError = /Tệp tải lên|Chỉ hỗ trợ|vượt giới hạn|Vùng cắt|Chất lượng WebP|Độ sắc nét/i.test(error.message || '');
+    return res.status(validationError ? 400 : 500).json({
       success: false,
       message: error.message || "Lỗi khi tải ảnh lên Cloudinary.",
       error: error.message

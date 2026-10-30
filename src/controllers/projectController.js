@@ -108,14 +108,14 @@ class ProjectController {
   // PUT /api/admin/projects/:id/thumbnail
   async updateThumbnail(req, res, next) {
     try {
-      const { thumbnailUrl, publicId } = req.body;
+      const { thumbnailUrl, publicId, metadata } = req.body;
       if (!thumbnailUrl) {
         return res.status(400).json({
           success: false,
           message: 'thumbnailUrl is required'
         });
       }
-      const project = await projectService.updateThumbnail(req.params.id, thumbnailUrl, publicId);
+      const project = await projectService.updateThumbnail(req.params.id, thumbnailUrl, publicId, metadata);
       return res.json({
         success: true,
         message: 'Thumbnail updated successfully',
@@ -129,14 +129,14 @@ class ProjectController {
   // POST /api/admin/projects/:id/gallery
   async addToGallery(req, res, next) {
     try {
-      const { imageUrl, publicId, alt } = req.body;
+      const { imageUrl, publicId, alt, metadata } = req.body;
       if (!imageUrl) {
         return res.status(400).json({
           success: false,
           message: 'imageUrl is required'
         });
       }
-      const project = await projectService.addToGallery(req.params.id, imageUrl, publicId, alt);
+      const project = await projectService.addToGallery(req.params.id, imageUrl, publicId, alt, metadata);
       return res.json({
         success: true,
         message: 'Image added to gallery successfully',
@@ -154,7 +154,7 @@ class ProjectController {
       if (!imageUrl && !imageId) {
         return res.status(400).json({
           success: false,
-          message: 'imageUrl is required'
+          message: 'imageUrl hoặc imageId là bắt buộc'
         });
       }
       const project = await projectService.removeFromGallery(req.params.id, imageUrl, imageId);

@@ -4,40 +4,68 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title><%= title %></title>
-  <link rel="stylesheet" href="/css/admin-projects.css?v=1.0.0" />
-  <script src="/js/admin-projects.js?v=1.0.0" defer></script>
+  <link rel="stylesheet" href="/css/admin-projects.css?v=1.1.0" />
+  <script src="/js/admin-projects.js?v=1.1.0" defer></script>
 </head>
-<body class="project-admin-page">
+<body class="project-admin-page" data-section="<%= typeof currentSection !== 'undefined' ? currentSection : 'thiet-ke-cong-trinh' %>" data-section-title="<%= typeof currentSectionTitle !== 'undefined' ? currentSectionTitle : 'Thiết kế công trình' %>">
   <main class="project-admin-shell">
     <header class="project-admin-topbar">
       <a class="project-admin-brand" href="/">SHOME <span>LUXURY</span></a>
       <nav aria-label="Điều hướng quản trị">
-        <a href="/admin/images">Ảnh trang chủ</a>
+        <a href="/admin/thiet-ke-cong-trinh" class="<%= (typeof currentSection === 'undefined' || currentSection === 'thiet-ke-cong-trinh') ? 'is-active' : '' %>">Thiết kế công trình</a>
+        <a href="/admin/thi-cong-cong-trinh" class="<%= (typeof currentSection !== 'undefined' && currentSection === 'thi-cong-cong-trinh') ? 'is-active' : '' %>">Thi công công trình</a>
         <a href="/admin/bao-gia">Báo giá</a>
-        <a href="/admin/projects" class="is-active">Công trình</a>
+        <a href="/admin/images">Ảnh trang chủ</a>
         <button type="button" data-logout>Đăng xuất</button>
       </nav>
     </header>
 
     <section class="project-admin-heading">
-      <div><p class="project-admin-eyebrow">SHOME LUXURY / CMS</p><h1>Quản lý công trình</h1><p>Quản lý danh mục, thông tin dự án, thumbnail và toàn bộ gallery ảnh thực tế.</p></div>
+      <div>
+        <p class="project-admin-eyebrow">SHOME LUXURY / CMS</p>
+        <h1 data-page-heading>Quản lý <%= typeof currentSectionTitle !== 'undefined' ? currentSectionTitle.toLowerCase() : 'thiết kế công trình' %></h1>
+        <p data-page-subheading>Quản lý theo phân cấp menu con, chi tiết hình ảnh, tiến độ và nội dung dự án.</p>
+      </div>
       <button class="project-admin-primary" type="button" data-new-project>+ Thêm công trình</button>
+    </section>
+
+    <!-- Sub-menu Grouping Tabs & Pills -->
+    <section class="project-submenu-section" aria-label="Phân nhóm menu con">
+      <div class="project-submenu-header">
+        <span class="project-submenu-label">Gom nhóm menu:</span>
+        <div class="project-submenu-tabs" data-submenu-tabs role="tablist"></div>
+      </div>
+      <div class="project-subchild-bar" data-subchild-bar hidden>
+        <span class="project-subchild-label">Menu con:</span>
+        <div class="project-subchild-pills" data-subchild-pills></div>
+      </div>
     </section>
 
     <section class="project-admin-toolbar" aria-label="Bộ lọc công trình">
       <label>Tìm kiếm<input type="search" data-filter-search placeholder="Tên, khách hàng, địa điểm..." /></label>
-      <label>Danh mục<select data-filter-category><option value="">Tất cả danh mục</option></select></label>
+      <label>Menu con<select data-filter-category><option value="">Tất cả danh mục</option></select></label>
       <label>Trạng thái<select data-filter-status><option value="">Tất cả</option><option value="published">Đã xuất bản</option><option value="draft">Bản nháp</option><option value="private">Riêng tư</option><option value="trash">Thùng rác</option></select></label>
       <button class="project-admin-secondary" type="button" data-refresh>Làm mới</button>
     </section>
-    <p class="project-admin-status" data-status aria-live="polite"></p>
+
+    <div class="project-admin-filter-status-row">
+      <p class="project-admin-status" data-status aria-live="polite"></p>
+      <div class="project-admin-active-filter-badge" data-active-filter-badge hidden></div>
+    </div>
+
     <section class="project-admin-list" data-project-list aria-live="polite"></section>
   </main>
 
   <div class="project-admin-modal" data-project-modal hidden>
     <div class="project-admin-modal-backdrop" data-close-modal></div>
     <section class="project-admin-dialog" role="dialog" aria-modal="true" aria-labelledby="project-form-title">
-      <header><div><p class="project-admin-eyebrow">CÔNG TRÌNH</p><h2 id="project-form-title" data-form-heading>Thêm công trình</h2></div><button type="button" class="project-admin-icon-button" data-close-modal aria-label="Đóng">×</button></header>
+      <header>
+        <div>
+          <p class="project-admin-eyebrow">CÔNG TRÌNH</p>
+          <h2 id="project-form-title" data-form-heading>Thêm công trình</h2>
+        </div>
+        <button type="button" class="project-admin-icon-button" data-close-modal aria-label="Đóng">×</button>
+      </header>
       <form data-project-form>
         <input type="hidden" name="id" />
         <div class="project-form-grid">
@@ -49,7 +77,28 @@
           <label>Chi phí (VNĐ)<input name="cost" type="number" min="0" step="1000000" /></label>
           <label>Loại hình<select name="propertyType"><option value="">Chọn loại hình</option><option>Căn hộ 1 PN</option><option>Căn hộ 2 PN</option><option>Căn hộ 3 PN</option><option>Chung cư</option><option>Nhà phố</option><option>Nhà cấp 4</option><option>Biệt thự</option><option>Villa</option><option>Văn phòng</option></select></label>
           <label>Phong cách<input name="style" placeholder="Hiện đại, tối giản..." /></label>
-          <label class="full">Danh mục (có thể chọn nhiều)<select name="categoryIds" data-form-category multiple size="5"></select></label>
+          <div class="full form-field-wrap">
+            <label class="form-label">Danh mục menu con (có thể chọn nhiều)</label>
+            <div class="custom-category-dropdown" data-category-dropdown>
+              <button type="button" class="custom-category-trigger" data-category-trigger aria-haspopup="listbox" aria-expanded="false">
+                <div class="custom-category-trigger-content" data-category-trigger-content>
+                  <span class="custom-category-placeholder">Chọn danh mục công trình...</span>
+                </div>
+                <span class="custom-category-arrow">▾</span>
+              </button>
+              <div class="custom-category-menu" data-category-menu hidden>
+                <div class="custom-category-menu-search">
+                  <input type="text" placeholder="Tìm nhanh danh mục..." data-category-menu-search />
+                </div>
+                <div class="custom-category-groups" data-category-groups></div>
+                <div class="custom-category-menu-footer">
+                  <span class="custom-category-count" data-category-selected-count>Đã chọn: 0 danh mục</span>
+                  <button type="button" class="custom-category-clear-btn" data-category-clear>Bỏ chọn tất cả</button>
+                </div>
+              </div>
+            </div>
+            <select name="categoryIds" data-form-category multiple hidden></select>
+          </div>
           <label class="full">Mô tả ngắn<textarea name="excerpt" rows="2"></textarea></label>
           <label class="full">Nội dung chi tiết<textarea name="content" rows="5"></textarea></label>
           <label>Thứ tự hiển thị<input name="sortOrder" type="number" step="1" value="0" /></label>
@@ -58,10 +107,26 @@
           <label class="checkbox-field"><input name="isHighlight" type="checkbox" /> Nổi bật trên báo giá</label>
         </div>
 
-        <section class="project-upload-section"><h3>Thumbnail</h3><div class="project-upload-row"><input type="file" name="thumbnailFile" accept="image/jpeg,image/png,image/webp" /><div data-thumbnail-preview class="project-thumbnail-preview">Chưa có ảnh</div></div></section>
-        <section class="project-upload-section"><h3>Gallery ảnh thực tế</h3><input type="file" name="galleryFiles" accept="image/jpeg,image/png,image/webp" multiple /><div class="project-gallery-manager" data-gallery-manager></div></section>
+        <section class="project-upload-section">
+          <h3>Thumbnail</h3>
+          <div class="project-upload-row">
+            <input type="file" name="thumbnailFile" accept="image/jpeg,image/png,image/webp" />
+            <div data-thumbnail-preview class="project-thumbnail-preview">Chưa có ảnh</div>
+          </div>
+        </section>
+
+        <section class="project-upload-section">
+          <h3>Gallery ảnh thực tế <span class="project-gallery-count" data-gallery-count>0/5 ảnh</span></h3>
+          <p class="project-upload-hint" data-gallery-hint>Tối đa 5 ảnh. Ảnh JPG/PNG sẽ được tối ưu WebP, cạnh lớn nhất 2048px.</p>
+          <input type="file" name="galleryFiles" accept="image/jpeg,image/png,image/webp" multiple data-gallery-input />
+          <div class="project-gallery-manager" data-gallery-manager></div>
+        </section>
+
         <p class="project-admin-form-status" data-form-status aria-live="polite"></p>
-        <footer class="project-admin-form-actions"><button type="button" class="project-admin-secondary" data-close-modal>Huỷ</button><button type="submit" class="project-admin-primary" data-save-project>Lưu công trình</button></footer>
+        <footer class="project-admin-form-actions">
+          <button type="button" class="project-admin-secondary" data-close-modal>Huỷ</button>
+          <button type="submit" class="project-admin-primary" data-save-project>Lưu công trình</button>
+        </footer>
       </form>
     </section>
   </div>

@@ -13,10 +13,29 @@ const homeImageController = require('../controllers/homeImageController');
 const { authenticateAdmin, requireAdminPage } = require("../middleware/auth");
 
 // Admin Routes (Unified under /admin/*, server-authenticated, no subdomain needed)
-router.get(["/admin", "/admin/"], (req, res) => res.redirect("/admin/images"));
+router.get(["/admin", "/admin/"], (req, res) => res.redirect("/admin/thiet-ke-cong-trinh"));
 router.get("/admin/login", quotePageController.renderAdminLoginPage.bind(quotePageController));
 router.get("/admin/images", requireAdminPage, (req, res) => res.render('admin-images', { title: 'Quản lý ảnh trang chủ | SHOME LUXURY' }));
-router.get("/admin/projects", requireAdminPage, (req, res) => res.render('admin-projects', { title: 'Quản lý công trình | SHOME LUXURY' }));
+router.get("/admin/thiet-ke-cong-trinh", requireAdminPage, (req, res) => res.render('admin-projects', {
+  title: 'Quản lý thiết kế công trình | SHOME LUXURY',
+  currentSection: 'thiet-ke-cong-trinh',
+  currentSectionTitle: 'Thiết kế công trình'
+}));
+router.get("/admin/thi-cong-cong-trinh", requireAdminPage, (req, res) => res.render('admin-projects', {
+  title: 'Quản lý thi công công trình | SHOME LUXURY',
+  currentSection: 'thi-cong-cong-trinh',
+  currentSectionTitle: 'Thi công công trình'
+}));
+router.get("/admin/projects", requireAdminPage, (req, res) => {
+  const isConstruction = req.query.type === 'thi-cong' || req.query.type === 'thi-cong-cong-trinh';
+  const section = isConstruction ? 'thi-cong-cong-trinh' : 'thiet-ke-cong-trinh';
+  const sectionTitle = isConstruction ? 'Thi công công trình' : 'Thiết kế công trình';
+  res.render('admin-projects', {
+    title: `Quản lý ${sectionTitle.toLowerCase()} | SHOME LUXURY`,
+    currentSection: section,
+    currentSectionTitle: sectionTitle
+  });
+});
 router.get("/admin/bao-gia", requireAdminPage, quotePageController.renderAdminPage.bind(quotePageController));
 
 // Page Routes - Homepage, Workshop & Recruitment

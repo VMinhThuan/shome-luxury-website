@@ -46,12 +46,13 @@ function outputExtension(contentType) {
 }
 
 function outputOptionsFrom(body = {}) {
-  const resizePreset = body.resize_preset === '2k' ? '2k' : null;
+  const resizePreset = ['2k', 'project'].includes(body.resize_preset) ? body.resize_preset : null;
+  const presetMaxEdge = resizePreset === 'project' ? 2048 : 2560;
   const keepOriginalSize = resizePreset ? false : isEnabled(body.keep_original_size, true);
   const keepAspectRatio = resizePreset ? true : isEnabled(body.keep_aspect_ratio, true);
   const lossless = isEnabled(body.webp_lossless);
-  const width = resizePreset ? 2560 : keepOriginalSize ? null : numberInRange(body.width, 1, 7680);
-  const height = resizePreset ? 2560 : keepOriginalSize ? null : numberInRange(body.height, 1, 7680);
+  const width = resizePreset ? presetMaxEdge : keepOriginalSize ? null : numberInRange(body.width, 1, 7680);
+  const height = resizePreset ? presetMaxEdge : keepOriginalSize ? null : numberInRange(body.height, 1, 7680);
   const widthRequested = body.width !== undefined && body.width !== null && body.width !== '';
   const heightRequested = body.height !== undefined && body.height !== null && body.height !== '';
   if (!keepOriginalSize && ((widthRequested && !width) || (heightRequested && !height) || (!width && !height))) {

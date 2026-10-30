@@ -2,12 +2,13 @@ const Project = require('../models/Project');
 const categoryService = require('./categoryService');
 const { destroyCloudinaryImage } = require('../utils/cloudinary');
 const mongoose = require('mongoose');
+const MAX_GALLERY_IMAGES = 5;
 
 const PROJECT_FIELDS = [
   'title', 'slug', 'investor', 'clientName', 'location', 'area', 'cost',
   'propertyType', 'style', 'excerpt', 'content', 'status', 'featured',
   'isHighlight', 'highlightOrder', 'isVisible', 'isPublished', 'sortOrder',
-  'categoryIds', 'thumbnail', 'thumbnailPublicId', 'gallery', 'galleryItems'
+  'categoryIds', 'thumbnail', 'thumbnailPublicId', 'thumbnailFormat', 'thumbnailWidth', 'thumbnailHeight', 'thumbnailBytes', 'gallery', 'galleryItems'
 ];
 
 const slugify = (value) => String(value || '')
@@ -40,13 +41,17 @@ const normalizeGallery = (project) => {
       url,
       publicId: item?.publicId || null,
       order: Number.isFinite(Number(item?.order)) ? Number(item.order) : index,
-      alt: item?.alt || project.title || ''
+      alt: item?.alt || project.title || '',
+      format: item?.format || null,
+      width: Number.isFinite(Number(item?.width)) ? Number(item.width) : null,
+      height: Number.isFinite(Number(item?.height)) ? Number(item.height) : null,
+      bytes: Number.isFinite(Number(item?.bytes)) ? Number(item.bytes) : null
     });
   });
   sourceUrls.forEach((url) => {
     if (!url || seen.has(url)) return;
     seen.add(url);
-    items.push({ id: `gallery-${items.length + 1}`, url, publicId: null, order: items.length, alt: project.title || '' });
+    items.push({ id: `gallery-${items.length + 1}`, url, publicId: null, order: items.length, alt: project.title || '', format: null, width: null, height: null, bytes: null });
   });
   items.sort((a, b) => a.order - b.order);
   return items.map((item, index) => ({ ...item, order: index }));
@@ -62,6 +67,8 @@ const normalizeProject = (value) => {
     ? project.isPublished !== false
     : project.status !== 'draft' && project.status !== 'private' && project.status !== 'trash';
   project.sortOrder = Number.isFinite(Number(project.sortOrder)) ? Number(project.sortOrder) : 0;
+  project.galleryLimit = MAX_GALLERY_IMAGES;
+  project.galleryOverLimit = galleryItems.length > MAX_GALLERY_IMAGES;
   return project;
 };
 
@@ -81,7 +88,10 @@ const normalizeInput = (data = {}, { partial = false } = {}) => {
   } else if (!partial) {
     input.slug = slugify(input.title);
   }
-  if (!input.slug && input.title) input.slug = slugify(input.title);
+  // On partial updates, changing a title must not silently change the public
+  // URL. A slug is regenerated only for creates or when the caller explicitly
+  // sends the slug field.
+  if (!partial && !input.slug && input.title) input.slug = slugify(input.title);
   if (input.slug && !/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(input.slug)) {
     throw new Error('Slug chỉ được chứa chữ thường, số và dấu gạch ngang.');
   }
@@ -103,25 +113,30 @@ const normalizeInput = (data = {}, { partial = false } = {}) => {
   }
   if (input.galleryItems !== undefined) {
     const items = normalizeGallery({ title: input.title || '', galleryItems: input.galleryItems, gallery: input.gallery });
+    if (items.length > MAX_GALLERY_IMAGES) throw Object.assign(new Error(`Gallery tối đa ${MAX_GALLERY_IMAGES} ảnh.`), { status: 400 });
     input.galleryItems = items;
     input.gallery = items.map(item => item.url);
   } else if (input.gallery !== undefined) {
     const items = normalizeGallery({ title: input.title || '', gallery: input.gallery });
+    if (items.length > MAX_GALLERY_IMAGES) throw Object.assign(new Error(`Gallery tối đa ${MAX_GALLERY_IMAGES} ảnh.`), { status: 400 });
     input.galleryItems = items;
     input.gallery = items.map(item => item.url);
   }
   return input;
 };
 
-const cleanupPublicIdIfUnused = async (publicId) => {
+const cleanupPublicIdIfUnused = async (publicId, imageUrl = null) => {
   if (!publicId) return;
   try {
-    const stillUsed = await Project.exists({
-      $or: [
-        { thumbnailPublicId: publicId },
-        { galleryItems: { $elemMatch: { publicId } } }
-      ]
-    });
+    const references = [
+      { thumbnailPublicId: publicId },
+      { galleryItems: { $elemMatch: { publicId } } }
+    ];
+    // Legacy projects may only store a URL. Treat a matching URL as a live
+    // reference too, otherwise deleting one project could remove an asset
+    // still displayed by another project.
+    if (imageUrl) references.push({ thumbnail: imageUrl }, { gallery: imageUrl });
+    const stillUsed = await Project.exists({ $or: references });
     if (!stillUsed) await destroyCloudinaryImage(publicId);
   } catch (error) {
     console.error('[Project image cleanup]', error.message);
@@ -228,8 +243,8 @@ class ProjectService {
     }
 
     const listFields = options.compact
-      ? 'title slug investor clientName location area propertyType cost style thumbnail thumbnailPublicId isHighlight highlightOrder isVisible isPublished sortOrder categoryIds createdAt'
-      : 'title slug investor clientName location area propertyType cost style excerpt content status featured isHighlight highlightOrder isVisible isPublished sortOrder categoryIds thumbnail thumbnailPublicId gallery galleryItems createdAt updatedAt';
+      ? 'title slug investor clientName location area propertyType cost style thumbnail thumbnailPublicId thumbnailFormat thumbnailWidth thumbnailHeight thumbnailBytes isHighlight highlightOrder isVisible isPublished sortOrder categoryIds createdAt'
+      : 'title slug investor clientName location area propertyType cost style excerpt content status featured isHighlight highlightOrder isVisible isPublished sortOrder categoryIds thumbnail thumbnailPublicId thumbnailFormat thumbnailWidth thumbnailHeight thumbnailBytes gallery galleryItems createdAt updatedAt';
     let projectsQuery = Project.find(filter)
       .select(listFields)
       .sort(sortOption)
@@ -263,15 +278,16 @@ class ProjectService {
   /**
    * Get project by ID or Slug
    */
-  async getProjectByIdOrSlug(idOrSlug) {
+  async getProjectByIdOrSlug(idOrSlug, { includeHidden = false } = {}) {
     if (!idOrSlug) return null;
     let project = null;
+    const visibilityFilter = includeHidden ? {} : { status: 'published', isVisible: { $ne: false } };
 
     if (mongoose.Types.ObjectId.isValid(idOrSlug)) {
-      project = await Project.findById(idOrSlug).populate('categoryIds', 'name slug code isLeaf parentId').lean();
+      project = await Project.findOne({ _id: idOrSlug, ...visibilityFilter }).populate('categoryIds', 'name slug code isLeaf parentId').lean();
     }
     if (!project) {
-      project = await Project.findOne({ slug: idOrSlug }).populate('categoryIds', 'name slug code isLeaf parentId').lean();
+      project = await Project.findOne({ slug: idOrSlug, ...visibilityFilter }).populate('categoryIds', 'name slug code isLeaf parentId').lean();
     }
     return project ? normalizeProject(project) : null;
   }
@@ -310,24 +326,35 @@ class ProjectService {
     const project = await Project.findByIdAndDelete(id).lean();
     if (!project) throw new Error('Project not found');
     const normalized = normalizeProject(project);
-    const publicIds = [normalized.thumbnailPublicId, ...normalized.galleryItems.map(item => item.publicId)].filter(Boolean);
-    await Promise.all(publicIds.map(cleanupPublicIdIfUnused));
+    const assets = [
+      normalized.thumbnailPublicId ? { publicId: normalized.thumbnailPublicId, url: normalized.thumbnail } : null,
+      ...normalized.galleryItems.filter(item => item.publicId).map(item => ({ publicId: item.publicId, url: item.url }))
+    ].filter(Boolean);
+    await Promise.all(assets.map(asset => cleanupPublicIdIfUnused(asset.publicId, asset.url)));
     return normalized;
   }
 
   /**
    * Update Project Thumbnail
    */
-  async updateThumbnail(id, thumbnailUrl, publicId = null) {
+  async updateThumbnail(id, thumbnailUrl, publicId = null, metadata = {}) {
+    metadata = metadata || {};
     const current = await Project.findById(id).lean();
     if (!current) throw new Error('Project not found');
     const project = await Project.findByIdAndUpdate(
       id,
-      { thumbnail: thumbnailUrl, thumbnailPublicId: publicId || null },
+      {
+        thumbnail: thumbnailUrl,
+        thumbnailPublicId: publicId || null,
+        thumbnailFormat: metadata.format || null,
+        thumbnailWidth: Number(metadata.width) || null,
+        thumbnailHeight: Number(metadata.height) || null,
+        thumbnailBytes: Number(metadata.bytes) || null
+      },
       { new: true, runValidators: true }
     ).lean();
     if (current.thumbnailPublicId && current.thumbnailPublicId !== publicId) {
-      await cleanupPublicIdIfUnused(current.thumbnailPublicId);
+      await cleanupPublicIdIfUnused(current.thumbnailPublicId, current.thumbnail);
     }
     return normalizeProject(project);
   }
@@ -335,13 +362,15 @@ class ProjectService {
   /**
    * Add image to Project Gallery
    */
-  async addToGallery(id, imageUrl, publicId = null, alt = '') {
+  async addToGallery(id, imageUrl, publicId = null, alt = '', metadata = {}) {
+    metadata = metadata || {};
     if (!imageUrl) throw new Error('imageUrl is required');
     const current = await Project.findById(id).lean();
     if (!current) throw new Error('Project not found');
     const items = normalizeGallery(current);
+    if (items.length >= MAX_GALLERY_IMAGES) throw Object.assign(new Error(`Gallery đã đủ ${MAX_GALLERY_IMAGES} ảnh. Hãy xoá một ảnh trước khi thêm ảnh mới.`), { status: 400 });
     if (!items.some(item => item.url === imageUrl)) {
-      items.push({ id: `gallery-${Date.now()}-${items.length + 1}`, url: imageUrl, publicId, order: items.length, alt: alt || current.title });
+      items.push({ id: `gallery-${Date.now()}-${items.length + 1}`, url: imageUrl, publicId, order: items.length, alt: alt || current.title, format: metadata.format || null, width: Number(metadata.width) || null, height: Number(metadata.height) || null, bytes: Number(metadata.bytes) || null });
     }
     const project = await Project.findByIdAndUpdate(
       id,
@@ -365,7 +394,7 @@ class ProjectService {
       { $set: { gallery: remaining.map(item => item.url), galleryItems: remaining } },
       { new: true, runValidators: true }
     ).lean();
-    if (removed?.publicId) await cleanupPublicIdIfUnused(removed.publicId);
+    if (removed?.publicId) await cleanupPublicIdIfUnused(removed.publicId, removed.url);
     return normalizeProject(project);
   }
 
@@ -374,6 +403,9 @@ class ProjectService {
     if (!current) throw new Error('Project not found');
     const existing = normalizeGallery(current);
     const requested = Array.isArray(galleryItems) ? galleryItems : [];
+    if (existing.length > MAX_GALLERY_IMAGES || requested.length > MAX_GALLERY_IMAGES) {
+      throw Object.assign(new Error(`Gallery đang vượt giới hạn ${MAX_GALLERY_IMAGES} ảnh. Hãy xoá ảnh dư trước khi sắp xếp.`), { status: 400 });
+    }
     const byId = new Map(existing.map(item => [item.id, item]));
     const byUrl = new Map(existing.map(item => [item.url, item]));
     const ordered = [];

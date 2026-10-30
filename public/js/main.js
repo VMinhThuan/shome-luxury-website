@@ -991,6 +991,22 @@ document.addEventListener('DOMContentLoaded', () => {
       if (!gallery || !images.length) return;
       galleryImages = [...new Set(images.filter(Boolean))];
       activeGalleryIndex = 0;
+      const stage = getGalleryStage();
+      if (stage && !getHeroImage()) {
+        stage.querySelector('.project-gallery-empty')?.remove();
+        const heroImage = document.createElement('img');
+        heroImage.className = 'hero-img';
+        heroImage.dataset.detailImage = '';
+        heroImage.draggable = false;
+        heroImage.loading = 'eager';
+        const previewImage = document.createElement('img');
+        previewImage.className = 'project-gallery-drag-preview';
+        previewImage.dataset.galleryDragPreview = '';
+        previewImage.alt = '';
+        previewImage.draggable = false;
+        stage.prepend(previewImage);
+        stage.prepend(heroImage);
+      }
       const thumbnails = gallery.querySelector('[data-gallery-thumbnails]');
       thumbnails.replaceChildren();
 
