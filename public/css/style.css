@@ -17937,6 +17937,30 @@ main .home-faq-item p {
     rgba(10, 8, 6, .42);
 }
 
+/* FAQ retains the dark, atmospheric image while its reading surfaces stay
+   deliberately light.  Without this panel treatment the CTA's dark copy can
+   disappear into the photograph. */
+.home-page .home-background-section--dark.home-faq-section::after {
+  background:
+    linear-gradient(105deg, rgba(9, 7, 5, .68) 0%, rgba(23, 16, 10, .58) 50%, rgba(9, 7, 5, .64) 100%),
+    rgba(9, 7, 5, .5);
+}
+
+.home-page .home-background-section--dark.home-faq-section .home-faq-cta {
+  background: rgba(255, 253, 248, .94);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 14px 34px rgba(0, 0, 0, .24);
+}
+
+.home-page .home-background-section--dark.home-faq-section .home-faq-cta h3 {
+  color: #201914 !important;
+}
+
+.home-page .home-background-section--dark.home-faq-section .home-faq-cta p {
+  color: #625b52 !important;
+}
+
 .home-page .home-background-section--dark :is(
   .about-showroom-title,
   .why-choose-main,
