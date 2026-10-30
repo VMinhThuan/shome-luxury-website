@@ -2339,21 +2339,21 @@
     <section class="quote-craftsmanship"><div class="container quote-craftsmanship-inner"><header class="quote-craftsmanship-heading"><h2>Tinh tế <em>Từng góc nhỏ</em></h2><p>Từ bề mặt, góc cạnh đến phụ kiện và lắp đặt.<br />Mỗi chi tiết đều được chăm chút để tổng thể đẹp và dùng bền lâu.</p></header><% craftsmanshipGroups.forEach(group => { %><section class="quote-craft-group"><header class="quote-craft-group-heading"><b><%= group.number %></b><h3><%= group.title %></h3></header><div class="quote-craft-grid"><% group.items.forEach((item, index) => { %><article class="quote-craft-card"><div class="quote-craft-photo"><img src="<%= group.image %>" alt="<%= item[0] %>" loading="lazy" /></div><h4><%= item[0] %></h4><p><%= item[1] %></p></article><% }) %></div></section><% }) %></div></section>
 
     <% const factoryActivities = [
-      ['activity-01.webp', 'Lắp đặt chuẩn xác', 'Căn chỉnh từng chi tiết ngay tại công trình.'],
-      ['activity-02.webp', 'Hoàn thiện tinh xảo', 'Đường nét đồng đều, chuẩn thiết kế.'],
-      ['activity-03.webp', 'Kiểm tra vật liệu', 'Đo đạc kỹ trước mỗi công đoạn.'],
-      ['activity-04.webp', 'Gia công CNC', 'Chính xác từng tấm gỗ và mối nối.'],
-      ['activity-05.webp', 'Dán cạnh tỉ mỉ', 'Bề mặt liền mạch, sắc nét và bền đẹp.'],
-      ['activity-06.webp', 'Lắp ráp đồng bộ', 'Các hạng mục được đối chiếu cẩn thận.'],
-      ['activity-07.webp', 'Cân chỉnh bản lề', 'Đóng mở êm ái, khe cánh đều đẹp.'],
-      ['activity-08.webp', 'Kiểm tra ray trượt', 'Vận hành mượt mà và ổn định.'],
-      ['activity-09.webp', 'Hoàn thiện bề mặt', 'Vân gỗ được chăm chút đến từng điểm chạm.'],
-      ['activity-10.webp', 'Đóng gói cẩn thận', 'Bảo vệ sản phẩm an toàn trước vận chuyển.'],
-      ['activity-11.webp', 'Vận chuyển an toàn', 'Sẵn sàng cho hành trình đến công trình.'],
-      ['activity-12.webp', 'Lắp đặt phòng khách', 'Hoàn thiện không gian sống chỉn chu.'],
-      ['activity-13.webp', 'Hoàn thiện phòng ngủ', 'Tối ưu công năng và cảm giác thư giãn.'],
-      ['activity-14.webp', 'Kiểm tra bàn giao', 'Rà soát kỹ trước khi trao tay khách hàng.'],
-      ['activity-15.webp', 'Xưởng vận hành đồng bộ', 'Đội ngũ lành nghề, quy trình khép kín.']
+      ['activity-01.webp', 'Lắp đặt chuẩn xác'],
+      ['activity-02.webp', 'Hoàn thiện tinh xảo'],
+      ['activity-03.webp', 'Kiểm tra vật liệu'],
+      ['activity-04.webp', 'Gia công CNC'],
+      ['activity-05.webp', 'Dán cạnh chuẩn'],
+      ['activity-06.webp', 'Lắp ráp đồng bộ'],
+      ['activity-07.webp', 'Cân chỉnh bản lề'],
+      ['activity-08.webp', 'Kiểm tra ray trượt'],
+      ['activity-09.webp', 'Hoàn thiện bề mặt'],
+      ['activity-10.webp', 'Đóng gói cẩn thận'],
+      ['activity-11.webp', 'Vận chuyển an toàn'],
+      ['activity-12.webp', 'Lắp đặt phòng khách'],
+      ['activity-13.webp', 'Hoàn thiện phòng ngủ'],
+      ['activity-14.webp', 'Kiểm tra bàn giao'],
+      ['activity-15.webp', 'Vận hành đồng bộ']
     ]; %>
     <section class="quote-factory-activities" aria-labelledby="quote-factory-activities-title">
       <div class="container">
@@ -2362,11 +2362,11 @@
         </header>
         <div class="quote-factory-activities-carousel">
           <div class="quote-factory-activity-track" data-carousel-autoplay="2000" data-carousel-autoplay-mobile="2000" data-carousel-step="card" aria-label="Hình ảnh hoạt động sản xuất">
-            <% factoryActivities.forEach(([image, title, description], index) => { %>
+            <% factoryActivities.forEach(([image, title], index) => { %>
               <article class="quote-factory-activity-card">
                 <figure>
                   <img src="/images/quote-factory-activities/<%= image %>" alt="<%= title %> tại xưởng và công trình Shome Luxury" loading="lazy" decoding="async" width="1672" height="941" draggable="false" />
-                  <figcaption><span><%= index + 1 %></span><b><%= title %></b><p><%= description %></p></figcaption>
+                  <figcaption><span><%= index + 1 %></span><b><%= title %></b></figcaption>
                 </figure>
               </article>
             <% }) %>

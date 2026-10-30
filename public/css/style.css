@@ -18307,18 +18307,16 @@ main .home-faq-item p {
   right: 0;
   bottom: 0;
   left: 0;
-  display: grid;
-  grid-template-columns: auto 1fr;
-  column-gap: .65rem;
-  align-items: end;
+  display: flex;
+  align-items: baseline;
+  gap: .55rem;
   padding: clamp(.8rem, 1.6vw, 1.15rem);
   color: #fff;
   background: linear-gradient(0deg, rgba(15, 10, 7, .91) 0%, rgba(15, 10, 7, .63) 63%, transparent 100%);
 }
 
 .quote-page .quote-factory-activity-card figcaption span {
-  grid-row: span 2;
-  align-self: start;
+  flex: 0 0 auto;
   color: #f0bf62;
   font-size: clamp(.68rem, 1vw, .82rem);
   font-weight: 800;
@@ -18330,14 +18328,6 @@ main .home-faq-item p {
   font-family: var(--font-heading);
   font-size: clamp(.9rem, 1.25vw, 1.12rem);
   line-height: 1.2;
-}
-
-.quote-page .quote-factory-activity-card figcaption p {
-  grid-column: 2;
-  margin: .15rem 0 0;
-  color: rgba(255, 255, 255, .82);
-  font-size: clamp(.62rem, .86vw, .74rem);
-  line-height: 1.35;
 }
 
 .quote-page .quote-factory-activity-control {
@@ -18448,8 +18438,8 @@ main .home-faq-item p {
   margin-bottom: clamp(1rem, 1.7vw, 1.35rem) !important;
 }
 
-/* Give adjacent words in the hand-written handover phrase enough breathing
-   room; the script font's connecting strokes otherwise make them look joined. */
+/* Keep the words in the hand-written handover phrase at the font's natural
+   spacing; an added word gap makes the script look unnaturally separated. */
 .quote-page .quote-handover-heading h2 em {
-  word-spacing: .24em !important;
+  word-spacing: normal !important;
 }
