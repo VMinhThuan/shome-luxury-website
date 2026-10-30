@@ -202,6 +202,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const previousButton = controls?.querySelector('[data-carousel-prev]');
     const nextButton = controls?.querySelector('[data-carousel-next]');
     const autoplayDelay = Number.parseInt(track.dataset.carouselAutoplay, 10) || 0;
+    const mobileAutoplayDelay = Number.parseInt(track.dataset.carouselAutoplayMobile, 10) || autoplayDelay;
     let autoplayTimer = null;
     let isCarouselVisible = true;
 
@@ -261,8 +262,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const startAutoplay = () => {
       stopAutoplay();
-      if (!autoplayDelay || pages.length < 2 || document.hidden || !isCarouselVisible) return;
-      autoplayTimer = window.setInterval(() => goToPage(currentPageIndex() + 1), autoplayDelay);
+      const delay = window.matchMedia?.('(max-width: 767px)').matches ? mobileAutoplayDelay : autoplayDelay;
+      if (!delay || pages.length < 2 || document.hidden || !isCarouselVisible) return;
+      autoplayTimer = window.setInterval(() => goToPage(currentPageIndex() + 1), delay);
     };
 
     previousButton?.addEventListener('click', () => {

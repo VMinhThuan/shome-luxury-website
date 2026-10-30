@@ -18410,7 +18410,7 @@ main .home-faq-item p {
   }
 
   .quote-page .quote-factory-activity-card {
-    flex-basis: calc((100% - 1.4rem) / 3);
+    flex-basis: calc((100% - .7rem) / 2);
   }
 
 }
