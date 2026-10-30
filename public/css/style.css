@@ -18431,3 +18431,27 @@ main .home-faq-item p {
 :is(.home-page, .quote-page) .customer-stories-script {
   padding-right: .1em;
 }
+
+/* The capital flourish in “Chăm” needs more room after “bàn giao”; retain
+   the intended lowercase “từng” instead of inheriting a title transform. */
+@media (min-width: 560px) {
+  .quote-page .quote-handover-heading h2 {
+    gap: .36em !important;
+  }
+
+  .quote-page .quote-handover-heading h2 em {
+    display: inline-block;
+    padding-left: .12em;
+    text-transform: none !important;
+  }
+}
+
+/* The long final stroke in “Khách hàng” reaches well beyond its glyph box.
+   Space the paired review heading by its visible stroke, not its text box. */
+:is(.home-page, .quote-page) .customer-stories-title {
+  gap: .95em !important;
+}
+
+:is(.home-page, .quote-page) .customer-stories-script {
+  padding-right: .22em;
+}
