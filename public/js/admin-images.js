@@ -114,8 +114,66 @@
     }
 
     updateLiveLink(pageKey);
+    updateAdminImageNav(pageKey);
     renderSlots();
   }
+
+  function updateAdminImageNav(pageKey) {
+    document.querySelectorAll('[data-admin-image-page]').forEach(link => {
+      link.classList.toggle('admin-image-page-active', link.dataset.adminImagePage === pageKey);
+    });
+
+    document.querySelectorAll('.desktop-nav .nav-item').forEach(item => {
+      const isActive = [...item.querySelectorAll('[data-admin-image-page]')]
+        .some(link => link.dataset.adminImagePage === pageKey);
+      item.classList.toggle('active', isActive);
+    });
+  }
+
+  async function selectAdminImagePage(pageKey) {
+    if (!pageKey || pageKey === activePageKey) return;
+    const previousStatus = status?.textContent || '';
+    try {
+      if (pageKey.startsWith('subpage:')) {
+        setStatus('Đang tải ảnh của trang đã chọn...');
+        const pageResult = await request(`/api/admin/home-images?page=${encodeURIComponent(pageKey)}`);
+        allSlots = pageResult.data || [];
+      } else {
+        allSlots = legacySlots;
+      }
+
+      activePageKey = pageKey;
+      const url = new URL(window.location.href);
+      if (pageKey === 'all') url.searchParams.delete('page');
+      else url.searchParams.set('page', pageKey);
+      window.history.replaceState({}, '', url.toString());
+
+      tabsHost.querySelectorAll('.image-page-tab-btn').forEach(btn => {
+        btn.classList.toggle('is-active', btn.getAttribute('data-tab-key') === pageKey);
+      });
+
+      const curPageObj = pagesList.find(p => p.key === pageKey);
+      const subpage = subpageList.find(p => `subpage:${p.key}` === pageKey);
+      if (eyebrow) eyebrow.textContent = `${(subpage?.label || curPageObj?.label || 'TẤT CẢ').toUpperCase()} / HÌNH ẢNH`;
+      updateLiveLink(pageKey);
+      updateAdminImageNav(pageKey);
+      renderSlots();
+      setStatus('');
+
+      document.getElementById('mobileDrawer')?.classList.remove('active');
+      document.getElementById('drawerBackdrop')?.classList.remove('active');
+      document.body.classList.remove('drawer-open');
+    } catch (error) {
+      setStatus(error.message || previousStatus, true);
+    }
+  }
+
+  document.addEventListener('click', event => {
+    const link = event.target.closest('[data-admin-image-page]');
+    if (!link) return;
+    event.preventDefault();
+    selectAdminImagePage(link.dataset.adminImagePage);
+  });
 
   function card(slot) {
     const article = create('article', 'image-slot');
@@ -1089,6 +1147,7 @@
     }
 
     updateLiveLink(activePageKey);
+    updateAdminImageNav(activePageKey);
     renderSlots();
 
     if (searchInput) {

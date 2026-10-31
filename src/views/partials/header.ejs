@@ -1,4 +1,34 @@
-<header class="site-header">
+<%
+  const adminImageModeEnabled = typeof adminImageMode !== 'undefined' && adminImageMode;
+  const adminImageTarget = (item) => {
+    const pathTargets = {
+      '/thiet-ke-cong-trinh': 'subpage:thiet-ke-cong-trinh',
+      '/thiet-ke-kien-truc': 'subpage:thiet-ke-kien-truc',
+      '/thiet-ke-noi-that': 'subpage:thiet-ke-noi-that',
+      '/thi-cong-cong-trinh': 'subpage:thi-cong-cong-trinh',
+      '/thi-cong-cong-trinh/kien-truc/nha-cap-4': 'subpage:tc-kt-nha-cap-4',
+      '/thi-cong-cong-trinh/kien-truc/nha-pho': 'subpage:tc-kt-nha-pho',
+      '/thi-cong-cong-trinh/kien-truc/biet-thu': 'subpage:tc-kt-biet-thu',
+      '/thi-cong-cong-trinh/kien-truc/villa': 'subpage:tc-kt-villa',
+      '/thi-cong-cong-trinh/noi-that/chung-cu': 'subpage:tc-nt-chung-cu',
+      '/thi-cong-cong-trinh/noi-that/nha-pho': 'subpage:tc-nt-nha-pho',
+      '/thi-cong-cong-trinh/noi-that/biet-thu': 'subpage:tc-nt-biet-thu',
+      '/thi-cong-cong-trinh/noi-that/van-phong': 'subpage:tc-nt-van-phong'
+    };
+    if (item.id === 'home') return 'home';
+    if (item.id === 'xuong-san-xuat') return 'factory';
+    if (item.id === 'tin-tuc') return 'news';
+    if (item.id === 'tuyen-dung') return 'recruitment';
+    if (item.id === 'bao-gia') return 'quote';
+    if (item.id === 'thiet-ke-cong-trinh' || item.id === 'thi-cong-cong-trinh') return `subpage:${item.categoryCode || item.id}`;
+    if (item.id === 'thi-cong-kien-truc' || item.id === 'thi-cong-noi-that') return 'subpage:thi-cong-cong-trinh';
+    if (item.categoryCode) return `subpage:${item.categoryCode}`;
+    const category = item.href?.match(/[?&]category=([^&]+)/)?.[1];
+    if (category) return `subpage:quote:${category}`;
+    return pathTargets[item.href] || (item.id?.startsWith('bao-gia-') ? 'quote' : null);
+  };
+%>
+<header class="site-header <%= adminImageModeEnabled ? 'admin-image-public-header' : '' %>">
   <div class="container header-container">
     <!-- Brand Logo -->
     <div class="brand-logo-wrapper">
@@ -11,7 +41,7 @@
     <nav class="desktop-nav" aria-label="Main Navigation">
       <% navigation.forEach(item => { %>
         <div class="nav-item <%= item.children ? 'has-dropdown' : '' %>">
-          <a href="<%= (item.children && item.children.length) ? 'javascript:void(0)' : item.href %>" class="nav-link">
+          <a href="<%= (item.children && item.children.length) ? 'javascript:void(0)' : item.href %>" class="nav-link"<% if (adminImageModeEnabled && adminImageTarget(item)) { %> data-admin-image-page="<%= adminImageTarget(item) %>"<% } %>>
             <%= item.label %>
             <% if (item.children) { %>
               <svg class="nav-link-chevron" width="10" height="6" viewBox="0 0 10 6" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -24,12 +54,12 @@
             <div class="desktop-dropdown">
               <% item.children.forEach(subItem => { %>
                 <div class="<%= subItem.children ? 'dropdown-sub' : '' %>">
-                  <a href="<%= (subItem.children && subItem.children.length) ? 'javascript:void(0)' : subItem.href %>" class="dropdown-link"><%= subItem.label %></a>
+                  <a href="<%= (subItem.children && subItem.children.length) ? 'javascript:void(0)' : subItem.href %>" class="dropdown-link"<% if (adminImageModeEnabled && adminImageTarget(subItem)) { %> data-admin-image-page="<%= adminImageTarget(subItem) %>"<% } %>><%= subItem.label %></a>
 
                   <% if (subItem.children) { %>
                     <div class="dropdown-sub-menu">
                       <% subItem.children.forEach(nestedItem => { %>
-                        <a href="<%= nestedItem.href %>" class="dropdown-link"><%= nestedItem.label %></a>
+                        <a href="<%= nestedItem.href %>" class="dropdown-link"<% if (adminImageModeEnabled && adminImageTarget(nestedItem)) { %> data-admin-image-page="<%= adminImageTarget(nestedItem) %>"<% } %>><%= nestedItem.label %></a>
                       <% }); %>
                     </div>
                   <% } %>
@@ -43,12 +73,16 @@
 
     <!-- Right Header Actions (Consult Button & Mobile Hamburger) -->
     <div class="header-actions">
-      <a href="/dat-lich-ngay" class="btn-header-consult">
+      <a href="/dat-lich-ngay" class="btn-header-consult"<% if (adminImageModeEnabled) { %> data-admin-image-page="booking"<% } %>>
         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
           <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
         </svg>
         <span>Đặt lịch tư vấn</span>
       </a>
+
+      <% if (adminImageModeEnabled) { %>
+        <button class="admin-image-logout" type="button" data-logout>Đăng xuất</button>
+      <% } %>
 
       <button class="hamburger-btn" id="hamburgerBtn" aria-label="Open Mobile Menu">
         <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">

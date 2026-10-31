@@ -1,4 +1,30 @@
 <!-- Mobile Menu Backdrop -->
+<%
+  const adminImageModeEnabled = typeof adminImageMode !== 'undefined' && adminImageMode;
+  const adminImageTarget = (item) => {
+    if (item.id === 'home') return 'home';
+    if (item.id === 'xuong-san-xuat') return 'factory';
+    if (item.id === 'tin-tuc') return 'news';
+    if (item.id === 'tuyen-dung') return 'recruitment';
+    if (item.id === 'bao-gia') return 'quote';
+    if (item.id === 'thiet-ke-cong-trinh' || item.id === 'thi-cong-cong-trinh') return `subpage:${item.categoryCode || item.id}`;
+    if (item.id === 'thi-cong-kien-truc' || item.id === 'thi-cong-noi-that') return 'subpage:thi-cong-cong-trinh';
+    if (item.categoryCode) return `subpage:${item.categoryCode}`;
+    const category = item.href?.match(/[?&]category=([^&]+)/)?.[1];
+    if (category) return `subpage:quote:${category}`;
+    const pathTargets = {
+      '/thi-cong-cong-trinh/kien-truc/nha-cap-4': 'subpage:tc-kt-nha-cap-4',
+      '/thi-cong-cong-trinh/kien-truc/nha-pho': 'subpage:tc-kt-nha-pho',
+      '/thi-cong-cong-trinh/kien-truc/biet-thu': 'subpage:tc-kt-biet-thu',
+      '/thi-cong-cong-trinh/kien-truc/villa': 'subpage:tc-kt-villa',
+      '/thi-cong-cong-trinh/noi-that/chung-cu': 'subpage:tc-nt-chung-cu',
+      '/thi-cong-cong-trinh/noi-that/nha-pho': 'subpage:tc-nt-nha-pho',
+      '/thi-cong-cong-trinh/noi-that/biet-thu': 'subpage:tc-nt-biet-thu',
+      '/thi-cong-cong-trinh/noi-that/van-phong': 'subpage:tc-nt-van-phong'
+    };
+    return pathTargets[item.href] || (item.id?.startsWith('bao-gia-') ? 'quote' : null);
+  };
+%>
 <div class="drawer-backdrop" id="drawerBackdrop"></div>
 
 <!-- Mobile Navigation Drawer -->
@@ -28,7 +54,7 @@
       <% navigation.forEach(item => { %>
         <li class="mobile-menu-item">
           <div class="mobile-menu-row">
-            <a href="<%= (item.children && item.children.length) ? 'javascript:void(0)' : item.href %>" class="mobile-menu-link"><%= item.label %></a>
+            <a href="<%= (item.children && item.children.length) ? 'javascript:void(0)' : item.href %>" class="mobile-menu-link"<% if (adminImageModeEnabled && adminImageTarget(item)) { %> data-admin-image-page="<%= adminImageTarget(item) %>"<% } %>><%= item.label %></a>
             <% if (item.children) { %>
               <button class="accordion-toggle" aria-expanded="false" aria-controls="submenu-<%= item.id %>" aria-label="Mở <%= item.label %>">
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -43,7 +69,7 @@
               <% item.children.forEach(subItem => { %>
                 <li class="l2-item">
                   <div class="mobile-menu-row">
-                    <a href="<%= (subItem.children && subItem.children.length) ? 'javascript:void(0)' : subItem.href %>" class="l2-link"><%= subItem.label %></a>
+                    <a href="<%= (subItem.children && subItem.children.length) ? 'javascript:void(0)' : subItem.href %>" class="l2-link"<% if (adminImageModeEnabled && adminImageTarget(subItem)) { %> data-admin-image-page="<%= adminImageTarget(subItem) %>"<% } %>><%= subItem.label %></a>
                     <% if (subItem.children) { %>
                       <button class="accordion-toggle" aria-expanded="false" aria-controls="submenu-<%= subItem.id %>" aria-label="Mở <%= subItem.label %>">
                         <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -57,7 +83,7 @@
                     <ul class="mobile-submenu-l3" id="submenu-<%= subItem.id %>">
                       <% subItem.children.forEach(nestedItem => { %>
                         <li class="l3-item">
-                          <a href="<%= nestedItem.href %>" class="l3-link"><%= nestedItem.label %></a>
+                          <a href="<%= nestedItem.href %>" class="l3-link"<% if (adminImageModeEnabled && adminImageTarget(nestedItem)) { %> data-admin-image-page="<%= adminImageTarget(nestedItem) %>"<% } %>><%= nestedItem.label %></a>
                         </li>
                       <% }); %>
                     </ul>

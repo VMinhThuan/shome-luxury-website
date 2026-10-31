@@ -2,11 +2,13 @@
 <html lang="vi">
 <head>
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title><%= title %></title><link rel="stylesheet" href="/css/admin-shell.css?v=1.0.0" /><link rel="stylesheet" href="/css/admin-images.css?v=1.0.6" /><link rel="stylesheet" href="/css/admin-images-pair.css?v=1.0.6" />
+  <title><%= title %></title><link rel="stylesheet" href="/css/style.css?v=6.8.6" /><link rel="stylesheet" href="/css/admin-image-header.css?v=1.0.0" /><link rel="stylesheet" href="/css/admin-images.css?v=1.0.6" /><link rel="stylesheet" href="/css/admin-images-pair.css?v=1.0.6" />
+  <script src="/js/main.js?v=6.8.6" defer></script>
   <script src="/js/admin-images.js?v=1.0.6" defer></script>
 </head>
 <body class="home-images-admin">
-<%- include('partials/admin-header', { activeAdmin: 'images' }) %>
+<%- include('partials/header', { navigation, adminImageMode: true }) %>
+<%- include('partials/mobile-drawer', { navigation, adminImageMode: true }) %>
 <main class="image-admin-shell">
   <section class="image-admin-login" data-login-panel hidden><p class="eyebrow">KHU VỰC BẢO MẬT</p><h1>Quản lý ảnh các trang</h1><p>Đăng nhập bằng tài khoản quản trị để cập nhật hình ảnh.</p><form data-login-form><label>Tài khoản<input name="username" autocomplete="username" required></label><label>Mật khẩu<input name="password" type="password" autocomplete="current-password" required></label><button>Đăng nhập</button><p data-login-status aria-live="polite"></p></form></section>
   <section data-editor hidden>

@@ -10,6 +10,7 @@ const projectShowcaseController = require("../controllers/projectShowcaseControl
 const authController = require("../controllers/authController");
 const quotePageController = require("../controllers/quotePageController");
 const homeImageController = require('../controllers/homeImageController');
+const navigationData = require('../data/navigationData');
 const { authenticateAdmin, requireAdminPage } = require("../middleware/auth");
 
 // Admin Routes (Unified under /admin/*, server-authenticated, no subdomain needed)
@@ -17,7 +18,10 @@ router.get(["/admin", "/admin/"], requireAdminPage, (req, res) => res.render('ad
   title: 'Tổng quan quản trị | SHOME LUXURY'
 }));
 router.get("/admin/login", quotePageController.renderAdminLoginPage.bind(quotePageController));
-router.get("/admin/images", requireAdminPage, (req, res) => res.render('admin-images', { title: 'Quản lý ảnh các trang | SHOME LUXURY' }));
+router.get("/admin/images", requireAdminPage, (req, res) => res.render('admin-images', {
+  title: 'Quản lý ảnh các trang | SHOME LUXURY',
+  navigation: navigationData
+}));
 router.get("/admin/thiet-ke-cong-trinh", requireAdminPage, (req, res) => res.render('admin-projects', {
   title: 'Quản lý thiết kế công trình | SHOME LUXURY',
   currentSection: 'thiet-ke-cong-trinh',

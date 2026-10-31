@@ -129,6 +129,8 @@ async function runAdminRoutesTest() {
     });
     assert(authImagesRes1.status === 200, 'Authenticated GET /admin/images returns 200 OK');
     assert(typeof authImagesRes1.body === 'string' && authImagesRes1.body.includes('Quản lý ảnh các trang'), 'Renders admin-images EJS template');
+    assert(typeof authImagesRes1.body === 'string' && authImagesRes1.body.includes('admin-image-public-header'), 'Image admin uses the public website header');
+    assert(typeof authImagesRes1.body === 'string' && authImagesRes1.body.includes('data-admin-image-page="home"'), 'Public header menu carries image page navigation');
 
     // Refresh simulation (exact same request again)
     const authImagesRes2 = await makeRequest('GET', '/admin/images', null, {

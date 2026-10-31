@@ -1,0 +1,43 @@
+/* The image CMS intentionally uses the same fixed public header composition. */
+body.home-images-admin {
+  padding-top: var(--header-height-desktop, 84px);
+}
+
+.admin-image-public-header .admin-image-logout {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 42px;
+  padding: .48rem .95rem;
+  border: 1px solid var(--accent-gold, #d2a044);
+  border-radius: var(--radius-card, 10px);
+  color: #171717;
+  background: var(--accent-gold, #d2a044);
+  font: inherit;
+  font-size: clamp(.72rem, .88vw, .88rem);
+  font-weight: 700;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: transform .25s ease, background .25s ease;
+}
+
+.admin-image-public-header .admin-image-logout:hover {
+  background: var(--accent-gold-hover, #d2a653);
+  transform: translateY(-2px);
+}
+
+.admin-image-public-header .admin-image-page-active {
+  color: var(--accent-gold, #d2a044) !important;
+}
+
+@media (max-width: 1023px) {
+  body.home-images-admin {
+    padding-top: var(--header-height-mobile, 68px);
+  }
+}
+
+@media (max-width: 767px) {
+  .admin-image-public-header .admin-image-logout {
+    display: none;
+  }
+}
