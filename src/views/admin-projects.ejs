@@ -10,13 +10,30 @@
 <body class="project-admin-page" data-section="<%= typeof currentSection !== 'undefined' ? currentSection : 'thiet-ke-cong-trinh' %>" data-section-title="<%= typeof currentSectionTitle !== 'undefined' ? currentSectionTitle : 'Thiết kế công trình' %>">
   <main class="project-admin-shell">
     <header class="project-admin-topbar">
-      <a class="project-admin-brand" href="/">SHOME <span>LUXURY</span></a>
-      <nav aria-label="Điều hướng quản trị">
-        <a href="/admin/thiet-ke-cong-trinh" class="<%= (typeof currentSection === 'undefined' || currentSection === 'thiet-ke-cong-trinh') ? 'is-active' : '' %>">Thiết kế công trình</a>
-        <a href="/admin/thi-cong-cong-trinh" class="<%= (typeof currentSection !== 'undefined' && currentSection === 'thi-cong-cong-trinh') ? 'is-active' : '' %>">Thi công công trình</a>
-        <a href="/admin/bao-gia">Báo giá</a>
-        <a href="/admin/images">Ảnh trang chủ</a>
-        <button type="button" data-logout>Đăng xuất</button>
+      <div class="project-admin-brand-wrap">
+        <a class="project-admin-brand" href="/">SHOME <span>LUXURY</span></a>
+        <span class="project-admin-cms-badge">CMS QUẢN TRỊ</span>
+      </div>
+      <nav class="project-admin-nav" aria-label="Các tính năng quản trị">
+        <a href="/admin/images" class="project-nav-link" title="Quản lý hình ảnh và banner trên tất cả các trang (Trang chủ, Xưởng sản xuất, Báo giá, Tin tức, Tuyển dụng, Đặt lịch)">
+          <span class="nav-icon">🖼️</span>
+          <span>Quản lý ảnh</span>
+        </a>
+        <a href="/admin/thiet-ke-cong-trinh" class="project-nav-link <%= (typeof currentSection === 'undefined' || currentSection === 'thiet-ke-cong-trinh') ? 'is-active' : '' %>" title="Quản lý dự án & bản vẽ thiết kế kiến trúc, nội thất">
+          <span class="nav-icon">📐</span>
+          <span>Thiết kế công trình</span>
+        </a>
+        <a href="/admin/thi-cong-cong-trinh" class="project-nav-link <%= (typeof currentSection !== 'undefined' && currentSection === 'thi-cong-cong-trinh') ? 'is-active' : '' %>" title="Quản lý dự án & tiến độ thi công thực tế">
+          <span class="nav-icon">🏗️</span>
+          <span>Thi công công trình</span>
+        </a>
+        <a href="/admin/bao-gia" class="project-nav-link" title="Quản lý thông tin và công trình nổi bật trên trang Báo giá">
+          <span class="nav-icon">💰</span>
+          <span>Quản lý báo giá</span>
+        </a>
+        <button type="button" class="project-nav-logout" data-logout title="Đăng xuất khỏi hệ thống">
+          <span>Đăng xuất</span>
+        </button>
       </nav>
     </header>
 
@@ -53,7 +70,7 @@
       <div class="project-admin-active-filter-badge" data-active-filter-badge hidden></div>
     </div>
 
-    <section class="project-admin-list" data-project-list aria-live="polite"></section>
+    <section class="project-admin-content" data-project-list aria-live="polite"></section>
   </main>
 
   <div class="project-admin-modal" data-project-modal hidden>

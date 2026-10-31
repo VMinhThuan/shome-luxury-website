@@ -481,17 +481,21 @@
 
         if (groupProjects.length === 0) return;
 
-        const groupBlock = document.createElement('div');
+        const groupBlock = document.createElement('section');
         groupBlock.className = 'project-group-block';
+
+        const isArchitecture = group.code?.includes('kien-truc') || group.slug?.includes('kien-truc');
+        const groupIcon = isArchitecture ? '🏛️' : '🛋️';
 
         const groupHeader = document.createElement('div');
         groupHeader.className = 'project-group-header';
         groupHeader.innerHTML = `
-          <h2 class="project-group-title">
-            ${escapeHtml(group.name)}
+          <div class="project-group-title-wrap">
+            <span class="project-group-icon">${groupIcon}</span>
+            <h2 class="project-group-title">${escapeHtml(group.name)}</h2>
             <span class="project-group-badge">${groupProjects.length} công trình</span>
-          </h2>
-          <button type="button" data-view-group="${escapeHtml(group._id)}">Lọc riêng nhóm này ›</button>
+          </div>
+          <button type="button" class="project-group-view-btn" data-view-group="${escapeHtml(group._id)}">Lọc riêng nhóm này ›</button>
         `;
 
         groupHeader.querySelector('[data-view-group]').addEventListener('click', () => {
@@ -504,18 +508,21 @@
 
         groupBlock.append(groupHeader);
 
-        const groupList = document.createElement('div');
-        groupList.className = 'project-admin-list';
-        groupProjects.forEach(project => groupList.append(renderProjectCard(project)));
-        groupBlock.append(groupList);
+        const groupGrid = document.createElement('div');
+        groupGrid.className = 'project-admin-grid';
+        groupProjects.forEach(project => groupGrid.append(renderProjectCard(project)));
+        groupBlock.append(groupGrid);
 
         list.append(groupBlock);
       });
       return;
     }
 
-    // Otherwise render flat list of filtered projects
-    filtered.forEach(project => list.append(renderProjectCard(project)));
+    // Otherwise render flat list in 4-column grid
+    const grid = document.createElement('div');
+    grid.className = 'project-admin-grid';
+    filtered.forEach(project => grid.append(renderProjectCard(project)));
+    list.append(grid);
   }
 
   function resetForm(project = null) {
