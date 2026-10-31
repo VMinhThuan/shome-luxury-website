@@ -30,7 +30,7 @@ exports.previewImage = async (req, res, next) => {
     const processed = await processImageBuffer(req.file.buffer, req.body);
     res.set({
       'Content-Type': 'image/webp',
-      'Content-Length': processed.optimized.bytes,
+      'Content-Length': String(processed.optimized.bytes),
       'X-Original-Width': String(processed.original.width),
       'X-Original-Height': String(processed.original.height),
       'X-Original-Bytes': String(processed.original.bytes),
@@ -40,6 +40,7 @@ exports.previewImage = async (req, res, next) => {
       'X-Optimized-Format': 'webp',
       'X-Image-Quality': processed.settings.lossless ? 'lossless' : String(processed.settings.quality),
       'X-Image-Sharpness': String(processed.settings.sharpness),
+      'Access-Control-Expose-Headers': 'Content-Length, X-Original-Width, X-Original-Height, X-Original-Bytes, X-Optimized-Width, X-Optimized-Height, X-Optimized-Bytes, X-Optimized-Format, X-Image-Quality, X-Image-Sharpness',
       'Cache-Control': 'no-store'
     });
     return res.send(processed.buffer);

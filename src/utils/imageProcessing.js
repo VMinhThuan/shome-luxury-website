@@ -113,8 +113,17 @@ async function processImageBuffer(inputBuffer, body = {}) {
     const sourceWidth = hasSwappedOrientation ? inputMetadata.height || 0 : inputMetadata.width || 0;
     const sourceHeight = hasSwappedOrientation ? inputMetadata.width || 0 : inputMetadata.height || 0;
     const crop = options.crop;
-    if (crop.left + crop.width > sourceWidth || crop.top + crop.height > sourceHeight) {
+    // Auto-clamp boundary rounding from browser calculations
+    if (crop.left < 0) crop.left = 0;
+    if (crop.top < 0) crop.top = 0;
+    if (crop.left >= sourceWidth || crop.top >= sourceHeight) {
       throw new Error('Vùng cắt không nằm trong phạm vi ảnh gốc.');
+    }
+    if (crop.left + crop.width > sourceWidth) {
+      crop.width = Math.max(1, sourceWidth - crop.left);
+    }
+    if (crop.top + crop.height > sourceHeight) {
+      crop.height = Math.max(1, sourceHeight - crop.top);
     }
     pipeline = pipeline.extract(crop);
   }

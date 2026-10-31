@@ -307,19 +307,33 @@
     const previewHint = create('p', 'image-preview-hint', 'Chỉnh thông số xong, bấm “Xem trước WebP” để tạo ảnh so sánh.');
 
     const comparison = create('div', 'image-optimization-comparison');
-    const makePreview = (title, className) => {
+    const makePreview = (title, className, placeholderText = 'Chưa có ảnh') => {
       const panel = create('div', `image-preview-panel ${className}`);
       panel.append(create('h4', '', title));
       const frame = create('div', 'image-preview-frame');
+      const placeholder = create('div', 'image-preview-placeholder', placeholderText);
       const image = create('img', 'image-preview-image');
       image.alt = '';
-      frame.append(image);
-      const metadata = create('p', 'image-preview-metadata', 'Chưa có dữ liệu');
+      image.style.display = 'none';
+      frame.append(placeholder, image);
+      const metadata = create('p', 'image-preview-metadata', placeholderText);
       panel.append(frame, metadata);
-      return { panel, frame, image, metadata };
+      return { panel, frame, image, placeholder, metadata };
     };
-    const originalPreview = makePreview('Ảnh gốc', 'is-original');
-    const optimizedPreview = makePreview('Ảnh WebP sau xử lý', 'is-optimized');
+    const setPreviewSrc = (previewObj, src, metaText) => {
+      if (src) {
+        previewObj.image.src = src;
+        previewObj.image.style.display = 'block';
+        if (previewObj.placeholder) previewObj.placeholder.style.display = 'none';
+      } else {
+        previewObj.image.removeAttribute('src');
+        previewObj.image.style.display = 'none';
+        if (previewObj.placeholder) previewObj.placeholder.style.display = 'block';
+      }
+      if (metaText !== undefined) previewObj.metadata.textContent = metaText;
+    };
+    const originalPreview = makePreview('Ảnh gốc', 'is-original', 'Chưa chọn ảnh');
+    const optimizedPreview = makePreview('Ảnh WebP sau xử lý', 'is-optimized', 'Bấm “Xem trước WebP” để so sánh');
     comparison.append(originalPreview.panel, optimizedPreview.panel);
     const zoomControls = create('div', 'image-preview-zoom');
     ['100%', '200%'].forEach((label, index) => {
@@ -545,63 +559,153 @@
       }
     };
 
+    async function generateClientFallbackWebp() {
+      return new Promise((resolve, reject) => {
+        const img = new Image();
+        img.onload = () => {
+          try {
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
+            let sx = 0, sy = 0, sw = dimensions.width, sh = dimensions.height;
+            if (isCustomCrop) {
+              const c = crop();
+              sx = Math.round(c.x);
+              sy = Math.round(c.y);
+              sw = Math.round(c.width);
+              sh = Math.round(c.height);
+            }
+            let dw = sw, dh = sh;
+            if (!keepOriginalInput.checked) {
+              const wVal = Number(widthInput.value);
+              const hVal = Number(heightInput.value);
+              if (wVal && hVal) { dw = wVal; dh = hVal; }
+              else if (wVal) { dw = wVal; dh = Math.round((wVal / sw) * sh); }
+              else if (hVal) { dw = Math.round((hVal / sh) * sw); dh = hVal; }
+            }
+            canvas.width = dw;
+            canvas.height = dh;
+            ctx.imageSmoothingEnabled = true;
+            ctx.imageSmoothingQuality = 'high';
+            ctx.drawImage(img, sx, sy, sw, sh, 0, 0, dw, dh);
+            const q = losslessInput.checked ? 1.0 : (Number(qualityInput.value) || 95) / 100;
+            canvas.toBlob((blob) => {
+              if (blob) resolve({ blob, width: dw, height: dh });
+              else reject(new Error('Trình duyệt không hỗ trợ xuất WebP qua Canvas.'));
+            }, 'image/webp', q);
+          } catch (e) {
+            reject(e);
+          }
+        };
+        img.onerror = () => reject(new Error('Không thể tải ảnh nguồn để tạo preview.'));
+        img.src = sourceUrl;
+      });
+    }
+
     async function requestPreview() {
       if (!file) return;
       const requestId = ++previewRequest;
       if (previewAbortController) previewAbortController.abort();
       const controller = new AbortController();
       previewAbortController = controller;
+      const timeoutId = setTimeout(() => controller.abort(), 15000);
+
       previewButton.disabled = true;
       previewButton.textContent = 'Đang tạo preview...';
-      previewHint.textContent = 'Đang tối ưu ảnh. Thời gian phụ thuộc vào kích thước tệp.';
+      previewHint.textContent = 'Đang xử lý ảnh WebP. Vui lòng đợi trong giây lát...';
+
       try {
         const form = new FormData();
         form.append('image', file);
         appendProcessingSettings(form);
         const response = await fetch('/api/admin/home-images/preview', {
-          method: 'POST', credentials: 'same-origin', body: form, signal: controller.signal
+          method: 'POST',
+          credentials: 'same-origin',
+          body: form,
+          signal: controller.signal
         });
+
+        clearTimeout(timeoutId);
+
         if (!response.ok) {
           const body = await response.json().catch(() => ({}));
-          throw new Error(body.message || 'Không thể tạo preview ảnh.');
+          let errMsg = body.message;
+          if (!errMsg) {
+            if (response.status === 413) errMsg = 'File ảnh lớn hơn giới hạn của máy chủ. Đang chuyển sang xem trước nội bộ trình duyệt...';
+            else if (response.status === 401) errMsg = 'Phiên đăng nhập đã hết hạn.';
+            else errMsg = `Lỗi máy chủ (${response.status}).`;
+          }
+          throw new Error(errMsg);
         }
+
         const blob = await response.blob();
         if (requestId !== previewRequest || controller.signal.aborted) return;
         if (optimizedObjectUrl) URL.revokeObjectURL(optimizedObjectUrl);
         optimizedObjectUrl = URL.createObjectURL(blob);
-        optimizedPreview.image.src = optimizedObjectUrl;
-        const outputWidth = response.headers.get('X-Optimized-Width');
-        const outputHeight = response.headers.get('X-Optimized-Height');
-        const outputBytes = Number(response.headers.get('X-Optimized-Bytes') || 0);
+        setPreviewSrc(optimizedPreview, optimizedObjectUrl);
+
+        const outputWidth = response.headers.get('X-Optimized-Width') || dimensions?.width || '?';
+        const outputHeight = response.headers.get('X-Optimized-Height') || dimensions?.height || '?';
+        const outputBytes = Number(response.headers.get('X-Optimized-Bytes') || blob.size || 0);
         const originalBytes = Number(response.headers.get('X-Original-Bytes') || file.size);
         const change = originalBytes ? Math.round((1 - outputBytes / originalBytes) * 100) : 0;
         const outputSharpness = response.headers.get('X-Image-Sharpness') || sharpnessInput.value;
         optimizedPreview.metadata.textContent = `${outputWidth} × ${outputHeight}px · WebP · ${(outputBytes / 1024).toFixed(1)} KB · Sharpen ${outputSharpness}% · ${change >= 0 ? '-' : '+'}${Math.abs(change)}%`;
         optimizedPreview.panel.classList.remove('is-stale');
-        previewHint.textContent = 'Ảnh WebP bên phải dùng đúng thông số hiện tại và sẵn sàng để lưu.';
+        previewHint.textContent = 'Ảnh WebP bên phải hiển thị đúng chuẩn sẽ được lưu lên hệ thống.';
         setStatus('Preview WebP đã sẵn sàng.');
       } catch (error) {
-        if (error.name !== 'AbortError') setStatus(error.message, true);
+        clearTimeout(timeoutId);
+        if (requestId !== previewRequest) return;
+
+        // Try client-side fallback if server failed or timed out
+        try {
+          const fallback = await generateClientFallbackWebp();
+          if (requestId !== previewRequest) return;
+          if (optimizedObjectUrl) URL.revokeObjectURL(optimizedObjectUrl);
+          optimizedObjectUrl = URL.createObjectURL(fallback.blob);
+          setPreviewSrc(optimizedPreview, optimizedObjectUrl);
+
+          const change = file.size ? Math.round((1 - fallback.blob.size / file.size) * 100) : 0;
+          optimizedPreview.metadata.textContent = `${fallback.width} × ${fallback.height}px · WebP · ${(fallback.blob.size / 1024).toFixed(1)} KB (Xem trước máy khách) · ${change >= 0 ? '-' : '+'}${Math.abs(change)}%`;
+          optimizedPreview.panel.classList.remove('is-stale');
+          previewHint.textContent = 'Đã tạo preview WebP trực tiếp trên trình duyệt. Khi bấm "Lưu ảnh này", hệ thống sẽ xử lý và lưu lên server.';
+          setStatus('Preview WebP (nội bộ trình duyệt) đã sẵn sàng.');
+        } catch (fbErr) {
+          if (error.name !== 'AbortError') {
+            setStatus(error.message, true);
+            optimizedPreview.metadata.innerHTML = `<span style="color:#d93025;font-weight:700">⚠️ Không thể tạo preview: ${error.message}</span>`;
+            previewHint.textContent = `Lỗi: ${error.message}. Bạn vẫn có thể nhấn "Lưu ảnh này" để tải ảnh lên.`;
+          }
+        }
       } finally {
-        if (requestId === previewRequest && previewAbortController === controller) {
+        clearTimeout(timeoutId);
+        if (requestId === previewRequest) {
           previewAbortController = null;
           previewButton.disabled = false;
-          previewButton.textContent = 'Cập nhật xem trước';
+          previewButton.textContent = optimizedObjectUrl ? 'Cập nhật xem trước' : 'Xem trước WebP';
         }
       }
     }
     previewButton.onclick = () => { requestPreview(); };
+
     const crop = () => {
-      const z = Number(zoom.value);
+      const z = Number(zoom.value) || 1;
       const baseW = Math.min(dimensions.width, (dimensions.height * 16) / 9);
       const width = baseW / z;
       const height = (width * 9) / 16;
-      const x = ((dimensions.width - width) * Number(position.value)) / 100;
-      const y = ((dimensions.height - height) * Number(vertical.value)) / 100;
+      const maxX = Math.max(0, dimensions.width - width);
+      const maxY = Math.max(0, dimensions.height - height);
+      const x = (maxX * Number(position.value)) / 100;
+      const y = (maxY * Number(vertical.value)) / 100;
       preview.style.backgroundImage = `url("${sourceUrl}")`;
       preview.style.backgroundSize = `${(dimensions.width / width) * 100}% ${(dimensions.height / height) * 100}%`;
       preview.style.backgroundPosition = `${(-x / width) * 100}% ${(-y / height) * 100}%`;
-      return { x, y, width, height };
+      return {
+        x: Math.min(maxX, Math.max(0, x)),
+        y: Math.min(maxY, Math.max(0, y)),
+        width: Math.min(dimensions.width, width),
+        height: Math.min(dimensions.height, height)
+      };
     };
 
     const updatePreview = () => {
@@ -654,10 +758,8 @@
       fileInfoNotice.textContent = '';
       cancelSelectionBtn.hidden = true;
       optimizationPanel.hidden = true;
-      originalPreview.image.removeAttribute('src');
-      optimizedPreview.image.removeAttribute('src');
-      originalPreview.metadata.textContent = 'Chưa có dữ liệu';
-      optimizedPreview.metadata.textContent = 'Chưa có dữ liệu';
+      setPreviewSrc(originalPreview, null, 'Chưa có ảnh');
+      setPreviewSrc(optimizedPreview, null, 'Chưa có dữ liệu');
       optimizedPreview.panel.classList.remove('is-stale');
       if (optimizedObjectUrl) URL.revokeObjectURL(optimizedObjectUrl);
       optimizedObjectUrl = null;
@@ -702,10 +804,8 @@
         fileInfoNotice.hidden = false;
 
         sourceRatio = dimensions.width / dimensions.height;
-        originalPreview.image.src = sourceUrl;
-        originalPreview.metadata.textContent = `${dimensions.width} × ${dimensions.height}px · ${file.type || 'image'} · ${(file.size / 1024).toFixed(1)} KB`;
-        optimizedPreview.image.removeAttribute('src');
-        optimizedPreview.metadata.textContent = 'Nhấn “Xem trước WebP” để so sánh đúng file sẽ lưu.';
+        setPreviewSrc(originalPreview, sourceUrl, `${dimensions.width} × ${dimensions.height}px · ${file.type || 'image'} · ${(file.size / 1024).toFixed(1)} KB`);
+        setPreviewSrc(optimizedPreview, null, 'Nhấn “Xem trước WebP” để so sánh đúng file sẽ lưu.');
         if (optimizedObjectUrl) URL.revokeObjectURL(optimizedObjectUrl);
         optimizedObjectUrl = null;
         resetOptimization();
