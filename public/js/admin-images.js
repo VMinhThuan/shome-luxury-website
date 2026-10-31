@@ -207,8 +207,10 @@
 
     const optimizationPanel = create('section', 'image-optimization-panel');
     optimizationPanel.hidden = true;
-    optimizationPanel.append(create('h3', 'image-optimization-title', 'Tối ưu ảnh trước khi tải lên'));
-    optimizationPanel.append(create('p', 'image-optimization-help', 'Mặc định giữ nguyên kích thước gốc, WebP chất lượng 95% và Sharpen nhẹ 20%.'));
+    const optimizationHeader = create('div', 'image-optimization-header');
+    optimizationHeader.append(create('h3', 'image-optimization-title', 'Tối ưu ảnh trước khi tải lên'));
+    optimizationHeader.append(create('p', 'image-optimization-help', 'Giữ nguyên ảnh gốc mặc định · WebP 95% · làm nét nhẹ 20%.'));
+    optimizationPanel.append(optimizationHeader);
 
     const configuration = create('div', 'image-optimization-config');
     const makeField = (labelText, control) => {
@@ -302,6 +304,7 @@
     const resetOptimizationButton = create('button', 'btn-reset-optimization', 'Đặt lại mặc định');
     resetOptimizationButton.type = 'button';
     previewActions.append(previewButton, resetOptimizationButton);
+    const previewHint = create('p', 'image-preview-hint', 'Chỉnh thông số xong, bấm “Xem trước WebP” để tạo ảnh so sánh.');
 
     const comparison = create('div', 'image-optimization-comparison');
     const makePreview = (title, className) => {
@@ -326,9 +329,9 @@
       if (index === 0) button.classList.add('is-active');
       zoomControls.append(button);
     });
-    optimizationPanel.append(configuration, resizePresets, resizeNote, toggles, losslessNote, qualityRow, sharpnessSection, previewActions, zoomControls, comparison);
+    optimizationPanel.append(configuration, resizePresets, resizeNote, toggles, losslessNote, qualityRow, sharpnessSection, previewActions, previewHint, zoomControls, comparison);
 
-    let file, sourceUrl, dimensions, sourceRatio = 1, optimizedObjectUrl = null, resizePreset = null, previewTimer = null, previewRequest = 0, currentZoom = 1;
+    let file, sourceUrl, dimensions, sourceRatio = 1, optimizedObjectUrl = null, resizePreset = null, previewRequest = 0, previewAbortController = null, currentZoom = 1;
     const setZoom = (zoom) => {
       currentZoom = zoom;
       [originalPreview.image, optimizedPreview.image].forEach(image => {
@@ -427,9 +430,16 @@
     };
     function schedulePreview() {
       if (!file) return;
-      const scheduledRequest = ++previewRequest;
-      window.clearTimeout(previewTimer);
-      previewTimer = window.setTimeout(() => { requestPreview(scheduledRequest); }, 300);
+      // Do not process a full-resolution image for every slider movement. It
+      // used to queue competing Sharp jobs and make the explicit preview button
+      // look as if it was stuck loading.
+      previewRequest += 1;
+      if (previewAbortController) previewAbortController.abort();
+      previewAbortController = null;
+      previewButton.disabled = false;
+      previewButton.textContent = optimizedObjectUrl ? 'Cập nhật xem trước' : 'Xem trước WebP';
+      previewHint.textContent = 'Có thay đổi chưa xem trước. Bấm nút để cập nhật ảnh WebP.';
+      optimizedPreview.panel.classList.toggle('is-stale', Boolean(optimizedObjectUrl));
     }
     const resetOptimization = () => {
       keepAspectInput.checked = true;
@@ -515,7 +525,10 @@
       const button = event.target.closest('button[data-quality]');
       if (button) { setQuality(button.dataset.quality); schedulePreview(); }
     });
-    resetOptimizationButton.addEventListener('click', resetOptimization);
+    resetOptimizationButton.addEventListener('click', () => {
+      resetOptimization();
+      schedulePreview();
+    });
 
     const appendProcessingSettings = (form) => {
       form.append('keep_original_size', String(keepOriginalInput.checked));
@@ -532,22 +545,29 @@
       }
     };
 
-    async function requestPreview(requestId = ++previewRequest) {
+    async function requestPreview() {
       if (!file) return;
+      const requestId = ++previewRequest;
+      if (previewAbortController) previewAbortController.abort();
+      const controller = new AbortController();
+      previewAbortController = controller;
       previewButton.disabled = true;
       previewButton.textContent = 'Đang tạo preview...';
+      previewHint.textContent = 'Đang tối ưu ảnh. Thời gian phụ thuộc vào kích thước tệp.';
       try {
         const form = new FormData();
         form.append('image', file);
         appendProcessingSettings(form);
-        const response = await fetch('/api/admin/home-images/preview', { method: 'POST', credentials: 'same-origin', body: form });
+        const response = await fetch('/api/admin/home-images/preview', {
+          method: 'POST', credentials: 'same-origin', body: form, signal: controller.signal
+        });
         if (!response.ok) {
           const body = await response.json().catch(() => ({}));
           throw new Error(body.message || 'Không thể tạo preview ảnh.');
         }
-        if (requestId !== previewRequest) return;
-        if (optimizedObjectUrl) URL.revokeObjectURL(optimizedObjectUrl);
         const blob = await response.blob();
+        if (requestId !== previewRequest || controller.signal.aborted) return;
+        if (optimizedObjectUrl) URL.revokeObjectURL(optimizedObjectUrl);
         optimizedObjectUrl = URL.createObjectURL(blob);
         optimizedPreview.image.src = optimizedObjectUrl;
         const outputWidth = response.headers.get('X-Optimized-Width');
@@ -557,17 +577,20 @@
         const change = originalBytes ? Math.round((1 - outputBytes / originalBytes) * 100) : 0;
         const outputSharpness = response.headers.get('X-Image-Sharpness') || sharpnessInput.value;
         optimizedPreview.metadata.textContent = `${outputWidth} × ${outputHeight}px · WebP · ${(outputBytes / 1024).toFixed(1)} KB · Sharpen ${outputSharpness}% · ${change >= 0 ? '-' : '+'}${Math.abs(change)}%`;
-        setStatus('Preview WebP đã được tạo bằng đúng pipeline khi lưu ảnh.');
+        optimizedPreview.panel.classList.remove('is-stale');
+        previewHint.textContent = 'Ảnh WebP bên phải dùng đúng thông số hiện tại và sẵn sàng để lưu.';
+        setStatus('Preview WebP đã sẵn sàng.');
       } catch (error) {
-        setStatus(error.message, true);
+        if (error.name !== 'AbortError') setStatus(error.message, true);
       } finally {
-        if (requestId === previewRequest) {
+        if (requestId === previewRequest && previewAbortController === controller) {
+          previewAbortController = null;
           previewButton.disabled = false;
-          previewButton.textContent = 'Xem trước WebP';
+          previewButton.textContent = 'Cập nhật xem trước';
         }
       }
     }
-    previewButton.onclick = requestPreview;
+    previewButton.onclick = () => { requestPreview(); };
     const crop = () => {
       const z = Number(zoom.value);
       const baseW = Math.min(dimensions.width, (dimensions.height * 16) / 9);
@@ -617,6 +640,9 @@
     }));
 
     const clearSelectedFile = () => {
+      previewRequest += 1;
+      if (previewAbortController) previewAbortController.abort();
+      previewAbortController = null;
       if (sourceUrl) URL.revokeObjectURL(sourceUrl);
       file = null;
       sourceUrl = null;
@@ -632,10 +658,12 @@
       optimizedPreview.image.removeAttribute('src');
       originalPreview.metadata.textContent = 'Chưa có dữ liệu';
       optimizedPreview.metadata.textContent = 'Chưa có dữ liệu';
+      optimizedPreview.panel.classList.remove('is-stale');
       if (optimizedObjectUrl) URL.revokeObjectURL(optimizedObjectUrl);
       optimizedObjectUrl = null;
       fileLabelText.textContent = slot.replacement_image_url ? '🔄 Đổi ảnh khác' : '📷 Chọn ảnh tải lên';
       preview.style.backgroundImage = 'none';
+      previewHint.textContent = 'Chỉnh thông số xong, bấm “Xem trước WebP” để tạo ảnh so sánh.';
       setStatus('');
     };
 
