@@ -31,7 +31,7 @@
 <aside class="mobile-drawer" id="mobileDrawer" aria-hidden="true">
 
   <!-- Brand -->
-  <a href="/" class="drawer-brand" aria-label="SHOME LUXURY - Trang chủ">
+  <a href="<%= adminImageModeEnabled ? '/admin' : '/' %>" class="drawer-brand" aria-label="SHOME LUXURY - <%= adminImageModeEnabled ? 'Dashboard quản trị' : 'Trang chủ' %>">
     <img src="/images/shome-logo.png" alt="SHOME LUXURY" width="160" height="56" />
   </a>
 
