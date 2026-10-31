@@ -97,10 +97,10 @@ async function runAdminRoutesTest() {
     assert(unauthImagesRes.headers['location'] === '/admin/login', 'Redirect location is /admin/login');
 
     // 3. Unauthenticated access to /admin
-    console.log('\n--- TEST 3: Route /admin redirect ---');
+    console.log('\n--- TEST 3: Unauthenticated /admin dashboard redirect ---');
     const adminRootRes = await makeRequest('GET', '/admin', null, { 'Host': 'shome-luxury.vercel.app' });
     assert(adminRootRes.status === 302, 'GET /admin returns 302 redirect');
-    assert(adminRootRes.headers['location'] === '/admin/images', 'Redirects /admin to /admin/images');
+    assert(adminRootRes.headers['location'] === '/admin/login', 'Unauthenticated /admin redirects to /admin/login');
 
     // 4. Admin login page
     console.log('\n--- TEST 4: Admin Login Page ---');
@@ -115,7 +115,7 @@ async function runAdminRoutesTest() {
 
     const goodLoginRes = await makeRequest('POST', '/api/auth/login', { username: 'admin', password: 'admin123' }, { 'Host': 'shome-luxury.vercel.app' });
     assert(goodLoginRes.status === 200, 'Correct credentials returns 200');
-    assert(goodLoginRes.body.redirectUrl === '/admin/images', 'redirectUrl defaults to /admin/images');
+    assert(goodLoginRes.body.redirectUrl === '/admin', 'redirectUrl defaults to /admin dashboard');
     const sessionCookie = extractCookie(goodLoginRes.headers, 'shome_admin_session');
     assert(sessionCookie !== null, 'shome_admin_session cookie is set by server');
 
@@ -137,16 +137,38 @@ async function runAdminRoutesTest() {
     });
     assert(authImagesRes2.status === 200, 'Direct refresh on /admin/images returns 200 OK');
 
-    // 7. Already authenticated user visiting /admin/login
-    console.log('\n--- TEST 7: Authenticated user visiting /admin/login ---');
+    // 7. Authenticated admin dashboard and login redirect
+    console.log('\n--- TEST 7: Authenticated admin dashboard ---');
+    const authDashboardRes = await makeRequest('GET', '/admin', null, {
+      'Host': 'shome-luxury.vercel.app',
+      'Cookie': cookieHeader
+    });
+    assert(authDashboardRes.status === 200, 'Authenticated GET /admin returns 200 OK');
+    assert(typeof authDashboardRes.body === 'string' && authDashboardRes.body.includes('Chức năng quản trị'), 'Dashboard lists admin modules');
+
+    const adminModulePaths = [
+      ['/admin/thiet-ke-cong-trinh', 'Thiết kế công trình'],
+      ['/admin/thi-cong-cong-trinh', 'Thi công công trình'],
+      ['/admin/bao-gia', 'Quản trị Báo giá']
+    ];
+    for (const [modulePath, label] of adminModulePaths) {
+      const moduleRes = await makeRequest('GET', modulePath, null, {
+        'Host': 'shome-luxury.vercel.app',
+        'Cookie': cookieHeader
+      });
+      assert(moduleRes.status === 200, `Authenticated ${modulePath} returns 200 OK`);
+      assert(typeof moduleRes.body === 'string' && moduleRes.body.includes('admin-site-header'), `${label} uses shared admin header`);
+    }
+
+    console.log('\n--- TEST 9: Authenticated user visiting /admin/login ---');
     const authLoginVisitRes = await makeRequest('GET', '/admin/login', null, {
       'Host': 'shome-luxury.vercel.app',
       'Cookie': cookieHeader
     });
-    assert(authLoginVisitRes.status === 302 && authLoginVisitRes.headers['location'] === '/admin/images', 'Authenticated user at /admin/login redirected to /admin/images');
+    assert(authLoginVisitRes.status === 302 && authLoginVisitRes.headers['location'] === '/admin', 'Authenticated user at /admin/login redirected to /admin');
 
-    // 8. Server-side API protection for images and upload
-    console.log('\n--- TEST 8: Server-side API Protection for Image Admin & Upload ---');
+    // 10. Server-side API protection for images and upload
+    console.log('\n--- TEST 10: Server-side API Protection for Image Admin & Upload ---');
     const unauthGetImages = await makeRequest('GET', '/api/admin/home-images');
     assert(unauthGetImages.status === 401, 'GET /api/admin/home-images without token returns 401');
 

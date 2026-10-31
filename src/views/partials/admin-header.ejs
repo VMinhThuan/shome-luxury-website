@@ -1,0 +1,27 @@
+<header class="admin-site-header">
+  <div class="admin-site-header__inner">
+    <a class="admin-site-brand" href="/admin" aria-label="SHOME LUXURY - Tổng quan quản trị">
+      <img src="/images/shome-logo.png" alt="SHOME LUXURY" width="160" height="56" />
+    </a>
+
+    <nav class="admin-site-nav" aria-label="Điều hướng quản trị">
+      <a class="admin-site-nav__link <%= activeAdmin === 'dashboard' ? 'is-active' : '' %>" href="/admin">Tổng quan</a>
+      <details class="admin-site-nav__dropdown" <%= activeAdmin && activeAdmin !== 'dashboard' ? 'open' : '' %>>
+        <summary class="admin-site-nav__link <%= activeAdmin && activeAdmin !== 'dashboard' ? 'is-active' : '' %>">
+          Chức năng quản trị
+          <span aria-hidden="true">⌄</span>
+        </summary>
+        <div class="admin-site-nav__menu">
+          <a class="<%= activeAdmin === 'images' ? 'is-active' : '' %>" href="/admin/images"><span aria-hidden="true">▧</span> Quản lý hình ảnh</a>
+          <a class="<%= activeAdmin === 'design' ? 'is-active' : '' %>" href="/admin/thiet-ke-cong-trinh"><span aria-hidden="true">⌂</span> Thiết kế công trình</a>
+          <a class="<%= activeAdmin === 'construction' ? 'is-active' : '' %>" href="/admin/thi-cong-cong-trinh"><span aria-hidden="true">▥</span> Thi công công trình</a>
+          <a class="<%= activeAdmin === 'quote' ? 'is-active' : '' %>" href="/admin/bao-gia"><span aria-hidden="true">₫</span> Quản lý báo giá</a>
+        </div>
+      </details>
+      <a class="admin-site-nav__link admin-site-nav__link--external" href="/" target="_blank" rel="noopener">Xem website <span aria-hidden="true">↗</span></a>
+      <% if (typeof showLogout === 'undefined' || showLogout !== false) { %>
+        <button class="admin-site-logout" type="button" data-logout>Đăng xuất</button>
+      <% } %>
+    </nav>
+  </div>
+</header>

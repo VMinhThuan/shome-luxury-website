@@ -1,0 +1,231 @@
+* {
+  box-sizing: border-box;
+}
+
+body.admin-dashboard-page {
+  min-height: 100vh;
+  margin: 0;
+  color: #27231e;
+  background: #f5f2ed;
+  font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+.admin-dashboard-shell {
+  width: min(1180px, calc(100% - 40px));
+  margin: 0 auto;
+  padding: 54px 0 84px;
+}
+
+.admin-dashboard-hero {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 28px;
+  padding-bottom: 38px;
+  border-bottom: 1px solid #ddd5c9;
+}
+
+.admin-dashboard-eyebrow {
+  margin: 0 0 11px;
+  color: #ad7a27;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+}
+
+.admin-dashboard-hero h1 {
+  max-width: 720px;
+  margin: 0;
+  color: #26211b;
+  font-size: clamp(30px, 4.5vw, 54px);
+  font-weight: 700;
+  letter-spacing: -.055em;
+  line-height: 1.02;
+}
+
+.admin-dashboard-hero p:last-child {
+  margin: 16px 0 0;
+  color: #71695f;
+  font-size: 14px;
+}
+
+.admin-dashboard-website-link {
+  display: inline-flex;
+  flex: 0 0 auto;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 16px;
+  border: 1px solid #d7c9b5;
+  border-radius: 999px;
+  color: #5b4528;
+  background: #fffdf9;
+  font-size: 12px;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.admin-dashboard-website-link span {
+  color: #b6812c;
+  font-size: 17px;
+}
+
+.admin-dashboard-section {
+  padding-top: 46px;
+}
+
+.admin-dashboard-section-heading {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 30px;
+  margin-bottom: 22px;
+}
+
+.admin-dashboard-section-heading h2 {
+  margin: 0;
+  color: #29241e;
+  font-size: clamp(24px, 3vw, 34px);
+  letter-spacing: -.04em;
+}
+
+.admin-dashboard-section-heading > p {
+  max-width: 380px;
+  margin: 0 0 3px;
+  color: #71695f;
+  font-size: 13px;
+  line-height: 1.6;
+  text-align: right;
+}
+
+.admin-module-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.admin-module-card {
+  position: relative;
+  display: flex;
+  min-height: 310px;
+  flex-direction: column;
+  padding: 22px 20px 20px;
+  overflow: hidden;
+  border: 1px solid #e2d9cc;
+  border-radius: 4px;
+  color: inherit;
+  background: #fffdfa;
+  text-decoration: none;
+  transition: border-color .22s ease, box-shadow .22s ease, transform .22s ease;
+}
+
+.admin-module-card::after {
+  position: absolute;
+  right: -34px;
+  bottom: -45px;
+  width: 126px;
+  height: 126px;
+  border: 1px solid rgba(210, 160, 68, .18);
+  border-radius: 50%;
+  content: '';
+}
+
+.admin-module-card:hover {
+  border-color: #c99b4d;
+  box-shadow: 0 17px 34px rgba(73, 50, 23, .1);
+  transform: translateY(-4px);
+}
+
+.admin-module-card__icon {
+  display: grid;
+  width: 46px;
+  height: 46px;
+  place-items: center;
+  border: 1px solid #d7b77b;
+  border-radius: 50%;
+  color: #a97424;
+  background: #fff8e9;
+  font-family: Georgia, serif;
+  font-size: 24px;
+}
+
+.admin-module-card__number {
+  margin-top: 30px;
+  color: #b18a53;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: .16em;
+}
+
+.admin-module-card__title {
+  margin-top: 10px;
+  color: #28231d;
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: -.03em;
+}
+
+.admin-module-card__description {
+  margin-top: 12px;
+  color: #736b61;
+  font-size: 12px;
+  line-height: 1.65;
+}
+
+.admin-module-card__action {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-top: auto;
+  padding-top: 23px;
+  color: #956522;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: .03em;
+}
+
+.admin-module-card__action span {
+  font-size: 18px;
+  transition: transform .2s ease;
+}
+
+.admin-module-card:hover .admin-module-card__action span {
+  transform: translateX(4px);
+}
+
+@media (max-width: 1000px) {
+  .admin-module-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 620px) {
+  .admin-dashboard-shell {
+    width: min(100% - 28px, 1180px);
+    padding-top: 34px;
+  }
+
+  .admin-dashboard-hero,
+  .admin-dashboard-section-heading {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .admin-dashboard-hero {
+    padding-bottom: 30px;
+  }
+
+  .admin-dashboard-section-heading > p {
+    margin: 0;
+    text-align: left;
+  }
+
+  .admin-module-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .admin-module-card {
+    min-height: 270px;
+  }
+}

@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title><%= title %></title>
+  <link rel="stylesheet" href="/css/admin-shell.css?v=1.0.0" />
+  <link rel="stylesheet" href="/css/admin-dashboard.css?v=1.0.0" />
+  <script src="/js/admin-dashboard.js?v=1.0.0" defer></script>
+</head>
+<body class="admin-dashboard-page">
+  <%- include('partials/admin-header', { activeAdmin: 'dashboard' }) %>
+  <main class="admin-dashboard-shell">
+    <section class="admin-dashboard-hero">
+      <div>
+        <p class="admin-dashboard-eyebrow">SHOME LUXURY / CMS QUẢN TRỊ</p>
+        <h1>Xin chào, đây là khu vực quản trị.</h1>
+        <p>Chọn một chức năng để bắt đầu cập nhật nội dung website.</p>
+      </div>
+      <a class="admin-dashboard-website-link" href="/" target="_blank" rel="noopener">Mở website <span aria-hidden="true">↗</span></a>
+    </section>
+
+    <section class="admin-dashboard-section" aria-labelledby="admin-modules-title">
+      <div class="admin-dashboard-section-heading">
+        <div>
+          <p class="admin-dashboard-eyebrow">CÁC MODULE CMS</p>
+          <h2 id="admin-modules-title">Chức năng quản trị</h2>
+        </div>
+        <p>Toàn bộ nội dung trong các module hiện được quản lý trực tiếp từ đây.</p>
+      </div>
+
+      <div class="admin-module-grid">
+        <a class="admin-module-card" href="/admin/images">
+          <span class="admin-module-card__icon" aria-hidden="true">▧</span>
+          <span class="admin-module-card__number">01</span>
+          <span class="admin-module-card__title">Quản lý hình ảnh</span>
+          <span class="admin-module-card__description">Cập nhật banner, hình ảnh trang chủ và các trang nội dung; hỗ trợ ảnh chung, ảnh riêng, crop và WebP.</span>
+          <span class="admin-module-card__action">Mở quản lý hình ảnh <span aria-hidden="true">→</span></span>
+        </a>
+
+        <a class="admin-module-card" href="/admin/thiet-ke-cong-trinh">
+          <span class="admin-module-card__icon" aria-hidden="true">⌂</span>
+          <span class="admin-module-card__number">02</span>
+          <span class="admin-module-card__title">Thiết kế công trình</span>
+          <span class="admin-module-card__description">Quản lý công trình thiết kế kiến trúc, nội thất, danh mục menu, thumbnail và gallery dự án.</span>
+          <span class="admin-module-card__action">Mở module thiết kế <span aria-hidden="true">→</span></span>
+        </a>
+
+        <a class="admin-module-card" href="/admin/thi-cong-cong-trinh">
+          <span class="admin-module-card__icon" aria-hidden="true">▥</span>
+          <span class="admin-module-card__number">03</span>
+          <span class="admin-module-card__title">Thi công công trình</span>
+          <span class="admin-module-card__description">Theo dõi và cập nhật các công trình thi công thực tế theo từng nhóm menu và trạng thái hiển thị.</span>
+          <span class="admin-module-card__action">Mở module thi công <span aria-hidden="true">→</span></span>
+        </a>
+
+        <a class="admin-module-card" href="/admin/bao-gia">
+          <span class="admin-module-card__icon" aria-hidden="true">₫</span>
+          <span class="admin-module-card__number">04</span>
+          <span class="admin-module-card__title">Quản lý báo giá</span>
+          <span class="admin-module-card__description">Chỉnh sửa nội dung trang báo giá, nhóm nội dung, hình ảnh và công trình nổi bật theo category.</span>
+          <span class="admin-module-card__action">Mở quản lý báo giá <span aria-hidden="true">→</span></span>
+        </a>
+      </div>
+    </section>
+  </main>
+</body>
+</html>

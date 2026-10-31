@@ -21,7 +21,10 @@ Truy cập: `http://localhost:3030`
 Website public và CMS Admin sử dụng chung domain Vercel (không cần subdomain hay `ADMIN_HOST`).
 - **`/`**: Website public
 - **`/admin/login`**: Trang đăng nhập quản trị
+- **`/admin`**: Dashboard tổng quan và cửa vào các module CMS
 - **`/admin/images`**: Quản lý hình ảnh trang chủ
+- **`/admin/thiet-ke-cong-trinh`**: Quản lý công trình thiết kế
+- **`/admin/thi-cong-cong-trinh`**: Quản lý công trình thi công
 - **`/admin/bao-gia`**: Quản trị nội dung & Highlight công trình Báo giá
 
 ### Cấu hình biến môi trường trên Vercel:
@@ -38,8 +41,8 @@ CLOUDINARY_API_SECRET=<api-secret>
 *Lưu ý: Không cần cấu hình `ADMIN_HOST` hay `ADMIN_COOKIE_DOMAIN` khi dùng chung domain.*
 
 ### Cơ chế bảo mật:
-- Khi chưa đăng nhập, truy cập `/admin/images` hoặc `/admin/bao-gia` sẽ được máy chủ tự động chuyển hướng về `/admin/login`.
-- Đăng nhập thành công sẽ tự động chuyển hướng đến `/admin/images`.
+- Khi chưa đăng nhập, truy cập `/admin` hoặc bất kỳ module `/admin/*` nào sẽ được máy chủ tự động chuyển hướng về `/admin/login`.
+- Đăng nhập thành công sẽ tự động chuyển hướng đến `/admin` — Dashboard cửa vào chính của CMS.
 - Phiên làm việc được quản trị bằng HTTP-only cookie (`shome_admin_session`) có thời hạn 7 ngày.
 - Toàn bộ API chỉnh sửa, tải lên và xóa ảnh (`/api/admin/*`, `/api/upload`) được bảo vệ nghiêm ngặt bằng JWT xác thực và phân quyền phía server.
 

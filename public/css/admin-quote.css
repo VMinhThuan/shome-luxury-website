@@ -1,0 +1,24 @@
+.quote-admin-heading {
+  padding: 0 0 1.5rem;
+  border-bottom: 1px solid #d8d0c2;
+}
+
+.quote-admin-heading h1 {
+  margin: .45rem 0 .5rem;
+  color: #29241e;
+  font-size: clamp(1.8rem, 4vw, 2.65rem);
+  letter-spacing: -.05em;
+}
+
+.quote-admin-heading > p:last-child {
+  margin: 0;
+  color: #71695f;
+  font-size: .85rem;
+}
+
+@media (max-width: 767px) {
+  .quote-admin-shell {
+    width: min(100% - 24px, 1180px);
+    padding: 2.2rem 0;
+  }
+}

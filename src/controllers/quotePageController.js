@@ -206,7 +206,7 @@ class QuotePageController {
     if (token) {
       try {
         verifyAdminToken(token);
-        return res.redirect('/admin/images');
+        return res.redirect('/admin');
       } catch (error) {
         // Token invalid/expired, render login
       }

@@ -13,7 +13,9 @@ const homeImageController = require('../controllers/homeImageController');
 const { authenticateAdmin, requireAdminPage } = require("../middleware/auth");
 
 // Admin Routes (Unified under /admin/*, server-authenticated, no subdomain needed)
-router.get(["/admin", "/admin/"], (req, res) => res.redirect("/admin/images"));
+router.get(["/admin", "/admin/"], requireAdminPage, (req, res) => res.render('admin-dashboard', {
+  title: 'Tổng quan quản trị | SHOME LUXURY'
+}));
 router.get("/admin/login", quotePageController.renderAdminLoginPage.bind(quotePageController));
 router.get("/admin/images", requireAdminPage, (req, res) => res.render('admin-images', { title: 'Quản lý ảnh các trang | SHOME LUXURY' }));
 router.get("/admin/thiet-ke-cong-trinh", requireAdminPage, (req, res) => res.render('admin-projects', {

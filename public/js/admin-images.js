@@ -1132,9 +1132,9 @@
         await request('/api/auth/login', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ ...Object.fromEntries(new FormData(login)), redirectUrl: '/admin/images' })
+          body: JSON.stringify({ ...Object.fromEntries(new FormData(login)), redirectUrl: '/admin' })
         });
-        window.location.assign('/admin/images');
+        window.location.assign('/admin');
       } catch (error) {
         if (loginStatus) loginStatus.textContent = error.message;
       }

@@ -4,10 +4,13 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title><%= title %></title>
+  <link rel="stylesheet" href="/css/admin-shell.css?v=1.0.0" />
+  <link rel="stylesheet" href="/css/admin-quote.css?v=1.0.0" />
   <link rel="stylesheet" href="/css/style.css?v=6.8.6" />
   <script src="/js/admin-quote-page.js?v=1.1.0" defer></script>
 </head>
 <body class="quote-admin-page" data-admin-authenticated="<%= isAuthenticated ? 'true' : 'false' %>">
+  <%- include('partials/admin-header', { activeAdmin: isAuthenticated ? 'quote' : '', showLogout: isAuthenticated }) %>
   <main class="quote-admin-shell">
     <% if (!isAuthenticated) { %>
     <section class="quote-admin-login" data-admin-login>
@@ -33,20 +36,11 @@
 
     <% } else { %>
     <section class="quote-admin-editor" data-admin-editor>
-      <header class="quote-admin-topbar">
-        <div style="display:flex;align-items:center;gap:12px">
-          <div><p class="quote-kicker">SHOME LUXURY / QUẢN TRỊ</p><h1 style="margin:0;font-size:24px">Quản trị Báo giá</h1></div>
-          <span style="background:rgba(210,160,68,0.15);color:#8a6523;font-size:10px;font-weight:800;padding:3px 8px;border-radius:6px;letter-spacing:.06em">CMS QUẢN TRỊ</span>
-        </div>
-        <nav style="display:flex;align-items:center;gap:8px;flex-wrap:wrap" aria-label="Các tính năng quản trị">
-          <a href="/admin/images" style="color:var(--quote-admin-muted,#8c857b);text-decoration:none;font-size:13px;font-weight:600;padding:7px 12px;border-radius:8px" title="Quản lý hình ảnh và banner trên tất cả các trang">🖼️ Quản lý ảnh</a>
-          <a href="/admin/thiet-ke-cong-trinh" style="color:var(--quote-admin-muted,#8c857b);text-decoration:none;font-size:13px;font-weight:600;padding:7px 12px;border-radius:8px" title="Quản lý dự án & bản vẽ thiết kế kiến trúc, nội thất">📐 Thiết kế công trình</a>
-          <a href="/admin/thi-cong-cong-trinh" style="color:var(--quote-admin-muted,#8c857b);text-decoration:none;font-size:13px;font-weight:600;padding:7px 12px;border-radius:8px" title="Quản lý dự án & tiến độ thi công thực tế">🏗️ Thi công công trình</a>
-          <a href="/admin/bao-gia" style="background:var(--quote-admin-gold,#d2a044);color:#1e1914;text-decoration:none;font-size:13px;font-weight:700;padding:7px 12px;border-radius:8px;box-shadow:0 2px 8px rgba(210,160,68,0.3)" title="Quản trị thông tin và công trình nổi bật trên trang Báo giá">💰 Quản lý báo giá</a>
-          <a href="/bao-gia?category=tk-nt-chung-cu" target="_blank" rel="noopener" style="color:var(--quote-admin-muted,#8c857b);text-decoration:none;font-size:12px;font-weight:600;padding:6px 10px;border:1px solid #ddd;border-radius:6px">Xem trang ↗</a>
-          <button type="button" data-logout style="border:1px solid #dcd5ca;background:#fff;color:#a94535;font:inherit;font-size:12px;font-weight:600;padding:6px 12px;border-radius:8px;cursor:pointer">Đăng xuất</button>
-        </nav>
-      </header>
+      <section class="quote-admin-heading">
+        <p class="quote-kicker">SHOME LUXURY / CMS QUẢN TRỊ</p>
+        <h1>Quản trị Báo giá</h1>
+        <p>Chỉnh sửa nội dung trang báo giá và các công trình nổi bật theo category.</p>
+      </section>
       <p class="quote-admin-notice">Nội dung được lưu trực tiếp vào database. Dùng nút “Lưu thay đổi” sau khi cập nhật các nhóm nội dung.</p>
       <form data-quote-editor class="quote-admin-form"></form>
       <section class="quote-admin-projects"><header><div><p class="quote-kicker">CÔNG TRÌNH NỔI BẬT</p><h2>Highlight theo category</h2></div><p>Chỉ công trình bật Highlight và Hiển thị mới xuất hiện trên Báo giá. Mỗi category hiển thị tối đa 4 công trình theo thứ tự tăng dần.</p></header><div class="quote-admin-project-filter" data-project-filter></div><div class="quote-admin-project-list" data-project-list></div></section>

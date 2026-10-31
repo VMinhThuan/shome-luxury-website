@@ -22,7 +22,7 @@ class AuthController {
         message: 'Login successful',
         // Kept for existing server-to-server clients; the admin UI uses the HTTP-only cookie.
         token,
-        redirectUrl: req.body.redirectUrl || '/admin/images'
+        redirectUrl: '/admin'
       });
     }
 
