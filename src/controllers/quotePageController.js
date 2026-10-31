@@ -181,7 +181,10 @@ class QuotePageController {
         .trim() || 'Chung cư';
       const featuredCategoryName = featuredCategoryNameRaw.charAt(0).toLocaleUpperCase('vi-VN')
         + featuredCategoryNameRaw.slice(1);
-      const quoteImages = await getPageImages('quote');
+      // A category can opt into its own image slot without changing the
+      // existing QuotePage content model. When no subpage override exists,
+      // imageService falls back to the current shared quote slot.
+      const quoteImages = await getPageImages('quote', rawCategory);
       return res.render('bao-gia', {
         title: `${selectedCategory?.name ? `Báo giá ${selectedCategory.name.toLowerCase()}` : 'Báo giá thiết kế & thi công'} | SHOME LUXURY`,
         navigation,

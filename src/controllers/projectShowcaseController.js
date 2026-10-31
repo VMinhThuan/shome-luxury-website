@@ -2,6 +2,7 @@ const projectService = require('../services/projectService');
 const constructionVideoService = require('../services/constructionVideoService');
 const categoryService = require('../services/categoryService');
 const navigationData = require('../data/navigationData');
+const { getPageImages } = require('../services/imageService');
 
 const PROJECT_CATEGORY_PATHS = {
   'tk-kt-nha-cap-4': '/thiet-ke-kien-truc/nha-cap-4',
@@ -315,6 +316,7 @@ class ProjectShowcaseController {
       }
 
       const pageTitle = `${config.titleMain} ${config.titleScript} | LUXURY HOME`.trim();
+      const pageImages = await getPageImages(categoryCode);
 
       return res.render('cong-trinh', {
         title: pageTitle,
@@ -322,6 +324,7 @@ class ProjectShowcaseController {
         navigation: navigationData,
         pageConfig: config,
         activeCategoryCode: categoryCode,
+        pageImages,
         isConstructionShowcase,
         constructionProjects,
         isVideoShowcase,

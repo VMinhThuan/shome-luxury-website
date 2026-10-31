@@ -8273,10 +8273,21 @@ main .surface-finish-section .surface-finish-title {
 }
 
 .project-showcase-hero {
+  position: relative;
+  isolation: isolate;
   border-bottom: 1px solid rgba(200, 155, 75, 0.18);
   padding-top: 1.75rem;
   padding-bottom: 1.6rem;
   text-align: center;
+}
+
+.project-showcase-hero.has-managed-image::before {
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  content: '';
+  background: linear-gradient(90deg, rgba(255, 255, 255, .96), rgba(255, 255, 255, .76) 52%, rgba(255, 255, 255, .92)), var(--showcase-hero-image) center / cover no-repeat;
+  opacity: .9;
 }
 
 @media (min-width: 992px) {

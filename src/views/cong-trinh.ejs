@@ -28,7 +28,7 @@
   <!-- Main Content -->
   <main id="main-content" class="showcase-page-main">
     <!-- Showcase Hero & Filters -->
-    <section class="project-showcase-hero">
+    <section class="project-showcase-hero <%= pageImages && pageImages[`subpage_${activeCategoryCode}_hero_banner`] ? 'has-managed-image' : '' %>" style="--showcase-hero-image: url('<%= pageImages && pageImages[`subpage_${activeCategoryCode}_hero_banner`] ? pageImages[`subpage_${activeCategoryCode}_hero_banner`] : '' %>');">
       <div class="container">
         <div class="showcase-header-text">
           <span class="eyebrow-text">─── <%= pageConfig.eyebrow %> ───</span>

@@ -50,8 +50,8 @@ async function testFrontend() {
 
   try {
     console.log('--- 0. TESTING QUOTE PAGE ---');
-    const quotePageRes = await makeRequest('/bao-gia');
-    assert(quotePageRes.status === 200, 'GET /bao-gia returns 200 OK');
+    const quotePageRes = await makeRequest('/bao-gia?category=tk-nt-chung-cu');
+    assert(quotePageRes.status === 200, 'GET /bao-gia?category=tk-nt-chung-cu returns 200 OK');
     assert(quotePageRes.body.includes('quote-page') && quotePageRes.body.includes('nhan-du-toan'), 'Quote page renders dynamic page structure and estimate CTA');
 
     const routesToTest = [

@@ -17,6 +17,8 @@
   const status = $('[data-status]');
   const liveLink = $('[data-live-link]');
   const searchInput = $('[data-search]');
+  const subpagePicker = $('[data-subpage-picker]');
+  const subpageSelect = $('[data-subpage-select]');
 
   const PAGE_URLS = {
     all: '/',
@@ -29,7 +31,9 @@
   };
 
   let allSlots = [];
+  let legacySlots = [];
   let pagesList = [];
+  let subpageList = [];
   let activePageKey = 'all';
   let searchKeyword = '';
 
@@ -49,9 +53,12 @@
   function updateLiveLink(pageKey) {
     if (!liveLink) return;
     const curPage = pagesList.find(p => p.key === pageKey);
-    const targetUrl = PAGE_URLS[pageKey] || '/';
+    const subpage = subpageList.find(p => `subpage:${p.key}` === pageKey);
+    const targetUrl = subpage?.path || PAGE_URLS[pageKey] || '/';
     liveLink.href = targetUrl;
-    liveLink.textContent = curPage && curPage.key !== 'all'
+    liveLink.textContent = subpage
+      ? `Xem trang ${subpage.label} ↗`
+      : curPage && curPage.key !== 'all'
       ? `Xem trang ${curPage.label} ↗`
       : 'Xem trang ngoài ↗';
   }
@@ -83,6 +90,8 @@
 
   function switchPage(pageKey) {
     activePageKey = pageKey;
+    allSlots = legacySlots;
+    if (subpageSelect) subpageSelect.value = '';
     const url = new URL(window.location.href);
     if (pageKey === 'all') {
       url.searchParams.delete('page');
@@ -98,8 +107,9 @@
 
     // Update eyebrow
     const curPageObj = pagesList.find(p => p.key === pageKey);
+    const subpage = subpageList.find(p => `subpage:${p.key}` === pageKey);
     if (eyebrow) {
-      const titleText = curPageObj ? curPageObj.label.toUpperCase() : 'TẤT CẢ';
+      const titleText = subpage?.label || (curPageObj ? curPageObj.label : 'TẤT CẢ');
       eyebrow.textContent = `${titleText} / HÌNH ẢNH`;
     }
 
@@ -117,16 +127,42 @@
     const heading = create('h2', '', slot.label);
     const imagePair = create('div', 'image-pair');
 
+    // The active source is deliberately stored separately from the custom
+    // reference. Changing this control therefore never destroys a remembered
+    // upload or changes any other page slot.
+    const sourcePanel = create('section', 'image-source-panel');
+    sourcePanel.append(create('p', 'image-source-title', 'Nguồn hình ảnh'));
+    const sourceChoices = create('div', 'image-source-choices');
+    const sharedChoice = create('label', 'image-source-choice');
+    const sharedRadio = create('input');
+    sharedRadio.type = 'radio'; sharedRadio.name = `image-mode-${slot.image_key}`; sharedRadio.value = 'shared';
+    sharedChoice.append(sharedRadio, create('span', '', 'Dùng ảnh chung'));
+    const customChoice = create('label', 'image-source-choice');
+    const customRadio = create('input');
+    customRadio.type = 'radio'; customRadio.name = `image-mode-${slot.image_key}`; customRadio.value = 'custom';
+    customChoice.append(customRadio, create('span', '', 'Dùng ảnh riêng'));
+    sourceChoices.append(sharedChoice, customChoice);
+    sourcePanel.append(sourceChoices);
+
+    const sharedControls = create('div', 'image-shared-controls');
+    const sharedLabel = create('label', 'image-shared-select-label', 'Nguồn ảnh chung');
+    const sharedSelect = create('select', 'image-shared-select');
+    sharedLabel.append(sharedSelect);
+    const sharedPreview = create('img', 'image-shared-preview');
+    sharedPreview.alt = 'Preview ảnh chung';
+    sharedPreview.loading = 'lazy';
+    const sharedState = create('p', 'image-shared-state');
+    sharedControls.append(sharedLabel, sharedPreview, sharedState);
+    sourcePanel.append(sharedControls);
+
     const replacementWrap = create('div', 'image-version');
-    const currentImageTitle = create('p', 'image-version-title', slot.replacement_image_url
-      ? 'Ảnh đang hiển thị trên website'
-      : 'Ảnh mặc định đang hiển thị trên website');
+    const currentImageTitle = create('p', 'image-version-title');
     replacementWrap.append(currentImageTitle);
     const current = create('img', 'current-image');
-    current.src = slot.replacement_image_url || slot.default_image_url;
+    current.src = slot.active_image_url || slot.replacement_image_url || slot.default_image_url;
     current.alt = '';
     current.loading = 'lazy';
-    const replacementNote = create('p', 'image-version-note', slot.replacement_image_url ? 'Đang hiển thị trên website' : 'Chưa có ảnh thay thế — website đang dùng ảnh mặc định');
+    const replacementNote = create('p', 'image-version-note');
     replacementWrap.append(current, replacementNote);
 
     imagePair.append(replacementWrap);
@@ -769,6 +805,95 @@
       setStatus('');
     };
 
+    const renderSharedSources = () => {
+      sharedSelect.replaceChildren();
+      const placeholder = create('option', '', 'Chọn nguồn ảnh chung...');
+      placeholder.value = '';
+      sharedSelect.append(placeholder);
+      (slot.shared_sources || []).forEach(source => {
+        const option = create('option', '', `${source.page_label} · ${source.label}`);
+        option.value = source.image_key;
+        option.disabled = source.available === false;
+        if (source.unavailable_reason) option.textContent += ` — ${source.unavailable_reason}`;
+        sharedSelect.append(option);
+      });
+      if (slot.shared_image_reference?.image_key) sharedSelect.value = slot.shared_image_reference.image_key;
+    };
+
+    const applyModeUi = () => {
+      const shared = slot.mode === 'shared';
+      sharedRadio.checked = shared;
+      customRadio.checked = !shared;
+      sharedControls.hidden = !shared;
+      actionBar.hidden = shared;
+      fileInfoNotice.hidden = shared || !file;
+      cropper.hidden = shared || !file;
+      optimizationPanel.hidden = shared || !file;
+      save.hidden = shared || !file;
+      currentImageTitle.textContent = shared
+        ? (slot.shared_status === 'invalid' ? 'Ảnh dự phòng đang hiển thị trên website' : 'Ảnh chung đang hiển thị trên website')
+        : (slot.replacement_image_url ? 'Ảnh riêng đang hiển thị trên website' : 'Ảnh mặc định đang hiển thị trên website');
+      replacementNote.textContent = shared
+        ? (slot.shared_status === 'invalid'
+          ? 'Nguồn ảnh chung không còn hợp lệ — hệ thống đang dùng ảnh mặc định an toàn. Vui lòng chọn nguồn khác.'
+          : `Đang liên kết: ${slot.shared_source?.label || slot.shared_source_label || 'ảnh chung'}`)
+        : (slot.replacement_image_url ? 'Đang hiển thị ảnh riêng của vị trí này' : 'Chưa có ảnh riêng — website đang dùng ảnh mặc định');
+      current.src = slot.active_image_url || slot.default_image_url;
+      deleteReplacementBtn.hidden = shared || !Boolean(slot.replacement_image_url);
+      sharedPreview.src = slot.shared_source?.image_url || slot.active_image_url || slot.default_image_url;
+      sharedState.textContent = slot.shared_status === 'invalid'
+        ? '⚠️ Nguồn không hợp lệ, đang fallback an toàn.'
+        : (shared ? 'Preview ảnh chung đang sử dụng. Thay đổi nguồn chỉ áp dụng cho vị trí này.' : '');
+      sharedState.classList.toggle('is-error', slot.shared_status === 'invalid');
+    };
+
+    const persistMode = async (mode, sourceKey = '') => {
+      const previousMode = slot.mode;
+      const previousReference = slot.shared_image_reference;
+      if (mode === 'shared' && !sourceKey) {
+        sharedState.textContent = 'Hãy chọn một nguồn ảnh chung.';
+        sharedState.classList.add('is-error');
+        return;
+      }
+      sharedRadio.disabled = true;
+      customRadio.disabled = true;
+      sharedSelect.disabled = true;
+      setStatus('Đang lưu nguồn hình ảnh...');
+      try {
+        const result = await request(`/api/admin/home-images/${encodeURIComponent(slot.image_key)}/mode`, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ mode, shared_image_key: sourceKey })
+        });
+        Object.assign(slot, result.data || {});
+        if (mode === 'shared' && file) clearSelectedFile();
+        renderSharedSources();
+        applyModeUi();
+        setStatus(result.message || 'Đã cập nhật nguồn hình ảnh.');
+      } catch (error) {
+        slot.mode = previousMode;
+        slot.shared_image_reference = previousReference;
+        applyModeUi();
+        setStatus(error.message, true);
+      } finally {
+        sharedRadio.disabled = false;
+        customRadio.disabled = false;
+        sharedSelect.disabled = false;
+      }
+    };
+
+    renderSharedSources();
+    applyModeUi();
+    sharedRadio.onchange = () => {
+      if (sharedRadio.checked) persistMode('shared', sharedSelect.value);
+    };
+    customRadio.onchange = () => {
+      if (customRadio.checked) persistMode('custom');
+    };
+    sharedSelect.onchange = () => {
+      if (sharedSelect.value) persistMode('shared', sharedSelect.value);
+    };
+
     cancelSelectionBtn.onclick = clearSelectedFile;
 
     input.onchange = () => {
@@ -823,6 +948,8 @@
       try {
         await request(`/api/admin/home-images/${encodeURIComponent(slot.image_key)}`, { method: 'DELETE' });
         slot.replacement_image_url = null;
+        slot.active_image_url = slot.default_image_url;
+        slot.custom_image_reference = null;
         current.src = slot.default_image_url;
         currentImageTitle.textContent = 'Ảnh mặc định đang hiển thị trên website';
         replacementNote.textContent = 'Chưa có ảnh thay thế — website đang dùng ảnh mặc định';
@@ -852,10 +979,10 @@
           method: 'PUT',
           body: form
         });
-        slot.replacement_image_url = result.data.image_url;
-        current.src = result.data.image_url;
-        currentImageTitle.textContent = 'Ảnh đang hiển thị trên website';
-        replacementNote.textContent = 'Đang hiển thị trên website';
+        Object.assign(slot, result.data || {});
+        current.src = slot.active_image_url || result.data.image_url;
+        currentImageTitle.textContent = 'Ảnh riêng đang hiển thị trên website';
+        replacementNote.textContent = 'Đang hiển thị ảnh riêng của vị trí này';
         deleteReplacementBtn.hidden = false;
         fileLabelText.textContent = '🔄 Đổi ảnh khác';
         cancelSelectionBtn.hidden = true;
@@ -865,6 +992,8 @@
         save.hidden = true;
         input.value = '';
         file = null;
+        renderSharedSources();
+        applyModeUi();
         setStatus(`Đã cập nhật thành công: ${slot.label}.`);
       } catch (error) {
         save.textContent = 'Lưu lại';
@@ -875,15 +1004,16 @@
     };
 
     cropper.append(preview, modeBar, controls);
-    article.append(badge, heading, imagePair, actionBar, fileInfoNotice, cropper, optimizationPanel, save);
+    article.append(badge, heading, sourcePanel, imagePair, actionBar, fileInfoNotice, cropper, optimizationPanel, save);
     return article;
   }
 
   function renderSlots() {
     if (!slotsHost) return;
+    const activeSubpageKey = activePageKey.startsWith('subpage:') ? activePageKey.slice('subpage:'.length) : null;
     let filtered = activePageKey === 'all'
       ? allSlots
-      : allSlots.filter(s => s.page_key === activePageKey);
+      : allSlots.filter(s => s.page_key === (activeSubpageKey || activePageKey));
 
     if (searchKeyword) {
       const q = searchKeyword.toLowerCase();
@@ -909,6 +1039,16 @@
     $('[data-logout]').hidden = false;
 
     allSlots = result.data || [];
+    legacySlots = allSlots;
+    subpageList = result.subpages || [];
+    if (subpagePicker && subpageSelect && subpageList.length) {
+      subpagePicker.hidden = false;
+      subpageList.forEach(page => {
+        const option = create('option', '', page.label);
+        option.value = `subpage:${page.key}`;
+        subpageSelect.append(option);
+      });
+    }
     pagesList = (result.pages && result.pages.length) ? result.pages : [
       { key: 'all', label: 'Tất cả trang' },
       { key: 'home', label: 'Trang chủ' },
@@ -926,17 +1066,25 @@
     // Determine initial page from URL param
     const urlParams = new URLSearchParams(window.location.search);
     const initialPage = urlParams.get('page');
-    if (initialPage && pagesList.some(p => p.key === initialPage)) {
+    if (initialPage && (pagesList.some(p => p.key === initialPage) || subpageList.some(p => `subpage:${p.key}` === initialPage))) {
       activePageKey = initialPage;
     } else {
       activePageKey = 'all';
     }
 
+    if (activePageKey.startsWith('subpage:')) {
+      const pageResult = await request(`/api/admin/home-images?page=${encodeURIComponent(activePageKey)}`);
+      allSlots = pageResult.data || [];
+    }
+
     renderTabs();
+
+    if (subpageSelect && activePageKey.startsWith('subpage:')) subpageSelect.value = activePageKey;
 
     if (eyebrow) {
       const curPageObj = pagesList.find(p => p.key === activePageKey);
-      const titleText = curPageObj ? curPageObj.label.toUpperCase() : 'TẤT CẢ';
+      const subpage = subpageList.find(p => `subpage:${p.key}` === activePageKey);
+      const titleText = (subpage?.label || curPageObj?.label || 'TẤT CẢ').toUpperCase();
       eyebrow.textContent = `${titleText} / HÌNH ẢNH`;
     }
 
@@ -947,6 +1095,30 @@
       searchInput.oninput = (e) => {
         searchKeyword = e.target.value.trim();
         renderSlots();
+      };
+    }
+
+    if (subpageSelect) {
+      subpageSelect.onchange = async (event) => {
+        const pageKey = event.target.value;
+        if (!pageKey) return;
+        const previousLabel = status?.textContent || '';
+        try {
+          setStatus('Đang tải ảnh trang con...');
+          const pageResult = await request(`/api/admin/home-images?page=${encodeURIComponent(pageKey)}`);
+          allSlots = pageResult.data || [];
+          activePageKey = pageKey;
+          const url = new URL(window.location.href);
+          url.searchParams.set('page', pageKey);
+          window.history.replaceState({}, '', url.toString());
+          const subpage = subpageList.find(p => `subpage:${p.key}` === pageKey);
+          if (eyebrow) eyebrow.textContent = `${(subpage?.label || 'TRANG CON').toUpperCase()} / HÌNH ẢNH`;
+          updateLiveLink(pageKey);
+          renderSlots();
+          setStatus('');
+        } catch (error) {
+          setStatus(error.message || previousLabel, true);
+        }
       };
     }
   }

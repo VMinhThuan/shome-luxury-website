@@ -128,7 +128,7 @@ async function runAdminRoutesTest() {
       'Cookie': cookieHeader
     });
     assert(authImagesRes1.status === 200, 'Authenticated GET /admin/images returns 200 OK');
-    assert(typeof authImagesRes1.body === 'string' && authImagesRes1.body.includes('Quản lý ảnh trang chủ'), 'Renders admin-images EJS template');
+    assert(typeof authImagesRes1.body === 'string' && authImagesRes1.body.includes('Quản lý ảnh các trang'), 'Renders admin-images EJS template');
 
     // Refresh simulation (exact same request again)
     const authImagesRes2 = await makeRequest('GET', '/admin/images', null, {
@@ -166,17 +166,17 @@ async function runAdminRoutesTest() {
     console.log('\n--- TEST 9: Authenticated Admin Image API access ---');
     const authGetImages = await makeRequest('GET', '/api/admin/home-images', null, { 'Cookie': cookieHeader });
     assert(authGetImages.status === 200 && Array.isArray(authGetImages.body.data), 'GET /api/admin/home-images returns 200 and image slots array');
-    assert(authGetImages.body.data.length === 48, `Returned all 48 image slots across 6 pages (received ${authGetImages.body.data.length})`);
+    assert(authGetImages.body.data.length === 55, `Returned all 55 legacy image slots across 6 pages (received ${authGetImages.body.data.length})`);
     assert(Array.isArray(authGetImages.body.pages) && authGetImages.body.pages.length === 7, 'Returns 7 page tab entries (all + 6 pages)');
 
     const authGetFactory = await makeRequest('GET', '/api/admin/home-images?page=factory', null, { 'Cookie': cookieHeader });
     assert(authGetFactory.status === 200 && authGetFactory.body.data.length === 21, `GET ?page=factory returns 21 slots (received ${authGetFactory.body.data.length})`);
 
     const authGetHome = await makeRequest('GET', '/api/admin/home-images?page=home', null, { 'Cookie': cookieHeader });
-    assert(authGetHome.status === 200 && authGetHome.body.data.length === 14, `GET ?page=home returns 14 slots (received ${authGetHome.body.data.length})`);
+    assert(authGetHome.status === 200 && authGetHome.body.data.length === 18, `GET ?page=home returns 18 slots (received ${authGetHome.body.data.length})`);
 
     const authGetQuote = await makeRequest('GET', '/api/admin/home-images?page=quote', null, { 'Cookie': cookieHeader });
-    assert(authGetQuote.status === 200 && authGetQuote.body.data.length === 7, `GET ?page=quote returns 7 slots (received ${authGetQuote.body.data.length})`);
+    assert(authGetQuote.status === 200 && authGetQuote.body.data.length === 10, `GET ?page=quote returns 10 slots (received ${authGetQuote.body.data.length})`);
 
     const authGetNews = await makeRequest('GET', '/api/admin/home-images?page=news', null, { 'Cookie': cookieHeader });
     assert(authGetNews.status === 200 && authGetNews.body.data.length === 1, `GET ?page=news returns 1 slot (received ${authGetNews.body.data.length})`);
