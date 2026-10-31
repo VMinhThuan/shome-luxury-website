@@ -101,9 +101,11 @@
     window.history.replaceState({}, '', url.toString());
 
     // Update active class on buttons
-    tabsHost.querySelectorAll('.image-page-tab-btn').forEach(btn => {
-      btn.classList.toggle('is-active', btn.getAttribute('data-tab-key') === pageKey);
-    });
+    if (tabsHost) {
+      tabsHost.querySelectorAll('.image-page-tab-btn').forEach(btn => {
+        btn.classList.toggle('is-active', btn.getAttribute('data-tab-key') === pageKey);
+      });
+    }
 
     // Update eyebrow
     const curPageObj = pagesList.find(p => p.key === pageKey);
@@ -148,9 +150,11 @@
       else url.searchParams.set('page', pageKey);
       window.history.replaceState({}, '', url.toString());
 
-      tabsHost.querySelectorAll('.image-page-tab-btn').forEach(btn => {
-        btn.classList.toggle('is-active', btn.getAttribute('data-tab-key') === pageKey);
-      });
+      if (tabsHost) {
+        tabsHost.querySelectorAll('.image-page-tab-btn').forEach(btn => {
+          btn.classList.toggle('is-active', btn.getAttribute('data-tab-key') === pageKey);
+        });
+      }
 
       const curPageObj = pagesList.find(p => p.key === pageKey);
       const subpage = subpageList.find(p => `subpage:${p.key}` === pageKey);
@@ -1083,11 +1087,13 @@
     }
 
     if (filtered.length === 0) {
+      slotsHost.classList.remove('is-single-slot');
       const emptyMsg = create('div', 'empty-slots-msg', `Không tìm thấy vị trí ảnh nào phù hợp với từ khóa "${searchKeyword}".`);
       slotsHost.replaceChildren(emptyMsg);
       return;
     }
 
+    slotsHost.classList.toggle('is-single-slot', filtered.length === 1);
     slotsHost.replaceChildren(...filtered.map(card));
   }
 
