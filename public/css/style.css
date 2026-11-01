@@ -18492,3 +18492,53 @@ main .home-faq-item p {
 .quote-page .quote-handover-heading h2 em {
   word-spacing: normal !important;
 }
+
+/* Homepage hero copy: keep the three desktop headlines centered on one line;
+   long brand statements may wrap naturally on phones. */
+@media (min-width: 768px) {
+  .home-page .hero-v2-container {
+    justify-content: center;
+    padding-right: 0;
+    padding-left: 0;
+  }
+
+  .home-page .hero-v2-content {
+    width: 100%;
+    max-width: none;
+    text-align: center;
+  }
+
+  .home-page .hero-v2-title .hero-title-line {
+    display: block;
+    white-space: nowrap;
+  }
+
+  .home-page .hero-script-subtitle {
+    max-width: 100%;
+    margin-right: auto !important;
+    margin-left: auto !important;
+    font-size: clamp(1.2rem, 2.1vw, 2.85rem) !important;
+    white-space: nowrap;
+  }
+}
+
+@media (max-width: 767px) {
+  .home-page .hero-v2-container {
+    justify-content: center;
+    padding-right: .85rem !important;
+    padding-left: .85rem !important;
+  }
+
+  .home-page .hero-v2-content {
+    text-align: center;
+  }
+
+  .home-page .hero-v2-title .hero-title-line,
+  .home-page .hero-script-subtitle {
+    white-space: normal;
+  }
+
+  .home-page .hero-script-subtitle {
+    font-size: clamp(.95rem, 4.6vw, 1.45rem) !important;
+  }
+}
