@@ -3156,7 +3156,7 @@ ol {
   gap: clamp(0.75rem, 1.6vw, 1.25rem);
   background: #ffffff;
   border: 1px solid rgba(225, 210, 192, 0.65);
-  border-radius: 999px;
+  border-radius: 16px;
   padding: clamp(0.5rem, 1.2vw, 0.75rem) clamp(0.75rem, 1.6vw, 1.35rem);
   box-shadow: 0 4px 16px rgba(40, 25, 10, 0.04);
   transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
@@ -13485,9 +13485,15 @@ body.project-gallery-lightbox-open { overflow: hidden !important; }
 }
 
 .home-project-signature-card--apartment { background-position: left top; }
-.home-project-signature-card--townhouse { background-position: right top; }
+.home-project-signature-card--townhouse {
+  /* Skip the white divider between the two source-image panels. */
+  background-position: calc(100% + clamp(4px, .55vw, 8px)) top;
+}
 .home-project-signature-card--villa { background-position: left bottom; }
-.home-project-signature-card--office { background-position: right bottom; }
+.home-project-signature-card--office {
+  /* Skip the white divider between the two source-image panels. */
+  background-position: calc(100% + clamp(4px, .55vw, 8px)) bottom;
+}
 
 .home-project-signature-card--copy-right {
   justify-content: flex-end;
@@ -14058,6 +14064,7 @@ body.project-gallery-lightbox-open { overflow: hidden !important; }
 
   .home-workshop-pill {
     flex: initial;
+    border-radius: 12px;
   }
 }
 
@@ -14652,7 +14659,7 @@ body.project-gallery-lightbox-open { overflow: hidden !important; }
   margin: 0 0 .2rem;
   color: #201914;
   font-family: 'Playfair Display', Georgia, serif;
-  font-size: 40px;
+  font-size: clamp(2rem, 4.2vw, 3.45rem);
   font-weight: 500;
 }
 
@@ -14670,7 +14677,7 @@ body.project-gallery-lightbox-open { overflow: hidden !important; }
 
 @media (max-width: 767px) {
   .home-faq-cta h3 {
-    font-size: clamp(1.65rem, 8vw, 2.15rem);
+    font-size: clamp(1.85rem, 9vw, 2.7rem);
   }
 
   .customer-stories-section,
@@ -15952,6 +15959,10 @@ main .news-list-body p {
 }
 
 /* Match every black label in the project-category cards to the section title. */
+.project-types-section .type-card-name {
+  font-family: var(--font-heading) !important;
+}
+
 .home-project-signatures-section .home-project-signature-copy h3,
 .home-project-signatures-section .home-project-signature-link {
   font-family: var(--font-heading) !important;
@@ -18034,34 +18045,24 @@ main .home-faq-item p {
   backdrop-filter: blur(7px);
 }
 
-/* Dark background: a charcoal-to-walnut scrim makes the new photo backgrounds
-   visible without letting their highlights compete with the content. */
+/* Image backgrounds use a light grey veil so the original photography stays
+   visible instead of being darkened by a heavy scrim. */
 .home-page .home-background-section--dark {
   box-shadow: inset 0 1px rgba(224, 176, 84, .8), inset 0 -1px rgba(224, 176, 84, .45);
 }
 
 .home-page .home-background-section--dark::after {
-  background:
-    linear-gradient(105deg, rgba(10, 8, 6, .44) 0%, rgba(25, 18, 11, .34) 47%, rgba(10, 8, 6, .41) 100%),
-    rgba(10, 8, 6, .26);
+  background: rgba(128, 128, 128, .1);
 }
 
-/* The workshop benefits from a little more of the production image showing
-   through, while the title and pale feature pills still sit on a calm dark
-   surface. */
+/* Keep the workshop photo at the same light overlay strength. */
 .home-page .home-background-section--dark.home-workshop-section::after {
-  background:
-    linear-gradient(105deg, rgba(10, 8, 6, .35) 0%, rgba(25, 18, 11, .27) 47%, rgba(10, 8, 6, .33) 100%),
-    rgba(10, 8, 6, .18);
+  background: rgba(128, 128, 128, .1);
 }
 
-/* FAQ retains the dark, atmospheric image while its reading surfaces stay
-   deliberately light.  Without this panel treatment the CTA's dark copy can
-   disappear into the photograph. */
+/* Keep the FAQ photo at the same light overlay strength. */
 .home-page .home-background-section--dark.home-faq-section::after {
-  background:
-    linear-gradient(105deg, rgba(9, 7, 5, .54) 0%, rgba(23, 16, 10, .46) 50%, rgba(9, 7, 5, .51) 100%),
-    rgba(9, 7, 5, .34);
+  background: rgba(128, 128, 128, .1);
 }
 
 /* Keep the FAQ consultation CTA visually open to the photo, with light copy
@@ -18143,6 +18144,19 @@ main .home-faq-item p {
   box-shadow: none;
 }
 
+/* Match the workshop feature-pill hover interaction on FAQ cards. */
+@media (hover: hover) {
+  .home-page .home-background-section--dark .home-faq-item {
+    transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease;
+  }
+
+  .home-page .home-background-section--dark .home-faq-item:hover {
+    border-color: rgba(240, 207, 148, .86);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, .18);
+    transform: translateX(5px);
+  }
+}
+
 .home-page .home-background-section--dark .home-faq-item summary {
   color: #fff !important;
 }
@@ -18211,15 +18225,15 @@ main .home-faq-item p {
   }
 
   .home-page .home-background-section--dark::after {
-    background: linear-gradient(120deg, rgba(10, 8, 6, .48), rgba(25, 18, 11, .38));
+    background: rgba(128, 128, 128, .1);
   }
 }
 
-/* Project-category CTAs need a true touch target on phones while the two-card
-   layout stays compact. The button fills its copy panel so every card behaves
-   consistently, including the mirrored cards. */
+/* Project-category and signature CTAs share the same mobile size and touch
+   target so both homepage sections stay visually consistent. */
 @media (max-width: 767px) {
-  .home-page .type-card-btn {
+  .home-page .type-card-btn,
+  .home-page .home-project-signature-link {
     width: 100%;
     min-height: 44px;
     padding: .5rem .4rem;
