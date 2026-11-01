@@ -1,0 +1,23 @@
+<header class="content-cms-header">
+  <div class="content-cms-header__inner">
+    <a class="content-cms-brand" href="/admin" aria-label="SHOME LUXURY - Tổng quan quản trị">
+      <img src="/images/shome-logo.png" alt="SHOME LUXURY" width="160" height="56" />
+    </a>
+    <nav class="content-cms-nav" aria-label="Quản lý nội dung">
+      <% const links = [
+        ['design-projects', 'Thiết kế công trình'],
+        ['construction-projects', 'Thi công công trình'],
+        ['careers', 'Tuyển dụng'],
+        ['articles', 'Tin tức']
+      ]; %>
+      <% links.forEach(([key, label]) => { %>
+        <a class="content-cms-nav__link <%= currentModule === key ? 'is-active' : '' %>" href="/admin/content/<%= key %>"><%= label %></a>
+      <% }); %>
+    </nav>
+    <div class="content-cms-tools">
+      <a href="/admin" class="content-cms-tool-link">Dashboard</a>
+      <a href="/" target="_blank" rel="noopener" class="content-cms-tool-link">Xem website ↗</a>
+      <button type="button" class="content-cms-logout" data-logout>Đăng xuất</button>
+    </div>
+  </div>
+</header>

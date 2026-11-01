@@ -10,6 +10,7 @@ const projectShowcaseController = require("../controllers/projectShowcaseControl
 const authController = require("../controllers/authController");
 const quotePageController = require("../controllers/quotePageController");
 const homeImageController = require('../controllers/homeImageController');
+const contentController = require('../controllers/contentController');
 const navigationData = require('../data/navigationData');
 const { authenticateAdmin, requireAdminPage } = require("../middleware/auth");
 
@@ -43,6 +44,8 @@ router.get("/admin/projects", requireAdminPage, (req, res) => {
   });
 });
 router.get("/admin/bao-gia", requireAdminPage, quotePageController.renderAdminPage.bind(quotePageController));
+router.get("/admin/content", requireAdminPage, contentController.renderPage);
+router.get("/admin/content/:module", requireAdminPage, contentController.renderPage);
 
 // Page Routes - Homepage, Workshop & Recruitment
 router.get("/", homeController.getHomePage);
@@ -111,6 +114,30 @@ router.delete("/api/admin/categories/:id", authenticateAdmin, categoryController
 router.get("/api/projects", projectController.getProjects.bind(projectController));
 router.get("/api/projects/:idOrSlug", projectController.getProjectByIdOrSlug.bind(projectController));
 router.get("/api/admin/projects", authenticateAdmin, projectController.getAdminProjects.bind(projectController));
+router.get('/api/admin/content/:module', authenticateAdmin, contentController.listModule);
+router.get('/api/admin/content/:module/:id', authenticateAdmin, contentController.getModuleItem);
+router.post('/api/admin/content/:module', authenticateAdmin, contentController.createModule);
+router.put('/api/admin/content/:module/:id', authenticateAdmin, contentController.updateModule);
+router.patch('/api/admin/content/:module/:id', authenticateAdmin, contentController.updateModule);
+router.delete('/api/admin/content/:module/:id', authenticateAdmin, contentController.deleteModule);
+router.post('/api/admin/content/:module/:id/publish', authenticateAdmin, contentController.setPublication);
+router.post('/api/admin/content/:module/:id/duplicate', authenticateAdmin, contentController.duplicateModule);
+
+// Stable module-specific aliases for integrations and future clients.
+const contentAlias = module => (req, res, next) => {
+  req.params.module = module;
+  return next();
+};
+['design-projects', 'construction-projects', 'careers', 'articles'].forEach(module => {
+  router.get(`/api/admin/${module}`, authenticateAdmin, contentAlias(module), contentController.listModule);
+  router.get(`/api/admin/${module}/:id`, authenticateAdmin, contentAlias(module), contentController.getModuleItem);
+  router.post(`/api/admin/${module}`, authenticateAdmin, contentAlias(module), contentController.createModule);
+  router.put(`/api/admin/${module}/:id`, authenticateAdmin, contentAlias(module), contentController.updateModule);
+  router.patch(`/api/admin/${module}/:id`, authenticateAdmin, contentAlias(module), contentController.updateModule);
+  router.delete(`/api/admin/${module}/:id`, authenticateAdmin, contentAlias(module), contentController.deleteModule);
+  router.post(`/api/admin/${module}/:id/publish`, authenticateAdmin, contentAlias(module), contentController.setPublication);
+  router.post(`/api/admin/${module}/:id/duplicate`, authenticateAdmin, contentAlias(module), contentController.duplicateModule);
+});
 router.get('/api/construction-videos', constructionVideoController.getVideos.bind(constructionVideoController));
 router.get("/api/quote-page", quotePageController.getPublicContent.bind(quotePageController));
 router.put("/api/admin/quote-page", authenticateAdmin, quotePageController.updateContent.bind(quotePageController));
@@ -139,6 +166,10 @@ router.get("/api/recruitment", recruitmentController.getAllJobsApi);
 router.get("/api/recruitment/:id", recruitmentController.getJobByIdApi);
 router.get("/api/jobs", recruitmentController.getAllJobsApi);
 router.get("/api/jobs/:id", recruitmentController.getJobByIdApi);
+router.get('/api/articles', contentController.getPublicArticles);
+router.get('/api/articles/:id', contentController.getPublicArticle);
+router.get('/api/careers', contentController.getPublicCareers);
+router.get('/api/careers/:id', contentController.getPublicCareer);
 
 // Cloudinary Image Upload Endpoints (POST /api/upload & POST /api/recruitment/upload)
 router.post("/api/upload", authenticateAdmin, uploadController.uploadSingleMiddleware, uploadController.handleImageUpload);

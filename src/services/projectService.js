@@ -8,7 +8,7 @@ const PROJECT_FIELDS = [
   'title', 'slug', 'investor', 'clientName', 'location', 'area', 'cost',
   'propertyType', 'style', 'excerpt', 'content', 'status', 'featured',
   'isHighlight', 'highlightOrder', 'isVisible', 'isPublished', 'sortOrder',
-  'categoryIds', 'thumbnail', 'thumbnailPublicId', 'thumbnailFormat', 'thumbnailWidth', 'thumbnailHeight', 'thumbnailBytes', 'gallery', 'galleryItems'
+  'designProjectId', 'categoryIds', 'thumbnail', 'thumbnailPublicId', 'thumbnailFormat', 'thumbnailWidth', 'thumbnailHeight', 'thumbnailBytes', 'gallery', 'galleryItems'
 ];
 
 const slugify = (value) => String(value || '')
@@ -81,7 +81,7 @@ const normalizeInput = (data = {}, { partial = false } = {}) => {
   });
   if (!partial || input.title !== undefined) {
     input.title = String(input.title || '').trim();
-    if (!input.title) throw new Error('Tên công trình không được để trống.');
+    if (!input.title) throw Object.assign(new Error('Tên công trình không được để trống.'), { status: 400 });
   }
   if (input.slug !== undefined) {
     input.slug = slugify(input.slug || input.title);
@@ -93,7 +93,7 @@ const normalizeInput = (data = {}, { partial = false } = {}) => {
   // sends the slug field.
   if (!partial && !input.slug && input.title) input.slug = slugify(input.title);
   if (input.slug && !/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(input.slug)) {
-    throw new Error('Slug chỉ được chứa chữ thường, số và dấu gạch ngang.');
+    throw Object.assign(new Error('Slug chỉ được chứa chữ thường, số và dấu gạch ngang.'), { status: 400 });
   }
   if (input.clientName !== undefined) input.investor = String(input.clientName || '').trim() || null;
   if (input.categoryIds !== undefined) {
@@ -103,7 +103,7 @@ const normalizeInput = (data = {}, { partial = false } = {}) => {
   }
   if (input.cost !== undefined && input.cost !== null && input.cost !== '') {
     input.cost = Number(input.cost);
-    if (!Number.isFinite(input.cost) || input.cost < 0) throw new Error('Chi phí công trình không hợp lệ.');
+    if (!Number.isFinite(input.cost) || input.cost < 0) throw Object.assign(new Error('Chi phí công trình không hợp lệ.'), { status: 400 });
   }
   if (input.sortOrder !== undefined) input.sortOrder = Number(input.sortOrder) || 0;
   if (input.highlightOrder !== undefined) input.highlightOrder = Number(input.highlightOrder) || 0;
@@ -111,6 +111,7 @@ const normalizeInput = (data = {}, { partial = false } = {}) => {
     input.isPublished = normalizeBoolean(input.isPublished);
     if (data.status === undefined) input.status = input.isPublished ? 'published' : 'draft';
   }
+  if (input.status !== undefined && input.isPublished === undefined) input.isPublished = input.status === 'published';
   if (input.galleryItems !== undefined) {
     const items = normalizeGallery({ title: input.title || '', galleryItems: input.galleryItems, gallery: input.gallery });
     if (items.length > MAX_GALLERY_IMAGES) throw Object.assign(new Error(`Gallery tối đa ${MAX_GALLERY_IMAGES} ảnh.`), { status: 400 });
@@ -243,8 +244,8 @@ class ProjectService {
     }
 
     const listFields = options.compact
-      ? 'title slug investor clientName location area propertyType cost style thumbnail thumbnailPublicId thumbnailFormat thumbnailWidth thumbnailHeight thumbnailBytes isHighlight highlightOrder isVisible isPublished sortOrder categoryIds createdAt'
-      : 'title slug investor clientName location area propertyType cost style excerpt content status featured isHighlight highlightOrder isVisible isPublished sortOrder categoryIds thumbnail thumbnailPublicId thumbnailFormat thumbnailWidth thumbnailHeight thumbnailBytes gallery galleryItems createdAt updatedAt';
+      ? 'title slug investor clientName location area propertyType cost style thumbnail thumbnailPublicId thumbnailFormat thumbnailWidth thumbnailHeight thumbnailBytes isHighlight highlightOrder isVisible isPublished sortOrder designProjectId categoryIds createdAt'
+      : 'title slug investor clientName location area propertyType cost style excerpt content status featured isHighlight highlightOrder isVisible isPublished sortOrder designProjectId categoryIds thumbnail thumbnailPublicId thumbnailFormat thumbnailWidth thumbnailHeight thumbnailBytes gallery galleryItems createdAt updatedAt';
     let projectsQuery = Project.find(filter)
       .select(listFields)
       .sort(sortOption)
@@ -298,7 +299,7 @@ class ProjectService {
   async createProject(data) {
     const input = normalizeInput(data);
     const existing = await Project.exists({ slug: input.slug });
-    if (existing) throw new Error('Slug công trình đã tồn tại.');
+    if (existing) throw Object.assign(new Error('Slug công trình đã tồn tại.'), { status: 409 });
     const project = new Project({ ...input, isPublished: input.isPublished !== false });
     return normalizeProject(await project.save());
   }
@@ -308,14 +309,14 @@ class ProjectService {
    */
   async updateProject(id, data) {
     const current = await Project.findById(id).lean();
-    if (!current) throw new Error('Project not found');
+    if (!current) throw Object.assign(new Error('Project not found'), { status: 404 });
     const input = normalizeInput(data, { partial: true });
     if (input.slug && input.slug !== current.slug) {
       const existing = await Project.exists({ slug: input.slug, _id: { $ne: id } });
-      if (existing) throw new Error('Slug công trình đã tồn tại.');
+      if (existing) throw Object.assign(new Error('Slug công trình đã tồn tại.'), { status: 409 });
     }
     const project = await Project.findByIdAndUpdate(id, input, { new: true, runValidators: true }).lean();
-    if (!project) throw new Error('Project not found');
+    if (!project) throw Object.assign(new Error('Project not found'), { status: 404 });
     return normalizeProject(project);
   }
 
@@ -324,7 +325,7 @@ class ProjectService {
    */
   async deleteProject(id) {
     const project = await Project.findByIdAndDelete(id).lean();
-    if (!project) throw new Error('Project not found');
+    if (!project) throw Object.assign(new Error('Project not found'), { status: 404 });
     const normalized = normalizeProject(project);
     const assets = [
       normalized.thumbnailPublicId ? { publicId: normalized.thumbnailPublicId, url: normalized.thumbnail } : null,
@@ -340,7 +341,7 @@ class ProjectService {
   async updateThumbnail(id, thumbnailUrl, publicId = null, metadata = {}) {
     metadata = metadata || {};
     const current = await Project.findById(id).lean();
-    if (!current) throw new Error('Project not found');
+    if (!current) throw Object.assign(new Error('Project not found'), { status: 404 });
     const project = await Project.findByIdAndUpdate(
       id,
       {
@@ -366,7 +367,7 @@ class ProjectService {
     metadata = metadata || {};
     if (!imageUrl) throw new Error('imageUrl is required');
     const current = await Project.findById(id).lean();
-    if (!current) throw new Error('Project not found');
+    if (!current) throw Object.assign(new Error('Project not found'), { status: 404 });
     const items = normalizeGallery(current);
     if (items.length >= MAX_GALLERY_IMAGES) throw Object.assign(new Error(`Gallery đã đủ ${MAX_GALLERY_IMAGES} ảnh. Hãy xoá một ảnh trước khi thêm ảnh mới.`), { status: 400 });
     if (!items.some(item => item.url === imageUrl)) {
@@ -385,7 +386,7 @@ class ProjectService {
    */
   async removeFromGallery(id, imageUrl, imageId = null) {
     const current = await Project.findById(id).lean();
-    if (!current) throw new Error('Project not found');
+    if (!current) throw Object.assign(new Error('Project not found'), { status: 404 });
     const items = normalizeGallery(current);
     const removed = items.find(item => (imageId && item.id === imageId) || (!imageId && item.url === imageUrl));
     const remaining = items.filter(item => item !== removed).map((item, index) => ({ ...item, order: index }));
@@ -400,7 +401,7 @@ class ProjectService {
 
   async reorderGallery(id, galleryItems = []) {
     const current = await Project.findById(id).lean();
-    if (!current) throw new Error('Project not found');
+    if (!current) throw Object.assign(new Error('Project not found'), { status: 404 });
     const existing = normalizeGallery(current);
     const requested = Array.isArray(galleryItems) ? galleryItems : [];
     if (existing.length > MAX_GALLERY_IMAGES || requested.length > MAX_GALLERY_IMAGES) {

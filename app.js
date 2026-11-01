@@ -53,7 +53,7 @@ app.use("/", routes);
 // Global Error Handler Middleware
 app.use((err, req, res, next) => {
   console.error("[Global Error Handler]:", err);
-  const status = err.status || (err.name === 'ValidationError' ? 400 : 500);
+  const status = err.status || (err.name === 'ValidationError' || err.name === 'CastError' ? 400 : err.code === 11000 ? 409 : 500);
   return res.status(status).json({
     success: false,
     message: err.message || "Internal Server Error"

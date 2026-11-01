@@ -1,6 +1,6 @@
 const navigationData = require("../data/navigationData");
-const recruitmentData = require("../data/recruitmentData");
 const { getPageImages } = require("../services/imageService");
+const careerService = require('../services/careerService');
 
 // Helper to normalize job data with both 'image' and 'thumbnail' fields
 const formatJobItem = (job) => {
@@ -18,10 +18,11 @@ exports.getRecruitmentPage = async (req, res, next) => {
     const jobId = req.params.id;
 
     if (jobId) {
-      const rawJob = recruitmentData.find(j => j.id === jobId);
+      const rawJob = await careerService.find(jobId, { public: true });
       if (rawJob) {
         const job = formatJobItem(rawJob);
-        const otherJobs = recruitmentData.filter(j => j.id !== jobId).slice(0, 4).map(formatJobItem);
+        const otherResult = await careerService.list({ public: true, limit: 5 });
+        const otherJobs = otherResult.rows.filter(item => item.id !== job.id).slice(0, 4).map(formatJobItem);
         return res.render("tuyen-dung-detail", {
           title: `${job.title} | SHOME LUXURY`,
           headerSlogan: "Nâng tầm cuộc sống",
@@ -30,10 +31,12 @@ exports.getRecruitmentPage = async (req, res, next) => {
           otherJobs: otherJobs
         });
       }
+      return res.status(404).render('404', { title: 'Không tìm thấy vị trí tuyển dụng | SHOME LUXURY', navigation: navigationData });
     }
 
     const recruitmentImages = await getPageImages('recruitment');
-    const formattedJobs = recruitmentData.map(formatJobItem);
+    const result = await careerService.list({ public: true, limit: 100 });
+    const formattedJobs = result.rows.map(formatJobItem);
     const pageData = {
       title: "Tuyển Dụng | SHOME LUXURY - Cùng Kiến Tạo Giá Trị",
       headerSlogan: "Nâng tầm cuộc sống",
@@ -47,31 +50,24 @@ exports.getRecruitmentPage = async (req, res, next) => {
 };
 
 // API: Get all recruitment posts
-exports.getAllJobsApi = (req, res) => {
-  const formattedJobs = recruitmentData.map(formatJobItem);
-  res.json({
-    success: true,
-    count: formattedJobs.length,
-    data: formattedJobs
-  });
+exports.getAllJobsApi = async (req, res, next) => {
+  try {
+    const result = await careerService.list({ public: true, limit: 100 });
+    const formattedJobs = result.rows.map(formatJobItem);
+    return res.json({ success: true, count: formattedJobs.length, data: formattedJobs });
+  } catch (error) { return next(error); }
 };
 
 // API: Get 1 recruitment post by ID (Full detailed info)
-exports.getJobByIdApi = (req, res) => {
-  const jobId = req.params.id;
-  const rawJob = recruitmentData.find(j => j.id === jobId);
+exports.getJobByIdApi = async (req, res, next) => {
+  try {
+    const jobId = req.params.id;
+    const rawJob = await careerService.find(jobId, { public: true });
 
-  if (!rawJob) {
-    return res.status(404).json({
-      success: false,
-      message: "Bài tuyển dụng không tồn tại."
-    });
-  }
+    if (!rawJob) return res.status(404).json({ success: false, message: "Bài tuyển dụng không tồn tại." });
 
-  const job = formatJobItem(rawJob);
+    const job = formatJobItem(rawJob);
 
-  res.json({
-    success: true,
-    data: job
-  });
+    return res.json({ success: true, data: job });
+  } catch (error) { return next(error); }
 };

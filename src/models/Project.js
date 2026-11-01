@@ -97,6 +97,12 @@ const projectSchema = new mongoose.Schema({
     default: 0,
     index: true
   },
+  designProjectId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Project',
+    default: null,
+    index: true
+  },
   // Kept alongside the legacy status field so existing integrations remain
   // compatible while the CMS can expose a clear published toggle.
   isPublished: {

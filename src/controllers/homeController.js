@@ -1,9 +1,11 @@
 const navigationData = require("../data/navigationData");
-const newsData = require("../data/newsData");
 const { getPageImages } = require("../services/imageService");
+const articleService = require('../services/articleService');
 
 exports.getHomePage = async (req, res, next) => {
   try {
+  const articleResult = await articleService.list({ public: true, limit: 3 });
+  const homeNews = articleResult.rows.slice(0, 3);
   const pageData = {
     title: "LUXURY HOME | Thiết Kế & Thi Công Nội Thất, Kiến Trúc Cao Cấp",
     headerSlogan: "Nâng tầm cuộc sống",
@@ -120,7 +122,7 @@ exports.getHomePage = async (req, res, next) => {
       { step: "05", title: "Sản xuất", desc: "Gia công trực tiếp tại xưởng quy chuẩn ISO" },
       { step: "06", title: "Thi công & bàn giao", desc: "Lắp đặt hoàn thiện và nghiệm thu bảo hành" }
     ],
-    news: newsData.slice(0, 3).map(item => ({
+    news: homeNews.map(item => ({
       id: item.id,
       title: item.title,
       date: item.date,
@@ -223,7 +225,8 @@ exports.getCompanyProfilePage = (req, res) => {
 exports.getNewsPage = async (req, res, next) => {
   try {
     const newsImages = await getPageImages('news');
-    const articles = newsData.map(item => ({
+    const result = await articleService.list({ public: true, limit: 100 });
+    const articles = result.rows.map(item => ({
       id: item.id,
       category: item.category,
       title: item.title,
@@ -241,16 +244,19 @@ exports.getNewsPage = async (req, res, next) => {
   } catch (error) { next(error); }
 };
 
-exports.getNewsDetailPage = (req, res) => {
-  const articleId = req.params.id;
-  const article = newsData.find(a => a.id === articleId) || newsData[0];
-  const otherArticles = newsData.filter(a => a.id !== article.id).slice(0, 4);
-
-  res.render("tin-tuc-detail", {
-    title: `${article.title} | SHOME LUXURY`,
-    headerSlogan: "Nâng tầm cuộc sống",
-    navigation: navigationData,
-    article,
-    otherArticles
-  });
+exports.getNewsDetailPage = async (req, res, next) => {
+  try {
+    const articleId = req.params.id;
+    const article = await articleService.find(articleId, { public: true });
+    if (!article) return res.status(404).render('404', { title: 'Không tìm thấy bài viết | SHOME LUXURY', navigation: navigationData });
+    const result = await articleService.list({ public: true, limit: 100 });
+    const otherArticles = result.rows.filter(a => a.id !== article.id).slice(0, 4);
+    return res.render("tin-tuc-detail", {
+      title: `${article.title} | SHOME LUXURY`,
+      headerSlogan: "Nâng tầm cuộc sống",
+      navigation: navigationData,
+      article,
+      otherArticles
+    });
+  } catch (error) { return next(error); }
 };

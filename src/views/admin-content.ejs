@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title><%= title %></title>
+  <link rel="stylesheet" href="/css/admin-shell.css?v=1.0.0" />
+  <link rel="stylesheet" href="/css/admin-content.css?v=1.0.0" />
+  <script src="/js/admin-content.js?v=1.0.0" defer></script>
+</head>
+<body class="content-cms-page" data-module="<%= currentModule %>">
+  <%- include('partials/admin-content-header', { currentModule }) %>
+  <main class="content-cms-shell">
+    <div class="content-cms-breadcrumb"><a href="/admin">Dashboard</a><span>/</span><span>Quản lý nội dung</span><span>/</span><strong><%= currentModuleLabel %></strong></div>
+    <section class="content-cms-heading">
+      <div>
+        <p class="content-cms-eyebrow">SHOME LUXURY / CONTENT CMS</p>
+        <h1 data-module-title><%= currentModuleLabel %></h1>
+        <p data-module-description>Thêm, chỉnh sửa, xuất bản và quản lý nội dung website từ một khu vực thống nhất.</p>
+      </div>
+      <button class="content-cms-primary" type="button" data-new-item>+ Thêm mới</button>
+    </section>
+
+    <section class="content-cms-toolbar" aria-label="Bộ lọc nội dung">
+      <label>Tìm kiếm<input type="search" data-search placeholder="Tìm theo tiêu đề, slug..." /></label>
+      <label>Danh mục<select data-category-filter><option value="">Tất cả danh mục</option></select></label>
+      <label>Trạng thái<select data-status-filter><option value="all">Tất cả</option><option value="published">Đã xuất bản</option><option value="draft">Bản nháp</option><option value="private">Riêng tư</option><option value="trash">Thùng rác</option></select></label>
+      <button class="content-cms-secondary" type="button" data-refresh>Làm mới</button>
+    </section>
+
+    <div class="content-cms-feedback" data-feedback aria-live="polite"></div>
+    <section class="content-cms-table-wrap">
+      <table class="content-cms-table">
+        <thead><tr><th>Ảnh</th><th>Tiêu đề</th><th>Danh mục</th><th>Slug</th><th>Trạng thái</th><th>Cập nhật</th><th>Thao tác</th></tr></thead>
+        <tbody data-table></tbody>
+      </table>
+      <div class="content-cms-empty" data-empty hidden>Chưa có nội dung phù hợp.</div>
+    </section>
+    <div class="content-cms-pagination" data-pagination></div>
+  </main>
+
+  <div class="content-cms-modal" data-modal hidden>
+    <div class="content-cms-modal__backdrop" data-close-modal></div>
+    <section class="content-cms-dialog" role="dialog" aria-modal="true" aria-labelledby="content-form-title">
+      <header class="content-cms-dialog__header"><div><p class="content-cms-eyebrow">NỘI DUNG WEBSITE</p><h2 id="content-form-title" data-form-title>Thêm nội dung</h2></div><button type="button" class="content-cms-close" data-close-modal aria-label="Đóng">×</button></header>
+      <form data-content-form>
+        <input type="hidden" name="id" />
+        <div class="content-cms-form-grid">
+          <label class="full">Tiêu đề *<input name="title" required /></label>
+          <label>Slug<input name="slug" placeholder="Tự tạo nếu bỏ trống" /></label>
+          <label class="project-only">Danh mục công trình<select name="category" multiple size="5" data-project-category aria-label="Danh mục công trình"></select><small>Giữ Ctrl/Cmd để chọn nhiều danh mục nếu cần.</small></label>
+          <label class="non-project-only">Danh mục<input name="categoryText" placeholder="Ví dụ: Giải pháp" /></label>
+          <label>Người đăng / tác giả<input name="author" /></label>
+          <label>Ngày hiển thị<input name="date" placeholder="dd/mm/yyyy" /></label>
+          <label class="project-only">Khách hàng / chủ đầu tư<input name="clientName" /></label>
+          <label class="project-only">Địa điểm<input name="location" /></label>
+          <label class="project-only">Diện tích<input name="area" /></label>
+          <label class="project-only">Chi phí (VNĐ)<input name="cost" type="number" min="0" step="1000000" /></label>
+          <label class="project-only">Loại hình<select name="propertyType"><option value="">Chọn loại hình</option><option>Căn hộ 1 PN</option><option>Căn hộ 2 PN</option><option>Căn hộ 3 PN</option><option>Chung cư</option><option>Nhà phố</option><option>Nhà cấp 4</option><option>Biệt thự</option><option>Villa</option><option>Văn phòng</option></select></label>
+          <label class="project-only">Phong cách<input name="style" /></label>
+          <label class="construction-only">Liên kết thiết kế<select name="designProjectId" data-design-project><option value="">Không liên kết</option></select></label>
+          <label class="career-only">Hình thức làm việc<input name="workType" /></label>
+          <label class="career-only">Mức lương<input name="salary" /></label>
+          <label class="career-only">Kinh nghiệm<input name="experience" /></label>
+          <label class="career-only">Số lượng<input name="quantity" /></label>
+          <label class="career-only">Hạn nhận hồ sơ<input name="deadline" /></label>
+          <label class="career-only full">Yêu cầu công việc (mỗi dòng một ý)<textarea name="requirementsText" rows="3"></textarea></label>
+          <label class="career-only full">Quyền lợi (mỗi dòng một ý)<textarea name="benefitsText" rows="3"></textarea></label>
+          <label class="career-only full">Thông tin liên hệ (JSON tùy chọn)<textarea name="contactDetailsText" rows="2" placeholder="{ &quot;phone&quot;: &quot;079999 7700&quot; }"></textarea></label>
+          <label class="article-only">Tiêu đề SEO<input name="metaTitle" /></label>
+          <label class="article-only">Thời gian đọc<input name="readTime" placeholder="5 phút đọc" /></label>
+          <label class="article-only full">Mô tả SEO<textarea name="metaDescription" rows="2"></textarea></label>
+          <label class="article-only full">Thẻ (phân tách bằng dấu phẩy)<input name="tagsText" /></label>
+          <label class="full">Tóm tắt / mô tả ngắn<textarea name="summary" rows="3"></textarea></label>
+          <label class="project-only full">Nội dung dự án<textarea name="content" rows="5"></textarea></label>
+          <div class="project-only full content-cms-gallery-tools"><label>Gallery (mỗi URL một dòng)<textarea name="galleryUrls" rows="4" placeholder="https://.../anh-1.webp&#10;https://.../anh-2.webp"></textarea><small>Thứ tự các dòng là thứ tự hiển thị. Tối đa 5 ảnh theo giới hạn của module dự án.</small></label><div class="content-cms-upload"><input type="file" accept="image/jpeg,image/png,image/webp" multiple data-gallery-files /><button type="button" class="content-cms-secondary" data-upload-gallery>Tải ảnh gallery</button></div><div class="content-cms-gallery-preview" data-gallery-preview>Chưa có ảnh gallery</div></div>
+          <label class="full">Ảnh đại diện<input name="thumbnail" data-thumbnail-url placeholder="Dán URL ảnh hoặc tải ảnh bên dưới" /></label>
+          <div class="content-cms-upload full"><input type="file" accept="image/jpeg,image/png,image/webp" data-image-file /><button type="button" class="content-cms-secondary" data-upload-image>Tải ảnh lên</button><div class="content-cms-image-preview" data-image-preview>Chưa có ảnh</div></div>
+          <div class="full editor-field"><div class="content-cms-editor-toolbar"><button type="button" data-wrap="<strong>|</strong>">Đậm</button><button type="button" data-wrap="<em>|</em>">Nghiêng</button><button type="button" data-wrap="<h2>|</h2>">H2</button><button type="button" data-wrap="<h3>|</h3>">H3</button><button type="button" data-wrap="<ul><li>|</li></ul>">Danh sách</button><button type="button" data-wrap="<blockquote>|</blockquote>">Trích dẫn</button></div><label>Nội dung chi tiết / bài viết<textarea name="fullHtmlContent" rows="14" data-rich-editor placeholder="Có thể nhập HTML cơ bản: H2, H3, p, ul, ol, a, img..."></textarea></label><small>HTML sẽ được lọc an toàn trên máy chủ trước khi xuất bản.</small></div>
+          <div class="full content-cms-inline-image"><label>URL ảnh nội dung<input data-inline-image-url type="url" placeholder="https://.../anh.webp" /></label><label>Mô tả ảnh<input data-inline-image-alt placeholder="Mô tả ngắn cho ảnh" /></label><button type="button" class="content-cms-secondary" data-insert-inline-image>Chèn ảnh vào nội dung</button></div>
+          <label class="checkbox-field career-only"><input name="isHot" type="checkbox" /> Đánh dấu HOT</label>
+          <label class="checkbox-field career-only"><input name="isClosed" type="checkbox" /> Đã đóng tuyển dụng</label>
+          <label class="checkbox-field article-only"><input name="isFeatured" type="checkbox" /> Bài nổi bật</label>
+          <label class="checkbox-field"><input name="isPublished" type="checkbox" checked /> Xuất bản</label>
+        </div>
+        <p class="content-cms-form-error" data-form-error aria-live="polite"></p>
+        <footer class="content-cms-form-actions"><button type="button" class="content-cms-secondary" data-close-modal>Hủy</button><button type="button" class="content-cms-secondary" data-save-draft>Lưu bản nháp</button><button type="submit" class="content-cms-primary" data-publish-item>Xuất bản</button></footer>
+      </form>
+    </section>
+  </div>
+</body>
+</html>
