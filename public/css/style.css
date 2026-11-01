@@ -15261,7 +15261,8 @@ body.project-gallery-lightbox-open { overflow: hidden !important; }
   .booking-page .home-faq-item summary {
     min-height: 96px;
     padding: clamp(1rem, 1.65vw, 1.4rem);
-    font-size: clamp(1rem, 1.35vw, 1.22rem);
+    /* Match the white FAQ titles to the workshop feature text sizing. */
+    font-size: clamp(0.85rem, 1.35vw, 1.05rem);
     line-height: 1.35;
   }
 
