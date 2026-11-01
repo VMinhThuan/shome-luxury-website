@@ -7,8 +7,8 @@
   <script src="/js/admin-images.js?v=1.0.6" defer></script>
 </head>
 <body class="home-images-admin">
-<%- include('partials/header', { navigation, adminImageMode: true }) %>
-<%- include('partials/mobile-drawer', { navigation, adminImageMode: true }) %>
+<%- include('partials/header', { navigation, adminImageMode: true, adminHomeHref: '/admin' }) %>
+<%- include('partials/mobile-drawer', { navigation, adminImageMode: true, adminHomeHref: '/admin' }) %>
 <main class="image-admin-shell">
   <section class="image-admin-login" data-login-panel hidden><p class="eyebrow">KHU VỰC BẢO MẬT</p><h1>Quản lý ảnh các trang</h1><p>Đăng nhập bằng tài khoản quản trị để cập nhật hình ảnh.</p><form data-login-form><label>Tài khoản<input name="username" autocomplete="username" required></label><label>Mật khẩu<input name="password" type="password" autocomplete="current-password" required></label><button>Đăng nhập</button><p data-login-status aria-live="polite"></p></form></section>
   <section data-editor hidden>

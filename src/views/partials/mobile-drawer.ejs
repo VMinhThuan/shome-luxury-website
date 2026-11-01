@@ -1,6 +1,9 @@
 <!-- Mobile Menu Backdrop -->
 <%
   const adminImageModeEnabled = typeof adminImageMode !== 'undefined' && adminImageMode;
+  const adminHomeTarget = typeof adminHomeHref !== 'undefined'
+    ? adminHomeHref
+    : (adminImageModeEnabled ? '/admin' : '/');
   const adminImageTarget = (item) => {
     if (item.id === 'home') return 'home';
     if (item.id === 'xuong-san-xuat') return 'factory';
@@ -31,7 +34,7 @@
 <aside class="mobile-drawer" id="mobileDrawer" aria-hidden="true">
 
   <!-- Brand -->
-  <a href="<%= adminImageModeEnabled ? '/admin' : '/' %>" class="drawer-brand" aria-label="SHOME LUXURY - <%= adminImageModeEnabled ? 'Dashboard quản trị' : 'Trang chủ' %>">
+  <a href="<%= adminHomeTarget %>" class="drawer-brand" aria-label="SHOME LUXURY - <%= adminImageModeEnabled ? 'Dashboard quản trị' : 'Trang chủ' %>">
     <img src="/images/shome-logo.png" alt="SHOME LUXURY" width="160" height="56" />
   </a>
 
