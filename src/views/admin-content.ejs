@@ -31,7 +31,7 @@
     <div class="content-cms-feedback" data-feedback aria-live="polite"></div>
     <section class="content-cms-table-wrap">
       <table class="content-cms-table">
-        <thead><tr><th>Ảnh</th><th>Tiêu đề</th><th>Danh mục</th><th>Slug</th><th>Trạng thái</th><th>Cập nhật</th><th>Thao tác</th></tr></thead>
+        <thead><tr><th>Ảnh</th><th>Tiêu đề</th><th>Danh mục</th><th>Trạng thái</th><th>Cập nhật</th><th>Thao tác</th></tr></thead>
         <tbody data-table></tbody>
       </table>
       <div class="content-cms-empty" data-empty hidden>Chưa có nội dung phù hợp.</div>
@@ -47,7 +47,6 @@
         <input type="hidden" name="id" />
         <div class="content-cms-form-grid">
           <label class="full">Tiêu đề *<input name="title" required /></label>
-          <label>Slug<input name="slug" placeholder="Tự tạo nếu bỏ trống" /></label>
           <label class="project-only">Danh mục công trình<select name="category" multiple size="5" data-project-category aria-label="Danh mục công trình"></select><small>Giữ Ctrl/Cmd để chọn nhiều danh mục nếu cần.</small></label>
           <label class="non-project-only">Danh mục<input name="categoryText" placeholder="Ví dụ: Giải pháp" /></label>
           <label>Người đăng / tác giả<input name="author" /></label>
@@ -66,18 +65,17 @@
           <label class="career-only">Hạn nhận hồ sơ<input name="deadline" /></label>
           <label class="career-only full">Yêu cầu công việc (mỗi dòng một ý)<textarea name="requirementsText" rows="3"></textarea></label>
           <label class="career-only full">Quyền lợi (mỗi dòng một ý)<textarea name="benefitsText" rows="3"></textarea></label>
-          <label class="career-only full">Thông tin liên hệ (JSON tùy chọn)<textarea name="contactDetailsText" rows="2" placeholder="{ &quot;phone&quot;: &quot;079999 7700&quot; }"></textarea></label>
+          <label class="career-only full">Thông tin liên hệ<textarea name="contactDetailsText" rows="3" placeholder="Ví dụ: Liên hệ phòng nhân sự qua số điện thoại hoặc email..."></textarea></label>
           <label class="article-only">Tiêu đề SEO<input name="metaTitle" /></label>
           <label class="article-only">Thời gian đọc<input name="readTime" placeholder="5 phút đọc" /></label>
           <label class="article-only full">Mô tả SEO<textarea name="metaDescription" rows="2"></textarea></label>
           <label class="article-only full">Thẻ (phân tách bằng dấu phẩy)<input name="tagsText" /></label>
-          <label class="full">Tóm tắt / mô tả ngắn<textarea name="summary" rows="3"></textarea></label>
-          <label class="project-only full">Nội dung dự án<textarea name="content" rows="5"></textarea></label>
-          <div class="project-only full content-cms-gallery-tools"><label>Gallery (mỗi URL một dòng)<textarea name="galleryUrls" rows="4" placeholder="https://.../anh-1.webp&#10;https://.../anh-2.webp"></textarea><small>Thứ tự các dòng là thứ tự hiển thị. Tối đa 5 ảnh theo giới hạn của module dự án.</small></label><div class="content-cms-upload"><input type="file" accept="image/jpeg,image/png,image/webp" multiple data-gallery-files /><button type="button" class="content-cms-secondary" data-upload-gallery>Tải ảnh gallery</button></div><div class="content-cms-gallery-preview" data-gallery-preview>Chưa có ảnh gallery</div></div>
-          <label class="full">Ảnh đại diện<input name="thumbnail" data-thumbnail-url placeholder="Dán URL ảnh hoặc tải ảnh bên dưới" /></label>
+          <label class="full">Tóm tắt / mô tả ngắn<textarea name="summary" rows="3" placeholder="Nhập nội dung bằng chữ, không cần mã HTML."></textarea></label>
+          <label class="project-only full">Nội dung dự án<textarea name="content" rows="5" placeholder="Nhập nội dung bằng chữ, không cần mã HTML."></textarea></label>
+          <div class="project-only full content-cms-gallery-tools"><label>Ảnh gallery<small>Chọn ảnh từ máy tính. Thứ tự ảnh được lưu theo thứ tự tải lên.</small></label><div class="content-cms-upload"><input type="file" accept="image/jpeg,image/png,image/webp" multiple data-gallery-files /><button type="button" class="content-cms-secondary" data-upload-gallery>Tải ảnh gallery</button></div><textarea name="galleryUrls" rows="1" hidden aria-hidden="true"></textarea><div class="content-cms-gallery-preview" data-gallery-preview>Chưa có ảnh gallery</div></div>
+          <label class="full">Ảnh đại diện<input name="thumbnail" type="hidden" data-thumbnail-url /><span class="content-cms-upload-label">Chọn ảnh ở nút tải ảnh bên dưới.</span></label>
           <div class="content-cms-upload full"><input type="file" accept="image/jpeg,image/png,image/webp" data-image-file /><button type="button" class="content-cms-secondary" data-upload-image>Tải ảnh lên</button><div class="content-cms-image-preview" data-image-preview>Chưa có ảnh</div></div>
-          <div class="full editor-field"><div class="content-cms-editor-toolbar"><button type="button" data-wrap="<strong>|</strong>">Đậm</button><button type="button" data-wrap="<em>|</em>">Nghiêng</button><button type="button" data-wrap="<h2>|</h2>">H2</button><button type="button" data-wrap="<h3>|</h3>">H3</button><button type="button" data-wrap="<ul><li>|</li></ul>">Danh sách</button><button type="button" data-wrap="<blockquote>|</blockquote>">Trích dẫn</button></div><label>Nội dung chi tiết / bài viết<textarea name="fullHtmlContent" rows="14" data-rich-editor placeholder="Có thể nhập HTML cơ bản: H2, H3, p, ul, ol, a, img..."></textarea></label><small>HTML sẽ được lọc an toàn trên máy chủ trước khi xuất bản.</small></div>
-          <div class="full content-cms-inline-image"><label>URL ảnh nội dung<input data-inline-image-url type="url" placeholder="https://.../anh.webp" /></label><label>Mô tả ảnh<input data-inline-image-alt placeholder="Mô tả ngắn cho ảnh" /></label><button type="button" class="content-cms-secondary" data-insert-inline-image>Chèn ảnh vào nội dung</button></div>
+          <div class="full editor-field"><label>Nội dung chi tiết<textarea name="bodyText" rows="14" placeholder="Nhập nội dung bằng chữ. Mỗi đoạn cách nhau một dòng trống."></textarea></label><small>Hệ thống tự định dạng nội dung an toàn cho website.</small></div>
           <label class="checkbox-field career-only"><input name="isHot" type="checkbox" /> Đánh dấu HOT</label>
           <label class="checkbox-field career-only"><input name="isClosed" type="checkbox" /> Đã đóng tuyển dụng</label>
           <label class="checkbox-field article-only"><input name="isFeatured" type="checkbox" /> Bài nổi bật</label>

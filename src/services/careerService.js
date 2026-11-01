@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const Career = require('../models/Career');
 const ContentMigration = require('../models/ContentMigration');
 const recruitmentData = require('../data/recruitmentData');
-const { sanitizeHtml } = require('../utils/sanitizeHtml');
+const { sanitizeHtml, htmlToPlainText, plainTextToHtml } = require('../utils/sanitizeHtml');
 
 let seedPromise;
 const MIGRATION_KEY = 'careers-recruitment-data-v1';
@@ -15,6 +15,7 @@ const normalize = (value) => {
   if (!value) return null;
   const job = typeof value?.toObject === 'function' ? value.toObject() : { ...value };
   const image = job.thumbnail || job.image || '/images/banner-tuyendung.png';
+  job.summary = htmlToPlainText(job.summary || '');
   return { ...job, id: job.legacyId || job.slug || String(job._id), image, thumbnail: image };
 };
 
@@ -23,8 +24,17 @@ const normalizeInput = (data = {}, partial = false) => {
   if (input.title !== undefined) input.title = String(input.title || '').trim();
   if (!partial && !input.title) throw Object.assign(new Error('Tiêu đề tuyển dụng không được để trống.'), { status: 400 });
   if (input.slug !== undefined || (!partial && input.title)) input.slug = slugify(input.slug || input.title);
-  if (input.fullHtmlContent !== undefined) input.fullHtmlContent = sanitizeHtml(input.fullHtmlContent);
-  if (input.summary !== undefined) input.summary = String(input.summary || '').trim();
+  if (input.bodyText !== undefined) {
+    input.fullHtmlContent = plainTextToHtml(input.bodyText);
+    delete input.bodyText;
+  } else if (input.fullHtmlContent !== undefined) input.fullHtmlContent = sanitizeHtml(input.fullHtmlContent);
+  if (input.summary !== undefined) input.summary = htmlToPlainText(input.summary);
+  if (input.requirements !== undefined) input.requirements = (Array.isArray(input.requirements) ? input.requirements : [input.requirements]).map(htmlToPlainText).filter(Boolean);
+  if (input.benefits !== undefined) input.benefits = (Array.isArray(input.benefits) ? input.benefits : [input.benefits]).map(htmlToPlainText).filter(Boolean);
+  if (input.contactDetailsText !== undefined) {
+    input.contactDetails = htmlToPlainText(input.contactDetailsText);
+    delete input.contactDetailsText;
+  }
   ['isHot', 'isPublished', 'isClosed'].forEach(field => {
     if (input[field] !== undefined) input[field] = input[field] === true || input[field] === 'true' || input[field] === '1' || input[field] === 1;
   });

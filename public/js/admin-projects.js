@@ -532,7 +532,7 @@
     $('[data-form-heading]').textContent = project ? 'Chỉnh sửa công trình' : 'Thêm công trình';
 
     [
-      'title', 'slug', 'clientName', 'location', 'area', 'cost',
+      'title', 'clientName', 'location', 'area', 'cost',
       'style', 'excerpt', 'content', 'sortOrder'
     ].forEach(name => {
       if (form.elements[name]) {
@@ -704,7 +704,7 @@
     try {
       const payload = {};
       [
-        'title', 'slug', 'clientName', 'location', 'area', 'cost',
+        'title', 'clientName', 'location', 'area', 'cost',
         'propertyType', 'style', 'excerpt', 'content', 'sortOrder'
       ].forEach(name => {
         const value = form.elements[name].value;

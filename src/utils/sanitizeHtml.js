@@ -51,4 +51,32 @@ function sanitizeHtml(value = '') {
   });
 }
 
-module.exports = { sanitizeHtml };
+function htmlToPlainText(value = '') {
+  return String(value || '')
+    .replace(/<!--[\s\S]*?-->/g, '')
+    .replace(/<(script|style|iframe|object|embed)[^>]*>[\s\S]*?<\/\1>/gi, '')
+    .replace(/<\s*br\s*\/?>/gi, '\n')
+    .replace(/<\s*\/\s*(p|div|li|h[1-6]|blockquote|figure|section)\s*>/gi, '\n')
+    .replace(/<[^>]*>/g, '')
+    .replace(/&nbsp;/gi, ' ')
+    .replace(/&amp;/gi, '&')
+    .replace(/&lt;/gi, '<')
+    .replace(/&gt;/gi, '>')
+    .replace(/&quot;/gi, '"')
+    .replace(/&#39;|&apos;/gi, "'")
+    .replace(/[ \t]+\n/g, '\n')
+    .replace(/\n{3,}/g, '\n\n')
+    .trim();
+}
+
+function escapeHtmlText(value = '') {
+  return String(value || '').replace(/[&<>"']/g, char => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[char]));
+}
+
+function plainTextToHtml(value = '') {
+  const text = htmlToPlainText(value);
+  if (!text) return '';
+  return text.split(/\n{2,}/).map(paragraph => `<p>${escapeHtmlText(paragraph).replace(/\n/g, '<br />')}</p>`).join('');
+}
+
+module.exports = { sanitizeHtml, htmlToPlainText, plainTextToHtml };

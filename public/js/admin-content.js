@@ -25,9 +25,6 @@
   const galleryFiles = $('[data-gallery-files]');
   const galleryPreview = $('[data-gallery-preview]');
   const designProjectField = $('[data-design-project]');
-  const inlineImageUrl = $('[data-inline-image-url]');
-  const inlineImageAlt = $('[data-inline-image-alt]');
-  const richEditor = $('[data-rich-editor]');
   const state = { rows: [], categories: [], page: 1, totalPages: 1, dirty: false, thumbnailMeta: null, galleryMeta: [] };
 
   $('[data-module-title]').textContent = config.title;
@@ -40,6 +37,20 @@
   const endpoint = () => `/api/admin/content/${moduleKey}`;
   const setFeedback = (message, error = false) => { feedback.textContent = message || ''; feedback.classList.toggle('is-error', error); };
   const field = name => form.elements.namedItem(name);
+  const plainText = value => {
+    const holder = document.createElement('div');
+    holder.innerHTML = String(value || '')
+      .replace(/<!--[\s\S]*?-->/g, '')
+      .replace(/<(script|style|iframe|object|embed)[^>]*>[\s\S]*?<\/\1>/gi, '')
+      .replace(/<\s*br\s*\/?>/gi, '\n')
+      .replace(/<\s*\/\s*(p|div|li|h[1-6]|blockquote|figure|section)\s*>/gi, '\n');
+    return (holder.textContent || '').replace(/[ \t]+\n/g, '\n').replace(/\n{3,}/g, '\n\n').trim();
+  };
+  const contactText = value => {
+    if (!value) return '';
+    if (typeof value === 'string') return plainText(value);
+    return Object.entries(value).map(([key, item]) => `${key}: ${typeof item === 'object' ? Object.values(item || {}).join(' - ') : item}`).join('\n');
+  };
 
   async function request(url, options = {}) {
     const response = await fetch(url, { credentials: 'same-origin', ...options, headers: { ...(options.body ? { 'Content-Type': 'application/json' } : {}), ...(options.headers || {}) } });
@@ -103,7 +114,7 @@
       const thumb = image ? `<img class="content-cms-thumb" src="${escapeHtml(image)}" alt="" loading="lazy">` : '<span class="content-cms-thumb-empty">Chưa có ảnh</span>';
       const published = row.isPublished !== false && row.status === 'published';
       const status = row.isClosed ? '<span class="content-cms-status is-closed">Đã đóng</span>' : published ? '<span class="content-cms-status is-published">Đã xuất bản</span>' : '<span class="content-cms-status is-draft">Bản nháp</span>';
-      return `<tr><td>${thumb}</td><td>${escapeHtml(row.title || 'Chưa có tiêu đề')}</td><td>${escapeHtml(categoryText(row))}</td><td><code>${escapeHtml(row.slug || '—')}</code></td><td>${status}</td><td>${formatDate(row.updatedAt || row.date)}</td><td><div class="content-cms-actions"><a href="${publicUrl(row)}" target="_blank" rel="noopener">Xem</a><button type="button" data-edit="${id}">Sửa</button><button type="button" data-duplicate="${id}">Nhân bản</button><button type="button" data-publish="${id}" data-published="${published}">${published ? 'Ẩn' : 'Xuất bản'}</button><button type="button" class="danger" data-delete="${id}">Xóa</button></div></td></tr>`;
+      return `<tr><td>${thumb}</td><td>${escapeHtml(row.title || 'Chưa có tiêu đề')}</td><td>${escapeHtml(categoryText(row))}</td><td>${status}</td><td>${formatDate(row.updatedAt || row.date)}</td><td><div class="content-cms-actions"><a href="${publicUrl(row)}" target="_blank" rel="noopener">Xem</a><button type="button" data-edit="${id}">Sửa</button><button type="button" data-duplicate="${id}">Nhân bản</button><button type="button" data-publish="${id}" data-published="${published}">${published ? 'Ẩn' : 'Xuất bản'}</button><button type="button" class="danger" data-delete="${id}">Xóa</button></div></td></tr>`;
     }).join('');
   }
 
@@ -148,7 +159,6 @@
     state.galleryMeta = (row?.galleryItems || row?.gallery || []).map((item, index) => typeof item === 'string' ? { url: item, order: index } : { ...item, order: item.order ?? index });
     setValue('id', row ? idOf(row) : '');
     setValue('title', row?.title);
-    setValue('slug', row?.slug);
     if (config.kind === 'project') {
       const categoryField = field('category');
       [...(categoryField?.options || [])].forEach(option => {
@@ -172,18 +182,18 @@
     setValue('deadline', row?.deadline);
     setValue('requirementsText', (row?.requirements || []).join('\n'));
     setValue('benefitsText', (row?.benefits || []).join('\n'));
-    setValue('contactDetailsText', row?.contactDetails ? JSON.stringify(row.contactDetails, null, 2) : '');
+    setValue('contactDetailsText', contactText(row?.contactDetails));
     setValue('metaTitle', row?.metaTitle);
     setValue('readTime', row?.readTime);
     setValue('metaDescription', row?.metaDescription);
     setValue('tagsText', (row?.tags || []).join(', '));
-    setValue('summary', row?.summary || row?.excerpt);
-    setValue('content', row?.content);
+    setValue('summary', plainText(row?.summary || row?.excerpt));
+    setValue('content', plainText(row?.content));
     setValue('galleryUrls', (row?.gallery || row?.galleryItems || []).map(item => item.url || item).join('\n'));
     renderGalleryPreview(row?.galleryItems || row?.gallery || []);
     if (designProjectField) designProjectField.value = String(row?.designProjectId?._id || row?.designProjectId || '');
     setValue('thumbnail', row?.thumbnail || row?.image);
-    setValue('fullHtmlContent', row?.fullHtmlContent);
+    setValue('bodyText', plainText(row?.fullHtmlContent));
     setChecked('isHot', row?.isHot);
     setChecked('isClosed', row?.isClosed);
     setChecked('isFeatured', row?.isFeatured);
@@ -217,8 +227,7 @@
     if (config.kind === 'career') {
       data.requirements = String(field('requirementsText')?.value || '').split(/\r?\n/).map(value => value.trim()).filter(Boolean);
       data.benefits = String(field('benefitsText')?.value || '').split(/\r?\n/).map(value => value.trim()).filter(Boolean);
-      const contact = String(field('contactDetailsText')?.value || '').trim();
-      if (contact) { try { data.contactDetails = JSON.parse(contact); } catch { throw new Error('Thông tin liên hệ phải là JSON hợp lệ.'); } }
+      data.contactDetailsText = String(field('contactDetailsText')?.value || '').trim();
     }
     if (config.kind === 'article') data.tags = String(field('tagsText')?.value || '').split(',').map(value => value.trim()).filter(Boolean);
     if (state.thumbnailMeta) Object.assign(data, state.thumbnailMeta);
@@ -321,27 +330,10 @@
   $('[data-status-filter]').addEventListener('change', () => { state.page = 1; load(); });
   $('[data-upload-image]').addEventListener('click', uploadImage);
   $('[data-upload-gallery]').addEventListener('click', uploadGallery);
-  $('[data-insert-inline-image]').addEventListener('click', () => {
-    const url = String(inlineImageUrl?.value || '').trim();
-    if (!url || !richEditor) { formError.textContent = 'Nhập URL ảnh trước khi chèn.'; return; }
-    const alt = String(inlineImageAlt?.value || '').trim() || 'Hình ảnh bài viết';
-    const snippet = `<figure><img src="${url.replace(/"/g, '&quot;')}" alt="${alt.replace(/"/g, '&quot;')}" /><figcaption>${alt.replace(/[<&>]/g, '')}</figcaption></figure>`;
-    const start = richEditor.selectionStart;
-    const end = richEditor.selectionEnd;
-    richEditor.setRangeText(snippet, start, end, 'end');
-    richEditor.focus();
-    state.dirty = true;
-  });
   $$('[data-close-modal]').forEach(button => button.addEventListener('click', closeForm));
   $('[data-save-draft]').addEventListener('click', () => save(false));
   form.addEventListener('submit', event => { event.preventDefault(); save(true); });
   $('[data-pagination]').addEventListener('click', event => { const page = event.target.dataset.page; if (!page) return; state.page += page === 'next' ? 1 : -1; load(); });
-  $$('[data-wrap]').forEach(button => button.addEventListener('click', () => {
-    const editor = field('fullHtmlContent');
-    const [before, after] = button.dataset.wrap.split('|');
-    const start = editor.selectionStart; const end = editor.selectionEnd;
-    editor.setRangeText(`${before}${editor.value.slice(start, end) || 'nội dung'}${after}`, start, end, 'select'); editor.focus(); state.dirty = true;
-  }));
   window.addEventListener('beforeunload', event => { if (state.dirty && !modal.hidden) { event.preventDefault(); event.returnValue = ''; } });
   const logout = $('[data-logout]');
   logout.addEventListener('click', async () => { logout.disabled = true; try { await fetch('/api/auth/logout', { method: 'POST', credentials: 'same-origin' }); } finally { window.location.assign('/admin/login'); } });

@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const Article = require('../models/Article');
 const ContentMigration = require('../models/ContentMigration');
 const newsData = require('../data/newsData');
-const { sanitizeHtml } = require('../utils/sanitizeHtml');
+const { sanitizeHtml, htmlToPlainText, plainTextToHtml } = require('../utils/sanitizeHtml');
 
 let seedPromise;
 const MIGRATION_KEY = 'articles-news-data-v1';
@@ -15,7 +15,9 @@ const normalize = (value) => {
   if (!value) return null;
   const article = typeof value?.toObject === 'function' ? value.toObject() : { ...value };
   const image = article.thumbnail || article.image || '/images/hero_interior.jpg';
-  return { ...article, id: article.legacyId || article.slug || String(article._id), image, thumbnail: image, excerpt: article.excerpt || article.summary || '' };
+  article.summary = htmlToPlainText(article.summary || '');
+  article.excerpt = htmlToPlainText(article.excerpt || article.summary || '');
+  return { ...article, id: article.legacyId || article.slug || String(article._id), image, thumbnail: image };
 };
 
 const normalizeInput = (data = {}, partial = false) => {
@@ -23,8 +25,12 @@ const normalizeInput = (data = {}, partial = false) => {
   if (input.title !== undefined) input.title = String(input.title || '').trim();
   if (!partial && !input.title) throw Object.assign(new Error('Tiêu đề bài viết không được để trống.'), { status: 400 });
   if (input.slug !== undefined || (!partial && input.title)) input.slug = slugify(input.slug || input.title);
-  if (input.fullHtmlContent !== undefined) input.fullHtmlContent = sanitizeHtml(input.fullHtmlContent);
-  if (input.summary !== undefined) input.summary = String(input.summary || '').trim();
+  if (input.bodyText !== undefined) {
+    input.fullHtmlContent = plainTextToHtml(input.bodyText);
+    delete input.bodyText;
+  } else if (input.fullHtmlContent !== undefined) input.fullHtmlContent = sanitizeHtml(input.fullHtmlContent);
+  if (input.summary !== undefined) input.summary = htmlToPlainText(input.summary);
+  if (input.excerpt !== undefined) input.excerpt = htmlToPlainText(input.excerpt);
   if (input.excerpt === undefined && input.summary !== undefined) input.excerpt = input.summary;
   ['isPublished', 'isFeatured'].forEach(field => {
     if (input[field] !== undefined) input[field] = input[field] === true || input[field] === 'true' || input[field] === '1' || input[field] === 1;

@@ -1,6 +1,7 @@
 const Project = require('../models/Project');
 const categoryService = require('./categoryService');
 const { destroyCloudinaryImage } = require('../utils/cloudinary');
+const { htmlToPlainText } = require('../utils/sanitizeHtml');
 const mongoose = require('mongoose');
 const MAX_GALLERY_IMAGES = 5;
 
@@ -62,6 +63,8 @@ const normalizeProject = (value) => {
   const galleryItems = normalizeGallery(project);
   project.galleryItems = galleryItems;
   project.gallery = galleryItems.map(item => item.url);
+  project.excerpt = htmlToPlainText(project.excerpt || '');
+  project.content = htmlToPlainText(project.content || '');
   project.clientName = project.clientName || project.investor || null;
   project.isPublished = project.isPublished !== undefined
     ? project.isPublished !== false
@@ -96,6 +99,8 @@ const normalizeInput = (data = {}, { partial = false } = {}) => {
     throw Object.assign(new Error('Slug chỉ được chứa chữ thường, số và dấu gạch ngang.'), { status: 400 });
   }
   if (input.clientName !== undefined) input.investor = String(input.clientName || '').trim() || null;
+  if (input.excerpt !== undefined) input.excerpt = htmlToPlainText(input.excerpt);
+  if (input.content !== undefined) input.content = htmlToPlainText(input.content);
   if (input.categoryIds !== undefined) {
     input.categoryIds = Array.isArray(input.categoryIds)
       ? input.categoryIds.filter(Boolean).map(value => value?._id || value)
