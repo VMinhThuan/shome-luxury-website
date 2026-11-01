@@ -449,41 +449,6 @@
   line-height: 1.35;
 }
 
-.image-source-panel {
-  padding: 12px 13px;
-  border: 1px solid #eee6db;
-  border-radius: 10px;
-  background: #fcfaf6;
-}
-
-.image-source-title {
-  margin: 0 0 9px;
-  color: #817567;
-  font-size: 10px;
-  font-weight: 800;
-  letter-spacing: .1em;
-  text-transform: uppercase;
-}
-
-.image-source-choices {
-  display: flex;
-  gap: 14px;
-  flex-wrap: wrap;
-}
-
-.image-source-choice {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  color: #4f4840;
-  font-size: 12px;
-  font-weight: 600;
-}
-
-.image-source-choice input {
-  accent-color: #b6812c;
-}
-
 .image-pair {
   margin-top: 12px;
 }
@@ -509,6 +474,32 @@
 
 .current-image {
   border-radius: 7px;
+}
+
+/* Homepage background slots must be reviewable without the 16:9 crop used by
+   regular banners. The uploaded file is preserved by the server as-is. */
+.image-slot[data-preserve-original-file="true"] .current-image,
+.image-slot[data-preserve-original-file="true"] .crop-preview {
+  height: auto;
+  min-height: 180px;
+  max-height: 420px;
+  aspect-ratio: auto;
+  object-fit: contain;
+  background-color: #f1efeb;
+  background-size: contain;
+}
+
+.image-slot[data-preserve-original-file="true"] .crop-mode-bar {
+  color: #5c4c32;
+  background: #fff8e9;
+  border-color: #e8cd93;
+}
+
+.image-slot[data-preserve-original-file="true"] .btn-toggle-crop:disabled {
+  color: #8b6b32;
+  border-color: #d8bb78;
+  cursor: not-allowed;
+  opacity: 1;
 }
 
 @media (max-width: 760px) {

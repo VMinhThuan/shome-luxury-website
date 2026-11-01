@@ -13,6 +13,16 @@ const { processImageBuffer } = require('../utils/imageProcessing');
 
 const allConfiguredSlots = [...slots, ...subpageSlots];
 const slotByKey = new Map(allConfiguredSlots.map(slot => [slot.image_key, slot]));
+const SOURCE_PRESERVING_IMAGE_KEYS = new Set([
+  'about_showroom_background',
+  'why_choose_background',
+  'home_workshop_background',
+  'home_faq_background',
+  'quote_construction_cta_image'
+]);
+
+const preservesOriginalFile = slot => SOURCE_PRESERVING_IMAGE_KEYS.has(slot.image_key);
+
 const subpageByKey = new Map();
 subpageSlots.forEach(slot => {
   if (!subpageByKey.has(slot.page_key)) subpageByKey.set(slot.page_key, []);
@@ -36,12 +46,6 @@ const PAGES_LIST = [
 
 exports.uploadMiddleware = upload.single('image');
 
-const referenceFor = (slot) => ({
-  page_key: slot.page_key,
-  section_key: slot.section_key,
-  image_key: slot.image_key
-});
-
 const customReferenceFor = (record, slot) => {
   if (record?.custom_image_reference?.image_url) return {
     image_url: record.custom_image_reference.image_url,
@@ -60,58 +64,22 @@ const customReferenceFor = (record, slot) => {
   return null;
 };
 
-const sharedReferenceFor = (record) => record?.shared_image_reference?.image_key
-  ? record.shared_image_reference
-  : null;
-
-function resolveState(slot, recordsByKey, visited = new Set()) {
+function resolveState(slot, recordsByKey) {
   const record = recordsByKey.get(slot.image_key);
   const custom = customReferenceFor(record, slot);
-  const mode = record?.mode === 'shared' ? 'shared' : 'custom';
-  const state = {
-    mode,
+  return {
+    mode: 'custom',
     custom,
-    sharedReference: sharedReferenceFor(record),
+    sharedReference: null,
     activeImageUrl: custom?.image_url || slot.image_url,
     activeCloudinaryPublicId: custom?.cloudinary_public_id || null,
     sharedStatus: null,
     sharedSource: null
   };
-
-  if (mode !== 'shared') return state;
-
-  const sourceKey = state.sharedReference?.image_key;
-  const sourceSlot = sourceKey ? slotByKey.get(sourceKey) : null;
-  const sourceRecord = sourceSlot ? recordsByKey.get(sourceSlot.image_key) : null;
-  const invalid = !sourceSlot || sourceSlot.image_key === slot.image_key
-    || sourceRecord?.mode === 'shared'
-    || visited.has(slot.image_key);
-
-  if (invalid) {
-    state.sharedStatus = 'invalid';
-    state.activeImageUrl = slot.image_url;
-    state.activeCloudinaryPublicId = null;
-    return state;
-  }
-
-  const nextVisited = new Set(visited);
-  nextVisited.add(slot.image_key);
-  const sourceState = resolveState(sourceSlot, recordsByKey, nextVisited);
-  state.sharedStatus = sourceState.activeImageUrl ? 'active' : 'invalid';
-  state.activeImageUrl = sourceState.activeImageUrl || slot.image_url;
-  state.activeCloudinaryPublicId = sourceState.activeCloudinaryPublicId || null;
-  state.sharedSource = {
-    ...referenceFor(sourceSlot),
-    page_label: sourceSlot.page_label || sourceSlot.page_key,
-    label: sourceSlot.label,
-    image_url: state.activeImageUrl
-  };
-  return state;
 }
 
 const serializeSlot = (slot, record, recordsByKey) => {
   const state = resolveState(slot, recordsByKey);
-  const sharedSource = state.sharedReference ? slotByKey.get(state.sharedReference.image_key) : null;
   return {
     page_key: slot.page_key,
     pageKey: slot.page_key,
@@ -134,26 +102,12 @@ const serializeSlot = (slot, record, recordsByKey) => {
     customImageReference: state.custom,
     shared_status: state.sharedStatus,
     shared_source: state.sharedSource,
-    shared_source_label: sharedSource?.label || null,
-    shared_sources: sharedSourcesFor(slot, recordsByKey),
+    shared_source_label: null,
+    shared_sources: [],
+    preserve_original_file: preservesOriginalFile(slot),
     updated_at: record?.updated_at || null
   };
 };
-
-const sharedSourcesFor = (slot, recordsByKey) => allConfiguredSlots
-  .filter(source => source.image_key !== slot.image_key && source.section_key === slot.section_key)
-  .map(source => {
-    const record = recordsByKey.get(source.image_key);
-    const state = resolveState(source, recordsByKey);
-    return {
-      ...referenceFor(source),
-      page_label: source.page_label || source.page_key,
-      label: source.label,
-      image_url: state.activeImageUrl,
-      available: state.mode !== 'shared' && Boolean(state.activeImageUrl),
-      unavailable_reason: state.mode === 'shared' ? 'Nguồn này đang dùng ảnh chung khác.' : null
-    };
-  });
 
 const requestedSlots = (pageFilter) => {
   if (!pageFilter || pageFilter === 'all') return slots;
@@ -172,7 +126,7 @@ exports.previewImage = async (req, res, next) => {
     if (!req.file) return res.status(400).json({ success: false, message: 'Vui lòng chọn ảnh JPG, PNG hoặc WebP để xem trước.' });
     const processed = await processImageBuffer(req.file.buffer, req.body);
     res.set({
-      'Content-Type': 'image/webp',
+      'Content-Type': processed.optimized.contentType,
       'Content-Length': String(processed.optimized.bytes),
       'X-Original-Width': String(processed.original.width),
       'X-Original-Height': String(processed.original.height),
@@ -180,8 +134,10 @@ exports.previewImage = async (req, res, next) => {
       'X-Optimized-Width': String(processed.optimized.width),
       'X-Optimized-Height': String(processed.optimized.height),
       'X-Optimized-Bytes': String(processed.optimized.bytes),
-      'X-Optimized-Format': 'webp',
-      'X-Image-Quality': processed.settings.lossless ? 'lossless' : String(processed.settings.quality),
+      'X-Optimized-Format': processed.optimized.format,
+      'X-Image-Quality': processed.settings.preserveOriginalFile
+        ? 'original'
+        : processed.settings.lossless ? 'lossless' : String(processed.settings.quality),
       'X-Image-Sharpness': String(processed.settings.sharpness),
       'Access-Control-Expose-Headers': 'Content-Length, X-Original-Width, X-Original-Height, X-Original-Bytes, X-Optimized-Width, X-Optimized-Height, X-Optimized-Bytes, X-Optimized-Format, X-Image-Quality, X-Image-Sharpness',
       'Cache-Control': 'no-store'
@@ -282,9 +238,15 @@ exports.updateImage = async (req, res, next) => {
     if (!req.file) return res.status(400).json({ success: false, message: 'Vui lòng chọn ảnh JPG, PNG hoặc WebP (tối đa 10 MB).' });
 
     const folder = `shome-luxury/${slot.page_key || 'general'}`;
-    const processed = await processImageBuffer(req.file.buffer, req.body);
-    // Cloudinary receives the final WebP bytes directly. No incoming or URL
-    // transformation is added, preventing a second lossy encoding pass.
+    const processed = await processImageBuffer(req.file.buffer, {
+      ...req.body,
+      // Source-preserving slots are intentionally protected from stale client
+      // settings or a direct API request.
+      preserve_original_file: preservesOriginalFile(slot) ? 'true' : req.body.preserve_original_file
+    });
+    // Cloudinary receives the final bytes directly. For source-preserving
+    // slots these are the untouched original bytes; other slots receive the
+    // WebP output from the existing optimization flow.
     uploaded = await uploadToCloudinary(processed.buffer, folder);
     const previous = await HomeImage.findOne({ image_key: slot.image_key }).lean();
     const previousCustom = customReferenceFor(previous, slot);
@@ -369,19 +331,6 @@ exports.deleteImage = async (req, res, next) => {
 
     const custom = customReferenceFor(existing, slot);
 
-    // Deleting an override while shared mode is active must not unlink the
-    // shared source. It only removes the remembered custom asset explicitly.
-    if (existing.mode === 'shared') {
-      await HomeImage.updateOne(
-        { image_key: slot.image_key },
-        { $set: { custom_image_reference: null, cloudinary_public_id: null } }
-      );
-      if (custom?.cloudinary_public_id) {
-        destroyCloudinaryImage(custom.cloudinary_public_id).catch(err => console.error('[Home image delete cleanup]', err.message));
-      }
-      return res.json({ success: true, message: 'Đã xóa ảnh riêng đã lưu; ảnh chung vẫn đang được sử dụng.' });
-    }
-
     await HomeImage.deleteOne({ image_key: slot.image_key });
 
     if (custom?.cloudinary_public_id) {
@@ -425,53 +374,19 @@ exports.setImageMode = async (req, res, next) => {
     if (!slot) return res.status(404).json({ success: false, message: 'Vị trí ảnh không hợp lệ.' });
 
     const requestedMode = req.body?.mode;
-    if (!['shared', 'custom'].includes(requestedMode)) {
+    if (requestedMode === 'shared') {
+      return res.status(410).json({
+        success: false,
+        message: 'Tính năng dùng ảnh chung đã được gỡ bỏ. Mỗi vị trí ảnh sử dụng ảnh riêng.'
+      });
+    }
+    if (requestedMode !== 'custom') {
       return res.status(400).json({ success: false, message: 'Nguồn hình ảnh không hợp lệ.' });
     }
 
     const existing = await HomeImage.findOne({ image_key: slot.image_key }).lean();
     const recordsByKey = await allRecords();
     const custom = customReferenceFor(existing, slot);
-
-    if (requestedMode === 'shared') {
-      const sharedKey = req.body?.shared_image_key
-        || req.body?.sharedImageReference?.image_key
-        || req.body?.shared_image_reference?.image_key;
-      const source = slotByKey.get(sharedKey);
-      if (!source || source.image_key === slot.image_key || source.section_key !== slot.section_key) {
-        return res.status(400).json({ success: false, message: 'Nguồn ảnh chung không tương thích với vị trí này.' });
-      }
-      const sourceRecord = recordsByKey.get(source.image_key);
-      if (sourceRecord?.mode === 'shared') {
-        return res.status(400).json({ success: false, message: 'Không thể liên kết tới một vị trí đang dùng ảnh chung khác.' });
-      }
-      const sourceState = resolveState(source, recordsByKey);
-      if (!sourceState.activeImageUrl) {
-        return res.status(409).json({ success: false, message: 'Nguồn ảnh chung hiện không khả dụng.' });
-      }
-
-      const sharedReference = referenceFor(source);
-      const saved = await HomeImage.findOneAndUpdate(
-        { image_key: slot.image_key },
-        {
-          $set: {
-            page_key: slot.page_key,
-            section_key: slot.section_key,
-            image_url: sourceState.activeImageUrl,
-            // A shared slot does not own the source asset. Keeping this null
-            // prevents source cleanup from mistaking the target for an owner.
-            cloudinary_public_id: null,
-            mode: 'shared',
-            shared_image_reference: sharedReference,
-            custom_image_reference: custom
-          }
-        },
-        { new: true, upsert: true, runValidators: true }
-      ).lean();
-      const currentRecords = new Map(recordsByKey);
-      currentRecords.set(slot.image_key, saved);
-      return res.json({ success: true, message: 'Đã chuyển sang dùng ảnh chung.', data: serializeSlot(slot, saved, currentRecords) });
-    }
 
     const activeImageUrl = custom?.image_url || slot.image_url;
     const saved = existing

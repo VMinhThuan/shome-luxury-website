@@ -3,7 +3,6 @@ const allSlots = require('../data/homeImageSlots');
 const subpageSlots = require('../data/subpageImageSlots');
 
 const configuredSlots = [...allSlots, ...subpageSlots];
-const slotByKey = new Map(configuredSlots.map(slot => [slot.image_key, slot]));
 
 function customReference(record, slot) {
   if (record?.custom_image_reference?.image_url) return record.custom_image_reference;
@@ -14,18 +13,13 @@ function customReference(record, slot) {
   return null;
 }
 
-function resolve(slot, records, visited = new Set()) {
+function resolve(slot, records) {
   const record = records.get(slot.image_key);
   const custom = customReference(record, slot);
-  if (record?.mode !== 'shared') return custom?.image_url || slot.image_url;
-  const sourceKey = record.shared_image_reference?.image_key;
-  const source = sourceKey ? slotByKey.get(sourceKey) : null;
-  if (!source || source.image_key === slot.image_key || visited.has(slot.image_key)) return slot.image_url;
-  const nextVisited = new Set(visited);
-  nextVisited.add(slot.image_key);
-  const sourceRecord = records.get(source.image_key);
-  if (sourceRecord?.mode === 'shared') return slot.image_url;
-  return resolve(source, records, nextVisited) || slot.image_url;
+  // Each configured slot is independent. Old records that still contain a
+  // shared reference are deliberately ignored so one page can never inherit
+  // another page's image after this feature was removed from the admin UI.
+  return custom?.image_url || slot.image_url;
 }
 
 /**

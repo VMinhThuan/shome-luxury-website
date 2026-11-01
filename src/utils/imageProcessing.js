@@ -42,10 +42,40 @@ function sharpOptionsFromPercent(percentage) {
 }
 
 function outputExtension(contentType) {
-  return contentType === 'image/webp' ? '.webp' : '.img';
+  return {
+    'image/jpeg': '.jpg',
+    'image/png': '.png',
+    'image/webp': '.webp'
+  }[contentType] || '.img';
+}
+
+function contentTypeForFormat(format) {
+  return {
+    jpeg: 'image/jpeg',
+    png: 'image/png',
+    webp: 'image/webp'
+  }[format] || 'application/octet-stream';
 }
 
 function outputOptionsFrom(body = {}) {
+  // Source-preserving CMS images are customer-owned originals. When this mode
+  // is requested, do not resize, crop, sharpen, or convert the uploaded file.
+  // The normal WebP optimization flow remains unchanged for other slots.
+  if (isEnabled(body.preserve_original_file)) {
+    return {
+      keepOriginalSize: true,
+      keepAspectRatio: true,
+      preserveOriginalFile: true,
+      lossless: false,
+      width: null,
+      height: null,
+      resizePreset: null,
+      quality: 100,
+      sharpness: 0,
+      crop: null
+    };
+  }
+
   const resizePreset = ['2k', 'project'].includes(body.resize_preset) ? body.resize_preset : null;
   const presetMaxEdge = resizePreset === 'project' ? 2048 : 2560;
   const keepOriginalSize = resizePreset ? false : isEnabled(body.keep_original_size, true);
@@ -78,6 +108,7 @@ function outputOptionsFrom(body = {}) {
   return {
     keepOriginalSize,
     keepAspectRatio,
+    preserveOriginalFile: false,
     lossless,
     width,
     height,
@@ -104,6 +135,31 @@ async function processImageBuffer(inputBuffer, body = {}) {
   }
 
   const options = outputOptionsFrom(body);
+  const originalWidth = [5, 6, 7, 8].includes(inputMetadata.orientation) ? inputMetadata.height : inputMetadata.width;
+  const originalHeight = [5, 6, 7, 8].includes(inputMetadata.orientation) ? inputMetadata.width : inputMetadata.height;
+
+  if (options.preserveOriginalFile) {
+    const contentType = contentTypeForFormat(inputMetadata.format);
+    return {
+      buffer: inputBuffer,
+      original: {
+        width: originalWidth,
+        height: originalHeight,
+        format: inputMetadata.format,
+        bytes: inputBuffer.length
+      },
+      optimized: {
+        width: originalWidth,
+        height: originalHeight,
+        format: inputMetadata.format,
+        bytes: inputBuffer.length,
+        contentType,
+        extension: outputExtension(contentType)
+      },
+      settings: options
+    };
+  }
+
   let pipeline = sharp(inputBuffer, { failOn: 'error', limitInputPixels: MAX_INPUT_PIXELS }).rotate().toColourspace('srgb');
 
   if (options.crop) {
@@ -156,8 +212,8 @@ async function processImageBuffer(inputBuffer, body = {}) {
   return {
     buffer: data,
     original: {
-      width: [5, 6, 7, 8].includes(inputMetadata.orientation) ? inputMetadata.height : inputMetadata.width,
-      height: [5, 6, 7, 8].includes(inputMetadata.orientation) ? inputMetadata.width : inputMetadata.height,
+      width: originalWidth,
+      height: originalHeight,
       format: inputMetadata.format,
       bytes: inputBuffer.length
     },

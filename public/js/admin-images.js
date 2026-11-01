@@ -181,6 +181,8 @@
 
   function card(slot) {
     const article = create('article', 'image-slot');
+    const preserveOriginalFile = Boolean(slot.preserve_original_file);
+    if (preserveOriginalFile) article.dataset.preserveOriginalFile = 'true';
 
     // Page badge
     const badge = create('span', 'slot-page-badge', slot.page_label || slot.page_key);
@@ -188,34 +190,6 @@
 
     const heading = create('h2', '', slot.label);
     const imagePair = create('div', 'image-pair');
-
-    // The active source is deliberately stored separately from the custom
-    // reference. Changing this control therefore never destroys a remembered
-    // upload or changes any other page slot.
-    const sourcePanel = create('section', 'image-source-panel');
-    sourcePanel.append(create('p', 'image-source-title', 'Nguồn hình ảnh'));
-    const sourceChoices = create('div', 'image-source-choices');
-    const sharedChoice = create('label', 'image-source-choice');
-    const sharedRadio = create('input');
-    sharedRadio.type = 'radio'; sharedRadio.name = `image-mode-${slot.image_key}`; sharedRadio.value = 'shared';
-    sharedChoice.append(sharedRadio, create('span', '', 'Dùng ảnh chung'));
-    const customChoice = create('label', 'image-source-choice');
-    const customRadio = create('input');
-    customRadio.type = 'radio'; customRadio.name = `image-mode-${slot.image_key}`; customRadio.value = 'custom';
-    customChoice.append(customRadio, create('span', '', 'Dùng ảnh riêng'));
-    sourceChoices.append(sharedChoice, customChoice);
-    sourcePanel.append(sourceChoices);
-
-    const sharedControls = create('div', 'image-shared-controls');
-    const sharedLabel = create('label', 'image-shared-select-label', 'Nguồn ảnh chung');
-    const sharedSelect = create('select', 'image-shared-select');
-    sharedLabel.append(sharedSelect);
-    const sharedPreview = create('img', 'image-shared-preview');
-    sharedPreview.alt = 'Preview ảnh chung';
-    sharedPreview.loading = 'lazy';
-    const sharedState = create('p', 'image-shared-state');
-    sharedControls.append(sharedLabel, sharedPreview, sharedState);
-    sourcePanel.append(sharedControls);
 
     const replacementWrap = create('div', 'image-version');
     const currentImageTitle = create('p', 'image-version-title');
@@ -272,6 +246,11 @@
     const toggleCropBtn = create('button', 'btn-toggle-crop', '✂ Cắt & căn chỉnh');
     toggleCropBtn.type = 'button';
     modeBar.append(modeBadge, toggleCropBtn);
+    if (preserveOriginalFile) {
+      modeBadge.textContent = 'Ảnh gốc: không cắt, không biến dạng';
+      toggleCropBtn.textContent = '✓ Giữ nguyên ảnh gốc';
+      toggleCropBtn.disabled = true;
+    }
 
     const controls = create('div', 'crop-controls');
     controls.hidden = true;
@@ -306,8 +285,18 @@
     const optimizationPanel = create('section', 'image-optimization-panel');
     optimizationPanel.hidden = true;
     const optimizationHeader = create('div', 'image-optimization-header');
-    optimizationHeader.append(create('h3', 'image-optimization-title', 'Tối ưu ảnh trước khi tải lên'));
-    optimizationHeader.append(create('p', 'image-optimization-help', 'Giữ nguyên ảnh gốc mặc định · WebP 95% · làm nét nhẹ 20%.'));
+    optimizationHeader.append(create(
+      'h3',
+      'image-optimization-title',
+      preserveOriginalFile ? 'Ảnh nền — giữ nguyên file gốc' : 'Tối ưu ảnh trước khi tải lên'
+    ));
+    optimizationHeader.append(create(
+      'p',
+      'image-optimization-help',
+      preserveOriginalFile
+        ? 'Ảnh này sẽ được lưu đúng file khách tải lên: giữ nguyên định dạng, kích thước và nội dung; không cắt, không resize, không chuyển WebP.'
+        : 'Giữ nguyên ảnh gốc mặc định · WebP 95% · làm nét nhẹ 20%.'
+    ));
     optimizationPanel.append(optimizationHeader);
 
     const configuration = create('div', 'image-optimization-config');
@@ -442,6 +431,11 @@
       zoomControls.append(button);
     });
     optimizationPanel.append(configuration, resizePresets, resizeNote, toggles, losslessNote, qualityRow, sharpnessSection, previewActions, previewHint, zoomControls, comparison);
+
+    if (preserveOriginalFile) {
+      [configuration, resizePresets, resizeNote, toggles, losslessNote, qualityRow, sharpnessSection, previewActions, previewHint, zoomControls, comparison]
+        .forEach(control => { control.hidden = true; });
+    }
 
     let file, sourceUrl, dimensions, sourceRatio = 1, optimizedObjectUrl = null, resizePreset = null, previewRequest = 0, previewAbortController = null, currentZoom = 1;
     const setZoom = (zoom) => {
@@ -643,6 +637,7 @@
     });
 
     const appendProcessingSettings = (form) => {
+      form.append('preserve_original_file', String(preserveOriginalFile));
       form.append('keep_original_size', String(keepOriginalInput.checked));
       form.append('keep_aspect_ratio', String(keepAspectInput.checked));
       form.append('width', widthInput.value);
@@ -809,7 +804,7 @@
     const updatePreview = () => {
       if (!isCustomCrop) {
         preview.style.backgroundImage = `url("${sourceUrl}")`;
-        preview.style.backgroundSize = 'cover';
+        preview.style.backgroundSize = preserveOriginalFile ? 'contain' : 'cover';
         preview.style.backgroundPosition = 'center';
       } else {
         crop();
@@ -817,6 +812,7 @@
     };
 
     toggleCropBtn.onclick = () => {
+      if (preserveOriginalFile) return;
       isCustomCrop = !isCustomCrop;
       controls.hidden = !isCustomCrop;
       if (isCustomCrop) {
@@ -867,94 +863,30 @@
       setStatus('');
     };
 
-    const renderSharedSources = () => {
-      sharedSelect.replaceChildren();
-      const placeholder = create('option', '', 'Chọn nguồn ảnh chung...');
-      placeholder.value = '';
-      sharedSelect.append(placeholder);
-      (slot.shared_sources || []).forEach(source => {
-        const option = create('option', '', `${source.page_label} · ${source.label}`);
-        option.value = source.image_key;
-        option.disabled = source.available === false;
-        if (source.unavailable_reason) option.textContent += ` — ${source.unavailable_reason}`;
-        sharedSelect.append(option);
-      });
-      if (slot.shared_image_reference?.image_key) sharedSelect.value = slot.shared_image_reference.image_key;
+    const updateSlotUi = () => {
+      // Every image slot owns its own image. The old shared-source controls
+      // are intentionally gone, but this keeps the card compatible with old
+      // API responses until all cached admin data has refreshed.
+      slot.mode = 'custom';
+      slot.shared_image_reference = null;
+      slot.shared_source = null;
+      slot.shared_status = null;
+      actionBar.hidden = false;
+      fileInfoNotice.hidden = !file;
+      cropper.hidden = !file;
+      optimizationPanel.hidden = !file;
+      save.hidden = !file;
+      currentImageTitle.textContent = slot.replacement_image_url
+        ? 'Ảnh riêng đang hiển thị trên website'
+        : 'Ảnh mặc định đang hiển thị trên website';
+      replacementNote.textContent = slot.replacement_image_url
+        ? 'Đang hiển thị ảnh riêng của vị trí này'
+        : 'Mỗi trang dùng ảnh riêng của vị trí này';
+      current.src = slot.active_image_url || slot.replacement_image_url || slot.default_image_url;
+      deleteReplacementBtn.hidden = !Boolean(slot.replacement_image_url);
     };
 
-    const applyModeUi = () => {
-      const shared = slot.mode === 'shared';
-      sharedRadio.checked = shared;
-      customRadio.checked = !shared;
-      sharedControls.hidden = !shared;
-      actionBar.hidden = shared;
-      fileInfoNotice.hidden = shared || !file;
-      cropper.hidden = shared || !file;
-      optimizationPanel.hidden = shared || !file;
-      save.hidden = shared || !file;
-      currentImageTitle.textContent = shared
-        ? (slot.shared_status === 'invalid' ? 'Ảnh dự phòng đang hiển thị trên website' : 'Ảnh chung đang hiển thị trên website')
-        : (slot.replacement_image_url ? 'Ảnh riêng đang hiển thị trên website' : 'Ảnh mặc định đang hiển thị trên website');
-      replacementNote.textContent = shared
-        ? (slot.shared_status === 'invalid'
-          ? 'Nguồn ảnh chung không còn hợp lệ — hệ thống đang dùng ảnh mặc định an toàn. Vui lòng chọn nguồn khác.'
-          : `Đang liên kết: ${slot.shared_source?.label || slot.shared_source_label || 'ảnh chung'}`)
-        : (slot.replacement_image_url ? 'Đang hiển thị ảnh riêng của vị trí này' : 'Chưa có ảnh riêng — website đang dùng ảnh mặc định');
-      current.src = slot.active_image_url || slot.default_image_url;
-      deleteReplacementBtn.hidden = shared || !Boolean(slot.replacement_image_url);
-      sharedPreview.src = slot.shared_source?.image_url || slot.active_image_url || slot.default_image_url;
-      sharedState.textContent = slot.shared_status === 'invalid'
-        ? '⚠️ Nguồn không hợp lệ, đang fallback an toàn.'
-        : (shared ? 'Preview ảnh chung đang sử dụng. Thay đổi nguồn chỉ áp dụng cho vị trí này.' : '');
-      sharedState.classList.toggle('is-error', slot.shared_status === 'invalid');
-    };
-
-    const persistMode = async (mode, sourceKey = '') => {
-      const previousMode = slot.mode;
-      const previousReference = slot.shared_image_reference;
-      if (mode === 'shared' && !sourceKey) {
-        sharedState.textContent = 'Hãy chọn một nguồn ảnh chung.';
-        sharedState.classList.add('is-error');
-        return;
-      }
-      sharedRadio.disabled = true;
-      customRadio.disabled = true;
-      sharedSelect.disabled = true;
-      setStatus('Đang lưu nguồn hình ảnh...');
-      try {
-        const result = await request(`/api/admin/home-images/${encodeURIComponent(slot.image_key)}/mode`, {
-          method: 'PUT',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ mode, shared_image_key: sourceKey })
-        });
-        Object.assign(slot, result.data || {});
-        if (mode === 'shared' && file) clearSelectedFile();
-        renderSharedSources();
-        applyModeUi();
-        setStatus(result.message || 'Đã cập nhật nguồn hình ảnh.');
-      } catch (error) {
-        slot.mode = previousMode;
-        slot.shared_image_reference = previousReference;
-        applyModeUi();
-        setStatus(error.message, true);
-      } finally {
-        sharedRadio.disabled = false;
-        customRadio.disabled = false;
-        sharedSelect.disabled = false;
-      }
-    };
-
-    renderSharedSources();
-    applyModeUi();
-    sharedRadio.onchange = () => {
-      if (sharedRadio.checked) persistMode('shared', sharedSelect.value);
-    };
-    customRadio.onchange = () => {
-      if (customRadio.checked) persistMode('custom');
-    };
-    sharedSelect.onchange = () => {
-      if (sharedSelect.value) persistMode('shared', sharedSelect.value);
-    };
+    updateSlotUi();
 
     cancelSelectionBtn.onclick = clearSelectedFile;
 
@@ -1054,8 +986,7 @@
         save.hidden = true;
         input.value = '';
         file = null;
-        renderSharedSources();
-        applyModeUi();
+        updateSlotUi();
         setStatus(`Đã cập nhật thành công: ${slot.label}.`);
       } catch (error) {
         save.textContent = 'Lưu lại';
@@ -1066,7 +997,7 @@
     };
 
     cropper.append(preview, modeBar, controls);
-    article.append(badge, heading, sourcePanel, imagePair, actionBar, fileInfoNotice, cropper, optimizationPanel, save);
+    article.append(badge, heading, imagePair, actionBar, fileInfoNotice, cropper, optimizationPanel, save);
     return article;
   }
 

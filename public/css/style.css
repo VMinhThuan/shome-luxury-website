@@ -17985,6 +17985,15 @@ main .home-faq-item p {
   transform: scale(1.025);
 }
 
+/* Customer-uploaded homepage backgrounds are source-preserving. Show the
+   complete photo at its natural aspect ratio instead of cropping it with
+   `cover`; the neutral surface fills any remaining letterbox area. */
+.home-page .home-background-section--original::before {
+  background-color: #5f5f5f;
+  background-size: contain;
+  transform: none;
+}
+
 .home-page .home-background-section::after {
   z-index: -1;
 }

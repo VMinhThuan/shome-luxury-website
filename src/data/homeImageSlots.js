@@ -60,7 +60,7 @@ const rawSlots = [
   ['quote', 'pricing', 'quote_pricing_image_3', 'Báo giá tham khảo — Ảnh 3 (Phòng sinh hoạt)', '/images/quote-pricing-3.png'],
   ['quote', 'brand_video', 'quote_brand_video_thumb', 'Video thương hiệu — Ảnh bìa', '/images/Luxury Interior with Golden Wave Accents.png'],
   ['quote', 'capability', 'quote_capability_image', 'Năng lực Shome Luxury — Ảnh xưởng', '/images/factory_workers.jpg'],
-  ['quote', 'cta', 'quote_construction_cta_image', 'CTA Thi công nội thất — Ảnh nền', '/images/banner-bao-gia.png'],
+  ['quote', 'cta', 'quote_construction_cta_image', 'Báo giá — Section ảnh toàn màn hình', '/images/quote-construction-interior.png'],
   ['quote', 'estimate', 'quote_estimate_image', 'Form nhận dự toán — Ảnh minh họa', '/images/quote-free-estimate-interior.png'],
 
   // 4. TIN TỨC (news) - 1 slot

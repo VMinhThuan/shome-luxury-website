@@ -24,6 +24,14 @@ async function run() {
     assert.equal(metadata.height, 900);
   }
 
+  // Homepage background uploads opt into a source-preserving path: the exact
+  // uploaded bytes and format must survive the upload processing step.
+  const originalBackground = await processImageBuffer(png, { preserve_original_file: 'true' });
+  assert.equal(originalBackground.buffer.equals(png), true);
+  assert.equal(originalBackground.optimized.format, 'png');
+  assert.equal(originalBackground.optimized.contentType, 'image/png');
+  assert.equal(originalBackground.settings.preserveOriginalFile, true);
+
   const resized = await processImageBuffer(jpg, { keep_original_size: 'false', keep_aspect_ratio: 'true', width: '800', height: '800', quality: '95', sharpness: 'low' });
   assert.equal(resized.optimized.width, 800);
   assert.equal(resized.optimized.height, 450);

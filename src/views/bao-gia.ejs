@@ -1936,6 +1936,8 @@
     .quote-page .quote-construction-image-section {
       padding: 0 !important;
       margin-top: -1px;
+      height: auto !important;
+      min-height: 0 !important;
       background: #fff;
     }
 
@@ -1946,7 +1948,9 @@
     .quote-page .quote-construction-image-only {
       display: block !important;
       width: 100%;
+      height: auto;
       min-height: 0;
+      margin: 0;
       overflow: hidden;
       border: 0 !important;
       border-radius: 0 !important;
@@ -1957,18 +1961,18 @@
     .quote-page .quote-construction-image-only > img {
       display: block;
       width: 100% !important;
-      height: 100% !important;
+      height: auto !important;
       min-height: 0 !important;
       max-height: none !important;
       border-radius: 0 !important;
-      object-fit: cover;
+      object-fit: contain;
       object-position: center;
     }
 
     @media (max-width: 767px) {
       .quote-page .quote-construction-image-section,
       .quote-page .quote-construction-image-only {
-        height: 56.25vw !important;
+        height: auto !important;
         min-height: 0 !important;
       }
 
@@ -2095,6 +2099,17 @@
             <% }) %>
           </div>
         </div>
+      </section>
+    <% } %>
+
+    <% if (sections.constructionCta?.isVisible !== false) { %>
+      <% const quoteConstructionImage = (locals.quoteImages && quoteImages.quote_construction_cta_image)
+        || sections.constructionCta.image
+        || '/images/quote-construction-interior.png'; %>
+      <section class="quote-construction-image-section" aria-label="Hình ảnh thi công nội thất">
+        <figure class="quote-construction-image-only">
+          <img src="<%= quoteConstructionImage %>" alt="Hình ảnh thi công nội thất Shome Luxury" loading="lazy" decoding="async" />
+        </figure>
       </section>
     <% } %>
 
