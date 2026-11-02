@@ -1934,9 +1934,15 @@
     }
 
     .quote-page .quote-construction-image-section {
-      padding: 0 !important;
+      /* Match the content box of the three pricing cards above. The section
+         also carries .container, so its 24px desktop inset is intentional. */
+      padding: 0 24px !important;
       margin-top: -1px;
-      width: min(var(--container-max), calc(100% - 48px)) !important;
+      width: 100% !important;
+      max-width: var(--container-max) !important;
+      margin-right: auto;
+      margin-left: auto;
+      box-sizing: border-box;
       height: var(--subpage-banner-height) !important;
       min-height: var(--subpage-banner-height) !important;
       max-height: var(--subpage-banner-height) !important;
@@ -1979,7 +1985,9 @@
         max-height: none !important;
       }
       .quote-page .quote-construction-image-section {
-        width: calc(100% - 24px) !important;
+        width: 100% !important;
+        max-width: none !important;
+        padding: 0 16px !important;
       }
 
       /* Pricing artwork is a true edge-to-edge 16:9 tile on phones.  The
@@ -2112,7 +2120,7 @@
       <% const quoteConstructionImage = (locals.quoteImages && quoteImages.quote_construction_cta_image)
         || sections.constructionCta.image
         || '/images/quote-construction-interior.png'; %>
-      <section class="quote-construction-image-section" aria-label="Hình ảnh thi công nội thất">
+      <section class="quote-construction-image-section container" aria-label="Hình ảnh thi công nội thất">
         <figure class="quote-construction-image-only">
           <img src="<%= quoteConstructionImage %>" alt="Hình ảnh thi công nội thất Shome Luxury" loading="lazy" decoding="async" />
         </figure>

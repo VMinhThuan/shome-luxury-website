@@ -18607,9 +18607,9 @@ main .home-faq-item p {
   }
 }
 
-/* Homepage hero brand line: use the brand script face and frame it with two
-   equal-width gold rules. Keeping the rules as fixed flex items prevents one
-   side from stretching when the subtitle text changes between slides. */
+/* Homepage hero subtitle: keep the supporting copy compact and in the same
+   heading face as the white title. The gold phrase inside the title gets the
+   separate brand-script treatment below. */
 .home-page .hero-script-subtitle {
   display: flex !important;
   width: min(100%, 1240px);
@@ -18619,9 +18619,9 @@ main .home-faq-item p {
   margin-right: auto !important;
   margin-left: auto !important;
   color: var(--accent-gold, #d2a044) !important;
-  font-family: var(--font-script) !important;
-  font-size: clamp(1.35rem, 3vw, 3.25rem) !important;
-  font-weight: 500 !important;
+  font-family: 'Playfair Display', 'Cormorant Garamond', var(--font-serif) !important;
+  font-size: clamp(.95rem, 1.35vw, 1.6rem) !important;
+  font-weight: 600 !important;
   letter-spacing: .01em;
   line-height: 1.2 !important;
   text-align: center;
@@ -18634,10 +18634,10 @@ main .home-faq-item p {
 .home-page .hero-script-subtitle::before,
 .home-page .hero-script-subtitle::after {
   content: '';
-  flex: 0 0 clamp(160px, 22vw, 420px);
-  width: clamp(160px, 22vw, 420px);
-  min-width: clamp(160px, 22vw, 420px);
-  max-width: clamp(160px, 22vw, 420px);
+  flex: 0 0 clamp(90px, 12vw, 180px);
+  width: clamp(90px, 12vw, 180px);
+  min-width: clamp(90px, 12vw, 180px);
+  max-width: clamp(90px, 12vw, 180px);
   height: 2px;
   background: var(--accent-gold, #d2a044);
   box-shadow: 0 0 8px rgba(210, 160, 68, .28);
@@ -18647,7 +18647,7 @@ main .home-faq-item p {
   .home-page .hero-script-subtitle {
     width: 100%;
     gap: .55rem;
-    font-size: clamp(.9rem, 4.1vw, 1.35rem) !important;
+    font-size: clamp(.78rem, 3.3vw, 1.05rem) !important;
     line-height: 1.25 !important;
   }
 
@@ -18661,9 +18661,14 @@ main .home-faq-item p {
   }
 }
 
-/* Highlight the key phrase in each homepage hero title with the brand gold. */
+/* Highlight the key phrase in each homepage hero title with the brand gold
+   and brand-script font (for example: “TỪNG SẢN PHẨM”). */
 .home-page .hero-v2-title .hero-title-accent {
   color: var(--accent-gold, #d2a044) !important;
+  font-family: var(--font-script) !important;
+  font-size: .88em;
+  font-weight: 500;
+  letter-spacing: 0;
 }
 
 /* Project detail titles share the homepage's black heading typography and
