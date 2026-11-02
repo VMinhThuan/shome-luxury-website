@@ -9252,6 +9252,7 @@ main .surface-finish-section .surface-finish-title {
 
 /* Project image gallery */
 .project-showcase-gallery {
+  margin-top: clamp(0.75rem, 1.5vw, 1.25rem);
   margin-bottom: 0;
   outline: none;
 }
