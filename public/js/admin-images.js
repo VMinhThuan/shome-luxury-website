@@ -27,7 +27,8 @@
     quote: '/bao-gia?category=tk-nt-chung-cu',
     news: '/tin-tuc',
     recruitment: '/tuyen-dung',
-    booking: '/dat-lich-ngay'
+    booking: '/dat-lich-ngay',
+    'project-detail': '/thiet-ke-cong-trinh'
   };
 
   let allSlots = [];
@@ -1051,7 +1052,8 @@
       { key: 'quote', label: 'Báo giá' },
       { key: 'news', label: 'Tin tức' },
       { key: 'recruitment', label: 'Tuyển dụng' },
-      { key: 'booking', label: 'Đặt lịch tư vấn' }
+      { key: 'booking', label: 'Đặt lịch tư vấn' },
+      { key: 'project-detail', label: 'Chi tiết công trình' }
     ];
 
     pagesList.forEach(p => {

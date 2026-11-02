@@ -41,7 +41,8 @@ const PAGES_LIST = [
   { key: 'quote', label: 'Báo giá' },
   { key: 'news', label: 'Tin tức' },
   { key: 'recruitment', label: 'Tuyển dụng' },
-  { key: 'booking', label: 'Đặt lịch tư vấn' }
+  { key: 'booking', label: 'Đặt lịch tư vấn' },
+  { key: 'project-detail', label: 'Chi tiết công trình' }
 ];
 
 exports.uploadMiddleware = upload.single('image');

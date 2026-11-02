@@ -9252,7 +9252,7 @@ main .surface-finish-section .surface-finish-title {
 
 /* Project image gallery */
 .project-showcase-gallery {
-  margin-bottom: 3rem;
+  margin-bottom: 0;
   outline: none;
 }
 
@@ -9485,7 +9485,7 @@ main .surface-finish-section .surface-finish-title {
 }
 
 .related-projects-section {
-  padding-top: 2rem;
+  padding-top: clamp(1.5rem, 3vw, 2.5rem);
   border-top: 1px solid var(--border-light);
 }
 
@@ -17307,15 +17307,61 @@ main .home-faq-item p {
   font-family: var(--font-heading) !important;
 }
 
-/* Project detail summary: title and key project facts share one soft-grey
-   panel, while the gallery remains on the page background. */
+/* Project detail summary: the uploaded image slot creates the same dark,
+   full-bleed showroom treatment used by the homepage. */
 .project-detail-summary {
+  position: relative;
+  isolation: isolate;
   display: flow-root;
-  background: #f2f3f5;
-  /* Extend the summary surface to both viewport edges without changing the
-     existing content container alignment. */
-  box-shadow: 0 0 0 100vmax #f2f3f5;
+  background: #211c17;
+  color: #fff;
+  /* Extend the dark fallback surface to both viewport edges without changing
+     the existing content container alignment. */
+  box-shadow: 0 0 0 100vmax #211c17;
   clip-path: inset(0 -100vmax);
+}
+
+.project-detail-summary::before,
+.project-detail-summary::after {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  width: 100vw;
+  content: '';
+  pointer-events: none;
+  transform: translateX(-50%);
+}
+
+.project-detail-summary::before {
+  z-index: -2;
+  background: var(--project-detail-summary-image) center / cover no-repeat;
+}
+
+.project-detail-summary::after {
+  z-index: -1;
+  background: linear-gradient(105deg, rgba(18, 14, 11, .78), rgba(30, 23, 17, .56));
+}
+
+.project-detail-summary > * {
+  position: relative;
+  z-index: 1;
+}
+
+.project-detail-summary .project-detail-title,
+.project-detail-summary .meta-label,
+.project-detail-summary .meta-value {
+  color: #fff !important;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, .28);
+}
+
+.project-detail-summary .project-detail-title-rule {
+  background: var(--accent-gold) !important;
+  box-shadow: 0 0 12px rgba(210, 160, 68, .35);
+}
+
+.project-detail-summary .project-info-banner .meta-item:not(:last-child) {
+  border-right-color: rgba(241, 205, 132, .48);
 }
 
 /* Related projects become a swipeable horizontal gallery on phones. */
@@ -17924,6 +17970,37 @@ main .home-faq-item p {
   display: none !important;
 }
 
+/* Quote pricing artwork follows the reference strip: three panels with the
+   same panel width as the banner above and the same height as the header. */
+@media (min-width: 768px) {
+  .quote-page .quote-pricing-list {
+    width: 100% !important;
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+    gap: 0 !important;
+  }
+
+  .quote-page .quote-price-card {
+    width: 100% !important;
+    height: var(--header-height-mobile) !important;
+    min-height: var(--header-height-mobile) !important;
+    aspect-ratio: auto !important;
+    border-radius: 0 !important;
+  }
+
+  .quote-page .quote-price-image,
+  .quote-page .quote-price-image img {
+    width: 100% !important;
+    height: 100% !important;
+  }
+}
+
+@media (min-width: 1024px) {
+  .quote-page .quote-price-card {
+    height: var(--header-height-desktop) !important;
+    min-height: var(--header-height-desktop) !important;
+  }
+}
+
 /* On phones, each real-project tile keeps the square card height of the
    reference layout instead of flattening the full 2×2 grid. */
 @media (max-width: 767px) {
@@ -17992,6 +18069,14 @@ main .home-faq-item p {
   background-color: #5f5f5f;
   background-size: contain;
   transform: none;
+}
+
+/* Full-bleed homepage backgrounds: remove the letterboxed side gutters while
+   preserving the image ratio and letting the section crop safely when needed. */
+.home-page .home-background-section--original::before {
+  background-color: transparent;
+  background-position: center;
+  background-size: cover;
 }
 
 .home-page .home-background-section::after {
@@ -18550,4 +18635,93 @@ main .home-faq-item p {
   .home-page .hero-script-subtitle {
     font-size: clamp(.95rem, 4.6vw, 1.45rem) !important;
   }
+}
+
+/* Homepage hero brand line: use the same clean heading face as the white
+   headline and frame it with two gold rules like the reference treatment. */
+.home-page .hero-script-subtitle {
+  display: flex !important;
+  width: min(100%, 1240px);
+  align-items: center;
+  justify-content: center;
+  gap: clamp(.75rem, 2.4vw, 2.4rem);
+  margin-right: auto !important;
+  margin-left: auto !important;
+  color: var(--accent-gold, #d2a044) !important;
+  font-family: var(--font-heading) !important;
+  font-size: clamp(1.05rem, 2.1vw, 2.85rem) !important;
+  font-weight: 600 !important;
+  letter-spacing: .01em;
+  line-height: 1.2 !important;
+  text-align: center;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, .72);
+  background: none !important;
+  -webkit-text-fill-color: currentColor !important;
+}
+
+.home-page .hero-script-subtitle::before,
+.home-page .hero-script-subtitle::after {
+  content: '';
+  flex: 1 1 clamp(48px, 12vw, 220px);
+  height: 2px;
+  min-width: 48px;
+  background: var(--accent-gold, #d2a044);
+  box-shadow: 0 0 8px rgba(210, 160, 68, .28);
+}
+
+@media (max-width: 767px) {
+  .home-page .hero-script-subtitle {
+    width: 100%;
+    gap: .55rem;
+    font-size: clamp(.76rem, 4.1vw, 1.35rem) !important;
+    line-height: 1.25 !important;
+  }
+
+  .home-page .hero-script-subtitle::before,
+  .home-page .hero-script-subtitle::after {
+    flex-basis: 32px;
+    min-width: 24px;
+    height: 1px;
+  }
+}
+
+/* Highlight the key phrase in each homepage hero title with the brand gold. */
+.home-page .hero-v2-title .hero-title-accent {
+  color: var(--accent-gold, #d2a044) !important;
+}
+
+/* Project detail titles share the homepage's black heading typography and
+   scale instead of using the older, smaller project-specific size. */
+main.project-detail-page .project-detail-title {
+  color: var(--content-heading-color, #1d1d1d) !important;
+  font-family: var(--font-heading) !important;
+  font-size: var(--fs-section-title) !important;
+  font-weight: var(--content-heading-weight, 700) !important;
+  line-height: 1.25 !important;
+}
+
+@media (max-width: 767px) {
+  main.project-detail-page .project-detail-title {
+    font-size: var(--fs-section-title) !important;
+    line-height: 1.2 !important;
+    white-space: normal !important;
+  }
+
+  main.project-detail-page .related-projects-section {
+    padding-top: 1.5rem !important;
+  }
+}
+
+/* The detail summary is a dark photographic panel, so its title keeps the
+   white treatment even though project titles elsewhere use black text. */
+main.project-detail-page .project-detail-summary .project-detail-title,
+main.project-detail-page .project-detail-summary .meta-label,
+main.project-detail-page .project-detail-summary .meta-value {
+  color: #fff !important;
+  -webkit-text-fill-color: #fff !important;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, .32);
+}
+
+main.project-detail-page .project-detail-summary {
+  color: #fff !important;
 }

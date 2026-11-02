@@ -373,6 +373,7 @@ class ProjectShowcaseController {
 
       // Fetch dynamic category breadcrumbs
       const breadcrumbs = await categoryService.getCategoryBreadcrumbs(project.categoryIds);
+      const projectDetailImages = await getPageImages('project-detail');
 
       return res.render('du-an-chi-tiet', {
         title: `${project.title} | LUXURY HOME`,
@@ -380,7 +381,8 @@ class ProjectShowcaseController {
         navigation: navigationData,
         project,
         breadcrumbs,
-        relatedProjects
+        relatedProjects,
+        projectDetailBackground: projectDetailImages.project_detail_summary_background
       });
     } catch (err) {
       next(err);

@@ -4,7 +4,8 @@ const PAGE_LABELS = {
   quote: 'Báo giá',
   news: 'Tin tức',
   recruitment: 'Tuyển dụng',
-  booking: 'Đặt lịch tư vấn'
+  booking: 'Đặt lịch tư vấn',
+  'project-detail': 'Chi tiết công trình'
 };
 
 const rawSlots = [
@@ -73,7 +74,10 @@ const rawSlots = [
   ['booking', 'hero', 'booking_hero_banner_1', 'Hero — Banner 1 (Nội thất cao cấp)', '/images/booking-luxury-interior.png'],
   ['booking', 'hero', 'booking_hero_banner_2', 'Hero — Banner 2 (Phòng ngủ sang trọng)', '/images/booking-hero-banner-bedroom.png'],
   ['booking', 'hero', 'booking_hero_banner_3', 'Hero — Banner 3 (Phòng ăn ấm cúng)', '/images/booking-hero-banner-dining.png'],
-  ['booking', 'estimate', 'booking_estimate_visual', 'Báo giá chi tiết — Ảnh minh họa dự toán', '/images/booking-estimate-visual.png']
+  ['booking', 'estimate', 'booking_estimate_visual', 'Báo giá chi tiết — Ảnh minh họa dự toán', '/images/booking-estimate-visual.png'],
+
+  // 7. CHI TIẾT CÔNG TRÌNH (project-detail) - 1 slot
+  ['project-detail', 'summary', 'project_detail_summary_background', 'Chi tiết công trình — Ảnh nền tiêu đề', '/images/background/1793129513212_6043215661779559246_6043215661779559246_f2ba52d47d902705547739b26ef66555.jpg']
 ];
 
 const allSlots = rawSlots.map(([page_key, section_key, image_key, label, image_url]) => ({
