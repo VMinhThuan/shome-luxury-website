@@ -18607,8 +18607,9 @@ main .home-faq-item p {
   }
 }
 
-/* Homepage hero brand line: use the same clean heading face as the white
-   headline and frame it with two gold rules like the reference treatment. */
+/* Homepage hero brand line: use the brand script face and frame it with two
+   equal-width gold rules. Keeping the rules as fixed flex items prevents one
+   side from stretching when the subtitle text changes between slides. */
 .home-page .hero-script-subtitle {
   display: flex !important;
   width: min(100%, 1240px);
@@ -18618,23 +18619,26 @@ main .home-faq-item p {
   margin-right: auto !important;
   margin-left: auto !important;
   color: var(--accent-gold, #d2a044) !important;
-  font-family: var(--font-heading) !important;
-  font-size: clamp(1.05rem, 2.1vw, 2.85rem) !important;
-  font-weight: 600 !important;
+  font-family: var(--font-script) !important;
+  font-size: clamp(1.35rem, 3vw, 3.25rem) !important;
+  font-weight: 500 !important;
   letter-spacing: .01em;
   line-height: 1.2 !important;
   text-align: center;
   text-shadow: 0 2px 10px rgba(0, 0, 0, .72);
   background: none !important;
   -webkit-text-fill-color: currentColor !important;
+  transform-origin: center center;
 }
 
 .home-page .hero-script-subtitle::before,
 .home-page .hero-script-subtitle::after {
   content: '';
-  flex: 1 1 clamp(48px, 12vw, 220px);
+  flex: 0 0 clamp(160px, 22vw, 420px);
+  width: clamp(160px, 22vw, 420px);
+  min-width: clamp(160px, 22vw, 420px);
+  max-width: clamp(160px, 22vw, 420px);
   height: 2px;
-  min-width: 48px;
   background: var(--accent-gold, #d2a044);
   box-shadow: 0 0 8px rgba(210, 160, 68, .28);
 }
@@ -18643,14 +18647,16 @@ main .home-faq-item p {
   .home-page .hero-script-subtitle {
     width: 100%;
     gap: .55rem;
-    font-size: clamp(.76rem, 4.1vw, 1.35rem) !important;
+    font-size: clamp(.9rem, 4.1vw, 1.35rem) !important;
     line-height: 1.25 !important;
   }
 
   .home-page .hero-script-subtitle::before,
   .home-page .hero-script-subtitle::after {
-    flex-basis: 32px;
-    min-width: 24px;
+    flex: 0 0 clamp(24px, 16vw, 72px);
+    width: clamp(24px, 16vw, 72px);
+    min-width: clamp(24px, 16vw, 72px);
+    max-width: clamp(24px, 16vw, 72px);
     height: 1px;
   }
 }
