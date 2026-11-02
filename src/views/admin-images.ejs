@@ -10,13 +10,13 @@
 <%- include('partials/header', { navigation, adminImageMode: true, adminHomeHref: '/admin' }) %>
 <%- include('partials/mobile-drawer', { navigation, adminImageMode: true, adminHomeHref: '/admin' }) %>
 <main class="image-admin-shell">
-  <section class="image-admin-login" data-login-panel hidden><p class="eyebrow">KHU VỰC BẢO MẬT</p><h1>Quản lý ảnh & công trình</h1><p>Đăng nhập bằng tài khoản quản trị để cập nhật ảnh và CRUD công trình.</p><form data-login-form><label>Tài khoản<input name="username" autocomplete="username" required></label><label>Mật khẩu<input name="password" type="password" autocomplete="current-password" required></label><button>Đăng nhập</button><p data-login-status aria-live="polite"></p></form></section>
+  <section class="image-admin-login" data-login-panel hidden><p class="eyebrow">KHU VỰC BẢO MẬT</p><h1>Quản lý ảnh & nội dung</h1><p>Đăng nhập để cập nhật ảnh, công trình, tuyển dụng và tin tức.</p><form data-login-form><label>Tài khoản<input name="username" autocomplete="username" required></label><label>Mật khẩu<input name="password" type="password" autocomplete="current-password" required></label><button>Đăng nhập</button><p data-login-status aria-live="polite"></p></form></section>
   <section data-editor hidden>
     <div class="image-admin-title-row">
       <div>
         <p class="eyebrow" data-eyebrow>TẤT CẢ / HÌNH ẢNH</p>
-        <h1>Quản lý ảnh & công trình</h1>
-        <p class="intro">Quản lý ảnh, banner và CRUD công trình theo đúng menu con: Thiết kế kiến trúc, Thiết kế nội thất, Thi công kiến trúc và Thi công nội thất.</p>
+        <h1>Quản lý ảnh & nội dung</h1>
+        <p class="intro">Quản lý ảnh, banner, công trình, tuyển dụng và tin tức trong cùng khu vực quản trị.</p>
       </div>
       <div class="image-admin-actions">
         <a class="view-live-page-btn" data-live-link href="/" target="_blank" rel="noopener">Xem trang ngoài ↗</a>
@@ -26,6 +26,12 @@
         </label>
       </div>
     </div>
+
+    <nav class="image-admin-content-links" aria-label="CRUD nội dung">
+      <span>Quản lý thêm:</span>
+      <a href="/admin/images?content=careers">Tuyển dụng</a>
+      <a href="/admin/images?content=articles">Tin tức</a>
+    </nav>
 
     <section class="admin-image-submenu-context" data-admin-submenu-context hidden aria-live="polite">
       <div class="admin-image-submenu-breadcrumb"><a href="/admin">Dashboard</a><span>/</span><span>Quản lý ảnh</span><span>/</span><strong data-admin-submenu-breadcrumb></strong></div>
@@ -37,5 +43,7 @@
     <p class="status" data-status aria-live="polite"></p>
     <div class="image-slots" data-slots></div>
     <%- include('partials/admin-content-workspace', { currentModule: 'design-projects', currentModuleLabel: 'Chọn submenu công trình', embedded: true, lazy: true, managerId: 'admin-image-content' }) %>
+    <%- include('partials/admin-content-workspace', { currentModule: 'careers', currentModuleLabel: 'Tuyển dụng', embedded: true, lazy: false, managerId: 'admin-image-careers' }) %>
+    <%- include('partials/admin-content-workspace', { currentModule: 'articles', currentModuleLabel: 'Tin tức', embedded: true, lazy: false, managerId: 'admin-image-articles' }) %>
   </section>
 </main></body></html>

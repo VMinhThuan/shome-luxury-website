@@ -30,6 +30,39 @@
   margin-bottom: 45px
 }
 
+.image-admin-content-links {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 18px 0 4px;
+  color: #958a7d;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.image-admin-content-links a {
+  padding: 8px 13px;
+  border: 1px solid #d8c9b4;
+  border-radius: 999px;
+  color: #7c5b2d;
+  background: #fffaf2;
+  text-decoration: none;
+  transition: color .18s ease, background-color .18s ease, border-color .18s ease;
+}
+
+.image-admin-content-links a:hover,
+.image-admin-content-links a:focus-visible {
+  color: #211a12;
+  background: #d2a044;
+  border-color: #d2a044;
+}
+
+.content-cms-workspace[id^="admin-image-careers"],
+.content-cms-workspace[id^="admin-image-articles"] {
+  scroll-margin-top: 24px;
+}
+
 .admin-image-submenu-context {
   margin-top: 26px;
   padding: 18px 0 4px;

@@ -20,8 +20,8 @@
     };
     if (item.id === 'home') return 'home';
     if (item.id === 'xuong-san-xuat') return 'factory';
-    if (item.id === 'tin-tuc') return 'news';
-    if (item.id === 'tuyen-dung') return 'recruitment';
+    if (item.id === 'tin-tuc') return 'content:articles';
+    if (item.id === 'tuyen-dung') return 'content:careers';
     if (item.id === 'bao-gia') return 'quote';
     if (item.id === 'thiet-ke-cong-trinh' || item.id === 'thi-cong-cong-trinh') return `subpage:${item.categoryCode || item.id}`;
     if (item.id === 'thi-cong-kien-truc' || item.id === 'thi-cong-noi-that') return 'subpage:thi-cong-cong-trinh';

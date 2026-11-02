@@ -41,6 +41,14 @@
       $('[data-content-breadcrumb-current]').textContent = title;
       formGrid.dataset.kind = config.kind;
       formGrid.dataset.module = moduleKey;
+      const newButton = $('[data-new-item]');
+      const emptyLabel = config.kind === 'career'
+        ? 'vị trí tuyển dụng'
+        : config.kind === 'article'
+          ? 'bài viết'
+          : 'công trình';
+      if (newButton) newButton.textContent = `+ Thêm ${emptyLabel}`;
+      if (empty) empty.textContent = `Chưa có ${emptyLabel} phù hợp.`;
       const categoryFilter = $('[data-category-filter]');
       if (categoryFilter && state.category) {
         categoryFilter.value = state.category;

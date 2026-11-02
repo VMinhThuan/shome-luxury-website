@@ -5,8 +5,10 @@
   const workspacePath = typeof selectedPath !== 'undefined' ? selectedPath : '';
   const workspaceLazy = typeof lazy !== 'undefined' && lazy;
   const workspaceManagerId = typeof managerId !== 'undefined' ? managerId : 'content-cms';
+  const workspaceFormTitleId = `${workspaceManagerId}-form-title`;
 %>
 <section
+  id="<%= workspaceManagerId %>"
   class="content-cms-workspace <%= workspaceEmbedded ? 'content-cms-workspace--embedded' : '' %>"
   data-content-manager
   data-manager-id="<%= workspaceManagerId %>"
@@ -47,8 +49,8 @@
 
   <div class="content-cms-modal" data-modal hidden>
     <div class="content-cms-modal__backdrop" data-close-modal></div>
-    <section class="content-cms-dialog" role="dialog" aria-modal="true" aria-labelledby="content-form-title">
-      <header class="content-cms-dialog__header"><div><p class="content-cms-eyebrow">NỘI DUNG WEBSITE</p><h2 id="content-form-title" data-form-title>Thêm công trình</h2></div><button type="button" class="content-cms-close" data-close-modal aria-label="Đóng">×</button></header>
+    <section class="content-cms-dialog" role="dialog" aria-modal="true" aria-labelledby="<%= workspaceFormTitleId %>">
+      <header class="content-cms-dialog__header"><div><p class="content-cms-eyebrow">NỘI DUNG WEBSITE</p><h2 id="<%= workspaceFormTitleId %>" data-form-title>Thêm công trình</h2></div><button type="button" class="content-cms-close" data-close-modal aria-label="Đóng">×</button></header>
       <form data-content-form>
         <input type="hidden" name="id" />
         <div class="content-cms-form-grid">

@@ -65,6 +65,16 @@
       : 'Xem trang ngoài ↗';
   }
 
+  function selectAdminContentModule(moduleKey) {
+    if (!['careers', 'articles'].includes(moduleKey)) return;
+    const workspace = document.querySelector(`#admin-image-${moduleKey}`);
+    if (!workspace) return;
+    const url = new URL(window.location.href);
+    url.searchParams.set('content', moduleKey);
+    window.history.replaceState({}, '', url.toString());
+    workspace.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
   function renderTabs() {
     if (!tabsHost) return;
     tabsHost.replaceChildren();
@@ -212,8 +222,17 @@
   document.addEventListener('click', event => {
     const link = event.target.closest('[data-admin-image-page]');
     if (!link) return;
+    const target = link.dataset.adminImagePage || '';
+    if (target.startsWith('content:')) {
+      event.preventDefault();
+      selectAdminContentModule(target.slice('content:'.length));
+      document.getElementById('mobileDrawer')?.classList.remove('active');
+      document.getElementById('drawerBackdrop')?.classList.remove('active');
+      document.body.classList.remove('drawer-open');
+      return;
+    }
     event.preventDefault();
-    selectAdminImagePage(link.dataset.adminImagePage);
+    selectAdminImagePage(target);
   });
 
   function card(slot) {
@@ -1125,6 +1144,11 @@
     updateAdminImageNav(activePageKey);
     renderSlots();
     syncContentManager(activePageKey);
+
+    const requestedContent = urlParams.get('content');
+    if (['careers', 'articles'].includes(requestedContent)) {
+      window.setTimeout(() => selectAdminContentModule(requestedContent), 0);
+    }
 
     if (searchInput) {
       searchInput.oninput = (e) => {
