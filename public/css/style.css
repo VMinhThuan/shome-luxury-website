@@ -9117,13 +9117,13 @@ main .surface-finish-section .surface-finish-title {
 
 /* Project Detail Page Styles */
 .project-detail-page {
-  padding-top: calc(var(--header-height-mobile) + 0.5rem);
+  padding-top: var(--header-height-mobile);
   padding-bottom: 2.5rem;
 }
 
 @media (min-width: 1024px) {
   .project-detail-page {
-    padding-top: calc(var(--header-height-desktop) + 0.6rem);
+    padding-top: var(--header-height-desktop);
   }
 }
 
