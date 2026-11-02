@@ -20,32 +20,28 @@ router.get(["/admin", "/admin/"], requireAdminPage, (req, res) => res.render('ad
 }));
 router.get("/admin/login", quotePageController.renderAdminLoginPage.bind(quotePageController));
 router.get("/admin/images", requireAdminPage, (req, res) => res.render('admin-images', {
-  title: 'Quản lý ảnh các trang | SHOME LUXURY',
+  title: 'Quản lý ảnh & công trình | SHOME LUXURY',
   navigation: navigationData
 }));
-router.get("/admin/thiet-ke-cong-trinh", requireAdminPage, (req, res) => res.render('admin-projects', {
-  title: 'Quản lý thiết kế công trình | SHOME LUXURY',
-  currentSection: 'thiet-ke-cong-trinh',
-  currentSectionTitle: 'Thiết kế công trình'
-}));
-router.get("/admin/thi-cong-cong-trinh", requireAdminPage, (req, res) => res.render('admin-projects', {
-  title: 'Quản lý thi công công trình | SHOME LUXURY',
-  currentSection: 'thi-cong-cong-trinh',
-  currentSectionTitle: 'Thi công công trình'
-}));
+const unifiedProjectRedirect = (req, res, category) => {
+  const query = new URLSearchParams({ page: `subpage:${category}` });
+  if (req.query.edit) query.set('edit', String(req.query.edit));
+  return res.redirect(`/admin/images?${query.toString()}`);
+};
+router.get("/admin/thiet-ke-cong-trinh", requireAdminPage, (req, res) => unifiedProjectRedirect(req, res, 'thiet-ke-cong-trinh'));
+router.get("/admin/thi-cong-cong-trinh", requireAdminPage, (req, res) => unifiedProjectRedirect(req, res, 'thi-cong-cong-trinh'));
 router.get("/admin/projects", requireAdminPage, (req, res) => {
   const isConstruction = req.query.type === 'thi-cong' || req.query.type === 'thi-cong-cong-trinh';
-  const section = isConstruction ? 'thi-cong-cong-trinh' : 'thiet-ke-cong-trinh';
-  const sectionTitle = isConstruction ? 'Thi công công trình' : 'Thiết kế công trình';
-  res.render('admin-projects', {
-    title: `Quản lý ${sectionTitle.toLowerCase()} | SHOME LUXURY`,
-    currentSection: section,
-    currentSectionTitle: sectionTitle
-  });
+  return unifiedProjectRedirect(req, res, isConstruction ? 'thi-cong-cong-trinh' : 'thiet-ke-cong-trinh');
 });
 router.get("/admin/bao-gia", requireAdminPage, quotePageController.renderAdminPage.bind(quotePageController));
-router.get("/admin/content", requireAdminPage, contentController.renderPage);
-router.get("/admin/content/:module", requireAdminPage, contentController.renderPage);
+router.get("/admin/content", requireAdminPage, (req, res) => res.redirect('/admin/images'));
+router.get("/admin/content/:module", requireAdminPage, (req, res, next) => {
+  if (['design-projects', 'construction-projects'].includes(req.params.module)) {
+    return unifiedProjectRedirect(req, res, req.params.module === 'construction-projects' ? 'thi-cong-cong-trinh' : 'thiet-ke-cong-trinh');
+  }
+  return contentController.renderPage(req, res, next);
+});
 
 // Page Routes - Homepage, Workshop & Recruitment
 router.get("/", homeController.getHomePage);

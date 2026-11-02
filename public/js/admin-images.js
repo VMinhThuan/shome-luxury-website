@@ -19,6 +19,7 @@
   const searchInput = $('[data-search]');
   const subpagePicker = $('[data-subpage-picker]');
   const subpageSelect = $('[data-subpage-select]');
+  const contentManager = () => window.shomeContentManagers?.['admin-image-content'];
 
   const PAGE_URLS = {
     all: '/',
@@ -119,6 +120,7 @@
     updateLiveLink(pageKey);
     updateAdminImageNav(pageKey);
     renderSlots();
+    syncContentManager(pageKey);
   }
 
   function updateAdminImageNav(pageKey) {
@@ -131,6 +133,39 @@
         .some(link => link.dataset.adminImagePage === pageKey);
       item.classList.toggle('active', isActive);
     });
+  }
+
+  function contentContextFor(pageKey) {
+    if (!pageKey?.startsWith('subpage:')) return null;
+    const category = pageKey.slice('subpage:'.length);
+    const subpage = subpageList.find(item => item.key === category);
+    if (!subpage) return null;
+    const isDesign = category === 'thiet-ke-cong-trinh'
+      || category === 'thiet-ke-kien-truc'
+      || category === 'thiet-ke-noi-that'
+      || category.startsWith('tk-');
+    const isConstruction = category === 'thi-cong-cong-trinh' || category.startsWith('tc-');
+    if (!isDesign && !isConstruction) return null;
+    return { module: isConstruction ? 'construction-projects' : 'design-projects', category, title: subpage.label, publicPath: subpage.path };
+  }
+
+  function syncContentManager(pageKey) {
+    const manager = contentManager();
+    const host = $('[data-manager-id="admin-image-content"]');
+    const contextHost = $('[data-admin-submenu-context]');
+    const context = contentContextFor(pageKey);
+    if (!context) {
+      if (host) host.hidden = true;
+      if (contextHost) contextHost.hidden = true;
+      return;
+    }
+    if (contextHost) {
+      contextHost.hidden = false;
+      $('[data-admin-submenu-breadcrumb]').textContent = context.title;
+      $('[data-admin-submenu-title]').textContent = context.title;
+    }
+    if (!manager || !host) return;
+    manager.setContext(context).catch(error => setStatus(error.message || 'Không thể tải danh sách công trình.', true));
   }
 
   async function selectAdminImagePage(pageKey) {
@@ -163,6 +198,7 @@
       updateLiveLink(pageKey);
       updateAdminImageNav(pageKey);
       renderSlots();
+      syncContentManager(pageKey);
       setStatus('');
 
       document.getElementById('mobileDrawer')?.classList.remove('active');
@@ -1088,6 +1124,7 @@
     updateLiveLink(activePageKey);
     updateAdminImageNav(activePageKey);
     renderSlots();
+    syncContentManager(activePageKey);
 
     if (searchInput) {
       searchInput.oninput = (e) => {
@@ -1113,6 +1150,7 @@
           if (eyebrow) eyebrow.textContent = `${(subpage?.label || 'TRANG CON').toUpperCase()} / HÌNH ẢNH`;
           updateLiveLink(pageKey);
           renderSlots();
+          syncContentManager(pageKey);
           setStatus('');
         } catch (error) {
           setStatus(error.message || previousLabel, true);

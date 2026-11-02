@@ -5,6 +5,8 @@ const { htmlToPlainText } = require('../utils/sanitizeHtml');
 const mongoose = require('mongoose');
 const MAX_GALLERY_IMAGES = 5;
 
+const escapeRegExp = value => String(value || '').replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+
 const PROJECT_FIELDS = [
   'title', 'slug', 'investor', 'clientName', 'location', 'area', 'cost',
   'propertyType', 'style', 'excerpt', 'content', 'status', 'featured',
@@ -188,7 +190,7 @@ class ProjectService {
 
     // Search filter (Title, Investor, Location, Excerpt, Content)
     if (options.search) {
-      const searchRegex = new RegExp(options.search.trim(), 'i');
+      const searchRegex = new RegExp(escapeRegExp(options.search.trim()), 'i');
       filter.$or = [
         { title: searchRegex },
         { investor: searchRegex },

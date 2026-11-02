@@ -17971,37 +17971,6 @@ main .home-faq-item p {
   display: none !important;
 }
 
-/* Quote pricing artwork follows the reference strip: three panels with the
-   same panel width as the banner above and the same height as the header. */
-@media (min-width: 768px) {
-  .quote-page .quote-pricing-list {
-    width: 100% !important;
-    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
-    gap: 0 !important;
-  }
-
-  .quote-page .quote-price-card {
-    width: 100% !important;
-    height: var(--header-height-mobile) !important;
-    min-height: var(--header-height-mobile) !important;
-    aspect-ratio: auto !important;
-    border-radius: 0 !important;
-  }
-
-  .quote-page .quote-price-image,
-  .quote-page .quote-price-image img {
-    width: 100% !important;
-    height: 100% !important;
-  }
-}
-
-@media (min-width: 1024px) {
-  .quote-page .quote-price-card {
-    height: var(--header-height-desktop) !important;
-    min-height: var(--header-height-desktop) !important;
-  }
-}
-
 /* On phones, each real-project tile keeps the square card height of the
    reference layout instead of flattening the full 2×2 grid. */
 @media (max-width: 767px) {

@@ -1,35 +1,59 @@
 (() => {
-  const root = document.querySelector('.content-cms-page');
-  if (!root) return;
+  const mountRoots = [...document.querySelectorAll('[data-content-manager]')];
+  if (!mountRoots.length) return;
 
-  const moduleKey = root.dataset.module;
-  const config = {
+  const moduleConfigs = {
     'design-projects': { title: 'Thiết kế công trình', description: 'Quản lý công trình thiết kế kiến trúc và nội thất, danh mục, hình ảnh, gallery và trạng thái xuất bản.', kind: 'project' },
     'construction-projects': { title: 'Thi công công trình', description: 'Quản lý công trình thi công thực tế, phân loại menu, hình ảnh, tiến độ và liên kết thiết kế.', kind: 'project' },
     careers: { title: 'Tuyển dụng', description: 'Quản lý tin tuyển dụng, thông tin vị trí, phúc lợi, hạn nhận hồ sơ và trạng thái mở/đóng.', kind: 'career' },
     articles: { title: 'Tin tức', description: 'Quản lý bài viết, chuyên mục, nội dung HTML an toàn, SEO và trạng thái xuất bản.', kind: 'article' }
-  }[moduleKey];
-  if (!config) return;
+  };
 
-  const $ = selector => root.querySelector(selector);
-  const $$ = selector => [...root.querySelectorAll(selector)];
-  const table = $('[data-table]');
-  const empty = $('[data-empty]');
-  const modal = $('[data-modal]');
-  const form = $('[data-content-form]');
-  const formGrid = $('.content-cms-form-grid');
-  const feedback = $('[data-feedback]');
-  const formError = $('[data-form-error]');
-  const imageUrl = $('[data-thumbnail-url]');
-  const imagePreview = $('[data-image-preview]');
-  const galleryFiles = $('[data-gallery-files]');
-  const galleryPreview = $('[data-gallery-preview]');
-  const designProjectField = $('[data-design-project]');
-  const state = { rows: [], categories: [], page: 1, totalPages: 1, dirty: false, thumbnailMeta: null, galleryMeta: [] };
+  const mount = root => {
+    let moduleKey = root.dataset.module;
+    let config = moduleConfigs[moduleKey];
+    if (!config) return;
 
-  $('[data-module-title]').textContent = config.title;
-  $('[data-module-description]').textContent = config.description;
-  formGrid.dataset.kind = config.kind;
+    const $ = selector => root.querySelector(selector);
+    const $$ = selector => [...root.querySelectorAll(selector)];
+    const table = $('[data-table]');
+    const empty = $('[data-empty]');
+    const modal = $('[data-modal]');
+    const form = $('[data-content-form]');
+    const formGrid = $('.content-cms-form-grid');
+    const feedback = $('[data-feedback]');
+    const formError = $('[data-form-error]');
+    const imageUrl = $('[data-thumbnail-url]');
+    const imagePreview = $('[data-image-preview]');
+    const galleryFiles = $('[data-gallery-files]');
+    const galleryPreview = $('[data-gallery-preview]');
+    const designProjectField = $('[data-design-project]');
+    const state = { rows: [], categories: [], page: 1, totalPages: 1, dirty: false, thumbnailMeta: null, galleryMeta: [], category: root.dataset.category || '', filterCategory: '', requestedEditHandled: false };
+    let searchTimer = null;
+
+    const applyContext = () => {
+      const title = root.dataset.selectedTitle || config.title;
+      const description = root.dataset.selectedTitle
+        ? `Quản lý hình ảnh và công trình thuộc submenu “${root.dataset.selectedTitle}”.`
+        : config.description;
+      $('[data-module-title]').textContent = title;
+      $('[data-module-description]').textContent = description;
+      $('[data-content-breadcrumb-current]').textContent = title;
+      formGrid.dataset.kind = config.kind;
+      formGrid.dataset.module = moduleKey;
+      const categoryFilter = $('[data-category-filter]');
+      if (categoryFilter && state.category) {
+        categoryFilter.value = state.category;
+        categoryFilter.disabled = true;
+        categoryFilter.title = 'Danh mục được khóa theo submenu đang chọn.';
+      } else if (categoryFilter) {
+        categoryFilter.value = state.filterCategory || '';
+        categoryFilter.disabled = false;
+        categoryFilter.removeAttribute('title');
+      }
+    };
+
+    applyContext();
 
   const escapeHtml = value => String(value ?? '').replace(/[&<>'"]/g, char => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[char]));
   const idOf = row => String(row._id || row.id || '');
@@ -84,6 +108,7 @@
         projectField.append(option);
       });
     }
+    applyContext();
   }
 
   function formatDate(value) {
@@ -98,14 +123,11 @@
   }
 
   function renderRows() {
-    const search = ($('[data-search]').value || '').trim().toLowerCase();
-    const category = $('[data-category-filter]').value;
+    const category = state.category || state.filterCategory || $('[data-category-filter]').value;
     const rows = state.rows.filter(row => {
-      const haystack = [row.title, row.slug, row.category, row.summary, row.location].filter(Boolean).join(' ').toLowerCase();
-      const matchesSearch = !search || haystack.includes(search);
       const rowCategories = (row.categoryIds || []).map(item => item.code || item.slug || item._id || item);
       const matchesCategory = !category || row.category === category || rowCategories.includes(category);
-      return matchesSearch && matchesCategory;
+      return matchesCategory;
     });
     empty.hidden = rows.length > 0;
     table.innerHTML = rows.map(row => {
@@ -127,6 +149,10 @@
     setFeedback('Đang tải dữ liệu...');
     try {
       const params = new URLSearchParams({ page: String(state.page), limit: '100', status: $('[data-status-filter]').value || 'all' });
+      const search = ($('[data-search]').value || '').trim();
+      if (search) params.set('search', search);
+      if (state.category) params.set('category', state.category);
+      else if (state.filterCategory || $('[data-category-filter]').value) params.set('category', state.filterCategory || $('[data-category-filter]').value);
       const result = await request(`${endpoint()}?${params}`);
       state.rows = result.data || [];
       state.categories = result.categories || [];
@@ -135,7 +161,32 @@
       renderRows();
       renderPagination();
       setFeedback(`${result.pagination?.totalItems || state.rows.length} nội dung`);
+      await openRequestedEdit();
     } catch (error) { setFeedback(error.message, true); }
+  }
+
+  async function openRequestedEdit() {
+    if (state.requestedEditHandled) return;
+    const editId = new URLSearchParams(window.location.search).get('edit');
+    if (!editId) {
+      state.requestedEditHandled = true;
+      return;
+    }
+    state.requestedEditHandled = true;
+    const editUrl = new URL(window.location.href);
+    editUrl.searchParams.delete('edit');
+    window.history.replaceState({}, '', editUrl.toString());
+    let row = state.rows.find(item => idOf(item) === editId);
+    if (!row) {
+      try {
+        const result = await request(`${endpoint()}/${encodeURIComponent(editId)}`);
+        row = result.data;
+      } catch (error) {
+        setFeedback(`Không tìm thấy công trình cần chỉnh sửa: ${error.message}`, true);
+        return;
+      }
+    }
+    openForm(row);
   }
 
   function setValue(name, value = '') { if (field(name)) field(name).value = value ?? ''; }
@@ -162,7 +213,11 @@
     if (config.kind === 'project') {
       const categoryField = field('category');
       [...(categoryField?.options || [])].forEach(option => {
-        const selectedIds = (row?.categoryIds || []).map(item => String(item?._id || item?.id || item));
+        const selectedIds = row
+          ? (row.categoryIds || []).map(item => String(item?._id || item?.id || item))
+          : flattenCategories(state.categories)
+            .filter(category => state.category && (category.code === state.category || category.slug === state.category))
+            .map(category => String(category._id || category.id));
         option.selected = selectedIds.includes(String(option.value));
       });
     } else setValue('categoryText', row?.category);
@@ -325,8 +380,11 @@
   form.addEventListener('input', event => { state.dirty = true; if (event.target === imageUrl) setImagePreview(event.target.value); });
   $('[data-new-item]').addEventListener('click', () => openForm());
   $('[data-refresh]').addEventListener('click', load);
-  $('[data-search]').addEventListener('input', renderRows);
-  $('[data-category-filter]').addEventListener('change', renderRows);
+  $('[data-search]').addEventListener('input', () => {
+    window.clearTimeout(searchTimer);
+    searchTimer = window.setTimeout(() => { state.page = 1; load(); }, 250);
+  });
+  $('[data-category-filter]').addEventListener('change', event => { state.filterCategory = event.target.value; state.page = 1; load(); });
   $('[data-status-filter]').addEventListener('change', () => { state.page = 1; load(); });
   $('[data-upload-image]').addEventListener('click', uploadImage);
   $('[data-upload-gallery]').addEventListener('click', uploadGallery);
@@ -335,12 +393,14 @@
   form.addEventListener('submit', event => { event.preventDefault(); save(true); });
   $('[data-pagination]').addEventListener('click', event => { const page = event.target.dataset.page; if (!page) return; state.page += page === 'next' ? 1 : -1; load(); });
   window.addEventListener('beforeunload', event => { if (state.dirty && !modal.hidden) { event.preventDefault(); event.returnValue = ''; } });
-  const logout = $('[data-logout]');
-  logout.addEventListener('click', async () => { logout.disabled = true; try { await fetch('/api/auth/logout', { method: 'POST', credentials: 'same-origin' }); } finally { window.location.assign('/admin/login'); } });
+  const logout = root.closest('.content-cms-page') ? document.querySelector('[data-logout]') : null;
+  if (logout) logout.addEventListener('click', async () => { logout.disabled = true; try { await fetch('/api/auth/logout', { method: 'POST', credentials: 'same-origin' }); } finally { window.location.assign('/admin/login'); } });
 
   async function loadDesignProjects() {
     if (!designProjectField) return;
     try {
+      designProjectField.innerHTML = '<option value="">Không liên kết</option>';
+      if (config.kind !== 'project' || moduleKey !== 'construction-projects') return;
       const result = await request('/api/admin/design-projects?limit=1000&status=all');
       result.data.forEach(row => {
         const option = document.createElement('option');
@@ -351,6 +411,33 @@
     } catch (error) { designProjectField.disabled = true; }
   }
 
-  loadDesignProjects();
-  load();
+  const setContext = async ({ module, category, title, publicPath } = {}) => {
+    if (!moduleConfigs[module]) return;
+    moduleKey = module;
+    config = moduleConfigs[module];
+    state.category = category || '';
+    state.filterCategory = '';
+    state.page = 1;
+    state.rows = [];
+    state.requestedEditHandled = false;
+    root.dataset.module = moduleKey;
+    root.dataset.category = state.category;
+    root.dataset.selectedTitle = title || '';
+    root.dataset.selectedPath = publicPath || '';
+    root.hidden = false;
+    applyContext();
+    await loadDesignProjects();
+    await load();
+  };
+
+  window.shomeContentManagers = window.shomeContentManagers || {};
+  window.shomeContentManagers[root.dataset.managerId || 'content-cms'] = { setContext };
+
+  if (root.dataset.lazy !== 'true') {
+    loadDesignProjects();
+    load();
+  }
+  };
+
+  mountRoots.forEach(mount);
 })();

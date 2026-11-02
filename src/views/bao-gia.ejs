@@ -1085,7 +1085,7 @@
       margin: 0 auto;
     }
     @media (max-width: 767px) {
-      .quote-page .quote-featured-project-list .quote-featured-project-card:nth-child(n+4) {
+      .quote-page .quote-featured-project-list .quote-featured-project-card:nth-child(n+6) {
         display: none !important;
       }
     }
@@ -1936,8 +1936,10 @@
     .quote-page .quote-construction-image-section {
       padding: 0 !important;
       margin-top: -1px;
-      height: auto !important;
-      min-height: 0 !important;
+      width: 100% !important;
+      height: var(--subpage-banner-height) !important;
+      min-height: var(--subpage-banner-height) !important;
+      max-height: var(--subpage-banner-height) !important;
       background: #fff;
     }
 
@@ -1948,8 +1950,8 @@
     .quote-page .quote-construction-image-only {
       display: block !important;
       width: 100%;
-      height: auto;
-      min-height: 0;
+      height: 100%;
+      min-height: 100%;
       margin: 0;
       overflow: hidden;
       border: 0 !important;
@@ -1961,19 +1963,20 @@
     .quote-page .quote-construction-image-only > img {
       display: block;
       width: 100% !important;
-      height: auto !important;
-      min-height: 0 !important;
-      max-height: none !important;
+      height: 100% !important;
+      min-height: 100% !important;
+      max-height: 100% !important;
       border-radius: 0 !important;
-      object-fit: contain;
+      object-fit: cover;
       object-position: center;
     }
 
     @media (max-width: 767px) {
       .quote-page .quote-construction-image-section,
       .quote-page .quote-construction-image-only {
-        height: auto !important;
+        height: 56.25vw !important;
         min-height: 0 !important;
+        max-height: none !important;
       }
 
       /* Pricing artwork is a true edge-to-edge 16:9 tile on phones.  The
@@ -2116,10 +2119,10 @@
     <% if (sections.categories?.isVisible !== false) { %>
       <section class="quote-section quote-category-section" id="cong-trinh-thiet-ke">
         <div class="container">
-          <header class="quote-featured-heading"><h2>Thiết kế <em><%= featuredCategoryName %></em></h2><strong>Các công trình <%= quoteScript.toLowerCase() %> <%= featuredCategoryName.toLowerCase() %> được hoàn thiện chỉn chu, tối ưu công năng và thẩm mỹ.</strong></header>
+          <header class="quote-featured-heading"><h2>Một số công trình <em>tiêu biểu</em></h2><strong>Các công trình <%= quoteScript.toLowerCase() %> <%= featuredCategoryName.toLowerCase() %> được hoàn thiện chỉn chu, tối ưu công năng và thẩm mỹ.</strong></header>
           <% if (highlightProjects.length) { %>
             <div class="quote-featured-project-list">
-              <% highlightProjects.slice(0, 6).forEach((project, index) => {
+              <% highlightProjects.slice(0, 5).forEach((project, index) => {
                    const projectImage = project.thumbnail || '';
                    const galleryImages = [...new Set([projectImage, ...(project.gallery || [])].filter(Boolean))];
                    const costLabel = project.cost ? `${Math.round(project.cost / 1000000)} triệu` : 'Liên hệ tư vấn';

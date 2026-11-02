@@ -12,6 +12,10 @@ body.content-cms-page { min-height: 100vh; margin: 0; color: var(--cms-ink); bac
 .content-cms-tool-link, .content-cms-logout { padding: 9px 11px; border: 1px solid rgba(255,255,255,.2); border-radius: 6px; color: #fff; background: transparent; font: inherit; font-size: 11px; font-weight: 700; text-decoration: none; white-space: nowrap; cursor: pointer; }
 .content-cms-logout { border-color: rgba(210,160,68,.7); color: #211a12; background: #d2a044; }
 .content-cms-shell { width: min(1440px, calc(100% - 42px)); margin: auto; padding: 25px 0 70px; }
+.content-cms-workspace--embedded { margin-top: 48px; padding-top: 34px; border-top: 1px solid var(--cms-line); }
+.content-cms-workspace--embedded[hidden] { display: none; }
+.content-cms-workspace--embedded .content-cms-heading { padding-top: 18px; }
+.content-cms-workspace--embedded .content-cms-heading h1 { font-size: clamp(26px, 3vw, 38px); }
 .content-cms-breadcrumb { display: flex; align-items: center; gap: 8px; color: #968a7c; font-size: 11px; }
 .content-cms-breadcrumb a { color: #956b28; text-decoration: none; }
 .content-cms-heading { display: flex; align-items: flex-end; justify-content: space-between; gap: 30px; padding: 25px 0 30px; border-bottom: 1px solid var(--cms-line); }

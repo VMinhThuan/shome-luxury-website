@@ -135,28 +135,20 @@ class QuotePageController {
     const highlighted = await projectService.getProjects({
       category: targetCategory,
       isHighlight: true,
-      limit: 6,
+      limit: 5,
       sort: 'highlight'
     });
     let projects = highlighted.projects || [];
-    if (projects.length < 6) {
+    if (projects.length < 5) {
       const more = await projectService.getProjects({
         category: targetCategory,
         excludeIds: projects.map(p => p._id),
-        limit: 6 - projects.length,
+        limit: 5 - projects.length,
         sort: 'newest'
       });
       projects = [...projects, ...(more.projects || [])];
     }
-    if (projects.length < 6) {
-      const fallback = await projectService.getProjects({
-        excludeIds: projects.map(p => p._id),
-        limit: 6 - projects.length,
-        sort: 'highlight'
-      });
-      projects = [...projects, ...(fallback.projects || [])];
-    }
-    return projects;
+    return projects.slice(0, 5);
   }
 
   async renderPage(req, res, next) {
