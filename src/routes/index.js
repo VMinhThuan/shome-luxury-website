@@ -21,7 +21,10 @@ router.get(["/admin", "/admin/"], requireAdminPage, (req, res) => res.render('ad
 router.get("/admin/login", quotePageController.renderAdminLoginPage.bind(quotePageController));
 router.get("/admin/images", requireAdminPage, (req, res) => res.render('admin-images', {
   title: 'Quản lý ảnh & công trình | SHOME LUXURY',
-  navigation: navigationData
+  navigation: navigationData,
+  initialContent: ['careers', 'articles'].includes(String(req.query.content || ''))
+    ? String(req.query.content)
+    : null
 }));
 const unifiedProjectRedirect = (req, res, category) => {
   const query = new URLSearchParams({ page: `subpage:${category}` });

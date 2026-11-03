@@ -57,14 +57,16 @@ document.addEventListener('DOMContentLoaded', () => {
             c.classList.add('was-hidden-extra');
           });
           toggleBtn.classList.add('is-expanded');
-          if (textSpan) textSpan.textContent = 'Thu gọn video';
+          toggleBtn.setAttribute('aria-expanded', 'true');
+          if (textSpan) textSpan.textContent = 'Thu gọn';
         } else {
           panel.querySelectorAll('.quote-completed-video-card.was-hidden-extra').forEach(function(c) {
             c.classList.add('is-hidden-extra');
             c.classList.remove('was-hidden-extra');
           });
           toggleBtn.classList.remove('is-expanded');
-          if (textSpan) textSpan.textContent = 'Xem thêm video (' + remaining + ' video khác)';
+          toggleBtn.setAttribute('aria-expanded', 'false');
+          if (textSpan) textSpan.textContent = 'Xem thêm';
           panel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
         }
         return;

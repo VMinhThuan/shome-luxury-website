@@ -18711,6 +18711,11 @@ main .home-faq-item p {
   line-height: 1.25 !important;
   white-space: normal !important;
   overflow: visible;
+  align-self: center;
+  margin-inline: auto !important;
+  justify-content: center;
+  text-align: center;
+  transform-origin: center center;
 }
 
 /* Project detail titles share the homepage's black heading typography and
