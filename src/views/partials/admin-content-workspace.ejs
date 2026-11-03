@@ -6,6 +6,7 @@
   const workspaceLazy = typeof lazy !== 'undefined' && lazy;
   const workspaceManagerId = typeof managerId !== 'undefined' ? managerId : 'content-cms';
   const workspaceFormTitleId = `${workspaceManagerId}-form-title`;
+  const workspaceInitiallyHidden = typeof initiallyHidden !== 'undefined' && initiallyHidden;
 %>
 <section
   id="<%= workspaceManagerId %>"
@@ -17,7 +18,7 @@
   data-selected-title="<%= workspaceTitle %>"
   data-selected-path="<%= workspacePath %>"
   data-lazy="<%= workspaceLazy ? 'true' : 'false' %>"
-  <%= workspaceLazy ? 'hidden' : '' %>>
+  <%= workspaceLazy || workspaceInitiallyHidden ? 'hidden' : '' %>>
   <div class="content-cms-breadcrumb">
     <a href="/admin">Dashboard</a><span>/</span><span>Quản lý nội dung</span><span>/</span><strong data-content-breadcrumb-current><%= workspaceTitle || currentModuleLabel %></strong>
   </div>

@@ -9609,6 +9609,24 @@ main .surface-finish-section .surface-finish-title {
   object-position: 62% center;
 }
 
+.news-hero-slider-track,
+.news-hero-slide,
+.news-hero-slide .news-hero-image {
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+}
+
+.news-hero-slide {
+  position: relative;
+}
+
+@media (max-width: 767px) {
+  .news-hero {
+    min-height: clamp(240px, 58vw, 420px);
+  }
+}
+
 .news-content-section {
   padding: .75rem 0;
   background: #FFFFFF;
@@ -18664,11 +18682,35 @@ main .home-faq-item p {
 /* Highlight the key phrase in each homepage hero title with the brand gold
    and brand-script font (for example: “TỪNG SẢN PHẨM”). */
 .home-page .hero-v2-title .hero-title-accent {
+  display: inline-block;
+  padding: .06em .04em .2em;
   color: var(--accent-gold, #d2a044) !important;
   font-family: var(--font-script) !important;
   font-size: .88em;
   font-weight: 500;
   letter-spacing: 0;
+  line-height: 1.16 !important;
+  vertical-align: baseline;
+  white-space: nowrap;
+}
+
+/* Keep the handwritten phrase from being cut by the reveal mask or the
+   headline line box. The title still animates with opacity/translation, but
+   all signature flourishes remain visible. */
+.home-page .hero-slider--fade .hero-slide .hero-title-line {
+  overflow: visible;
+  clip-path: none !important;
+}
+
+/* The supporting gold line uses the normal brand heading face and a compact
+   size so it stays below the title without covering the handwritten phrase. */
+.home-page .hero-script-subtitle {
+  font-family: var(--font-heading) !important;
+  font-size: clamp(1rem, 1.65vw, 1.8rem) !important;
+  font-weight: 600 !important;
+  line-height: 1.25 !important;
+  white-space: normal !important;
+  overflow: visible;
 }
 
 /* Project detail titles share the homepage's black heading typography and

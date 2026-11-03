@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <title><%= title %></title>
   <meta name="description" content="Cập nhật xu hướng thiết kế, kinh nghiệm thi công và phong cách sống cùng SHOME LUXURY." />
-  <link rel="stylesheet" href="/css/style.css?v=6.8.17" />
+  <link rel="stylesheet" href="/css/style.css?v=6.8.44" />
   <script src="/js/main.js?v=1.9.9" defer></script>
 </head>
 <body class="page-news">
@@ -13,10 +13,22 @@
   <%- include("partials/mobile-drawer") %>
 
   <main id="main-content" class="news-page">
+    <% const newsHeroSlides = [
+      (locals.newsImages && (newsImages.news_hero_banner_1 || newsImages.news_hero_banner)) || '/images/hero_sofa_sharp.jpg',
+      (locals.newsImages && newsImages.news_hero_banner_2) || '/images/hero_interior.jpg',
+      (locals.newsImages && newsImages.news_hero_banner_3) || '/images/project_apartment.jpg'
+    ]; %>
     <section class="news-hero subpage-banner-frame">
-      <div class="news-hero-image" aria-hidden="true">
-        <img src="<%= (locals.newsImages && newsImages.news_hero_banner) || '/images/hero_sofa_sharp.jpg' %>" alt="" width="1376" height="768" fetchpriority="high" />
+      <div class="hero-slider-track news-hero-slider-track" id="newsHeroSliderTrack" data-hero-slider data-hero-dots="newsHeroSliderDots" aria-label="Danh sách banner Tin tức">
+        <% newsHeroSlides.forEach((image, index) => { %>
+          <div class="hero-slide news-hero-slide" data-slide-index="<%= index %>" aria-label="Banner Tin tức <%= index + 1 %> trên 3">
+            <div class="news-hero-image" aria-hidden="true">
+              <img src="<%= image %>" alt="" width="1376" height="768" <%= index === 0 ? 'fetchpriority="high"' : 'loading="lazy"' %> />
+            </div>
+          </div>
+        <% }); %>
       </div>
+      <div class="hero-slider-dots" id="newsHeroSliderDots" role="tablist" aria-label="Chọn banner Tin tức"></div>
     </section>
 
     <% if (articles && articles.length > 0) { %>

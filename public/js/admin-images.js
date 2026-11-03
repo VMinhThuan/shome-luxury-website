@@ -65,14 +65,35 @@
       : 'Xem trang ngoài ↗';
   }
 
-  function selectAdminContentModule(moduleKey) {
+  function contentModuleForPage(pageKey) {
+    if (pageKey === 'news') return 'articles';
+    if (pageKey === 'recruitment') return 'careers';
+    if (contentContextFor(pageKey)) return 'projects';
+    return null;
+  }
+
+  function setContentWorkspaceVisibility(moduleKey) {
+    const workspaceIds = {
+      projects: 'admin-image-content',
+      careers: 'admin-image-careers',
+      articles: 'admin-image-articles'
+    };
+    Object.entries(workspaceIds).forEach(([key, id]) => {
+      const workspace = document.getElementById(id);
+      if (workspace) workspace.hidden = key !== moduleKey;
+    });
+  }
+
+  async function selectAdminContentModule(moduleKey) {
     if (!['careers', 'articles'].includes(moduleKey)) return;
-    const workspace = document.querySelector(`#admin-image-${moduleKey}`);
-    if (!workspace) return;
+    const pageKey = moduleKey === 'articles' ? 'news' : 'recruitment';
+    await selectAdminImagePage(pageKey);
+    setContentWorkspaceVisibility(moduleKey);
     const url = new URL(window.location.href);
     url.searchParams.set('content', moduleKey);
     window.history.replaceState({}, '', url.toString());
-    workspace.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    const workspace = document.getElementById(`admin-image-${moduleKey}`);
+    workspace?.scrollIntoView({ behavior: 'smooth', block: 'start' });
   }
 
   function renderTabs() {
@@ -110,6 +131,9 @@
     } else {
       url.searchParams.set('page', pageKey);
     }
+    const contentModule = contentModuleForPage(pageKey);
+    if (contentModule === 'articles' || contentModule === 'careers') url.searchParams.set('content', contentModule);
+    else url.searchParams.delete('content');
     window.history.replaceState({}, '', url.toString());
 
     // Update active class on buttons
@@ -134,13 +158,18 @@
   }
 
   function updateAdminImageNav(pageKey) {
+    const activeTarget = pageKey === 'news'
+      ? 'content:articles'
+      : pageKey === 'recruitment'
+        ? 'content:careers'
+        : pageKey;
     document.querySelectorAll('[data-admin-image-page]').forEach(link => {
-      link.classList.toggle('admin-image-page-active', link.dataset.adminImagePage === pageKey);
+      link.classList.toggle('admin-image-page-active', link.dataset.adminImagePage === activeTarget);
     });
 
     document.querySelectorAll('.desktop-nav .nav-item').forEach(item => {
       const isActive = [...item.querySelectorAll('[data-admin-image-page]')]
-        .some(link => link.dataset.adminImagePage === pageKey);
+        .some(link => link.dataset.adminImagePage === activeTarget);
       item.classList.toggle('active', isActive);
     });
   }
@@ -164,8 +193,8 @@
     const host = $('[data-manager-id="admin-image-content"]');
     const contextHost = $('[data-admin-submenu-context]');
     const context = contentContextFor(pageKey);
+    setContentWorkspaceVisibility(contentModuleForPage(pageKey));
     if (!context) {
-      if (host) host.hidden = true;
       if (contextHost) contextHost.hidden = true;
       return;
     }
@@ -194,6 +223,9 @@
       const url = new URL(window.location.href);
       if (pageKey === 'all') url.searchParams.delete('page');
       else url.searchParams.set('page', pageKey);
+      const contentModule = contentModuleForPage(pageKey);
+      if (contentModule === 'articles' || contentModule === 'careers') url.searchParams.set('content', contentModule);
+      else url.searchParams.delete('content');
       window.history.replaceState({}, '', url.toString());
 
       if (tabsHost) {
@@ -225,7 +257,7 @@
     const target = link.dataset.adminImagePage || '';
     if (target.startsWith('content:')) {
       event.preventDefault();
-      selectAdminContentModule(target.slice('content:'.length));
+      selectAdminContentModule(target.slice('content:'.length)).catch(error => setStatus(error.message || 'Không thể mở khu vực nội dung.', true));
       document.getElementById('mobileDrawer')?.classList.remove('active');
       document.getElementById('drawerBackdrop')?.classList.remove('active');
       document.body.classList.remove('drawer-open');

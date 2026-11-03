@@ -64,8 +64,10 @@ const rawSlots = [
   ['quote', 'cta', 'quote_construction_cta_image', 'Báo giá — Section ảnh toàn màn hình', '/images/quote-construction-interior.png'],
   ['quote', 'estimate', 'quote_estimate_image', 'Form nhận dự toán — Ảnh minh họa', '/images/quote-free-estimate-interior.png'],
 
-  // 4. TIN TỨC (news) - 1 slot
-  ['news', 'hero', 'news_hero_banner', 'Banner chính trang Tin tức', '/images/hero_sofa_sharp.jpg'],
+  // 4. TIN TỨC (news) - 3 banner slots
+  ['news', 'hero', 'news_hero_banner_1', 'Tin tức — Banner 1', '/images/hero_sofa_sharp.jpg'],
+  ['news', 'hero', 'news_hero_banner_2', 'Tin tức — Banner 2', '/images/hero_interior.jpg'],
+  ['news', 'hero', 'news_hero_banner_3', 'Tin tức — Banner 3', '/images/project_apartment.jpg'],
 
   // 5. TUYỂN DỤNG (recruitment) - 1 slot
   ['recruitment', 'hero', 'recruitment_hero_banner', 'Banner chính trang Tuyển dụng', '/images/recruitment-hero-clean.png'],

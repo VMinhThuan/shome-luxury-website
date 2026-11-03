@@ -2,7 +2,7 @@
 <html lang="vi">
 <head>
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title><%= title %></title><link rel="stylesheet" href="/css/style.css?v=6.8.6" /><link rel="stylesheet" href="/css/admin-image-header.css?v=1.0.0" /><link rel="stylesheet" href="/css/admin-images.css?v=1.0.6" /><link rel="stylesheet" href="/css/admin-images-pair.css?v=1.0.6" /><link rel="stylesheet" href="/css/admin-content.css?v=1.0.1" />
+  <title><%= title %></title><link rel="stylesheet" href="/css/style.css?v=6.8.44" /><link rel="stylesheet" href="/css/admin-image-header.css?v=1.0.0" /><link rel="stylesheet" href="/css/admin-images.css?v=1.0.6" /><link rel="stylesheet" href="/css/admin-images-pair.css?v=1.0.6" /><link rel="stylesheet" href="/css/admin-content.css?v=1.0.1" />
   <script src="/js/main.js?v=6.8.6" defer></script>
   <script src="/js/admin-images.js?v=1.0.7" defer></script><script src="/js/admin-content.js?v=1.0.1" defer></script>
 </head>
@@ -43,7 +43,7 @@
     <p class="status" data-status aria-live="polite"></p>
     <div class="image-slots" data-slots></div>
     <%- include('partials/admin-content-workspace', { currentModule: 'design-projects', currentModuleLabel: 'Chọn submenu công trình', embedded: true, lazy: true, managerId: 'admin-image-content' }) %>
-    <%- include('partials/admin-content-workspace', { currentModule: 'careers', currentModuleLabel: 'Tuyển dụng', embedded: true, lazy: false, managerId: 'admin-image-careers' }) %>
-    <%- include('partials/admin-content-workspace', { currentModule: 'articles', currentModuleLabel: 'Tin tức', embedded: true, lazy: false, managerId: 'admin-image-articles' }) %>
+    <%- include('partials/admin-content-workspace', { currentModule: 'careers', currentModuleLabel: 'Tuyển dụng', embedded: true, lazy: false, managerId: 'admin-image-careers', initiallyHidden: true }) %>
+    <%- include('partials/admin-content-workspace', { currentModule: 'articles', currentModuleLabel: 'Tin tức', embedded: true, lazy: false, managerId: 'admin-image-articles', initiallyHidden: true }) %>
   </section>
 </main></body></html>

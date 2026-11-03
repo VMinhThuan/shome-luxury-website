@@ -42,8 +42,13 @@ async function getPageImages(pageKey = null, subpageKey = null) {
       ? configuredSlots.filter(s => s.page_key === pageKey)
       : allSlots;
   try {
-    const saved = await HomeImage.find({ image_key: { $in: configuredSlots.map(s => s.image_key) } }).lean();
+    const saved = await HomeImage.find({ image_key: { $in: [...configuredSlots.map(s => s.image_key), 'news_hero_banner'] } }).lean();
     const byKey = new Map(saved.map(item => [item.image_key, item]));
+    // Keep the original single-news-banner record working after the page was
+    // expanded to three independently replaceable banner slots.
+    if (!byKey.has('news_hero_banner_1') && byKey.has('news_hero_banner')) {
+      byKey.set('news_hero_banner_1', byKey.get('news_hero_banner'));
+    }
     return Object.fromEntries(targetSlots.map(s => {
       const override = subpageOverrides.get(s.image_key);
       const effectiveSlot = override && byKey.has(override.image_key) ? override : s;

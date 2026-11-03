@@ -118,8 +118,13 @@ const requestedSlots = (pageFilter) => {
 };
 
 const allRecords = async () => {
-  const saved = await HomeImage.find({ image_key: { $in: allConfiguredSlots.map(slot => slot.image_key) } }).lean();
-  return new Map(saved.map(item => [item.image_key, item]));
+  const saved = await HomeImage.find({ image_key: { $in: [...allConfiguredSlots.map(slot => slot.image_key), 'news_hero_banner'] } }).lean();
+  const records = new Map(saved.map(item => [item.image_key, item]));
+  // Backward compatibility for the old one-slot Tin tức banner.
+  if (!records.has('news_hero_banner_1') && records.has('news_hero_banner')) {
+    records.set('news_hero_banner_1', records.get('news_hero_banner'));
+  }
+  return records;
 };
 
 exports.previewImage = async (req, res, next) => {
