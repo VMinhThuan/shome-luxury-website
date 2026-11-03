@@ -18718,6 +18718,19 @@ main .home-faq-item p {
   transform-origin: center center;
 }
 
+/* Keep the homepage subtitle lock-up centered against the full banner, not
+   against the max-width content container that holds the headline. */
+@media (min-width: 768px) {
+  .home-page .hero-script-subtitle {
+    position: relative;
+    left: calc((100% - 100vw) / 2);
+    width: 100vw;
+    max-width: none;
+    margin-right: 0 !important;
+    margin-left: 0 !important;
+  }
+}
+
 /* Project detail titles share the homepage's black heading typography and
    scale instead of using the older, smaller project-specific size. */
 main.project-detail-page .project-detail-title {
