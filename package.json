@@ -9,7 +9,8 @@
     "seed:project-types": "node scripts/seed-project-property-types.js",
     "seed:construction-videos": "node scripts/seed-construction-videos.js",
     "seed:quote-apartment-highlights": "node scripts/seed-quote-apartment-highlights.js",
-    "test": "node tests/image-processing.test.js"
+    "test": "node tests/image-processing.test.js && node tests/hostname-routing.test.js",
+    "test:hostname": "node tests/hostname-routing.test.js"
   },
   "keywords": [],
   "author": "",

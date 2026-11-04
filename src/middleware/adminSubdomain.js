@@ -1,18 +1,22 @@
 /**
- * DEPRECATED: Admin host & subdomain separation has been removed.
- * CMS Admin and Public website share the same domain under /admin/* routes.
- * Kept as pass-through for backwards compatibility.
+ * Compatibility helpers for any older caller that still imports this file.
+ * The actual host policy is installed globally in app.js through
+ * hostnameRouting, so these helpers must not treat every host as admin.
  */
+const { getHostnameMode } = require('./hostnameRouting');
 
-function isAdminHost() {
-  return true;
+function isAdminHost(req) {
+  return Boolean(req && getHostnameMode(req) === 'admin');
 }
 
 function requireAdminHost(req, res, next) {
-  return next();
+  return isAdminHost(req) ? next() : res.sendStatus(404);
 }
 
 function redirectAdminRoot(req, res, next) {
+  if (isAdminHost(req) && req.path === '/' && req.method === 'GET') {
+    return res.redirect('/admin');
+  }
   return next();
 }
 

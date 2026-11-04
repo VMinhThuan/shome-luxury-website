@@ -5,6 +5,7 @@ const express = require("express");
 const compression = require("compression");
 const connectDB = require("./src/config/db");
 const routes = require("./src/routes");
+const { hostnameRouting } = require("./src/middleware/hostnameRouting");
 
 const app = express();
 const PORT = process.env.PORT || 3030;
@@ -16,6 +17,10 @@ app.set("view cache", process.env.NODE_ENV === "production");
 
 // Enable Gzip / Brotli compression for text responses
 app.use(compression({ threshold: 0 }));
+
+// Hostname routing must run before static files and database access. It uses
+// only the direct Host header; X-Forwarded-Host is not trusted for policy.
+app.use(hostnameRouting);
 
 // Set view engine to EJS
 app.set("view engine", "ejs");
