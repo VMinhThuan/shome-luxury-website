@@ -11,13 +11,15 @@
   <meta property="og:title" content="<%= title %>" />
   <meta property="og:description" content="Tuyển tập công trình kiến trúc & nội thất sang trọng Shome Luxury." />
   <meta property="og:type" content="website" />
-  <meta name="theme-color" content="#171717" />
+  <meta name="theme-color" content="#000000" />
+  <%- include("partials/site-favicon") %>
 
   <!-- CSS Stylesheet -->
-  <link rel="stylesheet" href="/css/style.css?v=6.8.12" />
+  <link rel="preload" href="/images/shome-logo.png" as="image" />
+  <link rel="stylesheet" href="/css/style.css?v=6.8.46" />
   <script src="/js/main.js?v=1.9.9" defer></script>
 </head>
-<body>
+<body class="showcase-page-body">
 
   <!-- Header -->
   <%- include("partials/header") %>

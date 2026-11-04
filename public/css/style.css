@@ -16684,6 +16684,55 @@ main :is(.font-script, [class^="script-"], [class*="-script-"], [class$="-script
   text-transform: none !important;
 }
 
+/* ========================================================================
+   SHOWCASE PAGES — BLACK BRAND SURFACE
+   Keep all design/construction menu pages visually consistent with the
+   dark homepage treatment. This scope is limited to cong-trinh.ejs.
+   ======================================================================== */
+body.showcase-page-body {
+  background: #000;
+  color: #fff;
+}
+
+body.showcase-page-body .showcase-page-main,
+body.showcase-page-body .project-showcase-section,
+body.showcase-page-body .completed-projects-section,
+body.showcase-page-body .completed-videos-section {
+  background: #000;
+}
+
+body.showcase-page-body .project-showcase-hero {
+  background: #000;
+  border-bottom-color: rgba(210, 160, 68, .35);
+}
+
+/* The managed banner image is intentionally suppressed here so the hero is
+   a true solid black surface instead of a white image overlay. */
+body.showcase-page-body .project-showcase-hero.has-managed-image::before {
+  background: #000;
+  opacity: 1;
+}
+
+body.showcase-page-body .showcase-title,
+body.showcase-page-body .showcase-title .title-main,
+body.showcase-page-body .showcase-subtitle,
+body.showcase-page-body .completed-projects-heading h2,
+body.showcase-page-body .completed-videos-heading h2,
+body.showcase-page-body .completed-projects-heading strong,
+body.showcase-page-body .completed-videos-heading strong {
+  color: #fff !important;
+}
+
+body.showcase-page-body .completed-projects-heading-band,
+body.showcase-page-body .completed-videos-heading-band {
+  background: #000;
+}
+
+body.showcase-page-body .completed-projects-section,
+body.showcase-page-body .completed-videos-section {
+  border-top-color: rgba(210, 160, 68, .35);
+}
+
 /* Paired section titles use the same bold sans-serif face for every black
    word. Older section rules used a serif face on these inner spans. */
 main :is(

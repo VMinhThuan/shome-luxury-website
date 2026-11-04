@@ -6,6 +6,7 @@
   <title><%= title %></title>
   <meta name="description" content="<%= project.excerpt ? project.excerpt.replace(/<[^>]*>?/gm, '').substring(0, 160) : project.title %>" />
   <meta name="theme-color" content="#171717" />
+  <%- include("partials/site-favicon") %>
 
   <!-- CSS Stylesheet -->
   <link rel="stylesheet" href="/css/style.css?v=6.8.25" />
