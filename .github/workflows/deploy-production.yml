@@ -68,6 +68,9 @@ jobs:
       VPS_API_HEALTHCHECK_URL: ${{ secrets.VPS_API_HEALTHCHECK_URL }}
 
     steps:
+      - name: Checkout deployment helper
+        uses: actions/checkout@v4
+
       - name: Select safe execution mode
         id: gate
         shell: bash
