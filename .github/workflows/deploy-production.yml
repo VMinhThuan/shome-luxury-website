@@ -126,6 +126,10 @@ jobs:
           fi
 
           echo "Checking TCP connectivity with nc -4 -vz -w 10..."
+          if ! command -v nc >/dev/null 2>&1; then
+            echo "::warning::nc is not installed on the self-hosted runner; skipping the optional TCP precheck. The SSH step will validate connectivity."
+            exit 0
+          fi
           if nc_output="$(nc -4 -vz -w 10 "$VPS_HOST" "$ssh_port" 2>&1)"; then
             printf '%s\n' "$nc_output"
             echo "TCP connectivity: PASS (${VPS_HOST}:${ssh_port})"
