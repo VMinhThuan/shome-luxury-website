@@ -106,6 +106,33 @@ jobs:
             exit 1
           fi
 
+      - name: Diagnose runner network to VPS
+        shell: bash
+        run: |
+          set -Eeuo pipefail
+          ssh_port="${VPS_PORT:-22}"
+
+          echo "VPS connection target: host=${VPS_HOST}, port=${ssh_port}, user=${VPS_USER}"
+          echo "Private key, API key and secret contents are intentionally not printed."
+
+          runner_public_ip="$(curl -4fsS --max-time 10 https://api.ipify.org || true)"
+          if [[ -n "$runner_public_ip" ]]; then
+            echo "GitHub Runner public IPv4: ${runner_public_ip}"
+          else
+            echo "GitHub Runner public IPv4: unavailable (ipify lookup failed); continuing with TCP check." >&2
+          fi
+
+          echo "Checking TCP connectivity with nc -4 -vz -w 10..."
+          if nc_output="$(nc -4 -vz -w 10 "$VPS_HOST" "$ssh_port" 2>&1)"; then
+            printf '%s\n' "$nc_output"
+            echo "TCP connectivity: PASS (${VPS_HOST}:${ssh_port})"
+          else
+            nc_status=$?
+            printf '%s\n' "$nc_output" >&2
+            echo "::error title=VPS TCP connectivity failed::The GitHub Runner cannot establish TCP connectivity to ${VPS_HOST}:${ssh_port}. This is a network/routing/firewall/provider issue, before SSH authentication."
+            exit "$nc_status"
+          fi
+
       - name: Configure SSH
         shell: bash
         run: |
@@ -115,11 +142,41 @@ jobs:
           printf '%s\n' "$VPS_SSH_KNOWN_HOSTS" > "$HOME/.ssh/known_hosts"
           chmod 600 "$HOME/.ssh/shome_luxury_deploy_key" "$HOME/.ssh/known_hosts"
 
+      - name: Verify SSH authentication and host key
+        shell: bash
+        run: |
+          set -Eeuo pipefail
+          ssh_port="${VPS_PORT:-22}"
+          ssh_options=(
+            -i "$HOME/.ssh/shome_luxury_deploy_key"
+            -p "$ssh_port"
+            -o BatchMode=yes
+            -o StrictHostKeyChecking=yes
+            -o ConnectTimeout=15
+            -o ConnectionAttempts=1
+          )
+
+          if ssh "${ssh_options[@]}" "$VPS_USER@$VPS_HOST" true; then
+            echo "SSH authentication and host-key verification: PASS"
+          else
+            ssh_status=$?
+            echo "::error title=SSH authentication or host-key verification failed::TCP connectivity passed, but the SSH handshake failed. Check VPS_USER, the matching private key, known_hosts, sshd policy and permissions. This is not a basic TCP timeout."
+            exit "$ssh_status"
+          fi
+
       - name: Run aaPanel preflight/deployment
         shell: bash
         run: |
           set -Eeuo pipefail
           VPS_PORT="${VPS_PORT:-22}"
+          ssh_options=(
+            -i "$HOME/.ssh/shome_luxury_deploy_key"
+            -p "$VPS_PORT"
+            -o BatchMode=yes
+            -o StrictHostKeyChecking=yes
+            -o ConnectTimeout=15
+            -o ConnectionAttempts=1
+          )
           quote_for_shell() { printf '%q' "$1"; }
           if [[ "${{ steps.gate.outputs.mode }}" == "preflight" ]]; then
             remote_dry_run=true
@@ -130,8 +187,7 @@ jobs:
           api_key_file="/tmp/.shome-luxury-aapanel-${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}.key"
           cleanup_api_key() {
             if [[ "$remote_dry_run" == "false" ]]; then
-              ssh -i "$HOME/.ssh/shome_luxury_deploy_key" -p "$VPS_PORT" \
-                -o BatchMode=yes -o StrictHostKeyChecking=yes \
+              ssh "${ssh_options[@]}" \
                 "$VPS_USER@$VPS_HOST" "rm -f -- $(quote_for_shell "$api_key_file")" || true
             fi
           }
@@ -139,10 +195,7 @@ jobs:
 
           if [[ "$remote_dry_run" == "false" ]]; then
             printf '%s' "$VPS_AAPANEL_API_KEY" | ssh \
-              -i "$HOME/.ssh/shome_luxury_deploy_key" \
-              -p "$VPS_PORT" \
-              -o BatchMode=yes \
-              -o StrictHostKeyChecking=yes \
+              "${ssh_options[@]}" \
               "$VPS_USER@$VPS_HOST" \
               "umask 077; cat > $(quote_for_shell "$api_key_file"); chmod 600 $(quote_for_shell "$api_key_file")"
             api_key_file_env="$api_key_file"
@@ -165,9 +218,6 @@ jobs:
           remote_environment+=" VPS_AAPANEL_PROJECT_NAME=shomeluxury_node"
 
           ssh \
-            -i "$HOME/.ssh/shome_luxury_deploy_key" \
-            -p "$VPS_PORT" \
-            -o BatchMode=yes \
-            -o StrictHostKeyChecking=yes \
+            "${ssh_options[@]}" \
             "$VPS_USER@$VPS_HOST" \
             "$remote_environment bash -s" < scripts/deploy-vps.sh
