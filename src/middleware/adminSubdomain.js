@@ -15,7 +15,7 @@ function requireAdminHost(req, res, next) {
 
 function redirectAdminRoot(req, res, next) {
   if (isAdminHost(req) && req.path === '/' && req.method === 'GET') {
-    return res.redirect('/admin');
+    return res.redirect('/admin/images');
   }
   return next();
 }

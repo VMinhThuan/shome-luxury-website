@@ -1,0 +1,166 @@
+name: SHOME LUXURY CI/CD
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: 'dry-run chỉ kiểm tra VPS; deploy mới pull/restart production'
+        required: true
+        default: dry-run
+        type: choice
+        options:
+          - dry-run
+          - deploy
+
+permissions:
+  contents: read
+
+concurrency:
+  group: shome-luxury-production
+  cancel-in-progress: false
+
+jobs:
+  test:
+    name: Tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Use Node.js 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22.23.4
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run tests
+        run: npm test
+
+  deploy:
+    name: aaPanel VPS deployment
+    needs: test
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      DEPLOY_MODE: ${{ github.event_name == 'workflow_dispatch' && inputs.mode || 'deploy' }}
+      VPS_DEPLOY_ENABLED: ${{ secrets.VPS_DEPLOY_ENABLED }}
+      VPS_HOST: ${{ secrets.VPS_HOST }}
+      VPS_PORT: ${{ secrets.VPS_PORT }}
+      VPS_USER: ${{ secrets.VPS_USER }}
+      VPS_SSH_PRIVATE_KEY: ${{ secrets.VPS_SSH_PRIVATE_KEY }}
+      VPS_SSH_KNOWN_HOSTS: ${{ secrets.VPS_SSH_KNOWN_HOSTS }}
+      VPS_APP_DIR: ${{ secrets.VPS_APP_DIR }}
+      VPS_AAPANEL_API_URL: ${{ secrets.VPS_AAPANEL_API_URL }}
+      VPS_AAPANEL_API_KEY: ${{ secrets.VPS_AAPANEL_API_KEY }}
+      VPS_HEALTHCHECK_URL: ${{ secrets.VPS_HEALTHCHECK_URL }}
+      VPS_ADMIN_HEALTHCHECK_URL: ${{ secrets.VPS_ADMIN_HEALTHCHECK_URL }}
+      VPS_API_HEALTHCHECK_URL: ${{ secrets.VPS_API_HEALTHCHECK_URL }}
+
+    steps:
+      - name: Select safe execution mode
+        id: gate
+        shell: bash
+        run: |
+          set -Eeuo pipefail
+          if [[ "$DEPLOY_MODE" == "deploy" && "${VPS_DEPLOY_ENABLED:-}" == "true" ]]; then
+            echo "mode=deploy" >> "$GITHUB_OUTPUT"
+            echo "Production deployment is enabled."
+          else
+            echo "mode=preflight" >> "$GITHUB_OUTPUT"
+            echo "Running read-only VPS preflight; no pull, dependency install or restart will occur."
+          fi
+
+      - name: Validate SSH and aaPanel settings
+        shell: bash
+        run: |
+          set -Eeuo pipefail
+          required=(VPS_HOST VPS_USER VPS_SSH_PRIVATE_KEY VPS_SSH_KNOWN_HOSTS)
+          for variable in "${required[@]}"; do
+            if [[ -z "${!variable:-}" ]]; then
+              echo "Missing GitHub Secret: ${variable}" >&2
+              exit 1
+            fi
+          done
+
+          if [[ "${{ steps.gate.outputs.mode }}" == "deploy" ]]; then
+            [[ -n "${VPS_AAPANEL_API_URL:-}" ]] || { echo "Missing VPS_AAPANEL_API_URL" >&2; exit 1; }
+            [[ -n "${VPS_AAPANEL_API_KEY:-}" ]] || { echo "Missing VPS_AAPANEL_API_KEY" >&2; exit 1; }
+          fi
+
+          if [[ -n "${VPS_PORT:-}" && ! "$VPS_PORT" =~ ^[0-9]+$ ]]; then
+            echo "VPS_PORT must be numeric." >&2
+            exit 1
+          fi
+
+      - name: Configure SSH
+        shell: bash
+        run: |
+          set -Eeuo pipefail
+          install -m 700 -d "$HOME/.ssh"
+          printf '%s\n' "$VPS_SSH_PRIVATE_KEY" > "$HOME/.ssh/shome_luxury_deploy_key"
+          printf '%s\n' "$VPS_SSH_KNOWN_HOSTS" > "$HOME/.ssh/known_hosts"
+          chmod 600 "$HOME/.ssh/shome_luxury_deploy_key" "$HOME/.ssh/known_hosts"
+
+      - name: Run aaPanel preflight/deployment
+        shell: bash
+        run: |
+          set -Eeuo pipefail
+          VPS_PORT="${VPS_PORT:-22}"
+          quote_for_shell() { printf '%q' "$1"; }
+          if [[ "${{ steps.gate.outputs.mode }}" == "preflight" ]]; then
+            remote_dry_run=true
+          else
+            remote_dry_run=false
+          fi
+
+          api_key_file="/tmp/.shome-luxury-aapanel-${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}.key"
+          cleanup_api_key() {
+            if [[ "$remote_dry_run" == "false" ]]; then
+              ssh -i "$HOME/.ssh/shome_luxury_deploy_key" -p "$VPS_PORT" \
+                -o BatchMode=yes -o StrictHostKeyChecking=yes \
+                "$VPS_USER@$VPS_HOST" "rm -f -- $(quote_for_shell "$api_key_file")" || true
+            fi
+          }
+          trap cleanup_api_key EXIT
+
+          if [[ "$remote_dry_run" == "false" ]]; then
+            printf '%s' "$VPS_AAPANEL_API_KEY" | ssh \
+              -i "$HOME/.ssh/shome_luxury_deploy_key" \
+              -p "$VPS_PORT" \
+              -o BatchMode=yes \
+              -o StrictHostKeyChecking=yes \
+              "$VPS_USER@$VPS_HOST" \
+              "umask 077; cat > $(quote_for_shell "$api_key_file"); chmod 600 $(quote_for_shell "$api_key_file")"
+            api_key_file_env="$api_key_file"
+          else
+            api_key_file_env=""
+          fi
+
+          remote_environment="VPS_DRY_RUN=$(quote_for_shell "$remote_dry_run")"
+          remote_environment+=" VPS_APP_DIR=$(quote_for_shell "${VPS_APP_DIR:-}")"
+          remote_environment+=" VPS_AAPANEL_API_URL=$(quote_for_shell "${VPS_AAPANEL_API_URL:-}")"
+          remote_environment+=" VPS_AAPANEL_API_KEY_FILE=$(quote_for_shell "$api_key_file_env")"
+          remote_environment+=" VPS_HEALTHCHECK_URL=$(quote_for_shell "${VPS_HEALTHCHECK_URL:-}")"
+          remote_environment+=" VPS_ADMIN_HEALTHCHECK_URL=$(quote_for_shell "${VPS_ADMIN_HEALTHCHECK_URL:-}")"
+          remote_environment+=" VPS_API_HEALTHCHECK_URL=$(quote_for_shell "${VPS_API_HEALTHCHECK_URL:-}")"
+          remote_environment+=" VPS_BRANCH=main"
+          remote_environment+=" VPS_DEPLOY_USER=www"
+          remote_environment+=" VPS_NODE_BIN=/www/server/nodejs/v22.23.4/bin/node"
+          remote_environment+=" VPS_PID_FILE=/www/server/nodejs/vhost/pids/shomeluxury_node.pid"
+          remote_environment+=" VPS_PORT=3030"
+          remote_environment+=" VPS_AAPANEL_PROJECT_NAME=shomeluxury_node"
+
+          ssh \
+            -i "$HOME/.ssh/shome_luxury_deploy_key" \
+            -p "$VPS_PORT" \
+            -o BatchMode=yes \
+            -o StrictHostKeyChecking=yes \
+            "$VPS_USER@$VPS_HOST" \
+            "$remote_environment bash -s" < scripts/deploy-vps.sh

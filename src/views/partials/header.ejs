@@ -2,7 +2,7 @@
   const adminImageModeEnabled = typeof adminImageMode !== 'undefined' && adminImageMode;
   const adminHomeTarget = typeof adminHomeHref !== 'undefined'
     ? adminHomeHref
-    : (adminImageModeEnabled ? '/admin' : '/');
+    : (adminImageModeEnabled ? '/admin/images' : '/');
   const adminImageTarget = (item) => {
     const pathTargets = {
       '/thiet-ke-cong-trinh': 'subpage:thiet-ke-cong-trinh',
@@ -35,7 +35,7 @@
   <div class="container header-container">
     <!-- Brand Logo -->
     <div class="brand-logo-wrapper">
-      <a href="<%= adminHomeTarget %>" class="brand-logo" aria-label="SHOME LUXURY - <%= adminImageModeEnabled ? 'Dashboard quản trị' : 'Trang chủ' %>">
+      <a href="<%= adminHomeTarget %>" class="brand-logo" aria-label="SHOME LUXURY - <%= adminImageModeEnabled ? 'Quản lý ảnh' : 'Trang chủ' %>">
         <img src="/images/shome-logo.png" alt="SHOME LUXURY" class="logo-img" width="160" height="48" />
       </a>
     </div>

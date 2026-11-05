@@ -167,7 +167,7 @@ async function run() {
     path: '/',
     cookie: `shome_admin_session=${adminToken}`
   });
-  assert.equal(adminAuthenticatedRoot.location, '/admin');
+  assert.equal(adminAuthenticatedRoot.location, '/admin/images');
 
   console.log('hostname-routing.test.js: all assertions passed');
 }

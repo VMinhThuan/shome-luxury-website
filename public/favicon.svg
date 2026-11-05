@@ -1,8 +1,8 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-labelledby="title">
   <title>SHOME LUXURY</title>
-  <rect width="64" height="64" rx="12" fill="#191919"/>
-  <path fill="#D2A044" d="M10 9h17l27 27v19H37L10 28V9Z"/>
-  <path fill="#F5D18A" d="M10 9h8l27 27v9h-8L10 18V9Z"/>
-  <path fill="#3C3C3C" d="M10 36 22 48v7H10V36Z"/>
-  <path fill="#9A742F" d="M29 9h17L29 26V9Z"/>
+  <rect width="64" height="64" rx="12" fill="#242424"/>
+  <path fill="#D8A84E" d="M10 9h17l27 27v19H37L10 28V9Z"/>
+  <path fill="#F4D28D" d="M10 9h8l27 27v9h-8L10 18V9Z"/>
+  <path fill="#4A4A4A" d="M10 36 22 48v7H10V36Z"/>
+  <path fill="#A97B2F" d="M29 9h17L29 26V9Z"/>
 </svg>

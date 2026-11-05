@@ -115,7 +115,7 @@ async function runAdminRoutesTest() {
 
     const goodLoginRes = await makeRequest('POST', '/api/auth/login', { username: 'admin', password: 'admin123' }, { 'Host': 'shome-luxury.vercel.app' });
     assert(goodLoginRes.status === 200, 'Correct credentials returns 200');
-    assert(goodLoginRes.body.redirectUrl === '/admin', 'redirectUrl defaults to /admin dashboard');
+    assert(goodLoginRes.body.redirectUrl === '/admin/images', 'redirectUrl goes directly to image management');
     const sessionCookie = extractCookie(goodLoginRes.headers, 'shome_admin_session');
     assert(sessionCookie !== null, 'shome_admin_session cookie is set by server');
 
@@ -139,14 +139,14 @@ async function runAdminRoutesTest() {
     });
     assert(authImagesRes2.status === 200, 'Direct refresh on /admin/images returns 200 OK');
 
-    // 7. Authenticated admin dashboard and login redirect
-    console.log('\n--- TEST 7: Authenticated admin dashboard ---');
+    // 7. Authenticated admin root redirects directly to image management
+    console.log('\n--- TEST 7: Authenticated admin root redirect ---');
     const authDashboardRes = await makeRequest('GET', '/admin', null, {
       'Host': 'shome-luxury.vercel.app',
       'Cookie': cookieHeader
     });
-    assert(authDashboardRes.status === 200, 'Authenticated GET /admin returns 200 OK');
-    assert(typeof authDashboardRes.body === 'string' && authDashboardRes.body.includes('Chức năng quản trị'), 'Dashboard lists admin modules');
+    assert(authDashboardRes.status === 302, 'Authenticated GET /admin redirects');
+    assert(authDashboardRes.headers['location'] === '/admin/images', 'Authenticated /admin redirects directly to /admin/images');
 
     const adminModulePaths = [
       ['/admin/thiet-ke-cong-trinh', 'Thiết kế công trình'],
@@ -167,7 +167,7 @@ async function runAdminRoutesTest() {
       'Host': 'shome-luxury.vercel.app',
       'Cookie': cookieHeader
     });
-    assert(authLoginVisitRes.status === 302 && authLoginVisitRes.headers['location'] === '/admin', 'Authenticated user at /admin/login redirected to /admin');
+    assert(authLoginVisitRes.status === 302 && authLoginVisitRes.headers['location'] === '/admin/images', 'Authenticated user at /admin/login redirected to /admin/images');
 
     // 10. Server-side API protection for images and upload
     console.log('\n--- TEST 10: Server-side API Protection for Image Admin & Upload ---');

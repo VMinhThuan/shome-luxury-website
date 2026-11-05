@@ -9,8 +9,8 @@
 </head>
 <body class="home-images-admin">
 <% const initialContentModule = typeof initialContent !== 'undefined' ? initialContent : null; %>
-<%- include('partials/header', { navigation, adminImageMode: true, adminHomeHref: '/admin' }) %>
-<%- include('partials/mobile-drawer', { navigation, adminImageMode: true, adminHomeHref: '/admin' }) %>
+<%- include('partials/header', { navigation, adminImageMode: true, adminHomeHref: '/admin/images' }) %>
+<%- include('partials/mobile-drawer', { navigation, adminImageMode: true, adminHomeHref: '/admin/images' }) %>
 <main class="image-admin-shell">
   <section class="image-admin-login" data-login-panel hidden><p class="eyebrow">KHU VỰC BẢO MẬT</p><h1>Quản lý ảnh & nội dung</h1><p>Đăng nhập để cập nhật ảnh, công trình, tuyển dụng và tin tức.</p><form data-login-form><label>Tài khoản<input name="username" autocomplete="username" required></label><label>Mật khẩu<input name="password" type="password" autocomplete="current-password" required></label><button>Đăng nhập</button><p data-login-status aria-live="polite"></p></form></section>
   <section data-editor hidden>
@@ -36,7 +36,7 @@
     </nav>
 
     <section class="admin-image-submenu-context" data-admin-submenu-context hidden aria-live="polite">
-      <div class="admin-image-submenu-breadcrumb"><a href="/admin">Dashboard</a><span>/</span><span>Quản lý ảnh</span><span>/</span><strong data-admin-submenu-breadcrumb></strong></div>
+      <div class="admin-image-submenu-breadcrumb"><a href="/admin/images">Quản lý ảnh</a><span>/</span><strong data-admin-submenu-breadcrumb></strong></div>
       <div class="admin-image-submenu-heading">
         <div><p class="eyebrow">SUBMENU ĐANG CHỌN</p><h2 data-admin-submenu-title></h2></div>
       </div>

@@ -110,7 +110,7 @@ function hostnameRouting(req, res, next) {
 
   if (mode === 'admin') {
     if (pathname === '/' && req.method === 'GET') {
-      return res.redirect(hasValidAdminSession(req) ? '/admin' : '/admin/login');
+      return res.redirect(hasValidAdminSession(req) ? '/admin/images' : '/admin/login');
     }
 
     if (!isAllowedOnAdminHost(req)) return res.sendStatus(404);

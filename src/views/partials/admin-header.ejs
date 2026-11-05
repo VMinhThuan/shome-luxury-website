@@ -1,11 +1,10 @@
 <header class="admin-site-header">
   <div class="admin-site-header__inner">
-    <a class="admin-site-brand" href="/admin" aria-label="SHOME LUXURY - Tổng quan quản trị">
+    <a class="admin-site-brand" href="/admin/images" aria-label="SHOME LUXURY - Quản lý ảnh">
       <img src="/images/shome-logo.png" alt="SHOME LUXURY" width="160" height="56" />
     </a>
 
     <nav class="admin-site-nav" aria-label="Điều hướng quản trị">
-      <a class="admin-site-nav__link <%= activeAdmin === 'dashboard' ? 'is-active' : '' %>" href="/admin">Tổng quan</a>
       <details class="admin-site-nav__dropdown" <%= activeAdmin && activeAdmin !== 'dashboard' ? 'open' : '' %>>
         <summary class="admin-site-nav__link <%= activeAdmin && activeAdmin !== 'dashboard' ? 'is-active' : '' %>">
           Chức năng quản trị

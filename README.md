@@ -21,7 +21,7 @@ Truy cập: `http://localhost:3030`
 Website public và CMS Admin sử dụng chung domain Vercel (không cần subdomain hay `ADMIN_HOST`).
 - **`/`**: Website public
 - **`/admin/login`**: Trang đăng nhập quản trị
-- **`/admin`**: Dashboard tổng quan và cửa vào các module CMS
+- **`/admin`**: Route tương thích, tự chuyển thẳng tới `/admin/images`
 - **`/admin/images`**: Quản lý hình ảnh trang chủ
 - **`/admin/thiet-ke-cong-trinh`**: Quản lý công trình thiết kế
 - **`/admin/thi-cong-cong-trinh`**: Quản lý công trình thi công
@@ -42,7 +42,22 @@ CLOUDINARY_API_SECRET=<api-secret>
 
 ### Cơ chế bảo mật:
 - Khi chưa đăng nhập, truy cập `/admin` hoặc bất kỳ module `/admin/*` nào sẽ được máy chủ tự động chuyển hướng về `/admin/login`.
-- Đăng nhập thành công sẽ tự động chuyển hướng đến `/admin` — Dashboard cửa vào chính của CMS.
+- Đăng nhập thành công sẽ tự động chuyển hướng thẳng đến `/admin/images`.
 - Phiên làm việc được quản trị bằng HTTP-only cookie (`shome_admin_session`) có thời hạn 7 ngày.
 - Toàn bộ API chỉnh sửa, tải lên và xóa ảnh (`/api/admin/*`, `/api/upload`) được bảo vệ nghiêm ngặt bằng JWT xác thực và phân quyền phía server.
+
+### CI/CD production trên VPS
+
+Workflow `.github/workflows/deploy-production.yml` chạy test khi push lên `main`, sau đó dùng SSH để cập nhật đúng working tree aaPanel hiện có trên VPS. Workflow không clone thêm project, không ghi đè `.env.local`/`.htaccess`, không thay đổi Nginx/SSL/database/uploads, và restart thông qua aaPanel Node.js Project `shomeluxury_node`.
+
+Cần cấu hình một lần trong GitHub repository secrets:
+
+- `VPS_DEPLOY_ENABLED` (`false` để preflight, chỉ chuyển sang `true` sau khi đã xác nhận cấu hình)
+- `VPS_HOST`, `VPS_PORT` (tuỳ chọn, mặc định `22`), `VPS_USER` (`root` theo VPS hiện tại)
+- `VPS_SSH_PRIVATE_KEY`, `VPS_SSH_KNOWN_HOSTS`
+- `VPS_AAPANEL_API_URL`, `VPS_AAPANEL_API_KEY` (bắt buộc khi deploy thật)
+- `VPS_APP_DIR` (tuỳ chọn, mặc định `/www/wwwroot/shomeluxury-node`)
+- Tuỳ chọn: `VPS_HEALTHCHECK_URL`, `VPS_ADMIN_HEALTHCHECK_URL`, `VPS_API_HEALTHCHECK_URL`
+
+VPS cần có sẵn Git remote `origin`, branch `main`, user `www` sở hữu working tree và quyền SSH root để gọi API aaPanel. Workflow chạy `npm ci --omit=dev` bằng user `www` khi dependency thay đổi, chạy `npm run build` bằng user `www` nếu project có script `build`, kiểm tra frontend/admin/API và tự rollback source plus dependency về commit trước nếu cập nhật hoặc health check thất bại. Chế độ `dry-run` chỉ kiểm tra owner, branch, remote, PID, parent/child process và listener port 3030; không pull, không chạy npm và không restart.
 
