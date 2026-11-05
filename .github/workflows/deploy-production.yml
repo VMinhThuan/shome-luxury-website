@@ -27,6 +27,10 @@ jobs:
     name: Tests
     runs-on: ubuntu-latest
     timeout-minutes: 15
+    env:
+      NODE_ENV: test
+      # Deliberately CI-only; never reuse the production JWT_SECRET here.
+      JWT_SECRET: shome-luxury-ci-only-jwt-secret-not-production
     steps:
       - name: Checkout
         uses: actions/checkout@v4
