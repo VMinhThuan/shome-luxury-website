@@ -16695,10 +16695,16 @@ body.showcase-page-body {
 }
 
 body.showcase-page-body .showcase-page-main,
-body.showcase-page-body .project-showcase-section,
+body.showcase-page-body .project-showcase-section {
+  background: #000;
+}
+
+/* Keep the completed-project and completed-video content on the light
+   surface used by the original showcase layout. The hero remains dark. */
 body.showcase-page-body .completed-projects-section,
 body.showcase-page-body .completed-videos-section {
-  background: #000;
+  background: #fff;
+  color: var(--text-primary);
 }
 
 body.showcase-page-body .project-showcase-hero {
