@@ -47,6 +47,9 @@ jobs:
       - name: Run tests
         run: npm test
 
+      - name: Validate production build
+        run: npm run build
+
   deploy:
     name: aaPanel VPS deployment
     needs: test

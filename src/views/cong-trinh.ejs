@@ -16,7 +16,7 @@
 
   <!-- CSS Stylesheet -->
   <link rel="preload" href="/images/shome-logo.png" as="image" />
-  <link rel="stylesheet" href="/css/style.css?v=6.8.46" />
+  <link rel="stylesheet" href="/css/style.css?v=6.8.49" />
   <script src="/js/main.js?v=1.9.9" defer></script>
 </head>
 <body class="showcase-page-body">
@@ -134,8 +134,9 @@
     </section>
 
     <% if (isConstructionShowcase) { %>
+      <% const completedHeadingImage = pageImages && pageImages[`subpage_${activeCategoryCode}_hero_banner`] ? pageImages[`subpage_${activeCategoryCode}_hero_banner`] : '/images/hero_interior.jpg'; %>
       <section class="completed-projects-section">
-        <div class="completed-projects-heading-band">
+        <div class="completed-projects-heading-band" style="--completed-heading-image: url('<%= completedHeadingImage %>');">
           <div class="container">
             <header class="completed-projects-heading">
               <p>─── NHỮNG HÌNH ẢNH HOÀN CÔNG TIÊU BIỂU ───</p>
@@ -167,7 +168,7 @@
       </section>
 
       <section class="completed-videos-section">
-        <div class="completed-videos-heading-band">
+        <div class="completed-videos-heading-band" style="--completed-heading-image: url('<%= completedHeadingImage %>');">
           <div class="container">
             <header class="completed-videos-heading">
               <p>─── NHỮNG VIDEO HOÀN THIỆN TIÊU BIỂU ───</p>
@@ -199,7 +200,7 @@
           </div>
 
           <% if (videos && videos.length > 3) { %>
-            <div class="completed-videos-more <%= videos.length > 6 ? 'has-more-desktop' : 'has-more-mobile' %>">
+            <div class="completed-videos-more <%= videos.length > 6 ? 'has-more-desktop' : '' %>">
               <button class="construction-video-more-button" type="button" data-expand-grid="completed-video-grid" aria-controls="completed-video-grid" aria-expanded="false" data-more-text="XEM THÊM" data-less-text="THU GỌN">
                 XEM THÊM
               </button>

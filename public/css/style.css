@@ -16706,10 +16706,10 @@ body.showcase-page-body .project-showcase-hero {
   border-bottom-color: rgba(210, 160, 68, .35);
 }
 
-/* The managed banner image is intentionally suppressed here so the hero is
-   a true solid black surface instead of a white image overlay. */
+/* Show the managed banner artwork at full opacity across the entire hero on
+   every design and construction submenu page. */
 body.showcase-page-body .project-showcase-hero.has-managed-image::before {
-  background: #000;
+  background: var(--showcase-hero-image) center / cover no-repeat;
   opacity: 1;
 }
 
@@ -16723,9 +16723,25 @@ body.showcase-page-body .completed-videos-heading strong {
   color: #fff !important;
 }
 
+/* The service name and supporting copy must stay white even when older
+   typography rules are loaded after the showcase block. */
+body.showcase-page-body .project-showcase-hero .showcase-title .title-main,
+body.showcase-page-body .project-showcase-hero .showcase-subtitle {
+  color: #fff !important;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, .4);
+}
+
 body.showcase-page-body .completed-projects-heading-band,
 body.showcase-page-body .completed-videos-heading-band {
-  background: #000;
+  background: var(--completed-heading-image, url('/images/hero_interior.jpg')) center / cover no-repeat;
+}
+
+body.showcase-page-body .completed-projects-heading h2,
+body.showcase-page-body .completed-videos-heading h2,
+body.showcase-page-body .completed-projects-heading strong,
+body.showcase-page-body .completed-videos-heading strong {
+  color: #fff !important;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, .4);
 }
 
 body.showcase-page-body .completed-projects-section,
@@ -18792,6 +18808,12 @@ main .home-faq-item p {
 
 /* Project detail titles share the homepage's black heading typography and
    scale instead of using the older, smaller project-specific size. */
+main.project-detail-page {
+  /* The related-projects section owns its own bottom spacing. Avoid adding a
+     second blank band before the footer. */
+  padding-bottom: 0 !important;
+}
+
 main.project-detail-page .project-detail-title {
   color: var(--content-heading-color, #1d1d1d) !important;
   font-family: var(--font-heading) !important;

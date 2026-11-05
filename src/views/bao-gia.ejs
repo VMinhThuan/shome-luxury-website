@@ -1092,7 +1092,7 @@
     }
     @media (min-width: 768px) {
       .quote-page .quote-featured-project-list {
-        grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+        grid-template-columns: minmax(0, 1fr) !important;
       }
     }
 
@@ -2128,13 +2128,37 @@
       </section>
     <% } %>
 
-    <% /* The selected quote submenu always owns this featured-project block.
-           Do not let the legacy section visibility flag hide the five
-           category-matched projects from the public quote page. */ %>
+    <% if (sections.brandVideo?.isVisible !== false) { %>
+      <% const brandVideoTitle = String(sections.brandVideo.title || '').trim().toLowerCase() === 'đơn vị thiết kế & thi công nội thất hàng đầu việt nam' ? 'Đơn vị thiết kế & thi công nội thất uy tín chất lượng' : sections.brandVideo.title; %>
+      <section class="quote-brand-video">
+        <div class="container">
+          <header class="quote-video-heading">
+            <p><%= sections.brandVideo.eyebrow %></p>
+            <h2><%= brandVideoTitle %></h2>
+            <strong><%= sections.brandVideo.description %></strong>
+          </header>
+          <div class="quote-video-card">
+            <div class="quote-video-frame">
+              <iframe
+                src="https://www.youtube-nocookie.com/embed/hoUvh1w9tII?rel=0&amp;modestbranding=1"
+                title="Công Ty Shome luxury - Đơn vị thiết kế thi công tại Hà Nội"
+                loading="lazy"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                referrerpolicy="strict-origin-when-cross-origin"
+                allowfullscreen>
+              </iframe>
+            </div>
+          </div>
+        </div>
+      </section>
+    <% } %>
+
+    <% /* Show five projects from the exact design category selected in the
+           quotation menu, immediately before the real-project videos. */ %>
     <% if (selectedCategory) { %>
       <section class="quote-section quote-category-section" id="cong-trinh-thiet-ke">
         <div class="container">
-          <header class="quote-featured-heading"><h2>Một số công trình <em>tiêu biểu</em></h2><strong>Các công trình <%= quoteScript.toLowerCase() %> <%= featuredCategoryName.toLowerCase() %> được hoàn thiện chỉn chu, tối ưu công năng và thẩm mỹ.</strong></header>
+          <header class="quote-featured-heading"><h2>Các công trình <em>tiêu biểu</em></h2><strong>Các công trình <%= quoteScript.toLowerCase() %> <%= featuredCategoryName.toLowerCase() %> được hoàn thiện chỉn chu, tối ưu công năng và thẩm mỹ.</strong></header>
           <% if (highlightProjects.length) { %>
             <div class="quote-featured-project-list">
               <% highlightProjects.slice(0, 5).forEach((project, index) => {
@@ -2192,31 +2216,6 @@
             <p class="quote-empty-state">Các công trình nổi bật sẽ được cập nhật tại đây.</p>
           <% } %>
           <div class="quote-featured-view-all"><a href="<%= dynamicConstructionUrl %>">Xem tất cả dự án <span aria-hidden="true">→</span></a></div>
-        </div>
-      </section>
-    <% } %>
-
-    <% if (sections.brandVideo?.isVisible !== false) { %>
-      <% const brandVideoTitle = String(sections.brandVideo.title || '').trim().toLowerCase() === 'đơn vị thiết kế & thi công nội thất hàng đầu việt nam' ? 'Đơn vị thiết kế & thi công nội thất uy tín chất lượng' : sections.brandVideo.title; %>
-      <section class="quote-brand-video">
-        <div class="container">
-          <header class="quote-video-heading">
-            <p><%= sections.brandVideo.eyebrow %></p>
-            <h2><%= brandVideoTitle %></h2>
-            <strong><%= sections.brandVideo.description %></strong>
-          </header>
-          <div class="quote-video-card">
-            <div class="quote-video-frame">
-              <iframe
-                src="https://www.youtube-nocookie.com/embed/hoUvh1w9tII?rel=0&amp;modestbranding=1"
-                title="Công Ty Shome luxury - Đơn vị thiết kế thi công tại Hà Nội"
-                loading="lazy"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                referrerpolicy="strict-origin-when-cross-origin"
-                allowfullscreen>
-              </iframe>
-            </div>
-          </div>
         </div>
       </section>
     <% } %>

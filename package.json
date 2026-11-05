@@ -5,6 +5,7 @@
   "scripts": {
     "start": "node app.js",
     "dev": "nodemon app.js",
+    "build": "node scripts/build-production.js",
     "seed:project-costs": "node scripts/seed-project-costs.js",
     "seed:project-types": "node scripts/seed-project-property-types.js",
     "seed:construction-videos": "node scripts/seed-construction-videos.js",
