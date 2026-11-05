@@ -205,7 +205,9 @@ restart_aapanel_project() {
   cookie_file="$(mktemp)"
   chmod 600 "$cookie_file"
 
-  response="$(curl -ksS --fail-with-body --max-time 30 -X POST \
+  # AlmaLinux 8/aaPanel may ship an older curl without --fail-with-body.
+  # Keep the response body so the validation below can report aaPanel errors.
+  response="$(curl -ksS --max-time 30 -X POST \
     "$AAPANEL_API_URL/project/nodejs/restart_project" \
     -F "request_token=$request_token" \
     -F "request_time=$request_time" \
