@@ -177,6 +177,7 @@ class QuotePageController {
       // existing QuotePage content model. When no subpage override exists,
       // imageService falls back to the current shared quote slot.
       const quoteImages = await getPageImages('quote', rawCategory);
+      const quoteCategories = await this.hydrateCategories(sections);
       return res.render('bao-gia', {
         title: `${selectedCategory?.name ? `Báo giá ${selectedCategory.name.toLowerCase()}` : 'Báo giá thiết kế & thi công'} | SHOME LUXURY`,
         navigation,
@@ -187,6 +188,7 @@ class QuotePageController {
         quoteTitle,
         quoteScript,
         featuredCategoryName,
+        quoteCategories,
         completedVideosData,
         quoteImages
       });

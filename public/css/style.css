@@ -18871,7 +18871,7 @@ main .home-faq-item p {
   padding: .06em .04em .2em;
   color: var(--accent-gold, #d2a044) !important;
   font-family: var(--font-script) !important;
-  font-size: .88em;
+  font-size: 1em;
   font-weight: 500;
   letter-spacing: 0;
   line-height: 1.16 !important;
@@ -19127,7 +19127,7 @@ main.project-detail-page .project-detail-summary {
   }
 
   body.home-page main .hero-v2-title .hero-title-accent {
-    font-size: .72em !important;
+    font-size: 1em !important;
     text-transform: none !important;
     white-space: nowrap !important;
   }
