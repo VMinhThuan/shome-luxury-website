@@ -136,6 +136,20 @@ async function run() {
   });
   assert.equal(adminAsset.next, true);
 
+  const adminSvgFavicon = await runMiddleware({
+    host: 'quanly.shomeluxury.com',
+    method: 'GET',
+    path: '/favicon.svg'
+  });
+  assert.equal(adminSvgFavicon.next, true);
+
+  const adminPngFavicon = await runMiddleware({
+    host: 'quanly.shomeluxury.com',
+    method: 'GET',
+    path: '/favicon.png'
+  });
+  assert.equal(adminPngFavicon.next, true);
+
   const sharedPreviewAdmin = await runMiddleware({
     host: 'preview-shome.vercel.app',
     method: 'GET',

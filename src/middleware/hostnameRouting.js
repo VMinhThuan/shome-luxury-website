@@ -67,6 +67,8 @@ function isCmsPublicApi(pathname) {
 
 function isStaticAsset(pathname) {
   return pathname === '/favicon.ico'
+    || pathname === '/favicon.svg'
+    || pathname === '/favicon.png'
     || pathname.startsWith('/css/')
     || pathname.startsWith('/js/')
     || pathname.startsWith('/images/')

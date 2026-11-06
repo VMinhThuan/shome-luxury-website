@@ -14096,6 +14096,11 @@ body.project-gallery-lightbox-open { overflow: hidden !important; }
   display: none !important;
 }
 
+/* The four project-category cards do not use decorative title rules. */
+.project-types-section .type-card-name::after {
+  display: none !important;
+}
+
 /* Alternate the category-card composition: 01/03 read from the left and
    02/04 read from the right, with each copy block vertically centred. */
 .home-page .project-type-card,
@@ -14705,7 +14710,7 @@ body.project-gallery-lightbox-open { overflow: hidden !important; }
 
 @media (max-width: 767px) {
   .home-faq-cta h3 {
-    font-size: clamp(1.85rem, 9vw, 2.7rem);
+    font-size: 24px;
   }
 
   .customer-stories-section,
@@ -16820,10 +16825,28 @@ main :is(
 .home-page .customer-feedback-proof figcaption { position: absolute; right: .5rem; bottom: .5rem; padding: .24rem .42rem; border-radius: 999px; background: rgba(0, 0, 0, .62); color: #fff; font-size: .58rem; font-weight: 700; letter-spacing: .04em; }
 
 @media (max-width: 767px) {
-  .home-page .customer-testimonial-card { grid-template-columns: minmax(0, 1fr) 82px; min-height: 235px; gap: .75rem; padding: .9rem; }
-  .home-page .customer-testimonial-message { font-size: .96rem; }
-  .home-page .customer-feedback-proof { display: block; height: 120px; align-self: center; }
-  .home-page .customer-feedback-proof img { min-height: 0; }
+  /* Keep the mobile review card aligned with the desktop two-column design.
+     The proof image keeps the original phone screenshot ratio so the full
+     Zalo conversation remains visible instead of being cropped into a narrow
+     thumbnail. */
+  .home-page .customer-testimonial-card {
+    grid-template-columns: minmax(0, 1.12fr) minmax(132px, .88fr);
+    min-height: 365px;
+    gap: .8rem;
+    padding: 1rem;
+  }
+  .home-page .customer-testimonial-message { font-size: 1rem; }
+  .home-page .customer-feedback-proof {
+    display: block;
+    height: auto;
+    aspect-ratio: 1242 / 2688;
+    align-self: center;
+  }
+  .home-page .customer-feedback-proof img {
+    min-height: 0;
+    object-fit: contain;
+    object-position: center;
+  }
 }
 
 main .customer-stories-section,
@@ -18812,6 +18835,12 @@ main .home-faq-item p {
   }
 }
 
+/* Keep the hero supporting line at the same compact scale as the reference
+   copy while allowing it to remain readable on smaller screens. */
+.home-page .hero-script-subtitle {
+  font-size: clamp(16px, 1.6vw, 24px) !important;
+}
+
 /* Project detail titles share the homepage's black heading typography and
    scale instead of using the older, smaller project-specific size. */
 main.project-detail-page {
@@ -18852,4 +18881,177 @@ main.project-detail-page .project-detail-summary .meta-value {
 
 main.project-detail-page .project-detail-summary {
   color: #fff !important;
+}
+
+/* --------------------------------------------------------------------------
+   Real-project cards: match the visual language of the project-type cards.
+   Both sections use the same white surface, readable photo fade, typography
+   and gold CTA; only their destination links and source images differ.
+   -------------------------------------------------------------------------- */
+.home-page .home-project-signatures-section {
+  background: #fff !important;
+}
+
+.home-page .home-project-signature-card {
+  min-height: clamp(265px, 27vw, 355px);
+  border: 1px solid #f0e8dc;
+  border-radius: 15px;
+  background-color: #fff;
+  box-shadow: 0 10px 26px rgba(61, 40, 16, .1);
+}
+
+.home-page .home-project-signature-card::before {
+  background: linear-gradient(90deg,
+    rgba(252, 248, 241, .9) 0%,
+    rgba(252, 248, 241, .72) 34%,
+    rgba(252, 248, 241, .2) 56%,
+    rgba(252, 248, 241, 0) 78%) !important;
+}
+
+.home-page .home-project-signature-card--copy-right {
+  justify-content: flex-end;
+}
+
+.home-page .home-project-signature-card--copy-right::before {
+  background: linear-gradient(270deg,
+    rgba(252, 248, 241, .9) 0%,
+    rgba(252, 248, 241, .72) 34%,
+    rgba(252, 248, 241, .2) 56%,
+    rgba(252, 248, 241, 0) 78%) !important;
+}
+
+.home-page .home-project-signature-copy {
+  position: relative;
+  z-index: 1;
+  width: 52%;
+  padding: clamp(1.1rem, 2.2vw, 1.8rem);
+}
+
+.home-page .home-project-signature-copy h3 {
+  margin: 0 0 .35rem;
+  color: #17120f;
+  font-family: var(--font-heading) !important;
+  font-size: clamp(1.55rem, 2.5vw, 2rem);
+  font-weight: 800;
+  line-height: 1;
+}
+
+.home-page .home-project-signature-rule {
+  display: none !important;
+}
+
+.home-page .home-project-signature-copy p {
+  margin: 0 0 .65rem;
+  color: #756d65;
+  font-size: clamp(.78rem, 1.1vw, .9rem);
+  line-height: 1.35;
+}
+
+.home-page .home-project-signature-link {
+  width: min(100%, 174px);
+  min-width: 0;
+  min-height: 66px;
+  margin-top: .35rem;
+  padding: .5rem .75rem;
+  border: 1px solid var(--accent-gold) !important;
+  border-radius: 13px;
+  background: var(--accent-gold) !important;
+  color: #17120f !important;
+  box-shadow: 0 3px 10px rgba(200, 155, 75, .22);
+  font-size: clamp(1rem, 1.6vw, 1.25rem);
+  font-weight: 700;
+  line-height: 1.1;
+}
+
+@media (max-width: 767px) {
+  .home-page .home-project-signature-card {
+    min-height: 0;
+    aspect-ratio: 1 / 1;
+    border-radius: 15px;
+  }
+
+  .home-page .home-project-signature-copy {
+    width: 65%;
+    padding: 1rem;
+  }
+
+  .home-page .home-project-signature-copy h3 {
+    font-size: clamp(1.35rem, 5.3vw, 2rem);
+    line-height: 1.02;
+  }
+
+  .home-page .home-project-signature-copy p {
+    font-size: clamp(.72rem, 2.45vw, .9rem);
+    line-height: 1.28;
+  }
+
+  .home-page .home-project-signature-link {
+    min-height: 66px;
+    font-size: clamp(1rem, 4vw, 1.25rem);
+  }
+}
+
+@media (max-width: 359px) {
+  .home-page .home-project-signature-card {
+    aspect-ratio: 1 / 1;
+  }
+
+  .home-page .home-project-signature-copy {
+    padding: .7rem;
+  }
+
+  .home-page .home-project-signature-copy p {
+    display: block;
+  }
+
+  .home-page .home-project-signature-link {
+    min-height: 52px;
+    font-size: .9rem;
+  }
+}
+
+/* Keep the two longer category labels on one line, like the reference card
+   layout. They use a slightly smaller mobile size so they stay inside the
+   copy panel without changing the other two titles. */
+.home-page .home-project-signature-card--apartment .home-project-signature-copy h3,
+.home-page .home-project-signature-card--office .home-project-signature-copy h3 {
+  white-space: nowrap;
+}
+
+@media (max-width: 767px) {
+  .home-page .home-project-signature-card--apartment .home-project-signature-copy h3,
+  .home-page .home-project-signature-card--office .home-project-signature-copy h3 {
+    font-size: clamp(1.25rem, 4.5vw, 1.75rem);
+  }
+}
+
+/* Mobile hero lock-up: keep the main title and the gold brand phrase on one
+   line, with the supporting sentence scaled like the reference mobile view. */
+@media (max-width: 767px) {
+  body.home-page main .hero-v2-content {
+    text-align: center;
+  }
+
+  body.home-page main .hero-v2-title {
+    font-size: clamp(1.05rem, 4.8vw, 1.35rem) !important;
+    line-height: 1 !important;
+  }
+
+  body.home-page main .hero-v2-title .hero-title-line {
+    display: inline-flex !important;
+    align-items: baseline;
+    justify-content: center;
+    gap: .12em;
+    white-space: nowrap !important;
+  }
+
+  body.home-page main .hero-v2-title .hero-title-accent {
+    font-size: .72em !important;
+    text-transform: none !important;
+    white-space: nowrap !important;
+  }
+
+  body.home-page main .hero-script-subtitle {
+    font-size: 16px !important;
+  }
 }
