@@ -32,6 +32,13 @@
     'project-detail': '/thiet-ke-cong-trinh'
   };
 
+  // The CMS runs on quanly.shomeluxury.com while customer-facing pages run on
+  // design.shomeluxury.com. Relative links would keep visitors on the admin
+  // host, where public pages are intentionally blocked by hostname routing.
+  const PUBLIC_SITE_ORIGIN = window.location.hostname === 'quanly.shomeluxury.com'
+    ? 'https://design.shomeluxury.com'
+    : window.location.origin;
+
   let allSlots = [];
   let legacySlots = [];
   let pagesList = [];
@@ -57,7 +64,7 @@
     const curPage = pagesList.find(p => p.key === pageKey);
     const subpage = subpageList.find(p => `subpage:${p.key}` === pageKey);
     const targetUrl = subpage?.path || PAGE_URLS[pageKey] || '/';
-    liveLink.href = targetUrl;
+    liveLink.href = new URL(targetUrl, PUBLIC_SITE_ORIGIN).toString();
     liveLink.textContent = subpage
       ? `Xem trang ${subpage.label} ↗`
       : curPage && curPage.key !== 'all'
