@@ -251,7 +251,7 @@ class ProjectService {
     }
 
     const listFields = options.compact
-      ? 'title slug investor clientName location area propertyType cost style thumbnail thumbnailPublicId thumbnailFormat thumbnailWidth thumbnailHeight thumbnailBytes isHighlight highlightOrder isVisible isPublished sortOrder designProjectId categoryIds createdAt'
+      ? 'title slug investor clientName location area propertyType cost style thumbnail thumbnailPublicId thumbnailFormat thumbnailWidth thumbnailHeight thumbnailBytes gallery galleryItems isHighlight highlightOrder isVisible isPublished sortOrder designProjectId categoryIds createdAt'
       : 'title slug investor clientName location area propertyType cost style excerpt content status featured isHighlight highlightOrder isVisible isPublished sortOrder designProjectId categoryIds thumbnail thumbnailPublicId thumbnailFormat thumbnailWidth thumbnailHeight thumbnailBytes gallery galleryItems createdAt updatedAt';
     let projectsQuery = Project.find(filter)
       .select(listFields)

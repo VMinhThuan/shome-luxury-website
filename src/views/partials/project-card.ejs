@@ -18,29 +18,37 @@
   const charSum = (project.title || '').split('').reduce((sum, ch) => sum + ch.charCodeAt(0), 0);
   const selectedQuote = quotes[charSum % quotes.length];
   const titleLines = selectedQuote.title.split('\n');
-  const imageSrc = project.thumbnail || '';
+  const galleryImages = [...new Set([project.thumbnail, ...(project.gallery || [])].filter(Boolean))];
+  const galleryData = encodeURIComponent(JSON.stringify(galleryImages));
 %>
 
 <article class="project-showcase-card">
-  <a href="<%= projectDetailUrl %>" class="project-card-image-link" aria-label="<%= project.title %>">
-    <div class="project-card-image-wrapper">
-      <% if (imageSrc) { %>
-        <img src="<%= imageSrc %>" alt="<%= project.title %>" class="project-card-img" loading="lazy" />
+  <div class="project-card-image-wrapper">
+    <div class="project-card-gallery-stage" data-project-card-gallery data-gallery-images="<%= galleryData %>" aria-label="Gallery ảnh <%= project.title %>">
+      <% if (galleryImages.length) { %>
+        <img src="<%= galleryImages[0] %>" alt="<%= project.title %> - ảnh 1" class="project-card-img" data-project-card-image loading="lazy" draggable="false" />
       <% } else { %>
         <div class="project-card-image-placeholder" role="img" aria-label="Chưa có ảnh đại diện">Chưa có ảnh</div>
       <% } %>
-
-      <!-- Typography Quote Overlay matching Reference Image -->
-      <div class="project-card-quote-overlay">
-        <div class="quote-title">
-          <% titleLines.forEach(line => { %>
-            <div><%= line %></div>
-          <% }); %>
-        </div>
-        <div class="quote-desc"><%= selectedQuote.desc %></div>
-      </div>
+      <span class="project-card-gallery-count" aria-live="polite"><span data-project-card-current><%= galleryImages.length ? '01' : '00' %></span><span>/</span><span data-project-card-total><%= String(galleryImages.length).padStart(2, '0') %></span></span>
+      <% if (galleryImages.length > 1) { %>
+        <button class="project-card-gallery-control previous" type="button" data-project-card-prev aria-label="Ảnh trước">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="15 18 9 12 15 6"></polyline></svg>
+        </button>
+        <button class="project-card-gallery-control next" type="button" data-project-card-next aria-label="Ảnh tiếp theo">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="9 18 15 12 9 6"></polyline></svg>
+        </button>
+      <% } %>
     </div>
-  </a>
+    <div class="project-card-quote-overlay">
+      <div class="quote-title">
+        <% titleLines.forEach(line => { %>
+          <div><%= line %></div>
+        <% }); %>
+      </div>
+      <div class="quote-desc"><%= selectedQuote.desc %></div>
+    </div>
+  </div>
 
   <div class="project-card-info-bar">
     <div class="project-card-meta-left">
