@@ -1094,6 +1094,14 @@
       .quote-page .quote-featured-project-list {
         grid-template-columns: minmax(0, 1fr) !important;
       }
+      .quote-page .quote-category-overview .quote-featured-project-list {
+        grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+      }
+    }
+    .quote-page .quote-category-overview .quote-featured-project-image {
+      display: block;
+      color: inherit;
+      text-decoration: none;
     }
 
     /* ==========================================================================
@@ -2081,42 +2089,6 @@
       </section>
     <% } %>
 
-    <% if (sections.categories?.isVisible !== false) { %>
-      <section class="quote-section quote-category-section quote-category-overview" id="cong-trinh-theo-danh-muc">
-        <div class="container">
-          <header class="quote-heading">
-            <p class="quote-kicker"><%= sections.categories.eyebrow %></p>
-            <h2><%= sections.categories.title %> <em><%= sections.categories.script %></em></h2>
-            <p><%= sections.categories.description %></p>
-          </header>
-          <% quoteCategories.forEach(group => { %>
-            <div class="quote-category-block">
-              <div class="quote-category-intro">
-                <div>
-                  <span class="quote-rule"></span>
-                  <h3><%= group.category.name %></h3>
-                  <p><%= group.description %></p>
-                </div>
-                <a href="<%= group.href %>" class="quote-text-link"><%= group.ctaLabel %> <span>→</span></a>
-              </div>
-              <% if (group.projects.length) { %>
-                <div class="quote-project-grid">
-                  <% group.projects.forEach(project => { %>
-                    <a href="/cong-trinh/<%= project.slug %>" class="quote-project-card">
-                      <img src="<%= project.thumbnail || project.gallery?.[0] || '/images/project_apartment.jpg' %>" alt="<%= project.title %>" loading="lazy" />
-                      <span><b><%= project.title %></b><small><%= project.location || group.category.name %></small></span>
-                    </a>
-                  <% }) %>
-                </div>
-              <% } else { %>
-                <p class="quote-empty-state">Các công trình nổi bật sẽ được cập nhật tại đây.</p>
-              <% } %>
-            </div>
-          <% }) %>
-        </div>
-      </section>
-    <% } %>
-
     <% if (sections.pricing?.isVisible !== false) { %>
       <section class="quote-section quote-pricing" id="bao-gia-tham-khao">
         <div class="container">
@@ -2161,6 +2133,52 @@
         <figure class="quote-construction-image-only">
           <img src="<%= quoteConstructionImage %>" alt="Hình ảnh thi công nội thất Shome Luxury" loading="lazy" decoding="async" />
         </figure>
+      </section>
+    <% } %>
+
+    <% if (sections.categories?.isVisible !== false && quoteCategories.length) { %>
+      <% const categoryOverview = quoteCategories[0]; %>
+      <section class="quote-section quote-category-section quote-category-overview" id="cong-trinh-theo-danh-muc">
+        <div class="container">
+          <header class="quote-featured-heading">
+            <h2>Một số công trình <em>tiêu biểu</em></h2>
+            <strong><%= categoryOverview.description %></strong>
+          </header>
+          <% if (categoryOverview.projects.length) { %>
+            <div class="quote-featured-project-list">
+              <% categoryOverview.projects.slice(0, 5).forEach((project, index) => {
+                   const projectImage = project.thumbnail || project.gallery?.[0] || '/images/project_apartment.jpg';
+                   const galleryImages = [...new Set([projectImage, ...(project.gallery || [])].filter(Boolean))];
+                   const costLabel = project.cost ? `${Math.round(project.cost / 1000000)} triệu` : 'Liên hệ tư vấn';
+                   const overlays = [
+                     { title: 'Không gian truyền cảm hứng', sub: 'Mỗi góc nhỏ đều kể một câu chuyện' },
+                     { title: 'Tinh giản cho cuộc sống trọn vẹn', sub: 'Sống thoải mái trong không gian dành cho bạn' },
+                     { title: 'Đẳng cấp trong từng chi tiết', sub: 'Kiến tạo tổ ấm sang trọng và tiện nghi' }
+                   ];
+                   const overlay = overlays[index % overlays.length];
+              %>
+                <article class="quote-featured-project-card">
+                  <button class="quote-featured-project-image" type="button" data-quote-project-gallery data-project-title="<%= project.title %>" data-gallery-images="<%= JSON.stringify(galleryImages) %>" aria-label="Xem thư viện ảnh dự án <%= project.title %>">
+                    <img src="<%= projectImage %>" alt="<%= project.title %>" loading="lazy" />
+                    <div class="quote-featured-project-overlay"><b><%= overlay.title %></b><span><%= overlay.sub %></span></div>
+                  </button>
+                  <div class="quote-featured-project-info">
+                    <h3><a href="/cong-trinh/<%= project.slug %>"><%= project.title %></a></h3>
+                    <dl>
+                      <div><dt>Diện tích:</dt><dd><%= project.area || 'Đang cập nhật' %></dd></div>
+                      <div><dt>Loại hình:</dt><dd><%= project.propertyType || categoryOverview.category.name %></dd></div>
+                      <div><dt>Phong cách:</dt><dd><%= project.style || 'Hiện đại' %></dd></div>
+                      <div><dt>Chi phí:</dt><dd><%= costLabel %></dd></div>
+                    </dl>
+                  </div>
+                </article>
+              <% }) %>
+            </div>
+          <% } else { %>
+            <p class="quote-empty-state">Các công trình nổi bật sẽ được cập nhật tại đây.</p>
+          <% } %>
+          <div class="quote-featured-view-all"><a href="<%= categoryOverview.href %>">Xem tất cả dự án <span aria-hidden="true">→</span></a></div>
+        </div>
       </section>
     <% } %>
 

@@ -162,6 +162,25 @@ class QuotePageController {
       }
       const sections = quotePage.sections || quotePageDefaults;
       const highlightProjects = await this.getHighlightedProjects(selectedCategory?.slug || rawCategory);
+      const categoryHrefs = {
+        'tk-nt-chung-cu': '/thiet-ke-noi-that/chung-cu',
+        'tk-nt-nha-pho': '/thiet-ke-noi-that/nha-pho',
+        'tk-nt-biet-thu': '/thiet-ke-noi-that/biet-thu',
+        'tk-nt-van-phong': '/thiet-ke-noi-that/van-phong',
+        'tk-kt-nha-cap-4': '/thiet-ke-kien-truc/nha-cap-4',
+        'tk-kt-nha-pho': '/thiet-ke-kien-truc/nha-pho',
+        'tk-kt-biet-thu': '/thiet-ke-kien-truc/biet-thu',
+        'tk-kt-villa': '/thiet-ke-kien-truc/villa'
+      };
+      const categoryConfig = (sections.categories?.items || []).find(item => item.categoryCode === selectedCategory.code) || {};
+      const quoteCategories = [{
+        ...categoryConfig,
+        category: selectedCategory,
+        href: categoryHrefs[selectedCategory.code] || '/thiet-ke-cong-trinh',
+        ctaLabel: categoryConfig.ctaLabel || 'Xem công trình',
+        description: categoryConfig.description || `Các công trình ${selectedCategory.name.toLowerCase()} được hoàn thiện chỉn chu, tối ưu công năng và thẩm mỹ.`,
+        projects: highlightProjects
+      }];
       const selectedName = selectedCategory?.name?.replace(/^Thiết kế\s+/i, '') || '';
       const isInterior = /^nội thất\b/i.test(selectedName);
       const quoteTitle = `${selectedName.replace(/^(nội thất|kiến trúc)\s+/i, '')} trọn gói`;
@@ -177,7 +196,6 @@ class QuotePageController {
       // existing QuotePage content model. When no subpage override exists,
       // imageService falls back to the current shared quote slot.
       const quoteImages = await getPageImages('quote', rawCategory);
-      const quoteCategories = await this.hydrateCategories(sections);
       return res.render('bao-gia', {
         title: `${selectedCategory?.name ? `Báo giá ${selectedCategory.name.toLowerCase()}` : 'Báo giá thiết kế & thi công'} | SHOME LUXURY`,
         navigation,
