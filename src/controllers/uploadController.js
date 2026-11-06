@@ -53,8 +53,8 @@ const handleImageUpload = async (req, res) => {
       ? {
           ...req.body,
           resize_preset: 'project',
-          quality: req.body.quality || process.env.PROJECT_IMAGE_WEBP_QUALITY || '85',
-          sharpness: req.body.sharpness || '20'
+          quality: req.body.quality || '100',
+          sharpness: req.body.sharpness || '100'
         }
       : req.body;
     const processed = await processImageBuffer(req.file.buffer, processingBody);

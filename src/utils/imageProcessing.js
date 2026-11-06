@@ -14,12 +14,12 @@ const numberInRange = (value, minimum, maximum) => {
   return Number.isFinite(result) && result >= minimum && result <= maximum ? Math.round(result) : null;
 };
 
-const qualityFrom = (value) => numberInRange(value, 10, 100) || 95;
+const qualityFrom = (value) => numberInRange(value, 10, 100) || 100;
 
 const LEGACY_SHARPNESS = { off: 0, low: 20, medium: 40, high: 60 };
 
 function sharpnessPercentFrom(value) {
-  if (value === undefined || value === null || value === '') return 20;
+  if (value === undefined || value === null || value === '') return 100;
   if (Object.hasOwn(LEGACY_SHARPNESS, value)) return LEGACY_SHARPNESS[value];
   const percentage = numberInRange(value, 0, 100);
   if (percentage === null) throw new Error('Độ sắc nét cần nằm trong khoảng 0–100%.');

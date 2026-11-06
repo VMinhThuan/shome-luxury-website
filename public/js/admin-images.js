@@ -383,7 +383,7 @@
       'image-optimization-help',
       preserveOriginalFile
         ? 'Ảnh này sẽ được lưu đúng file khách tải lên: giữ nguyên định dạng, kích thước và nội dung; không cắt, không resize, không chuyển WebP.'
-        : 'Giữ nguyên ảnh gốc mặc định · WebP 95% · làm nét nhẹ 20%.'
+        : 'Giữ nguyên ảnh gốc mặc định · WebP 100%.'
     ));
     optimizationPanel.append(optimizationHeader);
 
@@ -419,59 +419,16 @@
     toggles.append(keepAspectLabel, keepOriginalLabel, losslessLabel);
     const losslessNote = create('p', 'image-lossless-note', 'Lossless ưu tiên chất lượng tối đa; dung lượng tệp có thể lớn hơn.');
 
+    const DEFAULT_QUALITY = 100;
+    const DEFAULT_SHARPNESS = 100;
     const qualityRow = create('div', 'image-quality-row');
     const qualityRange = create('input');
-    qualityRange.type = 'range'; qualityRange.min = '10'; qualityRange.max = '100'; qualityRange.value = '95';
+    qualityRange.type = 'range'; qualityRange.min = '10'; qualityRange.max = '100'; qualityRange.value = String(DEFAULT_QUALITY);
     const qualityInput = create('input');
-    qualityInput.type = 'number'; qualityInput.min = '10'; qualityInput.max = '100'; qualityInput.value = '95'; qualityInput.inputMode = 'numeric';
+    qualityInput.type = 'number'; qualityInput.min = '10'; qualityInput.max = '100'; qualityInput.value = String(DEFAULT_QUALITY); qualityInput.inputMode = 'numeric';
     const qualityLabel = create('label', 'image-quality-label', 'Chất lượng WebP');
     qualityLabel.append(qualityRange, qualityInput, document.createTextNode('%'));
-    const presets = create('div', 'image-quality-presets');
-    [['75', 'Tiết kiệm'], ['85', 'Cân bằng'], ['95', 'Cao'], ['100', 'Tối đa']].forEach(([value, label]) => {
-      const button = create('button', 'image-quality-preset', `${value}% ${label}`);
-      button.type = 'button';
-      button.dataset.quality = value;
-      presets.append(button);
-    });
-    qualityRow.append(qualityLabel, presets);
-
-    const sharpnessSection = create('div', 'image-sharpness-section');
-    const sharpnessHeader = create('div', 'image-sharpness-header');
-    const sharpnessTitle = create('span', 'image-sharpness-text', 'Độ sắc nét (Sharpen)');
-    const sharpnessBadge = create('span', 'image-sharpness-badge', '20% — Làm nét nhẹ (mặc định)');
-    sharpnessHeader.append(sharpnessTitle, sharpnessBadge);
-
-    const sharpnessControls = create('div', 'image-sharpness-controls');
-    const sharpnessRange = create('input', 'image-sharpness-range');
-    sharpnessRange.type = 'range'; sharpnessRange.min = '0'; sharpnessRange.max = '100'; sharpnessRange.step = '1'; sharpnessRange.value = '20';
-    sharpnessRange.setAttribute('aria-label', 'Thanh trượt độ sắc nét');
-    const sharpnessInputWrap = create('div', 'image-sharpness-input-wrap');
-    const sharpnessInput = create('input', 'image-sharpness-number');
-    sharpnessInput.type = 'number'; sharpnessInput.min = '0'; sharpnessInput.max = '100'; sharpnessInput.step = '1'; sharpnessInput.value = '20'; sharpnessInput.inputMode = 'numeric';
-    sharpnessInput.setAttribute('aria-label', 'Nhập trực tiếp độ sắc nét theo phần trăm');
-    const sharpnessUnit = create('span', 'image-sharpness-unit', '%');
-    sharpnessInputWrap.append(sharpnessInput, sharpnessUnit);
-    const resetSharpnessButton = create('button', 'btn-reset-sharpness', 'Reset 20%');
-    resetSharpnessButton.type = 'button';
-    sharpnessControls.append(sharpnessRange, sharpnessInputWrap, resetSharpnessButton);
-
-    const sharpnessPresets = create('div', 'image-sharpness-presets');
-    const SHARPNESS_SUGGESTIONS = [
-      ['0', 'Không làm nét'],
-      ['20', 'Làm nét nhẹ (mặc định)'],
-      ['40', 'Làm nét vừa'],
-      ['60', 'Làm nét mạnh'],
-      ['80', 'Làm nét rất mạnh'],
-      ['100', 'Tối đa an toàn']
-    ];
-    SHARPNESS_SUGGESTIONS.forEach(([val, label]) => {
-      const button = create('button', 'image-sharpness-preset', `${val}% ${label}`);
-      button.type = 'button';
-      button.dataset.sharpness = val;
-      if (val === '20') button.classList.add('is-active');
-      sharpnessPresets.append(button);
-    });
-    sharpnessSection.append(sharpnessHeader, sharpnessControls, sharpnessPresets);
+    qualityRow.append(qualityLabel);
 
     const previewActions = create('div', 'image-optimization-actions');
     const previewButton = create('button', 'btn-preview-image', 'Xem trước WebP');
@@ -518,10 +475,10 @@
       if (index === 0) button.classList.add('is-active');
       zoomControls.append(button);
     });
-    optimizationPanel.append(configuration, resizePresets, resizeNote, toggles, losslessNote, qualityRow, sharpnessSection, previewActions, previewHint, zoomControls, comparison);
+    optimizationPanel.append(configuration, resizePresets, resizeNote, toggles, losslessNote, qualityRow, previewActions, previewHint, zoomControls, comparison);
 
     if (preserveOriginalFile) {
-      [configuration, resizePresets, resizeNote, toggles, losslessNote, qualityRow, sharpnessSection, previewActions, previewHint, zoomControls, comparison]
+      [configuration, resizePresets, resizeNote, toggles, losslessNote, qualityRow, previewActions, previewHint, zoomControls, comparison]
         .forEach(control => { control.hidden = true; });
     }
 
@@ -563,7 +520,6 @@
       const disabled = losslessInput.checked;
       qualityRange.disabled = disabled;
       qualityInput.disabled = disabled;
-      presets.querySelectorAll('button').forEach(button => { button.disabled = disabled; });
       losslessNote.hidden = !disabled;
     };
     const updateDimensionControls = () => {
@@ -592,35 +548,9 @@
       resizeNote.className = 'image-resize-note is-active';
     };
     const setQuality = (value) => {
-      const quality = Math.min(100, Math.max(10, Number(value) || 95));
+      const quality = Math.min(100, Math.max(10, Number(value) || DEFAULT_QUALITY));
       qualityRange.value = String(quality);
       qualityInput.value = String(quality);
-      presets.querySelectorAll('button').forEach(button => button.classList.toggle('is-active', Number(button.dataset.quality) === quality));
-    };
-
-    const getSharpnessDescription = (value) => {
-      const v = Number(value);
-      if (v === 0) return '0% — Không làm nét (bỏ qua Sharpen)';
-      if (v < 20) return `${v}% — Làm nét rất nhẹ`;
-      if (v === 20) return '20% — Làm nét nhẹ (mặc định)';
-      if (v < 40) return `${v}% — Làm nét vừa`;
-      if (v === 40) return '40% — Làm nét vừa';
-      if (v < 60) return `${v}% — Làm nét vừa đến mạnh`;
-      if (v === 60) return '60% — Làm nét mạnh';
-      if (v < 80) return `${v}% — Làm nét mạnh đến rất mạnh`;
-      if (v === 80) return '80% — Làm nét rất mạnh';
-      if (v < 100) return `${v}% — Mức làm nét cao`;
-      return '100% — Mức tối đa được hệ thống giới hạn an toàn';
-    };
-
-    const setSharpness = (value) => {
-      const sharpness = Math.min(100, Math.max(0, Math.round(Number(value) || 0)));
-      sharpnessRange.value = String(sharpness);
-      sharpnessInput.value = String(sharpness);
-      sharpnessBadge.textContent = getSharpnessDescription(sharpness);
-      sharpnessPresets.querySelectorAll('button').forEach(button => {
-        button.classList.toggle('is-active', Number(button.dataset.sharpness) === sharpness);
-      });
     };
     function schedulePreview() {
       if (!file) return;
@@ -642,8 +572,7 @@
       resizePreset = null;
       widthInput.value = dimensions?.width || '';
       heightInput.value = dimensions?.height || '';
-      setQuality(95);
-      setSharpness(20);
+      setQuality(DEFAULT_QUALITY);
       updateQualityControls();
       updateDimensionControls();
       updateResizePresetState();
@@ -708,17 +637,6 @@
     losslessInput.addEventListener('change', () => { updateQualityControls(); schedulePreview(); });
     qualityRange.addEventListener('input', () => { setQuality(qualityRange.value); schedulePreview(); });
     qualityInput.addEventListener('input', () => { setQuality(qualityInput.value); schedulePreview(); });
-    sharpnessRange.addEventListener('input', () => { setSharpness(sharpnessRange.value); schedulePreview(); });
-    sharpnessInput.addEventListener('input', () => { setSharpness(sharpnessInput.value); schedulePreview(); });
-    resetSharpnessButton.addEventListener('click', () => { setSharpness(20); schedulePreview(); });
-    sharpnessPresets.addEventListener('click', event => {
-      const button = event.target.closest('button[data-sharpness]');
-      if (button) { setSharpness(button.dataset.sharpness); schedulePreview(); }
-    });
-    presets.addEventListener('click', event => {
-      const button = event.target.closest('button[data-quality]');
-      if (button) { setQuality(button.dataset.quality); schedulePreview(); }
-    });
     resetOptimizationButton.addEventListener('click', () => {
       resetOptimization();
       schedulePreview();
@@ -732,7 +650,7 @@
       form.append('height', heightInput.value);
       form.append('resize_preset', resizePreset || '');
       form.append('quality', qualityInput.value);
-      form.append('sharpness', sharpnessInput.value);
+      form.append('sharpness', String(DEFAULT_SHARPNESS));
       form.append('webp_lossless', String(losslessInput.checked));
       form.append('crop_enabled', String(isCustomCrop));
       if (isCustomCrop) {
@@ -768,7 +686,7 @@
             ctx.imageSmoothingEnabled = true;
             ctx.imageSmoothingQuality = 'high';
             ctx.drawImage(img, sx, sy, sw, sh, 0, 0, dw, dh);
-            const q = losslessInput.checked ? 1.0 : (Number(qualityInput.value) || 95) / 100;
+            const q = losslessInput.checked ? 1.0 : (Number(qualityInput.value) || DEFAULT_QUALITY) / 100;
             canvas.toBlob((blob) => {
               if (blob) resolve({ blob, width: dw, height: dh });
               else reject(new Error('Trình duyệt không hỗ trợ xuất WebP qua Canvas.'));
@@ -829,7 +747,7 @@
         const outputBytes = Number(response.headers.get('X-Optimized-Bytes') || blob.size || 0);
         const originalBytes = Number(response.headers.get('X-Original-Bytes') || file.size);
         const change = originalBytes ? Math.round((1 - outputBytes / originalBytes) * 100) : 0;
-        const outputSharpness = response.headers.get('X-Image-Sharpness') || sharpnessInput.value;
+        const outputSharpness = response.headers.get('X-Image-Sharpness') || DEFAULT_SHARPNESS;
         optimizedPreview.metadata.textContent = `${outputWidth} × ${outputHeight}px · WebP · ${(outputBytes / 1024).toFixed(1)} KB · Sharpen ${outputSharpness}% · ${change >= 0 ? '-' : '+'}${Math.abs(change)}%`;
         optimizedPreview.panel.classList.remove('is-stale');
         previewHint.textContent = 'Ảnh WebP bên phải hiển thị đúng chuẩn sẽ được lưu lên hệ thống.';

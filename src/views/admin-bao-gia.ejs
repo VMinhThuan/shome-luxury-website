@@ -11,7 +11,9 @@
   <script src="/js/admin-quote-page.js?v=1.1.0" defer></script>
 </head>
 <body class="quote-admin-page" data-admin-authenticated="<%= isAuthenticated ? 'true' : 'false' %>">
-  <%- include('partials/admin-header', { activeAdmin: isAuthenticated ? 'quote' : '', showLogout: isAuthenticated }) %>
+  <% if (isAuthenticated) { %>
+    <%- include('partials/admin-header', { activeAdmin: 'quote', showLogout: true }) %>
+  <% } %>
   <main class="quote-admin-shell">
     <% if (!isAuthenticated) { %>
     <section class="quote-admin-login" data-admin-login>
