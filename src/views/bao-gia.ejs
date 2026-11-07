@@ -2136,18 +2136,18 @@
       </section>
     <% } %>
 
-    <% if (sections.categories?.isVisible !== false && quoteCategories.length) { %>
-      <% const categoryOverview = quoteCategories[0]; %>
-      <section class="quote-section quote-category-section quote-category-overview" id="cong-trinh-theo-danh-muc">
+    <% /* Restored legacy featured-project section from the pre-8876c5a layout. */ %>
+    <% if (selectedCategory) { %>
+      <section class="quote-section quote-category-section quote-category-overview" id="cong-trinh-thiet-ke">
         <div class="container">
           <header class="quote-featured-heading">
             <h2>Một số công trình <em>tiêu biểu</em></h2>
-            <strong><%= categoryOverview.description %></strong>
+            <strong>Các công trình <%= quoteScript.toLowerCase() %> <%= featuredCategoryName.toLowerCase() %> được hoàn thiện chỉn chu, tối ưu công năng và thẩm mỹ.</strong>
           </header>
-          <% if (categoryOverview.projects.length) { %>
+          <% if (highlightProjects.length) { %>
             <div class="quote-featured-project-list">
-              <% categoryOverview.projects.slice(0, 5).forEach((project, index) => {
-                   const projectImage = project.thumbnail || project.gallery?.[0] || '/images/project_apartment.jpg';
+              <% highlightProjects.slice(0, 5).forEach((project, index) => {
+                   const projectImage = project.thumbnail || '';
                    const galleryImages = [...new Set([projectImage, ...(project.gallery || [])].filter(Boolean))];
                    const costLabel = project.cost ? `${Math.round(project.cost / 1000000)} triệu` : 'Liên hệ tư vấn';
                    const overlays = [
@@ -2159,14 +2159,18 @@
               %>
                 <article class="quote-featured-project-card">
                   <button class="quote-featured-project-image" type="button" data-quote-project-gallery data-project-title="<%= project.title %>" data-gallery-images="<%= JSON.stringify(galleryImages) %>" aria-label="Xem thư viện ảnh dự án <%= project.title %>">
-                    <img src="<%= projectImage %>" alt="<%= project.title %>" loading="lazy" />
-                    <div class="quote-featured-project-overlay"><b><%= overlay.title %></b><span><%= overlay.sub %></span></div>
+                    <% if (projectImage) { %><img src="<%= projectImage %>" alt="<%= project.title %>" loading="lazy" /><% } else { %><span class="quote-featured-project-image-placeholder">Chưa có ảnh</span><% } %>
+                    <div class="quote-featured-project-overlay">
+                      <b><%= overlay.title %></b>
+                      <span><%= overlay.sub %></span>
+                    </div>
+                    <span class="quote-featured-project-view" aria-hidden="true">Xem ảnh <i>↗</i></span>
                   </button>
                   <div class="quote-featured-project-info">
                     <h3><a href="/cong-trinh/<%= project.slug %>"><%= project.title %></a></h3>
                     <dl>
                       <div><dt>Diện tích:</dt><dd><%= project.area || 'Đang cập nhật' %></dd></div>
-                      <div><dt>Loại hình:</dt><dd><%= project.propertyType || categoryOverview.category.name %></dd></div>
+                      <div><dt>Loại hình:</dt><dd><%= project.propertyType || 'Chung cư' %></dd></div>
                       <div><dt>Phong cách:</dt><dd><%= project.style || 'Hiện đại' %></dd></div>
                       <div><dt>Chi phí:</dt><dd><%= costLabel %></dd></div>
                     </dl>
@@ -2177,7 +2181,7 @@
           <% } else { %>
             <p class="quote-empty-state">Các công trình nổi bật sẽ được cập nhật tại đây.</p>
           <% } %>
-          <div class="quote-featured-view-all"><a href="<%= categoryOverview.href %>">Xem tất cả dự án <span aria-hidden="true">→</span></a></div>
+          <div class="quote-featured-view-all"><a href="<%= dynamicConstructionUrl %>">Xem tất cả dự án <span aria-hidden="true">→</span></a></div>
         </div>
       </section>
     <% } %>
@@ -2210,7 +2214,7 @@
     <% /* Show five projects from the exact design category selected in the
            quotation menu, immediately before the real-project videos. */ %>
     <% if (selectedCategory) { %>
-      <section class="quote-section quote-category-section" id="cong-trinh-thiet-ke">
+      <section class="quote-section quote-category-section" id="cong-trinh-thiet-ke-moi">
         <div class="container">
           <header class="quote-featured-heading"><h2>Các công trình <em>tiêu biểu</em></h2><strong>Các công trình <%= quoteScript.toLowerCase() %> <%= featuredCategoryName.toLowerCase() %> được hoàn thiện chỉn chu, tối ưu công năng và thẩm mỹ.</strong></header>
           <% if (highlightProjects.length) { %>
