@@ -36,6 +36,10 @@ router.get("/admin/projects", requireAdminPage, (req, res) => {
   return unifiedProjectRedirect(req, res, isConstruction ? 'thi-cong-cong-trinh' : 'thiet-ke-cong-trinh');
 });
 router.get("/admin/bao-gia", requireAdminPage, quotePageController.renderAdminPage.bind(quotePageController));
+router.get("/admin/videos", requireAdminPage, (req, res) => res.render('admin-videos', {
+  title: 'Quản lý video YouTube | SHOME LUXURY',
+  navigation: navigationData
+}));
 router.get("/admin/content", requireAdminPage, (req, res) => res.redirect('/admin/images'));
 router.get("/admin/content/:module", requireAdminPage, (req, res, next) => {
   if (['design-projects', 'construction-projects'].includes(req.params.module)) {
@@ -142,6 +146,7 @@ const contentAlias = module => (req, res, next) => {
   router.post(`/api/admin/${module}/:id/duplicate`, authenticateAdmin, contentAlias(module), contentController.duplicateModule);
 });
 router.get('/api/construction-videos', constructionVideoController.getVideos.bind(constructionVideoController));
+router.get('/api/admin/construction-videos', authenticateAdmin, constructionVideoController.getAdminVideos.bind(constructionVideoController));
 router.get("/api/quote-page", quotePageController.getPublicContent.bind(quotePageController));
 router.put("/api/admin/quote-page", authenticateAdmin, quotePageController.updateContent.bind(quotePageController));
 router.get('/api/home-images', homeImageController.getPublicImages);

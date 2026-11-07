@@ -375,32 +375,25 @@ document.addEventListener('DOMContentLoaded', () => {
     window.ShomeluxuryReviewCarousel(track, track.closest('.quote-factory-activities')?.querySelector('.quote-factory-activity-dots'));
   });
 
-  // Brand-story video: use the local branded cover until the visitor chooses to play.
-  document.querySelectorAll('[data-brand-story-video]').forEach(frame => {
-    const cover = frame.querySelector('.brand-story-video-cover');
+  // YouTube thumbnail cards: keep the page light until the visitor chooses
+  // to play, then swap the custom/admin-uploaded image for the real embed.
+  document.querySelectorAll('[data-youtube-thumbnail]').forEach(frame => {
+    const cover = frame.querySelector('.youtube-thumbnail-cover');
     if (!cover) return;
     cover.addEventListener('click', () => {
-      const video = frame.querySelector('iframe');
-      if (video && !video.src.includes('autoplay=1')) video.src += '&autoplay=1';
-      frame.classList.add('is-playing');
-      video?.focus();
-    }, { once: true });
-  });
-
-  // Quote-page brand film: retain the branded cover, then play the supplied
-  // YouTube film in place when the visitor selects it.
-  document.querySelectorAll('[data-quote-brand-video]').forEach(cover => {
-    cover.addEventListener('click', () => {
-      const videoUrl = cover.dataset.videoUrl || '';
-      const videoId = videoUrl.match(/(?:youtu\.be\/|youtube(?:-nocookie)?\.com\/(?:watch\?v=|embed\/|shorts\/))([\w-]{11})/)?.[1];
+      const videoUrl = frame.dataset.videoUrl || '';
+      const videoId = videoUrl.match(/(?:youtu\.be\/|youtube(?:-nocookie)?\.com\/(?:watch\?(?:[^#&]+&)*v=|embed\/|shorts\/))([\w-]{11})/)?.[1];
       if (!videoId) return;
       const iframe = document.createElement('iframe');
       iframe.src = `https://www.youtube-nocookie.com/embed/${videoId}?autoplay=1&rel=0&modestbranding=1`;
-      iframe.title = 'Video giới thiệu Shome Luxury';
+      iframe.title = cover.getAttribute('aria-label') || 'Video YouTube Shome Luxury';
+      iframe.loading = 'lazy';
       iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share';
+      iframe.referrerPolicy = 'strict-origin-when-cross-origin';
       iframe.allowFullscreen = true;
-      cover.replaceChildren(iframe);
-      cover.classList.add('is-playing');
+      frame.replaceChildren(iframe);
+      frame.classList.add('is-playing');
+      iframe.focus();
     }, { once: true });
   });
   document.dispatchEvent(new Event('shomeluxuryreviewcarouselready'));

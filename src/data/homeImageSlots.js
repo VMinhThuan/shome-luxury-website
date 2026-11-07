@@ -8,6 +8,26 @@ const PAGE_LABELS = {
   'project-detail': 'Chi tiết công trình'
 };
 
+// The quotation page reuses a curated list of YouTube videos in several
+// category tabs. Keep one shared, uploadable thumbnail slot per video ID so
+// the admin can replace the preview image without changing the video link.
+const completedVideosData = require('./completedVideosData');
+const completedVideoSlots = [];
+const completedVideoSlotIds = new Set();
+(completedVideosData.categories || []).forEach(category => {
+  (category.videos || []).forEach(video => {
+    if (!video.videoId || completedVideoSlotIds.has(video.videoId)) return;
+    completedVideoSlotIds.add(video.videoId);
+    completedVideoSlots.push([
+      'quote',
+      'video_thumbnails',
+      `quote_video_thumbnail_${video.videoId}`,
+      `Video hoàn thiện — Ảnh thumbnail — ${video.title}`,
+      video.thumbnail || `https://i.ytimg.com/vi/${video.videoId}/hqdefault.jpg`
+    ]);
+  });
+});
+
 const rawSlots = [
   // 1. TRANG CHỦ (home) - 14 slots
   ['home', 'hero', 'hero_banner_1', 'Hero — Banner 1', '/images/home-hero-banner.jpg'],
@@ -18,6 +38,7 @@ const rawSlots = [
   ['home', 'project_types', 'project_type_townhouse', 'Loại công trình — Nhà phố', '/images/project-cat-nha-pho.jpg'],
   ['home', 'project_types', 'project_type_villa', 'Loại công trình — Biệt thự', '/images/project-cat-biet-thu.jpg'],
   ['home', 'project_types', 'project_type_office', 'Loại công trình — Văn phòng', '/images/project-cat-van-phong.jpg'],
+  ['home', 'brand_video', 'brand_story_video_thumb', 'Câu chuyện thương hiệu — Ảnh thumbnail video', '/images/quote-brand-video-shome-luxury.png'],
   ['home', 'why_choose_us', 'why_choose_architect', 'Tại sao chọn chúng tôi — Kiến trúc sư', '/images/why-choose-architect-v2.webp'],
   ['home', 'why_choose_us', 'why_choose_warranty', 'Tại sao chọn chúng tôi — Bảo hành', '/images/why-choose-warranty-v2.webp'],
   ['home', 'why_choose_us', 'why_choose_craftsman', 'Tại sao chọn chúng tôi — Thợ lành nghề', '/images/why-choose-craftsman-v2.webp'],
@@ -103,6 +124,7 @@ const rawSlots = [
   ['quote', 'customer_stories', 'quote_feedback_09', 'Khách hàng chia sẻ — Ảnh 09', '/images/feedback/1792222122127_6043215661779559246_6043215661779559246_3b34868292132fdc1c97d45410cc629a.jpg'],
   ['quote', 'customer_stories', 'quote_feedback_10', 'Khách hàng chia sẻ — Ảnh 10', '/images/feedback/1792222123036_6043215661779559246_6043215661779559246_2babcfde9a165d462a5ecea4d8538e0f.jpg'],
   ['quote', 'customer_stories', 'quote_feedback_11', 'Khách hàng chia sẻ — Ảnh 11', '/images/feedback/1792222123788_6043215661779559246_6043215661779559246_7ec6445f346f1b40a77466a09ae5aff5.jpg'],
+  ...completedVideoSlots,
 
   // 4. TIN TỨC (news) - 3 banner slots
   ['news', 'hero', 'news_hero_banner_1', 'Tin tức — Banner 1', '/images/hero_sofa_sharp.jpg'],

@@ -1,9 +1,16 @@
 const ConstructionVideo = require('../models/ConstructionVideo');
 
 class ConstructionVideoService {
+  async getAllVideos() {
+    return ConstructionVideo.find({})
+      .select('youtubeId thumbnail sortOrder isVisible createdAt updatedAt')
+      .sort({ sortOrder: 1, createdAt: -1 })
+      .lean();
+  }
+
   async getVisibleVideos() {
     return ConstructionVideo.find({ isVisible: { $ne: false } })
-      .select('youtubeId sortOrder')
+      .select('youtubeId thumbnail sortOrder')
       .sort({ sortOrder: 1, createdAt: -1 })
       .lean();
   }

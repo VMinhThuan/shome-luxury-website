@@ -1,6 +1,14 @@
 const constructionVideoService = require('../services/constructionVideoService');
 
 class ConstructionVideoController {
+  async getAdminVideos(req, res, next) {
+    try {
+      return res.json({ success: true, data: await constructionVideoService.getAllVideos() });
+    } catch (error) {
+      next(error);
+    }
+  }
+
   async getVideos(req, res, next) {
     try {
       return res.json({ success: true, data: await constructionVideoService.getVisibleVideos() });

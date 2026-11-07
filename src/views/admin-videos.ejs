@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title><%= title %></title>
+  <%- include('partials/site-favicon') %>
+  <link rel="stylesheet" href="/css/admin-shell.css?v=1.0.0" />
+  <link rel="stylesheet" href="/css/admin-videos.css?v=1.0.0" />
+  <script src="/js/admin-videos.js?v=1.0.0" defer></script>
+</head>
+<body class="video-admin-page">
+  <%- include('partials/admin-header', { activeAdmin: 'videos' }) %>
+  <main class="video-admin-shell">
+    <header class="video-admin-heading">
+      <div>
+        <p class="video-admin-eyebrow">SHOME LUXURY / VIDEO CMS</p>
+        <h1>Video YouTube</h1>
+        <p>Thay ảnh thumbnail cho video thi công. Nút Play mặc định vẫn mở đúng video YouTube.</p>
+      </div>
+      <button class="video-admin-primary" type="button" data-new-video>+ Thêm video</button>
+    </header>
+    <p class="video-admin-status" data-status aria-live="polite"></p>
+    <section class="video-admin-table-wrap">
+      <table class="video-admin-table">
+        <thead><tr><th>Thumbnail</th><th>YouTube ID</th><th>Thứ tự</th><th>Hiển thị</th><th>Thao tác</th></tr></thead>
+        <tbody data-video-table></tbody>
+      </table>
+      <p class="video-admin-empty" data-empty hidden>Chưa có video.</p>
+    </section>
+  </main>
+
+  <div class="video-admin-modal" data-modal hidden>
+    <div class="video-admin-modal__backdrop" data-close-modal></div>
+    <section class="video-admin-dialog" role="dialog" aria-modal="true" aria-labelledby="video-form-title">
+      <header><div><p class="video-admin-eyebrow">THUMBNAIL VIDEO</p><h2 id="video-form-title" data-form-title>Thêm video</h2></div><button type="button" class="video-admin-close" data-close-modal aria-label="Đóng">×</button></header>
+      <form data-video-form>
+        <input type="hidden" name="id" />
+        <label>YouTube ID *<input name="youtubeId" required pattern="[A-Za-z0-9_-]{11}" placeholder="Ví dụ: hoUvh1w9tII" /></label>
+        <label>Thứ tự hiển thị<input name="sortOrder" type="number" step="1" value="0" /></label>
+        <label class="video-admin-checkbox"><input name="isVisible" type="checkbox" checked /> Hiển thị ngoài trang</label>
+        <input type="hidden" name="thumbnail" data-thumbnail-url />
+        <div class="video-admin-upload"><label>Ảnh thumbnail tùy chỉnh</label><input type="file" accept="image/jpeg,image/png,image/webp" data-thumbnail-file /><button type="button" class="video-admin-secondary" data-upload-thumbnail>Tải ảnh lên</button><div class="video-admin-preview" data-preview>Chưa có ảnh</div></div>
+        <p class="video-admin-error" data-error aria-live="polite"></p>
+        <footer><button type="button" class="video-admin-secondary" data-close-modal>Hủy</button><button type="submit" class="video-admin-primary">Lưu video</button></footer>
+      </form>
+    </section>
+  </div>
+</body>
+</html>

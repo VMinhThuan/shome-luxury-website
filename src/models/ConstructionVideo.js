@@ -8,6 +8,11 @@ const constructionVideoSchema = new mongoose.Schema({
     trim: true,
     match: [/^[A-Za-z0-9_-]{11}$/, 'youtubeId phải là mã video YouTube hợp lệ']
   },
+  thumbnail: {
+    type: String,
+    trim: true,
+    default: ''
+  },
   sortOrder: {
     type: Number,
     default: 0,

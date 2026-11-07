@@ -16,8 +16,8 @@
 
   <!-- CSS Stylesheet -->
   <link rel="preload" href="/images/shome-logo.png" as="image" />
-  <link rel="stylesheet" href="/css/style.css?v=6.8.51" />
-  <script src="/js/main.js?v=1.10.0" defer></script>
+  <link rel="stylesheet" href="/css/style.css?v=6.8.55" />
+  <script src="/js/main.js?v=2.0.3" defer></script>
 </head>
 <body class="showcase-page-body">
 
@@ -79,13 +79,15 @@
             <% if (videos && videos.length > 0) { %>
               <% videos.forEach(video => { %>
                 <div class="construction-video-card">
-                  <iframe
-                    src="https://www.youtube-nocookie.com/embed/<%= video.youtubeId %>?rel=0&modestbranding=1"
-                    title="Video thi công công trình"
-                    loading="lazy"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                    referrerpolicy="strict-origin-when-cross-origin"
-                    allowfullscreen></iframe>
+                  <div class="youtube-thumbnail-card" data-youtube-thumbnail data-video-url="https://www.youtube.com/watch?v=<%= video.youtubeId %>">
+                    <button class="youtube-thumbnail-cover" type="button" aria-label="Phát video thi công công trình">
+                      <img class="youtube-thumbnail-image" src="<%= video.thumbnail || `https://i.ytimg.com/vi/${video.youtubeId}/hqdefault.jpg` %>" alt="Thumbnail video thi công công trình" loading="lazy" decoding="async" />
+                      <span class="youtube-thumbnail-shade" aria-hidden="true"></span>
+                      <span class="youtube-play-button" aria-hidden="true">
+                        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M9 6.7v10.6c0 .7.8 1.1 1.4.7l8-5.3c.5-.3.5-1 0-1.4l-8-5.3C9.8 5.6 9 6 9 6.7Z" /></svg>
+                      </span>
+                    </button>
+                  </div>
                 </div>
               <% }); %>
             <% } else { %>
@@ -183,13 +185,15 @@
             <% if (videos && videos.length > 0) { %>
               <% videos.forEach(video => { %>
                 <div class="construction-video-card">
-                  <iframe
-                    src="https://www.youtube-nocookie.com/embed/<%= video.youtubeId %>?rel=0&amp;modestbranding=1"
-                    title="Video hoàn công nội thất"
-                    loading="lazy"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                    referrerpolicy="strict-origin-when-cross-origin"
-                    allowfullscreen></iframe>
+                  <div class="youtube-thumbnail-card" data-youtube-thumbnail data-video-url="https://www.youtube.com/watch?v=<%= video.youtubeId %>">
+                    <button class="youtube-thumbnail-cover" type="button" aria-label="Phát video hoàn công nội thất">
+                      <img class="youtube-thumbnail-image" src="<%= video.thumbnail || `https://i.ytimg.com/vi/${video.youtubeId}/hqdefault.jpg` %>" alt="Thumbnail video hoàn công nội thất" loading="lazy" decoding="async" />
+                      <span class="youtube-thumbnail-shade" aria-hidden="true"></span>
+                      <span class="youtube-play-button" aria-hidden="true">
+                        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M9 6.7v10.6c0 .7.8 1.1 1.4.7l8-5.3c.5-.3.5-1 0-1.4l-8-5.3C9.8 5.6 9 6 9 6.7Z" /></svg>
+                      </span>
+                    </button>
+                  </div>
                 </div>
               <% }); %>
             <% } else { %>
