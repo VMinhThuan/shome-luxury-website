@@ -1008,8 +1008,10 @@
   accent-color: #a88754;
 }
 
-/* WebP quality input */
+/* WebP quality controls */
 .image-quality-row {
+  display: grid;
+  gap: 8px;
   margin-top: 11px;
   margin-bottom: 11px;
 }
@@ -1035,6 +1037,13 @@
   font-weight: 800;
   text-align: center;
   background: #fff;
+}
+
+.image-quality-range {
+  width: 100%;
+  margin: 0;
+  accent-color: #a88754;
+  cursor: pointer;
 }
 
 /* Actions: Preview & Reset buttons */
@@ -1204,10 +1213,6 @@
   .image-optimization-config,
   .image-optimization-comparison {
     grid-template-columns: 1fr;
-  }
-
-  .image-quality-label {
-    grid-template-columns: 1fr 82px auto;
   }
 
 }

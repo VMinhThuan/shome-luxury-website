@@ -14,7 +14,7 @@ const numberInRange = (value, minimum, maximum) => {
   return Number.isFinite(result) && result >= minimum && result <= maximum ? Math.round(result) : null;
 };
 
-const qualityFrom = (value) => numberInRange(value, 10, 100) || 100;
+const qualityFrom = (value) => numberInRange(value, 1, 100) || 100;
 
 const LEGACY_SHARPNESS = { off: 0, low: 20, medium: 40, high: 60 };
 
@@ -90,8 +90,8 @@ function outputOptionsFrom(body = {}) {
   }
 
   const quality = qualityFrom(body.quality);
-  if (body.quality !== undefined && body.quality !== null && body.quality !== '' && !numberInRange(body.quality, 10, 100)) {
-    throw new Error('Chất lượng WebP cần nằm trong khoảng 10–100.');
+  if (body.quality !== undefined && body.quality !== null && body.quality !== '' && !numberInRange(body.quality, 1, 100)) {
+    throw new Error('Chất lượng WebP cần nằm trong khoảng 1–100.');
   }
   const sharpness = sharpnessPercentFrom(body.sharpness);
   const cropEnabled = isEnabled(body.crop_enabled);

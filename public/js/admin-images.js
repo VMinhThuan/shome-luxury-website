@@ -425,14 +425,19 @@
     const [keepOriginalLabel, keepOriginalInput] = makeToggle('Giữ nguyên kích thước gốc', true);
     toggles.append(keepAspectLabel, keepOriginalLabel);
 
+    const QUALITY_MIN = 1;
+    const QUALITY_MAX = 100;
     const DEFAULT_QUALITY = 100;
     const DEFAULT_SHARPNESS = 100;
     const qualityRow = create('div', 'image-quality-row');
     const qualityInput = create('input');
-    qualityInput.type = 'number'; qualityInput.min = '10'; qualityInput.max = '100'; qualityInput.value = String(DEFAULT_QUALITY); qualityInput.inputMode = 'numeric';
+    qualityInput.type = 'number'; qualityInput.min = String(QUALITY_MIN); qualityInput.max = String(QUALITY_MAX); qualityInput.step = '1'; qualityInput.value = String(DEFAULT_QUALITY); qualityInput.inputMode = 'numeric';
     const qualityLabel = create('label', 'image-quality-label', 'Chất lượng WebP');
     qualityLabel.append(qualityInput, document.createTextNode('%'));
-    qualityRow.append(qualityLabel);
+    const qualityRange = create('input', 'image-quality-range');
+    qualityRange.type = 'range'; qualityRange.min = String(QUALITY_MIN); qualityRange.max = String(QUALITY_MAX); qualityRange.step = '1'; qualityRange.value = String(DEFAULT_QUALITY);
+    qualityRange.setAttribute('aria-label', 'Chất lượng WebP từ 1 đến 100 phần trăm');
+    qualityRow.append(qualityLabel, qualityRange);
 
     const previewActions = create('div', 'image-optimization-actions');
     const previewButton = create('button', 'btn-preview-image', 'Xem trước WebP');
@@ -482,6 +487,7 @@
 
     const updateQualityControls = () => {
       qualityInput.disabled = preserveOriginalFile;
+      qualityRange.disabled = preserveOriginalFile;
     };
     const updateDimensionControls = () => {
       const disabled = keepOriginalInput.checked;
@@ -509,8 +515,12 @@
       resizeNote.className = 'image-resize-note is-active';
     };
     const setQuality = (value) => {
-      const quality = Math.min(100, Math.max(10, Number(value) || DEFAULT_QUALITY));
+      const numericValue = Number(value);
+      const quality = value === '' || !Number.isFinite(numericValue)
+        ? DEFAULT_QUALITY
+        : Math.min(QUALITY_MAX, Math.max(QUALITY_MIN, Math.round(numericValue)));
       qualityInput.value = String(quality);
+      qualityRange.value = String(quality);
     };
     function schedulePreview() {
       if (!file) return;
@@ -601,6 +611,10 @@
     });
     qualityInput.addEventListener('blur', () => {
       setQuality(qualityInput.value);
+      schedulePreview();
+    });
+    qualityRange.addEventListener('input', () => {
+      setQuality(qualityRange.value);
       schedulePreview();
     });
     resetOptimizationButton.addEventListener('click', () => {

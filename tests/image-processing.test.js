@@ -121,6 +121,14 @@ async function run() {
   assert.equal(lowQhighS.settings.quality, 50);
   assert.equal(lowQhighS.settings.sharpness, 90);
 
+  const lowestQuality = await processImageBuffer(jpg, { keep_original_size: 'true', quality: '1' });
+  assert.equal(lowestQuality.settings.quality, 1);
+
+  await assert.rejects(
+    () => processImageBuffer(jpg, { keep_original_size: 'true', quality: '0' }),
+    /Chất lượng WebP cần nằm trong khoảng 1–100/
+  );
+
   await assert.rejects(
     () => processImageBuffer(jpg, { keep_original_size: 'true', sharpness: '-5' }),
     /Độ sắc nét cần nằm trong khoảng 0–100%/

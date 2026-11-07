@@ -18736,8 +18736,8 @@ main .home-faq-item p {
   overflow: visible;
   clip-path: none !important;
   background: none !important;
-  color: var(--accent-gold, #D2A044) !important;
-  -webkit-text-fill-color: var(--accent-gold, #D2A044) !important;
+  color: #fff !important;
+  -webkit-text-fill-color: #fff !important;
   padding: .2em .32em .3em;
   margin-inline: -.32em !important;
 }
@@ -19143,5 +19143,24 @@ main.project-detail-page .project-detail-summary {
 
   body.home-page main .hero-script-subtitle {
     font-size: 16px !important;
+  }
+}
+
+/* Keep the full homepage banner message on one compact line on phones. */
+@media (max-width: 767px) {
+  body.home-page main .hero-script-subtitle {
+    width: 100% !important;
+    gap: .3rem !important;
+    font-size: clamp(.46rem, 2.1vw, .78rem) !important;
+    line-height: 1 !important;
+    white-space: nowrap !important;
+  }
+
+  body.home-page main .hero-script-subtitle::before,
+  body.home-page main .hero-script-subtitle::after {
+    flex: 0 0 clamp(10px, 4vw, 26px);
+    width: clamp(10px, 4vw, 26px);
+    min-width: clamp(10px, 4vw, 26px);
+    max-width: clamp(10px, 4vw, 26px);
   }
 }
