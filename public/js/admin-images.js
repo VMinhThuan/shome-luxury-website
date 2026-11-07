@@ -25,7 +25,7 @@
     all: '/',
     home: '/',
     factory: '/xuong-san-xuat',
-    quote: '/bao-gia?category=tk-nt-chung-cu',
+    quote: '/bao-gia/thiet-ke-thi-cong-noi-that/thiet-ke-noi-that-chung-cu',
     news: '/tin-tuc',
     recruitment: '/tuyen-dung',
     booking: '/dat-lich-ngay',
@@ -227,6 +227,7 @@
       }
 
       activePageKey = pageKey;
+      if (subpageSelect) subpageSelect.value = pageKey.startsWith('subpage:quote:') ? pageKey : '';
       const url = new URL(window.location.href);
       if (pageKey === 'all') url.searchParams.delete('page');
       else url.searchParams.set('page', pageKey);
@@ -390,7 +391,7 @@
       'image-optimization-help',
       preserveOriginalFile
         ? 'Ảnh này sẽ được lưu đúng file khách tải lên: giữ nguyên định dạng, kích thước và nội dung; không cắt, không resize, không chuyển WebP.'
-        : 'Giữ nguyên ảnh gốc mặc định · WebP 100%.'
+        : 'Giữ nguyên ảnh gốc mặc định · nhập chất lượng WebP bên dưới.'
     ));
     optimizationPanel.append(optimizationHeader);
 
@@ -422,19 +423,15 @@
     };
     const [keepAspectLabel, keepAspectInput] = makeToggle('Giữ đúng tỷ lệ ảnh', true);
     const [keepOriginalLabel, keepOriginalInput] = makeToggle('Giữ nguyên kích thước gốc', true);
-    const [losslessLabel, losslessInput] = makeToggle('Ưu tiên bảo toàn chi tiết (WebP Lossless)', false);
-    toggles.append(keepAspectLabel, keepOriginalLabel, losslessLabel);
-    const losslessNote = create('p', 'image-lossless-note', 'Lossless ưu tiên chất lượng tối đa; dung lượng tệp có thể lớn hơn.');
+    toggles.append(keepAspectLabel, keepOriginalLabel);
 
     const DEFAULT_QUALITY = 100;
     const DEFAULT_SHARPNESS = 100;
     const qualityRow = create('div', 'image-quality-row');
-    const qualityRange = create('input');
-    qualityRange.type = 'range'; qualityRange.min = '10'; qualityRange.max = '100'; qualityRange.value = String(DEFAULT_QUALITY);
     const qualityInput = create('input');
     qualityInput.type = 'number'; qualityInput.min = '10'; qualityInput.max = '100'; qualityInput.value = String(DEFAULT_QUALITY); qualityInput.inputMode = 'numeric';
     const qualityLabel = create('label', 'image-quality-label', 'Chất lượng WebP');
-    qualityLabel.append(qualityRange, qualityInput, document.createTextNode('%'));
+    qualityLabel.append(qualityInput, document.createTextNode('%'));
     qualityRow.append(qualityLabel);
 
     const previewActions = create('div', 'image-optimization-actions');
@@ -474,60 +471,17 @@
     const originalPreview = makePreview('Ảnh gốc', 'is-original', 'Chưa chọn ảnh');
     const optimizedPreview = makePreview('Ảnh WebP sau xử lý', 'is-optimized', 'Bấm “Xem trước WebP” để so sánh');
     comparison.append(originalPreview.panel, optimizedPreview.panel);
-    const zoomControls = create('div', 'image-preview-zoom');
-    ['100%', '200%'].forEach((label, index) => {
-      const button = create('button', 'image-preview-zoom-btn', label);
-      button.type = 'button';
-      button.dataset.zoom = String(index + 1);
-      if (index === 0) button.classList.add('is-active');
-      zoomControls.append(button);
-    });
-    optimizationPanel.append(configuration, resizePresets, resizeNote, toggles, losslessNote, qualityRow, previewActions, previewHint, zoomControls, comparison);
+    optimizationPanel.append(configuration, resizePresets, resizeNote, toggles, qualityRow, previewActions, previewHint, comparison);
 
     if (preserveOriginalFile) {
-      [configuration, resizePresets, resizeNote, toggles, losslessNote, qualityRow, previewActions, previewHint, zoomControls, comparison]
+      [configuration, resizePresets, resizeNote, toggles, qualityRow, previewActions, previewHint, comparison]
         .forEach(control => { control.hidden = true; });
     }
 
-    let file, sourceUrl, dimensions, sourceRatio = 1, optimizedObjectUrl = null, resizePreset = null, previewRequest = 0, previewAbortController = null, currentZoom = 1;
-    const setZoom = (zoom) => {
-      currentZoom = zoom;
-      [originalPreview.image, optimizedPreview.image].forEach(image => {
-        image.style.transform = `scale(${zoom})`;
-        if (zoom === 1) image.style.transformOrigin = 'center center';
-      });
-      [originalPreview.frame, optimizedPreview.frame].forEach(frame => {
-        frame.classList.toggle('is-zoomed', zoom > 1);
-      });
-      zoomControls.querySelectorAll('button').forEach(button => button.classList.toggle('is-active', Number(button.dataset.zoom) === zoom));
-    };
-    zoomControls.addEventListener('click', event => {
-      const button = event.target.closest('button[data-zoom]');
-      if (button) setZoom(Number(button.dataset.zoom));
-    });
-
-    [originalPreview.frame, optimizedPreview.frame].forEach(frame => {
-      frame.addEventListener('mousemove', (event) => {
-        if (currentZoom <= 1) return;
-        const rect = frame.getBoundingClientRect();
-        const x = Math.max(0, Math.min(100, ((event.clientX - rect.left) / rect.width) * 100));
-        const y = Math.max(0, Math.min(100, ((event.clientY - rect.top) / rect.height) * 100));
-        originalPreview.image.style.transformOrigin = `${x}% ${y}%`;
-        optimizedPreview.image.style.transformOrigin = `${x}% ${y}%`;
-      });
-      frame.addEventListener('mouseleave', () => {
-        if (currentZoom <= 1) {
-          originalPreview.image.style.transformOrigin = 'center center';
-          optimizedPreview.image.style.transformOrigin = 'center center';
-        }
-      });
-    });
+    let file, sourceUrl, dimensions, sourceRatio = 1, optimizedObjectUrl = null, resizePreset = null, previewRequest = 0, previewAbortController = null;
 
     const updateQualityControls = () => {
-      const disabled = losslessInput.checked;
-      qualityRange.disabled = disabled;
-      qualityInput.disabled = disabled;
-      losslessNote.hidden = !disabled;
+      qualityInput.disabled = preserveOriginalFile;
     };
     const updateDimensionControls = () => {
       const disabled = keepOriginalInput.checked;
@@ -556,7 +510,6 @@
     };
     const setQuality = (value) => {
       const quality = Math.min(100, Math.max(10, Number(value) || DEFAULT_QUALITY));
-      qualityRange.value = String(quality);
       qualityInput.value = String(quality);
     };
     function schedulePreview() {
@@ -575,7 +528,6 @@
     const resetOptimization = () => {
       keepAspectInput.checked = true;
       keepOriginalInput.checked = true;
-      losslessInput.checked = false;
       resizePreset = null;
       widthInput.value = dimensions?.width || '';
       heightInput.value = dimensions?.height || '';
@@ -641,9 +593,16 @@
       updateResizePresetState();
       schedulePreview();
     });
-    losslessInput.addEventListener('change', () => { updateQualityControls(); schedulePreview(); });
-    qualityRange.addEventListener('input', () => { setQuality(qualityRange.value); schedulePreview(); });
-    qualityInput.addEventListener('input', () => { setQuality(qualityInput.value); schedulePreview(); });
+    qualityInput.addEventListener('input', () => {
+      // Let the user clear the field while typing; normalize only when a
+      // value is present or when the field loses focus.
+      if (qualityInput.value !== '') setQuality(qualityInput.value);
+      schedulePreview();
+    });
+    qualityInput.addEventListener('blur', () => {
+      setQuality(qualityInput.value);
+      schedulePreview();
+    });
     resetOptimizationButton.addEventListener('click', () => {
       resetOptimization();
       schedulePreview();
@@ -656,9 +615,9 @@
       form.append('width', widthInput.value);
       form.append('height', heightInput.value);
       form.append('resize_preset', resizePreset || '');
-      form.append('quality', qualityInput.value);
+      form.append('quality', qualityInput.value || String(DEFAULT_QUALITY));
       form.append('sharpness', String(DEFAULT_SHARPNESS));
-      form.append('webp_lossless', String(losslessInput.checked));
+      form.append('webp_lossless', 'false');
       form.append('crop_enabled', String(isCustomCrop));
       if (isCustomCrop) {
         Object.entries(crop()).forEach(([key, value]) => form.append(`crop_${key}`, String(Math.round(value))));
@@ -693,7 +652,7 @@
             ctx.imageSmoothingEnabled = true;
             ctx.imageSmoothingQuality = 'high';
             ctx.drawImage(img, sx, sy, sw, sh, 0, 0, dw, dh);
-            const q = losslessInput.checked ? 1.0 : (Number(qualityInput.value) || DEFAULT_QUALITY) / 100;
+            const q = (Number(qualityInput.value) || DEFAULT_QUALITY) / 100;
             canvas.toBlob((blob) => {
               if (blob) resolve({ blob, width: dw, height: dh });
               else reject(new Error('Trình duyệt không hỗ trợ xuất WebP qua Canvas.'));
@@ -941,7 +900,6 @@
         if (optimizedObjectUrl) URL.revokeObjectURL(optimizedObjectUrl);
         optimizedObjectUrl = null;
         resetOptimization();
-        setZoom(1);
         updatePreview();
         schedulePreview();
       };
@@ -1051,7 +1009,8 @@
     subpageList = result.subpages || [];
     if (subpagePicker && subpageSelect && subpageList.length) {
       subpagePicker.hidden = false;
-      subpageList.forEach(page => {
+      const quoteSubpages = subpageList.filter(page => page.key.startsWith('quote:'));
+      quoteSubpages.forEach(page => {
         const option = create('option', '', page.label);
         option.value = `subpage:${page.key}`;
         subpageSelect.append(option);
@@ -1088,7 +1047,7 @@
 
     renderTabs();
 
-    if (subpageSelect && activePageKey.startsWith('subpage:')) subpageSelect.value = activePageKey;
+    if (subpageSelect && activePageKey.startsWith('subpage:quote:')) subpageSelect.value = activePageKey;
 
     if (eyebrow) {
       const curPageObj = pagesList.find(p => p.key === activePageKey);
@@ -1124,6 +1083,7 @@
           const pageResult = await request(`/api/admin/home-images?page=${encodeURIComponent(pageKey)}`);
           allSlots = pageResult.data || [];
           activePageKey = pageKey;
+          subpageSelect.value = pageKey.startsWith('subpage:quote:') ? pageKey : '';
           const url = new URL(window.location.href);
           url.searchParams.set('page', pageKey);
           window.history.replaceState({}, '', url.toString());

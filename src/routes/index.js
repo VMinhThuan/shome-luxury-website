@@ -50,6 +50,12 @@ router.get("/xuong-san-xuat", homeController.getFactoryPage);
 router.get("/dat-lich-ngay", homeController.getBookingPage);
 router.get("/ho-so-nang-luc", homeController.getCompanyProfilePage);
 router.get("/bao-gia", quotePageController.renderPage.bind(quotePageController));
+router.get("/bao-gia/:parentSlug/:categorySlug", (req, res, next) => {
+  // Keep the public URL hierarchical while the controller continues to accept
+  // the category code/slug query used by older links and integrations.
+  req.query.category = req.params.categorySlug;
+  return quotePageController.renderPage(req, res, next);
+});
 router.get("/tin-tuc", homeController.getNewsPage);
 router.get("/tin-tuc/:id", homeController.getNewsDetailPage);
 router.get("/tin-tuc-chi-tiet/:id", homeController.getNewsDetailPage);

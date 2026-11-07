@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400&family=Playfair+Display:ital,wght@0,600;0,700;0,800;0,900;1,600&family=Great+Vibes&family=Alex+Brush&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="/css/style.css?v=6.8.27" />
+  <link rel="stylesheet" href="/css/style.css?v=6.8.28" />
   <style>
     /* Alternating section backgrounds on quote page handled by style.css design system */
     .quote-page .quote-video-card-link { display: block; padding: 0; color: inherit; font: inherit; text-align: left; cursor: pointer; }
@@ -2047,7 +2047,7 @@
     }
   </style>
   <script src="/js/main.js?v=2.0.2" defer></script>
-  <script src="/js/quote-page.js?v=1.2.2" defer></script>
+  <script src="/js/quote-page.js?v=1.2.3" defer></script>
 </head>
 <body>
   <% const quoteConstructionUrls = { 'tk-kt-nha-cap-4': '/thi-cong-cong-trinh/kien-truc/nha-cap-4', 'tk-kt-nha-pho': '/thi-cong-cong-trinh/kien-truc/nha-pho', 'tk-kt-biet-thu': '/thi-cong-cong-trinh/kien-truc/biet-thu', 'tk-kt-villa': '/thi-cong-cong-trinh/kien-truc/villa', 'tk-nt-chung-cu': '/thi-cong-cong-trinh/noi-that/chung-cu', 'tk-nt-nha-pho': '/thi-cong-cong-trinh/noi-that/nha-pho', 'tk-nt-biet-thu': '/thi-cong-cong-trinh/noi-that/biet-thu', 'tk-nt-van-phong': '/thi-cong-cong-trinh/noi-that/van-phong' }; const dynamicConstructionUrl = quoteConstructionUrls[selectedCategory?.code] || '/thi-cong-cong-trinh'; %>
@@ -2056,9 +2056,9 @@
   <main id="main-content" class="quote-page">
     <% if (sections.hero?.isVisible !== false) { %>
       <% const quoteHeroSlides = [
-        { desktop: (locals.quoteImages && quoteImages.quote_hero_banner_1) || sections.hero.image, mobile: '/images/quote-hero-mobile-living.png' },
-        { desktop: (locals.quoteImages && quoteImages.quote_hero_banner_2) || '/images/quote-hero-banner-bedroom.png', mobile: '/images/quote-hero-mobile-bedroom.png' },
-        { desktop: (locals.quoteImages && quoteImages.quote_hero_banner_3) || '/images/quote-hero-banner-dining.png', mobile: '/images/quote-hero-mobile-dining.png' }
+        { desktop: (locals.quoteImages && quoteImages.quote_hero_banner_1) || sections.hero.image, mobile: (locals.quoteImages && quoteImages.quote_hero_mobile_1) || '/images/quote-hero-mobile-living.png' },
+        { desktop: (locals.quoteImages && quoteImages.quote_hero_banner_2) || '/images/quote-hero-banner-bedroom.png', mobile: (locals.quoteImages && quoteImages.quote_hero_mobile_2) || '/images/quote-hero-mobile-bedroom.png' },
+        { desktop: (locals.quoteImages && quoteImages.quote_hero_banner_3) || '/images/quote-hero-banner-dining.png', mobile: (locals.quoteImages && quoteImages.quote_hero_mobile_3) || '/images/quote-hero-mobile-dining.png' }
       ]; %>
       <section class="quote-hero quote-hero-carousel subpage-banner-frame" aria-label="Banner báo giá">
         <div class="hero-slider-track quote-hero-slider-track" id="quoteHeroSliderTrack" data-hero-slider data-hero-dots="quoteHeroSliderDots" aria-label="Danh sách banner báo giá">
@@ -2081,7 +2081,11 @@
           <header class="quote-heading quote-heading-center quote-benefits-heading"><p class="quote-kicker"><%= sections.benefits.title %></p><h2><%= sections.benefits.script %></h2><p><%= sections.benefits.description %></p></header>
           <div class="quote-benefit-grid">
             <% sections.benefits.items.filter(item => item.isVisible !== false).forEach((item, index) => { %>
-              <% const benefitIcons = ['/images/icon-1-baogia.png', '/images/icon-2-bg.png', '/images/ic3-bg.png']; %>
+              <% const benefitIcons = [
+                (locals.quoteImages && quoteImages.quote_benefit_icon_1) || '/images/icon-1-baogia.png',
+                (locals.quoteImages && quoteImages.quote_benefit_icon_2) || '/images/icon-2-bg.png',
+                (locals.quoteImages && quoteImages.quote_benefit_icon_3) || '/images/ic3-bg.png'
+              ]; %>
               <article class="quote-benefit-card"><span class="quote-number">0<%= index + 1 %></span><div class="quote-benefit-icon" aria-hidden="true"><img src="<%= benefitIcons[index] %>" alt="" /></div><div class="quote-benefit-copy"><h3><%= item.title %></h3><p><%= item.description %></p></div></article>
             <% }) %>
           </div>
@@ -2220,8 +2224,8 @@
           <% if (highlightProjects.length) { %>
             <div class="quote-featured-project-list">
               <% highlightProjects.slice(0, 5).forEach((project, index) => {
-                   const projectImage = project.thumbnail || '';
-                   const galleryImages = [...new Set([projectImage, ...(project.gallery || [])].filter(Boolean))];
+                   const galleryImages = [...new Set([project.thumbnail, ...(project.gallery || [])].filter(Boolean))];
+                   const projectImage = galleryImages[0] || '';
                    const costLabel = project.cost ? `${Math.round(project.cost / 1000000)} triệu` : 'Liên hệ tư vấn';
                    const overlays = [
                      { title: 'Không gian truyền cảm hứng', sub: 'Mỗi góc nhỏ đều kể một câu chuyện' },
@@ -2230,15 +2234,35 @@
                    ];
                    const overlay = overlays[index % overlays.length];
               %>
-                <article class="quote-featured-project-card">
-                  <button class="quote-featured-project-image" type="button" data-quote-project-gallery data-project-title="<%= project.title %>" data-gallery-images="<%= JSON.stringify(galleryImages) %>" aria-label="Xem thư viện ảnh dự án <%= project.title %>">
-                    <% if (projectImage) { %><img src="<%= projectImage %>" alt="<%= project.title %>" loading="lazy" /><% } else { %><span class="quote-featured-project-image-placeholder">Chưa có ảnh</span><% } %>
-                    <div class="quote-featured-project-overlay">
-                      <b><%= overlay.title %></b>
-                      <span><%= overlay.sub %></span>
+                <article class="quote-featured-project-card quote-featured-project-card--inline-gallery">
+                  <section class="project-showcase-gallery quote-featured-project-gallery" data-quote-inline-gallery data-project-title="<%= project.title %>" data-gallery-images="<%= encodeURIComponent(JSON.stringify(galleryImages)) %>" aria-label="Thư viện ảnh công trình <%= project.title %>">
+                    <div class="project-gallery-stage" data-quote-inline-stage tabindex="0" aria-label="Ảnh công trình <%= project.title %>">
+                      <% if (projectImage) { %>
+                        <img src="<%= projectImage %>" alt="<%= project.title %> - ảnh 1" data-quote-inline-image loading="lazy" draggable="false" />
+                      <% } else { %>
+                        <div class="project-gallery-empty">Công trình chưa có hình ảnh</div>
+                      <% } %>
+                      <div class="project-gallery-stage-shade" aria-hidden="true"></div>
+                      <div class="quote-featured-project-overlay">
+                        <b><%= overlay.title %></b>
+                        <span><%= overlay.sub %></span>
+                      </div>
+                      <div class="project-gallery-count" aria-live="polite"><span data-quote-inline-current><%= galleryImages.length ? '01' : '00' %></span><span>/</span><span data-quote-inline-total><%= String(galleryImages.length).padStart(2, '0') %></span></div>
+                      <button class="project-gallery-control previous" type="button" data-quote-inline-prev aria-label="Ảnh trước" <%= galleryImages.length < 2 ? 'hidden' : '' %>>
+                        <svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="15 18 9 12 15 6"></polyline></svg>
+                      </button>
+                      <button class="project-gallery-control next" type="button" data-quote-inline-next aria-label="Ảnh tiếp theo" <%= galleryImages.length < 2 ? 'hidden' : '' %>>
+                        <svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                      </button>
                     </div>
-                    <span class="quote-featured-project-view" aria-hidden="true">Xem ảnh <i>↗</i></span>
-                  </button>
+                    <div class="project-gallery-thumbnails" data-quote-inline-thumbnails role="list" aria-label="Chọn ảnh công trình">
+                      <% galleryImages.forEach((image, imageIndex) => { %>
+                        <button class="project-gallery-thumbnail <%= imageIndex === 0 ? 'is-active' : '' %>" type="button" data-quote-inline-thumb data-index="<%= imageIndex %>" aria-label="Xem ảnh <%= imageIndex + 1 %>" aria-current="<%= imageIndex === 0 ? 'true' : 'false' %>" role="listitem">
+                          <img src="<%= image %>" alt="<%= project.title %> - thumbnail <%= imageIndex + 1 %>" loading="lazy" />
+                        </button>
+                      <% }) %>
+                    </div>
+                  </section>
                   <div class="quote-featured-project-info">
                     <h3><a href="/cong-trinh/<%= project.slug %>"><%= project.title %></a></h3>
                     <dl>
@@ -2434,9 +2458,12 @@
             <% }) %>
           </div>
           <div class="quote-workshop-gallery">
-            <% (sections.capability.gallery || []).forEach(item => { %>
+            <% (sections.capability.gallery || []).forEach((item, index) => {
+                 const gallerySlotKey = `quote_capability_gallery_${index + 1}`;
+                 const galleryImage = (locals.quoteImages && quoteImages[gallerySlotKey]) || item.image;
+            %>
               <figure>
-                <img src="<%= item.image %>" alt="<%= item.alt %>" loading="lazy" />
+                <img src="<%= galleryImage %>" alt="<%= item.alt %>" loading="lazy" />
                 <figcaption><%= item.title %><% if (item.description) { %><span><%= item.description %></span><% } %></figcaption>
               </figure>
             <% }) %>
@@ -2446,29 +2473,29 @@
     <% } %>
 
     <% const craftsmanshipGroups = [
-      { number: '1', title: 'Bề mặt & góc cạnh', image: '/images/craftsmanship-surface-details-grid.png', items: [['Dán cạnh gọn đẹp', 'Mép dán sạch, liền mạch.'], ['Góc nối khít', 'Chăm chút từng điểm tiếp giáp.'], ['Bo cạnh mềm mại', 'Mượt tay ở những điểm chạm.'], ['Bề mặt chỉn chu', 'Rà soát vân gỗ và lớp hoàn thiện.']] },
-      { number: '2', title: 'Phụ kiện & chuyển động', image: '/images/craftsmanship-hardware-details-grid.png', items: [['Căn chỉnh bản lề', 'Cánh cân, đóng mở nhẹ nhàng.'], ['Ray trượt êm thuận', 'Kéo mở mượt, vận hành ổn định.'], ['Khe cánh đều đẹp', 'Đồng nhất tại mọi điểm.'], ['Tay nắm ngay ngắn', 'Đúng độ cao và vị trí lắp đặt.']] },
-      { number: '3', title: 'Lắp đặt & hoàn thiện', image: '/images/craftsmanship-finishing-details-grid.png', items: [['Căn chỉnh thẳng bằng', 'Kiểm tra độ phẳng và chắc chắn.'], ['Tiếp giáp gọn gàng', 'Chỉnh chu nơi tủ gặp tường.'], ['Đi dây ngăn nắp', 'Gọn đường dây, thuận tiện sử dụng.'], ['Vệ sinh hoàn thiện', 'Sạch từng góc trước bàn giao.']] },
-      { number: '4', title: 'Kiểm tra & bàn giao', image: '/images/craftsmanship-final-inspection-details-grid.png', items: [['Kiểm tra khe tủ', 'Độ hở đều, đóng mở chuẩn xác.'], ['Rà soát ngăn kéo', 'Chuyển động mượt mà, chắc chắn.'], ['Chỉnh điểm tiếp giáp', 'Tủ ôm khít, liền mạch với tường.'], ['Hoàn thiện phụ kiện', 'Tháo bảo vệ và lau sạch trước bàn giao.']] }
+      { number: '1', title: 'Bề mặt & góc cạnh', imageKey: 'quote_craftsmanship_1', image: '/images/craftsmanship-surface-details-grid.png', items: [['Dán cạnh gọn đẹp', 'Mép dán sạch, liền mạch.'], ['Góc nối khít', 'Chăm chút từng điểm tiếp giáp.'], ['Bo cạnh mềm mại', 'Mượt tay ở những điểm chạm.'], ['Bề mặt chỉn chu', 'Rà soát vân gỗ và lớp hoàn thiện.']] },
+      { number: '2', title: 'Phụ kiện & chuyển động', imageKey: 'quote_craftsmanship_2', image: '/images/craftsmanship-hardware-details-grid.png', items: [['Căn chỉnh bản lề', 'Cánh cân, đóng mở nhẹ nhàng.'], ['Ray trượt êm thuận', 'Kéo mở mượt, vận hành ổn định.'], ['Khe cánh đều đẹp', 'Đồng nhất tại mọi điểm.'], ['Tay nắm ngay ngắn', 'Đúng độ cao và vị trí lắp đặt.']] },
+      { number: '3', title: 'Lắp đặt & hoàn thiện', imageKey: 'quote_craftsmanship_3', image: '/images/craftsmanship-finishing-details-grid.png', items: [['Căn chỉnh thẳng bằng', 'Kiểm tra độ phẳng và chắc chắn.'], ['Tiếp giáp gọn gàng', 'Chỉnh chu nơi tủ gặp tường.'], ['Đi dây ngăn nắp', 'Gọn đường dây, thuận tiện sử dụng.'], ['Vệ sinh hoàn thiện', 'Sạch từng góc trước bàn giao.']] },
+      { number: '4', title: 'Kiểm tra & bàn giao', imageKey: 'quote_craftsmanship_4', image: '/images/craftsmanship-final-inspection-details-grid.png', items: [['Kiểm tra khe tủ', 'Độ hở đều, đóng mở chuẩn xác.'], ['Rà soát ngăn kéo', 'Chuyển động mượt mà, chắc chắn.'], ['Chỉnh điểm tiếp giáp', 'Tủ ôm khít, liền mạch với tường.'], ['Hoàn thiện phụ kiện', 'Tháo bảo vệ và lau sạch trước bàn giao.']] }
     ]; %>
-    <section class="quote-craftsmanship"><div class="container quote-craftsmanship-inner"><header class="quote-craftsmanship-heading"><h2>Tinh tế <em>Từng góc nhỏ</em></h2><p>Từ bề mặt, góc cạnh đến phụ kiện và lắp đặt.<br />Mỗi chi tiết đều được chăm chút để tổng thể đẹp và dùng bền lâu.</p></header><% craftsmanshipGroups.forEach(group => { %><section class="quote-craft-group"><header class="quote-craft-group-heading"><b><%= group.number %></b><h3><%= group.title %></h3></header><div class="quote-craft-grid"><% group.items.forEach((item, index) => { %><article class="quote-craft-card"><div class="quote-craft-photo"><img src="<%= group.image %>" alt="<%= item[0] %>" loading="lazy" /></div><h4><%= item[0] %></h4><p><%= item[1] %></p></article><% }) %></div></section><% }) %></div></section>
+    <section class="quote-craftsmanship"><div class="container quote-craftsmanship-inner"><header class="quote-craftsmanship-heading"><h2>Tinh tế <em>Từng góc nhỏ</em></h2><p>Từ bề mặt, góc cạnh đến phụ kiện và lắp đặt.<br />Mỗi chi tiết đều được chăm chút để tổng thể đẹp và dùng bền lâu.</p></header><% craftsmanshipGroups.forEach(group => { const groupImage = (locals.quoteImages && quoteImages[group.imageKey]) || group.image; %><section class="quote-craft-group"><header class="quote-craft-group-heading"><b><%= group.number %></b><h3><%= group.title %></h3></header><div class="quote-craft-grid"><% group.items.forEach((item, index) => { %><article class="quote-craft-card"><div class="quote-craft-photo"><img src="<%= groupImage %>" alt="<%= item[0] %>" loading="lazy" /></div><h4><%= item[0] %></h4><p><%= item[1] %></p></article><% }) %></div></section><% }) %></div></section>
 
     <% const factoryActivities = [
-      ['activity-01.webp', 'Lắp đặt chuẩn xác'],
-      ['activity-02.webp', 'Hoàn thiện tinh xảo'],
-      ['activity-03.webp', 'Kiểm tra vật liệu'],
-      ['activity-04.webp', 'Gia công CNC'],
-      ['activity-05.webp', 'Dán cạnh chuẩn'],
-      ['activity-06.webp', 'Lắp ráp đồng bộ'],
-      ['activity-07.webp', 'Cân chỉnh bản lề'],
-      ['activity-08.webp', 'Kiểm tra ray trượt'],
-      ['activity-09.webp', 'Hoàn thiện bề mặt'],
-      ['activity-10.webp', 'Đóng gói cẩn thận'],
-      ['activity-11.webp', 'Vận chuyển an toàn'],
-      ['activity-12.webp', 'Lắp đặt phòng khách'],
-      ['activity-13.webp', 'Hoàn thiện phòng ngủ'],
-      ['activity-14.webp', 'Kiểm tra bàn giao'],
-      ['activity-15.webp', 'Vận hành đồng bộ']
+      ['activity-01.webp', 'Lắp đặt chuẩn xác', 'quote_factory_activity_01'],
+      ['activity-02.webp', 'Hoàn thiện tinh xảo', 'quote_factory_activity_02'],
+      ['activity-03.webp', 'Kiểm tra vật liệu', 'quote_factory_activity_03'],
+      ['activity-04.webp', 'Gia công CNC', 'quote_factory_activity_04'],
+      ['activity-05.webp', 'Dán cạnh chuẩn', 'quote_factory_activity_05'],
+      ['activity-06.webp', 'Lắp ráp đồng bộ', 'quote_factory_activity_06'],
+      ['activity-07.webp', 'Cân chỉnh bản lề', 'quote_factory_activity_07'],
+      ['activity-08.webp', 'Kiểm tra ray trượt', 'quote_factory_activity_08'],
+      ['activity-09.webp', 'Hoàn thiện bề mặt', 'quote_factory_activity_09'],
+      ['activity-10.webp', 'Đóng gói cẩn thận', 'quote_factory_activity_10'],
+      ['activity-11.webp', 'Vận chuyển an toàn', 'quote_factory_activity_11'],
+      ['activity-12.webp', 'Lắp đặt phòng khách', 'quote_factory_activity_12'],
+      ['activity-13.webp', 'Hoàn thiện phòng ngủ', 'quote_factory_activity_13'],
+      ['activity-14.webp', 'Kiểm tra bàn giao', 'quote_factory_activity_14'],
+      ['activity-15.webp', 'Vận hành đồng bộ', 'quote_factory_activity_15']
     ]; %>
     <section class="quote-factory-activities" aria-labelledby="quote-factory-activities-title">
       <div class="container">
@@ -2477,10 +2504,10 @@
         </header>
         <div class="quote-factory-activities-carousel">
           <div class="quote-factory-activity-track" data-carousel-autoplay="2000" data-carousel-autoplay-mobile="2000" data-carousel-step="card" aria-label="Hình ảnh hoạt động sản xuất">
-            <% factoryActivities.forEach(([image, title], index) => { %>
+            <% factoryActivities.forEach(([image, title, imageKey], index) => { %>
               <article class="quote-factory-activity-card">
                 <figure>
-                  <img src="/images/quote-factory-activities/<%= image %>" alt="<%= title %> tại xưởng và công trình Shome Luxury" loading="lazy" decoding="async" width="1672" height="941" draggable="false" />
+                  <img src="<%= (locals.quoteImages && quoteImages[imageKey]) || `/images/quote-factory-activities/${image}` %>" alt="<%= title %> tại xưởng và công trình Shome Luxury" loading="lazy" decoding="async" width="1672" height="941" draggable="false" />
                   <figcaption><span><%= index + 1 %></span><b><%= title %></b></figcaption>
                 </figure>
               </article>

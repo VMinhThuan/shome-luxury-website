@@ -106,6 +106,7 @@ jobs:
 
           if [[ -n "${VPS_PORT:-}" && ! "$VPS_PORT" =~ ^[0-9]+$ ]]; then
             echo "VPS_PORT must be numeric." >&2
+
             exit 1
           fi
 

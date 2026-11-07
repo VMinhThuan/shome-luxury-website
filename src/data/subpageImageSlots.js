@@ -28,20 +28,48 @@ const quoteImageDefinitions = [
   ['hero', 'quote_hero_banner_1', 'Hero Banner 1'],
   ['hero', 'quote_hero_banner_2', 'Hero Banner 2'],
   ['hero', 'quote_hero_banner_3', 'Hero Banner 3'],
+  ['hero', 'quote_hero_mobile_1', 'Hero mobile 1'],
+  ['hero', 'quote_hero_mobile_2', 'Hero mobile 2'],
+  ['hero', 'quote_hero_mobile_3', 'Hero mobile 3'],
+  ['benefits', 'quote_benefit_icon_1', 'Icon lợi ích 1'],
+  ['benefits', 'quote_benefit_icon_2', 'Icon lợi ích 2'],
+  ['benefits', 'quote_benefit_icon_3', 'Icon lợi ích 3'],
   ['pricing', 'quote_pricing_image_1', 'Ảnh báo giá 1'],
   ['pricing', 'quote_pricing_image_2', 'Ảnh báo giá 2'],
-  ['pricing', 'quote_pricing_image_3', 'Ảnh báo giá 3']
+  ['pricing', 'quote_pricing_image_3', 'Ảnh báo giá 3'],
+  ['brand_video', 'quote_brand_video_thumb', 'Ảnh bìa video thương hiệu'],
+  ['cta', 'quote_construction_cta_image', 'Ảnh section thi công nội thất'],
+  ['capability', 'quote_capability_image', 'Ảnh chính năng lực xưởng'],
+  ['capability', 'quote_capability_gallery_1', 'Ảnh năng lực xưởng 1'],
+  ['capability', 'quote_capability_gallery_2', 'Ảnh năng lực xưởng 2'],
+  ['capability', 'quote_capability_gallery_3', 'Ảnh năng lực xưởng 3'],
+  ['capability', 'quote_capability_gallery_4', 'Ảnh năng lực xưởng 4'],
+  ['estimate', 'quote_estimate_image', 'Ảnh form nhận dự toán'],
+  ['craftsmanship', 'quote_craftsmanship_1', 'Tinh tế từng góc nhỏ 1'],
+  ['craftsmanship', 'quote_craftsmanship_2', 'Tinh tế từng góc nhỏ 2'],
+  ['craftsmanship', 'quote_craftsmanship_3', 'Tinh tế từng góc nhỏ 3'],
+  ['craftsmanship', 'quote_craftsmanship_4', 'Tinh tế từng góc nhỏ 4'],
+  ...Array.from({ length: 15 }, (_, index) => [
+    'factory_activities',
+    `quote_factory_activity_${String(index + 1).padStart(2, '0')}`,
+    `Hình ảnh hoạt động ${String(index + 1).padStart(2, '0')}`
+  ]),
+  ...Array.from({ length: 11 }, (_, index) => [
+    'customer_stories',
+    `quote_feedback_${String(index + 1).padStart(2, '0')}`,
+    `Khách hàng chia sẻ ${String(index + 1).padStart(2, '0')}`
+  ])
 ];
 
 const quoteDefinitions = [
-  ['quote:tk-kt-nha-cap-4', 'Báo giá — Kiến trúc nhà cấp 4 trọn gói', '/bao-gia?category=tk-kt-nha-cap-4'],
-  ['quote:tk-kt-nha-pho', 'Báo giá — Kiến trúc nhà phố trọn gói', '/bao-gia?category=tk-kt-nha-pho'],
-  ['quote:tk-kt-biet-thu', 'Báo giá — Kiến trúc biệt thự trọn gói', '/bao-gia?category=tk-kt-biet-thu'],
-  ['quote:tk-kt-villa', 'Báo giá — Kiến trúc villa trọn gói', '/bao-gia?category=tk-kt-villa'],
-  ['quote:tk-nt-chung-cu', 'Báo giá — Nội thất chung cư trọn gói', '/bao-gia?category=tk-nt-chung-cu'],
-  ['quote:tk-nt-nha-pho', 'Báo giá — Nội thất nhà phố trọn gói', '/bao-gia?category=tk-nt-nha-pho'],
-  ['quote:tk-nt-biet-thu', 'Báo giá — Nội thất biệt thự trọn gói', '/bao-gia?category=tk-nt-biet-thu'],
-  ['quote:tk-nt-van-phong', 'Báo giá — Nội thất văn phòng trọn gói', '/bao-gia?category=tk-nt-van-phong']
+  ['quote:tk-kt-nha-cap-4', 'Báo giá — Kiến trúc nhà cấp 4 trọn gói', '/bao-gia/thiet-ke-thi-cong-kien-truc/thiet-ke-kien-truc-nha-cap-4'],
+  ['quote:tk-kt-nha-pho', 'Báo giá — Kiến trúc nhà phố trọn gói', '/bao-gia/thiet-ke-thi-cong-kien-truc/thiet-ke-kien-truc-nha-pho'],
+  ['quote:tk-kt-biet-thu', 'Báo giá — Kiến trúc biệt thự trọn gói', '/bao-gia/thiet-ke-thi-cong-kien-truc/thiet-ke-kien-truc-biet-thu'],
+  ['quote:tk-kt-villa', 'Báo giá — Kiến trúc villa trọn gói', '/bao-gia/thiet-ke-thi-cong-kien-truc/thiet-ke-kien-truc-villa'],
+  ['quote:tk-nt-chung-cu', 'Báo giá — Nội thất chung cư trọn gói', '/bao-gia/thiet-ke-thi-cong-noi-that/thiet-ke-noi-that-chung-cu'],
+  ['quote:tk-nt-nha-pho', 'Báo giá — Nội thất nhà phố trọn gói', '/bao-gia/thiet-ke-thi-cong-noi-that/thiet-ke-noi-that-nha-pho'],
+  ['quote:tk-nt-biet-thu', 'Báo giá — Nội thất biệt thự trọn gói', '/bao-gia/thiet-ke-thi-cong-noi-that/thiet-ke-noi-that-biet-thu'],
+  ['quote:tk-nt-van-phong', 'Báo giá — Nội thất văn phòng trọn gói', '/bao-gia/thiet-ke-thi-cong-noi-that/thiet-ke-noi-that-van-phong']
 ];
 
 const baseSubpageSlots = definitions.map(([page_key, page_label, page_path]) => ({

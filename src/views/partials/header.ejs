@@ -4,6 +4,24 @@
     ? adminHomeHref
     : (adminImageModeEnabled ? '/admin/images' : '/');
   const adminImageTarget = (item) => {
+    const quoteSubpageTargets = {
+      'tk-kt-nha-cap-4': 'subpage:quote:tk-kt-nha-cap-4',
+      'tk-kt-nha-pho': 'subpage:quote:tk-kt-nha-pho',
+      'tk-kt-biet-thu': 'subpage:quote:tk-kt-biet-thu',
+      'tk-kt-villa': 'subpage:quote:tk-kt-villa',
+      'tk-nt-chung-cu': 'subpage:quote:tk-nt-chung-cu',
+      'tk-nt-nha-pho': 'subpage:quote:tk-nt-nha-pho',
+      'tk-nt-biet-thu': 'subpage:quote:tk-nt-biet-thu',
+      'tk-nt-van-phong': 'subpage:quote:tk-nt-van-phong',
+      'thiet-ke-kien-truc-nha-cap-4': 'subpage:quote:tk-kt-nha-cap-4',
+      'thiet-ke-kien-truc-nha-pho': 'subpage:quote:tk-kt-nha-pho',
+      'thiet-ke-kien-truc-biet-thu': 'subpage:quote:tk-kt-biet-thu',
+      'thiet-ke-kien-truc-villa': 'subpage:quote:tk-kt-villa',
+      'thiet-ke-noi-that-chung-cu': 'subpage:quote:tk-nt-chung-cu',
+      'thiet-ke-noi-that-nha-pho': 'subpage:quote:tk-nt-nha-pho',
+      'thiet-ke-noi-that-biet-thu': 'subpage:quote:tk-nt-biet-thu',
+      'thiet-ke-noi-that-van-phong': 'subpage:quote:tk-nt-van-phong'
+    };
     const pathTargets = {
       '/thiet-ke-cong-trinh': 'subpage:thiet-ke-cong-trinh',
       '/thiet-ke-kien-truc': 'subpage:thiet-ke-kien-truc',
@@ -16,7 +34,15 @@
       '/thi-cong-cong-trinh/noi-that/chung-cu': 'subpage:tc-nt-chung-cu',
       '/thi-cong-cong-trinh/noi-that/nha-pho': 'subpage:tc-nt-nha-pho',
       '/thi-cong-cong-trinh/noi-that/biet-thu': 'subpage:tc-nt-biet-thu',
-      '/thi-cong-cong-trinh/noi-that/van-phong': 'subpage:tc-nt-van-phong'
+      '/thi-cong-cong-trinh/noi-that/van-phong': 'subpage:tc-nt-van-phong',
+      '/bao-gia/thiet-ke-thi-cong-kien-truc/thiet-ke-kien-truc-nha-cap-4': 'subpage:quote:tk-kt-nha-cap-4',
+      '/bao-gia/thiet-ke-thi-cong-kien-truc/thiet-ke-kien-truc-nha-pho': 'subpage:quote:tk-kt-nha-pho',
+      '/bao-gia/thiet-ke-thi-cong-kien-truc/thiet-ke-kien-truc-biet-thu': 'subpage:quote:tk-kt-biet-thu',
+      '/bao-gia/thiet-ke-thi-cong-kien-truc/thiet-ke-kien-truc-villa': 'subpage:quote:tk-kt-villa',
+      '/bao-gia/thiet-ke-thi-cong-noi-that/thiet-ke-noi-that-chung-cu': 'subpage:quote:tk-nt-chung-cu',
+      '/bao-gia/thiet-ke-thi-cong-noi-that/thiet-ke-noi-that-nha-pho': 'subpage:quote:tk-nt-nha-pho',
+      '/bao-gia/thiet-ke-thi-cong-noi-that/thiet-ke-noi-that-biet-thu': 'subpage:quote:tk-nt-biet-thu',
+      '/bao-gia/thiet-ke-thi-cong-noi-that/thiet-ke-noi-that-van-phong': 'subpage:quote:tk-nt-van-phong'
     };
     if (item.id === 'home') return 'home';
     if (item.id === 'xuong-san-xuat') return 'factory';
@@ -27,7 +53,7 @@
     if (item.id === 'thi-cong-kien-truc' || item.id === 'thi-cong-noi-that') return 'subpage:thi-cong-cong-trinh';
     if (item.categoryCode) return `subpage:${item.categoryCode}`;
     const category = item.href?.match(/[?&]category=([^&]+)/)?.[1];
-    if (category) return `subpage:quote:${category}`;
+    if (category) return quoteSubpageTargets[category] || `subpage:quote:${category}`;
     return pathTargets[item.href] || (item.id?.startsWith('bao-gia-') ? 'quote' : null);
   };
 %>

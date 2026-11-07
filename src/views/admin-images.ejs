@@ -2,10 +2,10 @@
 <html lang="vi">
 <head>
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title><%= title %></title><link rel="stylesheet" href="/css/style.css?v=6.8.44" /><link rel="stylesheet" href="/css/admin-image-header.css?v=1.0.0" /><link rel="stylesheet" href="/css/admin-images.css?v=1.0.7" /><link rel="stylesheet" href="/css/admin-images-pair.css?v=1.0.6" /><link rel="stylesheet" href="/css/admin-content.css?v=1.0.1" />
+  <title><%= title %></title><link rel="stylesheet" href="/css/style.css?v=6.8.44" /><link rel="stylesheet" href="/css/admin-image-header.css?v=1.0.0" /><link rel="stylesheet" href="/css/admin-images.css?v=1.0.9" /><link rel="stylesheet" href="/css/admin-images-pair.css?v=1.0.6" /><link rel="stylesheet" href="/css/admin-content.css?v=1.0.1" />
   <%- include('partials/site-favicon') %>
   <script src="/js/main.js?v=6.8.6" defer></script>
-  <script src="/js/admin-images.js?v=1.0.9" defer></script><script src="/js/admin-content.js?v=1.0.1" defer></script>
+  <script src="/js/admin-images.js?v=1.1.1" defer></script><script src="/js/admin-content.js?v=1.0.1" defer></script>
 </head>
 <body class="home-images-admin">
 <% const initialContentModule = typeof initialContent !== 'undefined' ? initialContent : null; %>
@@ -34,6 +34,20 @@
       <a href="/admin/images?content=careers">Tuyển dụng</a>
       <a href="/admin/images?content=articles">Tin tức</a>
     </nav>
+
+    <section class="admin-quote-image-picker" data-subpage-picker hidden aria-label="Chọn menu con báo giá">
+      <div>
+        <p class="eyebrow">ẢNH THEO MENU CON</p>
+        <h2>Quản lý ảnh trang Báo giá</h2>
+        <p>Chọn đúng menu con để thay riêng 3 banner, 3 ảnh báo giá và ảnh section thi công của trang đó.</p>
+      </div>
+      <label>
+        <span>Menu con Báo giá</span>
+        <select data-subpage-select aria-label="Chọn menu con Báo giá">
+          <option value="">Chọn menu con...</option>
+        </select>
+      </label>
+    </section>
 
     <section class="admin-image-submenu-context" data-admin-submenu-context hidden aria-live="polite">
       <div class="admin-image-submenu-breadcrumb"><a href="/admin/images">Quản lý ảnh</a><span>/</span><strong data-admin-submenu-breadcrumb></strong></div>

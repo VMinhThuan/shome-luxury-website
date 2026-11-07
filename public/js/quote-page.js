@@ -147,4 +147,65 @@ document.addEventListener('DOMContentLoaded', () => {
       if (Math.abs(diff) > 40) show(activeIndex + (diff < 0 ? 1 : -1));
     }, { passive: true });
   })();
+
+  (function initInlineProjectGalleries() {
+    const galleries = document.querySelectorAll('[data-quote-inline-gallery]');
+    if (!galleries.length) return;
+
+    galleries.forEach(gallery => {
+      let images = [];
+      try {
+        images = JSON.parse(decodeURIComponent(gallery.dataset.galleryImages || '[]')).filter(Boolean);
+      } catch (_) {
+        images = [];
+      }
+
+      const stage = gallery.querySelector('[data-quote-inline-stage]');
+      const image = gallery.querySelector('[data-quote-inline-image]');
+      const current = gallery.querySelector('[data-quote-inline-current]');
+      const total = gallery.querySelector('[data-quote-inline-total]');
+      const thumbnails = gallery.querySelector('[data-quote-inline-thumbnails]');
+      if (!stage || !image || !images.length) return;
+
+      let activeIndex = 0;
+      let pointerStartX = null;
+
+      const show = (index, animate = true) => {
+        activeIndex = (index + images.length) % images.length;
+        image.src = images[activeIndex];
+        image.alt = `${gallery.dataset.projectTitle || 'Công trình Shome Luxury'} - ảnh ${activeIndex + 1}`;
+        if (current) current.textContent = String(activeIndex + 1).padStart(2, '0');
+        if (total) total.textContent = String(images.length).padStart(2, '0');
+        thumbnails?.querySelectorAll('[data-quote-inline-thumb]').forEach((thumbnail, thumbnailIndex) => {
+          const isActive = thumbnailIndex === activeIndex;
+          thumbnail.classList.toggle('is-active', isActive);
+          thumbnail.setAttribute('aria-current', isActive ? 'true' : 'false');
+        });
+        if (animate) {
+          stage.classList.remove('is-inline-changing');
+          void image.offsetWidth;
+          stage.classList.add('is-inline-changing');
+        }
+        thumbnails?.querySelector('[data-quote-inline-thumb].is-active')?.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+      };
+
+      gallery.querySelector('[data-quote-inline-prev]')?.addEventListener('click', () => show(activeIndex - 1));
+      gallery.querySelector('[data-quote-inline-next]')?.addEventListener('click', () => show(activeIndex + 1));
+      thumbnails?.querySelectorAll('[data-quote-inline-thumb]').forEach(thumbnail => {
+        thumbnail.addEventListener('click', () => show(Number(thumbnail.dataset.index) || 0));
+      });
+      stage.addEventListener('keydown', event => {
+        if (event.key === 'ArrowLeft') { event.preventDefault(); show(activeIndex - 1); }
+        if (event.key === 'ArrowRight') { event.preventDefault(); show(activeIndex + 1); }
+      });
+      stage.addEventListener('pointerdown', event => { pointerStartX = event.clientX; });
+      stage.addEventListener('pointerup', event => {
+        if (pointerStartX === null) return;
+        const distance = event.clientX - pointerStartX;
+        pointerStartX = null;
+        if (Math.abs(distance) > 40) show(activeIndex + (distance < 0 ? 1 : -1));
+      });
+      show(0, false);
+    });
+  })();
 });

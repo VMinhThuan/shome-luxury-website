@@ -176,7 +176,9 @@ class QuotePageController {
       // A category can opt into its own image slot without changing the
       // existing QuotePage content model. When no subpage override exists,
       // imageService falls back to the current shared quote slot.
-      const quoteImages = await getPageImages('quote', rawCategory);
+      // Image overrides are keyed by the stable category code. The public URL
+      // may use the human-readable hierarchical slug instead.
+      const quoteImages = await getPageImages('quote', selectedCategory?.code || rawCategory);
       return res.render('bao-gia', {
         title: `${selectedCategory?.name ? `Báo giá ${selectedCategory.name.toLowerCase()}` : 'Báo giá thiết kế & thi công'} | SHOME LUXURY`,
         navigation,
