@@ -7,6 +7,11 @@ const completedVideosData = require('../data/completedVideosData');
 const { getRequestToken, verifyAdminToken } = require('../middleware/auth');
 const { getPageImages } = require('../services/imageService');
 
+// The parent “Báo giá” navigation item is a valid public entry point too.
+// Keep a stable default category for direct visits/bookmarks that do not
+// include a category query or a category slug in the URL.
+const DEFAULT_QUOTE_CATEGORY = 'tk-nt-chung-cu';
+
 class QuotePageController {
   async getContent() {
     let page = await QuotePage.findOne({ key: 'main' }).lean();
@@ -155,7 +160,7 @@ class QuotePageController {
     try {
       const quotePage = await this.getContent();
       if (!quotePage.isVisible) return res.status(404).render('404', { title: 'Không tìm thấy trang | SHOME LUXURY', navigation });
-      const rawCategory = (req.query.category || '').trim();
+      const rawCategory = (req.query.category || DEFAULT_QUOTE_CATEGORY).trim();
       const selectedCategory = rawCategory ? await categoryService.getCategoryByIdOrSlug(rawCategory) : null;
       if (!selectedCategory) {
         return res.redirect('/');

@@ -74,7 +74,7 @@ module.exports = [
   {
     id: "bao-gia",
     label: "Báo giá",
-    href: "javascript:void(0)",
+    href: "/bao-gia?category=tk-nt-chung-cu",
     children: [
       {
         id: "bao-gia-thiet-ke-kien-truc",
