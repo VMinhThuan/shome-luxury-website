@@ -16,7 +16,6 @@
   const eyebrow = $('[data-eyebrow]');
   const status = $('[data-status]');
   const liveLink = $('[data-live-link]');
-  const searchInput = $('[data-search]');
   const subpagePicker = $('[data-subpage-picker]');
   const subpageSelect = $('[data-subpage-select]');
   const contentManager = () => window.shomeContentManagers?.['admin-image-content'];
@@ -44,7 +43,6 @@
   let pagesList = [];
   let subpageList = [];
   let activePageKey = 'all';
-  let searchKeyword = '';
 
   const setStatus = (message, bad = false) => {
     if (!status) return;
@@ -993,18 +991,9 @@
       ? allSlots
       : allSlots.filter(s => s.page_key === (activeSubpageKey || activePageKey));
 
-    if (searchKeyword) {
-      const q = searchKeyword.toLowerCase();
-      filtered = filtered.filter(s =>
-        (s.label && s.label.toLowerCase().includes(q)) ||
-        (s.page_label && s.page_label.toLowerCase().includes(q)) ||
-        (s.image_key && s.image_key.toLowerCase().includes(q))
-      );
-    }
-
     if (filtered.length === 0) {
       slotsHost.classList.remove('is-single-slot');
-      const emptyMsg = create('div', 'empty-slots-msg', `Không tìm thấy vị trí ảnh nào phù hợp với từ khóa "${searchKeyword}".`);
+      const emptyMsg = create('div', 'empty-slots-msg', 'Chưa có vị trí ảnh nào.');
       slotsHost.replaceChildren(emptyMsg);
       return;
     }
@@ -1078,13 +1067,6 @@
     const requestedContent = urlParams.get('content');
     if (['careers', 'articles'].includes(requestedContent)) {
       window.setTimeout(() => selectAdminContentModule(requestedContent), 0);
-    }
-
-    if (searchInput) {
-      searchInput.oninput = (e) => {
-        searchKeyword = e.target.value.trim();
-        renderSlots();
-      };
     }
 
     if (subpageSelect) {

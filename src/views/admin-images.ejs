@@ -2,7 +2,7 @@
 <html lang="vi">
 <head>
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title><%= title %></title><link rel="stylesheet" href="/css/style.css?v=6.8.44" /><link rel="stylesheet" href="/css/admin-image-header.css?v=1.0.0" /><link rel="stylesheet" href="/css/admin-images.css?v=1.0.9" /><link rel="stylesheet" href="/css/admin-images-pair.css?v=1.0.6" /><link rel="stylesheet" href="/css/admin-content.css?v=1.0.1" />
+  <title><%= title %></title><link rel="stylesheet" href="/css/style.css?v=6.8.44" /><link rel="stylesheet" href="/css/admin-image-header.css?v=1.0.0" /><link rel="stylesheet" href="/css/admin-images.css?v=1.1.0" /><link rel="stylesheet" href="/css/admin-images-pair.css?v=1.0.6" /><link rel="stylesheet" href="/css/admin-content.css?v=1.0.1" />
   <%- include('partials/site-favicon') %>
   <script src="/js/main.js?v=6.8.6" defer></script>
   <script src="/js/admin-images.js?v=1.1.2" defer></script><script src="/js/admin-content.js?v=1.0.1" defer></script>
@@ -22,19 +22,8 @@
       </div>
       <div class="image-admin-actions">
         <a class="view-live-page-btn" data-live-link href="/" target="_blank" rel="noopener">Xem trang ngoài ↗</a>
-        <label class="image-search-wrap">
-          <span>Tìm nhanh</span>
-          <input type="search" class="image-search-input" data-search placeholder="Tên vị trí ảnh..." aria-label="Tìm kiếm vị trí ảnh" />
-        </label>
       </div>
     </div>
-
-    <nav class="image-admin-content-links" aria-label="CRUD nội dung">
-      <span>Quản lý thêm:</span>
-      <a href="/admin/videos">Video YouTube</a>
-      <a href="/admin/images?content=careers">Tuyển dụng</a>
-      <a href="/admin/images?content=articles">Tin tức</a>
-    </nav>
 
     <section class="admin-quote-image-picker" data-subpage-picker hidden aria-label="Chọn menu con báo giá">
       <div>

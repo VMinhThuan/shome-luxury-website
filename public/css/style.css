@@ -19246,3 +19246,27 @@ main.project-detail-page .project-detail-summary {
     max-width: clamp(10px, 4vw, 26px);
   }
 }
+
+/* Keep the mobile supporting copy at the same reference scale and alignment. */
+@media (max-width: 767px) {
+  body.home-page main .hero-script-subtitle,
+  body.home-page main .about-showroom-desc {
+    font-size: 13.76px !important;
+    line-height: 1.4 !important;
+    margin-right: auto !important;
+    margin-left: auto !important;
+    text-align: center !important;
+  }
+
+  body.home-page main .hero-script-subtitle {
+    width: 100% !important;
+    max-width: 100% !important;
+    margin-top: .72rem !important;
+    justify-content: center;
+    white-space: normal !important;
+  }
+
+  body.home-page main .about-showroom-desc {
+    max-width: 100% !important;
+  }
+}
