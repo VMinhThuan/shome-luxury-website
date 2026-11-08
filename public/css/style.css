@@ -1823,6 +1823,11 @@ ol {
   display: block;
 }
 
+.hero-title-mobile,
+.hero-subtitle-mobile {
+  display: none;
+}
+
 @media (min-width: 768px) {
   .hero-v2-title {
     font-size: clamp(2.8rem, 4.6vw, 4.2rem);
@@ -1847,6 +1852,16 @@ ol {
 }
 
 @media (max-width: 767px) {
+  .home-page .hero-title-desktop,
+  .home-page .hero-subtitle-desktop {
+    display: none !important;
+  }
+
+  .home-page .hero-title-mobile,
+  .home-page .hero-subtitle-mobile {
+    display: inline !important;
+  }
+
   .hero-v2-container {
     width: 100%;
     padding: 0 0.85rem 0.65rem !important;
