@@ -1479,15 +1479,7 @@ ol {
 .hero-v2-fade-overlay {
   position: absolute;
   inset: 0;
-  background: linear-gradient(90deg,
-      rgba(15, 12, 10, 0.78) 0%,
-      rgba(15, 12, 10, 0.58) 38%,
-      rgba(15, 12, 10, 0.22) 64%,
-      rgba(15, 12, 10, 0.05) 85%,
-      transparent 100%),
-    linear-gradient(0deg,
-      rgba(15, 12, 10, 0.45) 0%,
-      transparent 38%);
+  background: rgba(15, 12, 10, 0.48);
 }
 
 @media (max-width: 767px) {
@@ -1496,10 +1488,7 @@ ol {
   }
 
   .hero-v2-fade-overlay {
-    background: linear-gradient(180deg,
-        rgba(15, 12, 10, 0.2) 0%,
-        transparent 45%,
-        rgba(15, 12, 10, 0.3) 100%) !important;
+    background: rgba(15, 12, 10, 0.48) !important;
   }
 }
 

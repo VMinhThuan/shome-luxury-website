@@ -275,9 +275,6 @@
 
   function card(slot) {
     const article = create('article', 'image-slot');
-    const preserveOriginalFile = Boolean(slot.preserve_original_file);
-    if (preserveOriginalFile) article.dataset.preserveOriginalFile = 'true';
-
     // Page badge
     const badge = create('span', 'slot-page-badge', slot.page_label || slot.page_key);
     badge.setAttribute('data-page', slot.page_key);
@@ -330,520 +327,26 @@
     const fileInfoNotice = create('div', 'selected-file-info');
     fileInfoNotice.hidden = true;
 
-    const cropper = create('div', 'cropper');
-    cropper.hidden = true;
-    const preview = create('div', 'crop-preview');
-
-    let isCustomCrop = false;
-    const modeBar = create('div', 'crop-mode-bar');
-    const modeBadge = create('span', 'crop-mode-badge', 'Mặc định: giữ nguyên ảnh gốc');
-    const toggleCropBtn = create('button', 'btn-toggle-crop', '✂ Cắt & căn chỉnh');
-    toggleCropBtn.type = 'button';
-    modeBar.append(modeBadge, toggleCropBtn);
-    if (preserveOriginalFile) {
-      modeBadge.textContent = 'Ảnh gốc: không cắt, không biến dạng';
-      toggleCropBtn.textContent = '✓ Giữ nguyên ảnh gốc';
-      toggleCropBtn.disabled = true;
-    }
-
-    const controls = create('div', 'crop-controls');
-    controls.hidden = true;
-
-    const position = create('input');
-    position.type = 'range';
-    position.min = 0;
-    position.max = 100;
-    position.value = 50;
-    const vertical = create('input');
-    vertical.type = 'range';
-    vertical.min = 0;
-    vertical.max = 100;
-    vertical.value = 50;
-    const zoom = create('input');
-    zoom.type = 'range';
-    zoom.min = 1;
-    zoom.max = 3;
-    zoom.step = 0.01;
-    zoom.value = 1;
-
-    [['Ngang', position], ['Dọc', vertical], ['Phóng to', zoom]].forEach(([label, control]) => {
-      const wrap = create('label', 'range-control');
-      wrap.append(document.createTextNode(label), control);
-      controls.append(wrap);
-    });
-
     const save = create('button', 'save-image', 'Lưu ảnh này');
     save.type = 'button';
     save.hidden = true;
 
-    const optimizationPanel = create('section', 'image-optimization-panel');
-    optimizationPanel.hidden = true;
-    const optimizationHeader = create('div', 'image-optimization-header');
-    optimizationHeader.append(create(
-      'h3',
-      'image-optimization-title',
-      preserveOriginalFile ? 'Ảnh nền — giữ nguyên file gốc' : 'Tối ưu ảnh trước khi tải lên'
-    ));
-    optimizationHeader.append(create(
-      'p',
-      'image-optimization-help',
-      preserveOriginalFile
-        ? 'Ảnh này sẽ được lưu đúng file khách tải lên: giữ nguyên định dạng, kích thước và nội dung; không cắt, không resize, không chuyển WebP.'
-        : 'Giữ nguyên ảnh gốc mặc định · nhập chất lượng WebP bên dưới.'
-    ));
-    optimizationPanel.append(optimizationHeader);
-
-    const configuration = create('div', 'image-optimization-config');
-    const makeField = (labelText, control) => {
-      const label = create('label', 'image-optimization-field');
-      label.append(create('span', '', labelText), control);
-      return label;
-    };
-    const widthInput = create('input');
-    widthInput.type = 'number'; widthInput.min = '1'; widthInput.max = '7680'; widthInput.inputMode = 'numeric';
-    const heightInput = create('input');
-    heightInput.type = 'number'; heightInput.min = '1'; heightInput.max = '7680'; heightInput.inputMode = 'numeric';
-    configuration.append(makeField('Rộng (px)', widthInput), makeField('Cao (px)', heightInput));
-    const resizePresets = create('div', 'image-resize-presets');
-    const preset2kButton = create('button', 'image-resize-preset', '2K – 2560px');
-    preset2kButton.type = 'button';
-    preset2kButton.title = 'Giới hạn cạnh dài 2560px, giữ nguyên tỷ lệ và không phóng lớn ảnh nhỏ';
-    resizePresets.append(preset2kButton);
-    const resizeNote = create('p', 'image-resize-note', 'Nhập kích thước thủ công hoặc chọn preset 2K.');
-
-    const toggles = create('div', 'image-optimization-toggles');
-    const makeToggle = (labelText, checked = false) => {
-      const label = create('label', 'image-optimization-toggle');
-      const control = create('input');
-      control.type = 'checkbox'; control.checked = checked;
-      label.append(control, document.createTextNode(labelText));
-      return [label, control];
-    };
-    const [keepAspectLabel, keepAspectInput] = makeToggle('Giữ đúng tỷ lệ ảnh', true);
-    const [keepOriginalLabel, keepOriginalInput] = makeToggle('Giữ nguyên kích thước gốc', true);
-    toggles.append(keepAspectLabel, keepOriginalLabel);
-
-    const QUALITY_MIN = 1;
-    const QUALITY_MAX = 100;
-    const DEFAULT_QUALITY = 100;
-    const DEFAULT_SHARPNESS = 100;
-    const qualityRow = create('div', 'image-quality-row');
-    const qualityInput = create('input');
-    qualityInput.type = 'number'; qualityInput.min = String(QUALITY_MIN); qualityInput.max = String(QUALITY_MAX); qualityInput.step = '1'; qualityInput.value = String(DEFAULT_QUALITY); qualityInput.inputMode = 'numeric';
-    const qualityLabel = create('label', 'image-quality-label', 'Chất lượng WebP');
-    qualityLabel.append(qualityInput, document.createTextNode('%'));
-    const qualityRange = create('input', 'image-quality-range');
-    qualityRange.type = 'range'; qualityRange.min = String(QUALITY_MIN); qualityRange.max = String(QUALITY_MAX); qualityRange.step = '1'; qualityRange.value = String(DEFAULT_QUALITY);
-    qualityRange.setAttribute('aria-label', 'Chất lượng WebP từ 1 đến 100 phần trăm');
-    qualityRow.append(qualityLabel, qualityRange);
-
-    const previewActions = create('div', 'image-optimization-actions');
-    const previewButton = create('button', 'btn-preview-image', 'Xem trước WebP');
-    previewButton.type = 'button';
-    const resetOptimizationButton = create('button', 'btn-reset-optimization', 'Đặt lại mặc định');
-    resetOptimizationButton.type = 'button';
-    previewActions.append(previewButton, resetOptimizationButton);
-    const previewHint = create('p', 'image-preview-hint', 'Chỉnh thông số xong, bấm “Xem trước WebP” để tạo ảnh so sánh.');
-
-    const comparison = create('div', 'image-optimization-comparison');
-    const makePreview = (title, className, placeholderText = 'Chưa có ảnh') => {
-      const panel = create('div', `image-preview-panel ${className}`);
-      panel.append(create('h4', '', title));
-      const frame = create('div', 'image-preview-frame');
-      const placeholder = create('div', 'image-preview-placeholder', placeholderText);
-      const image = create('img', 'image-preview-image');
-      image.alt = '';
-      image.style.display = 'none';
-      frame.append(placeholder, image);
-      const metadata = create('p', 'image-preview-metadata', placeholderText);
-      panel.append(frame, metadata);
-      return { panel, frame, image, placeholder, metadata };
-    };
-    const setPreviewSrc = (previewObj, src, metaText) => {
-      if (src) {
-        previewObj.image.src = src;
-        previewObj.image.style.display = 'block';
-        if (previewObj.placeholder) previewObj.placeholder.style.display = 'none';
-      } else {
-        previewObj.image.removeAttribute('src');
-        previewObj.image.style.display = 'none';
-        if (previewObj.placeholder) previewObj.placeholder.style.display = 'block';
-      }
-      if (metaText !== undefined) previewObj.metadata.textContent = metaText;
-    };
-    const originalPreview = makePreview('Ảnh gốc', 'is-original', 'Chưa chọn ảnh');
-    const optimizedPreview = makePreview('Ảnh WebP sau xử lý', 'is-optimized', 'Bấm “Xem trước WebP” để so sánh');
-    comparison.append(originalPreview.panel, optimizedPreview.panel);
-    optimizationPanel.append(configuration, resizePresets, resizeNote, toggles, qualityRow, previewActions, previewHint, comparison);
-
-    if (preserveOriginalFile) {
-      [configuration, resizePresets, resizeNote, toggles, qualityRow, previewActions, previewHint, comparison]
-        .forEach(control => { control.hidden = true; });
-    }
-
-    let file, sourceUrl, dimensions, sourceRatio = 1, optimizedObjectUrl = null, resizePreset = null, previewRequest = 0, previewAbortController = null;
-
-    const updateQualityControls = () => {
-      qualityInput.disabled = preserveOriginalFile;
-      qualityRange.disabled = preserveOriginalFile;
-    };
-    const updateDimensionControls = () => {
-      const disabled = keepOriginalInput.checked;
-      widthInput.disabled = disabled;
-      heightInput.disabled = disabled;
-    };
-    const updateResizePresetState = () => {
-      preset2kButton.classList.toggle('is-active', resizePreset === '2k');
-      keepAspectInput.disabled = resizePreset === '2k';
-      if (resizePreset !== '2k') {
-        resizeNote.textContent = 'Nhập kích thước thủ công hoặc chọn preset 2K.';
-        resizeNote.className = 'image-resize-note';
-        return;
-      }
-      const longestSide = Math.max(dimensions?.width || 0, dimensions?.height || 0);
-      if (longestSide <= 2560) {
-        resizeNote.textContent = `Ảnh gốc ${dimensions.width} × ${dimensions.height}px nhỏ hơn 2K nên được giữ nguyên kích thước (không tự upscale).`;
-        resizeNote.className = 'image-resize-note is-warning';
-        return;
-      }
-      const scale = 2560 / longestSide;
-      const targetW = Math.round(dimensions.width * scale);
-      const targetH = Math.round(dimensions.height * scale);
-      resizeNote.textContent = `Preset 2K: ${dimensions.width} × ${dimensions.height}px → ${targetW} × ${targetH}px (giới hạn cạnh dài 2560px, đúng tỷ lệ gốc).`;
-      resizeNote.className = 'image-resize-note is-active';
-    };
-    const setQuality = (value) => {
-      const numericValue = Number(value);
-      const quality = value === '' || !Number.isFinite(numericValue)
-        ? DEFAULT_QUALITY
-        : Math.min(QUALITY_MAX, Math.max(QUALITY_MIN, Math.round(numericValue)));
-      qualityInput.value = String(quality);
-      qualityRange.value = String(quality);
-    };
-    function schedulePreview() {
-      if (!file) return;
-      // Do not process a full-resolution image for every slider movement. It
-      // used to queue competing Sharp jobs and make the explicit preview button
-      // look as if it was stuck loading.
-      previewRequest += 1;
-      if (previewAbortController) previewAbortController.abort();
-      previewAbortController = null;
-      previewButton.disabled = false;
-      previewButton.textContent = optimizedObjectUrl ? 'Cập nhật xem trước' : 'Xem trước WebP';
-      previewHint.textContent = 'Có thay đổi chưa xem trước. Bấm nút để cập nhật ảnh WebP.';
-      optimizedPreview.panel.classList.toggle('is-stale', Boolean(optimizedObjectUrl));
-    }
-    const resetOptimization = () => {
-      keepAspectInput.checked = true;
-      keepOriginalInput.checked = true;
-      resizePreset = null;
-      widthInput.value = dimensions?.width || '';
-      heightInput.value = dimensions?.height || '';
-      setQuality(DEFAULT_QUALITY);
-      updateQualityControls();
-      updateDimensionControls();
-      updateResizePresetState();
-    };
-    const syncHeightFromWidth = () => {
-      if (!keepAspectInput.checked || !dimensions || !widthInput.value) return;
-      heightInput.value = String(Math.round(Number(widthInput.value) / sourceRatio));
-    };
-    const syncWidthFromHeight = () => {
-      if (!keepAspectInput.checked || !dimensions || !heightInput.value) return;
-      widthInput.value = String(Math.round(Number(heightInput.value) * sourceRatio));
-    };
-    widthInput.addEventListener('input', () => {
-      resizePreset = null;
-      syncHeightFromWidth();
-      updateResizePresetState();
-      schedulePreview();
-    });
-    keepAspectInput.addEventListener('change', schedulePreview);
-    heightInput.addEventListener('input', () => {
-      resizePreset = null;
-      syncWidthFromHeight();
-      updateResizePresetState();
-      schedulePreview();
-    });
-    keepOriginalInput.addEventListener('change', () => {
-      updateDimensionControls();
-      if (keepOriginalInput.checked) resizePreset = null;
-      updateResizePresetState();
-      schedulePreview();
-    });
-    preset2kButton.addEventListener('click', () => {
-      if (resizePreset === '2k') {
-        resizePreset = null;
-        keepOriginalInput.checked = true;
-        widthInput.value = dimensions?.width || '';
-        heightInput.value = dimensions?.height || '';
-        updateDimensionControls();
-        updateResizePresetState();
-        schedulePreview();
-        return;
-      }
-      resizePreset = '2k';
-      keepOriginalInput.checked = false;
-      keepAspectInput.checked = true;
-      if (dimensions) {
-        const longestSide = Math.max(dimensions.width, dimensions.height);
-        if (longestSide > 2560) {
-          const scale = 2560 / longestSide;
-          widthInput.value = String(Math.round(dimensions.width * scale));
-          heightInput.value = String(Math.round(dimensions.height * scale));
-        } else {
-          widthInput.value = String(dimensions.width);
-          heightInput.value = String(dimensions.height);
-          setStatus(`Ảnh gốc ${dimensions.width} × ${dimensions.height}px nhỏ hơn chuẩn 2K (2560px), giữ nguyên kích thước để không làm mờ ảnh.`);
-        }
-      }
-      updateDimensionControls();
-      updateResizePresetState();
-      schedulePreview();
-    });
-    qualityInput.addEventListener('input', () => {
-      // Let the user clear the field while typing; normalize only when a
-      // value is present or when the field loses focus.
-      if (qualityInput.value !== '') setQuality(qualityInput.value);
-      schedulePreview();
-    });
-    qualityInput.addEventListener('blur', () => {
-      setQuality(qualityInput.value);
-      schedulePreview();
-    });
-    qualityRange.addEventListener('input', () => {
-      setQuality(qualityRange.value);
-      schedulePreview();
-    });
-    resetOptimizationButton.addEventListener('click', () => {
-      resetOptimization();
-      schedulePreview();
-    });
-
+    let file, sourceUrl, dimensions;
     const appendProcessingSettings = (form) => {
-      form.append('preserve_original_file', String(preserveOriginalFile));
-      form.append('keep_original_size', String(keepOriginalInput.checked));
-      form.append('keep_aspect_ratio', String(keepAspectInput.checked));
-      form.append('width', widthInput.value);
-      form.append('height', heightInput.value);
-      form.append('resize_preset', resizePreset || '');
-      form.append('quality', qualityInput.value || String(DEFAULT_QUALITY));
-      form.append('sharpness', String(DEFAULT_SHARPNESS));
-      form.append('webp_lossless', 'false');
-      form.append('crop_enabled', String(isCustomCrop));
-      if (isCustomCrop) {
-        Object.entries(crop()).forEach(([key, value]) => form.append(`crop_${key}`, String(Math.round(value))));
-      }
+      form.append('original_webp', 'true');
     };
-
-    async function generateClientFallbackWebp() {
-      return new Promise((resolve, reject) => {
-        const img = new Image();
-        img.onload = () => {
-          try {
-            const canvas = document.createElement('canvas');
-            const ctx = canvas.getContext('2d');
-            let sx = 0, sy = 0, sw = dimensions.width, sh = dimensions.height;
-            if (isCustomCrop) {
-              const c = crop();
-              sx = Math.round(c.x);
-              sy = Math.round(c.y);
-              sw = Math.round(c.width);
-              sh = Math.round(c.height);
-            }
-            let dw = sw, dh = sh;
-            if (!keepOriginalInput.checked) {
-              const wVal = Number(widthInput.value);
-              const hVal = Number(heightInput.value);
-              if (wVal && hVal) { dw = wVal; dh = hVal; }
-              else if (wVal) { dw = wVal; dh = Math.round((wVal / sw) * sh); }
-              else if (hVal) { dw = Math.round((hVal / sh) * sw); dh = hVal; }
-            }
-            canvas.width = dw;
-            canvas.height = dh;
-            ctx.imageSmoothingEnabled = true;
-            ctx.imageSmoothingQuality = 'high';
-            ctx.drawImage(img, sx, sy, sw, sh, 0, 0, dw, dh);
-            const q = (Number(qualityInput.value) || DEFAULT_QUALITY) / 100;
-            canvas.toBlob((blob) => {
-              if (blob) resolve({ blob, width: dw, height: dh });
-              else reject(new Error('Trình duyệt không hỗ trợ xuất WebP qua Canvas.'));
-            }, 'image/webp', q);
-          } catch (e) {
-            reject(e);
-          }
-        };
-        img.onerror = () => reject(new Error('Không thể tải ảnh nguồn để tạo preview.'));
-        img.src = sourceUrl;
-      });
-    }
-
-    async function requestPreview() {
-      if (!file) return;
-      const requestId = ++previewRequest;
-      if (previewAbortController) previewAbortController.abort();
-      const controller = new AbortController();
-      previewAbortController = controller;
-      const timeoutId = setTimeout(() => controller.abort(), 15000);
-
-      previewButton.disabled = true;
-      previewButton.textContent = 'Đang tạo preview...';
-      previewHint.textContent = 'Đang xử lý ảnh WebP. Vui lòng đợi trong giây lát...';
-
-      try {
-        const form = new FormData();
-        form.append('image', file);
-        appendProcessingSettings(form);
-        const response = await fetch('/api/admin/home-images/preview', {
-          method: 'POST',
-          credentials: 'same-origin',
-          body: form,
-          signal: controller.signal
-        });
-
-        clearTimeout(timeoutId);
-
-        if (!response.ok) {
-          const body = await response.json().catch(() => ({}));
-          let errMsg = body.message;
-          if (!errMsg) {
-            if (response.status === 413) errMsg = 'File ảnh lớn hơn giới hạn của máy chủ. Đang chuyển sang xem trước nội bộ trình duyệt...';
-            else if (response.status === 401) errMsg = 'Phiên đăng nhập đã hết hạn.';
-            else errMsg = `Lỗi máy chủ (${response.status}).`;
-          }
-          throw new Error(errMsg);
-        }
-
-        const blob = await response.blob();
-        if (requestId !== previewRequest || controller.signal.aborted) return;
-        if (optimizedObjectUrl) URL.revokeObjectURL(optimizedObjectUrl);
-        optimizedObjectUrl = URL.createObjectURL(blob);
-        setPreviewSrc(optimizedPreview, optimizedObjectUrl);
-
-        const outputWidth = response.headers.get('X-Optimized-Width') || dimensions?.width || '?';
-        const outputHeight = response.headers.get('X-Optimized-Height') || dimensions?.height || '?';
-        const outputBytes = Number(response.headers.get('X-Optimized-Bytes') || blob.size || 0);
-        const originalBytes = Number(response.headers.get('X-Original-Bytes') || file.size);
-        const change = originalBytes ? Math.round((1 - outputBytes / originalBytes) * 100) : 0;
-        const outputSharpness = response.headers.get('X-Image-Sharpness') || DEFAULT_SHARPNESS;
-        optimizedPreview.metadata.textContent = `${outputWidth} × ${outputHeight}px · WebP · ${(outputBytes / 1024).toFixed(1)} KB · Sharpen ${outputSharpness}% · ${change >= 0 ? '-' : '+'}${Math.abs(change)}%`;
-        optimizedPreview.panel.classList.remove('is-stale');
-        previewHint.textContent = 'Ảnh WebP bên phải hiển thị đúng chuẩn sẽ được lưu lên hệ thống.';
-        setStatus('Preview WebP đã sẵn sàng.');
-      } catch (error) {
-        clearTimeout(timeoutId);
-        if (requestId !== previewRequest) return;
-
-        // Try client-side fallback if server failed or timed out
-        try {
-          const fallback = await generateClientFallbackWebp();
-          if (requestId !== previewRequest) return;
-          if (optimizedObjectUrl) URL.revokeObjectURL(optimizedObjectUrl);
-          optimizedObjectUrl = URL.createObjectURL(fallback.blob);
-          setPreviewSrc(optimizedPreview, optimizedObjectUrl);
-
-          const change = file.size ? Math.round((1 - fallback.blob.size / file.size) * 100) : 0;
-          optimizedPreview.metadata.textContent = `${fallback.width} × ${fallback.height}px · WebP · ${(fallback.blob.size / 1024).toFixed(1)} KB (Xem trước máy khách) · ${change >= 0 ? '-' : '+'}${Math.abs(change)}%`;
-          optimizedPreview.panel.classList.remove('is-stale');
-          previewHint.textContent = 'Đã tạo preview WebP trực tiếp trên trình duyệt. Khi bấm "Lưu ảnh này", hệ thống sẽ xử lý và lưu lên server.';
-          setStatus('Preview WebP (nội bộ trình duyệt) đã sẵn sàng.');
-        } catch (fbErr) {
-          if (error.name !== 'AbortError') {
-            setStatus(error.message, true);
-            optimizedPreview.metadata.innerHTML = `<span style="color:#d93025;font-weight:700">⚠️ Không thể tạo preview: ${error.message}</span>`;
-            previewHint.textContent = `Lỗi: ${error.message}. Bạn vẫn có thể nhấn "Lưu ảnh này" để tải ảnh lên.`;
-          }
-        }
-      } finally {
-        clearTimeout(timeoutId);
-        if (requestId === previewRequest) {
-          previewAbortController = null;
-          previewButton.disabled = false;
-          previewButton.textContent = optimizedObjectUrl ? 'Cập nhật xem trước' : 'Xem trước WebP';
-        }
-      }
-    }
-    previewButton.onclick = () => { requestPreview(); };
-
-    const crop = () => {
-      const z = Number(zoom.value) || 1;
-      const baseW = Math.min(dimensions.width, (dimensions.height * 16) / 9);
-      const width = baseW / z;
-      const height = (width * 9) / 16;
-      const maxX = Math.max(0, dimensions.width - width);
-      const maxY = Math.max(0, dimensions.height - height);
-      const x = (maxX * Number(position.value)) / 100;
-      const y = (maxY * Number(vertical.value)) / 100;
-      preview.style.backgroundImage = `url("${sourceUrl}")`;
-      preview.style.backgroundSize = `${(dimensions.width / width) * 100}% ${(dimensions.height / height) * 100}%`;
-      preview.style.backgroundPosition = `${(-x / width) * 100}% ${(-y / height) * 100}%`;
-      return {
-        x: Math.min(maxX, Math.max(0, x)),
-        y: Math.min(maxY, Math.max(0, y)),
-        width: Math.min(dimensions.width, width),
-        height: Math.min(dimensions.height, height)
-      };
-    };
-
-    const updatePreview = () => {
-      if (!isCustomCrop) {
-        preview.style.backgroundImage = `url("${sourceUrl}")`;
-        preview.style.backgroundSize = preserveOriginalFile ? 'contain' : 'cover';
-        preview.style.backgroundPosition = 'center';
-      } else {
-        crop();
-      }
-    };
-
-    toggleCropBtn.onclick = () => {
-      if (preserveOriginalFile) return;
-      isCustomCrop = !isCustomCrop;
-      controls.hidden = !isCustomCrop;
-      if (isCustomCrop) {
-        modeBadge.textContent = 'Đang chỉnh vùng cắt';
-        modeBadge.className = 'crop-mode-badge is-custom';
-        toggleCropBtn.textContent = '↺ Về mặc định ảnh gốc 16:9';
-        crop();
-      } else {
-        modeBadge.textContent = 'Mặc định: giữ nguyên ảnh gốc';
-        modeBadge.className = 'crop-mode-badge';
-        toggleCropBtn.textContent = '✂ Cắt & căn chỉnh';
-        position.value = 50;
-        vertical.value = 50;
-        zoom.value = 1;
-        updatePreview();
-      }
-      schedulePreview();
-    };
-
-    [position, vertical, zoom].forEach(control => (control.oninput = () => {
-      crop();
-      schedulePreview();
-    }));
 
     const clearSelectedFile = () => {
-      previewRequest += 1;
-      if (previewAbortController) previewAbortController.abort();
-      previewAbortController = null;
       if (sourceUrl) URL.revokeObjectURL(sourceUrl);
       file = null;
       sourceUrl = null;
       dimensions = null;
       input.value = '';
-      cropper.hidden = true;
       save.hidden = true;
       fileInfoNotice.hidden = true;
       fileInfoNotice.textContent = '';
       cancelSelectionBtn.hidden = true;
-      optimizationPanel.hidden = true;
-      setPreviewSrc(originalPreview, null, 'Chưa có ảnh');
-      setPreviewSrc(optimizedPreview, null, 'Chưa có dữ liệu');
-      optimizedPreview.panel.classList.remove('is-stale');
-      if (optimizedObjectUrl) URL.revokeObjectURL(optimizedObjectUrl);
-      optimizedObjectUrl = null;
       fileLabelText.textContent = slot.replacement_image_url ? '🔄 Đổi ảnh khác' : '📷 Chọn ảnh tải lên';
-      preview.style.backgroundImage = 'none';
-      previewHint.textContent = 'Chỉnh thông số xong, bấm “Xem trước WebP” để tạo ảnh so sánh.';
       setStatus('');
     };
 
@@ -857,8 +360,6 @@
       slot.shared_status = null;
       actionBar.hidden = false;
       fileInfoNotice.hidden = !file;
-      cropper.hidden = !file;
-      optimizationPanel.hidden = !file;
       save.hidden = !file;
       currentImageTitle.textContent = slot.replacement_image_url
         ? 'Ảnh riêng đang hiển thị trên website'
@@ -887,33 +388,14 @@
       sourceUrl = URL.createObjectURL(file);
       image.onload = () => {
         dimensions = { width: image.naturalWidth, height: image.naturalHeight };
-        isCustomCrop = false;
-        controls.hidden = true;
-        modeBadge.textContent = 'Mặc định: giữ nguyên ảnh gốc';
-        modeBadge.className = 'crop-mode-badge';
-        toggleCropBtn.textContent = '✂ Cắt & căn chỉnh';
-        position.value = 50;
-        vertical.value = 50;
-        zoom.value = 1;
-        cropper.hidden = false;
-        optimizationPanel.hidden = false;
         save.hidden = false;
         save.textContent = 'Lưu ảnh này';
 
         fileLabelText.textContent = '🔄 Chọn file khác';
         cancelSelectionBtn.hidden = false;
         const fileSizeMB = (file.size / (1024 * 1024)).toFixed(2);
-        fileInfoNotice.innerHTML = `📎 Đang chọn: <strong>${file.name}</strong> (${fileSizeMB} MB) — Nhấn "Lưu ảnh này" để áp dụng`;
+        fileInfoNotice.innerHTML = `📎 Đang chọn: <strong>${file.name}</strong> (${fileSizeMB} MB) — giữ nguyên kích thước, chỉ chuyển WebP quality 100`;
         fileInfoNotice.hidden = false;
-
-        sourceRatio = dimensions.width / dimensions.height;
-        setPreviewSrc(originalPreview, sourceUrl, `${dimensions.width} × ${dimensions.height}px · ${file.type || 'image'} · ${(file.size / 1024).toFixed(1)} KB`);
-        setPreviewSrc(optimizedPreview, null, 'Nhấn “Xem trước WebP” để so sánh đúng file sẽ lưu.');
-        if (optimizedObjectUrl) URL.revokeObjectURL(optimizedObjectUrl);
-        optimizedObjectUrl = null;
-        resetOptimization();
-        updatePreview();
-        schedulePreview();
       };
       image.src = sourceUrl;
     };
@@ -964,8 +446,6 @@
         fileLabelText.textContent = '🔄 Đổi ảnh khác';
         cancelSelectionBtn.hidden = true;
         fileInfoNotice.hidden = true;
-        cropper.hidden = true;
-        optimizationPanel.hidden = true;
         save.hidden = true;
         input.value = '';
         file = null;
@@ -979,8 +459,7 @@
       }
     };
 
-    cropper.append(preview, modeBar, controls);
-    article.append(badge, heading, imagePair, actionBar, fileInfoNotice, cropper, optimizationPanel, save);
+    article.append(badge, heading, imagePair, actionBar, fileInfoNotice, save);
     return article;
   }
 

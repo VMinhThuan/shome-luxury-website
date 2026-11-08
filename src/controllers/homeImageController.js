@@ -130,7 +130,7 @@ const allRecords = async () => {
 exports.previewImage = async (req, res, next) => {
   try {
     if (!req.file) return res.status(400).json({ success: false, message: 'Vui lòng chọn ảnh JPG, PNG hoặc WebP để xem trước.' });
-    const processed = await processImageBuffer(req.file.buffer, req.body);
+    const processed = await processImageBuffer(req.file.buffer, { original_webp: 'true' });
     res.set({
       'Content-Type': processed.optimized.contentType,
       'Content-Length': String(processed.optimized.bytes),
@@ -245,14 +245,12 @@ exports.updateImage = async (req, res, next) => {
 
     const folder = `shome-luxury/${slot.page_key || 'general'}`;
     const processed = await processImageBuffer(req.file.buffer, {
-      ...req.body,
-      // Source-preserving slots are intentionally protected from stale client
-      // settings or a direct API request.
-      preserve_original_file: preservesOriginalFile(slot) ? 'true' : req.body.preserve_original_file
+      // Page image uploads always preserve the customer's dimensions and only
+      // convert the source to WebP at quality 100.
+      original_webp: 'true'
     });
-    // Cloudinary receives the final bytes directly. For source-preserving
-    // slots these are the untouched original bytes; other slots receive the
-    // WebP output from the existing optimization flow.
+    // Cloudinary receives the final WebP bytes directly. Every page image
+    // keeps the customer's dimensions and is encoded at quality 100.
     uploaded = await uploadToCloudinary(processed.buffer, folder);
     const previous = await HomeImage.findOne({ image_key: slot.image_key }).lean();
     const previousCustom = customReferenceFor(previous, slot);

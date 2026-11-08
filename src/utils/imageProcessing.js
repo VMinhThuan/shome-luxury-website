@@ -49,23 +49,35 @@ function outputExtension(contentType) {
   }[contentType] || '.img';
 }
 
-function contentTypeForFormat(format) {
-  return {
-    jpeg: 'image/jpeg',
-    png: 'image/png',
-    webp: 'image/webp'
-  }[format] || 'application/octet-stream';
-}
-
 function outputOptionsFrom(body = {}) {
+  // Admin-managed page images are uploaded as-is and only re-encoded to WebP.
+  // This intentionally bypasses resize, crop, sharpening, and user-provided
+  // optimization settings so the customer's source dimensions are preserved.
+  if (isEnabled(body.original_webp)) {
+    return {
+      keepOriginalSize: true,
+      keepAspectRatio: true,
+      preserveOriginalFile: false,
+      originalWebp: true,
+      lossless: false,
+      width: null,
+      height: null,
+      resizePreset: null,
+      quality: 100,
+      sharpness: 0,
+      crop: null
+    };
+  }
+
   // Source-preserving CMS images are customer-owned originals. When this mode
-  // is requested, do not resize, crop, sharpen, or convert the uploaded file.
-  // The normal WebP optimization flow remains unchanged for other slots.
+  // is requested, do not resize, crop, or sharpen the uploaded file.
+  // Keep this legacy flag working for older callers while converting to WebP.
   if (isEnabled(body.preserve_original_file)) {
     return {
       keepOriginalSize: true,
       keepAspectRatio: true,
-      preserveOriginalFile: true,
+      preserveOriginalFile: false,
+      originalWebp: true,
       lossless: false,
       width: null,
       height: null,
@@ -135,13 +147,49 @@ async function processImageBuffer(inputBuffer, body = {}) {
   }
 
   const options = outputOptionsFrom(body);
-  const originalWidth = [5, 6, 7, 8].includes(inputMetadata.orientation) ? inputMetadata.height : inputMetadata.width;
-  const originalHeight = [5, 6, 7, 8].includes(inputMetadata.orientation) ? inputMetadata.width : inputMetadata.height;
+  const originalWidth = options.originalWebp
+    ? inputMetadata.width
+    : [5, 6, 7, 8].includes(inputMetadata.orientation) ? inputMetadata.height : inputMetadata.width;
+  const originalHeight = options.originalWebp
+    ? inputMetadata.height
+    : [5, 6, 7, 8].includes(inputMetadata.orientation) ? inputMetadata.width : inputMetadata.height;
 
-  if (options.preserveOriginalFile) {
-    const contentType = contentTypeForFormat(inputMetadata.format);
+  if (options.originalWebp) {
+    // This path is deliberately limited to format conversion. Do not rotate
+    // EXIF, change colourspace, resize, crop, sharpen, or apply any other
+    // image transform. An existing WebP is already in the requested format,
+    // so keep its bytes exactly as uploaded.
+    if (inputMetadata.format === 'webp') {
+      return {
+        buffer: inputBuffer,
+        original: {
+          width: originalWidth,
+          height: originalHeight,
+          format: inputMetadata.format,
+          bytes: inputBuffer.length
+        },
+        optimized: {
+          width: originalWidth,
+          height: originalHeight,
+          format: 'webp',
+          bytes: inputBuffer.length,
+          contentType: 'image/webp',
+          extension: '.webp'
+        },
+        settings: options
+      };
+    }
+
+    const webpOptions = inputMetadata.format === 'png'
+      ? { lossless: true, effort: 6 }
+      : { quality: 100, effort: 6, smartSubsample: true };
+    const { data, info } = await sharp(inputBuffer, {
+      failOn: 'error',
+      limitInputPixels: MAX_INPUT_PIXELS
+    }).webp(webpOptions).toBuffer({ resolveWithObject: true });
+
     return {
-      buffer: inputBuffer,
+      buffer: data,
       original: {
         width: originalWidth,
         height: originalHeight,
@@ -149,12 +197,12 @@ async function processImageBuffer(inputBuffer, body = {}) {
         bytes: inputBuffer.length
       },
       optimized: {
-        width: originalWidth,
-        height: originalHeight,
-        format: inputMetadata.format,
-        bytes: inputBuffer.length,
-        contentType,
-        extension: outputExtension(contentType)
+        width: info.width,
+        height: info.height,
+        format: 'webp',
+        bytes: info.size,
+        contentType: 'image/webp',
+        extension: '.webp'
       },
       settings: options
     };
@@ -184,7 +232,7 @@ async function processImageBuffer(inputBuffer, body = {}) {
     pipeline = pipeline.extract(crop);
   }
 
-  const hasResize = !options.keepOriginalSize && Boolean(options.width || options.height);
+  const hasResize = !options.originalWebp && !options.keepOriginalSize && Boolean(options.width || options.height);
   if (hasResize) {
     pipeline = pipeline.resize({
       width: options.width || undefined,
@@ -195,7 +243,7 @@ async function processImageBuffer(inputBuffer, body = {}) {
     });
   }
 
-  const sharpOptions = sharpOptionsFromPercent(options.sharpness);
+  const sharpOptions = options.originalWebp ? null : sharpOptionsFromPercent(options.sharpness);
   if (sharpOptions) {
     pipeline = pipeline.sharpen(sharpOptions);
   }
@@ -205,7 +253,8 @@ async function processImageBuffer(inputBuffer, body = {}) {
     : pipeline.webp({ quality: options.quality, effort: 6, smartSubsample: true });
 
   const { data, info } = await pipeline.toBuffer({ resolveWithObject: true });
-  if (info.width * info.height > MAX_OUTPUT_PIXELS) {
+  const maxAllowedPixels = options.originalWebp ? MAX_INPUT_PIXELS : MAX_OUTPUT_PIXELS;
+  if (info.width * info.height > maxAllowedPixels) {
     throw new Error('Ảnh đầu ra vượt giới hạn 24 megapixel. Hãy giảm chiều rộng hoặc chiều cao.');
   }
 

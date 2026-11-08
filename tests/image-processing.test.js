@@ -24,13 +24,25 @@ async function run() {
     assert.equal(metadata.height, 900);
   }
 
-  // Homepage background uploads opt into a source-preserving path: the exact
-  // uploaded bytes and format must survive the upload processing step.
+  // Admin page uploads preserve the source dimensions and pixel quality while
+  // converting the file to WebP.
   const originalBackground = await processImageBuffer(png, { preserve_original_file: 'true' });
-  assert.equal(originalBackground.buffer.equals(png), true);
-  assert.equal(originalBackground.optimized.format, 'png');
-  assert.equal(originalBackground.optimized.contentType, 'image/png');
-  assert.equal(originalBackground.settings.preserveOriginalFile, true);
+  assert.equal(originalBackground.buffer.equals(png), false);
+  assert.equal(originalBackground.optimized.format, 'webp');
+  assert.equal(originalBackground.optimized.width, 1600);
+  assert.equal(originalBackground.optimized.height, 900);
+  assert.equal(originalBackground.settings.originalWebp, true);
+
+  const existingWebp = await processImageBuffer(webp, { original_webp: 'true', quality: '1', sharpness: '100' });
+  assert.equal(existingWebp.buffer.equals(webp), true);
+  assert.equal(existingWebp.optimized.format, 'webp');
+  assert.equal(existingWebp.optimized.bytes, webp.length);
+
+  const originalWebp = await processImageBuffer(await createInput('jpg', { width: 3200, height: 1800 }), { original_webp: 'true', resize_preset: '2k', quality: '40', sharpness: '100' });
+  assert.deepEqual([originalWebp.optimized.width, originalWebp.optimized.height], [3200, 1800]);
+  assert.equal(originalWebp.optimized.format, 'webp');
+  assert.equal(originalWebp.settings.quality, 100);
+  assert.equal(originalWebp.settings.sharpness, 0);
 
   const resized = await processImageBuffer(jpg, { keep_original_size: 'false', keep_aspect_ratio: 'true', width: '800', height: '800', quality: '95', sharpness: 'low' });
   assert.equal(resized.optimized.width, 800);
