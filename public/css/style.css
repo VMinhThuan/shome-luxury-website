@@ -19288,3 +19288,30 @@ main.project-detail-page .project-detail-summary {
     max-width: 10px;
   }
 }
+
+/* Keep the original homepage banner copy intact, but let long subtitles wrap
+   inside the phone viewport instead of forcing them past the screen edge. */
+@media (max-width: 767px) {
+  body.home-page main .hero-script-subtitle {
+    display: block !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    padding-right: .25rem;
+    padding-left: .25rem;
+    white-space: normal !important;
+    overflow-wrap: anywhere;
+  }
+
+  body.home-page main .hero-script-subtitle::before,
+  body.home-page main .hero-script-subtitle::after {
+    display: inline-block;
+    vertical-align: middle;
+    margin-right: .35rem;
+    margin-left: .35rem;
+  }
+
+  body.home-page main .hero-slide[data-slide-index="1"] .hero-script-subtitle {
+    line-height: 1.25 !important;
+    white-space: normal !important;
+  }
+}
