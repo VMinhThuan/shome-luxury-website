@@ -7,6 +7,17 @@ const completedVideosData = require('../data/completedVideosData');
 const { getRequestToken, verifyAdminToken } = require('../middleware/auth');
 const { getPageImages } = require('../services/imageService');
 
+const QUOTE_CATEGORY_LABELS = {
+  'tk-kt-nha-cap-4': 'Nhà cấp 4',
+  'tk-kt-nha-pho': 'Nhà phố',
+  'tk-kt-biet-thu': 'Biệt thự',
+  'tk-kt-villa': 'Villa',
+  'tk-nt-chung-cu': 'Chung cư',
+  'tk-nt-nha-pho': 'Nhà phố',
+  'tk-nt-biet-thu': 'Biệt thự',
+  'tk-nt-van-phong': 'Văn phòng'
+};
+
 // The parent “Báo giá” navigation item is a valid public entry point too.
 // Keep a stable default category for direct visits/bookmarks that do not
 // include a category query or a category slug in the URL.
@@ -171,13 +182,17 @@ class QuotePageController {
       const isInterior = /^nội thất\b/i.test(selectedName);
       const quoteTitle = `${selectedName.replace(/^(nội thất|kiến trúc)\s+/i, '')} trọn gói`;
       const quoteScript = isInterior ? 'Nội thất' : 'Kiến trúc';
+      const categoryCode = selectedCategory?.code || rawCategory;
+      const categoryLabel = QUOTE_CATEGORY_LABELS[categoryCode];
       // The project sections show the leaf menu name, rather than a fixed
       // apartment label, for every selected quotation category.
       const featuredCategoryNameRaw = selectedName
         .replace(/^(nội thất|kiến trúc)\s+/i, '')
-        .trim() || 'Chung cư';
+        .trim();
       const featuredCategoryName = featuredCategoryNameRaw.charAt(0).toLocaleUpperCase('vi-VN')
-        + featuredCategoryNameRaw.slice(1);
+        + featuredCategoryNameRaw.slice(1) || categoryLabel || 'Chung cư';
+      const dynamicCategoryName = categoryLabel || featuredCategoryName;
+      const quotePricingTitle = `Thiết kế thi công ${quoteScript.toLowerCase()}`;
       // A category can opt into its own image slot without changing the
       // existing QuotePage content model. When no subpage override exists,
       // imageService falls back to the current shared quote slot.
@@ -193,7 +208,8 @@ class QuotePageController {
         categoryQuery: rawCategory,
         quoteTitle,
         quoteScript,
-        featuredCategoryName,
+        featuredCategoryName: dynamicCategoryName,
+        quotePricingTitle,
         completedVideosData,
         quoteImages
       });

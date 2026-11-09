@@ -1837,6 +1837,9 @@
         height: 100% !important;
         min-height: 100% !important;
         aspect-ratio: auto !important;
+        /* The desktop banner is a background fallback. On phones the
+           picture/source pair below must be the only visible artwork. */
+        background: none !important;
       }
       .quote-page .quote-hero-carousel .quote-hero-media {
         position: absolute;
@@ -1997,38 +2000,43 @@
         width: 100% !important;
         max-width: none !important;
         padding: 0 16px !important;
+        margin-top: 1rem !important;
       }
 
-      /* Pricing artwork is a true edge-to-edge 16:9 tile on phones.  The
-         brochure card keeps inheriting its old border and image inset from
-         the desktop layout, which leaves a white frame around the photo. */
+      /* Keep the pricing cards as real stacked cards on phones. The previous
+         image-only override forced the square source artwork into a 16:9
+         crop, hid the copy and made consecutive cards look glued together. */
       .quote-page .quote-pricing-list {
         width: 100% !important;
+        display: grid !important;
+        grid-template-columns: 1fr !important;
+        gap: 1rem !important;
       }
 
       .quote-page .quote-price-card {
-        display: block !important;
+        display: grid !important;
+        grid-template-columns: 1fr !important;
         width: 100% !important;
         min-height: 0 !important;
         padding: 0 !important;
-        border: 0 !important;
+        border: 1px solid rgba(233, 223, 208, .95) !important;
         border-radius: 16px !important;
-        background: transparent !important;
-        box-shadow: none !important;
-        aspect-ratio: 16 / 9 !important;
+        background: rgba(255, 255, 255, .94) !important;
+        box-shadow: 0 8px 22px rgba(72, 48, 23, .07) !important;
+        aspect-ratio: auto !important;
       }
 
       .quote-page .quote-price-image {
         display: block !important;
         width: 100% !important;
-        height: 100% !important;
+        height: auto !important;
         min-width: 0 !important;
         min-height: 0 !important;
         margin: 0 !important;
         padding: 0 !important;
         border: 0 !important;
-        border-radius: inherit !important;
-        aspect-ratio: auto !important;
+        border-radius: 15px 15px 0 0 !important;
+        aspect-ratio: 16 / 9 !important;
         background-size: cover !important;
         background-position: center !important;
       }
@@ -2040,9 +2048,43 @@
         margin: 0 !important;
         padding: 0 !important;
         border: 0 !important;
-        border-radius: inherit !important;
+        border-radius: 15px 15px 0 0 !important;
         object-fit: cover !important;
         object-position: center !important;
+      }
+
+      .quote-page .quote-price-copy {
+        display: flex !important;
+        min-width: 0 !important;
+        padding: .85rem 1rem 1rem !important;
+        overflow: visible !important;
+      }
+
+      .quote-page .quote-price-copy::before {
+        display: none !important;
+      }
+
+      .quote-page .quote-price-copy h3 {
+        margin: .15rem 0 .3rem !important;
+        font-size: clamp(1.45rem, 7vw, 2rem) !important;
+      }
+
+      .quote-page .quote-price-copy p {
+        margin-bottom: .5rem !important;
+        font-size: .78rem !important;
+      }
+
+      /* The construction artwork follows the pricing cards and should use
+         the same rounded-card treatment instead of touching the next section. */
+      .quote-page .quote-construction-image-only {
+        height: 100% !important;
+        min-height: 100% !important;
+        border-radius: 16px !important;
+        box-shadow: 0 8px 22px rgba(72, 48, 23, .07) !important;
+      }
+
+      .quote-page .quote-construction-image-only > img {
+        border-radius: inherit !important;
       }
     }
   </style>
@@ -2050,7 +2092,7 @@
   <script src="/js/quote-page.js?v=1.2.3" defer></script>
 </head>
 <body>
-  <% const quoteConstructionUrls = { 'tk-kt-nha-cap-4': '/thi-cong-cong-trinh/kien-truc/nha-cap-4', 'tk-kt-nha-pho': '/thi-cong-cong-trinh/kien-truc/nha-pho', 'tk-kt-biet-thu': '/thi-cong-cong-trinh/kien-truc/biet-thu', 'tk-kt-villa': '/thi-cong-cong-trinh/kien-truc/villa', 'tk-nt-chung-cu': '/thi-cong-cong-trinh/noi-that/chung-cu', 'tk-nt-nha-pho': '/thi-cong-cong-trinh/noi-that/nha-pho', 'tk-nt-biet-thu': '/thi-cong-cong-trinh/noi-that/biet-thu', 'tk-nt-van-phong': '/thi-cong-cong-trinh/noi-that/van-phong' }; const dynamicConstructionUrl = quoteConstructionUrls[selectedCategory?.code] || '/thi-cong-cong-trinh'; %>
+  <% const quoteProjectUrls = { 'tk-kt-nha-cap-4': '/thiet-ke-kien-truc/nha-cap-4', 'tk-kt-nha-pho': '/thiet-ke-kien-truc/nha-pho', 'tk-kt-biet-thu': '/thiet-ke-kien-truc/biet-thu', 'tk-kt-villa': '/thiet-ke-kien-truc/villa', 'tk-nt-chung-cu': '/thiet-ke-noi-that/chung-cu', 'tk-nt-nha-pho': '/thiet-ke-noi-that/nha-pho', 'tk-nt-biet-thu': '/thiet-ke-noi-that/biet-thu', 'tk-nt-van-phong': '/thiet-ke-noi-that/van-phong' }; const dynamicProjectUrl = quoteProjectUrls[selectedCategory?.code] || '/thiet-ke-cong-trinh'; %>
   <%- include('partials/header') %>
   <%- include('partials/mobile-drawer') %>
   <main id="main-content" class="quote-page">
@@ -2098,7 +2140,7 @@
         <div class="container">
           <header class="quote-heading quote-heading-center">
             <p class="quote-kicker"><%= sections.pricing.eyebrow %></p>
-            <h2><%= sections.pricing.title %> <em><%= featuredCategoryName || sections.pricing.script %></em></h2>
+            <h2><%= quotePricingTitle || sections.pricing.title %> <em><%= featuredCategoryName || sections.pricing.script %></em></h2>
             <p><%= sections.pricing.description %></p>
           </header>
           <div class="quote-pricing-list">
@@ -2185,7 +2227,7 @@
           <% } else { %>
             <p class="quote-empty-state">Các công trình nổi bật sẽ được cập nhật tại đây.</p>
           <% } %>
-          <div class="quote-featured-view-all"><a href="<%= dynamicConstructionUrl %>">Xem tất cả dự án <span aria-hidden="true">→</span></a></div>
+          <div class="quote-featured-view-all"><a href="<%= dynamicProjectUrl %>">Xem tất cả dự án <span aria-hidden="true">→</span></a></div>
         </div>
       </section>
     <% } %>
@@ -2302,7 +2344,7 @@
           <% } else { %>
             <p class="quote-empty-state">Các công trình nổi bật sẽ được cập nhật tại đây.</p>
           <% } %>
-          <div class="quote-featured-view-all"><a href="<%= dynamicConstructionUrl %>">Xem tất cả dự án <span aria-hidden="true">→</span></a></div>
+          <div class="quote-featured-view-all"><a href="<%= dynamicProjectUrl %>">Xem tất cả dự án <span aria-hidden="true">→</span></a></div>
         </div>
       </section>
     <% } %>
@@ -2328,7 +2370,7 @@
         const isSubMenuPage = Boolean(currentCatCode);
         const activeCategoryData = catList.find(c => c.id === activeCatId) || catList[0] || { name: 'Công trình hoàn thiện', videos: [] };
         const selectedCategoryCode = selectedCategory?.code || rawCat;
-        const seeAllUrl = quoteConstructionUrls[selectedCategoryCode] || dynamicConstructionUrl;
+        const seeAllUrl = quoteProjectUrls[selectedCategoryCode] || dynamicProjectUrl;
         const videoThumbnailFor = video => (locals.quoteImages && quoteImages[`quote_video_thumbnail_${video.videoId}`])
           || video.thumbnail
           || `https://i.ytimg.com/vi/${video.videoId}/hqdefault.jpg`;
@@ -2369,7 +2411,7 @@
                   data-panel-id="<%= cat.id %>"
                 >
                   <div class="quote-completed-videos-grid">
-                    <% (cat.videos || []).forEach((vid, vIdx) => { %>
+                    <% (cat.id === 'chung-cu' ? (cat.videos || []).slice(0, 6) : (cat.videos || [])).forEach((vid, vIdx) => { %>
                       <article class="quote-video-card quote-completed-video-card">
                         <div class="quote-video-frame youtube-thumbnail-card" data-youtube-thumbnail data-video-url="<%= vid.url || `https://www.youtube.com/watch?v=${vid.videoId}` %>">
                           <button class="youtube-thumbnail-cover" type="button" aria-label="Phát video <%= vid.title %>">
@@ -2390,7 +2432,7 @@
             <!-- When on a specific sub-menu page (e.g. Báo giá nội thất chung cư), render directly that category's videos -->
             <div class="quote-completed-container" id="quote-videos-<%= activeCategoryData.id %>">
               <div class="quote-completed-videos-grid">
-                <% ((activeCategoryData.videos || [])).forEach((vid, vIdx) => { %>
+                <% (activeCategoryData.id === 'chung-cu' ? (activeCategoryData.videos || []).slice(0, 6) : (activeCategoryData.videos || [])).forEach((vid, vIdx) => { %>
                   <article class="quote-video-card quote-completed-video-card">
                     <div class="quote-video-frame youtube-thumbnail-card" data-youtube-thumbnail data-video-url="<%= vid.url || `https://www.youtube.com/watch?v=${vid.videoId}` %>">
                       <button class="youtube-thumbnail-cover" type="button" aria-label="Phát video <%= vid.title %>">
