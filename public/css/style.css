@@ -19439,3 +19439,57 @@ main.project-detail-page .project-detail-summary {
     white-space: normal !important;
   }
 }
+
+/* Final mobile card override. These section-scoped selectors intentionally do
+   not depend on the page wrapper class, so both homepage card grids receive
+   the same mobile treatment. */
+@media (max-width: 767px) {
+  .project-types-section .project-type-card .type-card-features,
+  .home-project-signatures-section .home-project-signature-copy p {
+    display: none !important;
+  }
+
+  .project-types-section .project-type-card .type-card-content,
+  .home-project-signatures-section .home-project-signature-copy {
+    width: 68% !important;
+    max-width: 68% !important;
+    min-height: 100% !important;
+    padding: .65rem .7rem !important;
+    box-sizing: border-box !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: space-between !important;
+  }
+
+  .project-types-section .project-type-card .type-card-name,
+  .home-project-signatures-section .home-project-signature-copy h3 {
+    width: 100% !important;
+    margin: 0 !important;
+    overflow: hidden !important;
+    white-space: nowrap !important;
+    font-size: clamp(.9rem, 4vw, 1.08rem) !important;
+    line-height: 1 !important;
+    letter-spacing: -.04em !important;
+  }
+
+  .project-types-section .project-type-card .type-card-btn,
+  .home-project-signatures-section .home-project-signature-link {
+    width: auto !important;
+    min-width: 0 !important;
+    min-height: 0 !important;
+    margin-top: auto !important;
+    padding: .28rem .46rem !important;
+    border-radius: 6px !important;
+    font-size: clamp(.58rem, 2.55vw, .68rem) !important;
+    line-height: 1 !important;
+    white-space: nowrap !important;
+  }
+
+  .project-types-section .project-type-card--reverse .type-card-content,
+  .home-project-signatures-section .home-project-signature-card--copy-right .home-project-signature-copy {
+    right: 0 !important;
+    left: auto !important;
+    text-align: right !important;
+    align-items: flex-end !important;
+  }
+}
