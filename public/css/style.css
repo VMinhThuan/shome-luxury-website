@@ -19444,6 +19444,13 @@ main.project-detail-page .project-detail-summary {
    not depend on the page wrapper class, so both homepage card grids receive
    the same mobile treatment. */
 @media (max-width: 767px) {
+  .project-types-section .project-types-grid,
+  .home-project-signatures-section .home-project-signatures-grid {
+    justify-content: center !important;
+    column-gap: .35rem !important;
+    row-gap: .55rem !important;
+  }
+
   .project-types-section .project-type-card .type-card-features,
   .home-project-signatures-section .home-project-signature-copy p {
     display: none !important;
@@ -19458,7 +19465,8 @@ main.project-detail-page .project-detail-summary {
     box-sizing: border-box !important;
     display: flex !important;
     flex-direction: column !important;
-    justify-content: space-between !important;
+    justify-content: center !important;
+    gap: .55rem !important;
   }
 
   .project-types-section .project-type-card .type-card-name,
@@ -19477,7 +19485,7 @@ main.project-detail-page .project-detail-summary {
     width: auto !important;
     min-width: 0 !important;
     min-height: 0 !important;
-    margin-top: auto !important;
+    margin-top: 0 !important;
     padding: .28rem .46rem !important;
     border-radius: 6px !important;
     font-size: clamp(.58rem, 2.55vw, .68rem) !important;
