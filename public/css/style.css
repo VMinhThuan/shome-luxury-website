@@ -19451,6 +19451,25 @@ main.project-detail-page .project-detail-summary {
     row-gap: .55rem !important;
   }
 
+  /* The signature gallery uses one 2x2 source image. Nudge each crop away
+     from the source image's white cross-divider so it never appears inside a
+     mobile card. */
+  .home-project-signatures-section .home-project-signature-card--apartment {
+    background-position: calc(0% + 8px) calc(0% + 8px) !important;
+  }
+
+  .home-project-signatures-section .home-project-signature-card--townhouse {
+    background-position: calc(100% - 8px) calc(0% + 8px) !important;
+  }
+
+  .home-project-signatures-section .home-project-signature-card--villa {
+    background-position: calc(0% + 8px) calc(100% + 8px) !important;
+  }
+
+  .home-project-signatures-section .home-project-signature-card--office {
+    background-position: calc(100% - 8px) calc(100% + 8px) !important;
+  }
+
   .project-types-section .project-type-card .type-card-features,
   .home-project-signatures-section .home-project-signature-copy p {
     display: none !important;
