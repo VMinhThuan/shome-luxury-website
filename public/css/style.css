@@ -19288,6 +19288,89 @@ main.project-detail-page .project-detail-summary {
   }
 }
 
+/* Match the two homepage card grids on mobile only. */
+@media (max-width: 767px) {
+  .home-page .project-types-grid,
+  .home-page .home-project-signatures-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: .55rem !important;
+  }
+
+  .home-page .project-type-card,
+  .home-page .project-type-card--reverse,
+  .home-page .home-project-signature-card {
+    min-height: 0 !important;
+    aspect-ratio: 1 / 1 !important;
+    border-radius: 15px !important;
+  }
+
+  .home-page .project-type-card .type-card-features,
+  .home-page .home-project-signature-copy p {
+    display: none !important;
+  }
+
+  .home-page .project-type-card .type-card-content,
+  .home-page .project-type-card--reverse .type-card-content,
+  .home-page .home-project-signature-copy {
+    top: 0 !important;
+    right: auto !important;
+    bottom: 0 !important;
+    left: 0 !important;
+    display: flex !important;
+    width: 68% !important;
+    max-width: 68% !important;
+    min-height: 100% !important;
+    justify-content: space-between !important;
+    padding: .7rem .75rem !important;
+    box-sizing: border-box !important;
+    text-align: left !important;
+    align-items: flex-start !important;
+  }
+
+  .home-page .project-type-card--reverse .type-card-content,
+  .home-page .home-project-signature-card--copy-right .home-project-signature-copy {
+    right: 0 !important;
+    left: auto !important;
+    text-align: right !important;
+    align-items: flex-end !important;
+  }
+
+  .home-page .type-card-name,
+  .home-page .home-project-signature-copy h3 {
+    width: 100% !important;
+    margin: 0 !important;
+    overflow: hidden;
+    white-space: nowrap !important;
+    text-overflow: clip;
+    font-size: clamp(.95rem, 4.4vw, 1.2rem) !important;
+    line-height: 1 !important;
+    letter-spacing: -.035em !important;
+  }
+
+  .home-page .project-type-card--reverse .type-card-name,
+  .home-page .home-project-signature-card--copy-right .home-project-signature-copy h3 {
+    text-align: right !important;
+  }
+
+  .home-page .type-card-btn,
+  .home-page .home-project-signature-link {
+    width: auto !important;
+    min-width: 0 !important;
+    min-height: 32px !important;
+    margin-top: auto !important;
+    padding: .3rem .5rem !important;
+    border-radius: 6px !important;
+    font-size: clamp(.6rem, 2.7vw, .72rem) !important;
+    line-height: 1 !important;
+    white-space: nowrap !important;
+  }
+
+  .home-page .project-type-card--reverse .type-card-btn,
+  .home-page .home-project-signature-card--copy-right .home-project-signature-link {
+    align-self: flex-end !important;
+  }
+}
+
 /* Keep the mobile supporting copy at the same reference scale and alignment. */
 @media (max-width: 767px) {
   body.home-page main .hero-script-subtitle,
