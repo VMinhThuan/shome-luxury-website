@@ -177,7 +177,7 @@ class QuotePageController {
         return res.redirect('/');
       }
       const sections = quotePage.sections || quotePageDefaults;
-      const highlightProjects = await this.getHighlightedProjects(selectedCategory?.slug || rawCategory);
+      const highlightProjects = await this.getHighlightedProjects(selectedCategory?.code || rawCategory);
       const selectedName = selectedCategory?.name?.replace(/^Thiết kế\s+/i, '') || '';
       const isInterior = /^nội thất\b/i.test(selectedName);
       const quoteTitle = `${selectedName.replace(/^(nội thất|kiến trúc)\s+/i, '')} trọn gói`;

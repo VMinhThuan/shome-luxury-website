@@ -19470,6 +19470,12 @@ main.project-detail-page .project-detail-summary {
     background-position: calc(100% - 8px) calc(100% + 8px) !important;
   }
 
+  /* Do not wash out the four project-type photos on phones. */
+  .project-types-section .type-card-gradient {
+    opacity: 0 !important;
+    background: transparent !important;
+  }
+
   .project-types-section .project-type-card .type-card-features,
   .home-project-signatures-section .home-project-signature-copy p {
     display: none !important;
@@ -19479,13 +19485,15 @@ main.project-detail-page .project-detail-summary {
   .home-project-signatures-section .home-project-signature-copy {
     width: 68% !important;
     max-width: 68% !important;
-    min-height: 100% !important;
+    min-height: 0 !important;
+    height: auto !important;
     padding: .65rem .7rem !important;
     box-sizing: border-box !important;
     display: flex !important;
     flex-direction: column !important;
     justify-content: center !important;
-    gap: .55rem !important;
+    align-self: center !important;
+    gap: .18rem !important;
   }
 
   .project-types-section .project-type-card .type-card-name,
@@ -19504,7 +19512,7 @@ main.project-detail-page .project-detail-summary {
     width: auto !important;
     min-width: 0 !important;
     min-height: 0 !important;
-    margin-top: 0 !important;
+    margin: 0 !important;
     padding: .28rem .46rem !important;
     border-radius: 6px !important;
     font-size: clamp(.58rem, 2.55vw, .68rem) !important;

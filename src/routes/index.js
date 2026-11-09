@@ -14,6 +14,17 @@ const contentController = require('../controllers/contentController');
 const navigationData = require('../data/navigationData');
 const { authenticateAdmin, requireAdminPage } = require("../middleware/auth");
 
+const QUOTE_ROUTE_CATEGORY_CODES = {
+  'thiet-ke-thi-cong-kien-truc/thiet-ke-kien-truc-nha-cap-4': 'tk-kt-nha-cap-4',
+  'thiet-ke-thi-cong-kien-truc/thiet-ke-kien-truc-nha-pho': 'tk-kt-nha-pho',
+  'thiet-ke-thi-cong-kien-truc/thiet-ke-kien-truc-biet-thu': 'tk-kt-biet-thu',
+  'thiet-ke-thi-cong-kien-truc/thiet-ke-kien-truc-villa': 'tk-kt-villa',
+  'thiet-ke-thi-cong-noi-that/thiet-ke-noi-that-chung-cu': 'tk-nt-chung-cu',
+  'thiet-ke-thi-cong-noi-that/thiet-ke-noi-that-nha-pho': 'tk-nt-nha-pho',
+  'thiet-ke-thi-cong-noi-that/thiet-ke-noi-that-biet-thu': 'tk-nt-biet-thu',
+  'thiet-ke-thi-cong-noi-that/thiet-ke-noi-that-van-phong': 'tk-nt-van-phong'
+};
+
 // Admin Routes (Unified under /admin/*, server-authenticated, no subdomain needed)
 router.get(["/admin", "/admin/"], requireAdminPage, (req, res) => res.redirect('/admin/images'));
 router.get("/admin/login", quotePageController.renderAdminLoginPage.bind(quotePageController));
@@ -55,9 +66,10 @@ router.get("/dat-lich-ngay", homeController.getBookingPage);
 router.get("/ho-so-nang-luc", homeController.getCompanyProfilePage);
 router.get("/bao-gia", quotePageController.renderPage.bind(quotePageController));
 router.get("/bao-gia/:parentSlug/:categorySlug", (req, res, next) => {
-  // Keep the public URL hierarchical while the controller continues to accept
-  // the category code/slug query used by older links and integrations.
-  req.query.category = req.params.categorySlug;
+  // Keep the public URL hierarchical, but resolve the child menu to its
+  // stable category code before rendering dynamic titles and projects.
+  const routeKey = `${req.params.parentSlug}/${req.params.categorySlug}`;
+  req.query.category = QUOTE_ROUTE_CATEGORY_CODES[routeKey] || req.params.categorySlug;
   return quotePageController.renderPage(req, res, next);
 });
 router.get("/tin-tuc", homeController.getNewsPage);
