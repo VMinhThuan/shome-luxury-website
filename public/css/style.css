@@ -19447,7 +19447,7 @@ main.project-detail-page .project-detail-summary {
   .project-types-section .project-types-grid,
   .home-project-signatures-section .home-project-signatures-grid {
     justify-content: center !important;
-    column-gap: .35rem !important;
+    column-gap: 0 !important;
     row-gap: .55rem !important;
   }
 
@@ -19472,7 +19472,13 @@ main.project-detail-page .project-detail-summary {
 
   /* Do not wash out the four project-type photos on phones. */
   .project-types-section .type-card-gradient {
-    opacity: 0 !important;
+    display: none !important;
+    background: transparent !important;
+  }
+
+  .home-project-signatures-section .home-project-signature-card::before,
+  .home-project-signatures-section .home-project-signature-card--copy-right::before {
+    display: none !important;
     background: transparent !important;
   }
 
