@@ -19472,8 +19472,21 @@ main.project-detail-page .project-detail-summary {
 
   /* Do not wash out the four project-type photos on phones. */
   .project-types-section .type-card-gradient {
-    display: none !important;
-    background: transparent !important;
+    display: block !important;
+    opacity: 1 !important;
+    background: linear-gradient(90deg,
+      rgba(252, 248, 241, .92) 0%,
+      rgba(252, 248, 241, .72) 34%,
+      rgba(252, 248, 241, .2) 56%,
+      rgba(252, 248, 241, 0) 78%) !important;
+  }
+
+  .project-types-section .project-type-card--reverse .type-card-gradient {
+    background: linear-gradient(270deg,
+      rgba(252, 248, 241, .92) 0%,
+      rgba(252, 248, 241, .72) 34%,
+      rgba(252, 248, 241, .2) 56%,
+      rgba(252, 248, 241, 0) 78%) !important;
   }
 
   .home-project-signatures-section .home-project-signature-card::before,
