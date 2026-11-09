@@ -2097,18 +2097,19 @@
   <%- include('partials/mobile-drawer') %>
   <main id="main-content" class="quote-page">
     <% if (sections.hero?.isVisible !== false) { %>
-      <% const quoteHeroSlides = [
-        { desktop: (locals.quoteImages && quoteImages.quote_hero_banner_1) || sections.hero.image, mobile: (locals.quoteImages && quoteImages.quote_hero_mobile_1) || '/images/quote-hero-mobile-living.png' },
-        { desktop: (locals.quoteImages && quoteImages.quote_hero_banner_2) || '/images/quote-hero-banner-bedroom.png', mobile: (locals.quoteImages && quoteImages.quote_hero_mobile_2) || '/images/quote-hero-mobile-bedroom.png' },
-        { desktop: (locals.quoteImages && quoteImages.quote_hero_banner_3) || '/images/quote-hero-banner-dining.png', mobile: (locals.quoteImages && quoteImages.quote_hero_mobile_3) || '/images/quote-hero-mobile-dining.png' }
-      ]; %>
+      <% /* Keep one source of truth for every slide so mobile and desktop show
+             the same hero artwork; only the responsive crop may differ. */
+         const quoteHeroSlides = [
+           (locals.quoteImages && quoteImages.quote_hero_banner_1) || sections.hero.image,
+           (locals.quoteImages && quoteImages.quote_hero_banner_2) || '/images/quote-hero-banner-bedroom.png',
+           (locals.quoteImages && quoteImages.quote_hero_banner_3) || '/images/quote-hero-banner-dining.png'
+         ]; %>
       <section class="quote-hero quote-hero-carousel subpage-banner-frame" aria-label="Banner báo giá">
         <div class="hero-slider-track quote-hero-slider-track" id="quoteHeroSliderTrack" data-hero-slider data-hero-dots="quoteHeroSliderDots" aria-label="Danh sách banner báo giá">
           <% quoteHeroSlides.forEach((image, index) => { %>
-            <div class="hero-slide quote-hero-slide" data-slide-index="<%= index %>" aria-label="Banner báo giá <%= index + 1 %> trên 3" style="--quote-hero-image: url('<%= image.desktop %>')">
+            <div class="hero-slide quote-hero-slide" data-slide-index="<%= index %>" aria-label="Banner báo giá <%= index + 1 %> trên 3" style="--quote-hero-image: url('<%= image %>')">
               <picture class="quote-hero-media" aria-hidden="true">
-                <source media="(max-width: 767px)" srcset="<%= image.mobile %>" />
-                <img src="<%= image.desktop %>" alt="" width="1536" height="1024" <%= index === 0 ? 'fetchpriority="high"' : 'loading="lazy"' %> decoding="async" />
+                <img src="<%= image %>" alt="" width="1536" height="1024" <%= index === 0 ? 'fetchpriority="high"' : 'loading="lazy"' %> decoding="async" />
               </picture>
             </div>
           <% }) %>
