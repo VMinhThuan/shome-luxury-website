@@ -21,6 +21,14 @@ const SOURCE_PRESERVING_IMAGE_KEYS = new Set([
   'quote_construction_cta_image'
 ]);
 
+// These benefit icons keep their website defaults and are no longer
+// replaceable from the image-management screen.
+const HIDDEN_ADMIN_IMAGE_KEYS = new Set([
+  'quote_benefit_icon_1',
+  'quote_benefit_icon_2',
+  'quote_benefit_icon_3'
+]);
+
 const preservesOriginalFile = slot => SOURCE_PRESERVING_IMAGE_KEYS.has(slot.image_key);
 
 const subpageByKey = new Map();
@@ -117,6 +125,9 @@ const requestedSlots = (pageFilter) => {
   return slots.filter(slot => slot.page_key === pageFilter);
 };
 
+const isAdminVisibleSlot = slot => !HIDDEN_ADMIN_IMAGE_KEYS.has(slot.image_key)
+  && !HIDDEN_ADMIN_IMAGE_KEYS.has(slot.parent_image_key);
+
 const allRecords = async () => {
   const saved = await HomeImage.find({ image_key: { $in: [...allConfiguredSlots.map(slot => slot.image_key), 'news_hero_banner'] } }).lean();
   const records = new Map(saved.map(item => [item.image_key, item]));
@@ -167,13 +178,15 @@ exports.getPublicImages = async (req, res, next) => {
 exports.getAdminImages = async (req, res, next) => {
   try {
     const pageFilter = req.query.page;
-    const targetSlots = requestedSlots(pageFilter);
+    const targetSlots = requestedSlots(pageFilter).filter(isAdminVisibleSlot);
     const byKey = await allRecords();
 
     const pagesWithCounts = PAGES_LIST.map(p => ({
       key: p.key,
       label: p.label,
-      count: p.key === 'all' ? slots.length : slots.filter(s => s.page_key === p.key).length
+      count: p.key === 'all'
+        ? slots.filter(isAdminVisibleSlot).length
+        : slots.filter(s => s.page_key === p.key && isAdminVisibleSlot(s)).length
     }));
 
     return res.json({
