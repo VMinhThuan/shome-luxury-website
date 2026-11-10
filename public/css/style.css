@@ -20132,6 +20132,50 @@ main.project-detail-page .project-detail-summary {
   }
 }
 
+/* Project category cards: translucent copy panels and vertically centered copy. */
+.project-types-section .project-type-card .type-card-gradient {
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, .78) 0%,
+    rgba(255, 255, 255, .78) 50%,
+    rgba(255, 255, 255, 0) 50%,
+    rgba(255, 255, 255, 0) 100%
+  ) !important;
+}
+
+.project-types-section .project-type-card--reverse .type-card-gradient {
+  background: linear-gradient(
+    270deg,
+    rgba(255, 255, 255, .78) 0%,
+    rgba(255, 255, 255, .78) 50%,
+    rgba(255, 255, 255, 0) 50%,
+    rgba(255, 255, 255, 0) 100%
+  ) !important;
+}
+
+.project-types-section .project-type-card .type-card-content,
+.project-types-section .project-type-card--reverse .type-card-content {
+  top: 0 !important;
+  bottom: 0 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: center !important;
+}
+
+.project-types-section .project-type-card .type-card-content {
+  left: 0 !important;
+  right: auto !important;
+  align-items: flex-start !important;
+  text-align: left !important;
+}
+
+.project-types-section .project-type-card--reverse .type-card-content {
+  right: 0 !important;
+  left: auto !important;
+  align-items: flex-end !important;
+  text-align: right !important;
+}
+
 /* Mobile category CTA: clearer hierarchy without the oversized pill shape. */
 @media (max-width: 767px) {
   .project-types-section .project-type-card .type-card-name,
