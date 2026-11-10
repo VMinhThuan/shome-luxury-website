@@ -8709,28 +8709,39 @@ main .surface-finish-section .surface-finish-title {
   top: 50%;
   left: 50%;
   display: grid;
-  width: clamp(3.25rem, 7vw, 5.25rem);
-  height: clamp(2.35rem, 5vw, 3.55rem);
+  width: clamp(3.5rem, 6vw, 4.25rem);
+  height: clamp(2.45rem, 4.2vw, 3rem);
   place-items: center;
-  border-radius: clamp(.65rem, 1.2vw, 1rem);
+  border-radius: .75rem;
   color: #fff;
-  background: #ff0033;
-  box-shadow: 0 7px 20px rgba(0, 0, 0, .3), 0 0 0 5px rgba(255, 255, 255, .14);
+  background: #ff0000;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, .28);
   transform: translate(-50%, -50%);
-  transition: transform .2s ease, background .2s ease;
+  transition: transform .2s ease, background-color .2s ease;
   pointer-events: none;
 }
 
 .youtube-play-button svg {
-  width: 45%;
-  height: 45%;
-  margin-left: 4%;
+  width: 1.2rem;
+  height: 1.2rem;
+  margin-left: .12rem;
+  color: #fff !important;
+  fill: #fff !important;
+}
+
+.youtube-play-button svg path {
+  fill: #fff !important;
 }
 
 .youtube-thumbnail-cover:hover .youtube-play-button,
 .youtube-thumbnail-cover:focus-visible .youtube-play-button {
-  background: #e6002f;
+  background: #cc0000;
   transform: translate(-50%, -50%) scale(1.08);
+}
+
+.youtube-thumbnail-cover:focus-visible {
+  outline: 3px solid rgba(255, 255, 255, .92);
+  outline-offset: -3px;
 }
 
 .youtube-thumbnail-card.is-playing .youtube-thumbnail-cover {
@@ -19719,5 +19730,158 @@ main.project-detail-page .project-detail-summary {
     left: auto !important;
     text-align: right !important;
     align-items: flex-end !important;
+  }
+}
+
+/* Final project-category card treatment: rectangular 16:9 media with a
+   clean half-card copy panel. Cards 01/03 read from the left; cards 02/04
+   read from the right in both homepage grids. */
+.home-page .project-type-card,
+.home-page .project-type-card--reverse,
+.home-page .home-project-signature-card,
+.home-page .home-project-signature-card--copy-right {
+  min-height: 0 !important;
+  aspect-ratio: 16 / 9 !important;
+}
+
+.home-page .project-type-card .type-card-bg img,
+.home-page .project-type-card--reverse .type-card-bg img {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+}
+
+.home-page .project-type-card .type-card-gradient,
+.home-page .project-type-card--reverse .type-card-gradient {
+  z-index: 2 !important;
+  opacity: 1 !important;
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, .96) 0%,
+    rgba(255, 255, 255, .96) 50%,
+    rgba(255, 255, 255, 0) 50%,
+    rgba(255, 255, 255, 0) 100%
+  ) !important;
+}
+
+.home-page .project-type-card--reverse .type-card-gradient {
+  background: linear-gradient(
+    270deg,
+    rgba(255, 255, 255, .96) 0%,
+    rgba(255, 255, 255, .96) 50%,
+    rgba(255, 255, 255, 0) 50%,
+    rgba(255, 255, 255, 0) 100%
+  ) !important;
+}
+
+.home-page .project-type-card .type-card-content,
+.home-page .project-type-card--reverse .type-card-content {
+  z-index: 3 !important;
+  top: 0 !important;
+  bottom: 0 !important;
+  width: 50% !important;
+  max-width: 50% !important;
+  min-height: 0 !important;
+  height: auto !important;
+  box-sizing: border-box !important;
+  justify-content: center !important;
+  padding: clamp(.75rem, 2.5vw, 2rem) !important;
+}
+
+.home-page .project-type-card .type-card-content {
+  right: auto !important;
+  left: 0 !important;
+  text-align: left !important;
+  align-items: flex-start !important;
+}
+
+.home-page .project-type-card--reverse .type-card-content {
+  right: 0 !important;
+  left: auto !important;
+  text-align: right !important;
+  align-items: flex-end !important;
+}
+
+.home-page .home-project-signature-card::before,
+.home-page .home-project-signature-card--copy-right::before {
+  z-index: 0 !important;
+  display: block !important;
+  inset: 0 !important;
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, .96) 0%,
+    rgba(255, 255, 255, .96) 50%,
+    rgba(255, 255, 255, 0) 50%,
+    rgba(255, 255, 255, 0) 100%
+  ) !important;
+}
+
+.home-page .home-project-signature-card--copy-right::before {
+  background: linear-gradient(
+    270deg,
+    rgba(255, 255, 255, .96) 0%,
+    rgba(255, 255, 255, .96) 50%,
+    rgba(255, 255, 255, 0) 50%,
+    rgba(255, 255, 255, 0) 100%
+  ) !important;
+}
+
+.home-page .home-project-signature-copy,
+.home-page .home-project-signature-card--copy-right .home-project-signature-copy {
+  z-index: 1 !important;
+  width: 50% !important;
+  max-width: 50% !important;
+  box-sizing: border-box !important;
+  padding: clamp(.75rem, 2.5vw, 2rem) !important;
+}
+
+@media (max-width: 767px) {
+  .home-page .project-type-card .type-card-name,
+  .home-page .project-type-card--reverse .type-card-name,
+  .home-page .home-project-signature-copy h3 {
+    font-size: clamp(.72rem, 3.3vw, .98rem) !important;
+    line-height: 1 !important;
+  }
+
+  .home-page .project-type-card .type-card-btn,
+  .home-page .project-type-card--reverse .type-card-btn,
+  .home-page .home-project-signature-link {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    width: auto !important;
+    max-width: 100% !important;
+    min-width: 90px !important;
+    min-height: 45px !important;
+    margin-top: .65rem !important;
+    padding: .68rem .78rem !important;
+    border: 0 !important;
+    border-radius: 999px !important;
+    background: var(--accent-gold, #D2A044) !important;
+    color: #17120f !important;
+    box-shadow: 0 5px 13px rgba(151, 103, 27, .22) !important;
+    font-size: clamp(.58rem, 2.35vw, .7rem) !important;
+    font-weight: 800 !important;
+    letter-spacing: .01em !important;
+    line-height: 1 !important;
+    text-align: center !important;
+    white-space: nowrap !important;
+    transition: transform .18s ease, background-color .18s ease, box-shadow .18s ease !important;
+  }
+
+  .home-page .project-type-card .type-card-btn:hover,
+  .home-page .project-type-card .type-card-btn:focus-visible,
+  .home-page .home-project-signature-link:hover,
+  .home-page .home-project-signature-link:focus-visible {
+    background: var(--accent-gold-hover, #E6B85C) !important;
+    color: #17120f !important;
+    box-shadow: 0 7px 16px rgba(151, 103, 27, .3) !important;
+    transform: translateY(-1px) !important;
+  }
+
+  .home-page .project-type-card .type-card-btn:focus-visible,
+  .home-page .home-project-signature-link:focus-visible {
+    outline: 3px solid rgba(210, 160, 68, .35) !important;
+    outline-offset: 2px !important;
   }
 }

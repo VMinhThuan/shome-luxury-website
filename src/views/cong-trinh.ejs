@@ -16,7 +16,7 @@
 
   <!-- CSS Stylesheet -->
   <link rel="preload" href="/images/shome-logo.png" as="image" />
-  <link rel="stylesheet" href="/css/style.css?v=6.8.55" />
+  <link rel="stylesheet" href="/css/style.css?v=6.8.66" />
   <script src="/js/main.js?v=2.0.3" defer></script>
 </head>
 <body class="showcase-page-body">
@@ -81,7 +81,7 @@
                 <div class="construction-video-card">
                   <div class="youtube-thumbnail-card" data-youtube-thumbnail data-video-url="https://www.youtube.com/watch?v=<%= video.youtubeId %>">
                     <button class="youtube-thumbnail-cover" type="button" aria-label="Phát video thi công công trình">
-                      <img class="youtube-thumbnail-image" src="<%= video.thumbnail || `https://i.ytimg.com/vi/${video.youtubeId}/hqdefault.jpg` %>" alt="Thumbnail video thi công công trình" loading="lazy" decoding="async" />
+                      <img class="youtube-thumbnail-image" src="https://i.ytimg.com/vi/<%= video.youtubeId %>/hqdefault.jpg" alt="Thumbnail YouTube video thi công công trình" loading="lazy" decoding="async" />
                       <span class="youtube-thumbnail-shade" aria-hidden="true"></span>
                       <span class="youtube-play-button" aria-hidden="true">
                         <svg viewBox="0 0 24 24" fill="currentColor"><path d="M9 6.7v10.6c0 .7.8 1.1 1.4.7l8-5.3c.5-.3.5-1 0-1.4l-8-5.3C9.8 5.6 9 6 9 6.7Z" /></svg>
@@ -187,7 +187,7 @@
                 <div class="construction-video-card">
                   <div class="youtube-thumbnail-card" data-youtube-thumbnail data-video-url="https://www.youtube.com/watch?v=<%= video.youtubeId %>">
                     <button class="youtube-thumbnail-cover" type="button" aria-label="Phát video hoàn công nội thất">
-                      <img class="youtube-thumbnail-image" src="<%= video.thumbnail || `https://i.ytimg.com/vi/${video.youtubeId}/hqdefault.jpg` %>" alt="Thumbnail video hoàn công nội thất" loading="lazy" decoding="async" />
+                      <img class="youtube-thumbnail-image" src="https://i.ytimg.com/vi/<%= video.youtubeId %>/hqdefault.jpg" alt="Thumbnail YouTube video hoàn công nội thất" loading="lazy" decoding="async" />
                       <span class="youtube-thumbnail-shade" aria-hidden="true"></span>
                       <span class="youtube-play-button" aria-hidden="true">
                         <svg viewBox="0 0 24 24" fill="currentColor"><path d="M9 6.7v10.6c0 .7.8 1.1 1.4.7l8-5.3c.5-.3.5-1 0-1.4l-8-5.3C9.8 5.6 9 6 9 6.7Z" /></svg>

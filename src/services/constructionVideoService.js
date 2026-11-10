@@ -1,26 +1,34 @@
 const ConstructionVideo = require('../models/ConstructionVideo');
 
+function videoFields(data = {}) {
+  return {
+    youtubeId: String(data.youtubeId || '').trim(),
+    sortOrder: Number.isFinite(Number(data.sortOrder)) ? Number(data.sortOrder) : 0,
+    isVisible: data.isVisible !== false
+  };
+}
+
 class ConstructionVideoService {
   async getAllVideos() {
     return ConstructionVideo.find({})
-      .select('youtubeId thumbnail sortOrder isVisible createdAt updatedAt')
+      .select('youtubeId sortOrder isVisible createdAt updatedAt')
       .sort({ sortOrder: 1, createdAt: -1 })
       .lean();
   }
 
   async getVisibleVideos() {
     return ConstructionVideo.find({ isVisible: { $ne: false } })
-      .select('youtubeId thumbnail sortOrder')
+      .select('youtubeId sortOrder')
       .sort({ sortOrder: 1, createdAt: -1 })
       .lean();
   }
 
   async createVideo(data) {
-    return new ConstructionVideo(data).save();
+    return new ConstructionVideo(videoFields(data)).save();
   }
 
   async updateVideo(id, data) {
-    const video = await ConstructionVideo.findByIdAndUpdate(id, data, { new: true, runValidators: true });
+    const video = await ConstructionVideo.findByIdAndUpdate(id, videoFields(data), { new: true, runValidators: true });
     if (!video) throw new Error('Construction video not found');
     return video;
   }

@@ -26,10 +26,6 @@
 .video-admin-dialog input[type=text], .video-admin-dialog input[type=number], .video-admin-dialog input:not([type]) { width: 100%; border: 1px solid #d8c8b6; border-radius: 8px; padding: .72rem .8rem; background: #fff; }
 .video-admin-checkbox { display: flex !important; grid-template-columns: none; align-items: center; gap: .5rem !important; }
 .video-admin-checkbox input { width: 1rem; height: 1rem; }
-.video-admin-upload { display: grid; gap: .55rem; padding: .9rem; border: 1px dashed #d4b37d; border-radius: 10px; }
-.video-admin-upload > label { margin: 0; }
-.video-admin-preview { min-height: 2rem; color: #786d63; }
-.video-admin-preview img { display: block; width: 100%; max-height: 220px; object-fit: cover; border-radius: 8px; }
 .video-admin-error { min-height: 1.4rem; color: #b12d23; }
 .video-admin-dialog footer { display: flex; justify-content: flex-end; gap: .6rem; margin-top: 1rem; }
 @media (max-width: 640px) { .video-admin-heading { align-items: flex-start; flex-direction: column; } .video-admin-heading .video-admin-primary { width: 100%; } }
