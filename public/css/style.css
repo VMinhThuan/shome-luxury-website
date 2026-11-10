@@ -5647,17 +5647,22 @@ main .surface-finish-section .surface-finish-title {
 }
 
 .facebook-page-preview-copy {
+  flex: 1 1 auto;
   min-width: 0;
 }
 
 .facebook-page-preview-title-row {
-  display: flex;
+  display: flex !important;
   align-items: center;
   gap: .5rem;
   min-width: 0;
+  width: 100%;
+  flex-wrap: nowrap;
+  overflow: hidden;
 }
 
 .facebook-page-preview-title-row strong {
+  flex: 1 1 auto;
   min-width: 0;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -5684,7 +5689,7 @@ main .surface-finish-section .surface-finish-title {
 }
 
 .facebook-page-preview-copy .facebook-page-preview-followers {
-  display: inline-flex;
+  display: inline-flex !important;
   flex: 0 0 auto;
   align-items: center;
   min-height: 1.55rem;
