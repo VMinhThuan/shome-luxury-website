@@ -20177,6 +20177,7 @@ main.project-detail-page .project-detail-summary {
 /* Align the mobile benefit copy as one centered text block beside its icon. */
 @media (max-width: 767px) {
   .quote-page .quote-benefit-copy {
+    grid-column: 2 !important;
     grid-row: 1 / -1 !important;
     align-self: center !important;
     height: auto !important;
@@ -20190,6 +20191,13 @@ main.project-detail-page .project-detail-summary {
   .quote-page .quote-benefit-copy p {
     width: 100% !important;
     text-align: left !important;
+  }
+
+  .quote-page .quote-benefit-icon {
+    grid-column: 1 !important;
+    grid-row: 1 / -1 !important;
+    align-self: center !important;
+    justify-self: center !important;
   }
 }
 
