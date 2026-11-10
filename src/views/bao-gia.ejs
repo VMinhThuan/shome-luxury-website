@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400&family=Playfair+Display:ital,wght@0,600;0,700;0,800;0,900;1,600&family=Great+Vibes&family=Alex+Brush&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="/css/style.css?v=6.8.70" />
+  <link rel="stylesheet" href="/css/style.css?v=6.8.73" />
   <style>
     /* Alternating section backgrounds on quote page handled by style.css design system */
     .quote-page .quote-video-card-link { display: block; padding: 0; color: inherit; font: inherit; text-align: left; cursor: pointer; }
@@ -110,7 +110,7 @@
     .quote-page .quote-pricing + .quote-construction-cta { padding-top: .25rem !important; }
     @media (max-width: 559px) { .quote-page .quote-section, .quote-page .quote-brand-video, .quote-page .quote-completed, .quote-page .quote-capability { padding-top: 1rem; padding-bottom: 1rem; } }
     .quote-page .quote-craftsmanship { padding: clamp(.75rem, 1.5vw, 1.25rem) 0; background: #fff; }
-    .quote-page .quote-craftsmanship-inner { width: min(820px, 100%); }
+      .quote-page .quote-craftsmanship-inner { width: min(1080px, 100%); }
     .quote-page .quote-craftsmanship-heading { margin: 0 auto 1.7rem; text-align: center; }
     .quote-page .quote-craftsmanship-heading h2 { margin: 0; padding-bottom: .8rem; color: #1d1a18; font-family: var(--font-heading); font-size: clamp(1.3rem, 3vw, 2rem); font-weight: 800; letter-spacing: -.04em; text-transform: uppercase; }
     .quote-page .quote-craftsmanship-heading h2 em { display: block; margin: .3em 0 .38em; color: #bd7218; font-family: var(--font-script); font-size: 1.45em; font-weight: 500; letter-spacing: 0; line-height: .9; text-transform: none; }
@@ -541,6 +541,7 @@
 
       /* Present every craftsmanship group as a balanced two-column image grid on desktop. */
       .quote-page .quote-craft-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .quote-page .quote-craft-grid--all { grid-column: 1 / -1; grid-template-columns: repeat(3, minmax(0, 1fr)); }
     }
 
     @media (max-width: 767px) {
@@ -2547,8 +2548,15 @@
       { number: '2', title: 'Phụ kiện & chuyển động', imageKey: 'quote_craftsmanship_2', image: '/images/craftsmanship-hardware-details-grid.png', items: [['Căn chỉnh bản lề', 'Cánh cân, đóng mở nhẹ nhàng.'], ['Ray trượt êm thuận', 'Kéo mở mượt, vận hành ổn định.'], ['Khe cánh đều đẹp', 'Đồng nhất tại mọi điểm.'], ['Tay nắm ngay ngắn', 'Đúng độ cao và vị trí lắp đặt.']] },
       { number: '3', title: 'Lắp đặt & hoàn thiện', imageKey: 'quote_craftsmanship_3', image: '/images/craftsmanship-finishing-details-grid.png', items: [['Căn chỉnh thẳng bằng', 'Kiểm tra độ phẳng và chắc chắn.'], ['Tiếp giáp gọn gàng', 'Chỉnh chu nơi tủ gặp tường.'], ['Đi dây ngăn nắp', 'Gọn đường dây, thuận tiện sử dụng.'], ['Vệ sinh hoàn thiện', 'Sạch từng góc trước bàn giao.']] },
       { number: '4', title: 'Kiểm tra & bàn giao', imageKey: 'quote_craftsmanship_4', image: '/images/craftsmanship-final-inspection-details-grid.png', items: [['Kiểm tra khe tủ', 'Độ hở đều, đóng mở chuẩn xác.'], ['Rà soát ngăn kéo', 'Chuyển động mượt mà, chắc chắn.'], ['Chỉnh điểm tiếp giáp', 'Tủ ôm khít, liền mạch với tường.'], ['Hoàn thiện phụ kiện', 'Tháo bảo vệ và lau sạch trước bàn giao.']] }
-    ]; %>
-    <section class="quote-craftsmanship"><div class="container quote-craftsmanship-inner"><header class="quote-craftsmanship-heading"><h2>Tinh tế <em>Từng góc nhỏ</em></h2><p>Từ bề mặt, góc cạnh đến phụ kiện và lắp đặt.<br />Mỗi chi tiết đều được chăm chút để tổng thể đẹp và dùng bền lâu.</p></header><% craftsmanshipGroups.forEach(group => { const groupImage = (locals.quoteImages && quoteImages[group.imageKey]) || group.image; %><section class="quote-craft-group"><header class="quote-craft-group-heading"><b><%= group.number %></b><h3><%= group.title %></h3></header><div class="quote-craft-grid"><% group.items.forEach((item, index) => { %><article class="quote-craft-card"><div class="quote-craft-photo"><img src="<%= groupImage %>" alt="<%= item[0] %>" loading="lazy" /></div><h4><%= item[0] %></h4><p><%= item[1] %></p></article><% }) %></div></section><% }) %></div></section>
+    ];
+    const craftsmanshipCards = craftsmanshipGroups
+      .flatMap(group => group.items.map(item => ({
+        item,
+        image: (locals.quoteImages && quoteImages[group.imageKey]) || group.image
+      })))
+      .slice(0, 6);
+    %>
+    <section class="quote-craftsmanship"><div class="container quote-craftsmanship-inner"><header class="quote-craftsmanship-heading"><h2>Tinh tế <em>Từng góc nhỏ</em></h2><p>Từ bề mặt, góc cạnh đến phụ kiện và lắp đặt.<br />Mỗi chi tiết đều được chăm chút để tổng thể đẹp và dùng bền lâu.</p></header><div class="quote-craft-grid quote-craft-grid--all"><% craftsmanshipCards.forEach(({ item, image }) => { %><article class="quote-craft-card"><div class="quote-craft-photo"><img src="<%= image %>" alt="<%= item[0] %>" loading="lazy" /></div><h4><%= item[0] %></h4><p><%= item[1] %></p></article><% }) %></div></div></section>
 
     <% const factoryActivities = [
       ['activity-01.webp', 'Lắp đặt chuẩn xác', 'quote_factory_activity_01'],

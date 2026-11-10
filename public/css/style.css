@@ -6033,6 +6033,15 @@ main .surface-finish-section .surface-finish-title {
   display: block !important;
 }
 
+/* Keep only the Facebook card header visible while its content scrolls. */
+.fb-card-box > .card-top-header {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  flex-shrink: 0;
+  background: #3a3a3a;
+}
+
 /* Column 4: Brand & Social */
 .footer-col-brand {
   gap: 0.4rem;
@@ -20139,5 +20148,28 @@ main.project-detail-page .project-detail-summary {
     border-radius: 6px !important;
     font-size: clamp(.78rem, 3.5vw, .88rem) !important;
     font-weight: 700 !important;
+  }
+}
+
+/* Extra-tight mobile sizing for the three quotation assurance cards. */
+@media (max-width: 767px) {
+  .quote-page .quote-benefit-grid {
+    gap: .3rem !important;
+  }
+
+  .quote-page .quote-benefit-card {
+    grid-template-columns: 34px minmax(0, 1fr) !important;
+    min-height: 52px !important;
+    padding: .3rem .48rem !important;
+    border-radius: 9px !important;
+  }
+
+  .quote-page .quote-benefit-icon {
+    width: 28px !important;
+    height: 28px !important;
+  }
+
+  .quote-page .quote-benefit-copy {
+    padding-left: .34rem !important;
   }
 }
