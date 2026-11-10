@@ -20173,3 +20173,62 @@ main.project-detail-page .project-detail-summary {
     padding-left: .34rem !important;
   }
 }
+
+/* Align the mobile benefit copy as one centered text block beside its icon. */
+@media (max-width: 767px) {
+  .quote-page .quote-benefit-copy {
+    grid-row: 1 / -1 !important;
+    align-self: center !important;
+    height: auto !important;
+    min-height: 0 !important;
+    justify-content: center !important;
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+  }
+
+  .quote-page .quote-benefit-copy h3,
+  .quote-page .quote-benefit-copy p {
+    width: 100% !important;
+    text-align: left !important;
+  }
+}
+
+/* Keep all four category cards on the same compact mobile rhythm. */
+@media (max-width: 767px) {
+  .project-types-section .project-type-card .type-card-content,
+  .project-types-section .project-type-card--reverse .type-card-content {
+    top: 0 !important;
+    bottom: 0 !important;
+    width: 50% !important;
+    max-width: 50% !important;
+    min-width: 0 !important;
+    overflow: hidden !important;
+    justify-content: center !important;
+    gap: .3rem !important;
+    padding: .42rem .5rem !important;
+  }
+
+  .project-types-section .project-type-card .type-card-name,
+  .project-types-section .project-type-card--reverse .type-card-name {
+    margin: 0 !important;
+    max-width: 100% !important;
+    font-size: clamp(.68rem, 3vw, .8rem) !important;
+    line-height: 1.05 !important;
+    text-overflow: ellipsis !important;
+  }
+
+  .project-types-section .project-type-card .type-card-btn,
+  .project-types-section .project-type-card--reverse .type-card-btn {
+    min-width: 0 !important;
+    max-width: 100% !important;
+    min-height: 24px !important;
+    margin: 0 !important;
+    padding: .2rem .34rem !important;
+    border-radius: 5px !important;
+    box-sizing: border-box !important;
+    overflow: hidden !important;
+    font-size: clamp(.52rem, 2.35vw, .6rem) !important;
+    line-height: 1 !important;
+    text-overflow: ellipsis !important;
+  }
+}
