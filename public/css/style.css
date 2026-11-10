@@ -17908,9 +17908,9 @@ main :is(.hero-script-subtitle, .recruitment-hero-script, .recruitment-hero-bott
     inset: 0 !important;
     width: 100% !important;
     height: 100% !important;
-    object-fit: contain !important;
+    object-fit: cover !important;
     object-position: center !important;
-    background: #f7f7f7 !important;
+    background: transparent !important;
   }
 
   .home-page .home-project-signature-card--custom-image::before,
@@ -20924,9 +20924,9 @@ main.project-detail-page .project-detail-summary {
     inset: 0 !important;
     width: 100% !important;
     height: 100% !important;
-    object-fit: contain !important;
+    object-fit: cover !important;
     object-position: center !important;
-    background: #f7f7f7 !important;
+    background: transparent !important;
   }
 
   .home-page .home-project-signature-card--custom-image::before {
