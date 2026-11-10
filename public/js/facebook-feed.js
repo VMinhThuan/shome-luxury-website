@@ -69,6 +69,7 @@
   async function loadFeed(card) {
     const status = card.querySelector("[data-facebook-feed-status]");
     const postsContainer = card.querySelector("[data-facebook-feed-posts]");
+    const cardBox = card.closest(".fb-card-box");
     if (!status || !postsContainer) return;
 
     try {
@@ -85,16 +86,19 @@
       postsContainer.replaceChildren();
       if (Array.isArray(payload.data) && payload.data.length) {
         payload.data.forEach(post => postsContainer.appendChild(renderPost(post)));
+        cardBox?.classList.add("has-facebook-feed");
         status.textContent = payload.meta?.stale
           ? "Đang hiển thị bản lưu gần nhất."
           : "Bài đăng mới nhất từ Fanpage";
         card.classList.toggle("has-stale-facebook-feed", Boolean(payload.meta?.stale));
       } else {
+        cardBox?.classList.remove("has-facebook-feed");
         status.textContent = "Fanpage chưa có bài đăng có thể hiển thị.";
         postsContainer.appendChild(createText("p", "facebook-feed-placeholder", "Chưa có dữ liệu bài đăng."));
       }
     } catch (error) {
       console.warn("Facebook feed unavailable:", error.message);
+      cardBox?.classList.remove("has-facebook-feed");
       status.textContent = "Chưa thể tải bài đăng Facebook.";
       postsContainer.replaceChildren();
       postsContainer.appendChild(createText("p", "facebook-feed-placeholder", "Bạn vẫn có thể xem Fanpage và các bài đăng mới nhất trên Facebook."));

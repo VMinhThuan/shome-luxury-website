@@ -5547,7 +5547,7 @@ main .surface-finish-section .surface-finish-title {
 }
 
 .fb-card-box {
-  height: 500px;
+  height: 235px;
 }
 
 .card-top-header {
@@ -5688,9 +5688,19 @@ main .surface-finish-section .surface-finish-title {
 }
 
 .facebook-feed-posts {
-  flex: 1 1 310px;
-  min-height: 300px;
-  max-height: 350px;
+  flex: 0 0 0;
+  height: 0;
+  min-height: 0;
+  max-height: 0;
+  overflow: hidden;
+  padding: 0;
+}
+
+.fb-card-box.has-facebook-feed .facebook-feed-posts {
+  flex: 1 1 auto;
+  height: auto;
+  min-height: 0;
+  max-height: none;
   overflow-y: auto;
   overflow-x: hidden;
   padding: .35rem .35rem .35rem 0;
@@ -5831,6 +5841,11 @@ main .surface-finish-section .surface-finish-title {
 
 .facebook-feed-unavailable .facebook-feed-status {
   color: #896f41;
+}
+
+.facebook-feed-unavailable .facebook-feed-status,
+.facebook-feed-unavailable .facebook-feed-posts {
+  display: none;
 }
 
 .map-card-box .card-iframe-wrapper iframe {
@@ -6076,10 +6091,6 @@ main .surface-finish-section .surface-finish-title {
     overflow: hidden !important;
   }
 
-  .footer-col-fb .facebook-feed-posts {
-    min-height: 300px;
-    max-height: 350px;
-  }
 }
 
 /* Keep the footer compact on phones once its final text block ends. */
