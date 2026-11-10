@@ -21440,14 +21440,14 @@ main.project-detail-page .project-detail-summary {
 /* Mobile only: keep the YouTube play badge compact inside the video cards. */
 @media (max-width: 767px) {
   .youtube-play-button {
-    width: 2.75rem !important;
-    height: 2rem !important;
-    border-radius: .55rem !important;
+    width: 2.25rem !important;
+    height: 1.6rem !important;
+    border-radius: .4rem !important;
   }
 
   .youtube-play-button svg {
-    width: .95rem !important;
-    height: .95rem !important;
+    width: .75rem !important;
+    height: .75rem !important;
   }
 }
 
