@@ -51,6 +51,12 @@
     .quote-page .quote-completed-video-card.is-hidden-extra { display: none !important; }
     .quote-page .quote-completed-video-card .quote-video-frame { position: relative; width: 100%; aspect-ratio: 16 / 9; background: #000; overflow: hidden; }
     .quote-page .quote-completed-video-card .quote-video-frame iframe { position: absolute; inset: 0; display: block; width: 100%; height: 100%; border: 0; pointer-events: auto; touch-action: manipulation; }
+    .quote-page .quote-completed-video-card .youtube-play-button { width: clamp(3rem, 4vw, 3.6rem); height: clamp(2.1rem, 2.8vw, 2.55rem); border: 0; border-radius: .68rem; background: #ff0000; box-shadow: none; }
+    .quote-page .quote-completed-video-card .youtube-play-button svg { width: 1.05rem; height: 1.05rem; }
+    @media (max-width: 767px) {
+      .quote-page .quote-completed-video-card .youtube-play-button { width: 3rem; height: 2.1rem; border-radius: .62rem; background: #ff0000; box-shadow: none; }
+      .quote-page .quote-completed-video-card .youtube-play-button svg { width: .98rem; height: .98rem; }
+    }
     .quote-page .quote-completed-video-meta { display: flex; align-items: center; gap: .75rem; padding: .85rem 1.15rem; background: #fffdfa; border-top: 1px solid #efe4d6; }
     .quote-page .quote-completed-ep-pill { display: inline-flex; align-items: center; padding: .2rem .55rem; border-radius: 6px; background: #211913; color: #f1c97a; font-size: clamp(.68rem, .9vw, .76rem); font-weight: 700; white-space: nowrap; flex-shrink: 0; }
     .quote-page .quote-completed-video-name { margin: 0; color: #1e1814; font-family: var(--font-heading); font-size: clamp(.88rem, 1.15vw, 1.02rem); font-weight: 700; line-height: 1.3; display: -webkit-box; -webkit-line-clamp: 1; -webkit-box-orient: vertical; overflow: hidden; }
@@ -2470,15 +2476,24 @@
                   <div class="quote-completed-videos-grid">
                     <% (cat.id === 'chung-cu' ? (cat.videos || []).slice(0, 6) : (cat.videos || [])).forEach((vid, vIdx) => { %>
                       <article class="quote-video-card quote-completed-video-card">
-                        <div class="quote-video-frame">
-                          <iframe
-                            src="https://www.youtube-nocookie.com/embed/<%= vid.videoId %>?rel=0&modestbranding=1"
-                            title="<%= vid.title %>"
-                            loading="lazy"
-                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                            referrerpolicy="strict-origin-when-cross-origin"
-                            allowfullscreen
-                          ></iframe>
+                        <div
+                          class="quote-video-frame youtube-thumbnail-card"
+                          data-youtube-thumbnail
+                          data-video-url="https://www.youtube.com/watch?v=<%= vid.videoId %>"
+                        >
+                          <button type="button" class="youtube-thumbnail-cover" aria-label="Phát video">
+                            <img
+                              class="youtube-thumbnail-image"
+                              src="https://i.ytimg.com/vi/<%= vid.videoId %>/hqdefault.jpg"
+                              alt=""
+                              loading="lazy"
+                              decoding="async"
+                            />
+                            <span class="youtube-thumbnail-shade" aria-hidden="true"></span>
+                            <span class="youtube-play-button" aria-hidden="true">
+                              <svg viewBox="0 0 24 24" role="presentation"><path d="M9 6.5v11l9-5.5-9-5.5Z"></path></svg>
+                            </span>
+                          </button>
                         </div>
                       </article>
                     <% }) %>
@@ -2492,15 +2507,24 @@
               <div class="quote-completed-videos-grid">
                 <% (activeCategoryData.id === 'chung-cu' ? (activeCategoryData.videos || []).slice(0, 6) : (activeCategoryData.videos || [])).forEach((vid, vIdx) => { %>
                   <article class="quote-video-card quote-completed-video-card">
-                    <div class="quote-video-frame">
-                      <iframe
-                        src="https://www.youtube-nocookie.com/embed/<%= vid.videoId %>?rel=0&modestbranding=1"
-                        title="<%= vid.title %>"
-                        loading="lazy"
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                        referrerpolicy="strict-origin-when-cross-origin"
-                        allowfullscreen
-                      ></iframe>
+                    <div
+                      class="quote-video-frame youtube-thumbnail-card"
+                      data-youtube-thumbnail
+                      data-video-url="https://www.youtube.com/watch?v=<%= vid.videoId %>"
+                    >
+                      <button type="button" class="youtube-thumbnail-cover" aria-label="Phát video">
+                        <img
+                          class="youtube-thumbnail-image"
+                          src="https://i.ytimg.com/vi/<%= vid.videoId %>/hqdefault.jpg"
+                          alt=""
+                          loading="lazy"
+                          decoding="async"
+                        />
+                        <span class="youtube-thumbnail-shade" aria-hidden="true"></span>
+                        <span class="youtube-play-button" aria-hidden="true">
+                          <svg viewBox="0 0 24 24" role="presentation"><path d="M9 6.5v11l9-5.5-9-5.5Z"></path></svg>
+                        </span>
+                      </button>
                     </div>
                   </article>
                 <% }) %>

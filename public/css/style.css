@@ -21463,6 +21463,23 @@ main.project-detail-page .project-detail-summary {
   }
 }
 
+/* The project-type section must remain a two-column grid on mobile even when
+   the shared signature-grid mobile rule is loaded later or without body scope. */
+@media (max-width: 767px) {
+  .project-types-section .home-project-signatures-grid {
+    display: grid !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: .55rem !important;
+  }
+
+  .project-types-section .home-project-signature-card {
+    min-width: 0 !important;
+    width: 100% !important;
+  }
+}
+
 /* Keep the project-type CTA compact on phones instead of stretching across
    the entire card copy area. */
 @media (max-width: 767px) {
