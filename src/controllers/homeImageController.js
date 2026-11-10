@@ -36,6 +36,15 @@ subpageSlots.forEach(slot => {
   if (!subpageByKey.has(slot.page_key)) subpageByKey.set(slot.page_key, []);
   subpageByKey.get(slot.page_key).push(slot);
 });
+
+const displayOrderForSlot = slot => {
+  const pageSlots = subpageByKey.has(slot.page_key)
+    ? subpageByKey.get(slot.page_key)
+    : slots.filter(item => item.page_key === slot.page_key);
+  const index = pageSlots.findIndex(item => item.image_key === slot.image_key);
+  return index >= 0 ? index + 1 : null;
+};
+
 const upload = multer({
   storage: multer.memoryStorage(),
   limits: { fileSize: 10 * 1024 * 1024 },
@@ -98,6 +107,8 @@ const serializeSlot = (slot, record, recordsByKey) => {
     sectionKey: slot.section_key,
     image_key: slot.image_key,
     imageKey: slot.image_key,
+    display_order: displayOrderForSlot(slot),
+    displayOrder: displayOrderForSlot(slot),
     label: slot.label,
     default_image_url: slot.image_url,
     // Backward-compatible field: it always means the saved custom override.

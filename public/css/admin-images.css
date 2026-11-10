@@ -385,6 +385,15 @@
   vertical-align: middle;
 }
 
+.image-slot .slot-number-title {
+  min-height: 42px;
+  margin: 0 0 13px;
+  color: #171717;
+  font-size: 24px;
+  font-weight: 800;
+  line-height: 1;
+}
+
 .slot-page-badge {
   display: inline-flex;
   align-items: center;

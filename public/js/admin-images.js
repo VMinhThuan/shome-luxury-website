@@ -275,14 +275,14 @@
 
   function card(slot, order) {
     const article = create('article', 'image-slot');
-    const orderBadge = create('span', 'slot-order-badge', String(order));
-    orderBadge.title = `Thứ tự hiển thị trên website: ${order}`;
+    const displayOrder = Number(slot.display_order || slot.displayOrder || order);
 
     // Page badge
     const badge = create('span', 'slot-page-badge', slot.page_label || slot.page_key);
     badge.setAttribute('data-page', slot.page_key);
 
-    const heading = create('h2', '', slot.label);
+    const heading = create('h2', 'slot-number-title', String(displayOrder));
+    heading.title = `Vị trí ảnh số ${displayOrder} trên website`;
     const imagePair = create('div', 'image-pair');
 
     const replacementWrap = create('div', 'image-version');
@@ -462,7 +462,7 @@
       }
     };
 
-    article.append(orderBadge, badge, heading, imagePair, actionBar, fileInfoNotice, save);
+    article.append(badge, heading, imagePair, actionBar, fileInfoNotice, save);
     return article;
   }
 
@@ -481,7 +481,7 @@
     }
 
     slotsHost.classList.toggle('is-single-slot', filtered.length === 1);
-    slotsHost.replaceChildren(...filtered.map((slot, index) => card(slot, index + 1)));
+    slotsHost.replaceChildren(...filtered.map((slot, index) => card(slot, slot.display_order || index + 1)));
   }
 
   async function startEditor() {
