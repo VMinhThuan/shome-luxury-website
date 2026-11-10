@@ -19,6 +19,30 @@
     return node;
   }
 
+  function formatFollowersCount(value) {
+    const count = Number(value);
+    if (!Number.isFinite(count) || count < 0) return "";
+
+    if (count >= 1000000) {
+      return `${(count / 1000000).toFixed(count >= 10000000 ? 0 : 1).replace(/\.0$/, "")}M`;
+    }
+
+    if (count >= 1000) {
+      return `${(count / 1000).toFixed(count >= 10000 ? 0 : 1).replace(/\.0$/, "")}K`;
+    }
+
+    return new Intl.NumberFormat("vi-VN").format(count);
+  }
+
+  function renderPageMetadata(card, page) {
+    const followers = card.querySelector("[data-facebook-page-followers]");
+    if (!followers) return;
+
+    const formattedCount = formatFollowersCount(page?.followersCount);
+    followers.textContent = formattedCount ? `${formattedCount} người theo dõi` : "";
+    followers.hidden = !formattedCount;
+  }
+
   function renderPost(post) {
     const article = document.createElement("article");
     article.className = "facebook-feed-post";
@@ -108,6 +132,8 @@
       if (!response.ok || !payload.success) {
         throw new Error(payload?.error?.message || "Không thể tải bài đăng Facebook.");
       }
+
+      renderPageMetadata(card, payload.meta?.page);
 
       postsContainer.replaceChildren();
       if (Array.isArray(payload.data) && payload.data.length) {

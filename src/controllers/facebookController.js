@@ -13,7 +13,8 @@ exports.getPosts = async (req, res) => {
         source: result.source,
         page: result.page || {
           id: facebookService.getConfig().pageId,
-          name: "Shome Luxury"
+          name: "Shome Luxury",
+          followersCount: null
         }
       }
     };
@@ -26,7 +27,11 @@ exports.getPosts = async (req, res) => {
       data: [],
       error: facebookService.serializeError(error),
       meta: {
-        page: { id: facebookService.getConfig().pageId, name: "Shome Luxury" },
+        page: {
+          id: facebookService.getConfig().pageId,
+          name: "Shome Luxury",
+          followersCount: null
+        },
         cacheAvailable: false
       }
     });

@@ -5,6 +5,7 @@ const MAX_POSTS = 5;
 
 const cache = {
   posts: null,
+  page: null,
   cachedAt: 0,
   expiresAt: 0,
   inFlight: null
@@ -147,6 +148,12 @@ function normalizePost(post) {
   };
 }
 
+function normalizeFollowersCount(value) {
+  if (value === null || value === undefined || value === "") return null;
+  const count = Number(value);
+  return Number.isFinite(count) && count >= 0 ? count : null;
+}
+
 async function fetchFreshPosts(config) {
   // User tokens expose an owner through /me. Page tokens may not expose the
   // /me object in the same way, so a Graph error 100 here is allowed and the
@@ -175,6 +182,18 @@ async function fetchFreshPosts(config) {
     );
   }
 
+  // Keep this metric optional so the feed still works when Meta withholds it
+  // because the app/token does not have the required Page access.
+  let followersCount = null;
+  try {
+    const pageMetrics = await requestGraph(config.pageId, config, {
+      fields: "followers_count"
+    });
+    followersCount = normalizeFollowersCount(pageMetrics.followers_count);
+  } catch (error) {
+    // The Page identity and published posts remain available without it.
+  }
+
   const result = await requestGraph(`${config.pageId}/published_posts`, config, {
     limit: String(MAX_POSTS),
     fields: "id,message,created_time,permalink_url,full_picture,attachments{media_type,media,url}"
@@ -186,7 +205,11 @@ async function fetchFreshPosts(config) {
 
   return {
     posts: posts.slice(0, MAX_POSTS),
-    page: { id: String(page.id), name: page.name || "Shome Luxury" }
+    page: {
+      id: String(page.id),
+      name: page.name || "Shome Luxury",
+      followersCount
+    }
   };
 }
 
@@ -198,6 +221,7 @@ async function getPosts() {
     return {
       configured: true,
       posts: cache.posts,
+      page: cache.page,
       cachedAt: cache.cachedAt,
       stale: false,
       source: "cache"
@@ -209,6 +233,7 @@ async function getPosts() {
       return {
         configured: false,
         posts: cache.posts,
+        page: cache.page,
         cachedAt: cache.cachedAt,
         stale: true,
         source: "cache",
@@ -227,12 +252,13 @@ async function getPosts() {
   cache.inFlight = fetchFreshPosts(config)
     .then(result => {
       cache.posts = result.posts;
+      cache.page = result.page || null;
       cache.cachedAt = Date.now();
       cache.expiresAt = cache.cachedAt + config.cacheTtlMs;
       return {
         configured: true,
         posts: result.posts,
-        page: result.page,
+        page: cache.page,
         cachedAt: cache.cachedAt,
         stale: false,
         source: "graph-api"
@@ -243,6 +269,7 @@ async function getPosts() {
         return {
           configured: true,
           posts: cache.posts,
+          page: cache.page,
           cachedAt: cache.cachedAt,
           stale: true,
           source: "cache",

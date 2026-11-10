@@ -5652,6 +5652,7 @@ main .surface-finish-section .surface-finish-title {
 
 .facebook-page-preview-copy strong,
 .facebook-page-preview-copy span,
+.facebook-page-preview-copy .facebook-page-preview-followers,
 .facebook-page-preview-copy p {
   display: block;
 }
@@ -5666,6 +5667,17 @@ main .surface-finish-section .surface-finish-title {
   margin-top: .1rem;
   color: #50627b;
   font-size: .7rem;
+}
+
+.facebook-page-preview-copy .facebook-page-preview-followers {
+  margin-top: .18rem;
+  color: #214f9a;
+  font-size: .68rem;
+  font-weight: 700;
+}
+
+.facebook-page-preview-copy .facebook-page-preview-followers[hidden] {
+  display: none;
 }
 
 .facebook-page-preview-copy p {
@@ -21377,5 +21389,63 @@ main.project-detail-page .project-detail-summary {
       rgba(255, 255, 255, .06) 62%,
       rgba(255, 255, 255, 0) 82%
     ) !important;
+  }
+}
+
+/* Desktop/tablet only: scale the category CTA closer to its card title.
+   The mobile rules above remain unchanged. */
+@media (min-width: 768px) {
+  .home-page .home-project-signature-link {
+    box-sizing: border-box !important;
+    width: 180px !important;
+    min-width: 180px !important;
+    min-height: 50px !important;
+    padding: .7rem 1.15rem !important;
+    border-radius: 8px !important;
+    font-size: clamp(1rem, 1.05vw, 1.2rem) !important;
+    font-weight: 800 !important;
+    line-height: 1.1 !important;
+  }
+}
+
+/* Mobile only: keep the YouTube play badge compact inside the video cards. */
+@media (max-width: 767px) {
+  .youtube-play-button {
+    width: 2.75rem !important;
+    height: 2rem !important;
+    border-radius: .55rem !important;
+  }
+
+  .youtube-play-button svg {
+    width: .95rem !important;
+    height: .95rem !important;
+  }
+}
+
+/* Mobile only: pricing cards become image-only 16:9 tiles. */
+@media (max-width: 767px) {
+  .quote-page .quote-price-card {
+    display: block !important;
+    aspect-ratio: 16 / 9 !important;
+    min-height: 0 !important;
+    border-radius: 16px !important;
+  }
+
+  .quote-page .quote-price-image {
+    width: 100% !important;
+    height: 100% !important;
+    margin: 0 !important;
+    aspect-ratio: auto !important;
+    border-radius: 16px !important;
+  }
+
+  .quote-page .quote-price-image img {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+  }
+
+  .quote-page .quote-price-copy {
+    display: none !important;
   }
 }
