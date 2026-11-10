@@ -5868,6 +5868,42 @@ main .surface-finish-section .surface-finish-title {
   display: none;
 }
 
+/* Keep the Facebook card as one natural scrolling surface. The header,
+   identity, posts and follow link all participate in the same scroll flow. */
+.fb-card-box {
+  overflow-x: hidden !important;
+  overflow-y: auto !important;
+}
+
+.fb-card-box .card-iframe-wrapper {
+  flex: none;
+  height: auto;
+  min-height: 0;
+  overflow: visible !important;
+}
+
+.fb-card-box .facebook-page-preview {
+  display: block;
+  height: auto;
+  min-height: 0;
+  overflow: visible;
+}
+
+.fb-card-box.has-facebook-feed .facebook-feed-posts {
+  display: block;
+  flex: none;
+  height: auto;
+  min-height: 0;
+  max-height: none;
+  overflow: visible;
+  padding: .35rem 0;
+}
+
+.fb-card-box.has-facebook-feed .facebook-page-preview-button {
+  display: block;
+  margin-top: .45rem;
+}
+
 .map-card-box .card-iframe-wrapper iframe {
   width: 100% !important;
   min-width: 100% !important;
@@ -6108,7 +6144,8 @@ main .surface-finish-section .surface-finish-title {
 
   .footer-col-fb .fb-card-box {
     margin-inline: 0 !important;
-    overflow: hidden !important;
+    overflow-x: hidden !important;
+    overflow-y: auto !important;
   }
 
 }
