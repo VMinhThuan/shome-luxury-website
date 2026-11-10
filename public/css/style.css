@@ -20070,6 +20070,30 @@ main.project-detail-page .project-detail-summary {
   }
 }
 
+/* Final compact scale for the three benefit cards on mobile. */
+@media (max-width: 767px) {
+  .quote-page .quote-benefit-grid {
+    gap: .42rem !important;
+  }
+
+  .quote-page .quote-benefit-card {
+    grid-template-columns: 38px minmax(0, 1fr) !important;
+    min-height: 64px !important;
+    padding: .4rem .56rem !important;
+    border-radius: 10px !important;
+  }
+
+  .quote-page .quote-benefit-icon {
+    width: 32px !important;
+    height: 32px !important;
+  }
+
+  .quote-page .quote-benefit-copy {
+    min-height: 0 !important;
+    padding-left: .42rem !important;
+  }
+}
+
 /* Keep the 16:9 project-type tiles airy on mobile; the CTA must not stretch
    and crowd the title inside the half-card copy panel. */
 @media (max-width: 767px) {
@@ -20096,5 +20120,24 @@ main.project-detail-page .project-detail-summary {
     border-radius: 999px !important;
     font-size: clamp(.56rem, 2.35vw, .66rem) !important;
     line-height: 1 !important;
+  }
+}
+
+/* Mobile category CTA: clearer hierarchy without the oversized pill shape. */
+@media (max-width: 767px) {
+  .project-types-section .project-type-card .type-card-name,
+  .project-types-section .project-type-card--reverse .type-card-name {
+    font-size: clamp(.88rem, 3.8vw, 1.02rem) !important;
+    font-weight: 800 !important;
+  }
+
+  .project-types-section .project-type-card .type-card-btn,
+  .project-types-section .project-type-card--reverse .type-card-btn {
+    min-height: 28px !important;
+    margin-top: .42rem !important;
+    padding: .3rem .48rem !important;
+    border-radius: 6px !important;
+    font-size: clamp(.78rem, 3.5vw, .88rem) !important;
+    font-weight: 700 !important;
   }
 }

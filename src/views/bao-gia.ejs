@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400&family=Playfair+Display:ital,wght@0,600;0,700;0,800;0,900;1,600&family=Great+Vibes&family=Alex+Brush&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="/css/style.css?v=6.8.68" />
+  <link rel="stylesheet" href="/css/style.css?v=6.8.70" />
   <style>
     /* Alternating section backgrounds on quote page handled by style.css design system */
     .quote-page .quote-video-card-link { display: block; padding: 0; color: inherit; font: inherit; text-align: left; cursor: pointer; }
@@ -2297,20 +2297,15 @@
             <strong><%= sections.brandVideo.description %></strong>
           </header>
           <div class="quote-video-card">
-            <div class="quote-video-frame youtube-thumbnail-card" data-youtube-thumbnail data-video-url="<%= brandVideoUrl %>">
-              <button class="youtube-thumbnail-cover quote-video-thumbnail-cover" type="button" aria-label="Phát video thương hiệu Shome Luxury">
-                <img
-                  class="youtube-thumbnail-image"
-                  src="https://i.ytimg.com/vi/<%= brandVideoId %>/hqdefault.jpg"
-                  alt="Thumbnail YouTube video thương hiệu Shome Luxury"
-                  loading="lazy"
-                  decoding="async"
-                />
-                <span class="youtube-thumbnail-shade" aria-hidden="true"></span>
-                <span class="youtube-play-button" aria-hidden="true">
-                  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M9 6.7v10.6c0 .7.8 1.1 1.4.7l8-5.3c.5-.3.5-1 0-1.4l-8-5.3C9.8 5.6 9 6 9 6.7Z" /></svg>
-                </span>
-              </button>
+            <div class="quote-video-frame">
+              <iframe
+                src="https://www.youtube-nocookie.com/embed/<%= brandVideoId %>?rel=0&modestbranding=1"
+                title="Video thương hiệu Shome Luxury"
+                loading="lazy"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                referrerpolicy="strict-origin-when-cross-origin"
+                allowfullscreen
+              ></iframe>
             </div>
           </div>
         </div>
@@ -2426,7 +2421,6 @@
         const activeCategoryData = catList.find(c => c.id === activeCatId) || catList[0] || { name: 'Công trình hoàn thiện', videos: [] };
         const selectedCategoryCode = selectedCategory?.code || rawCat;
         const seeAllUrl = quoteProjectUrls[selectedCategoryCode] || dynamicProjectUrl;
-        const videoThumbnailFor = video => `https://i.ytimg.com/vi/${video.videoId}/hqdefault.jpg`;
       %>
       <section class="quote-section quote-completed" id="thuoc-phim-thuc-te">
         <div class="container">
@@ -2466,14 +2460,15 @@
                   <div class="quote-completed-videos-grid">
                     <% (cat.id === 'chung-cu' ? (cat.videos || []).slice(0, 6) : (cat.videos || [])).forEach((vid, vIdx) => { %>
                       <article class="quote-video-card quote-completed-video-card">
-                        <div class="quote-video-frame youtube-thumbnail-card" data-youtube-thumbnail data-video-url="<%= vid.url || `https://www.youtube.com/watch?v=${vid.videoId}` %>">
-                          <button class="youtube-thumbnail-cover" type="button" aria-label="Phát video <%= vid.title %>">
-                            <img class="youtube-thumbnail-image" src="<%= videoThumbnailFor(vid) %>" alt="Thumbnail <%= vid.title %>" loading="lazy" decoding="async" />
-                            <span class="youtube-thumbnail-shade" aria-hidden="true"></span>
-                            <span class="youtube-play-button" aria-hidden="true">
-                              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M9 6.7v10.6c0 .7.8 1.1 1.4.7l8-5.3c.5-.3.5-1 0-1.4l-8-5.3C9.8 5.6 9 6 9 6.7Z" /></svg>
-                            </span>
-                          </button>
+                        <div class="quote-video-frame">
+                          <iframe
+                            src="https://www.youtube-nocookie.com/embed/<%= vid.videoId %>?rel=0&modestbranding=1"
+                            title="<%= vid.title %>"
+                            loading="lazy"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                            referrerpolicy="strict-origin-when-cross-origin"
+                            allowfullscreen
+                          ></iframe>
                         </div>
                       </article>
                     <% }) %>
@@ -2487,14 +2482,15 @@
               <div class="quote-completed-videos-grid">
                 <% (activeCategoryData.id === 'chung-cu' ? (activeCategoryData.videos || []).slice(0, 6) : (activeCategoryData.videos || [])).forEach((vid, vIdx) => { %>
                   <article class="quote-video-card quote-completed-video-card">
-                    <div class="quote-video-frame youtube-thumbnail-card" data-youtube-thumbnail data-video-url="<%= vid.url || `https://www.youtube.com/watch?v=${vid.videoId}` %>">
-                      <button class="youtube-thumbnail-cover" type="button" aria-label="Phát video <%= vid.title %>">
-                        <img class="youtube-thumbnail-image" src="<%= videoThumbnailFor(vid) %>" alt="Thumbnail <%= vid.title %>" loading="lazy" decoding="async" />
-                        <span class="youtube-thumbnail-shade" aria-hidden="true"></span>
-                        <span class="youtube-play-button" aria-hidden="true">
-                          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M9 6.7v10.6c0 .7.8 1.1 1.4.7l8-5.3c.5-.3.5-1 0-1.4l-8-5.3C9.8 5.6 9 6 9 6.7Z" /></svg>
-                        </span>
-                      </button>
+                    <div class="quote-video-frame">
+                      <iframe
+                        src="https://www.youtube-nocookie.com/embed/<%= vid.videoId %>?rel=0&modestbranding=1"
+                        title="<%= vid.title %>"
+                        loading="lazy"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                        referrerpolicy="strict-origin-when-cross-origin"
+                        allowfullscreen
+                      ></iframe>
                     </div>
                   </article>
                 <% }) %>
