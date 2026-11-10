@@ -17900,6 +17900,40 @@ main :is(.hero-script-subtitle, .recruitment-hero-script, .recruitment-hero-bott
 
 /* "Công trình thực tế": retain the two-column desktop rhythm on phones. */
 @media (max-width: 767px) {
+  .home-page .home-project-signature-card--custom-image {
+    background: #f7f7f7 !important;
+  }
+
+  .home-page .home-project-signature-card--custom-image .home-project-signature-image {
+    inset: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: contain !important;
+    object-position: center !important;
+    background: #f7f7f7 !important;
+  }
+
+  .home-page .home-project-signature-card--custom-image::before,
+  .home-page .home-project-signature-card--custom-image.home-project-signature-card--copy-right::before {
+    background: linear-gradient(
+      90deg,
+      rgba(255, 255, 255, .45) 0%,
+      rgba(255, 255, 255, .28) 35%,
+      rgba(255, 255, 255, .06) 62%,
+      rgba(255, 255, 255, 0) 82%
+    ) !important;
+  }
+
+  .home-page .home-project-signature-card--custom-image.home-project-signature-card--copy-right::before {
+    background: linear-gradient(
+      270deg,
+      rgba(255, 255, 255, .45) 0%,
+      rgba(255, 255, 255, .28) 35%,
+      rgba(255, 255, 255, .06) 62%,
+      rgba(255, 255, 255, 0) 82%
+    ) !important;
+  }
+
   .home-page .home-project-signatures-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: .55rem;
@@ -20845,12 +20879,18 @@ main.project-detail-page .project-detail-summary {
 
   .home-page .home-project-signature-card:not(.home-project-signature-card--copy-right) .home-project-signature-copy {
     margin-left: 0 !important;
+    margin-right: auto !important;
     text-align: left !important;
     align-items: flex-start !important;
+    justify-content: center !important;
   }
 
   .home-page .home-project-signature-card:not(.home-project-signature-card--copy-right) .home-project-signature-link {
     align-self: flex-start !important;
+  }
+
+  .home-page .home-project-signature-card:not(.home-project-signature-card--copy-right) .home-project-signature-copy h3 {
+    text-align: left !important;
   }
 
   .home-page .home-project-signature-copy p {
@@ -20870,5 +20910,42 @@ main.project-detail-page .project-detail-summary {
     font-size: clamp(.54rem, 2.4vw, .68rem) !important;
     line-height: 1 !important;
     white-space: nowrap !important;
+  }
+}
+
+/* Mobile photo fit must be the last card rule so the full source image wins
+   over the desktop cover crop. */
+@media (max-width: 767px) {
+  .home-page .home-project-signature-card--custom-image {
+    background: #f7f7f7 !important;
+  }
+
+  .home-page .home-project-signature-card--custom-image .home-project-signature-image {
+    inset: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: contain !important;
+    object-position: center !important;
+    background: #f7f7f7 !important;
+  }
+
+  .home-page .home-project-signature-card--custom-image::before {
+    background: linear-gradient(
+      90deg,
+      rgba(255, 255, 255, .45) 0%,
+      rgba(255, 255, 255, .28) 35%,
+      rgba(255, 255, 255, .06) 62%,
+      rgba(255, 255, 255, 0) 82%
+    ) !important;
+  }
+
+  .home-page .home-project-signature-card--custom-image.home-project-signature-card--copy-right::before {
+    background: linear-gradient(
+      270deg,
+      rgba(255, 255, 255, .45) 0%,
+      rgba(255, 255, 255, .28) 35%,
+      rgba(255, 255, 255, .06) 62%,
+      rgba(255, 255, 255, 0) 82%
+    ) !important;
   }
 }
