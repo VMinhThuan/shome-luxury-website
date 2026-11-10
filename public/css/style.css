@@ -5650,6 +5650,20 @@ main .surface-finish-section .surface-finish-title {
   min-width: 0;
 }
 
+.facebook-page-preview-title-row {
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+  min-width: 0;
+}
+
+.facebook-page-preview-title-row strong {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
 .facebook-page-preview-copy strong,
 .facebook-page-preview-copy span,
 .facebook-page-preview-copy .facebook-page-preview-followers,
@@ -5670,10 +5684,20 @@ main .surface-finish-section .surface-finish-title {
 }
 
 .facebook-page-preview-copy .facebook-page-preview-followers {
-  margin-top: .18rem;
-  color: #214f9a;
-  font-size: .68rem;
+  display: inline-flex;
+  flex: 0 0 auto;
+  align-items: center;
+  min-height: 1.55rem;
+  margin-top: 0;
+  padding: .2rem .5rem;
+  border: 1px solid rgba(176, 125, 28, .34);
+  border-radius: 999px;
+  color: #5d3d05;
+  background: #f2c45f;
+  font-size: .66rem;
   font-weight: 700;
+  line-height: 1.1;
+  white-space: nowrap;
 }
 
 .facebook-page-preview-copy .facebook-page-preview-followers[hidden] {
