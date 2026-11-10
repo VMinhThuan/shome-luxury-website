@@ -5697,10 +5697,10 @@ main .surface-finish-section .surface-finish-title {
 }
 
 .fb-card-box.has-facebook-feed .facebook-feed-posts {
-  flex: 1 1 auto;
-  height: auto;
-  min-height: 0;
-  max-height: none;
+  flex: 0 0 92px;
+  height: 92px;
+  min-height: 92px;
+  max-height: 92px;
   overflow-y: auto;
   overflow-x: hidden;
   padding: .35rem .35rem .35rem 0;
@@ -5708,6 +5708,26 @@ main .surface-finish-section .surface-finish-title {
   -webkit-overflow-scrolling: touch;
   scrollbar-width: thin;
   scrollbar-color: #b8c8dc transparent;
+}
+
+.fb-card-box.has-facebook-feed .facebook-page-preview {
+  gap: .35rem;
+  padding: .55rem;
+}
+
+.fb-card-box.has-facebook-feed .facebook-page-preview-logo {
+  width: 44px;
+  height: 44px;
+  flex-basis: 44px;
+}
+
+.fb-card-box.has-facebook-feed .facebook-page-preview-copy p {
+  margin-top: .12rem;
+  -webkit-line-clamp: 1;
+}
+
+.fb-card-box.has-facebook-feed .facebook-feed-status {
+  display: none;
 }
 
 .facebook-feed-posts::-webkit-scrollbar {
