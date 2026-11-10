@@ -5868,40 +5868,26 @@ main .surface-finish-section .surface-finish-title {
   display: none;
 }
 
-/* Keep the Facebook card as one natural scrolling surface. The header,
-   identity, posts and follow link all participate in the same scroll flow. */
+/* The card keeps its fixed desktop footprint so it aligns with the map card.
+   Mobile overrides below switch it back to natural document flow. */
 .fb-card-box {
-  overflow-x: hidden !important;
-  overflow-y: auto !important;
+  overflow: hidden !important;
 }
 
 .fb-card-box .card-iframe-wrapper {
-  flex: none;
+  flex: 1 1 0%;
   height: auto;
   min-height: 0;
-  overflow: visible !important;
+  display: flex;
+  flex-direction: column;
+  background-color: #FFFFFF !important;
+  overflow: hidden !important;
 }
 
 .fb-card-box .facebook-page-preview {
-  display: block;
+  flex: 1 1 auto;
   height: auto;
-  min-height: 0;
-  overflow: visible;
-}
-
-.fb-card-box.has-facebook-feed .facebook-feed-posts {
-  display: block;
-  flex: none;
-  height: auto;
-  min-height: 0;
-  max-height: none;
-  overflow: visible;
-  padding: .35rem 0;
-}
-
-.fb-card-box.has-facebook-feed .facebook-page-preview-button {
-  display: block;
-  margin-top: .45rem;
+  min-height: 100%;
 }
 
 /* Facebook-like post preview inside the existing Fanpage card. */
@@ -6272,10 +6258,67 @@ main .surface-finish-section .surface-finish-title {
 
   .footer-col-fb .fb-card-box {
     margin-inline: 0 !important;
-    overflow-x: hidden !important;
-    overflow-y: auto !important;
+    overflow: hidden !important;
   }
 
+}
+
+/* On phones the Facebook card must grow with its content. A fixed-height
+   card plus an inner auto-height scroller leaves a dark empty band and can
+   capture the page's vertical swipe. Let the document own the scroll instead. */
+@media (max-width: 767px) {
+  .footer-top-grid {
+    grid-template-columns: minmax(0, 1fr) !important;
+  }
+
+  .footer-col-fb,
+  .footer-col-fb .fb-card-box {
+    min-width: 0;
+  }
+
+  .footer-col-fb .fb-card-box {
+    height: auto !important;
+    min-height: 0 !important;
+    overflow: hidden !important;
+  }
+
+  .footer-col-fb .fb-card-box > .card-top-header {
+    position: static;
+  }
+
+  .footer-col-fb .fb-card-box .card-iframe-wrapper,
+  .footer-col-fb .fb-card-box .facebook-page-preview {
+    height: auto !important;
+    min-height: 0 !important;
+    overflow: visible !important;
+  }
+
+  .footer-col-fb .fb-card-box .card-iframe-wrapper {
+    flex: none;
+    touch-action: auto !important;
+    overscroll-behavior: auto !important;
+  }
+
+  .footer-col-fb .fb-card-box .facebook-page-preview {
+    display: flex;
+    flex: 0 0 auto;
+    min-height: 0 !important;
+  }
+
+  .footer-col-fb .fb-card-box.has-facebook-feed .facebook-feed-posts {
+    display: block;
+    flex: none;
+    height: auto;
+    min-height: 0;
+    max-height: none;
+    overflow: visible;
+    padding: .35rem 0;
+  }
+
+  .footer-col-fb .fb-card-box .facebook-page-preview-button {
+    display: block;
+    margin-top: .45rem;
+  }
 }
 
 /* Keep the footer compact on phones once its final text block ends. */
@@ -20129,6 +20172,69 @@ main.project-detail-page .project-detail-summary {
     border-radius: 999px !important;
     font-size: clamp(.56rem, 2.35vw, .66rem) !important;
     line-height: 1 !important;
+  }
+}
+
+/* Final composition for the four project-type cards (section 4).
+   Keep the 50/50 image treatment from the reference and center the complete
+   title/subtitle/CTA group inside its copy panel. */
+@media (min-width: 768px) {
+  .home-page .project-types-section .project-type-card,
+  .home-page .project-types-section .project-type-card--reverse {
+    min-height: 0 !important;
+    aspect-ratio: 16 / 9 !important;
+    align-items: stretch !important;
+  }
+
+  .home-page .project-types-section .project-type-card .type-card-content,
+  .home-page .project-types-section .project-type-card--reverse .type-card-content {
+    position: absolute !important;
+    top: 0 !important;
+    bottom: 0 !important;
+    height: 100% !important;
+    width: 50% !important;
+    max-width: 50% !important;
+    min-height: 0 !important;
+    margin: 0 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: center !important;
+    box-sizing: border-box !important;
+  }
+
+  .home-page .project-types-section .project-type-card .type-card-content {
+    left: 0 !important;
+    right: auto !important;
+    align-items: flex-start !important;
+    text-align: left !important;
+  }
+
+  .home-page .project-types-section .project-type-card--reverse .type-card-content {
+    left: auto !important;
+    right: 0 !important;
+    align-items: flex-end !important;
+    text-align: right !important;
+  }
+
+  .home-page .project-types-section .type-card-name,
+  .home-page .project-types-section .type-card-features,
+  .home-page .project-types-section .type-card-btn {
+    position: relative;
+    z-index: 1;
+  }
+
+  .home-page .project-types-section .type-card-name {
+    margin-top: 0 !important;
+    margin-bottom: .65rem !important;
+  }
+
+  .home-page .project-types-section .type-card-features {
+    margin-top: 0 !important;
+    margin-bottom: 1.25rem !important;
+  }
+
+  .home-page .project-types-section .type-card-btn {
+    margin-top: 0 !important;
   }
 }
 
