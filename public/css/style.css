@@ -20500,6 +20500,7 @@ main.project-detail-page .project-detail-summary {
   height: auto !important;
   aspect-ratio: 16 / 9 !important;
   overflow: hidden !important;
+  align-items: stretch !important;
   border: 1px solid #f0e8dc !important;
   border-radius: 15px !important;
   background-color: #d9d1c6 !important;
@@ -20554,10 +20555,12 @@ main.project-detail-page .project-detail-summary {
   z-index: 1 !important;
   align-self: stretch !important;
   display: flex !important;
+  flex: 0 0 50% !important;
   flex-direction: column !important;
   justify-content: center !important;
   width: 50% !important;
   max-width: 50% !important;
+  height: 100% !important;
   min-height: 100% !important;
   box-sizing: border-box !important;
   padding: clamp(.75rem, 2.5vw, 2rem) !important;
@@ -20566,12 +20569,13 @@ main.project-detail-page .project-detail-summary {
 }
 
 .home-page .home-project-signature-card--copy-right {
-  justify-content: flex-end !important;
+  justify-content: center !important;
 }
 
 .home-page .home-project-signature-card--copy-right .home-project-signature-copy {
   text-align: right !important;
   align-items: flex-end !important;
+  margin-left: auto !important;
 }
 
 .home-page .home-project-signature-copy h3 {
@@ -20621,8 +20625,10 @@ main.project-detail-page .project-detail-summary {
 
   .home-page .home-project-signature-copy,
   .home-page .home-project-signature-card--copy-right .home-project-signature-copy {
+    flex: 0 0 68% !important;
     width: 68% !important;
     max-width: 68% !important;
+    height: 100% !important;
     min-height: 100% !important;
     padding: .7rem .75rem !important;
   }
@@ -20674,5 +20680,130 @@ main.project-detail-page .project-detail-summary {
     min-height: 44px !important;
     max-height: none !important;
     overflow: visible !important;
+  }
+}
+
+/* Mobile Facebook card: keep the old vertical card footprint and let only
+   the post list scroll, so the footer/document layout remains stable. */
+.facebook-feed-scroll-button {
+  display: none;
+}
+
+@media (max-width: 767px) {
+  .footer-col-fb .fb-card-box {
+    height: clamp(430px, 126vw, 520px) !important;
+    min-height: 430px !important;
+    overflow: hidden !important;
+  }
+
+  .footer-col-fb .fb-card-box .card-iframe-wrapper,
+  .footer-col-fb .fb-card-box .facebook-page-preview {
+    height: 100% !important;
+    min-height: 0 !important;
+    overflow: hidden !important;
+  }
+
+  .footer-col-fb .fb-card-box .facebook-page-preview {
+    gap: .45rem !important;
+    padding: .7rem !important;
+  }
+
+  .footer-col-fb .fb-card-box.has-facebook-feed .facebook-feed-posts,
+  .footer-col-fb .fb-card-box.facebook-feed-unavailable .facebook-feed-posts {
+    flex: 1 1 auto !important;
+    height: auto !important;
+    min-height: 0 !important;
+    max-height: none !important;
+    overflow-x: hidden !important;
+    overflow-y: auto !important;
+    padding: .35rem .2rem .35rem 0 !important;
+    scrollbar-width: thin !important;
+    scrollbar-color: #b8c8dc transparent !important;
+    overscroll-behavior: contain !important;
+    -webkit-overflow-scrolling: touch !important;
+  }
+
+  .footer-col-fb .fb-card-box .facebook-feed-posts::-webkit-scrollbar {
+    display: block !important;
+    width: 5px !important;
+  }
+
+  .footer-col-fb .fb-card-box .facebook-feed-posts::-webkit-scrollbar-thumb {
+    border-radius: 999px;
+    background: #b8c8dc;
+  }
+
+  .footer-col-fb .fb-card-box .facebook-feed-scroll-button {
+    display: inline-flex !important;
+    flex: 0 0 auto !important;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    min-height: 30px;
+    padding: .3rem .55rem;
+    border: 1px solid #c9d6e8;
+    border-radius: 6px;
+    background: #fff;
+    color: #24579c;
+    font: inherit;
+    font-size: .68rem;
+    font-weight: 700;
+    line-height: 1.1;
+    cursor: pointer;
+  }
+
+  .footer-col-fb .fb-card-box .facebook-page-preview-button {
+    flex: 0 0 auto !important;
+    margin-top: 0 !important;
+  }
+}
+
+/* Final reference treatment for both project-card sections. */
+.home-page .project-types-section,
+.home-page .home-project-signatures-section {
+  background: #f1f2f3 !important;
+}
+
+.home-page .home-project-signature-card,
+.home-page .home-project-signature-card--copy-right {
+  aspect-ratio: 16 / 9 !important;
+  background-color: transparent !important;
+}
+
+@media (max-width: 767px) {
+  .home-page .home-project-signatures-grid {
+    grid-template-columns: minmax(0, 1fr) !important;
+    gap: .8rem !important;
+  }
+
+  .home-page .home-project-signature-card,
+  .home-page .home-project-signature-card--copy-right {
+    aspect-ratio: 16 / 9 !important;
+    border-radius: 12px !important;
+  }
+
+  .home-page .home-project-signature-copy,
+  .home-page .home-project-signature-card--copy-right .home-project-signature-copy {
+    flex: 0 0 52% !important;
+    width: 52% !important;
+    max-width: 52% !important;
+    padding: .75rem .85rem !important;
+  }
+
+  .home-page .home-project-signature-copy h3 {
+    font-size: clamp(1rem, 5.5vw, 1.45rem) !important;
+    line-height: 1.05 !important;
+  }
+
+  .home-page .home-project-signature-copy p {
+    margin-bottom: .5rem !important;
+    font-size: clamp(.58rem, 2.8vw, .72rem) !important;
+    line-height: 1.3 !important;
+  }
+
+  .home-page .home-project-signature-link {
+    min-height: 0 !important;
+    padding: .3rem .55rem !important;
+    font-size: clamp(.55rem, 2.5vw, .68rem) !important;
   }
 }
