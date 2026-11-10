@@ -2138,6 +2138,17 @@
         border-radius: inherit !important;
       }
     }
+
+    /* Keep the mobile YouTube cards slightly smaller while preserving the
+       native 16:9 iframe ratio and the two-column layout. */
+    @media (max-width: 767px) {
+      .quote-page .quote-completed-videos-grid {
+        width: 90% !important;
+        max-width: 680px !important;
+        margin-right: auto !important;
+        margin-left: auto !important;
+      }
+    }
   </style>
   <script src="/js/main.js?v=2.0.4" defer></script>
   <script src="/js/quote-page.js?v=1.2.3" defer></script>
