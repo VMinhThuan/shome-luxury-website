@@ -20770,6 +20770,38 @@ main.project-detail-page .project-detail-summary {
   background-color: transparent !important;
 }
 
+/* Keep the source photo as the full card surface; the pale copy wash sits
+   above it instead of hiding the left half. */
+.home-page .home-project-signature-card--custom-image .home-project-signature-image {
+  z-index: 0 !important;
+}
+
+.home-page .home-project-signature-card::before,
+.home-page .home-project-signature-card--copy-right::before {
+  z-index: 1 !important;
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, .68) 0%,
+    rgba(255, 255, 255, .52) 34%,
+    rgba(255, 255, 255, .16) 57%,
+    rgba(255, 255, 255, 0) 78%
+  ) !important;
+}
+
+.home-page .home-project-signature-card--copy-right::before {
+  background: linear-gradient(
+    270deg,
+    rgba(255, 255, 255, .68) 0%,
+    rgba(255, 255, 255, .52) 34%,
+    rgba(255, 255, 255, .16) 57%,
+    rgba(255, 255, 255, 0) 78%
+  ) !important;
+}
+
+.home-page .home-project-signature-copy {
+  z-index: 2 !important;
+}
+
 @media (max-width: 767px) {
   .home-page .home-project-signatures-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
@@ -20804,11 +20836,21 @@ main.project-detail-page .project-detail-summary {
   .home-page .home-project-signature-copy h3 {
     overflow: hidden !important;
     margin: 0 0 .24rem !important;
-    font-size: clamp(.76rem, 3.6vw, 1.05rem) !important;
+    font-size: clamp(.7rem, 3vw, .92rem) !important;
     line-height: 1.05 !important;
     letter-spacing: -.035em !important;
     text-overflow: ellipsis !important;
     white-space: nowrap !important;
+  }
+
+  .home-page .home-project-signature-card:not(.home-project-signature-card--copy-right) .home-project-signature-copy {
+    margin-left: 0 !important;
+    text-align: left !important;
+    align-items: flex-start !important;
+  }
+
+  .home-page .home-project-signature-card:not(.home-project-signature-card--copy-right) .home-project-signature-link {
+    align-self: flex-start !important;
   }
 
   .home-page .home-project-signature-copy p {
