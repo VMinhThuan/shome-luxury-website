@@ -26,8 +26,28 @@
 
     const meta = document.createElement("div");
     meta.className = "facebook-feed-post-meta";
-    meta.appendChild(createText("strong", "facebook-feed-post-author", "Shome Luxury"));
-    meta.appendChild(createText("time", "facebook-feed-post-date", formatDate(post.createdTime)));
+
+    const author = document.createElement("div");
+    author.className = "facebook-feed-post-authorline";
+    const avatar = document.createElement("img");
+    avatar.className = "facebook-feed-post-avatar";
+    avatar.src = "/images/shome-logo.png";
+    avatar.alt = "";
+    avatar.loading = "lazy";
+    avatar.decoding = "async";
+    author.appendChild(avatar);
+
+    const authorCopy = document.createElement("div");
+    authorCopy.className = "facebook-feed-post-authorcopy";
+    authorCopy.appendChild(createText("strong", "facebook-feed-post-author", "Shome Luxury"));
+    const dateLine = document.createElement("div");
+    dateLine.className = "facebook-feed-post-dateline";
+    dateLine.appendChild(createText("time", "facebook-feed-post-date", formatDate(post.createdTime)));
+    dateLine.appendChild(createText("span", "facebook-feed-post-public", " · 🌐"));
+    authorCopy.appendChild(dateLine);
+    author.appendChild(authorCopy);
+    meta.appendChild(author);
+    meta.appendChild(createText("span", "facebook-feed-post-more", "•••"));
     article.appendChild(meta);
 
     if (post.message) {
@@ -53,13 +73,20 @@
       article.appendChild(mediaLink);
     }
 
+    const actions = document.createElement("div");
+    actions.className = "facebook-feed-post-actions";
+    actions.appendChild(createText("span", "facebook-feed-post-action", "♡  Thích"));
+    actions.appendChild(createText("span", "facebook-feed-post-action", "⌁  Bình luận"));
+    actions.appendChild(createText("span", "facebook-feed-post-action", "↗  Chia sẻ"));
+    article.appendChild(actions);
+
     if (post.permalinkUrl) {
       const sourceLink = document.createElement("a");
       sourceLink.className = "facebook-feed-post-link";
       sourceLink.href = post.permalinkUrl;
       sourceLink.target = "_blank";
       sourceLink.rel = "noopener noreferrer";
-      sourceLink.textContent = "Xem bài gốc →";
+      sourceLink.textContent = "Xem trên Facebook →";
       article.appendChild(sourceLink);
     }
 

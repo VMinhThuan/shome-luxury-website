@@ -5904,6 +5904,125 @@ main .surface-finish-section .surface-finish-title {
   margin-top: .45rem;
 }
 
+/* Facebook-like post preview inside the existing Fanpage card. */
+.fb-card-box.has-facebook-feed .facebook-feed-post {
+  padding: .58rem .62rem .52rem;
+  border: 1px solid #dfe3e8;
+  border-radius: 8px;
+  background: #fff;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, .05);
+}
+
+.fb-card-box.has-facebook-feed .facebook-feed-post-meta {
+  align-items: flex-start;
+  gap: .45rem;
+  margin-bottom: .48rem;
+}
+
+.facebook-feed-post-authorline {
+  display: flex;
+  align-items: center;
+  min-width: 0;
+  gap: .42rem;
+}
+
+.facebook-feed-post-avatar {
+  width: 30px;
+  height: 30px;
+  flex: 0 0 30px;
+  padding: 2px;
+  box-sizing: border-box;
+  border: 1px solid #d5dce8;
+  border-radius: 50%;
+  background: #2b2b2b;
+  object-fit: contain;
+}
+
+.facebook-feed-post-authorcopy {
+  min-width: 0;
+}
+
+.facebook-feed-post-author {
+  display: block;
+  color: #1c2d4f;
+  font-size: .68rem;
+  line-height: 1.15;
+}
+
+.facebook-feed-post-dateline {
+  display: flex;
+  align-items: center;
+  gap: .12rem;
+  margin-top: .12rem;
+  color: #65676b;
+  font-size: .56rem;
+  line-height: 1.15;
+}
+
+.facebook-feed-post-date,
+.facebook-feed-post-public {
+  color: inherit;
+  font-size: inherit;
+}
+
+.facebook-feed-post-more {
+  flex: 0 0 auto;
+  padding: .05rem .1rem;
+  color: #65676b;
+  font-size: .78rem;
+  line-height: 1;
+  letter-spacing: .08em;
+}
+
+.fb-card-box.has-facebook-feed .facebook-feed-post-message {
+  margin: 0 0 .5rem;
+  color: #1c2d4f;
+  font-size: .7rem;
+  line-height: 1.42;
+  -webkit-line-clamp: 5;
+}
+
+.fb-card-box.has-facebook-feed .facebook-feed-post-media {
+  margin: 0 -.62rem .42rem;
+  border-radius: 0;
+  background: #f0f2f5;
+}
+
+.fb-card-box.has-facebook-feed .facebook-feed-post-media img {
+  aspect-ratio: 1.91 / 1;
+  object-fit: cover;
+}
+
+.facebook-feed-post-actions {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  align-items: center;
+  gap: .2rem;
+  margin: .05rem 0 .42rem;
+  padding: .35rem 0 .2rem;
+  border-top: 1px solid #e4e6eb;
+  border-bottom: 1px solid #e4e6eb;
+}
+
+.facebook-feed-post-action {
+  min-width: 0;
+  overflow: hidden;
+  color: #65676b;
+  font-size: .59rem;
+  font-weight: 600;
+  line-height: 1.2;
+  text-align: center;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.fb-card-box.has-facebook-feed .facebook-feed-post-link {
+  display: inline-block;
+  color: #1877f2;
+  font-size: .62rem;
+  line-height: 1.2;
+}
+
 .map-card-box .card-iframe-wrapper iframe {
   width: 100% !important;
   min-width: 100% !important;
@@ -19836,6 +19955,41 @@ main.project-detail-page .project-detail-summary {
 }
 
 @media (max-width: 767px) {
+  /* Compact the three assurance cards on mobile only. */
+  .quote-page .quote-benefit-grid {
+    gap: .5rem !important;
+  }
+
+  .quote-page .quote-benefit-card {
+    grid-template-columns: 46px minmax(0, 1fr) !important;
+    min-height: 78px !important;
+    padding: .52rem .68rem !important;
+    border-radius: 12px !important;
+  }
+
+  .quote-page .quote-benefit-icon {
+    width: 40px !important;
+    height: 40px !important;
+  }
+
+  .quote-page .quote-benefit-copy {
+    min-height: 0 !important;
+    padding-left: .5rem !important;
+  }
+
+  .quote-page .quote-benefit-copy h3,
+  .quote-page .quote-benefit-card h3 {
+    margin-bottom: .12rem !important;
+    font-size: clamp(.82rem, 3.85vw, 1rem) !important;
+    line-height: 1.08 !important;
+  }
+
+  .quote-page .quote-benefit-copy p,
+  .quote-page .quote-benefit-card p {
+    font-size: clamp(.62rem, 2.7vw, .72rem) !important;
+    line-height: 1.22 !important;
+  }
+
   .home-page .project-type-card .type-card-name,
   .home-page .project-type-card--reverse .type-card-name,
   .home-page .home-project-signature-copy h3 {
@@ -19883,5 +20037,64 @@ main.project-detail-page .project-detail-summary {
   .home-page .home-project-signature-link:focus-visible {
     outline: 3px solid rgba(210, 160, 68, .35) !important;
     outline-offset: 2px !important;
+  }
+}
+
+/* Pricing card artwork: use a true 16:9 image area on mobile. */
+@media (max-width: 767px) {
+  .quote-page .quote-pricing-list {
+    grid-template-columns: 1fr !important;
+  }
+
+  .quote-page .quote-price-card {
+    grid-template-columns: 1fr !important;
+    aspect-ratio: auto !important;
+    min-height: 0 !important;
+  }
+
+  .quote-page .quote-price-image {
+    width: 100% !important;
+    height: auto !important;
+    min-height: 0 !important;
+    margin: 0 !important;
+    aspect-ratio: 16 / 9 !important;
+    border-radius: 16px 16px 0 0 !important;
+  }
+
+  .quote-page .quote-price-image img {
+    display: block !important;
+    width: 100% !important;
+    height: 100% !important;
+    aspect-ratio: 16 / 9 !important;
+    object-fit: cover !important;
+  }
+}
+
+/* Keep the 16:9 project-type tiles airy on mobile; the CTA must not stretch
+   and crowd the title inside the half-card copy panel. */
+@media (max-width: 767px) {
+  .project-types-section .project-type-card .type-card-content,
+  .project-types-section .project-type-card--reverse .type-card-content {
+    width: 50% !important;
+    max-width: 50% !important;
+    padding: .5rem .58rem !important;
+    gap: .28rem !important;
+  }
+
+  .project-types-section .project-type-card .type-card-name,
+  .project-types-section .project-type-card--reverse .type-card-name {
+    font-size: clamp(.76rem, 3.15vw, .92rem) !important;
+    line-height: 1.05 !important;
+  }
+
+  .project-types-section .project-type-card .type-card-btn,
+  .project-types-section .project-type-card--reverse .type-card-btn {
+    min-width: 0 !important;
+    min-height: 32px !important;
+    margin-top: .35rem !important;
+    padding: .38rem .56rem !important;
+    border-radius: 999px !important;
+    font-size: clamp(.56rem, 2.35vw, .66rem) !important;
+    line-height: 1 !important;
   }
 }
