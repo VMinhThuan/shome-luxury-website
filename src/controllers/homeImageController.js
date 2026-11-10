@@ -37,11 +37,15 @@ subpageSlots.forEach(slot => {
   subpageByKey.get(slot.page_key).push(slot);
 });
 
+const isAdminVisibleSlot = slot => !HIDDEN_ADMIN_IMAGE_KEYS.has(slot.image_key)
+  && !HIDDEN_ADMIN_IMAGE_KEYS.has(slot.parent_image_key);
+
 const displayOrderForSlot = slot => {
   const pageSlots = subpageByKey.has(slot.page_key)
     ? subpageByKey.get(slot.page_key)
     : slots.filter(item => item.page_key === slot.page_key);
-  const index = pageSlots.findIndex(item => item.image_key === slot.image_key);
+  const index = pageSlots.filter(isAdminVisibleSlot)
+    .findIndex(item => item.image_key === slot.image_key);
   return index >= 0 ? index + 1 : null;
 };
 
@@ -135,9 +139,6 @@ const requestedSlots = (pageFilter) => {
   if (subpageByKey.has(subpageKey)) return subpageByKey.get(subpageKey);
   return slots.filter(slot => slot.page_key === pageFilter);
 };
-
-const isAdminVisibleSlot = slot => !HIDDEN_ADMIN_IMAGE_KEYS.has(slot.image_key)
-  && !HIDDEN_ADMIN_IMAGE_KEYS.has(slot.parent_image_key);
 
 const allRecords = async () => {
   const saved = await HomeImage.find({ image_key: { $in: [...allConfiguredSlots.map(slot => slot.image_key), 'news_hero_banner'] } }).lean();
