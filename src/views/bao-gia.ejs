@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400&family=Playfair+Display:ital,wght@0,600;0,700;0,800;0,900;1,600&family=Great+Vibes&family=Alex+Brush&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="/css/style.css?v=6.8.80" />
+  <link rel="stylesheet" href="/css/style.css?v=6.8.81" />
   <style>
     /* Alternating section backgrounds on quote page handled by style.css design system */
     .quote-page .quote-video-card-link { display: block; padding: 0; color: inherit; font: inherit; text-align: left; cursor: pointer; }
@@ -2056,9 +2056,7 @@
         margin-top: 1rem !important;
       }
 
-      /* Keep the pricing cards as real stacked cards on phones. The previous
-         image-only override forced the square source artwork into a 16:9
-         crop, hid the copy and made consecutive cards look glued together. */
+      /* Mobile pricing cards are image-only 16:9 tiles. */
       .quote-page .quote-pricing-list {
         width: 100% !important;
         display: grid !important;
@@ -2067,8 +2065,7 @@
       }
 
       .quote-page .quote-price-card {
-        display: grid !important;
-        grid-template-columns: 1fr !important;
+        display: block !important;
         width: 100% !important;
         min-height: 0 !important;
         padding: 0 !important;
@@ -2076,20 +2073,20 @@
         border-radius: 16px !important;
         background: rgba(255, 255, 255, .94) !important;
         box-shadow: 0 8px 22px rgba(72, 48, 23, .07) !important;
-        aspect-ratio: auto !important;
+        aspect-ratio: 16 / 9 !important;
       }
 
       .quote-page .quote-price-image {
         display: block !important;
         width: 100% !important;
-        height: auto !important;
+        height: 100% !important;
         min-width: 0 !important;
         min-height: 0 !important;
         margin: 0 !important;
         padding: 0 !important;
         border: 0 !important;
-        border-radius: 15px 15px 0 0 !important;
-        aspect-ratio: 16 / 9 !important;
+        border-radius: 15px !important;
+        aspect-ratio: auto !important;
         background-size: cover !important;
         background-position: center !important;
       }
@@ -2101,30 +2098,13 @@
         margin: 0 !important;
         padding: 0 !important;
         border: 0 !important;
-        border-radius: 15px 15px 0 0 !important;
+        border-radius: 15px !important;
         object-fit: cover !important;
         object-position: center !important;
       }
 
       .quote-page .quote-price-copy {
-        display: flex !important;
-        min-width: 0 !important;
-        padding: .85rem 1rem 1rem !important;
-        overflow: visible !important;
-      }
-
-      .quote-page .quote-price-copy::before {
         display: none !important;
-      }
-
-      .quote-page .quote-price-copy h3 {
-        margin: .15rem 0 .3rem !important;
-        font-size: clamp(1.45rem, 7vw, 2rem) !important;
-      }
-
-      .quote-page .quote-price-copy p {
-        margin-bottom: .5rem !important;
-        font-size: .78rem !important;
       }
 
       /* The construction artwork follows the pricing cards and should use
@@ -2141,7 +2121,7 @@
       }
     }
   </style>
-  <script src="/js/main.js?v=2.0.3" defer></script>
+  <script src="/js/main.js?v=2.0.4" defer></script>
   <script src="/js/quote-page.js?v=1.2.3" defer></script>
 </head>
 <body>
@@ -2461,15 +2441,14 @@
                   <div class="quote-completed-videos-grid">
                     <% (cat.id === 'chung-cu' ? (cat.videos || []).slice(0, 6) : (cat.videos || [])).forEach((vid, vIdx) => { %>
                       <article class="quote-video-card quote-completed-video-card">
-                        <div class="quote-video-frame">
-                          <iframe
-                            src="https://www.youtube-nocookie.com/embed/<%= vid.videoId %>?rel=0&modestbranding=1&playsinline=1"
-                            title="<%= vid.title %>"
-                            loading="eager"
-                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                            referrerpolicy="strict-origin-when-cross-origin"
-                            allowfullscreen
-                          ></iframe>
+                        <div class="quote-video-frame youtube-thumbnail-card" data-youtube-thumbnail data-video-url="https://www.youtube.com/watch?v=<%= vid.videoId %>">
+                          <button class="youtube-thumbnail-cover" type="button" aria-label="Phát video: <%= vid.title %>">
+                            <img class="youtube-thumbnail-image" src="https://i.ytimg.com/vi/<%= vid.videoId %>/hqdefault.jpg" alt="" loading="lazy" />
+                            <span class="youtube-thumbnail-shade" aria-hidden="true"></span>
+                            <span class="youtube-play-button" aria-hidden="true">
+                              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6.8v10.4a1 1 0 0 0 1.54.84l7.6-5.2a1 1 0 0 0 0-1.68l-7.6-5.2A1 1 0 0 0 9 6.8Z"></path></svg>
+                            </span>
+                          </button>
                         </div>
                       </article>
                     <% }) %>
@@ -2483,15 +2462,14 @@
               <div class="quote-completed-videos-grid">
                 <% (activeCategoryData.id === 'chung-cu' ? (activeCategoryData.videos || []).slice(0, 6) : (activeCategoryData.videos || [])).forEach((vid, vIdx) => { %>
                   <article class="quote-video-card quote-completed-video-card">
-                    <div class="quote-video-frame">
-                      <iframe
-                        src="https://www.youtube-nocookie.com/embed/<%= vid.videoId %>?rel=0&modestbranding=1&playsinline=1"
-                        title="<%= vid.title %>"
-                        loading="eager"
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                        referrerpolicy="strict-origin-when-cross-origin"
-                        allowfullscreen
-                      ></iframe>
+                    <div class="quote-video-frame youtube-thumbnail-card" data-youtube-thumbnail data-video-url="https://www.youtube.com/watch?v=<%= vid.videoId %>">
+                      <button class="youtube-thumbnail-cover" type="button" aria-label="Phát video: <%= vid.title %>">
+                        <img class="youtube-thumbnail-image" src="https://i.ytimg.com/vi/<%= vid.videoId %>/hqdefault.jpg" alt="" loading="lazy" />
+                        <span class="youtube-thumbnail-shade" aria-hidden="true"></span>
+                        <span class="youtube-play-button" aria-hidden="true">
+                          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6.8v10.4a1 1 0 0 0 1.54.84l7.6-5.2a1 1 0 0 0 0-1.68l-7.6-5.2A1 1 0 0 0 9 6.8Z"></path></svg>
+                        </span>
+                      </button>
                     </div>
                   </article>
                 <% }) %>
