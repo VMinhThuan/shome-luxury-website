@@ -18671,6 +18671,33 @@ main .home-faq-item p {
 /* On phones, each real-project tile keeps the square card height of the
    reference layout instead of flattening the full 2×2 grid. */
 @media (max-width: 767px) {
+  .home-page .home-project-signatures-section .home-project-signature-card:not(.home-project-signature-card--custom-image) {
+    border: 0 !important;
+    background-size: 206% 206% !important;
+    box-shadow: none !important;
+  }
+
+  .home-page .home-project-signatures-section .home-project-signature-card:not(.home-project-signature-card--custom-image)::before,
+  .home-page .home-project-signatures-section .home-project-signature-card--copy-right:not(.home-project-signature-card--custom-image)::before {
+    background: linear-gradient(
+      90deg,
+      rgba(255, 255, 255, .45) 0%,
+      rgba(255, 255, 255, .28) 35%,
+      rgba(255, 255, 255, .06) 62%,
+      rgba(255, 255, 255, 0) 82%
+    ) !important;
+  }
+
+  .home-page .home-project-signatures-section .home-project-signature-card--copy-right:not(.home-project-signature-card--custom-image)::before {
+    background: linear-gradient(
+      270deg,
+      rgba(255, 255, 255, .45) 0%,
+      rgba(255, 255, 255, .28) 35%,
+      rgba(255, 255, 255, .06) 62%,
+      rgba(255, 255, 255, 0) 82%
+    ) !important;
+  }
+
   .home-page .home-project-signatures-grid {
     aspect-ratio: auto;
     grid-template-rows: none;
@@ -18698,6 +18725,86 @@ main .home-faq-item p {
       rgba(255, 255, 255, .94) 53%,
       rgba(255, 255, 255, .3) 74%,
       rgba(255, 255, 255, 0) 100%) !important;
+  }
+}
+
+/* Mobile footer cards share the map card's fixed height. Facebook shows a
+   compact preview; the page itself remains the place to read every post. */
+@media (max-width: 767px) {
+  .footer-col-fb .fb-card-box,
+  .footer-col-map .map-card-box {
+    height: 235px !important;
+    min-height: 235px !important;
+    max-height: 235px !important;
+  }
+
+  .footer-col-fb .fb-card-box .card-iframe-wrapper,
+  .footer-col-fb .fb-card-box .facebook-page-preview {
+    height: auto !important;
+    min-height: 0 !important;
+    overflow: hidden !important;
+  }
+
+  .footer-col-fb .fb-card-box > .card-iframe-wrapper {
+    flex: 1 1 auto !important;
+  }
+
+  .footer-col-fb .fb-card-box .facebook-page-preview {
+    flex: 1 1 auto !important;
+    height: 100% !important;
+    gap: .3rem !important;
+    padding: .45rem !important;
+  }
+
+  .footer-col-fb .fb-card-box .facebook-page-preview-logo {
+    width: 38px !important;
+    height: 38px !important;
+    flex-basis: 38px !important;
+  }
+
+  .footer-col-fb .fb-card-box .facebook-page-preview-copy p {
+    display: -webkit-box !important;
+    margin-top: .08rem !important;
+    -webkit-line-clamp: 1 !important;
+  }
+
+  .footer-col-fb .fb-card-box .facebook-feed-posts,
+  .footer-col-fb .fb-card-box.has-facebook-feed .facebook-feed-posts,
+  .footer-col-fb .fb-card-box.facebook-feed-unavailable .facebook-feed-posts {
+    display: block !important;
+    flex: 1 1 auto !important;
+    height: auto !important;
+    min-height: 0 !important;
+    max-height: none !important;
+    overflow: hidden !important;
+    padding: 0 !important;
+  }
+
+  .footer-col-fb .fb-card-box.has-facebook-feed .facebook-feed-post {
+    margin-bottom: .25rem !important;
+    padding: .35rem .45rem !important;
+  }
+
+  .footer-col-fb .fb-card-box.has-facebook-feed .facebook-feed-post-message {
+    margin-bottom: .25rem !important;
+    -webkit-line-clamp: 2 !important;
+    font-size: .62rem !important;
+    line-height: 1.25 !important;
+  }
+
+  .footer-col-fb .fb-card-box.has-facebook-feed .facebook-feed-post-media img {
+    aspect-ratio: 16 / 6 !important;
+  }
+
+  .footer-col-fb .fb-card-box .facebook-feed-scroll-button {
+    display: none !important;
+  }
+
+  .footer-col-fb .fb-card-box .facebook-page-preview-button {
+    flex: 0 0 auto !important;
+    margin-top: 0 !important;
+    padding: .38rem .5rem !important;
+    font-size: .64rem !important;
   }
 }
 
@@ -20940,6 +21047,291 @@ main.project-detail-page .project-detail-summary {
   }
 
   .home-page .home-project-signature-card--custom-image.home-project-signature-card--copy-right::before {
+    background: linear-gradient(
+      270deg,
+      rgba(255, 255, 255, .45) 0%,
+      rgba(255, 255, 255, .28) 35%,
+      rgba(255, 255, 255, .06) 62%,
+      rgba(255, 255, 255, 0) 82%
+    ) !important;
+  }
+}
+
+/* Final mobile footer sizing: Facebook and map use the same card height. */
+@media (max-width: 767px) {
+  .footer-col-fb .fb-card-box,
+  .footer-col-map .map-card-box {
+    height: 235px !important;
+    min-height: 235px !important;
+    max-height: 235px !important;
+  }
+
+  .footer-col-fb .fb-card-box .card-iframe-wrapper,
+  .footer-col-fb .fb-card-box .facebook-page-preview {
+    height: auto !important;
+    min-height: 0 !important;
+    overflow: hidden !important;
+  }
+
+  .footer-col-fb .fb-card-box > .card-iframe-wrapper {
+    flex: 1 1 auto !important;
+  }
+
+  .footer-col-fb .fb-card-box .facebook-page-preview {
+    flex: 1 1 auto !important;
+    height: 100% !important;
+    gap: .3rem !important;
+    padding: .45rem !important;
+  }
+
+  .footer-col-fb .fb-card-box .facebook-page-preview-logo {
+    width: 38px !important;
+    height: 38px !important;
+    flex-basis: 38px !important;
+  }
+
+  .footer-col-fb .fb-card-box .facebook-page-preview-copy p {
+    display: -webkit-box !important;
+    margin-top: .08rem !important;
+    -webkit-line-clamp: 1 !important;
+  }
+
+  .footer-col-fb .fb-card-box .facebook-feed-posts,
+  .footer-col-fb .fb-card-box.has-facebook-feed .facebook-feed-posts,
+  .footer-col-fb .fb-card-box.facebook-feed-unavailable .facebook-feed-posts {
+    display: block !important;
+    flex: 1 1 auto !important;
+    height: auto !important;
+    min-height: 0 !important;
+    max-height: none !important;
+    overflow: hidden !important;
+    padding: 0 !important;
+  }
+
+  .footer-col-fb .fb-card-box.has-facebook-feed .facebook-feed-post {
+    margin-bottom: .25rem !important;
+    padding: .35rem .45rem !important;
+  }
+
+  .footer-col-fb .fb-card-box.has-facebook-feed .facebook-feed-post-message {
+    margin-bottom: .25rem !important;
+    -webkit-line-clamp: 2 !important;
+    font-size: .62rem !important;
+    line-height: 1.25 !important;
+  }
+
+  .footer-col-fb .fb-card-box.has-facebook-feed .facebook-feed-post-media img {
+    aspect-ratio: 16 / 6 !important;
+  }
+
+  .footer-col-fb .fb-card-box .facebook-feed-scroll-button {
+    display: none !important;
+  }
+
+  .footer-col-fb .fb-card-box .facebook-page-preview-button {
+    flex: 0 0 auto !important;
+    margin-top: 0 !important;
+    padding: .38rem .5rem !important;
+    font-size: .64rem !important;
+  }
+}
+
+/* Canonical homepage project-card rules. Keep this block as the single
+   responsive source of truth for both sections. */
+.home-page .project-types-section,
+.home-page .home-project-signatures-section {
+  background: #f1f2f3 !important;
+}
+
+.home-page .home-project-signatures-grid {
+  display: grid !important;
+  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  width: min(100%, 1120px) !important;
+  margin: 0 auto !important;
+  gap: clamp(.8rem, 1.45vw, 1.2rem) !important;
+}
+
+.home-page .home-project-signature-card {
+  position: relative !important;
+  isolation: isolate !important;
+  display: flex !important;
+  align-items: stretch !important;
+  min-width: 0 !important;
+  min-height: 0 !important;
+  height: auto !important;
+  aspect-ratio: 16 / 9 !important;
+  overflow: hidden !important;
+  border: 1px solid #f0e8dc !important;
+  border-radius: 15px !important;
+  background-color: transparent !important;
+  background-repeat: no-repeat !important;
+  background-size: 200% 200% !important;
+  box-shadow: 0 10px 26px rgba(61, 40, 16, .1) !important;
+}
+
+.home-page .home-project-signature-card--custom-image .home-project-signature-image {
+  position: absolute !important;
+  z-index: 0 !important;
+  inset: 0 !important;
+  display: block !important;
+  width: 100% !important;
+  height: 100% !important;
+  max-width: none !important;
+  object-fit: cover !important;
+  object-position: center !important;
+}
+
+.home-page .home-project-signature-card::before,
+.home-page .home-project-signature-card--copy-right::before {
+  z-index: 1 !important;
+  display: block !important;
+  inset: 0 !important;
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, .68) 0%,
+    rgba(255, 255, 255, .52) 34%,
+    rgba(255, 255, 255, .16) 57%,
+    rgba(255, 255, 255, 0) 78%
+  ) !important;
+}
+
+.home-page .home-project-signature-card--copy-right::before {
+  background: linear-gradient(
+    270deg,
+    rgba(255, 255, 255, .68) 0%,
+    rgba(255, 255, 255, .52) 34%,
+    rgba(255, 255, 255, .16) 57%,
+    rgba(255, 255, 255, 0) 78%
+  ) !important;
+}
+
+.home-page .home-project-signature-copy {
+  position: relative !important;
+  z-index: 2 !important;
+  display: flex !important;
+  flex: 0 0 50% !important;
+  flex-direction: column !important;
+  justify-content: center !important;
+  align-items: flex-start !important;
+  align-self: stretch !important;
+  width: 50% !important;
+  max-width: 50% !important;
+  height: 100% !important;
+  min-height: 100% !important;
+  margin-left: 0 !important;
+  padding: clamp(.75rem, 2.5vw, 2rem) !important;
+  box-sizing: border-box !important;
+  text-align: left !important;
+}
+
+.home-page .home-project-signature-card--copy-right .home-project-signature-copy {
+  margin-left: auto !important;
+  text-align: right !important;
+  align-items: flex-end !important;
+}
+
+.home-page .home-project-signature-copy h3 {
+  width: 100% !important;
+  margin: 0 0 .42rem !important;
+  overflow: hidden !important;
+  color: #17120f !important;
+  font-family: var(--font-heading) !important;
+  font-size: clamp(1.25rem, 2.15vw, 2rem) !important;
+  font-weight: 800 !important;
+  line-height: 1.05 !important;
+  text-overflow: ellipsis !important;
+  white-space: nowrap !important;
+}
+
+.home-page .home-project-signature-copy p {
+  width: 100% !important;
+  margin: 0 0 .7rem !important;
+  color: #756d65 !important;
+  font-size: clamp(.62rem, .78vw, .74rem) !important;
+  line-height: 1.35 !important;
+}
+
+.home-page .home-project-signature-link {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: auto !important;
+  min-width: 0 !important;
+  min-height: 0 !important;
+  margin: 0 !important;
+  padding: .36rem .72rem !important;
+  border: 1px solid var(--accent-gold) !important;
+  border-radius: 5px !important;
+  background: var(--accent-gold) !important;
+  color: #17120f !important;
+  box-shadow: 0 3px 10px rgba(200, 155, 75, .22) !important;
+  font-size: clamp(.6rem, .7vw, .68rem) !important;
+  font-weight: 700 !important;
+  line-height: 1.1 !important;
+  white-space: nowrap !important;
+}
+
+@media (max-width: 767px) {
+  .home-page .home-project-signatures-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: .55rem !important;
+  }
+
+  .home-page .home-project-signature-card {
+    aspect-ratio: 1.8 / 1 !important;
+    border-radius: 10px !important;
+  }
+
+  .home-page .home-project-signature-copy {
+    flex-basis: 50% !important;
+    width: 50% !important;
+    max-width: 50% !important;
+    padding: .55rem .6rem !important;
+  }
+
+  .home-page .home-project-signature-card--copy-right .home-project-signature-copy {
+    margin-left: auto !important;
+    text-align: right !important;
+    align-items: flex-end !important;
+  }
+
+  .home-page .home-project-signature-copy h3 {
+    margin-bottom: .24rem !important;
+    font-size: clamp(.7rem, 3vw, .92rem) !important;
+    letter-spacing: -.035em !important;
+  }
+
+  .home-page .home-project-signature-copy p {
+    display: none !important;
+  }
+
+  .home-page .home-project-signature-link {
+    min-height: 28px !important;
+    padding: .28rem .46rem !important;
+    border-radius: 5px !important;
+    font-size: clamp(.54rem, 2.4vw, .68rem) !important;
+  }
+}
+
+/* Match the real-project sprite cards to the custom-image cards on phones. */
+@media (max-width: 767px) {
+  .home-page .home-project-signatures-section .home-project-signature-card:not(.home-project-signature-card--custom-image) {
+    border: 0 !important;
+    background-size: 206% 206% !important;
+    box-shadow: none !important;
+  }
+
+  .home-page .home-project-signatures-section .home-project-signature-card:not(.home-project-signature-card--custom-image)::before {
+    background: linear-gradient(
+      90deg,
+      rgba(255, 255, 255, .45) 0%,
+      rgba(255, 255, 255, .28) 35%,
+      rgba(255, 255, 255, .06) 62%,
+      rgba(255, 255, 255, 0) 82%
+    ) !important;
+  }
+
+  .home-page .home-project-signatures-section .home-project-signature-card--copy-right:not(.home-project-signature-card--custom-image)::before {
     background: linear-gradient(
       270deg,
       rgba(255, 255, 255, .45) 0%,

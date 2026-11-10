@@ -93,27 +93,11 @@
     return article;
   }
 
-  function initFeedScrollButton(card) {
-    const postsContainer = card.querySelector("[data-facebook-feed-posts]");
-    const scrollButton = card.querySelector("[data-facebook-feed-scroll]");
-    if (!postsContainer || !scrollButton || scrollButton.dataset.bound === "true") return;
-
-    scrollButton.dataset.bound = "true";
-    scrollButton.addEventListener("click", () => {
-      postsContainer.scrollBy({
-        top: Math.max(postsContainer.clientHeight * 0.8, 140),
-        behavior: "smooth"
-      });
-    });
-  }
-
   async function loadFeed(card) {
     const status = card.querySelector("[data-facebook-feed-status]");
     const postsContainer = card.querySelector("[data-facebook-feed-posts]");
     const cardBox = card.closest(".fb-card-box");
     if (!status || !postsContainer) return;
-    initFeedScrollButton(card);
-
     try {
       const response = await fetch("/api/facebook/posts", {
         headers: { Accept: "application/json" },
@@ -150,7 +134,6 @@
 
   function init() {
     document.querySelectorAll("[data-facebook-feed-card]").forEach(card => {
-      initFeedScrollButton(card);
       loadFeed(card);
     });
   }
