@@ -2459,14 +2459,15 @@
                   <div class="quote-completed-videos-grid">
                     <% (cat.id === 'chung-cu' ? (cat.videos || []).slice(0, 6) : (cat.videos || [])).forEach((vid, vIdx) => { %>
                       <article class="quote-video-card quote-completed-video-card">
-                        <div class="quote-video-frame youtube-thumbnail-card" data-youtube-thumbnail data-video-url="https://www.youtube.com/watch?v=<%= vid.videoId %>">
-                          <button class="youtube-thumbnail-cover" type="button" aria-label="Phát video: <%= vid.title %>">
-                            <img class="youtube-thumbnail-image" src="https://i.ytimg.com/vi/<%= vid.videoId %>/hqdefault.jpg" alt="" loading="lazy" />
-                            <span class="youtube-thumbnail-shade" aria-hidden="true"></span>
-                            <span class="youtube-play-button" aria-hidden="true">
-                              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6.8v10.4a1 1 0 0 0 1.54.84l7.6-5.2a1 1 0 0 0 0-1.68l-7.6-5.2A1 1 0 0 0 9 6.8Z"></path></svg>
-                            </span>
-                          </button>
+                        <div class="quote-video-frame">
+                          <iframe
+                            src="https://www.youtube-nocookie.com/embed/<%= vid.videoId %>?rel=0&modestbranding=1"
+                            title="<%= vid.title %>"
+                            loading="lazy"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                            referrerpolicy="strict-origin-when-cross-origin"
+                            allowfullscreen
+                          ></iframe>
                         </div>
                       </article>
                     <% }) %>
@@ -2480,14 +2481,15 @@
               <div class="quote-completed-videos-grid">
                 <% (activeCategoryData.id === 'chung-cu' ? (activeCategoryData.videos || []).slice(0, 6) : (activeCategoryData.videos || [])).forEach((vid, vIdx) => { %>
                   <article class="quote-video-card quote-completed-video-card">
-                    <div class="quote-video-frame youtube-thumbnail-card" data-youtube-thumbnail data-video-url="https://www.youtube.com/watch?v=<%= vid.videoId %>">
-                      <button class="youtube-thumbnail-cover" type="button" aria-label="Phát video: <%= vid.title %>">
-                        <img class="youtube-thumbnail-image" src="https://i.ytimg.com/vi/<%= vid.videoId %>/hqdefault.jpg" alt="" loading="lazy" />
-                        <span class="youtube-thumbnail-shade" aria-hidden="true"></span>
-                        <span class="youtube-play-button" aria-hidden="true">
-                          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6.8v10.4a1 1 0 0 0 1.54.84l7.6-5.2a1 1 0 0 0 0-1.68l-7.6-5.2A1 1 0 0 0 9 6.8Z"></path></svg>
-                        </span>
-                      </button>
+                    <div class="quote-video-frame">
+                      <iframe
+                        src="https://www.youtube-nocookie.com/embed/<%= vid.videoId %>?rel=0&modestbranding=1"
+                        title="<%= vid.title %>"
+                        loading="lazy"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                        referrerpolicy="strict-origin-when-cross-origin"
+                        allowfullscreen
+                      ></iframe>
                     </div>
                   </article>
                 <% }) %>
