@@ -18728,6 +18728,25 @@ main .home-faq-item p {
   }
 }
 
+/* Remove the legacy 8px mobile sprite offset that created the white frame. */
+@media (max-width: 767px) {
+  .home-page .home-project-signatures-section .home-project-signature-card--apartment {
+    background-position: 0 0 !important;
+  }
+
+  .home-page .home-project-signatures-section .home-project-signature-card--townhouse {
+    background-position: 100% 0 !important;
+  }
+
+  .home-page .home-project-signatures-section .home-project-signature-card--villa {
+    background-position: 0 100% !important;
+  }
+
+  .home-page .home-project-signatures-section .home-project-signature-card--office {
+    background-position: 100% 100% !important;
+  }
+}
+
 /* Mobile footer cards share the map card's fixed height. Facebook shows a
    compact preview; the page itself remains the place to read every post. */
 @media (max-width: 767px) {
@@ -21054,6 +21073,25 @@ main.project-detail-page .project-detail-summary {
       rgba(255, 255, 255, .06) 62%,
       rgba(255, 255, 255, 0) 82%
     ) !important;
+  }
+}
+
+/* Final sprite alignment: no inset or white frame on mobile cards. */
+@media (max-width: 767px) {
+  .home-page .home-project-signatures-section .home-project-signature-card--apartment {
+    background-position: 0 0 !important;
+  }
+
+  .home-page .home-project-signatures-section .home-project-signature-card--townhouse {
+    background-position: 100% 0 !important;
+  }
+
+  .home-page .home-project-signatures-section .home-project-signature-card--villa {
+    background-position: 0 100% !important;
+  }
+
+  .home-page .home-project-signatures-section .home-project-signature-card--office {
+    background-position: 100% 100% !important;
   }
 }
 
