@@ -61,3 +61,21 @@ Cần cấu hình một lần trong GitHub repository secrets:
 
 VPS cần có sẵn Git remote `origin`, branch `main`, user `www` sở hữu working tree và quyền SSH root để gọi API aaPanel. Khi push lên `main`, workflow chạy test, VPS pull code mới, chạy `npm ci --omit=dev` nếu dependency thay đổi, chạy `npm run build` để kiểm tra backend EJS và frontend CSS/JS, sau đó aaPanel restart project `shomeluxury_node`. Vì frontend là CSS/JS tĩnh được Express phục vụ cùng backend, không cần tách hai lệnh build riêng. Workflow kiểm tra frontend/admin/API và tự rollback source plus dependency về commit trước nếu cập nhật hoặc health check thất bại. Chế độ `dry-run` chỉ kiểm tra owner, branch, remote, PID, parent/child process và listener port 3030; không pull, không chạy npm và không restart.
 
+## Facebook Feed Preview
+
+The footer Facebook card reads Page posts only through the backend endpoint
+`GET /api/facebook/posts`. Configure the Meta credentials in the deployment
+environment (never in frontend code):
+
+```env
+FACEBOOK_PAGE_ID=1266727566524961
+FACEBOOK_PAGE_ACCESS_TOKEN=your_page_access_token
+FACEBOOK_GRAPH_API_VERSION=v21.0
+FACEBOOK_CACHE_TTL_MS=900000
+```
+
+The backend validates that the token belongs to the configured Page, requests
+`/{page-id}/published_posts`, and keeps the latest successful response in a
+15-minute in-memory cache. If Meta is unavailable, the endpoint returns the
+last cached posts when available; otherwise the card keeps its Fanpage
+identity and external Facebook links without fake posts.

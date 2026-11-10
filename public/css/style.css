@@ -5546,6 +5546,10 @@ main .surface-finish-section .surface-finish-title {
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
 }
 
+.fb-card-box {
+  height: 500px;
+}
+
 .card-top-header {
   display: flex;
   align-items: center;
@@ -5607,16 +5611,15 @@ main .surface-finish-section .surface-finish-title {
 .fb-card-box .card-iframe-wrapper {
   background-color: #FFFFFF !important;
   overflow: hidden !important;
+  display: flex;
+  flex-direction: column;
 }
 
 .facebook-page-preview {
-  display: grid;
-  grid-template-columns: 56px minmax(0, 1fr);
-  grid-template-areas:
-    "logo copy"
-    "button button";
-  align-items: center;
-  gap: .65rem;
+  display: flex;
+  flex-direction: column;
+  gap: .55rem;
+  min-height: 0;
   height: 100%;
   padding: .85rem;
   box-sizing: border-box;
@@ -5624,8 +5627,15 @@ main .surface-finish-section .surface-finish-title {
   color: #1d3557;
 }
 
+.facebook-page-preview-identity {
+  display: flex;
+  align-items: center;
+  gap: .65rem;
+  min-width: 0;
+  flex: 0 0 auto;
+}
+
 .facebook-page-preview-logo {
-  grid-area: logo;
   width: 56px;
   height: 56px;
   flex: 0 0 56px;
@@ -5637,7 +5647,6 @@ main .surface-finish-section .surface-finish-title {
 }
 
 .facebook-page-preview-copy {
-  grid-area: copy;
   min-width: 0;
 }
 
@@ -5664,11 +5673,145 @@ main .surface-finish-section .surface-finish-title {
   color: #43546b;
   font-size: .72rem;
   line-height: 1.35;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+}
+
+.facebook-feed-status {
+  flex: 0 0 auto;
+  min-height: 1rem;
+  color: #63728a;
+  font-size: .66rem;
+  line-height: 1.3;
+}
+
+.facebook-feed-posts {
+  flex: 1 1 310px;
+  min-height: 300px;
+  max-height: 350px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: .35rem .35rem .35rem 0;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
+  scrollbar-color: #b8c8dc transparent;
+}
+
+.facebook-feed-posts::-webkit-scrollbar {
+  width: 5px;
+}
+
+.facebook-feed-posts::-webkit-scrollbar-thumb {
+  border-radius: 999px;
+  background: #b8c8dc;
+}
+
+.facebook-feed-post {
+  margin: 0 0 .55rem;
+  padding: .62rem;
+  border: 1px solid #dce5f0;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, .96);
+  box-shadow: 0 2px 7px rgba(33, 79, 154, .06);
+}
+
+.facebook-feed-post:last-child {
+  margin-bottom: 0;
+}
+
+.facebook-feed-post-meta {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: .5rem;
+  margin-bottom: .35rem;
+}
+
+.facebook-feed-post-author {
+  color: #214f9a;
+  font-size: .7rem;
+}
+
+.facebook-feed-post-date {
+  flex: 0 0 auto;
+  color: #748196;
+  font-size: .62rem;
+}
+
+.facebook-feed-post-message {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 5;
+  overflow: hidden;
+  margin: 0 0 .5rem;
+  color: #334155;
+  font-size: .72rem;
+  line-height: 1.45;
+  white-space: pre-line;
+  overflow-wrap: anywhere;
+}
+
+.facebook-feed-post-media {
+  position: relative;
+  display: block;
+  margin: 0 -.05rem .45rem;
+  overflow: hidden;
+  border-radius: 6px;
+  background: #e9eef5;
+}
+
+.facebook-feed-post-media img {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+}
+
+.facebook-feed-post-play {
+  position: absolute;
+  right: .45rem;
+  bottom: .4rem;
+  padding: .2rem .4rem;
+  border-radius: 999px;
+  background: rgba(20, 37, 63, .82);
+  color: #fff;
+  font-size: .6rem;
+  font-weight: 700;
+}
+
+.facebook-feed-post-link {
+  color: #1877f2;
+  font-size: .68rem;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.facebook-feed-post-link:hover {
+  color: #125dbd;
+  text-decoration: underline;
+}
+
+.facebook-feed-placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100%;
+  margin: 0;
+  padding: 1rem;
+  box-sizing: border-box;
+  color: #63728a;
+  font-size: .7rem;
+  line-height: 1.45;
+  text-align: center;
 }
 
 .facebook-page-preview-button {
-  grid-area: button;
   width: 100%;
+  flex: 0 0 auto;
   box-sizing: border-box;
   padding: .58rem .75rem;
   border-radius: 6px;
@@ -5684,6 +5827,10 @@ main .surface-finish-section .surface-finish-title {
 .facebook-page-preview-button:hover {
   background: #1468d2;
   color: #fff;
+}
+
+.facebook-feed-unavailable .facebook-feed-status {
+  color: #896f41;
 }
 
 .map-card-box .card-iframe-wrapper iframe {
@@ -5914,12 +6061,6 @@ main .surface-finish-section .surface-finish-title {
   }
 }
 
-/* The SDK instance exists only for mobile; keep the direct iframe untouched on desktop. */
-.facebook-mobile-plugin {
-  display: none;
-}
-
-/* Facebook Page Plugin: mobile-only full-width hierarchy. */
 @media (max-width: 768px) {
   .footer-col-fb,
   .footer-col-fb .fb-card-box,
@@ -5935,55 +6076,9 @@ main .surface-finish-section .surface-finish-title {
     overflow: hidden !important;
   }
 
-  .footer-col-fb .card-iframe-wrapper {
-    overflow: hidden !important;
-    overscroll-behavior: contain !important;
-  }
-
-  /* This beats the desktop iframe selector above (which includes `iframe`).
-     Without it the legacy iframe and the SDK plugin render together. */
-  .footer-col-fb .fb-card-box .card-iframe-wrapper > iframe.facebook-page-plugin {
-    display: block !important;
-  }
-
-  .footer-col-fb .facebook-mobile-plugin {
-    display: block !important;
-    width: 100% !important;
-    min-width: 0 !important;
-    max-width: none !important;
-    height: 100% !important;
-    min-height: 100% !important;
-    max-height: 100% !important;
-    box-sizing: border-box !important;
-    overflow: hidden !important;
-  }
-
-  /* Do not overwrite the SDK's own width. It must report its real rendered
-     width so a provider-imposed limit can be handled honestly below. */
-  .footer-col-fb .facebook-mobile-plugin .fb-page,
-  .footer-col-fb .facebook-mobile-plugin .fb-page > span,
-  .footer-col-fb .facebook-mobile-plugin .fb-page iframe {
-    display: block !important;
-    width: 100% !important;
-    max-width: 100% !important;
-    height: 100% !important;
-    min-height: 100% !important;
-    max-height: 100% !important;
-    box-sizing: border-box !important;
-    overscroll-behavior: contain !important;
-  }
-
-  /* Page Plugin has a provider-side maximum width on some viewports. Keep
-     that genuine response visible and centred rather than falsely stretching it. */
-  .footer-col-fb .facebook-mobile-plugin.is-width-capped {
-    display: flex !important;
-    justify-content: center;
-  }
-
-  .footer-col-fb .facebook-mobile-plugin.is-width-capped .fb-page,
-  .footer-col-fb .facebook-mobile-plugin.is-width-capped .fb-page > span,
-  .footer-col-fb .facebook-mobile-plugin.is-width-capped .fb-page iframe {
-    max-width: 100% !important;
+  .footer-col-fb .facebook-feed-posts {
+    min-height: 300px;
+    max-height: 350px;
   }
 }
 
@@ -19470,23 +19565,34 @@ main.project-detail-page .project-detail-summary {
     background-position: calc(100% - 8px) calc(100% + 8px) !important;
   }
 
-  /* Do not wash out the four project-type photos on phones. */
+  /* Match the white, airy card treatment used by the reference grid. */
+  .project-types-section .project-types-grid {
+    width: calc(100% + (var(--mobile-page-spacing) * 2));
+    margin-left: calc(var(--mobile-page-spacing) * -1);
+    padding: 1.25rem 2rem;
+    column-gap: .55rem !important;
+    border-radius: 18px;
+    background: #fff;
+    box-shadow: 0 8px 22px rgba(44, 34, 24, .06);
+  }
+
+  .project-types-section .project-type-card,
+  .project-types-section .project-type-card--reverse {
+    background: #fff !important;
+    border-color: #eee7dc !important;
+    box-shadow: 0 4px 12px rgba(44, 34, 24, .08);
+  }
+
+  /* Keep the photography visible while giving every tile the clean white
+     wash shown in the reference image. */
   .project-types-section .type-card-gradient {
     display: block !important;
     opacity: 1 !important;
-    background: linear-gradient(90deg,
-      rgba(252, 248, 241, .92) 0%,
-      rgba(252, 248, 241, .72) 34%,
-      rgba(252, 248, 241, .2) 56%,
-      rgba(252, 248, 241, 0) 78%) !important;
+    background: rgba(255, 255, 255, .7) !important;
   }
 
   .project-types-section .project-type-card--reverse .type-card-gradient {
-    background: linear-gradient(270deg,
-      rgba(252, 248, 241, .92) 0%,
-      rgba(252, 248, 241, .72) 34%,
-      rgba(252, 248, 241, .2) 56%,
-      rgba(252, 248, 241, 0) 78%) !important;
+    background: rgba(255, 255, 255, .7) !important;
   }
 
   .home-project-signatures-section .home-project-signature-card::before,

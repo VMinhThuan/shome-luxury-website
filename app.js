@@ -5,6 +5,7 @@ const express = require("express");
 const compression = require("compression");
 const connectDB = require("./src/config/db");
 const routes = require("./src/routes");
+const facebookController = require("./src/controllers/facebookController");
 const { hostnameRouting } = require("./src/middleware/hostnameRouting");
 
 const app = express();
@@ -36,6 +37,10 @@ app.use(express.static(path.join(__dirname, "public"), {
   etag: true,
   lastModified: true
 }));
+
+// Facebook Feed does not depend on MongoDB. Keep this read-only endpoint
+// available even when the content database is unavailable.
+app.get("/api/facebook/posts", facebookController.getPosts);
 
 // Serverless DB Connection Middleware (Ensures MongoDB is connected before routes run)
 app.use(async (req, res, next) => {
