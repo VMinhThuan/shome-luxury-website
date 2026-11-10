@@ -11,106 +11,42 @@
     </div>
 
     <!-- 4 Category Cards Grid -->
-    <div class="project-types-grid">
-      <!-- 01 Chung cư -->
-      <article class="project-type-card">
-        <div class="type-card-bg">
-          <img
-            src="<%= homeImages.project_type_apartment %>"
-            alt="Thiết kế thi công nội thất Chung cư cao cấp SHOME LUXURY"
-            loading="lazy"
-            decoding="async"
-            width="800"
-            height="600"
-          />
-          <div class="type-card-gradient"></div>
-        </div>
-        <div class="type-card-content">
-          <h3 class="type-card-name">Chung cư</h3>
-          <div class="type-card-features">
-            <p>Tối ưu diện tích</p>
-            <p>Tiện nghi hiện đại</p>
-          </div>
-          <a href="/thiet-ke-noi-that/chung-cu" class="type-card-btn" aria-label="Xem tất cả dự án chung cư">
-            Xem tất cả
-          </a>
-        </div>
-      </article>
+    <div class="home-project-signatures-grid">
+      <%- include('project-signature-card', {
+        modifier: 'apartment',
+        title: 'Chung cư',
+        subtitle: ['Tối ưu diện tích', 'Tiện nghi hiện đại'],
+        href: '/thiet-ke-noi-that/chung-cu',
+        ariaLabel: 'Xem tất cả thiết kế nội thất chung cư',
+        copyRight: false
+      }) %>
 
-      <!-- 02 Nhà phố -->
-      <article class="project-type-card project-type-card--reverse">
-        <div class="type-card-bg">
-          <img
-            src="<%= homeImages.project_type_townhouse %>"
-            alt="Thiết kế thi công kiến trúc & nội thất Nhà phố SHOME LUXURY"
-            loading="lazy"
-            decoding="async"
-            width="800"
-            height="600"
-          />
-          <div class="type-card-gradient"></div>
-        </div>
-        <div class="type-card-content">
-          <h3 class="type-card-name">Nhà phố</h3>
-          <div class="type-card-features">
-            <p>Hiện đại</p>
-            <p>Gắn kết gia đình</p>
-          </div>
-          <a href="/thiet-ke-noi-that/nha-pho" class="type-card-btn" aria-label="Xem tất cả dự án nhà phố">
-            Xem tất cả
-          </a>
-        </div>
-      </article>
+      <%- include('project-signature-card', {
+        modifier: 'townhouse',
+        title: 'Nhà phố',
+        subtitle: ['Hiện đại', 'Gắn kết gia đình'],
+        href: '/thiet-ke-noi-that/nha-pho',
+        ariaLabel: 'Xem tất cả thiết kế nội thất nhà phố',
+        copyRight: true
+      }) %>
 
-      <!-- 03 Biệt thự -->
-      <article class="project-type-card">
-        <div class="type-card-bg">
-          <img
-            src="<%= homeImages.project_type_villa %>"
-            alt="Thiết kế thi công kiến trúc & nội thất Biệt thự đẳng cấp SHOME LUXURY"
-            loading="lazy"
-            decoding="async"
-            width="800"
-            height="600"
-          />
-          <div class="type-card-gradient"></div>
-        </div>
-        <div class="type-card-content">
-          <h3 class="type-card-name">Biệt thự</h3>
-          <div class="type-card-features">
-            <p>Sang trọng</p>
-            <p>Dấu ấn riêng</p>
-          </div>
-          <a href="/thiet-ke-noi-that/biet-thu" class="type-card-btn" aria-label="Xem tất cả dự án biệt thự">
-            Xem tất cả
-          </a>
-        </div>
-      </article>
+      <%- include('project-signature-card', {
+        modifier: 'villa',
+        title: 'Biệt thự',
+        subtitle: ['Sang trọng', 'Dấu ấn riêng'],
+        href: '/thiet-ke-noi-that/biet-thu',
+        ariaLabel: 'Xem tất cả thiết kế nội thất biệt thự',
+        copyRight: false
+      }) %>
 
-      <!-- 04 Văn phòng -->
-      <article class="project-type-card project-type-card--reverse">
-        <div class="type-card-bg">
-          <img
-            src="<%= homeImages.project_type_office %>"
-            alt="Thiết kế thi công nội thất Văn phòng hiện đại SHOME LUXURY"
-            loading="lazy"
-            decoding="async"
-            width="800"
-            height="600"
-          />
-          <div class="type-card-gradient"></div>
-        </div>
-        <div class="type-card-content">
-          <h3 class="type-card-name">Văn phòng</h3>
-          <div class="type-card-features">
-            <p>Chuyên nghiệp</p>
-            <p>Hiệu quả</p>
-          </div>
-          <a href="/thiet-ke-noi-that/van-phong" class="type-card-btn" aria-label="Xem tất cả dự án văn phòng">
-            Xem tất cả
-          </a>
-        </div>
-      </article>
+      <%- include('project-signature-card', {
+        modifier: 'office',
+        title: 'Văn phòng',
+        subtitle: ['Chuyên nghiệp', 'Hiệu quả'],
+        href: '/thiet-ke-noi-that/van-phong',
+        ariaLabel: 'Xem tất cả thiết kế nội thất văn phòng',
+        copyRight: true
+      }) %>
     </div>
 
   </div>

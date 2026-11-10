@@ -1,0 +1,19 @@
+<%
+  const cardClasses = [
+    'home-project-signature-card',
+    `home-project-signature-card--${modifier}`
+  ];
+
+  if (copyRight) cardClasses.push('home-project-signature-card--copy-right');
+%>
+
+<article class="<%= cardClasses.join(' ') %>">
+  <div class="home-project-signature-copy">
+    <h3><%= title %></h3>
+    <span class="home-project-signature-rule" aria-hidden="true"></span>
+    <p><%= subtitle[0] %><br><%= subtitle[1] %></p>
+    <a href="<%= href %>" class="home-project-signature-link" aria-label="<%= ariaLabel %>">
+      Xem tất cả
+    </a>
+  </div>
+</article>

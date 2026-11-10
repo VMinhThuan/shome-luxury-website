@@ -9,41 +9,41 @@
     </header>
 
     <div class="home-project-signatures-grid">
-      <article class="home-project-signature-card home-project-signature-card--apartment">
-        <div class="home-project-signature-copy">
-          <h3>Chung cư</h3>
-          <span class="home-project-signature-rule" aria-hidden="true"></span>
-          <p>Tối ưu diện tích<br>Tận hưởng hiện đại</p>
-          <a href="/thi-cong-cong-trinh/noi-that/chung-cu" class="home-project-signature-link">Xem tất cả</a>
-        </div>
-      </article>
+      <%- include('project-signature-card', {
+        modifier: 'apartment',
+        title: 'Chung cư',
+        subtitle: ['Tối ưu diện tích', 'Tận hưởng hiện đại'],
+        href: '/thi-cong-cong-trinh/noi-that/chung-cu',
+        ariaLabel: 'Xem tất cả công trình chung cư',
+        copyRight: false
+      }) %>
 
-      <article class="home-project-signature-card home-project-signature-card--townhouse home-project-signature-card--copy-right">
-        <div class="home-project-signature-copy">
-          <h3>Nhà phố</h3>
-          <span class="home-project-signature-rule" aria-hidden="true"></span>
-          <p>Hiện đại<br>Gắn kết gia đình</p>
-          <a href="/thi-cong-cong-trinh/noi-that/nha-pho" class="home-project-signature-link">Xem tất cả</a>
-        </div>
-      </article>
+      <%- include('project-signature-card', {
+        modifier: 'townhouse',
+        title: 'Nhà phố',
+        subtitle: ['Hiện đại', 'Gắn kết gia đình'],
+        href: '/thi-cong-cong-trinh/noi-that/nha-pho',
+        ariaLabel: 'Xem tất cả công trình nhà phố',
+        copyRight: true
+      }) %>
 
-      <article class="home-project-signature-card home-project-signature-card--villa">
-        <div class="home-project-signature-copy">
-          <h3>Biệt thự</h3>
-          <span class="home-project-signature-rule" aria-hidden="true"></span>
-          <p>Sang trọng<br>Dấu ấn riêng</p>
-          <a href="/thi-cong-cong-trinh/noi-that/biet-thu" class="home-project-signature-link">Xem tất cả</a>
-        </div>
-      </article>
+      <%- include('project-signature-card', {
+        modifier: 'villa',
+        title: 'Biệt thự',
+        subtitle: ['Sang trọng', 'Dấu ấn riêng'],
+        href: '/thi-cong-cong-trinh/noi-that/biet-thu',
+        ariaLabel: 'Xem tất cả công trình biệt thự',
+        copyRight: false
+      }) %>
 
-      <article class="home-project-signature-card home-project-signature-card--office home-project-signature-card--copy-right">
-        <div class="home-project-signature-copy">
-          <h3>Văn phòng</h3>
-          <span class="home-project-signature-rule" aria-hidden="true"></span>
-          <p>Chuyên nghiệp<br>Hiệu quả</p>
-          <a href="/thi-cong-cong-trinh/noi-that/van-phong" class="home-project-signature-link">Xem tất cả</a>
-        </div>
-      </article>
+      <%- include('project-signature-card', {
+        modifier: 'office',
+        title: 'Văn phòng',
+        subtitle: ['Chuyên nghiệp', 'Hiệu quả'],
+        href: '/thi-cong-cong-trinh/noi-that/van-phong',
+        ariaLabel: 'Xem tất cả công trình văn phòng',
+        copyRight: true
+      }) %>
     </div>
   </div>
 </section>

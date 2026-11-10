@@ -20390,3 +20390,73 @@ main.project-detail-page .project-detail-summary {
     text-overflow: ellipsis !important;
   }
 }
+
+/* Final Facebook card surface: the preview must fill the same footprint as
+   the map card instead of exposing the card's charcoal fallback underneath. */
+.fb-card-box {
+  background: linear-gradient(135deg, #f8fafc 0%, #e8f0fd 100%) !important;
+}
+
+.fb-card-box > .card-top-header {
+  background: #3a3a3a !important;
+}
+
+.fb-card-box > .card-iframe-wrapper {
+  display: flex !important;
+  flex: 1 1 0% !important;
+  min-height: 0 !important;
+  background: linear-gradient(135deg, #f8fafc 0%, #e8f0fd 100%) !important;
+}
+
+.fb-card-box > .card-iframe-wrapper > .facebook-page-preview {
+  flex: 1 1 auto !important;
+  height: auto !important;
+  min-height: 100% !important;
+  background: transparent !important;
+}
+
+@media (max-width: 767px) {
+  .footer-col-fb .fb-card-box {
+    background: linear-gradient(135deg, #f8fafc 0%, #e8f0fd 100%) !important;
+  }
+
+  .footer-col-fb .fb-card-box > .card-iframe-wrapper {
+    flex: none !important;
+    min-height: 0 !important;
+    background: transparent !important;
+  }
+
+  .footer-col-fb .fb-card-box > .card-iframe-wrapper > .facebook-page-preview {
+    flex: 0 0 auto !important;
+    min-height: 0 !important;
+    background: linear-gradient(135deg, #f8fafc 0%, #e8f0fd 100%) !important;
+  }
+}
+
+/* Always reserve a visible feed viewport. Previously it stayed at height: 0
+   until a successful API response, and API errors hid it completely. */
+.fb-card-box .facebook-feed-posts,
+.fb-card-box.facebook-feed-unavailable .facebook-feed-posts {
+  display: block !important;
+  flex: 0 0 92px !important;
+  height: 92px !important;
+  min-height: 92px !important;
+  max-height: 92px !important;
+  overflow-x: hidden !important;
+  overflow-y: auto !important;
+  padding: .35rem .35rem .35rem 0 !important;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+}
+
+@media (max-width: 767px) {
+  .footer-col-fb .fb-card-box .facebook-feed-posts,
+  .footer-col-fb .fb-card-box.facebook-feed-unavailable .facebook-feed-posts {
+    flex: none !important;
+    height: auto !important;
+    min-height: 64px !important;
+    max-height: none !important;
+    overflow: visible !important;
+    padding: .35rem 0 !important;
+  }
+}
