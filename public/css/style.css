@@ -21453,10 +21453,11 @@ main.project-detail-page .project-detail-summary {
   .home-page .project-types-section .home-project-signatures-grid {
     width: 100% !important;
     max-width: 100% !important;
-    grid-template-columns: minmax(0, 1fr) !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
   }
 
   .home-page .project-types-section .home-project-signature-card {
+    min-width: 0 !important;
     width: 100% !important;
     max-width: 100% !important;
   }
