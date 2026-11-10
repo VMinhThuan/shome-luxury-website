@@ -21462,6 +21462,23 @@ main.project-detail-page .project-detail-summary {
   }
 }
 
+/* Keep the project-type CTA compact on phones instead of stretching across
+   the entire card copy area. */
+@media (max-width: 767px) {
+  .home-page .project-types-section .home-project-signature-link {
+    display: inline-flex !important;
+    flex: 0 0 auto !important;
+    width: fit-content !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    align-self: flex-start !important;
+  }
+
+  .home-page .project-types-section .home-project-signature-card--copy-right .home-project-signature-link {
+    align-self: flex-end !important;
+  }
+}
+
 /* Mobile only: pricing cards become image-only 16:9 tiles. */
 @media (max-width: 767px) {
   .quote-page .quote-price-card {
