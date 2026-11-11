@@ -21473,8 +21473,8 @@ main.project-detail-page .project-detail-summary {
 /* Project-type CTA follows the same left edge and content width as its title. */
 @media (min-width: 768px) {
   .home-page .project-types-section .home-project-signature-link {
-    width: 66.666% !important;
-    max-width: 190px !important;
+    width: fit-content !important;
+    max-width: 100% !important;
     min-width: 0 !important;
     padding-right: .8rem !important;
     padding-left: .8rem !important;
@@ -21528,6 +21528,8 @@ main.project-detail-page .project-detail-summary {
     width: fit-content !important;
     max-width: 100% !important;
     min-width: 0 !important;
+    padding-right: .65rem !important;
+    padding-left: .65rem !important;
     align-self: flex-start !important;
   }
 

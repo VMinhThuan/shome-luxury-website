@@ -289,7 +289,12 @@
     badge.hidden = !showPageBadge;
     badge.setAttribute('data-page', slot.page_key);
 
-    const heading = create('h2', 'slot-number-title', String(displayOrder));
+    const heading = create('h2', 'slot-number-title');
+    heading.append(String(displayOrder));
+    if (isMobileOnlySlot) {
+      const mobileLabel = create('span', 'slot-mobile-label', 'MOBILE');
+      heading.append(mobileLabel);
+    }
     heading.title = `Vị trí ảnh số ${displayOrder} trên website`;
     const imagePair = create('div', 'image-pair');
 
