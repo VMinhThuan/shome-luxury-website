@@ -216,9 +216,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const quoteHero = document.querySelector('.quote-page .quote-hero-carousel');
     const quoteHeroTrack = quoteHero?.querySelector('.quote-hero-slider-track');
     const featuredSection = document.querySelector('.quote-page .quote-category-overview > .container');
-    if (!headerContainer || (!quoteHero && !featuredSection)) return;
+    const constructionImageSection = document.querySelector('.quote-page .quote-construction-image-section');
+    if (!headerContainer || (!quoteHero && !featuredSection && !constructionImageSection)) return;
 
-    const frameElements = [quoteHero, featuredSection].filter(Boolean);
+    const frameElements = [quoteHero, featuredSection, constructionImageSection].filter(Boolean);
     const sync = () => {
       if (window.matchMedia('(max-width: 767px)').matches) {
         frameElements.forEach(element => {
@@ -227,6 +228,8 @@ document.addEventListener('DOMContentLoaded', () => {
           element.style.removeProperty('margin-left');
           element.style.removeProperty('margin-right');
         });
+        constructionImageSection?.style.removeProperty('padding-left');
+        constructionImageSection?.style.removeProperty('padding-right');
         if (quoteHeroTrack) {
           quoteHeroTrack.style.removeProperty('width');
           quoteHeroTrack.style.removeProperty('left');
@@ -248,6 +251,11 @@ document.addEventListener('DOMContentLoaded', () => {
         element.style.marginLeft = `${left}px`;
         element.style.marginRight = '0';
       });
+
+      if (constructionImageSection) {
+        constructionImageSection.style.paddingLeft = '0';
+        constructionImageSection.style.paddingRight = '0';
+      }
 
       if (quoteHero && quoteHeroTrack) {
         const heroRect = quoteHero.getBoundingClientRect();
