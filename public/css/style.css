@@ -21473,7 +21473,7 @@ main.project-detail-page .project-detail-summary {
 /* Project-type CTA follows the same left edge and content width as its title. */
 @media (min-width: 768px) {
   .home-page .project-types-section .home-project-signature-link {
-    width: 100% !important;
+    width: max-content !important;
     min-width: 0 !important;
     align-self: flex-start !important;
   }

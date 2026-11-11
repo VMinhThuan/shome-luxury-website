@@ -142,10 +142,14 @@ function resolveState(slot, recordsByKey) {
 
 const serializeSlot = (slot, record, recordsByKey) => {
   const state = resolveState(slot, recordsByKey);
+  const isMobileOnlySlot = slot.image_key === 'quote_pricing_mobile_image_1'
+    || slot.parent_image_key === 'quote_pricing_mobile_image_1';
   return {
     page_key: slot.page_key,
     pageKey: slot.page_key,
-    page_label: slot.page_label || slot.page_key,
+    page_label: isMobileOnlySlot
+      ? `${slot.page_label || slot.page_key} — MOBILE`
+      : (slot.page_label || slot.page_key),
     page_path: slot.page_path || null,
     section_key: slot.section_key,
     sectionKey: slot.section_key,
