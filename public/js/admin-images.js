@@ -276,6 +276,8 @@
   function card(slot, order) {
     const article = create('article', 'image-slot');
     const displayOrder = Number(slot.display_order || slot.displayOrder || order);
+    const preservesOriginalFile = Boolean(slot.preserve_original_file);
+    article.dataset.preserveOriginalFile = String(preservesOriginalFile);
 
     // Page badge
     const badge = create('span', 'slot-page-badge', slot.page_label || slot.page_key);
@@ -295,7 +297,24 @@
     const replacementNote = create('p', 'image-version-note');
     replacementWrap.append(current, replacementNote);
 
+    const displaySpec = create('div', 'image-display-spec');
+    const displaySpecTitle = create('strong', '', 'Khung hiển thị trên website');
+    const displaySpecValue = create('span', 'image-display-spec-value', 'Đang tính kích thước...');
+    const displaySpecHint = create('small', '', preservesOriginalFile
+      ? 'Ảnh giữ nguyên toàn bộ nội dung, không cắt khung.'
+      : 'Ảnh lớn sẽ tự thu nhỏ; ảnh nhỏ không được phóng to khi lưu.');
+    displaySpec.append(displaySpecTitle, displaySpecValue, displaySpecHint);
+    replacementWrap.append(displaySpec);
+
+    const selectedPreviewWrap = create('div', 'selected-image-preview-wrap');
+    selectedPreviewWrap.hidden = true;
+    const selectedPreviewTitle = create('p', 'selected-image-preview-title', 'Xem trước ảnh sẽ hiển thị');
+    const selectedPreview = create('img', 'selected-image-preview');
+    selectedPreview.alt = 'Xem trước ảnh tải lên';
+    selectedPreviewWrap.append(selectedPreviewTitle, selectedPreview);
+
     imagePair.append(replacementWrap);
+    imagePair.append(selectedPreviewWrap);
 
     // Action bar
     const actionBar = create('div', 'slot-action-bar');
@@ -334,7 +353,61 @@
     save.type = 'button';
     save.hidden = true;
 
-    let file, sourceUrl, dimensions;
+    let file, sourceUrl, dimensions, targetDimensions;
+
+    const formatNumber = value => Number(value || 0).toLocaleString('vi-VN');
+    const greatestCommonDivisor = (a, b) => {
+      let x = Math.abs(Math.round(a));
+      let y = Math.abs(Math.round(b));
+      while (y) [x, y] = [y, x % y];
+      return x || 1;
+    };
+    const ratioLabel = (width, height) => {
+      if (!width || !height) return '';
+      const divisor = greatestCommonDivisor(width, height);
+      return `${Math.round(width / divisor)}:${Math.round(height / divisor)}`;
+    };
+    const fitMessage = () => {
+      if (!dimensions || !targetDimensions) return preservesOriginalFile
+        ? 'Tỷ lệ ảnh gốc được giữ nguyên.'
+        : '';
+      if (preservesOriginalFile) return 'Tỷ lệ ảnh gốc được giữ nguyên.';
+      const sourceRatio = dimensions.width / dimensions.height;
+      const targetRatio = targetDimensions.width / targetDimensions.height;
+      const difference = Math.abs(sourceRatio - targetRatio) / targetRatio;
+      if (difference <= .02) return 'Đúng tỷ lệ khung website, gần như không bị cắt.';
+      return sourceRatio > targetRatio
+        ? 'Ảnh rộng hơn khung: website sẽ cắt bớt hai bên.'
+        : 'Ảnh cao hơn khung: website sẽ cắt bớt phía trên và phía dưới.';
+    };
+    const updateDisplaySpec = () => {
+      if (!targetDimensions) return;
+      displaySpecValue.textContent = `${formatNumber(targetDimensions.width)} × ${formatNumber(targetDimensions.height)} px · Tỷ lệ ${ratioLabel(targetDimensions.width, targetDimensions.height)}`;
+      selectedPreview.style.aspectRatio = preservesOriginalFile
+        ? 'auto'
+        : `${targetDimensions.width} / ${targetDimensions.height}`;
+      if (dimensions) {
+        displaySpecHint.textContent = fitMessage();
+        displaySpecHint.classList.toggle('is-warning', !preservesOriginalFile && fitMessage().includes('cắt'));
+      }
+    };
+    const updateSelectedFileInfo = () => {
+      if (!file || !dimensions) return;
+      const fileSizeMB = (file.size / (1024 * 1024)).toFixed(2);
+      fileInfoNotice.replaceChildren(
+        create('span', '', `📎 ${file.name} · ${formatNumber(dimensions.width)} × ${formatNumber(dimensions.height)} px · ${fileSizeMB} MB`),
+        create('span', 'selected-file-fit', fitMessage())
+      );
+      fileInfoNotice.hidden = false;
+      updateDisplaySpec();
+    };
+
+    const targetImage = new Image();
+    targetImage.onload = () => {
+      targetDimensions = { width: targetImage.naturalWidth, height: targetImage.naturalHeight };
+      updateDisplaySpec();
+    };
+    targetImage.src = slot.default_image_url || current.src;
 
     const clearSelectedFile = () => {
       if (sourceUrl) URL.revokeObjectURL(sourceUrl);
@@ -344,9 +417,15 @@
       input.value = '';
       save.hidden = true;
       fileInfoNotice.hidden = true;
-      fileInfoNotice.textContent = '';
+      fileInfoNotice.replaceChildren();
+      selectedPreviewWrap.hidden = true;
+      selectedPreview.removeAttribute('src');
       cancelSelectionBtn.hidden = true;
       fileLabelText.textContent = slot.replacement_image_url ? '🔄 Đổi ảnh khác' : '📷 Chọn ảnh tải lên';
+      displaySpecHint.textContent = preservesOriginalFile
+        ? 'Ảnh giữ nguyên toàn bộ nội dung, không cắt khung.'
+        : 'Ảnh lớn sẽ tự thu nhỏ; ảnh nhỏ không được phóng to khi lưu.';
+      displaySpecHint.classList.remove('is-warning');
       setStatus('');
     };
 
@@ -393,14 +472,14 @@
       sourceUrl = URL.createObjectURL(file);
       image.onload = () => {
         dimensions = { width: image.naturalWidth, height: image.naturalHeight };
+        selectedPreview.src = sourceUrl;
+        selectedPreviewWrap.hidden = false;
         save.hidden = false;
         save.textContent = 'Lưu ảnh này';
 
         fileLabelText.textContent = '🔄 Chọn file khác';
         cancelSelectionBtn.hidden = false;
-        const fileSizeMB = (file.size / (1024 * 1024)).toFixed(2);
-        fileInfoNotice.innerHTML = `📎 Đang chọn: <strong>${file.name}</strong> (${fileSizeMB} MB) — ảnh lớn sẽ tự thu nhỏ theo vị trí; ảnh nhỏ không bị phóng to`;
-        fileInfoNotice.hidden = false;
+        updateSelectedFileInfo();
       };
       image.src = sourceUrl;
     };
@@ -453,6 +532,11 @@
         save.hidden = true;
         input.value = '';
         file = null;
+        dimensions = null;
+        if (sourceUrl) URL.revokeObjectURL(sourceUrl);
+        sourceUrl = null;
+        selectedPreviewWrap.hidden = true;
+        selectedPreview.removeAttribute('src');
         updateSlotUi();
         const optimized = result.data?.processing?.optimized;
         const savedSize = optimized?.width && optimized?.height

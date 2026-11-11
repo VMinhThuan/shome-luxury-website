@@ -586,6 +586,75 @@
   border-radius: 7px;
 }
 
+.image-display-spec {
+  display: grid;
+  gap: 4px;
+  margin-top: 10px;
+  padding: 10px 11px;
+  border: 1px dashed #d8bd8d;
+  border-radius: 8px;
+  background: #fffaf1;
+  color: #5f4b2f;
+  font-size: 11px;
+  line-height: 1.4;
+}
+
+.image-display-spec strong {
+  color: #4b3821;
+  font-size: 11px;
+}
+
+.image-display-spec-value {
+  color: #956b28;
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.image-display-spec small {
+  color: #806f59;
+  font-size: 10px;
+}
+
+.image-display-spec small.is-warning,
+.selected-file-fit {
+  color: #9a5d19;
+  font-weight: 700;
+}
+
+.selected-image-preview-wrap {
+  margin-top: 12px;
+  padding: 10px;
+  border: 1px solid #e3c98d;
+  border-radius: 10px;
+  background: #fffdf8;
+}
+
+.selected-image-preview-title {
+  margin: 0 0 8px;
+  color: #806f59;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.selected-image-preview {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border-radius: 7px;
+  background: #eee center/cover no-repeat;
+  object-fit: cover;
+}
+
+.image-slot[data-preserve-original-file="true"] .selected-image-preview {
+  height: auto;
+  min-height: 180px;
+  max-height: 420px;
+  aspect-ratio: auto;
+  object-fit: contain;
+  background-color: #f1efeb;
+  background-size: contain;
+}
+
 /* Homepage background slots must be reviewable without the 16:9 crop used by
    regular banners. The uploaded file is preserved by the server as-is. */
 .image-slot[data-preserve-original-file="true"] .current-image,
