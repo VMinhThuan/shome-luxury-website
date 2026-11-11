@@ -2387,6 +2387,7 @@
       }
       .quote-page .quote-category-overview .quote-featured-project-info dl div {
         display: flex;
+        flex-direction: row;
         flex-wrap: nowrap;
         min-width: 0;
         align-items: baseline;
@@ -2403,8 +2404,10 @@
         display: flex;
       }
       .quote-page .quote-category-overview .quote-featured-project-info dl div:nth-child(even) {
+        align-items: flex-start;
         padding-left: clamp(.45rem, .9vw, .85rem) !important;
         border-left: 1px solid rgba(255, 255, 255, .32) !important;
+        text-align: left;
       }
       .quote-page .quote-category-overview .quote-featured-project-info dd {
         display: inline;
