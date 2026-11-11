@@ -21478,10 +21478,25 @@ main.project-detail-page .project-detail-summary {
     min-width: 0 !important;
     padding-right: .8rem !important;
     padding-left: .8rem !important;
+    font-size: 12.05px !important;
     align-self: flex-start !important;
   }
 
   .home-page .project-types-section .home-project-signature-card--copy-right .home-project-signature-link {
+    align-self: flex-end !important;
+  }
+
+  .home-page .home-project-signatures-section .home-project-signature-link {
+    width: fit-content !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    padding-right: .8rem !important;
+    padding-left: .8rem !important;
+    font-size: 12.05px !important;
+    align-self: flex-start !important;
+  }
+
+  .home-page .home-project-signatures-section .home-project-signature-card--copy-right .home-project-signature-link {
     align-self: flex-end !important;
   }
 }
