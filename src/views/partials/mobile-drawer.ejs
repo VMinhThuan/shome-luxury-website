@@ -83,7 +83,7 @@
       <% navigation.forEach(item => { %>
         <li class="mobile-menu-item">
           <div class="mobile-menu-row">
-            <a href="<%= (item.children && item.children.length && item.id !== 'bao-gia') ? 'javascript:void(0)' : item.href %>" class="mobile-menu-link"<% if (adminImageModeEnabled && adminImageTarget(item)) { %> data-admin-image-page="<%= adminImageTarget(item) %>"<% } %>><%= item.label %></a>
+            <a href="<%= (item.children && item.children.length) ? 'javascript:void(0)' : item.href %>" class="mobile-menu-link"<% if (adminImageModeEnabled && adminImageTarget(item)) { %> data-admin-image-page="<%= adminImageTarget(item) %>"<% } %>><%= item.label %></a>
             <% if (item.children) { %>
               <button class="accordion-toggle" aria-expanded="false" aria-controls="submenu-<%= item.id %>" aria-label="Mở <%= item.label %>">
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
