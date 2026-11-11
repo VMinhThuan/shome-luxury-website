@@ -2175,7 +2175,40 @@
        use full-bleed image tiles with readable project details over the image,
        matching the supplied gallery reference without changing project data. */
     .quote-page .quote-category-overview .quote-featured-heading h2 {
-      text-transform: none;
+      display: flex;
+      align-items: center;
+      gap: clamp(.65rem, 2vw, 1.5rem);
+      color: #c88d32;
+      font-size: clamp(1.15rem, 2.5vw, 2rem);
+      letter-spacing: .01em;
+      line-height: 1.2;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+    .quote-page .quote-category-overview .quote-featured-heading h2::before,
+    .quote-page .quote-category-overview .quote-featured-heading h2::after {
+      content: '';
+      flex: 1 1 auto;
+      height: 2px;
+      background: #e7e7e7;
+    }
+    .quote-page .quote-category-overview .quote-featured-heading h2 em {
+      display: inline;
+      margin: 0;
+      padding: 0;
+      color: inherit;
+      font-family: inherit;
+      font-size: inherit;
+      font-weight: 800;
+      letter-spacing: inherit;
+      text-transform: uppercase;
+    }
+    .quote-page .quote-category-overview .quote-featured-heading strong {
+      display: none;
+    }
+    .quote-page .quote-category-overview > .container {
+      max-width: none;
+      padding-inline: clamp(1rem, 4.2vw, 5.2rem);
     }
     .quote-page .quote-category-overview .quote-featured-project-card {
       position: relative;
@@ -2183,7 +2216,7 @@
       min-height: 0;
       aspect-ratio: 16 / 9;
       overflow: hidden;
-      border: 1px solid #d3a24f;
+      border: 0;
       border-radius: 0;
       background: #2e2923;
       box-shadow: none;
@@ -2192,6 +2225,10 @@
       transform: none;
       box-shadow: none;
     }
+    .quote-page .quote-category-overview .quote-featured-project-list {
+      max-width: none;
+      gap: 3px;
+    }
     .quote-page .quote-category-overview .quote-featured-project-image {
       display: block;
       width: 100%;
@@ -2199,9 +2236,11 @@
       aspect-ratio: auto !important;
       border: 0;
       border-radius: 0;
+      padding: 0;
+      background: transparent;
     }
     .quote-page .quote-category-overview .quote-featured-project-image::after {
-      background: linear-gradient(180deg, rgba(13, 10, 7, .08) 22%, rgba(13, 10, 7, .18) 48%, rgba(13, 10, 7, .82) 100%);
+      background: linear-gradient(180deg, rgba(13, 10, 7, .02) 25%, rgba(13, 10, 7, .12) 52%, rgba(13, 10, 7, .72) 100%);
     }
     .quote-page .quote-category-overview .quote-featured-project-image img {
       width: 100%;
@@ -2218,17 +2257,22 @@
       inset: 0;
       display: flex;
       flex-direction: column;
-      justify-content: flex-end;
-      padding: clamp(.75rem, 1.8vw, 1.25rem);
+      justify-content: center;
+      align-items: center;
+      padding: clamp(.75rem, 2vw, 1.5rem);
       color: #fff;
-      background: linear-gradient(180deg, transparent 48%, rgba(13, 10, 7, .76) 100%);
+      text-align: center;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, .9);
+      background: linear-gradient(180deg, transparent 22%, rgba(13, 10, 7, .1) 45%, rgba(13, 10, 7, .48) 100%);
       pointer-events: none;
     }
     .quote-page .quote-category-overview .quote-featured-project-info h3 {
-      margin: 0 0 .55rem;
+      max-width: 95%;
+      margin: 0 0 .45rem;
       color: #fff !important;
-      font-size: clamp(.9rem, 1.45vw, 1.25rem);
+      font-size: clamp(.85rem, 1.35vw, 1.35rem);
       line-height: 1.2;
+      text-align: center;
     }
     .quote-page .quote-category-overview .quote-featured-project-info h3 a {
       color: inherit !important;
@@ -2243,8 +2287,9 @@
       padding: 0 !important;
       border: 0 !important;
       color: rgba(255, 255, 255, .94);
-      font-size: clamp(.66rem, .95vw, .82rem);
+      font-size: clamp(.65rem, .95vw, .9rem);
       line-height: 1.45;
+      text-align: center;
     }
     .quote-page .quote-category-overview .quote-featured-project-info dl div:nth-child(2),
     .quote-page .quote-category-overview .quote-featured-project-info dl div:nth-child(4) {
@@ -2263,14 +2308,22 @@
       width: 100%;
       height: 100%;
       place-items: center;
-      color: rgba(255, 255, 255, .74);
-      background: linear-gradient(135deg, #3c342b, #1e1a16);
+      color: rgba(255, 255, 255, .88);
+      background: linear-gradient(135deg, #9d988f, #ded5c7);
       font-size: clamp(.85rem, 1.4vw, 1.1rem);
     }
     @media (max-width: 767px) {
       .quote-page .quote-category-overview .quote-featured-project-card {
         aspect-ratio: 16 / 10;
         border-radius: 10px;
+      }
+      .quote-page .quote-category-overview .quote-featured-project-list {
+        gap: 2px !important;
+      }
+      .quote-page .quote-category-overview .quote-featured-heading h2 {
+        gap: .45rem;
+        font-size: clamp(.86rem, 4.1vw, 1.15rem);
+        white-space: normal;
       }
       .quote-page .quote-category-overview .quote-featured-project-info {
         padding: .65rem .7rem;
@@ -2390,7 +2443,7 @@
           <% if (highlightProjects.length) { %>
             <div class="quote-featured-project-list">
               <% highlightProjects.slice(0, 5).forEach((project, index) => {
-                   const projectImage = project.thumbnail || '';
+                   const projectImage = project.thumbnail || (Array.isArray(project.gallery) ? project.gallery[0] : '') || '';
                    const galleryImages = [...new Set([projectImage, ...(project.gallery || [])].filter(Boolean))];
                    const costLabel = project.cost ? `${Math.round(project.cost / 1000000)} triệu` : 'Liên hệ tư vấn';
                    const overlays = [
