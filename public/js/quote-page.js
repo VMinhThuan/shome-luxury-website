@@ -246,15 +246,16 @@ document.addEventListener('DOMContentLoaded', () => {
       const width = Math.max(0, headerRect.width - leftPadding - rightPadding);
 
       frameElements.forEach(element => {
-        element.style.width = `${width}px`;
-        element.style.maxWidth = 'none';
-        element.style.marginLeft = `${left}px`;
-        element.style.marginRight = '0';
+        const frameWidth = element === constructionImageSection ? Math.max(0, width - 48) : width;
+        element.style.setProperty('width', `${frameWidth}px`, 'important');
+        element.style.setProperty('max-width', 'none', 'important');
+        element.style.setProperty('margin-left', `${left}px`, 'important');
+        element.style.setProperty('margin-right', '0', 'important');
       });
 
       if (constructionImageSection) {
-        constructionImageSection.style.paddingLeft = '0';
-        constructionImageSection.style.paddingRight = '0';
+        constructionImageSection.style.setProperty('padding-left', '0', 'important');
+        constructionImageSection.style.setProperty('padding-right', '0', 'important');
       }
 
       if (quoteHero && quoteHeroTrack) {
