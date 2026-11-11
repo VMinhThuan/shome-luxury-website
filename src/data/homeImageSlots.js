@@ -65,6 +65,7 @@ const rawSlots = [
   ['quote', 'pricing', 'quote_pricing_image_1', 'Báo giá tham khảo — Ảnh 1 (Phòng khách)', '/images/quote-pricing-1.png'],
   ['quote', 'pricing', 'quote_pricing_image_2', 'Báo giá tham khảo — Ảnh 2 (Phòng ăn)', '/images/quote-pricing-2.png'],
   ['quote', 'pricing', 'quote_pricing_image_3', 'Báo giá tham khảo — Ảnh 3 (Phòng sinh hoạt)', '/images/quote-pricing-3.png'],
+  ['quote', 'pricing', 'quote_pricing_mobile_image_1', 'Báo giá tham khảo — Ảnh mobile (ghi chú: chỉ dùng cho responsive mobile)', '/images/quote-pricing-1.png'],
   ['quote', 'capability', 'quote_capability_image', 'Năng lực Shome Luxury — Ảnh xưởng', '/images/factory_workers.jpg'],
   ['quote', 'capability', 'quote_capability_gallery_1', 'Năng lực xưởng — Ảnh 1', '/images/img-xuong-san-xuat/factory-tour-cnc.png'],
   ['quote', 'capability', 'quote_capability_gallery_2', 'Năng lực xưởng — Ảnh 2', '/images/img-xuong-san-xuat/factory-tour-assembly.png'],
