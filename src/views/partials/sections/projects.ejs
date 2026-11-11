@@ -20,11 +20,11 @@
         <%
           const projectAttributes = [];
           if (project.area) projectAttributes.push(`Diện tích: ${project.area}`);
-          if (project.propertyType) projectAttributes.push(`Loại hình: ${project.propertyType}`);
-          if (project.style) projectAttributes.push(`Phong cách: ${project.style}`);
           if (Number.isFinite(Number(project.cost))) {
             projectAttributes.push(`Chi phí: ${Math.round(Number(project.cost) / 1000000).toLocaleString('vi-VN')} triệu`);
           }
+          if (project.style) projectAttributes.push(`Phong cách: ${project.style}`);
+          if (project.propertyType) projectAttributes.push(`Loại hình: ${project.propertyType}`);
         %>
         <article class="project-card" data-category="<%= project.categorySlug %>">
           <img src="<%= project.image %>" alt="<%= project.title %>" class="project-img" loading="lazy" width="800" height="500" />

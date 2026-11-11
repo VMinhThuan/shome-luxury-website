@@ -1295,9 +1295,9 @@ document.addEventListener('DOMContentLoaded', () => {
   function renderProjectCardHtml(project) {
     const attrs = [];
     if (project.area) attrs.push({ label: 'Diện tích', value: project.area });
-    if (project.propertyType) attrs.push({ label: 'Loại hình', value: project.propertyType });
-    if (project.style) attrs.push({ label: 'Phong cách', value: project.style });
     if (Number.isFinite(Number(project.cost))) attrs.push({ label: 'Chi phí', value: formatProjectCost(project.cost) });
+    if (project.style) attrs.push({ label: 'Phong cách', value: project.style });
+    if (project.propertyType) attrs.push({ label: 'Loại hình', value: project.propertyType });
     const attributeSlots = Array.from({ length: 4 }, (_, index) => attrs[index] || null);
     const projectDetailUrl = `/cong-trinh/${encodeURIComponent(project.slug || '')}`;
 
