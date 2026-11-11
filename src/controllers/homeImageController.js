@@ -27,6 +27,12 @@ const SOURCE_PRESERVING_IMAGE_KEYS = new Set([
 // These benefit icons keep their website defaults and are no longer
 // replaceable from the image-management screen.
 const HIDDEN_ADMIN_IMAGE_KEYS = new Set([
+  // The quote page now uses the desktop hero banners responsively. These
+  // legacy mobile-only defaults are no longer editable image slots, so the
+  // next visible quote images should be numbered 4, 5 and 6.
+  'quote_hero_mobile_1',
+  'quote_hero_mobile_2',
+  'quote_hero_mobile_3',
   'quote_benefit_icon_1',
   'quote_benefit_icon_2',
   'quote_benefit_icon_3'
