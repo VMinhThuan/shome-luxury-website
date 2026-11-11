@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400&family=Playfair+Display:ital,wght@0,600;0,700;0,800;0,900;1,600&family=Great+Vibes&family=Alex+Brush&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="/css/style.css?v=6.8.90" />
+  <link rel="stylesheet" href="/css/style.css?v=6.8.91" />
   <style>
     /* Alternating section backgrounds on quote page handled by style.css design system */
     .quote-page .quote-video-card-link { display: block; padding: 0; color: inherit; font: inherit; text-align: left; cursor: pointer; }
@@ -2235,6 +2235,22 @@
       .quote-page .quote-category-overview .quote-featured-project-list {
         width: 100% !important;
         max-width: none !important;
+      }
+    }
+    /* Use the same outer frame as .header-container so the desktop banner
+       and featured-project section align exactly with the navigation. */
+    @media (min-width: 768px) {
+      .quote-page .quote-hero.quote-hero-carousel {
+        width: 100% !important;
+        max-width: var(--container-max) !important;
+        margin-left: auto !important;
+        margin-right: auto !important;
+      }
+      .quote-page .quote-category-overview > .container {
+        width: 100% !important;
+        max-width: var(--container-max) !important;
+        padding-left: 24px !important;
+        padding-right: 24px !important;
       }
     }
     .quote-page .quote-category-overview .quote-featured-project-card {
