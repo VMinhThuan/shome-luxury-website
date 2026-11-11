@@ -208,4 +208,43 @@ document.addEventListener('DOMContentLoaded', () => {
       show(0, false);
     });
   })();
+
+  // Keep the quote banner and featured-project section aligned with the
+  // header's actual inner content box, including its responsive padding.
+  (function syncQuoteContentWithHeader() {
+    const headerContainer = document.querySelector('.site-header .header-container');
+    const quoteHero = document.querySelector('.quote-page .quote-hero-carousel');
+    const featuredSection = document.querySelector('.quote-page .quote-category-overview > .container');
+    if (!headerContainer || (!quoteHero && !featuredSection)) return;
+
+    const frameElements = [quoteHero, featuredSection].filter(Boolean);
+    const sync = () => {
+      if (window.matchMedia('(max-width: 767px)').matches) {
+        frameElements.forEach(element => {
+          element.style.removeProperty('width');
+          element.style.removeProperty('max-width');
+          element.style.removeProperty('margin-left');
+          element.style.removeProperty('margin-right');
+        });
+        return;
+      }
+
+      const headerRect = headerContainer.getBoundingClientRect();
+      const headerStyles = window.getComputedStyle(headerContainer);
+      const leftPadding = parseFloat(headerStyles.paddingLeft) || 0;
+      const rightPadding = parseFloat(headerStyles.paddingRight) || 0;
+      const left = headerRect.left + leftPadding;
+      const width = Math.max(0, headerRect.width - leftPadding - rightPadding);
+
+      frameElements.forEach(element => {
+        element.style.width = `${width}px`;
+        element.style.maxWidth = 'none';
+        element.style.marginLeft = `${left}px`;
+        element.style.marginRight = '0';
+      });
+    };
+
+    sync();
+    window.addEventListener('resize', sync, { passive: true });
+  })();
 });
