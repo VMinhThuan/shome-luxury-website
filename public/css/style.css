@@ -8965,12 +8965,35 @@ main .surface-finish-section .surface-finish-title {
   inset: 0;
 }
 
+.youtube-responsive-iframe {
+  display: none;
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background: #17130e;
+}
+
+.youtube-responsive-iframe iframe {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
 .brand-story-video-frame.youtube-thumbnail-card,
 .quote-page .quote-video-frame.youtube-thumbnail-card {
   position: relative;
 }
 
 @media (max-width: 767px) {
+  .youtube-thumbnail-card--desktop {
+    display: none;
+  }
+
+  .youtube-responsive-iframe {
+    display: block;
+  }
+
   .construction-video-grid:not(.is-expanded) .construction-video-card:nth-child(n+4),
   .completed-video-grid:not(.is-expanded) .construction-video-card:nth-child(n+4),
   .construction-project-grid:not(.is-expanded) .project-showcase-card:nth-child(n+4) {

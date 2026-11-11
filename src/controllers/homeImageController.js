@@ -87,14 +87,24 @@ const customReferenceFor = (record, slot) => {
 };
 
 function resolveState(slot, recordsByKey) {
+  const parentSlot = slot.parent_image_key ? slotByKey.get(slot.parent_image_key) : null;
   const record = recordsByKey.get(slot.image_key);
   const custom = customReferenceFor(record, slot);
+  const parentState = parentSlot && parentSlot.image_key !== slot.image_key
+    ? resolveState(parentSlot, recordsByKey)
+    : null;
+
   return {
     mode: 'custom',
     custom,
     sharedReference: null,
-    activeImageUrl: custom?.image_url || slot.image_url,
-    activeCloudinaryPublicId: custom?.cloudinary_public_id || null,
+    activeImageUrl: custom?.image_url || parentState?.activeImageUrl || slot.image_url,
+    activeCloudinaryPublicId: custom?.cloudinary_public_id || parentState?.activeCloudinaryPublicId || null,
+    inheritedFrom: custom || !parentState ? null : {
+      imageKey: parentSlot.image_key,
+      label: parentSlot.label,
+      imageUrl: parentState.activeImageUrl
+    },
     sharedStatus: null,
     sharedSource: null
   };
@@ -120,6 +130,9 @@ const serializeSlot = (slot, record, recordsByKey) => {
     replacement_cloudinary_public_id: state.custom?.cloudinary_public_id || null,
     active_image_url: state.activeImageUrl,
     mode: state.mode,
+    inherited_image_key: state.inheritedFrom?.imageKey || null,
+    inherited_image_label: state.inheritedFrom?.label || null,
+    inherited_image_url: state.inheritedFrom?.imageUrl || null,
     shared_image_reference: state.sharedReference,
     sharedImageReference: state.sharedReference,
     custom_image_reference: state.custom,
@@ -391,7 +404,12 @@ exports.deleteImage = async (req, res, next) => {
       }
     }
 
-    return res.json({ success: true, message: 'Đã khôi phục ảnh mặc định.' });
+    const recordsByKey = await allRecords();
+    return res.json({
+      success: true,
+      message: 'Đã khôi phục ảnh mặc định.',
+      data: serializeSlot(slot, null, recordsByKey)
+    });
   } catch (error) {
     return next(error);
   }

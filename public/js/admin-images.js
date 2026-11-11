@@ -364,12 +364,17 @@
       actionBar.hidden = false;
       fileInfoNotice.hidden = !file;
       save.hidden = !file;
+      const isInherited = !slot.replacement_image_url && slot.inherited_image_key;
       currentImageTitle.textContent = slot.replacement_image_url
         ? 'Ảnh riêng đang hiển thị trên website'
-        : 'Ảnh mặc định đang hiển thị trên website';
+        : isInherited
+          ? 'Ảnh đang kế thừa và hiển thị trên website'
+          : 'Ảnh mặc định đang hiển thị trên website';
       replacementNote.textContent = slot.replacement_image_url
         ? 'Đang hiển thị ảnh riêng của vị trí này'
-        : 'Mỗi trang dùng ảnh riêng của vị trí này';
+        : isInherited
+          ? `Đang dùng ảnh của vị trí ${slot.inherited_image_label || 'Báo giá chung'}`
+          : 'Mỗi trang dùng ảnh riêng của vị trí này';
       current.src = slot.active_image_url || slot.replacement_image_url || slot.default_image_url;
       deleteReplacementBtn.hidden = !Boolean(slot.replacement_image_url);
     };
@@ -408,13 +413,13 @@
       deleteReplacementBtn.disabled = true;
       deleteReplacementBtn.textContent = 'Đang xóa...';
       try {
-        await request(`/api/admin/home-images/${encodeURIComponent(slot.image_key)}`, { method: 'DELETE' });
-        slot.replacement_image_url = null;
-        slot.active_image_url = slot.default_image_url;
-        slot.custom_image_reference = null;
-        current.src = slot.default_image_url;
-        currentImageTitle.textContent = 'Ảnh mặc định đang hiển thị trên website';
-        replacementNote.textContent = 'Chưa có ảnh thay thế — website đang dùng ảnh mặc định';
+        const result = await request(`/api/admin/home-images/${encodeURIComponent(slot.image_key)}`, { method: 'DELETE' });
+        Object.assign(slot, result.data || {}, {
+          replacement_image_url: null,
+          custom_image_reference: null
+        });
+        current.src = slot.active_image_url || slot.default_image_url;
+        updateSlotUi();
         deleteReplacementBtn.hidden = true;
         fileLabelText.textContent = '📷 Chọn ảnh tải lên';
         clearSelectedFile();
