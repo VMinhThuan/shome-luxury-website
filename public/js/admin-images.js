@@ -279,8 +279,14 @@
     const preservesOriginalFile = Boolean(slot.preserve_original_file);
     article.dataset.preserveOriginalFile = String(preservesOriginalFile);
 
-    // Page badge
-    const badge = create('span', 'slot-page-badge', slot.page_label || slot.page_key);
+    // Only the mobile pricing slot keeps a visible title in the quote-image
+    // group; the other quote image cards remain clean and untitled.
+    const isQuoteImageCard = slot.page_key === 'quote' || String(slot.page_key || '').startsWith('quote:');
+    const isMobileOnlySlot = slot.image_key === 'quote_pricing_mobile_image_1'
+      || slot.parent_image_key === 'quote_pricing_mobile_image_1';
+    const showPageBadge = !isQuoteImageCard || isMobileOnlySlot;
+    const badge = create('span', 'slot-page-badge', showPageBadge ? (slot.page_label || slot.page_key) : '');
+    badge.hidden = !showPageBadge;
     badge.setAttribute('data-page', slot.page_key);
 
     const heading = create('h2', 'slot-number-title', String(displayOrder));
