@@ -1,5 +1,6 @@
 const multer = require('multer');
 const path = require('path');
+const sharp = require('sharp');
 const HomeImage = require('../models/HomeImage');
 const slots = require('../data/homeImageSlots');
 const subpageSlots = require('../data/subpageImageSlots');
@@ -13,6 +14,8 @@ const { processImageBuffer } = require('../utils/imageProcessing');
 
 const allConfiguredSlots = [...slots, ...subpageSlots];
 const slotByKey = new Map(allConfiguredSlots.map(slot => [slot.image_key, slot]));
+const publicDirectory = path.resolve(__dirname, '../../public');
+const slotResizeTargetCache = new Map();
 const SOURCE_PRESERVING_IMAGE_KEYS = new Set([
   'about_showroom_background',
   'why_choose_background',
@@ -30,6 +33,27 @@ const HIDDEN_ADMIN_IMAGE_KEYS = new Set([
 ]);
 
 const preservesOriginalFile = slot => SOURCE_PRESERVING_IMAGE_KEYS.has(slot.image_key);
+
+async function getSlotResizeTarget(slot) {
+  if (slotResizeTargetCache.has(slot.image_key)) return slotResizeTargetCache.get(slot.image_key);
+  if (!slot.image_url?.startsWith('/images/')) return null;
+
+  const imagePath = path.resolve(publicDirectory, `.${slot.image_url}`);
+  if (!imagePath.startsWith(`${publicDirectory}${path.sep}`)) return null;
+
+  try {
+    const metadata = await sharp(imagePath).metadata();
+    const target = Number.isInteger(metadata.width) && Number.isInteger(metadata.height)
+      ? { width: metadata.width, height: metadata.height }
+      : null;
+    slotResizeTargetCache.set(slot.image_key, target);
+    return target;
+  } catch (error) {
+    console.warn(`[Home image resize target] Cannot read ${slot.image_url}:`, error.message);
+    slotResizeTargetCache.set(slot.image_key, null);
+    return null;
+  }
+}
 
 const subpageByKey = new Map();
 subpageSlots.forEach(slot => {
@@ -282,14 +306,30 @@ exports.updateImage = async (req, res, next) => {
     if (!req.file) return res.status(400).json({ success: false, message: 'Vui lòng chọn ảnh JPG, PNG hoặc WebP (tối đa 10 MB).' });
 
     const folder = `shome-luxury/${slot.page_key || 'general'}`;
-    const processed = await processImageBuffer(req.file.buffer, {
-      // Page image uploads always preserve the customer's dimensions and only
-      // convert the source to WebP at quality 100.
-      original_webp: 'true'
-    });
-    // Cloudinary receives the final WebP bytes directly. Every page image
-    // keeps the customer's dimensions and is encoded at quality 100.
+    const resizeTarget = await getSlotResizeTarget(slot);
+    const processed = await processImageBuffer(req.file.buffer, resizeTarget
+      ? {
+          // Page image uploads fit inside the slot's source dimensions. Sharp's
+          // withoutEnlargement rule keeps smaller uploads untouched.
+          keep_original_size: 'false',
+          keep_aspect_ratio: 'true',
+          width: String(resizeTarget.width),
+          height: String(resizeTarget.height),
+          quality: '100',
+          sharpness: '0',
+          webp_lossless: req.file.mimetype === 'image/png' ? 'true' : 'false'
+        }
+      : {
+          // If a legacy/remote default has no readable dimensions, preserve
+          // the safe existing behavior and only convert the upload to WebP.
+          original_webp: 'true'
+        });
+    // Cloudinary receives the already-encoded WebP directly. Oversized images
+    // are reduced to the slot bounds; undersized images are never enlarged.
     uploaded = await uploadToCloudinary(processed.buffer, folder);
+    if (String(uploaded.format || '').toLowerCase() !== 'webp') {
+      throw new Error('Cloudinary không trả về ảnh WebP sau khi tối ưu. Ảnh cũ vẫn được giữ nguyên.');
+    }
     const previous = await HomeImage.findOne({ image_key: slot.image_key }).lean();
     const previousCustom = customReferenceFor(previous, slot);
     const saved = await HomeImage.findOneAndUpdate(

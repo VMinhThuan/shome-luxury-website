@@ -52,7 +52,8 @@ const uploadToCloudinary = (fileBuffer, folderName = "shome-luxury/recruitment",
       {
         folder: folderName,
         resource_type: "image",
-        ...options
+        ...options,
+        format: "webp"
       },
       (error, result) => {
         if (error) {

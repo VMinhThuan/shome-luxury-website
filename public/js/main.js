@@ -375,8 +375,18 @@ document.addEventListener('DOMContentLoaded', () => {
     window.ShomeluxuryReviewCarousel(track, track.closest('.quote-factory-activities')?.querySelector('.quote-factory-activity-dots'));
   });
 
-  // YouTube thumbnail cards: keep the page light until the visitor chooses
-  // to play, then swap the custom/admin-uploaded image for the real embed.
+  // YouTube thumbnail cards: use the highest available thumbnail without
+  // breaking videos that do not expose a max-resolution image.
+  document.querySelectorAll('[data-youtube-fallback]').forEach(image => {
+    image.addEventListener('error', () => {
+      if (image.dataset.fallbackUsed) return;
+      image.dataset.fallbackUsed = 'true';
+      image.src = image.dataset.youtubeFallback;
+    });
+  });
+
+  // Keep the page light until the visitor chooses to play, then swap the
+  // thumbnail for the real embed.
   document.querySelectorAll('[data-youtube-thumbnail]').forEach(frame => {
     const cover = frame.querySelector('.youtube-thumbnail-cover');
     if (!cover) return;

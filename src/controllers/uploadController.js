@@ -1,5 +1,5 @@
 const multer = require("multer");
-const { uploadToCloudinary } = require("../utils/cloudinary");
+const { uploadToCloudinary, destroyCloudinaryImage } = require("../utils/cloudinary");
 const { processImageBuffer } = require('../utils/imageProcessing');
 
 // Multer memory storage configuration (in-memory buffer for streaming to Cloudinary)
@@ -38,6 +38,7 @@ const uploadSingleMiddleware = (req, res, next) => uploadSingle(req, res, (error
 
 // Controller action to process Cloudinary upload
 const handleImageUpload = async (req, res) => {
+  let uploaded;
   try {
     if (!req.file) {
       return res.status(400).json({
@@ -60,8 +61,8 @@ const handleImageUpload = async (req, res) => {
     const processed = await processImageBuffer(req.file.buffer, processingBody);
     // Upload the already-encoded WebP directly. Keep Cloudinary free of a
     // second transformation/quality decision.
-    const result = await uploadToCloudinary(processed.buffer, folder);
-    if (isProjectAsset && String(result.format || '').toLowerCase() !== 'webp') {
+    uploaded = await uploadToCloudinary(processed.buffer, folder);
+    if (String(uploaded.format || '').toLowerCase() !== 'webp') {
       throw new Error('Cloudinary không trả về ảnh WebP sau khi tối ưu. Ảnh cũ vẫn được giữ nguyên.');
     }
 
@@ -69,13 +70,13 @@ const handleImageUpload = async (req, res) => {
       success: true,
       message: "Tải ảnh lên Cloudinary thành công!",
       data: {
-        url: result.secure_url,
-        secure_url: result.secure_url,
-        public_id: result.public_id,
-        format: result.format,
-        width: result.width,
-        height: result.height,
-        bytes: result.bytes,
+        url: uploaded.secure_url,
+        secure_url: uploaded.secure_url,
+        public_id: uploaded.public_id,
+        format: uploaded.format,
+        width: uploaded.width,
+        height: uploaded.height,
+        bytes: uploaded.bytes,
         processing: {
           original: processed.original,
           optimized: processed.optimized,
@@ -84,6 +85,9 @@ const handleImageUpload = async (req, res) => {
       }
     });
   } catch (error) {
+    if (uploaded?.public_id) {
+      destroyCloudinaryImage(uploaded.public_id).catch(cleanupError => console.error('[Upload rollback]', cleanupError.message));
+    }
     console.error("[Upload Error]", error);
     const validationError = /Tệp tải lên|Chỉ hỗ trợ|vượt giới hạn|Vùng cắt|Chất lượng WebP|Độ sắc nét/i.test(error.message || '');
     return res.status(validationError ? 400 : 500).json({

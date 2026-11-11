@@ -335,9 +335,6 @@
     save.hidden = true;
 
     let file, sourceUrl, dimensions;
-    const appendProcessingSettings = (form) => {
-      form.append('original_webp', 'true');
-    };
 
     const clearSelectedFile = () => {
       if (sourceUrl) URL.revokeObjectURL(sourceUrl);
@@ -402,7 +399,7 @@
         fileLabelText.textContent = '🔄 Chọn file khác';
         cancelSelectionBtn.hidden = false;
         const fileSizeMB = (file.size / (1024 * 1024)).toFixed(2);
-        fileInfoNotice.innerHTML = `📎 Đang chọn: <strong>${file.name}</strong> (${fileSizeMB} MB) — giữ nguyên kích thước, chỉ chuyển WebP quality 100`;
+        fileInfoNotice.innerHTML = `📎 Đang chọn: <strong>${file.name}</strong> (${fileSizeMB} MB) — ảnh lớn sẽ tự thu nhỏ theo vị trí; ảnh nhỏ không bị phóng to`;
         fileInfoNotice.hidden = false;
       };
       image.src = sourceUrl;
@@ -439,7 +436,6 @@
       setStatus(`Đang tải ảnh và lưu "${slot.label}"...`);
       const form = new FormData();
       form.append('image', file);
-      appendProcessingSettings(form);
 
       try {
         const result = await request(`/api/admin/home-images/${encodeURIComponent(slot.image_key)}`, {
@@ -458,7 +454,11 @@
         input.value = '';
         file = null;
         updateSlotUi();
-        setStatus(`Đã cập nhật thành công: ${slot.label}.`);
+        const optimized = result.data?.processing?.optimized;
+        const savedSize = optimized?.width && optimized?.height
+          ? ` Kích thước lưu: ${optimized.width}×${optimized.height}px.`
+          : '';
+        setStatus(`Đã cập nhật thành công: ${slot.label}.${savedSize}`);
       } catch (error) {
         save.textContent = 'Lưu lại';
         setStatus(error.message, true);

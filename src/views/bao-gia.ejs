@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400&family=Playfair+Display:ital,wght@0,600;0,700;0,800;0,900;1,600&family=Great+Vibes&family=Alex+Brush&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="/css/style.css?v=6.8.82" />
+  <link rel="stylesheet" href="/css/style.css?v=6.8.85" />
   <style>
     /* Alternating section backgrounds on quote page handled by style.css design system */
     .quote-page .quote-video-card-link { display: block; padding: 0; color: inherit; font: inherit; text-align: left; cursor: pointer; }
@@ -2146,18 +2146,25 @@
       }
     }
 
-    /* Keep the mobile YouTube cards slightly smaller while preserving the
-       native 16:9 iframe ratio and the two-column layout. */
+    /* Keep the mobile YouTube grid flush with the same content width as the
+       mobile menu while preserving the native 16:9 ratio and two columns. */
     @media (max-width: 767px) {
       .quote-page .quote-completed-videos-grid {
-        width: 90% !important;
-        max-width: 680px !important;
+        width: 100% !important;
+        max-width: none !important;
         margin-right: auto !important;
         margin-left: auto !important;
       }
+
+      /* Keep all six craftsmanship cards aligned with the mobile header
+         container instead of narrowing the grid inside the section. */
+      .quote-page .quote-craftsmanship-inner {
+        width: 100% !important;
+        max-width: none !important;
+      }
     }
   </style>
-  <script src="/js/main.js?v=2.0.4" defer></script>
+  <script src="/js/main.js?v=2.0.5" defer></script>
   <script src="/js/quote-page.js?v=1.2.3" defer></script>
 </head>
 <body>
@@ -2303,7 +2310,8 @@
     <% } %>
 
     <% if (sections.brandVideo?.isVisible !== false) { %>
-      <% const brandVideoTitle = String(sections.brandVideo.title || '').trim().toLowerCase() === 'đơn vị thiết kế & thi công nội thất hàng đầu việt nam' ? 'Đơn vị thiết kế & thi công nội thất uy tín chất lượng' : sections.brandVideo.title; %>
+      <% const legacyBrandVideoTitle = String(sections.brandVideo.title || '').trim().toLowerCase(); %>
+      <% const brandVideoTitle = ['đơn vị thiết kế & thi công nội thất hàng đầu việt nam', 'đơn vị thiết kế & thi công nội thất uy tín chất lượng'].includes(legacyBrandVideoTitle) ? 'Đơn vị thiết kế & thi công nội thất uy tín' : sections.brandVideo.title; %>
       <% const brandVideoUrl = sections.brandVideo.videoUrl || 'https://www.youtube.com/watch?v=hoUvh1w9tII'; %>
       <% const brandVideoId = String(brandVideoUrl).match(/(?:youtu\.be\/|youtube(?:-nocookie)?\.com\/(?:watch\?(?:[^#&]+&)*v=|embed\/|shorts\/))([\w-]{11})/)?.[1] || 'hoUvh1w9tII'; %>
       <section class="quote-brand-video">
@@ -2485,7 +2493,8 @@
                           <button type="button" class="youtube-thumbnail-cover" aria-label="Phát video">
                             <img
                               class="youtube-thumbnail-image"
-                              src="https://i.ytimg.com/vi/<%= vid.videoId %>/hqdefault.jpg"
+                              src="https://i.ytimg.com/vi/<%= vid.videoId %>/maxresdefault.jpg"
+                              data-youtube-fallback="https://i.ytimg.com/vi/<%= vid.videoId %>/hqdefault.jpg"
                               alt=""
                               loading="lazy"
                               decoding="async"
@@ -2516,7 +2525,8 @@
                       <button type="button" class="youtube-thumbnail-cover" aria-label="Phát video">
                         <img
                           class="youtube-thumbnail-image"
-                          src="https://i.ytimg.com/vi/<%= vid.videoId %>/hqdefault.jpg"
+                          src="https://i.ytimg.com/vi/<%= vid.videoId %>/maxresdefault.jpg"
+                          data-youtube-fallback="https://i.ytimg.com/vi/<%= vid.videoId %>/hqdefault.jpg"
                           alt=""
                           loading="lazy"
                           decoding="async"

@@ -8912,7 +8912,7 @@ main .surface-finish-section .surface-finish-title {
 .youtube-thumbnail-shade {
   position: absolute;
   inset: 0;
-  background: linear-gradient(180deg, rgba(0, 0, 0, .04), rgba(0, 0, 0, .38));
+  background: transparent;
   pointer-events: none;
 }
 
@@ -21545,5 +21545,32 @@ main.project-detail-page .project-detail-summary {
 
   .quote-page .quote-price-copy {
     display: none !important;
+  }
+}
+
+/* Keep every FAQ card outlined at each responsive breakpoint.  On phones the
+   list becomes a stacked grid, so each card needs its own complete border
+   instead of relying on the desktop separator rule. */
+.home-page .home-faq-item,
+.home-page .home-faq-item + .home-faq-item {
+  box-sizing: border-box;
+  border: 1px solid #dcc9a8 !important;
+}
+
+@media (max-width: 767px) {
+  .home-page .home-faq-list {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: .75rem;
+    overflow: visible;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+  }
+
+  .home-page .home-faq-item,
+  .home-page .home-faq-item + .home-faq-item {
+    border: 1px solid #dcc9a8 !important;
+    border-radius: 14px;
   }
 }

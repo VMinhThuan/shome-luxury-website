@@ -86,10 +86,10 @@ class QuotePageController {
         ctaHref: quotePageDefaults.brandVideo.ctaHref
       };
     }
-    // Replace the former ranking claim in already-saved content with the
-    // approved brand promise shown on the quotation page.
-    if (String(sections.brandVideo?.title || '').trim().toLowerCase() === 'đơn vị thiết kế & thi công nội thất hàng đầu việt nam') {
-      sections.brandVideo.title = 'Đơn vị thiết kế & thi công nội thất uy tín chất lượng';
+    // Normalize older saved brand-video titles to the current approved copy.
+    const normalizedBrandVideoTitle = String(sections.brandVideo?.title || '').trim().toLowerCase();
+    if (['đơn vị thiết kế & thi công nội thất hàng đầu việt nam', 'đơn vị thiết kế & thi công nội thất uy tín chất lượng'].includes(normalizedBrandVideoTitle)) {
+      sections.brandVideo.title = quotePageDefaults.brandVideo.title;
     }
     if (page.sections?.completed?.title === 'Chạm vào' && page.sections?.completed?.script === 'chất lượng thực tế') {
       sections.completed = { ...sections.completed, ...quotePageDefaults.completed };
