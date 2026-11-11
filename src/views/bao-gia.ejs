@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400&family=Playfair+Display:ital,wght@0,600;0,700;0,800;0,900;1,600&family=Great+Vibes&family=Alex+Brush&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="/css/style.css?v=6.8.86" />
+  <link rel="stylesheet" href="/css/style.css?v=6.8.87" />
   <style>
     /* Alternating section backgrounds on quote page handled by style.css design system */
     .quote-page .quote-video-card-link { display: block; padding: 0; color: inherit; font: inherit; text-align: left; cursor: pointer; }
@@ -2168,6 +2168,119 @@
       .quote-page .quote-craftsmanship-inner {
         width: 100% !important;
         max-width: none !important;
+      }
+    }
+
+    /* Featured-project UI for the “Một số công trình tiêu biểu” section:
+       use full-bleed image tiles with readable project details over the image,
+       matching the supplied gallery reference without changing project data. */
+    .quote-page .quote-category-overview .quote-featured-heading h2 {
+      text-transform: none;
+    }
+    .quote-page .quote-category-overview .quote-featured-project-card {
+      position: relative;
+      display: block;
+      min-height: 0;
+      aspect-ratio: 16 / 9;
+      overflow: hidden;
+      border: 1px solid #d3a24f;
+      border-radius: 0;
+      background: #2e2923;
+      box-shadow: none;
+    }
+    .quote-page .quote-category-overview .quote-featured-project-card:hover {
+      transform: none;
+      box-shadow: none;
+    }
+    .quote-page .quote-category-overview .quote-featured-project-image {
+      display: block;
+      width: 100%;
+      height: 100%;
+      aspect-ratio: auto !important;
+      border: 0;
+      border-radius: 0;
+    }
+    .quote-page .quote-category-overview .quote-featured-project-image::after {
+      background: linear-gradient(180deg, rgba(13, 10, 7, .08) 22%, rgba(13, 10, 7, .18) 48%, rgba(13, 10, 7, .82) 100%);
+    }
+    .quote-page .quote-category-overview .quote-featured-project-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .quote-page .quote-category-overview .quote-featured-project-overlay,
+    .quote-page .quote-category-overview .quote-featured-project-view {
+      display: none !important;
+    }
+    .quote-page .quote-category-overview .quote-featured-project-info {
+      position: absolute;
+      z-index: 2;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: clamp(.75rem, 1.8vw, 1.25rem);
+      color: #fff;
+      background: linear-gradient(180deg, transparent 48%, rgba(13, 10, 7, .76) 100%);
+      pointer-events: none;
+    }
+    .quote-page .quote-category-overview .quote-featured-project-info h3 {
+      margin: 0 0 .55rem;
+      color: #fff !important;
+      font-size: clamp(.9rem, 1.45vw, 1.25rem);
+      line-height: 1.2;
+    }
+    .quote-page .quote-category-overview .quote-featured-project-info h3 a {
+      color: inherit !important;
+      pointer-events: auto;
+    }
+    .quote-page .quote-category-overview .quote-featured-project-info dl {
+      display: block;
+      margin: 0;
+    }
+    .quote-page .quote-category-overview .quote-featured-project-info dl div {
+      display: block;
+      padding: 0 !important;
+      border: 0 !important;
+      color: rgba(255, 255, 255, .94);
+      font-size: clamp(.66rem, .95vw, .82rem);
+      line-height: 1.45;
+    }
+    .quote-page .quote-category-overview .quote-featured-project-info dl div:nth-child(2),
+    .quote-page .quote-category-overview .quote-featured-project-info dl div:nth-child(4) {
+      display: none;
+    }
+    .quote-page .quote-category-overview .quote-featured-project-info dt {
+      color: #fff;
+      font-weight: 700;
+    }
+    .quote-page .quote-category-overview .quote-featured-project-info dd {
+      display: inline;
+      color: rgba(255, 255, 255, .9);
+    }
+    .quote-page .quote-category-overview .quote-featured-project-image-placeholder {
+      display: grid;
+      width: 100%;
+      height: 100%;
+      place-items: center;
+      color: rgba(255, 255, 255, .74);
+      background: linear-gradient(135deg, #3c342b, #1e1a16);
+      font-size: clamp(.85rem, 1.4vw, 1.1rem);
+    }
+    @media (max-width: 767px) {
+      .quote-page .quote-category-overview .quote-featured-project-card {
+        aspect-ratio: 16 / 10;
+        border-radius: 10px;
+      }
+      .quote-page .quote-category-overview .quote-featured-project-info {
+        padding: .65rem .7rem;
+      }
+      .quote-page .quote-category-overview .quote-featured-project-info h3 {
+        margin-bottom: .35rem;
+        font-size: clamp(.7rem, 3.1vw, .9rem);
+      }
+      .quote-page .quote-category-overview .quote-featured-project-info dl div {
+        font-size: clamp(.52rem, 2.1vw, .66rem);
       }
     }
   </style>
