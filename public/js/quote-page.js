@@ -214,6 +214,7 @@ document.addEventListener('DOMContentLoaded', () => {
   (function syncQuoteContentWithHeader() {
     const headerContainer = document.querySelector('.site-header .header-container');
     const quoteHero = document.querySelector('.quote-page .quote-hero-carousel');
+    const quoteHeroTrack = quoteHero?.querySelector('.quote-hero-slider-track');
     const featuredSection = document.querySelector('.quote-page .quote-category-overview > .container');
     if (!headerContainer || (!quoteHero && !featuredSection)) return;
 
@@ -226,6 +227,11 @@ document.addEventListener('DOMContentLoaded', () => {
           element.style.removeProperty('margin-left');
           element.style.removeProperty('margin-right');
         });
+        if (quoteHeroTrack) {
+          quoteHeroTrack.style.removeProperty('width');
+          quoteHeroTrack.style.removeProperty('left');
+          quoteHeroTrack.style.removeProperty('right');
+        }
         return;
       }
 
@@ -242,6 +248,13 @@ document.addEventListener('DOMContentLoaded', () => {
         element.style.marginLeft = `${left}px`;
         element.style.marginRight = '0';
       });
+
+      if (quoteHero && quoteHeroTrack) {
+        const heroRect = quoteHero.getBoundingClientRect();
+        quoteHeroTrack.style.setProperty('width', `${width}px`, 'important');
+        quoteHeroTrack.style.setProperty('left', `${left - heroRect.left}px`, 'important');
+        quoteHeroTrack.style.setProperty('right', 'auto', 'important');
+      }
     };
 
     sync();
