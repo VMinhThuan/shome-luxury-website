@@ -2411,6 +2411,11 @@
       }
     }
     @media (max-width: 767px) {
+      /* The overview renders nine cards for desktop, while phones retain
+         the existing five-project selection. */
+      .quote-page .quote-category-overview .quote-featured-project-list > .quote-featured-project-card--desktop-only {
+        display: none !important;
+      }
       .quote-page .quote-category-overview .quote-featured-project-card {
         aspect-ratio: 16 / 10;
         border-radius: 10px;
@@ -2639,7 +2644,7 @@
           </header>
           <% if (highlightProjects.length) { %>
             <div class="quote-featured-project-list">
-              <% highlightProjects.slice(0, 5).forEach((project, index) => {
+              <% highlightProjects.slice(0, 9).forEach((project, index) => {
                    const projectImage = project.thumbnail || (Array.isArray(project.gallery) ? project.gallery[0] : '') || '';
                    const galleryImages = [...new Set([projectImage, ...(project.gallery || [])].filter(Boolean))];
                    const costLabel = project.cost ? `${Math.round(project.cost / 1000000)} triệu` : 'Liên hệ tư vấn';
@@ -2650,7 +2655,7 @@
                    ];
                    const overlay = overlays[index % overlays.length];
               %>
-                <article class="quote-featured-project-card">
+                <article class="quote-featured-project-card <%= index >= 5 ? 'quote-featured-project-card--desktop-only' : '' %>">
                   <button class="quote-featured-project-image" type="button" data-quote-project-gallery data-project-title="<%= project.title %>" data-gallery-images="<%= JSON.stringify(galleryImages) %>" aria-label="Xem thư viện ảnh dự án <%= project.title %>">
                     <% if (projectImage) { %><img src="<%= projectImage %>" alt="<%= project.title %>" loading="lazy" /><% } else { %><span class="quote-featured-project-image-placeholder">Chưa có ảnh</span><% } %>
                     <div class="quote-featured-project-overlay">

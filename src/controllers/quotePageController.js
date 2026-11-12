@@ -148,23 +148,24 @@ class QuotePageController {
 
   async getHighlightedProjects(categorySlug = 'tk-nt-chung-cu') {
     const targetCategory = categorySlug || 'tk-nt-chung-cu';
+    const desktopProjectLimit = 9;
     const highlighted = await projectService.getProjects({
       category: targetCategory,
       isHighlight: true,
-      limit: 5,
+      limit: desktopProjectLimit,
       sort: 'highlight'
     });
     let projects = highlighted.projects || [];
-    if (projects.length < 5) {
+    if (projects.length < desktopProjectLimit) {
       const more = await projectService.getProjects({
         category: targetCategory,
         excludeIds: projects.map(p => p._id),
-        limit: 5 - projects.length,
+        limit: desktopProjectLimit - projects.length,
         sort: 'newest'
       });
       projects = [...projects, ...(more.projects || [])];
     }
-    return projects.slice(0, 5);
+    return projects.slice(0, desktopProjectLimit);
   }
 
   async renderPage(req, res, next) {
