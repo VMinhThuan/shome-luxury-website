@@ -2550,6 +2550,10 @@
       height: 100% !important;
       object-fit: cover !important;
       object-position: center !important;
+      /* Crop the artwork's built-in side gutters while keeping the banner
+         edge-to-edge inside its already full-width viewport. */
+      transform: scale(1.12) !important;
+      transform-origin: center center !important;
     }
 
     @media (max-width: 767px) {
@@ -2557,6 +2561,10 @@
         height: 56.25vw !important;
         min-height: 0 !important;
         max-height: none !important;
+      }
+
+      #main-content.quote-page > .quote-hero.quote-hero-carousel .quote-hero-media img {
+        transform: scale(1.08) !important;
       }
     }
   </style>
