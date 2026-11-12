@@ -209,8 +209,9 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   })();
 
-  // Keep the quote banner and featured-project section aligned with the
-  // header's actual inner content box, including its responsive padding.
+  // Keep content sections aligned with the header's inner content box. The
+  // quote banner is deliberately full-bleed, so it must never receive these
+  // inline width and margin values after the page has loaded.
   (function syncQuoteContentWithHeader() {
     const headerContainer = document.querySelector('.site-header .header-container');
     const quoteHero = document.querySelector('.quote-page .quote-hero-carousel');
@@ -219,8 +220,23 @@ document.addEventListener('DOMContentLoaded', () => {
     const constructionImageSection = document.querySelector('.quote-page .quote-construction-image-section');
     if (!headerContainer || (!quoteHero && !featuredSection && !constructionImageSection)) return;
 
-    const frameElements = [quoteHero, featuredSection, constructionImageSection].filter(Boolean);
+    const frameElements = [featuredSection, constructionImageSection].filter(Boolean);
+    const resetQuoteHeroFrame = () => {
+      if (quoteHero) {
+        quoteHero.style.removeProperty('width');
+        quoteHero.style.removeProperty('max-width');
+        quoteHero.style.removeProperty('margin-left');
+        quoteHero.style.removeProperty('margin-right');
+      }
+      if (quoteHeroTrack) {
+        quoteHeroTrack.style.removeProperty('width');
+        quoteHeroTrack.style.removeProperty('left');
+        quoteHeroTrack.style.removeProperty('right');
+      }
+    };
     const sync = () => {
+      resetQuoteHeroFrame();
+
       if (window.matchMedia('(max-width: 767px)').matches) {
         frameElements.forEach(element => {
           element.style.removeProperty('width');
@@ -230,11 +246,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
         constructionImageSection?.style.removeProperty('padding-left');
         constructionImageSection?.style.removeProperty('padding-right');
-        if (quoteHeroTrack) {
-          quoteHeroTrack.style.removeProperty('width');
-          quoteHeroTrack.style.removeProperty('left');
-          quoteHeroTrack.style.removeProperty('right');
-        }
         return;
       }
 
@@ -258,12 +269,6 @@ document.addEventListener('DOMContentLoaded', () => {
         constructionImageSection.style.setProperty('padding-right', '0', 'important');
       }
 
-      if (quoteHero && quoteHeroTrack) {
-        const heroRect = quoteHero.getBoundingClientRect();
-        quoteHeroTrack.style.setProperty('width', `${width}px`, 'important');
-        quoteHeroTrack.style.setProperty('left', `${left - heroRect.left}px`, 'important');
-        quoteHeroTrack.style.setProperty('right', 'auto', 'important');
-      }
     };
 
     sync();
