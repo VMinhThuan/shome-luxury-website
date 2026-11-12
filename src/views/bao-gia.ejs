@@ -2499,6 +2499,7 @@
       margin: 0 !important;
       padding: 0 !important;
       transform: none !important;
+      pointer-events: none !important;
     }
 
     #main-content.quote-page > .quote-hero.quote-hero-carousel .quote-hero-media img {
@@ -2509,6 +2510,9 @@
       object-fit: cover !important;
       object-position: center !important;
       transform: none !important;
+      pointer-events: none !important;
+      user-select: none !important;
+      -webkit-user-drag: none !important;
     }
 
     @media (max-width: 767px) {
@@ -2544,7 +2548,7 @@
           <% quoteHeroSlides.forEach((image, index) => { %>
             <div class="hero-slide quote-hero-slide" data-slide-index="<%= index %>" aria-label="Banner báo giá <%= index + 1 %> trên 3" style="--quote-hero-image: url('<%= image %>')">
               <picture class="quote-hero-media" aria-hidden="true">
-                <img src="<%= image %>" alt="" width="1536" height="1024" <%= index === 0 ? 'fetchpriority="high"' : 'loading="lazy"' %> decoding="async" />
+                <img src="<%= image %>" alt="" width="1536" height="1024" draggable="false" <%= index === 0 ? 'fetchpriority="high"' : 'loading="lazy"' %> decoding="async" />
               </picture>
             </div>
           <% }) %>
