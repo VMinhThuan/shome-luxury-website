@@ -1955,9 +1955,6 @@
         line-height: .85 !important;
       }
     }
-    @media (min-width: 768px) {
-      .quote-page .quote-hero-carousel .quote-hero-media { display: none; }
-    }
     /* Complimentary-design feature: retain the wide composition and give the room
        photo more vertical room without turning the entire promotion into a 16:9 card. */
     @media (min-width: 768px) {
@@ -2291,9 +2288,6 @@
         background-position: center !important;
         background-image: var(--quote-hero-image) !important;
       }
-      .quote-page .quote-hero.quote-hero-carousel .quote-hero-media {
-        display: none !important;
-      }
       .quote-page .quote-category-overview > .container {
         width: min(calc(100% - 48px), calc(var(--container-max) - 48px)) !important;
         max-width: none !important;
@@ -2496,14 +2490,11 @@
        other banners keep their existing container and crop rules. */
     #main-content.quote-page > .quote-hero.quote-hero-carousel {
       position: relative !important;
-      left: auto !important;
-      transform: none !important;
+      left: 50% !important;
+      transform: translateX(-50%) !important;
       width: 100vw !important;
       max-width: none !important;
-      margin-top: 0 !important;
-      margin-right: 0 !important;
-      margin-bottom: 0 !important;
-      margin-left: calc(50% - 50vw) !important;
+      margin: 0 !important;
       padding: 0 !important;
       box-sizing: border-box !important;
       overflow: hidden !important;
@@ -2513,7 +2504,7 @@
       position: absolute !important;
       inset: 0 !important;
       display: flex !important;
-      width: 100% !important;
+      width: 100vw !important;
       max-width: none !important;
       height: 100% !important;
       margin: 0 !important;
@@ -2522,9 +2513,9 @@
 
     #main-content.quote-page > .quote-hero.quote-hero-carousel .quote-hero-slide {
       position: relative !important;
-      flex: 0 0 100% !important;
-      width: 100% !important;
-      min-width: 100% !important;
+      flex: 0 0 100vw !important;
+      width: 100vw !important;
+      min-width: 100vw !important;
       max-width: none !important;
       height: 100% !important;
       min-height: 0 !important;
@@ -2535,17 +2526,21 @@
 
     #main-content.quote-page > .quote-hero.quote-hero-carousel .quote-hero-media {
       position: absolute !important;
-      inset: 0 !important;
+      top: 0 !important;
+      right: auto !important;
+      bottom: 0 !important;
+      left: 50% !important;
       display: block !important;
-      width: 100% !important;
+      width: 100vw !important;
       height: 100% !important;
       margin: 0 !important;
       padding: 0 !important;
+      transform: translateX(-50%) !important;
     }
 
     #main-content.quote-page > .quote-hero.quote-hero-carousel .quote-hero-media img {
       display: block !important;
-      width: 100% !important;
+      width: 100vw !important;
       max-width: none !important;
       height: 100% !important;
       object-fit: cover !important;
