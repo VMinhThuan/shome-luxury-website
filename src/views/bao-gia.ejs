@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400&family=Playfair+Display:ital,wght@0,600;0,700;0,800;0,900;1,600&family=Great+Vibes&family=Alex+Brush&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="/css/style.css?v=6.8.99" />
+  <link rel="stylesheet" href="/css/style.css?v=6.8.100" />
   <style>
     /* Alternating section backgrounds on quote page handled by style.css design system */
     .quote-page .quote-video-card-link { display: block; padding: 0; color: inherit; font: inherit; text-align: left; cursor: pointer; }
@@ -2488,6 +2488,42 @@
       }
       .quote-page .quote-category-overview .quote-featured-project-info dl div {
         font-size: clamp(.52rem, 2.1vw, .66rem);
+      }
+    }
+
+    /* Final quote-banner full bleed: match the homepage hero edge-to-edge. */
+    @media (min-width: 768px) {
+      #main-content.quote-page > .quote-hero.quote-hero-carousel {
+        position: relative !important;
+        left: 50% !important;
+        width: 100vw !important;
+        max-width: none !important;
+        margin: 0 !important;
+        transform: translateX(-50%) !important;
+        overflow: hidden !important;
+      }
+
+      #main-content.quote-page > .quote-hero.quote-hero-carousel > .quote-hero-slider-track {
+        position: absolute !important;
+        inset: 0 !important;
+        display: flex !important;
+        width: 100% !important;
+        max-width: none !important;
+        height: 100% !important;
+        margin: 0 !important;
+      }
+
+      #main-content.quote-page > .quote-hero.quote-hero-carousel .quote-hero-slide {
+        flex: 0 0 100% !important;
+        width: 100% !important;
+        min-width: 100% !important;
+        max-width: none !important;
+        height: 100% !important;
+        background: var(--quote-hero-image) center / cover no-repeat !important;
+      }
+
+      #main-content.quote-page > .quote-hero.quote-hero-carousel .quote-hero-media {
+        display: none !important;
       }
     }
   </style>
