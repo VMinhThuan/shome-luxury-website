@@ -2491,44 +2491,70 @@
       }
     }
 
-    /* Final quote-banner full bleed: match the homepage hero edge-to-edge. */
-    @media (min-width: 768px) {
+    /* Báo giá only: make the carousel itself full-bleed and let the real image
+       fill each slide. The selector is intentionally scoped to this page so
+       other banners keep their existing container and crop rules. */
+    #main-content.quote-page > .quote-hero.quote-hero-carousel {
+      position: relative !important;
+      width: 100vw !important;
+      max-width: none !important;
+      margin-top: 0 !important;
+      margin-right: 0 !important;
+      margin-bottom: 0 !important;
+      margin-left: calc(50% - 50vw) !important;
+      padding: 0 !important;
+      box-sizing: border-box !important;
+      overflow: hidden !important;
+    }
+
+    #main-content.quote-page > .quote-hero.quote-hero-carousel > .quote-hero-slider-track {
+      position: absolute !important;
+      inset: 0 !important;
+      display: flex !important;
+      width: 100% !important;
+      max-width: none !important;
+      height: 100% !important;
+      margin: 0 !important;
+      padding: 0 !important;
+    }
+
+    #main-content.quote-page > .quote-hero.quote-hero-carousel .quote-hero-slide {
+      position: relative !important;
+      flex: 0 0 100% !important;
+      width: 100% !important;
+      min-width: 100% !important;
+      max-width: none !important;
+      height: 100% !important;
+      min-height: 0 !important;
+      margin: 0 !important;
+      padding: 0 !important;
+      background: none !important;
+    }
+
+    #main-content.quote-page > .quote-hero.quote-hero-carousel .quote-hero-media {
+      position: absolute !important;
+      inset: 0 !important;
+      display: block !important;
+      width: 100% !important;
+      height: 100% !important;
+      margin: 0 !important;
+      padding: 0 !important;
+    }
+
+    #main-content.quote-page > .quote-hero.quote-hero-carousel .quote-hero-media img {
+      display: block !important;
+      width: 100% !important;
+      max-width: none !important;
+      height: 100% !important;
+      object-fit: cover !important;
+      object-position: center !important;
+    }
+
+    @media (max-width: 767px) {
       #main-content.quote-page > .quote-hero.quote-hero-carousel {
-        position: relative !important;
-        left: 50% !important;
-        width: 100vw !important;
-        max-width: none !important;
-        margin: 0 !important;
-        transform: translateX(-50%) !important;
-        overflow: hidden !important;
-      }
-
-      #main-content.quote-page > .quote-hero.quote-hero-carousel > .quote-hero-slider-track {
-        position: absolute !important;
-        inset: 0 !important;
-        display: flex !important;
-        width: 100% !important;
-        max-width: none !important;
-        height: 100% !important;
-        margin: 0 !important;
-      }
-
-      #main-content.quote-page > .quote-hero.quote-hero-carousel .quote-hero-slide {
-        flex: 0 0 100% !important;
-        width: 100% !important;
-        min-width: 100% !important;
-        max-width: none !important;
-        height: 100% !important;
-        /* The uploaded quote artwork contains a blank strip on the left.
-           Crop that strip while keeping the right-hand composition visible. */
-        background-image: var(--quote-hero-image) !important;
-        background-position: right center !important;
-        background-size: 115% auto !important;
-        background-repeat: no-repeat !important;
-      }
-
-      #main-content.quote-page > .quote-hero.quote-hero-carousel .quote-hero-media {
-        display: none !important;
+        height: 56.25vw !important;
+        min-height: 0 !important;
+        max-height: none !important;
       }
     }
   </style>
