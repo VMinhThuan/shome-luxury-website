@@ -938,6 +938,13 @@
     }
     .quote-page .quote-featured-view-all { margin-top: clamp(1.25rem, 2.5vw, 2rem); text-align: center; }
     .quote-page .quote-featured-view-all a { display: inline-flex; align-items: center; gap: .65rem; min-height: 44px; padding: .65rem 1.35rem; border: 1px solid var(--accent-gold, #D2A044); border-radius: 999px; background: var(--accent-gold, #D2A044); color: #111111; font-family: var(--font-heading); font-size: clamp(.72rem, 1vw, .84rem); font-weight: 700; letter-spacing: .02em; box-shadow: 0 4px 14px rgba(200, 155, 75, 0.28); transition: all .25s ease; }
+    @media (min-width: 768px) {
+      .quote-page .quote-featured-view-all a {
+        min-height: 0;
+        padding: .9rem;
+        font-size: clamp(.9rem, 1.1vw, 1rem);
+      }
+    }
     .quote-page .quote-featured-view-all a:hover { background: var(--accent-gold-hover, #D2A653); border-color: var(--accent-gold-hover, #D2A653); color: #000000; transform: translateY(-2px); box-shadow: 0 6px 20px rgba(200, 155, 75, 0.45); }
     .quote-page .quote-featured-view-all span { color: #111111; font-size: 1.25em; transition: transform .2s ease; }
     .quote-page .quote-featured-view-all a:hover span { transform: translateX(3px); }
@@ -2093,6 +2100,7 @@
       .quote-page .quote-construction-image-only > img {
         border-radius: inherit !important;
       }
+
     }
 
     @media (max-width: 767px) {
@@ -2177,6 +2185,31 @@
 
       .quote-page .quote-construction-image-only > img {
         border-radius: inherit !important;
+      }
+
+      /* The CTA artwork contains both copy and photography. Do not force it
+         into a 16:9 crop on phones, otherwise the left-side message is cut
+         off. This block follows the legacy mobile sizing rules so it wins. */
+      .quote-page .quote-construction-image-section {
+        height: auto !important;
+        min-height: 0 !important;
+        max-height: none !important;
+        margin: .9rem auto 1.15rem !important;
+      }
+
+      .quote-page .quote-construction-image-only,
+      .quote-page .quote-construction-image-only > img {
+        height: auto !important;
+        min-height: 0 !important;
+        max-height: none !important;
+        aspect-ratio: auto !important;
+      }
+
+      .quote-page .quote-construction-image-only > img {
+        display: block !important;
+        width: 100% !important;
+        object-fit: contain !important;
+        object-position: center !important;
       }
     }
 
