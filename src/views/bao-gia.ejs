@@ -2100,7 +2100,7 @@
         min-height: 0 !important;
         max-height: none !important;
         overflow: hidden !important;
-        border-radius: 18px !important;
+        border-radius: clamp(8px, 1.5vw, 18px) !important;
       }
 
       .quote-page .quote-construction-image-only > img {
@@ -2175,20 +2175,21 @@
         display: none !important;
       }
 
-      /* Keep the CTA artwork at its natural aspect ratio on phones with
-         compact, even vertical whitespace above and below the card. */
+      /* Keep the CTA artwork at its natural aspect ratio on phones without
+         clipping its drawn rounded border at the corners. */
       .quote-page .quote-construction-image-section {
         width: 100% !important;
         max-width: none !important;
         height: auto !important;
         min-height: 0 !important;
         max-height: none !important;
-        padding: .625rem 16px !important;
+        padding: .75rem 16px !important;
         margin: 0 auto !important;
       }
 
       .quote-page .quote-construction-image-only {
-        border-radius: 16px !important;
+        overflow: visible !important;
+        border-radius: 0 !important;
         box-shadow: none !important;
       }
 
@@ -2203,7 +2204,7 @@
       .quote-page .quote-construction-image-only > img {
         display: block !important;
         width: 100% !important;
-        border-radius: inherit !important;
+        border-radius: 0 !important;
         object-fit: contain !important;
         object-position: center !important;
       }
