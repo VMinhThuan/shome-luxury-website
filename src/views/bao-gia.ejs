@@ -2221,6 +2221,16 @@
         object-fit: contain !important;
         object-position: center !important;
       }
+
+      /* Preserve the supplied CTA artwork's native ratio on phones so its
+         copy and interior photo are both visible rather than vertically cut. */
+      .quote-page .quote-construction-image-only {
+        aspect-ratio: 1672 / 941 !important;
+      }
+
+      .quote-page .quote-construction-image-only > img {
+        height: 100% !important;
+      }
     }
 
     /* Keep the mobile YouTube grid flush with the same content width as the
