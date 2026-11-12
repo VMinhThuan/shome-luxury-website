@@ -134,14 +134,14 @@
     .quote-page .quote-craft-group-heading b { color: var(--quote-brand-yellow, #c27a1b) !important; font-family: var(--font-heading); font-size: clamp(1.15rem, 2.2vw, 1.6rem); font-weight: 700; font-style: normal; line-height: 1; }
     .quote-page .quote-craft-group-heading h3 { margin: 0; color: #231f1c; font-family: var(--font-heading); font-size: clamp(1rem, 2vw, 1.35rem); font-weight: 700; }
     .quote-page .quote-craft-group-heading::after { content: ''; flex: 1; height: 1px; background: #ddd7d0; }
-    .quote-page .quote-craft-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    .quote-page .quote-craft-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
     .quote-page .quote-craft-card { min-width: 0; }
     .quote-page .quote-craft-photo { position: relative; aspect-ratio: 16 / 9 !important; overflow: hidden; border-radius: 8px; background: #e6ddd2; }
     .quote-page .quote-craft-photo img { position: absolute; width: 200%; height: 200%; max-width: none; object-fit: fill; }
     .quote-page .quote-craft-card:nth-child(2) .quote-craft-photo img { left: -100%; }.quote-page .quote-craft-card:nth-child(3) .quote-craft-photo img { top: -100%; }.quote-page .quote-craft-card:nth-child(4) .quote-craft-photo img { top: -100%; left: -100%; }.quote-page .quote-craft-grid--all .quote-craft-card:nth-child(6) .quote-craft-photo img { left: -100%; }
-    .quote-page .quote-craft-card h4 { margin: .42rem 0 .08rem; color: #292420; font-size: clamp(.72rem, 1.25vw, .9rem); font-weight: 700; }
+    .quote-page .quote-craft-card h4 { margin: 6px 0 .08rem; color: #292420; font-size: clamp(.72rem, 1.25vw, .9rem); font-weight: 700; }
     .quote-page .quote-craft-card p { margin: 0; color: #777069; font-size: clamp(.63rem, 1.05vw, .76rem); line-height: 1.35; }
-    @media (max-width: 559px) { .quote-page .quote-craftsmanship { padding: .75rem 0; }.quote-page .quote-craftsmanship-inner { width: calc(100% - 24px); }.quote-page .quote-craftsmanship-heading { margin-bottom: 1.3rem; }.quote-page .quote-craft-grid { gap: .75rem .65rem; }.quote-page .quote-craft-group + .quote-craft-group { margin-top: 1.7rem; }.quote-page .quote-craft-group-heading { gap: .55rem; margin-bottom: .55rem; }.quote-page .quote-craft-card h4 { margin-top: .3rem; } }
+    @media (max-width: 559px) { .quote-page .quote-craftsmanship { padding: .75rem 0; }.quote-page .quote-craftsmanship-inner { width: calc(100% - 24px); }.quote-page .quote-craftsmanship-heading { margin-bottom: 1.3rem; }.quote-page .quote-craft-grid { gap: 6px; }.quote-page .quote-craft-group + .quote-craft-group { margin-top: 1.7rem; }.quote-page .quote-craft-group-heading { gap: .55rem; margin-bottom: .55rem; }.quote-page .quote-craft-card h4 { margin-top: 6px; } }
     .quote-page .quote-handover-check { padding: clamp(2.25rem, 4.5vw, 4rem) 0; background: #fffdf9; }
     .quote-page .quote-handover-inner { width: min(720px, 100%); }
     .quote-page .quote-handover-lead { margin: 0 0 1rem; color: #756d66; font-size: clamp(.7rem, 1.25vw, .85rem); line-height: 1.45; }
@@ -941,8 +941,11 @@
     @media (min-width: 768px) {
       .quote-page .quote-featured-view-all a {
         min-height: 0;
-        padding: .9rem;
-        font-size: clamp(.9rem, 1.1vw, 1rem);
+        padding: 1rem;
+        border-radius: 9px;
+        font-size: clamp(1.2rem, 1.4vw, 1.36rem);
+        font-weight: 800;
+        line-height: 1;
       }
     }
     .quote-page .quote-featured-view-all a:hover { background: var(--accent-gold-hover, #D2A653); border-color: var(--accent-gold-hover, #D2A653); color: #000000; transform: translateY(-2px); box-shadow: 0 6px 20px rgba(200, 155, 75, 0.45); }
