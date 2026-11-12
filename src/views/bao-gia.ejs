@@ -2056,8 +2056,11 @@
        use the same 24px side inset as the header content. */
     @media (min-width: 768px) {
       .quote-page .quote-construction-image-section {
-        width: min(calc(100% - 96px), calc(var(--container-max) - 96px)) !important;
+        width: min(calc(100% - 48px), calc(var(--container-max) - 48px)) !important;
         max-width: none !important;
+        height: auto !important;
+        min-height: 0 !important;
+        max-height: none !important;
         padding-left: 0 !important;
         padding-right: 0 !important;
       }
@@ -2093,12 +2096,19 @@
 
     @media (min-width: 768px) {
       .quote-page .quote-construction-image-only {
+        height: auto !important;
+        min-height: 0 !important;
+        max-height: none !important;
         overflow: hidden !important;
         border-radius: 18px !important;
       }
 
       .quote-page .quote-construction-image-only > img {
+        height: auto !important;
+        min-height: 0 !important;
+        max-height: none !important;
         border-radius: inherit !important;
+        object-fit: contain !important;
       }
 
     }
@@ -2311,7 +2321,7 @@
     }
     .quote-page .quote-category-overview .quote-featured-project-list {
       max-width: none;
-      gap: 3px;
+      gap: 6px;
     }
     .quote-page .quote-category-overview .quote-featured-project-image {
       display: block;
@@ -2490,6 +2500,28 @@
       }
     }
 
+    /* Desktop/tablet: use one consistent 6px gutter across the card groups
+       shown throughout the quotation page. Mobile has its own compact rules. */
+    @media (min-width: 768px) {
+      .quote-page .customer-testimonial-grid,
+      .quote-page .home-faq-list,
+      .quote-page .quote-handover-list,
+      .quote-page .quote-craft-grid,
+      .quote-page .quote-workshop-gallery,
+      .quote-page .quote-completed-videos-grid,
+      .quote-page .quote-factory-activity-track {
+        gap: 6px !important;
+      }
+
+      .quote-page .customer-testimonial-card {
+        flex-basis: calc((100% - 12px) / 3) !important;
+      }
+
+      .quote-page .quote-factory-activity-card {
+        flex-basis: calc((100% - 18px) / 4) !important;
+      }
+    }
+
     /* Báo giá only: make the carousel itself full-bleed and let the real image
        fill each slide. The selector is intentionally scoped to this page so
        other banners keep their existing container and crop rules. */
@@ -2567,7 +2599,7 @@
     }
   </style>
   <script src="/js/main.js?v=2.0.5" defer></script>
-  <script src="/js/quote-page.js?v=1.2.8" defer></script>
+  <script src="/js/quote-page.js?v=1.2.9" defer></script>
 </head>
 <body>
   <% const quoteProjectUrls = { 'tk-kt-nha-cap-4': '/thiet-ke-kien-truc/nha-cap-4', 'tk-kt-nha-pho': '/thiet-ke-kien-truc/nha-pho', 'tk-kt-biet-thu': '/thiet-ke-kien-truc/biet-thu', 'tk-kt-villa': '/thiet-ke-kien-truc/villa', 'tk-nt-chung-cu': '/thiet-ke-noi-that/chung-cu', 'tk-nt-nha-pho': '/thiet-ke-noi-that/nha-pho', 'tk-nt-biet-thu': '/thiet-ke-noi-that/biet-thu', 'tk-nt-van-phong': '/thiet-ke-noi-that/van-phong' }; const dynamicProjectUrl = quoteProjectUrls[selectedCategory?.code] || '/thiet-ke-cong-trinh'; %>

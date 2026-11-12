@@ -21607,3 +21607,13 @@ main.project-detail-page .project-detail-summary {
     border-radius: 14px;
   }
 }
+
+/* Desktop/tablet only: make the project-type CTA easier to notice while
+   using one equal inset on every side for a visually balanced button. */
+@media (min-width: 768px) {
+  .home-page .project-types-section .home-project-signature-link {
+    padding: 1rem !important;
+    font-size: clamp(1.2rem, 1.4vw, 1.36rem) !important;
+    line-height: 1 !important;
+  }
+}

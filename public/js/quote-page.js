@@ -257,7 +257,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const width = Math.max(0, headerRect.width - leftPadding - rightPadding);
 
       frameElements.forEach(element => {
-        const frameWidth = element === constructionImageSection ? Math.max(0, width - 48) : width;
+        const frameWidth = width;
         element.style.setProperty('width', `${frameWidth}px`, 'important');
         element.style.setProperty('max-width', 'none', 'important');
         element.style.setProperty('margin-left', `${left}px`, 'important');
