@@ -1,6 +1,6 @@
 const { getRequestToken, verifyAdminToken } = require('./auth');
 
-const PUBLIC_HOST = 'design.shomeluxury.com';
+const PUBLIC_HOST = 'shomeluxury.com';
 const ADMIN_HOST = 'quanly.shomeluxury.com';
 
 // These are intentionally exact production hostnames. Do not use req.hostname

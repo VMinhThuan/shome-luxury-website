@@ -43,7 +43,7 @@ function runMiddleware({ host, forwardedHost, method = 'GET', path, cookie } = {
 async function run() {
   assert.equal(normalizeHostHeader('QuanLy.ShomeLuxury.com:3030'), 'quanly.shomeluxury.com');
   assert.equal(normalizeHostHeader('[::1]:3030'), '::1');
-  assert.equal(getHostnameMode({ headers: { host: 'design.shomeluxury.com' } }), 'public');
+  assert.equal(getHostnameMode({ headers: { host: 'shomeluxury.com' } }), 'public');
   assert.equal(getHostnameMode({ headers: { host: 'quanly.shomeluxury.com' } }), 'admin');
   assert.equal(getHostnameMode({ headers: { host: 'preview-shome.vercel.app' } }), 'shared');
   const originalNodeEnv = process.env.NODE_ENV;
@@ -53,35 +53,35 @@ async function run() {
   else process.env.NODE_ENV = originalNodeEnv;
 
   const publicAdminGet = await runMiddleware({
-    host: 'design.shomeluxury.com',
+    host: 'shomeluxury.com',
     method: 'GET',
     path: '/admin'
   });
   assert.equal(publicAdminGet.status, 404);
 
   const publicAdminPost = await runMiddleware({
-    host: 'design.shomeluxury.com',
+    host: 'shomeluxury.com',
     method: 'POST',
     path: '/api/admin/projects'
   });
   assert.equal(publicAdminPost.status, 404);
 
   const publicAuthPost = await runMiddleware({
-    host: 'design.shomeluxury.com',
+    host: 'shomeluxury.com',
     method: 'POST',
     path: '/api/auth/login'
   });
   assert.equal(publicAuthPost.status, 404);
 
   const publicUploadPost = await runMiddleware({
-    host: 'design.shomeluxury.com',
+    host: 'shomeluxury.com',
     method: 'POST',
     path: '/api/upload'
   });
   assert.equal(publicUploadPost.status, 404);
 
   const publicHomepage = await runMiddleware({
-    host: 'design.shomeluxury.com',
+    host: 'shomeluxury.com',
     method: 'GET',
     path: '/'
   });
@@ -158,7 +158,7 @@ async function run() {
   assert.equal(sharedPreviewAdmin.next, true);
 
   const xForwardedHostCannotUpgradeAccess = await runMiddleware({
-    host: 'design.shomeluxury.com',
+    host: 'shomeluxury.com',
     forwardedHost: 'quanly.shomeluxury.com',
     method: 'GET',
     path: '/admin'
@@ -167,7 +167,7 @@ async function run() {
 
   const xForwardedHostCannotDowngradeAdmin = await runMiddleware({
     host: 'quanly.shomeluxury.com',
-    forwardedHost: 'design.shomeluxury.com',
+    forwardedHost: 'shomeluxury.com',
     method: 'GET',
     path: '/'
   });
