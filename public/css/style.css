@@ -21617,3 +21617,67 @@ main.project-detail-page .project-detail-summary {
     line-height: 1 !important;
   }
 }
+
+/* Keep both project-card sections aligned with the header container at every
+   responsive width, and crop the shared 2x2 sprite past its internal divider
+   so the right-hand cards do not expose a white stripe. */
+.home-page .project-types-section,
+.home-page .home-project-signatures-section {
+  overflow-x: clip;
+}
+
+.home-page .project-types-section .home-project-signatures-grid,
+.home-page .home-project-signatures-section .home-project-signatures-grid {
+  width: 100% !important;
+  max-width: none !important;
+  min-width: 0 !important;
+}
+
+.home-page :is(
+  .project-types-section,
+  .home-project-signatures-section
+) .home-project-signature-card:not(.home-project-signature-card--custom-image) {
+  background-size: 206% 206% !important;
+  background-repeat: no-repeat !important;
+}
+
+.home-page :is(
+  .project-types-section,
+  .home-project-signatures-section
+) .home-project-signature-card--apartment {
+  background-position: 0 0 !important;
+}
+
+.home-page :is(
+  .project-types-section,
+  .home-project-signatures-section
+) .home-project-signature-card--townhouse {
+  background-position: 100% 0 !important;
+}
+
+.home-page :is(
+  .project-types-section,
+  .home-project-signatures-section
+) .home-project-signature-card--villa {
+  background-position: 0 100% !important;
+}
+
+.home-page :is(
+  .project-types-section,
+  .home-project-signatures-section
+) .home-project-signature-card--office {
+  background-position: 100% 100% !important;
+}
+
+/* Final six-pixel gutters for the two areas shown in the reference screens. */
+.site-footer .footer-top-grid {
+  gap: 6px !important;
+  column-gap: 6px !important;
+  row-gap: 6px !important;
+}
+
+.quote-page .quote-craft-grid {
+  gap: 6px !important;
+  column-gap: 6px !important;
+  row-gap: 6px !important;
+}
