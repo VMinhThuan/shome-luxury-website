@@ -16250,10 +16250,20 @@ main .completed-videos-heading h2 em {
   line-height: 1.1 !important;
 }
 
-/* Keep the consultation title consistent across homepage and quote page. */
-.home-page .home-faq-cta h3,
-.quote-page .quote-faq-consult h2 {
-  font-size: 40px !important;
+/* Keep the consultation title at 40px on desktop without overriding the
+   mobile scale defined above. */
+@media (min-width: 768px) {
+  .home-page .home-faq-cta h3,
+  .quote-page .quote-faq-consult h2 {
+    font-size: 40px !important;
+  }
+}
+
+@media (max-width: 767px) {
+  .home-page .home-faq-cta h3,
+  .quote-page .quote-faq-consult h2 {
+    font-size: 24px !important;
+  }
 }
 
 /* A paired heading always uses one 40px scale: the black title and its
