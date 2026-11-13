@@ -21741,3 +21741,26 @@ main.project-detail-page .project-detail-summary {
   column-gap: 6px !important;
   row-gap: 6px !important;
 }
+
+/* Footer desktop: make the visible space around the Facebook/map cards
+   uniform by sizing the text columns to their content and keeping one shared
+   six-pixel column gutter. */
+@media (min-width: 1200px) {
+  .site-footer .footer-top-grid {
+    grid-template-columns: minmax(0, max-content) minmax(0, 1fr) minmax(0, 1fr) minmax(0, max-content) !important;
+    column-gap: 6px !important;
+    row-gap: 6px !important;
+  }
+
+  .site-footer .footer-col-fb,
+  .site-footer .footer-col-map,
+  .site-footer .footer-col-brand,
+  .site-footer .footer-col-address {
+    min-width: 0 !important;
+  }
+
+  .site-footer .footer-col-fb .fb-card-box,
+  .site-footer .footer-col-map .map-card-box {
+    width: 100% !important;
+  }
+}
