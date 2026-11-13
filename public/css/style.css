@@ -21908,6 +21908,11 @@ main.project-detail-page .project-detail-summary {
   .project-types-section,
   .home-project-signatures-section
 ) .project-type-card .type-card-btn {
+  display: inline-flex !important;
+  flex: 0 0 auto !important;
+  width: fit-content !important;
+  min-width: 0 !important;
+  max-width: 100% !important;
   padding: .75rem !important;
   box-sizing: border-box !important;
   min-height: 0 !important;
