@@ -21795,3 +21795,61 @@ main.project-detail-page .project-detail-summary {
     white-space: nowrap !important;
   }
 }
+
+/* Shared desktop title scale: all content-section titles use exactly 40px. */
+@media (min-width: 768px) {
+  main :is(
+    .section-title,
+    .gallery-v2-title,
+    .capacity-v2-title,
+    .process-v2-title,
+    .section-v2-title,
+    .about-showroom-title,
+    .team-title-main,
+    .project-types-title,
+    .project-types-title .title-main,
+    .project-types-title .title-script,
+    .home-project-signatures-title,
+    .home-project-signatures-main,
+    .home-project-signatures-script,
+    .brand-story-title,
+    .why-choose-title,
+    .why-choose-main,
+    .why-choose-script,
+    .office-team-main,
+    .office-team-script,
+    .home-workshop-main,
+    .home-workshop-script,
+    .customer-stories-title,
+    .customer-stories-main,
+    .customer-stories-script,
+    .home-faq-title,
+    .home-faq-main,
+    .home-faq-script,
+    .material-partners-main,
+    .material-partners-script,
+    .factory-detail-title,
+    .factory-tour-title,
+    .surface-finish-title,
+    .renovation-showcase-title,
+    .furniture-care-title,
+    .workshop-heart-title,
+    .booking-process-heading h2,
+    .booking-estimate-header h2,
+    .booking-faq-header h2,
+    .testimonial-heading h2,
+    .news-section-heading h2,
+    .quote-heading h2,
+    .quote-video-heading h2,
+    .quote-featured-heading h2,
+    .quote-completed-heading h2,
+    .quote-workshop-heading h2,
+    .quote-craftsmanship-heading h2,
+    .quote-handover-heading h2,
+    .quote-construction-copy h2,
+    .quote-free-estimate-copy h2,
+    .quote-final-faq h2
+  ) {
+    font-size: 40px !important;
+  }
+}
