@@ -21702,6 +21702,13 @@ main.project-detail-page .project-detail-summary {
   row-gap: 6px !important;
 }
 
+/* Give stacked footer cards a little breathing room on phones. */
+@media (max-width: 767px) {
+  .site-footer .footer-top-grid {
+    row-gap: 14px !important;
+  }
+}
+
 .quote-page .quote-craft-grid {
   gap: 6px !important;
   column-gap: 6px !important;
@@ -21953,5 +21960,16 @@ main.project-detail-page .project-detail-summary {
 @media (max-width: 767px) {
   .quote-page .home-faq-cta h3 {
     font-size: 24px !important;
+  }
+}
+
+/* Final mobile override for the shared consultation CTA. This comes last so
+   page-specific desktop heading rules cannot restore the 40px size on phones. */
+@media (max-width: 767px) {
+  body.home-page .home-faq-cta h3,
+  body.quote-page .home-faq-cta h3,
+  body.quote-page .quote-faq-consult h2 {
+    font-size: 24px !important;
+    line-height: 1.2 !important;
   }
 }
