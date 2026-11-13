@@ -6373,6 +6373,12 @@ main .surface-finish-section .surface-finish-title {
   }
 }
 
+@media (max-width: 767px) {
+  .footer-script-slogan {
+    padding-bottom: 6px;
+  }
+}
+
 @media (min-width: 640px) and (max-width: 991px) {
   .footer-top-grid {
     display: grid;
@@ -16427,6 +16433,10 @@ main .news-list-body p {
 /* Footer brand treatment for phones only. Keep all social links on one row
    and scale them to the available viewport instead of wrapping into large tiles. */
 @media (max-width: 767px) {
+  .site-footer .footer-brand-logo {
+    padding-top: 6px;
+  }
+
   .site-footer .footer-brand-logo img {
     width: min(900px, 100%) !important;
     max-width: 100% !important;
@@ -21906,6 +21916,7 @@ main.project-detail-page .project-detail-summary {
 }
 
 /* Project-card CTA: use identical padding on all four sides of the label. */
+@media (min-width: 768px) {
 .home-page :is(
   .project-types-section,
   .home-project-signatures-section
@@ -21924,4 +21935,13 @@ main.project-detail-page .project-detail-summary {
   min-height: 0 !important;
   font-size: .85rem !important;
   line-height: 1.1 !important;
+}
+}
+
+/* Quote-page consultation heading: keep the desktop 40px scale, but use the
+   compact mobile size so the title does not dominate the CTA card. */
+@media (max-width: 767px) {
+  .quote-page .home-faq-cta h3 {
+    font-size: 24px !important;
+  }
 }
