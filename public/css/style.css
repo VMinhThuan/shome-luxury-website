@@ -21853,3 +21853,62 @@ main.project-detail-page .project-detail-summary {
     font-size: 40px !important;
   }
 }
+
+/* Final mobile six-pixel gutter override for homepage, quote and factory UI. */
+@media (max-width: 767px) {
+  .home-page :is(
+    .project-types-grid,
+    .home-project-signatures-grid,
+    .why-choose-grid,
+    .home-workshop-grid,
+    .home-workshop-pills,
+    .customer-testimonial-grid,
+    .home-faq-list,
+    .material-partners-slider.material-partners-grid
+  ),
+  .quote-page :is(
+    .quote-benefit-grid,
+    .quote-project-grid,
+    .quote-capability-grid,
+    .quote-gallery,
+    .quote-pricing-list,
+    .quote-process-grid,
+    .quote-estimate-grid,
+    .quote-faq-grid,
+    .quote-featured-project-list,
+    .quote-completed-videos-grid,
+    .quote-final-faq-list,
+    .quote-craft-grid,
+    .quote-handover-list,
+    .quote-workshop-gallery,
+    .quote-workshop-stats,
+    .quote-factory-activity-track
+  ),
+  .factory-page :is(
+    .capacity-cards-grid,
+    .factory-tour-list,
+    .gallery-v2-grid,
+    .renovation-showcase-list,
+    .project-consultation-list,
+    .work-process-steps-list,
+    .usp-floating-card
+  ) {
+    gap: 6px !important;
+    column-gap: 6px !important;
+    row-gap: 6px !important;
+  }
+}
+
+/* Project-card CTA: use identical padding on all four sides of the label. */
+.home-page :is(
+  .project-types-section,
+  .home-project-signatures-section
+) .home-project-signature-link,
+.home-page :is(
+  .project-types-section,
+  .home-project-signatures-section
+) .project-type-card .type-card-btn {
+  padding: .75rem !important;
+  box-sizing: border-box !important;
+  min-height: 0 !important;
+}
