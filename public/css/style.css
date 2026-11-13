@@ -21747,7 +21747,7 @@ main.project-detail-page .project-detail-summary {
    six-pixel column gutter. */
 @media (min-width: 1200px) {
   .site-footer .footer-top-grid {
-    grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+    grid-template-columns: minmax(0, max-content) repeat(3, minmax(0, 1fr)) !important;
     column-gap: 6px !important;
     row-gap: 6px !important;
   }
