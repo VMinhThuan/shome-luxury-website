@@ -2590,12 +2590,13 @@
         aspect-ratio: auto !important;
         min-height: 0 !important;
         max-height: none !important;
-        /* Mobile only: pull the pricing banner out of any page gutters so it
-           reaches the viewport edges. Desktop keeps the existing width. */
-        width: 100vw !important;
-        max-width: 100vw !important;
-        margin-left: calc(50% - 50vw) !important;
-        margin-right: calc(50% - 50vw) !important;
+        /* Match the homepage mobile hero frame exactly: keep the banner in
+           the normal page flow below the fixed header and use the same width. */
+        width: 100% !important;
+        max-width: 100% !important;
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+        margin-top: var(--header-height-mobile) !important;
       }
 
       #main-content.quote-page > .quote-hero.quote-hero-carousel .quote-hero-media img {
