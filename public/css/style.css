@@ -22046,15 +22046,15 @@ main.project-detail-page .project-detail-summary {
   .site-footer .footer-top-grid {
     /* Give the address/brand columns the breathing room they need and
        deliberately make the two media cards narrower. */
-    grid-template-columns: minmax(0, .75fr) minmax(0, 1.5fr) minmax(0, 1.5fr) minmax(0, .75fr) !important;
-    column-gap: 16px !important;
+    grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1.25fr) !important;
+    column-gap: 20px !important;
     width: min(100%, var(--container-max)) !important;
     margin-inline: auto !important;
   }
 
   .site-footer .footer-col-fb,
   .site-footer .footer-col-map {
-    padding-inline: 8px !important;
+    padding-inline: 14px !important;
   }
 
   .site-footer .footer-col-fb .fb-card-box,
