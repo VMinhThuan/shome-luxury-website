@@ -22046,6 +22046,20 @@ main.project-detail-page .project-detail-summary {
   .site-footer .footer-top-grid {
     grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
     column-gap: 14px !important;
+    width: min(100%, var(--container-max)) !important;
+    margin-inline: auto !important;
+  }
+
+  .site-footer .footer-col-fb,
+  .site-footer .footer-col-map {
+    padding-inline: 18px !important;
+  }
+
+  .site-footer .footer-col-fb .fb-card-box,
+  .site-footer .footer-col-map .map-card-box {
+    height: 235px !important;
+    min-height: 235px !important;
+    max-height: 235px !important;
   }
 
   .site-footer .footer-factory-list li > span {
