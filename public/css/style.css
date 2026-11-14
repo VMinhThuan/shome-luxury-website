@@ -22023,3 +22023,11 @@ main.project-detail-page .project-detail-summary {
     padding: .45rem !important;
   }
 }
+
+/* Keep the address column beside the Facebook card on tablet-sized phones;
+   smaller phones remain single-column for readability. */
+@media (min-width: 640px) and (max-width: 767px) {
+  .site-footer .footer-top-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+}
