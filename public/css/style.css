@@ -21978,22 +21978,23 @@ main.project-detail-page .project-detail-summary {
   }
 }
 
-/* Final mobile footer alignment: keep the white copy at one readable scale,
-   use the compact preview padding for the text columns, and shorten the two
-   media cards so Facebook and the map do not dominate the footer. */
+/* Footer white copy uses one exact size at every viewport width. */
+.site-footer :is(
+  .footer-address-line,
+  .footer-factory-list li,
+  .footer-company-title,
+  .footer-company-desc,
+  .footer-social-heading,
+  .badge-title,
+  .badge-sub,
+  .footer-bottom
+) {
+  font-size: 13.12px !important;
+}
+
+/* Final mobile footer alignment: use the compact preview padding for the
+   text columns and shorten the two media cards. */
 @media (max-width: 767px) {
-  .site-footer :is(
-    .footer-address-line,
-    .footer-factory-list li,
-    .footer-company-title,
-    .footer-company-desc,
-    .footer-social-heading,
-    .badge-title,
-    .badge-sub,
-    .footer-bottom
-  ) {
-    font-size: 13.12px !important;
-  }
 
   .site-footer .footer-col-address,
   .site-footer .footer-col-brand {
