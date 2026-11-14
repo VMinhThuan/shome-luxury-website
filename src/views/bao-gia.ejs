@@ -2583,8 +2583,11 @@
 
     @media (max-width: 767px) {
       #main-content.quote-page > .quote-hero.quote-hero-carousel {
-        height: auto !important;
-        aspect-ratio: 16 / 9 !important;
+        /* Match the homepage mobile hero's 16:9 frame explicitly. The
+           carousel slides are absolutely positioned, so aspect-ratio alone
+           can collapse to the shorter image height on some mobile browsers. */
+        height: calc(100vw * 9 / 16) !important;
+        aspect-ratio: auto !important;
         min-height: 0 !important;
         max-height: none !important;
         /* Mobile only: pull the pricing banner out of any page gutters so it
@@ -2708,7 +2711,7 @@
         <div class="container">
           <header class="quote-featured-heading">
             <h2>Một số công trình <em>tiêu biểu</em></h2>
-            <strong>Các công trình <%= quoteScript.toLowerCase() %> <%= featuredCategoryName.toLowerCase() %> được hoàn thiện chỉn chu, tối ưu công năng và thẩm mỹ.</strong>
+            <strong>Các công trình <%= quoteScript.toLowerCase() %> <%= featuredCategoryName.toLowerCase() %> được hoàn thiện chỉnh chu, tối ưu công năng và thẩm mỹ.</strong>
           </header>
           <% if (highlightProjects.length) { %>
             <div class="quote-featured-project-list">
@@ -2785,7 +2788,7 @@
     <% if (selectedCategory) { %>
       <section class="quote-section quote-category-section" id="cong-trinh-thiet-ke-moi">
         <div class="container">
-          <header class="quote-featured-heading"><h2>Các công trình <em>tiêu biểu</em></h2><strong>Các công trình <%= quoteScript.toLowerCase() %> <%= featuredCategoryName.toLowerCase() %> được hoàn thiện chỉn chu, tối ưu công năng và thẩm mỹ.</strong></header>
+          <header class="quote-featured-heading"><h2>Các công trình <em>tiêu biểu</em></h2><strong>Các công trình <%= quoteScript.toLowerCase() %> <%= featuredCategoryName.toLowerCase() %> được hoàn thiện chỉnh chu, tối ưu công năng và thẩm mỹ.</strong></header>
           <% if (highlightProjects.length) { %>
             <div class="quote-featured-project-list">
               <% highlightProjects.slice(0, 5).forEach((project, index) => {
@@ -2894,7 +2897,7 @@
         <div class="container">
           <header class="quote-completed-heading">
             <h2>Thước phim thực tế <em class="font-script"><%= featuredCategoryName %></em></h2>
-            <span>Ghi lại những khoảnh khắc thực tế từ công trình, nơi từng chi tiết được hoàn thiện chỉn chu cho tổ ấm của mỗi gia đình.</span>
+            <span>Ghi lại những khoảnh khắc thực tế từ công trình, nơi từng chi tiết được hoàn thiện chỉnh chu cho tổ ấm của mỗi gia đình.</span>
           </header>
 
           <% if (!isSubMenuPage) { %>
@@ -3049,7 +3052,7 @@
     <% } %>
 
     <% const craftsmanshipGroups = [
-      { number: '1', title: 'Bề mặt & góc cạnh', imageKey: 'quote_craftsmanship_1', image: '/images/craftsmanship-surface-details-grid.png', items: [['Dán cạnh gọn đẹp', 'Mép dán sạch, liền mạch.'], ['Góc nối khít', 'Chăm chút từng điểm tiếp giáp.'], ['Bo cạnh mềm mại', 'Mượt tay ở những điểm chạm.'], ['Bề mặt chỉn chu', 'Rà soát vân gỗ và lớp hoàn thiện.']] },
+      { number: '1', title: 'Bề mặt & góc cạnh', imageKey: 'quote_craftsmanship_1', image: '/images/craftsmanship-surface-details-grid.png', items: [['Dán cạnh gọn đẹp', 'Mép dán sạch, liền mạch.'], ['Góc nối khít', 'Chăm chút từng điểm tiếp giáp.'], ['Bo cạnh mềm mại', 'Mượt tay ở những điểm chạm.'], ['Bề mặt chỉnh chu', 'Rà soát vân gỗ và lớp hoàn thiện.']] },
       { number: '2', title: 'Phụ kiện & chuyển động', imageKey: 'quote_craftsmanship_2', image: '/images/craftsmanship-hardware-details-grid.png', items: [['Căn chỉnh bản lề', 'Cánh cân, đóng mở nhẹ nhàng.'], ['Ray trượt êm thuận', 'Kéo mở mượt, vận hành ổn định.'], ['Khe cánh đều đẹp', 'Đồng nhất tại mọi điểm.'], ['Tay nắm ngay ngắn', 'Đúng độ cao và vị trí lắp đặt.']] },
       { number: '3', title: 'Lắp đặt & hoàn thiện', imageKey: 'quote_craftsmanship_3', image: '/images/craftsmanship-finishing-details-grid.png', items: [['Căn chỉnh thẳng bằng', 'Kiểm tra độ phẳng và chắc chắn.'], ['Tiếp giáp gọn gàng', 'Chỉnh chu nơi tủ gặp tường.'], ['Đi dây ngăn nắp', 'Gọn đường dây, thuận tiện sử dụng.'], ['Vệ sinh hoàn thiện', 'Sạch từng góc trước bàn giao.']] },
       { number: '4', title: 'Kiểm tra & bàn giao', imageKey: 'quote_craftsmanship_4', image: '/images/craftsmanship-final-inspection-details-grid.png', items: [['Kiểm tra khe tủ', 'Độ hở đều, đóng mở chuẩn xác.'], ['Rà soát ngăn kéo', 'Chuyển động mượt mà, chắc chắn.'], ['Chỉnh điểm tiếp giáp', 'Tủ ôm khít, liền mạch với tường.'], ['Hoàn thiện phụ kiện', 'Tháo bảo vệ và lau sạch trước bàn giao.']] }
@@ -3101,7 +3104,7 @@
       </div>
     </section>
 
-      <section class="quote-handover-check"><div class="container quote-handover-inner"><header class="quote-handover-heading"><h2>Kiểm tra bàn giao <em>Chăm chút từng bước</em></h2><p class="quote-handover-desc">Từng hạng mục được rà soát kỹ lưỡng trước khi bàn giao.<br />Đảm bảo công trình hoàn thiện chỉn chu, sẵn sàng sử dụng.</p></header><div class="quote-handover-list"><article class="quote-handover-item"><b>1.</b><div><h3>Đo kiểm kích thước</h3><p>Đối chiếu chỉ số với bản vẽ.</p></div></article><article class="quote-handover-item"><b>2.</b><div><h3>Lắp thử &amp; căn chỉnh</h3><p>Kiểm tra liên kết, bản lề và ray trượt.</p></div></article><article class="quote-handover-item"><b>3.</b><div><h3>Rà soát &amp; đóng gói</h3><p>Vệ sinh bề mặt, bảo vệ góc cạnh khi vận chuyển.</p></div></article></div></div></section>
+      <section class="quote-handover-check"><div class="container quote-handover-inner"><header class="quote-handover-heading"><h2>Kiểm tra bàn giao <em>Chăm chút từng bước</em></h2><p class="quote-handover-desc">Từng hạng mục được rà soát kỹ lưỡng trước khi bàn giao.<br />Đảm bảo công trình hoàn thiện chỉnh chu, sẵn sàng sử dụng.</p></header><div class="quote-handover-list"><article class="quote-handover-item"><b>1.</b><div><h3>Đo kiểm kích thước</h3><p>Đối chiếu chỉ số với bản vẽ.</p></div></article><article class="quote-handover-item"><b>2.</b><div><h3>Lắp thử &amp; căn chỉnh</h3><p>Kiểm tra liên kết, bản lề và ray trượt.</p></div></article><article class="quote-handover-item"><b>3.</b><div><h3>Rà soát &amp; đóng gói</h3><p>Vệ sinh bề mặt, bảo vệ góc cạnh khi vận chuyển.</p></div></article></div></div></section>
 
     <% if (sections.estimate?.isVisible !== false) { %>
       <section class="quote-free-estimate" id="nhan-du-toan"><div class="container"><div class="quote-free-estimate-card"><img class="quote-free-estimate-image" src="<%= (locals.quoteImages && quoteImages.quote_estimate_image) || '/images/quote-free-estimate-interior.png' %>" alt="Nhận dự toán miễn phí từ SHome Luxury" loading="lazy" /><div class="quote-free-estimate-copy"><h2>Nhận dự toán <em>miễn phí</em></h2><p>Để lại thông tin, chuyên gia <strong>SHome Luxury</strong> sẽ liên hệ tư vấn trong 24h.</p><ul><li><i aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 13V9a7 7 0 0 1 14 0v4"/><path d="M5 13H3v4a2 2 0 0 0 2 2h2v-6H5Zm14 0h2v4a2 2 0 0 1-2 2h-2v-6h2Zm-2 6c0 1.4-1.6 2-3 2h-2"/></svg></i><span>Tư vấn nhanh trong 24h</span></li><li><i aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M6 3h9l4 4v14H6z"/><path d="M15 3v5h5M9 12h6M9 16h6"/></svg></i><span>Báo giá chi tiết, minh bạch</span></li><li><i aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3 20 6v5c0 5-3.4 8.2-8 10-4.6-1.8-8-5-8-10V6l8-3Z"/><path d="m8.5 12 2.2 2.2 4.8-5"/></svg></i><span>Không cam kết, không ràng buộc</span></li></ul><a class="quote-free-estimate-button trigger-consult-modal" href="#consultModal">Đặt lịch tư vấn</a></div></div></div></section>
