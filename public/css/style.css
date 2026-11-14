@@ -22047,7 +22047,7 @@ main.project-detail-page .project-detail-summary {
     /* Give the address/brand columns the breathing room they need and
        deliberately make the two media cards narrower. */
     grid-template-columns: minmax(0, 1.15fr) minmax(0, 1.1fr) minmax(0, 1.1fr) minmax(0, 1.15fr) !important;
-    column-gap: 0 !important;
+    column-gap: 16px !important;
     width: 100% !important;
     max-width: var(--container-max) !important;
     margin-inline: auto !important;
