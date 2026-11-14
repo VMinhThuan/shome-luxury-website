@@ -21982,6 +21982,7 @@ main.project-detail-page .project-detail-summary {
 .site-footer :is(
   .footer-address-line,
   .footer-factory-list li,
+  .footer-factory-list li span,
   .footer-company-title,
   .footer-company-desc,
   .footer-social-heading,
@@ -21990,6 +21991,14 @@ main.project-detail-page .project-detail-summary {
   .footer-bottom
 ) {
   font-size: 13.12px !important;
+}
+
+/* Keep both media cards compact at desktop and mobile widths. */
+.site-footer .footer-col-fb .fb-card-box,
+.site-footer .footer-col-map .map-card-box {
+  height: 190px !important;
+  min-height: 190px !important;
+  max-height: 190px !important;
 }
 
 /* Final mobile footer alignment: use the compact preview padding for the
