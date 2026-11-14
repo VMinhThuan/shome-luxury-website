@@ -22047,7 +22047,7 @@ main.project-detail-page .project-detail-summary {
     /* Give the address/brand columns the breathing room they need and
        deliberately make the two media cards narrower. */
     grid-template-columns: minmax(0, 1.15fr) minmax(0, 1.1fr) minmax(0, 1.1fr) minmax(0, 1.15fr) !important;
-    column-gap: 20px !important;
+    column-gap: 0 !important;
     width: 100% !important;
     max-width: var(--container-max) !important;
     margin-inline: auto !important;
@@ -22055,7 +22055,7 @@ main.project-detail-page .project-detail-summary {
 
   .site-footer .footer-col-fb,
   .site-footer .footer-col-map {
-    padding-inline: 12px !important;
+    padding-inline: 0 !important;
   }
 
   .site-footer .footer-col-fb .fb-card-box,
