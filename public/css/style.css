@@ -22048,7 +22048,8 @@ main.project-detail-page .project-detail-summary {
        deliberately make the two media cards narrower. */
     grid-template-columns: minmax(0, 1.15fr) minmax(0, 1.1fr) minmax(0, 1.1fr) minmax(0, 1.15fr) !important;
     column-gap: 20px !important;
-    width: min(calc(100% + 220px), 1600px) !important;
+    width: 100% !important;
+    max-width: var(--container-max) !important;
     margin-inline: auto !important;
   }
 
