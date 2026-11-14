@@ -22001,6 +22001,14 @@ main.project-detail-page .project-detail-summary {
   max-height: 190px !important;
 }
 
+.site-footer .footer-col-address .footer-factory-list > li > span,
+.site-footer .footer-col-address .footer-address-line,
+.site-footer .footer-col-brand .footer-company-title,
+.site-footer .footer-col-brand .footer-company-desc,
+.site-footer .footer-col-brand .footer-social-heading {
+  font-size: 13.12px !important;
+}
+
 /* Final mobile footer alignment: use the compact preview padding for the
    text columns and shorten the two media cards. */
 @media (max-width: 767px) {
