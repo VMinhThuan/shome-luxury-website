@@ -7,7 +7,7 @@ exports.getHomePage = async (req, res, next) => {
   const articleResult = await articleService.list({ public: true, limit: 3 });
   const homeNews = articleResult.rows.slice(0, 3);
   const pageData = {
-    title: "LUXURY HOME | Thiết Kế & Thi Công Nội Thất, Kiến Trúc Cao Cấp",
+    title: "SHOME LUXURY",
     headerSlogan: "Nâng tầm cuộc sống",
     navigation: navigationData,
     usps: [

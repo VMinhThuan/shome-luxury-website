@@ -3247,7 +3247,7 @@ ol {
     height: clamp(13px, 3.7vw, 18px);
   }
   .home-workshop-pill-text {
-    font-size: clamp(0.6rem, 2.05vw, 0.82rem);
+    font-size: 16px !important;
     line-height: 1.16;
   }
 }
@@ -17051,8 +17051,12 @@ main :is(
   }
 
   .home-page .team-desc-lines {
-    font-size: clamp(.7rem, 3.2vw, .86rem) !important;
+    font-size: 16px !important;
     line-height: 1.35 !important;
+  }
+
+  .home-page .team-desc-mobile-hidden-word {
+    display: none !important;
   }
 
   /* Keep the showroom image and team panel visually connected on phones. */
@@ -21971,5 +21975,41 @@ main.project-detail-page .project-detail-summary {
   body.quote-page .quote-faq-consult h2 {
     font-size: 24px !important;
     line-height: 1.2 !important;
+  }
+}
+
+/* Final mobile footer alignment: keep the white copy at one readable scale,
+   use the compact preview padding for the text columns, and shorten the two
+   media cards so Facebook and the map do not dominate the footer. */
+@media (max-width: 767px) {
+  .site-footer :is(
+    .footer-address-line,
+    .footer-factory-list li,
+    .footer-company-title,
+    .footer-company-desc,
+    .footer-social-heading,
+    .badge-title,
+    .badge-sub,
+    .footer-bottom
+  ) {
+    font-size: 13.12px !important;
+  }
+
+  .site-footer .footer-col-address,
+  .site-footer .footer-col-brand {
+    padding: .45rem !important;
+    box-sizing: border-box !important;
+  }
+
+  .site-footer .footer-col-fb .fb-card-box,
+  .site-footer .footer-col-map .map-card-box {
+    height: 190px !important;
+    min-height: 190px !important;
+    max-height: 190px !important;
+  }
+
+  .site-footer .footer-col-fb .fb-card-box > .card-top-header,
+  .site-footer .footer-col-map .map-card-box > .card-top-header {
+    padding: .45rem !important;
   }
 }
