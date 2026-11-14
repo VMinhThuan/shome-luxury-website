@@ -22039,3 +22039,17 @@ main.project-detail-page .project-detail-summary {
     grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
   }
 }
+
+/* Desktop footer: keep all four columns inside the container instead of
+   letting the address column's max-content width stretch the media cards. */
+@media (min-width: 1200px) {
+  .site-footer .footer-top-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+    column-gap: 14px !important;
+  }
+
+  .site-footer .footer-factory-list li > span {
+    min-width: 0 !important;
+    overflow-wrap: anywhere;
+  }
+}
