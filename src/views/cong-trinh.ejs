@@ -52,11 +52,10 @@
     <section class="project-showcase-section">
       <div class="container">
         <% if (isConstructionShowcase) { %>
-          <% const hasMoreProjects = constructionProjects && constructionProjects.length > 3; %>
-          <% const hasMoreDesktopProjects = constructionProjects && constructionProjects.length > 6; %>
+          <% const visibleConstructionProjects = (constructionProjects || []).slice(0, 2); %>
           <div id="construction-project-grid" class="project-gallery-groups construction-project-grid" aria-label="Hình ảnh đang thi công công trình">
-            <% if (constructionProjects && constructionProjects.length > 0) { %>
-              <% constructionProjects.forEach(project => { %>
+            <% if (visibleConstructionProjects.length > 0) { %>
+              <% visibleConstructionProjects.forEach(project => { %>
                 <%- include("partials/project-gallery-group", { project }) %>
               <% }); %>
             <% } else { %>
@@ -65,13 +64,6 @@
               </div>
             <% } %>
           </div>
-          <% if (hasMoreProjects) { %>
-            <div class="construction-video-more <%= hasMoreDesktopProjects ? 'has-more-desktop' : 'has-more-mobile' %>">
-              <button class="construction-video-more-button" type="button" data-expand-grid="construction-project-grid" aria-controls="construction-project-grid" aria-expanded="false" data-more-text="XEM THÊM" data-less-text="THU GỌN">
-                XEM THÊM
-              </button>
-            </div>
-          <% } %>
         <% } else if (isVideoShowcase) { %>
           <% const hasMoreVideos = videos && videos.length > 3; %>
           <% const hasMoreDesktopVideos = videos && videos.length > 6; %>
@@ -159,9 +151,10 @@
         </div>
 
         <div class="container">
-          <% if (completedProjects && completedProjects.length > 0) { %>
+          <% const visibleCompletedProjects = (completedProjects || []).slice(0, 2); %>
+          <% if (visibleCompletedProjects.length > 0) { %>
             <div id="completed-project-grid" class="project-gallery-groups completed-projects-grid" aria-label="Hình ảnh hoàn công công trình">
-              <% completedProjects.forEach(project => { %>
+              <% visibleCompletedProjects.forEach(project => { %>
                 <%- include("partials/project-gallery-group", { project }) %>
               <% }); %>
             </div>

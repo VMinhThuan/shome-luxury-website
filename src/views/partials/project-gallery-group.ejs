@@ -1,5 +1,5 @@
 <%
-  const galleryImages = [...new Set((project.gallery || []).filter(Boolean))];
+  const galleryImages = [...new Set((project.gallery || []).filter(Boolean))].slice(0, 4);
 %>
 
 <article class="project-gallery-group <%= project.galleryIsMock ? 'is-mock-gallery' : '' %>">
