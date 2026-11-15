@@ -2,6 +2,7 @@ const projectService = require('../services/projectService');
 const constructionVideoService = require('../services/constructionVideoService');
 const categoryService = require('../services/categoryService');
 const navigationData = require('../data/navigationData');
+const { applyMockProjectGalleries } = require('../data/mockProjectGalleries');
 const { getPageImages } = require('../services/imageService');
 
 const PROJECT_CATEGORY_PATHS = {
@@ -289,7 +290,7 @@ class ProjectShowcaseController {
             compact: true
           });
         }
-        constructionProjects = cData.projects || [];
+        constructionProjects = applyMockProjectGalleries(cData.projects || []);
 
         // 2. Fetch projects for Section 2 (HOÀN CÔNG), strictly excluding Section 1 projects
         const excludeIds = constructionProjects.map(p => p._id);
@@ -300,7 +301,7 @@ class ProjectShowcaseController {
           limit: 6,
           compact: true
         });
-        completedProjects = compData.projects || [];
+        completedProjects = applyMockProjectGalleries(compData.projects || [], constructionProjects.length);
 
         // 3. Videos for Section 3 (NHỮNG VIDEO HOÀN THIỆN TIÊU BIỂU)
         videos = await constructionVideoService.getVisibleVideos();

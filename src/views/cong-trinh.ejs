@@ -54,10 +54,10 @@
         <% if (isConstructionShowcase) { %>
           <% const hasMoreProjects = constructionProjects && constructionProjects.length > 3; %>
           <% const hasMoreDesktopProjects = constructionProjects && constructionProjects.length > 6; %>
-          <div id="construction-project-grid" class="completed-projects-grid construction-project-grid" aria-label="Hình ảnh đang thi công công trình">
+          <div id="construction-project-grid" class="project-gallery-groups construction-project-grid" aria-label="Hình ảnh đang thi công công trình">
             <% if (constructionProjects && constructionProjects.length > 0) { %>
               <% constructionProjects.forEach(project => { %>
-                <%- include("partials/project-card", { project }) %>
+                <%- include("partials/project-gallery-group", { project }) %>
               <% }); %>
             <% } else { %>
               <div class="empty-state-box">
@@ -160,9 +160,9 @@
 
         <div class="container">
           <% if (completedProjects && completedProjects.length > 0) { %>
-            <div class="completed-projects-grid">
+            <div id="completed-project-grid" class="project-gallery-groups completed-projects-grid" aria-label="Hình ảnh hoàn công công trình">
               <% completedProjects.forEach(project => { %>
-                <%- include("partials/project-card", { project }) %>
+                <%- include("partials/project-gallery-group", { project }) %>
               <% }); %>
             </div>
           <% } else { %>
@@ -179,59 +179,6 @@
         </div>
       </section>
 
-      <section class="completed-videos-section">
-        <div class="completed-videos-heading-band" style="--completed-heading-image: url('<%= completedHeadingImage %>');">
-          <div class="container">
-            <header class="completed-videos-heading">
-              <p>─── NHỮNG VIDEO HOÀN THIỆN TIÊU BIỂU ───</p>
-              <h2 class="<%= pageConfig.completedTitleScript === 'Nhà Cấp 4' ? 'completed-title--nha-cap-4' : '' %>"><%= pageConfig.completedTitleMain || 'HOÀN CÔNG NỘI THẤT' %> <em class="font-script"><%= pageConfig.completedTitleScript || 'Chung Cư' %></em></h2>
-              <strong><%= pageConfig.completedVideoDescription || 'Khám phá những video hoàn thiện thực tế với không gian sống tinh tế, hiện đại và đẳng cấp.' %></strong>
-            </header>
-          </div>
-        </div>
-
-        <div class="container">
-          <div id="completed-video-grid" class="completed-video-grid" aria-label="Video hoàn công nội thất">
-            <% if (videos && videos.length > 0) { %>
-              <% videos.forEach(video => { %>
-                <div class="construction-video-card">
-                  <div class="youtube-thumbnail-card youtube-thumbnail-card--desktop" data-youtube-thumbnail data-video-url="https://www.youtube.com/watch?v=<%= video.youtubeId %>">
-                    <button class="youtube-thumbnail-cover" type="button" aria-label="Phát video hoàn công nội thất">
-                      <img class="youtube-thumbnail-image" src="https://i.ytimg.com/vi/<%= video.youtubeId %>/maxresdefault.jpg" data-youtube-fallback="https://i.ytimg.com/vi/<%= video.youtubeId %>/hqdefault.jpg" alt="Thumbnail YouTube video hoàn công nội thất" loading="lazy" decoding="async" />
-                      <span class="youtube-thumbnail-shade" aria-hidden="true"></span>
-                      <span class="youtube-play-button" aria-hidden="true">
-                        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M9 6.7v10.6c0 .7.8 1.1 1.4.7l8-5.3c.5-.3.5-1 0-1.4l-8-5.3C9.8 5.6 9 6 9 6.7Z" /></svg>
-                      </span>
-                    </button>
-                  </div>
-                  <div class="youtube-responsive-iframe">
-                    <iframe
-                      src="https://www.youtube-nocookie.com/embed/<%= video.youtubeId %>?rel=0&modestbranding=1"
-                      title="Video YouTube hoàn công nội thất"
-                      loading="lazy"
-                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                      referrerpolicy="strict-origin-when-cross-origin"
-                      allowfullscreen
-                    ></iframe>
-                  </div>
-                </div>
-              <% }); %>
-            <% } else { %>
-              <div class="empty-state-box">
-                <p class="empty-state-title">Chưa có video hoàn công</p>
-              </div>
-            <% } %>
-          </div>
-
-          <% if (videos && videos.length > 3) { %>
-            <div class="completed-videos-more <%= videos.length > 6 ? 'has-more-desktop' : '' %>">
-              <button class="construction-video-more-button" type="button" data-expand-grid="completed-video-grid" aria-controls="completed-video-grid" aria-expanded="false" data-more-text="XEM THÊM" data-less-text="THU GỌN">
-                XEM THÊM
-              </button>
-            </div>
-          <% } %>
-        </div>
-      </section>
     <% } %>
   </main>
 

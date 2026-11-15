@@ -1,0 +1,34 @@
+<%
+  const galleryImages = [...new Set((project.gallery || []).filter(Boolean))];
+  const projectDetailUrl = `/cong-trinh/${project.slug}`;
+  const galleryCount = String(galleryImages.length).padStart(2, '0');
+%>
+
+<article class="project-gallery-group <%= project.galleryIsMock ? 'is-mock-gallery' : '' %>">
+  <header class="project-gallery-group-header">
+    <div>
+      <h2 class="project-gallery-group-title">
+        <a href="<%= projectDetailUrl %>"><%= project.title %></a>
+      </h2>
+      <% if (project.location) { %>
+        <p class="project-gallery-group-location"><%= project.location %></p>
+      <% } %>
+    </div>
+    <span class="project-gallery-group-count"><%= galleryCount %> ảnh</span>
+  </header>
+
+  <div class="project-gallery-grid" aria-label="Ảnh công trình <%= project.title %>">
+    <% galleryImages.forEach((image, index) => { %>
+      <a class="project-gallery-tile" href="<%= projectDetailUrl %>" aria-label="Xem <%= project.title %> - ảnh <%= index + 1 %>">
+        <img
+          src="<%= image %>"
+          alt="<%= project.title %> - ảnh <%= index + 1 %>"
+          loading="lazy"
+          decoding="async"
+          draggable="false"
+        />
+        <span class="project-gallery-tile-index"><%= String(index + 1).padStart(2, '0') %></span>
+      </a>
+    <% }); %>
+  </div>
+</article>
