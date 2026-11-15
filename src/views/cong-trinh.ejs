@@ -64,6 +64,13 @@
               </div>
             <% } %>
           </div>
+          <% if (visibleConstructionProjects.length > 0) { %>
+            <div class="completed-projects-more construction-projects-more">
+              <a class="construction-video-more-button" href="<%= pageConfig.completedProjectUrl || '/thiet-ke-cong-trinh' %>">
+                XEM THÊM
+              </a>
+            </div>
+          <% } %>
         <% } else if (isVideoShowcase) { %>
           <% const hasMoreVideos = videos && videos.length > 3; %>
           <% const hasMoreDesktopVideos = videos && videos.length > 6; %>
