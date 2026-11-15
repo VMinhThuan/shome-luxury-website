@@ -1300,7 +1300,6 @@ document.addEventListener('DOMContentLoaded', () => {
     let projectGalleryLightbox = null;
     let projectGalleryImages = [];
     let projectGalleryIndex = 0;
-    let projectGalleryZoom = 1;
     let projectGalleryPreviousFocus = null;
     let projectGalleryPointerStartX = null;
 
@@ -1317,11 +1316,6 @@ document.addEventListener('DOMContentLoaded', () => {
             <button type="button" class="project-gallery-lightbox-close" data-project-grid-lightbox-close aria-label="Đóng ảnh phóng to">
               <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"></path></svg>
             </button>
-            <div class="project-gallery-lightbox-tools" aria-label="Công cụ xem ảnh">
-              <button type="button" data-project-grid-lightbox-zoom-in aria-label="Phóng to ảnh">+</button>
-              <button type="button" data-project-grid-lightbox-zoom-out aria-label="Thu nhỏ ảnh">−</button>
-              <button type="button" data-project-grid-lightbox-fullscreen aria-label="Xem toàn màn hình">↗</button>
-            </div>
             <button type="button" class="project-gallery-lightbox-control previous" data-project-grid-lightbox-prev aria-label="Ảnh trước">
               <svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="15 18 9 12 15 6"></polyline></svg>
             </button>
@@ -1344,20 +1338,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         if (event.target.closest('[data-project-grid-lightbox-next]')) {
           showProjectGalleryLightboxImage(projectGalleryIndex + 1);
-        }
-        if (event.target.closest('[data-project-grid-lightbox-zoom-in]')) {
-          setProjectGalleryZoom(projectGalleryZoom + .25);
-        }
-        if (event.target.closest('[data-project-grid-lightbox-zoom-out]')) {
-          setProjectGalleryZoom(projectGalleryZoom - .25);
-        }
-        if (event.target.closest('[data-project-grid-lightbox-fullscreen]')) {
-          const stage = modal.querySelector('[data-project-grid-lightbox-stage]');
-          if (document.fullscreenElement) {
-            document.exitFullscreen?.();
-          } else {
-            stage?.requestFullscreen?.();
-          }
         }
       });
 
@@ -1386,14 +1366,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const current = projectGalleryImages[normalizedIndex];
       image.src = current.src;
       image.alt = current.alt;
-      setProjectGalleryZoom(1);
       projectGalleryIndex = normalizedIndex;
-    }
-
-    function setProjectGalleryZoom(value) {
-      projectGalleryZoom = Math.max(1, Math.min(3, value));
-      const image = projectGalleryLightbox?.querySelector('[data-project-grid-lightbox-image]');
-      if (image) image.style.transform = `scale(${projectGalleryZoom})`;
     }
 
     function openProjectGalleryLightbox(tile) {
@@ -1435,8 +1408,6 @@ document.addEventListener('DOMContentLoaded', () => {
       if (event.key === 'Escape') closeProjectGalleryLightbox();
       if (event.key === 'ArrowLeft') showProjectGalleryLightboxImage(projectGalleryIndex - 1);
       if (event.key === 'ArrowRight') showProjectGalleryLightboxImage(projectGalleryIndex + 1);
-      if (event.key === '+' || event.key === '=') setProjectGalleryZoom(projectGalleryZoom + .25);
-      if (event.key === '-' || event.key === '_') setProjectGalleryZoom(projectGalleryZoom - .25);
     });
   }
 
