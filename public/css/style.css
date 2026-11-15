@@ -13957,9 +13957,9 @@ body.project-gallery-lightbox-open { overflow: hidden !important; }
 }
 
 .project-gallery-lightbox--grid .project-gallery-lightbox-close {
-  top: 1.25rem;
-  right: auto;
-  left: 1.25rem;
+  top: .75rem;
+  right: -4.5rem;
+  left: auto;
   width: 48px;
   height: 48px;
   border: 0 !important;
@@ -13971,7 +13971,7 @@ body.project-gallery-lightbox-open { overflow: hidden !important; }
 .project-gallery-lightbox--grid .project-gallery-lightbox-close:hover {
   background: #fff !important;
   color: #1c1e21 !important;
-  transform: none;
+  transform: none !important;
 }
 
 .project-gallery-lightbox--grid .project-gallery-lightbox-control {
@@ -13994,7 +13994,7 @@ body.project-gallery-lightbox-open { overflow: hidden !important; }
 .project-gallery-lightbox--grid .project-gallery-lightbox-control:hover {
   background: #fff !important;
   color: #1c1e21 !important;
-  transform: translateY(-50%);
+  transform: translateY(-50%) !important;
 }
 
 .project-gallery-lightbox--grid .project-gallery-lightbox-count,
@@ -14030,7 +14030,7 @@ body.project-gallery-lightbox-open { overflow: hidden !important; }
 
   .project-gallery-lightbox--grid .project-gallery-lightbox-close {
     top: .75rem;
-    left: .75rem;
+    right: .75rem;
     width: 42px;
     height: 42px;
   }

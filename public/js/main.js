@@ -1311,11 +1311,11 @@ document.addEventListener('DOMContentLoaded', () => {
       modal.innerHTML = `
         <div class="project-gallery-lightbox-backdrop" data-project-grid-lightbox-close></div>
         <div class="project-gallery-lightbox-dialog" role="dialog" aria-modal="true" aria-label="Xem ảnh công trình">
+          <button type="button" class="project-gallery-lightbox-close" data-project-grid-lightbox-close aria-label="Đóng ảnh phóng to">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"></path></svg>
+          </button>
           <div class="project-gallery-lightbox-stage" data-project-grid-lightbox-stage>
             <img data-project-grid-lightbox-image alt="" draggable="false" />
-            <button type="button" class="project-gallery-lightbox-close" data-project-grid-lightbox-close aria-label="Đóng ảnh phóng to">
-              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"></path></svg>
-            </button>
             <button type="button" class="project-gallery-lightbox-control previous" data-project-grid-lightbox-prev aria-label="Ảnh trước">
               <svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="15 18 9 12 15 6"></polyline></svg>
             </button>
