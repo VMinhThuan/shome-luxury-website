@@ -9281,8 +9281,10 @@ main .surface-finish-section .surface-finish-title {
   display: block;
   width: 100%;
   height: 100%;
+  /* Facebook-style thumbnail: crop portrait images inside the fixed tile. */
   object-fit: cover;
-  transition: transform .35s ease;
+  object-position: center center;
+  transition: none;
 }
 
 .project-gallery-tile:hover img,
@@ -13951,14 +13953,18 @@ body.project-gallery-lightbox-open { overflow: hidden !important; }
 }
 
 .project-gallery-lightbox--grid .project-gallery-lightbox-stage > img {
+  width: auto;
+  height: auto;
   max-width: 100%;
   max-height: 100%;
-  transition: transform .2s ease;
+  object-fit: contain;
+  transition: none;
 }
 
-.project-gallery-lightbox--grid .project-gallery-lightbox-close {
+.project-gallery-lightbox--grid .project-gallery-lightbox-dialog > .project-gallery-lightbox-close {
+  position: fixed;
   top: .75rem;
-  right: -4.5rem;
+  right: 1rem;
   left: auto;
   width: 48px;
   height: 48px;
@@ -13966,21 +13972,25 @@ body.project-gallery-lightbox-open { overflow: hidden !important; }
   background: #e4e6eb !important;
   color: #1c1e21 !important;
   box-shadow: none !important;
+  transition: none !important;
 }
 
-.project-gallery-lightbox--grid .project-gallery-lightbox-close:hover {
+.project-gallery-lightbox--grid .project-gallery-lightbox-dialog > .project-gallery-lightbox-close:hover,
+.project-gallery-lightbox--grid .project-gallery-lightbox-dialog > .project-gallery-lightbox-close:focus-visible {
   background: #fff !important;
   color: #1c1e21 !important;
   transform: none !important;
 }
 
 .project-gallery-lightbox--grid .project-gallery-lightbox-control {
+  position: fixed;
   width: 48px;
   height: 48px;
   border: 0 !important;
   background: rgba(228, 230, 235, .9) !important;
   color: #4b4f56 !important;
   box-shadow: none !important;
+  transition: none !important;
 }
 
 .project-gallery-lightbox--grid .project-gallery-lightbox-control.previous {
@@ -13992,8 +14002,8 @@ body.project-gallery-lightbox-open { overflow: hidden !important; }
 }
 
 .project-gallery-lightbox--grid .project-gallery-lightbox-control:hover {
-  background: #fff !important;
-  color: #1c1e21 !important;
+  background: rgba(228, 230, 235, .9) !important;
+  color: #4b4f56 !important;
   transform: translateY(-50%) !important;
 }
 

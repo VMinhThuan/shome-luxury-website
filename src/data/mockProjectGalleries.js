@@ -3,7 +3,8 @@
 const MOCK_GALLERY_POOLS = [
   [
     '/images/quote-hero-banner-bedroom.png',
-    '/images/quote-hero-mobile-living.png',
+    // Deliberately portrait to exercise the Facebook-style letterbox viewer.
+    '/images/booking-luxury-interior.png',
     '/images/quote-featured-villa-living-room.png',
     '/images/completed-project-living-room.png'
   ],
