@@ -1,12 +1,18 @@
 <%
   const galleryImages = [...new Set((project.gallery || []).filter(Boolean))];
-  const projectDetailUrl = `/cong-trinh/${project.slug}`;
 %>
 
 <article class="project-gallery-group <%= project.galleryIsMock ? 'is-mock-gallery' : '' %>">
-  <div class="project-gallery-grid" aria-label="Ảnh công trình <%= project.title %>">
+  <div class="project-gallery-grid" data-project-gallery-grid aria-label="Ảnh công trình <%= project.title %>">
     <% galleryImages.forEach((image, index) => { %>
-      <a class="project-gallery-tile" href="<%= projectDetailUrl %>" aria-label="Xem <%= project.title %> - ảnh <%= index + 1 %>">
+      <a
+        class="project-gallery-tile"
+        href="<%= image %>"
+        data-project-gallery-tile
+        data-gallery-src="<%= image %>"
+        data-gallery-alt="<%= project.title %> - ảnh <%= index + 1 %>"
+        aria-label="Mở ảnh <%= project.title %> - ảnh <%= index + 1 %>"
+      >
         <img
           src="<%= image %>"
           alt="<%= project.title %> - ảnh <%= index + 1 %>"

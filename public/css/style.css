@@ -9254,7 +9254,7 @@ main .surface-finish-section .surface-finish-title {
 .project-gallery-groups {
   display: flex;
   flex-direction: column;
-  gap: clamp(.75rem, 1.5vw, 1.25rem);
+  gap: 6px;
 }
 
 .project-gallery-group {
@@ -9264,7 +9264,7 @@ main .surface-finish-section .surface-finish-title {
 .project-gallery-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: .35rem;
+  gap: 6px;
 }
 
 .project-gallery-tile {
@@ -9274,6 +9274,7 @@ main .surface-finish-section .surface-finish-title {
   aspect-ratio: 1 / 1;
   border-radius: 5px;
   background: #e9e4dc;
+  cursor: zoom-in;
 }
 
 .project-gallery-tile img {
@@ -9292,7 +9293,7 @@ main .surface-finish-section .surface-finish-title {
 @media (min-width: 768px) {
   .project-gallery-grid {
     grid-template-columns: repeat(4, minmax(0, 1fr));
-    gap: .45rem;
+    gap: 6px;
   }
 }
 
@@ -13913,6 +13914,10 @@ body.quote-project-gallery-open { overflow: hidden !important; }
 }
 
 body.project-gallery-lightbox-open { overflow: hidden !important; }
+
+.project-gallery-lightbox--grid .project-gallery-lightbox-stage {
+  touch-action: pan-y;
+}
 
 @media (max-width: 767px) {
   .project-gallery-lightbox { padding: .5rem; }

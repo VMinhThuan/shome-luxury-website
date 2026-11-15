@@ -1292,6 +1292,125 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
+  // Project showcase galleries open in a Facebook-style lightbox instead of
+  // navigating to the project detail page. Each project keeps its own image
+  // sequence, so next/previous never jumps into another project.
+  const projectGalleryTiles = Array.from(document.querySelectorAll('[data-project-gallery-tile]'));
+  if (projectGalleryTiles.length) {
+    let projectGalleryLightbox = null;
+    let projectGalleryImages = [];
+    let projectGalleryIndex = 0;
+    let projectGalleryPreviousFocus = null;
+    let projectGalleryPointerStartX = null;
+
+    const createProjectGalleryLightbox = () => {
+      if (projectGalleryLightbox) return projectGalleryLightbox;
+      const modal = document.createElement('div');
+      modal.className = 'project-gallery-lightbox project-gallery-lightbox--grid';
+      modal.hidden = true;
+      modal.innerHTML = `
+        <div class="project-gallery-lightbox-backdrop" data-project-grid-lightbox-close></div>
+        <div class="project-gallery-lightbox-dialog" role="dialog" aria-modal="true" aria-label="Xem ảnh công trình">
+          <div class="project-gallery-lightbox-stage" data-project-grid-lightbox-stage>
+            <img data-project-grid-lightbox-image alt="" draggable="false" />
+            <button type="button" class="project-gallery-lightbox-close" data-project-grid-lightbox-close aria-label="Đóng ảnh phóng to">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"></path></svg>
+            </button>
+            <button type="button" class="project-gallery-lightbox-control previous" data-project-grid-lightbox-prev aria-label="Ảnh trước">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="15 18 9 12 15 6"></polyline></svg>
+            </button>
+            <button type="button" class="project-gallery-lightbox-control next" data-project-grid-lightbox-next aria-label="Ảnh tiếp theo">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="9 18 15 12 9 6"></polyline></svg>
+            </button>
+          </div>
+        </div>`;
+      document.body.append(modal);
+      projectGalleryLightbox = modal;
+
+      modal.addEventListener('click', event => {
+        if (event.target.closest('[data-project-grid-lightbox-close]')) {
+          closeProjectGalleryLightbox();
+          return;
+        }
+        if (event.target.closest('[data-project-grid-lightbox-prev]')) {
+          showProjectGalleryLightboxImage(projectGalleryIndex - 1);
+          return;
+        }
+        if (event.target.closest('[data-project-grid-lightbox-next]')) {
+          showProjectGalleryLightboxImage(projectGalleryIndex + 1);
+        }
+      });
+
+      const stage = modal.querySelector('[data-project-grid-lightbox-stage]');
+      stage?.addEventListener('pointerdown', event => {
+        if (event.isPrimary) projectGalleryPointerStartX = event.clientX;
+      });
+      stage?.addEventListener('pointerup', event => {
+        if (projectGalleryPointerStartX === null) return;
+        const distance = event.clientX - projectGalleryPointerStartX;
+        projectGalleryPointerStartX = null;
+        if (Math.abs(distance) < 50) return;
+        showProjectGalleryLightboxImage(projectGalleryIndex + (distance < 0 ? 1 : -1));
+      });
+      stage?.addEventListener('pointercancel', () => {
+        projectGalleryPointerStartX = null;
+      });
+
+      return modal;
+    };
+
+    function showProjectGalleryLightboxImage(index) {
+      if (!projectGalleryImages.length) return;
+      const normalizedIndex = (index + projectGalleryImages.length) % projectGalleryImages.length;
+      const image = createProjectGalleryLightbox().querySelector('[data-project-grid-lightbox-image]');
+      const current = projectGalleryImages[normalizedIndex];
+      image.src = current.src;
+      image.alt = current.alt;
+      projectGalleryIndex = normalizedIndex;
+    }
+
+    function openProjectGalleryLightbox(tile) {
+      const grid = tile.closest('[data-project-gallery-grid]');
+      if (!grid) return;
+      projectGalleryImages = Array.from(grid.querySelectorAll('[data-project-gallery-tile]')).map(item => ({
+        src: item.dataset.gallerySrc,
+        alt: item.dataset.galleryAlt || 'Ảnh công trình'
+      })).filter(item => item.src);
+      if (!projectGalleryImages.length) return;
+
+      projectGalleryPreviousFocus = tile;
+      projectGalleryIndex = Array.from(grid.querySelectorAll('[data-project-gallery-tile]')).indexOf(tile);
+      const modal = createProjectGalleryLightbox();
+      modal.hidden = false;
+      document.body.classList.add('project-gallery-lightbox-open');
+      showProjectGalleryLightboxImage(projectGalleryIndex);
+      modal.querySelector('.project-gallery-lightbox-close')?.focus();
+    }
+
+    function closeProjectGalleryLightbox() {
+      if (!projectGalleryLightbox || projectGalleryLightbox.hidden) return;
+      projectGalleryLightbox.hidden = true;
+      document.body.classList.remove('project-gallery-lightbox-open');
+      projectGalleryPreviousFocus?.focus();
+      projectGalleryPreviousFocus = null;
+      projectGalleryPointerStartX = null;
+    }
+
+    projectGalleryTiles.forEach(tile => {
+      tile.addEventListener('click', event => {
+        event.preventDefault();
+        openProjectGalleryLightbox(tile);
+      });
+    });
+
+    document.addEventListener('keydown', event => {
+      if (!projectGalleryLightbox || projectGalleryLightbox.hidden) return;
+      if (event.key === 'Escape') closeProjectGalleryLightbox();
+      if (event.key === 'ArrowLeft') showProjectGalleryLightboxImage(projectGalleryIndex - 1);
+      if (event.key === 'ArrowRight') showProjectGalleryLightboxImage(projectGalleryIndex + 1);
+    });
+  }
+
   function renderProjectCardHtml(project) {
     const attrs = [];
     if (project.area) attrs.push({ label: 'Diện tích', value: project.area });
