@@ -14,6 +14,7 @@ const rawSlots = [
   ['home', 'hero', 'hero_banner_2', 'Hero — Banner 2', '/images/home-hero-banner-2.jpg'],
   ['home', 'hero', 'hero_banner_3', 'Hero — Banner 3', '/images/home-hero-banner-3.jpg'],
   ['home', 'about_showroom', 'about_showroom_image', 'Về chúng tôi — Showroom', '/images/showroom-shome-luxury.jpg'],
+  ['home', 'professional_team', 'professional_team_image', 'Thiết kế thi công chuyên nghiệp — Đội ngũ', '/images/team-professional-shome.png'],
   ['home', 'project_types', 'project_type_apartment', 'Loại công trình — Chung cư', '/images/project-cat-chung-cu-v2.png'],
   ['home', 'project_types', 'project_type_townhouse', 'Loại công trình — Nhà phố', '/images/project-cat-nha-pho.jpg'],
   ['home', 'project_types', 'project_type_villa', 'Loại công trình — Biệt thự', '/images/project-cat-biet-thu.jpg'],
