@@ -10,9 +10,9 @@ const PAGE_LABELS = {
 
 const rawSlots = [
   // 1. TRANG CHỦ (home) - 14 slots
-  ['home', 'hero', 'hero_banner_1', 'Hero — Banner 1', '/images/home-hero-banner.jpg'],
-  ['home', 'hero', 'hero_banner_2', 'Hero — Banner 2', '/images/home-hero-banner-2.jpg'],
-  ['home', 'hero', 'hero_banner_3', 'Hero — Banner 3', '/images/home-hero-banner-3.jpg'],
+  ['home', 'hero', 'hero_banner_1', 'Banner trang chủ 1', '/images/home-hero-banner.jpg'],
+  ['home', 'hero', 'hero_banner_2', 'Banner trang chủ 2', '/images/home-hero-banner-2.jpg'],
+  ['home', 'hero', 'hero_banner_3', 'Banner trang chủ 3', '/images/home-hero-banner-3.jpg'],
   ['home', 'about_showroom', 'about_showroom_image', 'Về chúng tôi — Showroom', '/images/showroom-shome-luxury.jpg'],
   ['home', 'professional_team', 'professional_team_image', 'Thiết kế thi công chuyên nghiệp — Đội ngũ', '/images/team-professional-shome.png'],
   ['home', 'project_types', 'project_type_apartment', 'Loại công trình — Chung cư', '/images/project-cat-chung-cu-v2.png'],

@@ -70,6 +70,13 @@
       : 'Xem trang ngoài ↗';
   }
 
+  function updateSubpagePickerVisibility(pageKey) {
+    if (!subpagePicker) return;
+    const isQuotePage = pageKey === 'quote' || String(pageKey || '').startsWith('subpage:quote:');
+    subpagePicker.hidden = !isQuotePage;
+    if (!isQuotePage && subpageSelect) subpageSelect.value = '';
+  }
+
   function contentModuleForPage(pageKey) {
     if (pageKey === 'news') return 'articles';
     if (pageKey === 'recruitment') return 'careers';
@@ -157,6 +164,7 @@
     }
 
     updateLiveLink(pageKey);
+    updateSubpagePickerVisibility(pageKey);
     updateAdminImageNav(pageKey);
     renderSlots();
     syncContentManager(pageKey);
@@ -244,6 +252,7 @@
       const subpage = subpageList.find(p => `subpage:${p.key}` === pageKey);
       if (eyebrow) eyebrow.textContent = `${(subpage?.label || curPageObj?.label || 'TẤT CẢ').toUpperCase()} / HÌNH ẢNH`;
       updateLiveLink(pageKey);
+      updateSubpagePickerVisibility(pageKey);
       updateAdminImageNav(pageKey);
       renderSlots();
       syncContentManager(pageKey);
@@ -290,11 +299,17 @@
     badge.setAttribute('data-page', slot.page_key);
 
     const heading = create('h2', 'slot-number-title');
-    heading.append(String(displayOrder));
-    if (isMobileOnlySlot) {
+    const number = create('span', 'slot-title-number', String(displayOrder));
+    const divider = create('span', 'slot-title-divider', '/');
+    const titleLabel = create('span', 'slot-title-label', slot.label || 'Vị trí ảnh');
+    const showSlotTitle = slot.page_key === 'home';
+    if (showSlotTitle) {
+      heading.append(divider, titleLabel);
+    } else if (isMobileOnlySlot) {
       const mobileLabel = create('span', 'slot-mobile-label', 'MOBILE');
       heading.append(mobileLabel);
     }
+    heading.prepend(number);
     heading.title = `Vị trí ảnh số ${displayOrder} trên website`;
     const imagePair = create('div', 'image-pair');
 
@@ -642,6 +657,7 @@
     }
 
     updateLiveLink(activePageKey);
+    updateSubpagePickerVisibility(activePageKey);
     updateAdminImageNav(activePageKey);
     renderSlots();
     syncContentManager(activePageKey);

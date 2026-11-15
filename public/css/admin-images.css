@@ -386,12 +386,39 @@
 }
 
 .image-slot .slot-number-title {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 0 .45rem;
   min-height: 42px;
   margin: 0 0 13px;
+  color: #171717;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 1.35;
+}
+
+.image-slot .slot-title-number {
+  flex: 0 0 auto;
   color: #171717;
   font-size: 24px;
   font-weight: 800;
   line-height: 1;
+}
+
+.image-slot .slot-title-divider {
+  flex: 0 0 auto;
+  color: #a88754;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.image-slot .slot-title-label {
+  min-width: 0;
+  color: #28231e;
+  font-size: 15px;
+  font-weight: 700;
+  line-height: 1.4;
 }
 
 .image-slot .slot-number-title .slot-mobile-label {
