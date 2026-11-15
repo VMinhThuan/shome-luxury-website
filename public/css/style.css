@@ -14002,6 +14002,14 @@ body.project-gallery-lightbox-open { overflow: hidden !important; }
   display: none;
 }
 
+/* Keep legacy cached markup from resurfacing the removed zoom/fullscreen tools. */
+.project-gallery-lightbox--grid .project-gallery-lightbox-tools,
+.project-gallery-lightbox--grid [data-project-grid-lightbox-zoom-in],
+.project-gallery-lightbox--grid [data-project-grid-lightbox-zoom-out],
+.project-gallery-lightbox--grid [data-project-grid-lightbox-fullscreen] {
+  display: none !important;
+}
+
 @media (max-width: 767px) {
   .project-gallery-lightbox { padding: .5rem; }
   .project-gallery-lightbox-stage { height: min(70vh, 620px); border-radius: 12px; }
