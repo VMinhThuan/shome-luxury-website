@@ -211,6 +211,7 @@
 
   function isSelectableSubpageKey(pageKey) {
     return String(pageKey || '').startsWith('subpage:quote:')
+      || String(pageKey || '').startsWith('subpage:tk-')
       || String(pageKey || '').startsWith('subpage:tc-');
   }
 
