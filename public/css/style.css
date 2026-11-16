@@ -9208,20 +9208,23 @@ main .surface-finish-section .surface-finish-title {
   grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 6px;
   margin-top: clamp(1.75rem, 3vw, 2.75rem);
+  align-items: start;
 }
 
 .construction-upload-gallery-grid .construction-upload-gallery-tile {
   min-width: 0;
-  height: auto;
-  aspect-ratio: auto;
   align-self: start;
+  height: auto !important;
+  aspect-ratio: auto !important;
 }
 
-.construction-upload-gallery-grid .construction-upload-gallery-tile img {
+.construction-upload-gallery-grid .construction-upload-gallery-tile > img {
+  display: block;
   width: 100%;
-  height: auto;
-  aspect-ratio: auto;
-  object-fit: contain;
+  height: auto !important;
+  max-width: 100%;
+  aspect-ratio: auto !important;
+  object-fit: contain !important;
   object-position: center;
 }
 
