@@ -16,7 +16,7 @@
 
   <!-- CSS Stylesheet -->
   <link rel="preload" href="/images/shome-logo.png" as="image" />
-  <link rel="stylesheet" href="/css/style.css?v=6.8.73" />
+  <link rel="stylesheet" href="/css/style.css?v=6.8.74" />
   <script src="/js/main.js?v=2.0.8" defer></script>
 </head>
 <body class="showcase-page-body">
@@ -52,11 +52,12 @@
     <section class="project-showcase-section">
       <div class="container">
         <% if (isConstructionShowcase) { %>
-          <% const visibleConstructionProjects = (constructionProjects || []).slice(0, 4); %>
+          <% const visibleConstructionProjects = (constructionProjects || []).slice(0, 2); %>
+          <% const moreConstructionProjects = (constructionProjects || []).slice(2, 4); %>
           <div id="construction-project-grid" class="project-gallery-groups construction-project-grid" aria-label="Hình ảnh đang thi công công trình">
             <% if (visibleConstructionProjects.length > 0) { %>
-              <% visibleConstructionProjects.forEach((project, projectIndex) => { %>
-                <%- include("partials/project-gallery-group", { project, isExtraGallery: projectIndex >= 2 }) %>
+              <% visibleConstructionProjects.forEach(project => { %>
+                <%- include("partials/project-gallery-group", { project }) %>
               <% }); %>
             <% } else { %>
               <div class="empty-state-box">
@@ -64,9 +65,14 @@
               </div>
             <% } %>
           </div>
-          <% if (visibleConstructionProjects.length > 2) { %>
+          <% if (moreConstructionProjects.length > 0) { %>
+            <template id="construction-project-grid-more-template">
+              <% moreConstructionProjects.forEach(project => { %>
+                <%- include("partials/project-gallery-group", { project, isExtraGallery: true }) %>
+              <% }); %>
+            </template>
             <div class="completed-projects-more construction-projects-more">
-              <button class="construction-video-more-button" type="button" data-expand-grid="construction-project-grid" aria-controls="construction-project-grid" aria-expanded="false" data-more-text="XEM THÊM" data-less-text="THU GỌN">
+              <button class="construction-video-more-button" type="button" data-expand-grid="construction-project-grid" data-expand-template="construction-project-grid-more-template" aria-controls="construction-project-grid" aria-expanded="false" data-more-text="XEM THÊM" data-less-text="THU GỌN">
                 XEM THÊM
               </button>
             </div>
@@ -158,11 +164,12 @@
         </div>
 
         <div class="container">
-          <% const visibleCompletedProjects = (completedProjects || []).slice(0, 4); %>
+          <% const visibleCompletedProjects = (completedProjects || []).slice(0, 2); %>
+          <% const moreCompletedProjects = (completedProjects || []).slice(2, 4); %>
           <% if (visibleCompletedProjects.length > 0) { %>
             <div id="completed-project-grid" class="project-gallery-groups completed-projects-grid" aria-label="Hình ảnh hoàn công công trình">
-              <% visibleCompletedProjects.forEach((project, projectIndex) => { %>
-                <%- include("partials/project-gallery-group", { project, isExtraGallery: projectIndex >= 2 }) %>
+              <% visibleCompletedProjects.forEach(project => { %>
+                <%- include("partials/project-gallery-group", { project }) %>
               <% }); %>
             </div>
           <% } else { %>
@@ -171,12 +178,17 @@
             </div>
           <% } %>
 
-          <% if (visibleCompletedProjects.length > 2) { %>
-          <div class="completed-projects-more">
-            <button class="construction-video-more-button" type="button" data-expand-grid="completed-project-grid" aria-controls="completed-project-grid" aria-expanded="false" data-more-text="XEM THÊM" data-less-text="THU GỌN">
-              XEM THÊM
-            </button>
-          </div>
+          <% if (moreCompletedProjects.length > 0) { %>
+            <template id="completed-project-grid-more-template">
+              <% moreCompletedProjects.forEach(project => { %>
+                <%- include("partials/project-gallery-group", { project, isExtraGallery: true }) %>
+              <% }); %>
+            </template>
+            <div class="completed-projects-more">
+              <button class="construction-video-more-button" type="button" data-expand-grid="completed-project-grid" data-expand-template="completed-project-grid-more-template" aria-controls="completed-project-grid" aria-expanded="false" data-more-text="XEM THÊM" data-less-text="THU GỌN">
+                XEM THÊM
+              </button>
+            </div>
           <% } %>
         </div>
       </section>
@@ -195,6 +207,20 @@
         if (!grid) return;
 
         var isExpanded = grid.classList.toggle('is-expanded');
+
+        if (isExpanded) {
+          var template = document.getElementById(this.dataset.expandTemplate);
+          if (template && !grid.dataset.extraLoaded) {
+            grid.appendChild(template.content.cloneNode(true));
+            grid.dataset.extraLoaded = 'true';
+          }
+        } else {
+          grid.querySelectorAll('[data-extra-gallery]').forEach(function (gallery) {
+            gallery.remove();
+          });
+          delete grid.dataset.extraLoaded;
+        }
+
         this.setAttribute('aria-expanded', isExpanded ? 'true' : 'false');
 
         var moreText = this.dataset.moreText || 'XEM THÊM';

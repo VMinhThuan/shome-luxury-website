@@ -2,7 +2,7 @@
   const galleryImages = [...new Set((project.gallery || []).filter(Boolean))].slice(0, 4);
 %>
 
-<article class="project-gallery-group <%= project.galleryIsMock ? 'is-mock-gallery' : '' %> <%= isExtraGallery ? 'is-extra-gallery' : '' %>">
+<article class="project-gallery-group <%= project.galleryIsMock ? 'is-mock-gallery' : '' %> <%= isExtraGallery ? 'is-extra-gallery' : '' %>"<%= isExtraGallery ? ' data-extra-gallery' : '' %>>
   <div class="project-gallery-grid" data-project-gallery-grid aria-label="Ảnh công trình <%= project.title %>">
     <% galleryImages.forEach((image, index) => { %>
       <a
