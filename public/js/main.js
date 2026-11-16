@@ -1303,6 +1303,21 @@ document.addEventListener('DOMContentLoaded', () => {
     let projectGalleryPreviousFocus = null;
     let projectGalleryPointerStartX = null;
 
+    const fitProjectGalleryLightboxImage = image => {
+      if (!image?.naturalWidth || !image?.naturalHeight) return;
+
+      const viewportWidth = Math.max(1, window.innerWidth - 32);
+      const viewportHeight = Math.max(1, window.innerHeight - 32);
+      const scale = Math.min(
+        1,
+        viewportWidth / image.naturalWidth,
+        viewportHeight / image.naturalHeight
+      );
+
+      image.style.width = `${Math.max(1, Math.round(image.naturalWidth * scale))}px`;
+      image.style.height = `${Math.max(1, Math.round(image.naturalHeight * scale))}px`;
+    };
+
     const createProjectGalleryLightbox = () => {
       if (projectGalleryLightbox) return projectGalleryLightbox;
       const modal = document.createElement('div');
@@ -1342,6 +1357,9 @@ document.addEventListener('DOMContentLoaded', () => {
       });
 
       const stage = modal.querySelector('[data-project-grid-lightbox-stage]');
+      const image = modal.querySelector('[data-project-grid-lightbox-image]');
+      image?.addEventListener('load', () => fitProjectGalleryLightboxImage(image));
+      window.addEventListener('resize', () => fitProjectGalleryLightboxImage(image));
       stage?.addEventListener('pointerdown', event => {
         if (event.isPrimary) projectGalleryPointerStartX = event.clientX;
       });
@@ -1364,8 +1382,11 @@ document.addEventListener('DOMContentLoaded', () => {
       const normalizedIndex = (index + projectGalleryImages.length) % projectGalleryImages.length;
       const image = createProjectGalleryLightbox().querySelector('[data-project-grid-lightbox-image]');
       const current = projectGalleryImages[normalizedIndex];
+      image.style.width = '';
+      image.style.height = '';
       image.src = current.src;
       image.alt = current.alt;
+      if (image.complete) fitProjectGalleryLightboxImage(image);
       projectGalleryIndex = normalizedIndex;
     }
 
