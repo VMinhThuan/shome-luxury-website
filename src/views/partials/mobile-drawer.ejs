@@ -58,6 +58,15 @@
     };
     return pathTargets[item.href] || (item.id?.startsWith('bao-gia-') ? 'quote' : null);
   };
+  const adminImageHref = (item) => {
+    if (!adminImageModeEnabled || (item.children && item.children.length)) {
+      return publicHref((item.children && item.children.length) ? 'javascript:void(0)' : item.href);
+    }
+    const target = adminImageTarget(item);
+    if (!target) return publicHref(item.href);
+    if (target.startsWith('content:')) return `/admin/images?content=${encodeURIComponent(target.slice('content:'.length))}`;
+    return `/admin/images?page=${encodeURIComponent(target)}`;
+  };
 %>
 <div class="drawer-backdrop" id="drawerBackdrop"></div>
 
@@ -88,7 +97,7 @@
       <% navigation.forEach(item => { %>
         <li class="mobile-menu-item">
           <div class="mobile-menu-row">
-            <a href="<%= publicHref((item.children && item.children.length) ? 'javascript:void(0)' : item.href) %>" class="mobile-menu-link"<% if (adminImageModeEnabled && !(item.children && item.children.length) && adminImageTarget(item)) { %> data-admin-image-page="<%= adminImageTarget(item) %>"<% } %>><%= item.label %></a>
+            <a href="<%= adminImageHref(item) %>" class="mobile-menu-link"<% if (adminImageModeEnabled && !(item.children && item.children.length) && adminImageTarget(item)) { %> data-admin-image-page="<%= adminImageTarget(item) %>"<% } %>><%= item.label %></a>
             <% if (item.children) { %>
               <button class="accordion-toggle" aria-expanded="false" aria-controls="submenu-<%= item.id %>" aria-label="Mở <%= item.label %>">
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -103,7 +112,7 @@
               <% item.children.forEach(subItem => { %>
                 <li class="l2-item">
                   <div class="mobile-menu-row">
-                    <a href="<%= publicHref((subItem.children && subItem.children.length) ? 'javascript:void(0)' : subItem.href) %>" class="l2-link"<% if (adminImageModeEnabled && !(subItem.children && subItem.children.length) && adminImageTarget(subItem)) { %> data-admin-image-page="<%= adminImageTarget(subItem) %>"<% } %>><%= subItem.label %></a>
+                    <a href="<%= adminImageHref(subItem) %>" class="l2-link"<% if (adminImageModeEnabled && !(subItem.children && subItem.children.length) && adminImageTarget(subItem)) { %> data-admin-image-page="<%= adminImageTarget(subItem) %>"<% } %>><%= subItem.label %></a>
                     <% if (subItem.children) { %>
                       <button class="accordion-toggle" aria-expanded="false" aria-controls="submenu-<%= subItem.id %>" aria-label="Mở <%= subItem.label %>">
                         <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -117,7 +126,7 @@
                     <ul class="mobile-submenu-l3" id="submenu-<%= subItem.id %>">
                       <% subItem.children.forEach(nestedItem => { %>
                         <li class="l3-item">
-                          <a href="<%= publicHref(nestedItem.href) %>" class="l3-link"<% if (adminImageModeEnabled && adminImageTarget(nestedItem)) { %> data-admin-image-page="<%= adminImageTarget(nestedItem) %>"<% } %>><%= nestedItem.label %></a>
+                          <a href="<%= adminImageHref(nestedItem) %>" class="l3-link"<% if (adminImageModeEnabled && adminImageTarget(nestedItem)) { %> data-admin-image-page="<%= adminImageTarget(nestedItem) %>"<% } %>><%= nestedItem.label %></a>
                         </li>
                       <% }); %>
                     </ul>
