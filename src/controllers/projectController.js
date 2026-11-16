@@ -4,7 +4,7 @@ class ProjectController {
   // GET /api/projects
   async getProjects(req, res, next) {
     try {
-      const result = await projectService.getProjects({ ...req.query, compact: req.query.compact !== 'false' });
+      const result = await projectService.getProjects({ ...req.query, sort: req.query.sort || 'order', compact: req.query.compact !== 'false' });
       res.set('Cache-Control', 'public, max-age=30, stale-while-revalidate=60');
       return res.json({
         success: true,

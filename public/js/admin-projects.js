@@ -539,7 +539,7 @@
       'style', 'excerpt', 'content', 'sortOrder'
     ].forEach(name => {
       if (form.elements[name]) {
-        form.elements[name].value = project?.[name] ?? (name === 'sortOrder' ? 0 : '');
+        form.elements[name].value = project?.[name] ?? (name === 'sortOrder' ? 1 : '');
       }
     });
 

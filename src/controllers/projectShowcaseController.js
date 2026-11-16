@@ -2,7 +2,7 @@ const projectService = require('../services/projectService');
 const constructionVideoService = require('../services/constructionVideoService');
 const categoryService = require('../services/categoryService');
 const navigationData = require('../data/navigationData');
-const { applyMockProjectGalleries } = require('../data/mockProjectGalleries');
+const constructionGalleryService = require('../services/constructionGalleryService');
 const { getPageImages } = require('../services/imageService');
 
 const PROJECT_CATEGORY_PATHS = {
@@ -269,42 +269,14 @@ class ProjectShowcaseController {
       const isConstructionShowcase = Boolean(config.completedProjectCategory);
       const isVideoShowcase = config.contentType === 'videos' && !isConstructionShowcase;
 
-      let constructionProjects = [];
-      let completedProjects = [];
+      let constructionGalleries = { 'in-progress': [], completed: [] };
       let videos = [];
       let initialData = { projects: [], page: 1, limit: 0, totalPages: 0, totalItems: 0 };
 
       if (isConstructionShowcase) {
-        // 1. Fetch projects for Section 1 (HÌNH ẢNH ĐANG THI CÔNG)
-        let cData = await projectService.getProjects({
-          category: categoryCode,
-          page: 1,
-          limit: 12,
-          compact: true
-        });
-        if (!cData.projects || cData.projects.length === 0) {
-          cData = await projectService.getProjects({
-            category: config.completedProjectCategory,
-            page: 1,
-            limit: 12,
-            compact: true
-          });
-        }
-        constructionProjects = applyMockProjectGalleries(cData.projects || []);
-
-        // 2. Fetch projects for Section 2 (HOÀN CÔNG), strictly excluding Section 1 projects
-        const excludeIds = constructionProjects.map(p => p._id);
-        const compData = await projectService.getProjects({
-          category: config.completedProjectCategory,
-          excludeIds,
-          page: 1,
-          limit: 6,
-          compact: true
-        });
-        completedProjects = applyMockProjectGalleries(compData.projects || [], constructionProjects.length);
-
-        // 3. Videos for Section 3 (NHỮNG VIDEO HOÀN THIỆN TIÊU BIỂU)
-        videos = await constructionVideoService.getVisibleVideos();
+        // Construction child pages own two independent, arbitrary-length galleries.
+        // They no longer inherit or derive images from the project list.
+        constructionGalleries = await constructionGalleryService.getGalleries(categoryCode);
       } else if (isVideoShowcase) {
         videos = await constructionVideoService.getVisibleVideos();
       } else {
@@ -312,6 +284,7 @@ class ProjectShowcaseController {
           category: categoryCode,
           page: 1,
           limit: 4,
+          sort: 'order',
           compact: true
         });
       }
@@ -327,10 +300,9 @@ class ProjectShowcaseController {
         activeCategoryCode: categoryCode,
         pageImages,
         isConstructionShowcase,
-        constructionProjects,
+        constructionGalleries,
         isVideoShowcase,
         videos,
-        completedProjects,
         initialProjects: initialData.projects,
         initialPagination: {
           page: initialData.page,
@@ -367,7 +339,8 @@ class ProjectShowcaseController {
         const relatedResult = await projectService.getProjects({
           category: catId.toString(),
           page: 1,
-          limit: 3
+          limit: 3,
+          sort: 'order'
         });
         relatedProjects = relatedResult.projects.filter(p => p.slug !== project.slug).slice(0, 3);
       }

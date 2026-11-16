@@ -62,6 +62,7 @@ async function listModule(req, res, next) {
         ...req.query,
         status: req.query.status || 'all',
         category: req.query.category || module.root,
+        sort: req.query.sort || 'order',
         includeHidden: true,
         compact: false,
         limit: req.query.limit || 20

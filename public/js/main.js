@@ -1496,7 +1496,7 @@ document.addEventListener('DOMContentLoaded', () => {
       projectLoadSentinel.dataset.loading = 'true';
 
       try {
-        const params = new URLSearchParams({ category, page: String(nextPage), limit: '4' });
+        const params = new URLSearchParams({ category, page: String(nextPage), limit: '4', sort: 'order' });
         const response = await fetch(`/api/projects?${params.toString()}`, {
           headers: { Accept: 'application/json' },
           signal: controller.signal

@@ -3,8 +3,8 @@
   if (!mountRoots.length) return;
 
   const moduleConfigs = {
-    'design-projects': { title: 'Thiết kế công trình', description: 'Quản lý công trình thiết kế kiến trúc và nội thất, danh mục, hình ảnh, gallery và trạng thái xuất bản.', kind: 'project' },
-    'construction-projects': { title: 'Thi công công trình', description: 'Quản lý công trình thi công thực tế, phân loại menu, hình ảnh, tiến độ và liên kết thiết kế.', kind: 'project' },
+    'design-projects': { title: 'Thiết kế công trình', description: 'Quản lý công trình thiết kế kiến trúc và nội thất, danh mục, hình ảnh, gallery và trạng thái xuất bản.', kind: 'project', root: 'thiet-ke-cong-trinh' },
+    'construction-projects': { title: 'Thi công công trình', description: 'Quản lý công trình thi công thực tế, phân loại menu, hình ảnh, tiến độ và liên kết thiết kế.', kind: 'project', root: 'thi-cong-cong-trinh' },
     careers: { title: 'Tuyển dụng', description: 'Quản lý tin tuyển dụng, thông tin vị trí, phúc lợi, hạn nhận hồ sơ và trạng thái mở/đóng.', kind: 'career' },
     articles: { title: 'Tin tức', description: 'Quản lý bài viết, chuyên mục, nội dung HTML an toàn, SEO và trạng thái xuất bản.', kind: 'article' }
   };
@@ -58,6 +58,19 @@
         categoryFilter.value = state.filterCategory || '';
         categoryFilter.disabled = false;
         categoryFilter.removeAttribute('title');
+      }
+
+      const projectCategory = $('[data-project-category]');
+      const projectCategoryHelp = $('[data-project-category-help]');
+      const isScopedProjectPage = config.kind === 'project' && state.category && state.category !== config.root;
+      if (projectCategory) {
+        projectCategory.disabled = isScopedProjectPage;
+        projectCategory.title = isScopedProjectPage ? 'Danh mục được khóa theo menu con đang chọn.' : '';
+      }
+      if (projectCategoryHelp) {
+        projectCategoryHelp.textContent = isScopedProjectPage
+          ? 'Danh mục đã được khóa theo menu con đang quản lý.'
+          : 'Có thể chọn một hoặc nhiều danh mục.';
       }
     };
 
@@ -152,7 +165,8 @@
       const thumb = image ? `<img class="content-cms-thumb" src="${escapeHtml(image)}" alt="" loading="lazy">` : '<span class="content-cms-thumb-empty">Chưa có ảnh</span>';
       const published = row.isPublished !== false && row.status === 'published';
       const status = row.isClosed ? '<span class="content-cms-status is-closed">Đã đóng</span>' : published ? '<span class="content-cms-status is-published">Đã xuất bản</span>' : '<span class="content-cms-status is-draft">Bản nháp</span>';
-      return `<tr><td>${thumb}</td><td>${escapeHtml(row.title || 'Chưa có tiêu đề')}</td><td>${escapeHtml(categoryText(row))}</td><td>${status}</td><td>${formatDate(row.updatedAt || row.date)}</td><td><div class="content-cms-actions"><a href="${publicUrl(row)}" target="_blank" rel="noopener">Xem</a><button type="button" data-edit="${id}">Sửa</button><button type="button" data-duplicate="${id}">Nhân bản</button><button type="button" data-publish="${id}" data-published="${published}">${published ? 'Ẩn' : 'Xuất bản'}</button><button type="button" class="danger" data-delete="${id}">Xóa</button></div></td></tr>`;
+      const order = config.kind === 'project' && Number(row.sortOrder) > 0 ? Number(row.sortOrder) : '—';
+      return `<tr><td>${thumb}</td><td>${escapeHtml(row.title || 'Chưa có tiêu đề')}</td><td>${escapeHtml(categoryText(row))}</td><td>${order}</td><td>${status}</td><td>${formatDate(row.updatedAt || row.date)}</td><td><div class="content-cms-actions"><a href="${publicUrl(row)}" target="_blank" rel="noopener">Xem</a><button type="button" data-edit="${id}">Sửa</button><button type="button" data-duplicate="${id}">Nhân bản</button><button type="button" data-publish="${id}" data-published="${published}">${published ? 'Ẩn' : 'Xuất bản'}</button><button type="button" class="danger" data-delete="${id}">Xóa</button></div></td></tr>`;
     }).join('');
   }
 
@@ -239,6 +253,7 @@
     } else setValue('categoryText', row?.category);
     setValue('author', row?.author);
     setValue('date', row?.date);
+    setValue('sortOrder', row?.sortOrder ?? 1);
     setValue('clientName', row?.clientName || row?.investor);
     setValue('location', row?.location);
     setValue('area', row?.area);
@@ -271,7 +286,9 @@
     setChecked('isPublished', row ? row.isPublished !== false && row.status === 'published' : true);
     setImagePreview(row?.thumbnail || row?.image);
     state.dirty = false;
-    $('[data-form-title]').textContent = row ? 'Chỉnh sửa nội dung' : `Thêm ${config.title.toLowerCase()}`;
+    const formLabel = config.kind === 'project' ? 'công trình' : config.kind === 'career' ? 'vị trí tuyển dụng' : 'bài viết';
+    $('[data-form-eyebrow]').textContent = config.kind === 'project' ? 'THÔNG TIN CÔNG TRÌNH' : 'NỘI DUNG WEBSITE';
+    $('[data-form-title]').textContent = row ? `Chỉnh sửa ${formLabel}` : `Thêm ${formLabel}`;
     modal.hidden = false;
     field('title').focus();
   }

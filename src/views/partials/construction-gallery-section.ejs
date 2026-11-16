@@ -1,0 +1,47 @@
+<%
+  const galleryImages = Array.isArray(images) ? images.filter(image => image?.url) : [];
+  const visibleImages = galleryImages.slice(0, 8);
+  const extraImages = galleryImages.slice(8);
+%>
+
+<% if (galleryImages.length) { %>
+  <div id="<%= gridId %>" class="construction-upload-gallery-grid" data-construction-gallery-grid aria-label="<%= ariaLabel %>">
+    <% visibleImages.forEach((image, index) => { %>
+      <a
+        class="project-gallery-tile construction-upload-gallery-tile"
+        href="<%= image.url %>"
+        data-project-gallery-tile
+        data-gallery-src="<%= image.url %>"
+        data-gallery-alt="<%= image.alt || `${ariaLabel} - ảnh ${index + 1}` %>"
+        aria-label="Mở <%= ariaLabel %> - ảnh <%= index + 1 %>"
+      >
+        <img src="<%= image.url %>" alt="<%= image.alt || `${ariaLabel} - ảnh ${index + 1}` %>" loading="lazy" decoding="async" draggable="false" />
+      </a>
+    <% }); %>
+  </div>
+
+  <% if (extraImages.length) { %>
+    <template id="<%= gridId %>-more-template">
+      <% extraImages.forEach((image, index) => { %>
+        <a
+          class="project-gallery-tile construction-upload-gallery-tile"
+          href="<%= image.url %>"
+          data-extra-gallery
+          data-project-gallery-tile
+          data-gallery-src="<%= image.url %>"
+          data-gallery-alt="<%= image.alt || `${ariaLabel} - ảnh ${index + 9}` %>"
+          aria-label="Mở <%= ariaLabel %> - ảnh <%= index + 9 %>"
+        >
+          <img src="<%= image.url %>" alt="<%= image.alt || `${ariaLabel} - ảnh ${index + 9}` %>" loading="lazy" decoding="async" draggable="false" />
+        </a>
+      <% }); %>
+    </template>
+    <div class="completed-projects-more construction-upload-gallery-more">
+      <button class="construction-video-more-button" type="button" data-expand-grid="<%= gridId %>" data-expand-template="<%= gridId %>-more-template" aria-controls="<%= gridId %>" aria-expanded="false" data-more-text="XEM THÊM" data-less-text="THU GỌN">XEM THÊM</button>
+    </div>
+  <% } %>
+<% } else { %>
+  <div class="empty-state-box">
+    <p class="empty-state-title"><%= emptyTitle %></p>
+  </div>
+<% } %>

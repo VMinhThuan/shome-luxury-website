@@ -7,7 +7,7 @@
   <%- include('partials/site-favicon') %>
   <link rel="stylesheet" href="/css/admin-shell.css?v=1.0.0" />
   <link rel="stylesheet" href="/css/admin-projects.css?v=1.1.0" />
-  <script src="/js/admin-projects.js?v=1.1.1" defer></script>
+  <script src="/js/admin-projects.js?v=1.1.2" defer></script>
 </head>
 <body class="project-admin-page" data-section="<%= typeof currentSection !== 'undefined' ? currentSection : 'thiet-ke-cong-trinh' %>" data-section-title="<%= typeof currentSectionTitle !== 'undefined' ? currentSectionTitle : 'Thiết kế công trình' %>">
   <%- include('partials/admin-header', { activeAdmin: currentSection === 'thi-cong-cong-trinh' ? 'construction' : 'design' }) %>
@@ -92,7 +92,7 @@
           </div>
           <label class="full">Mô tả ngắn<textarea name="excerpt" rows="2"></textarea></label>
           <label class="full">Nội dung chi tiết<textarea name="content" rows="5"></textarea></label>
-          <label>Thứ tự hiển thị<input name="sortOrder" type="number" step="1" value="0" /></label>
+          <label>Thứ tự hiển thị<input name="sortOrder" type="number" min="1" step="1" value="1" /></label>
           <label class="checkbox-field"><input name="isPublished" type="checkbox" checked /> Xuất bản</label>
           <label class="checkbox-field"><input name="isVisible" type="checkbox" checked /> Hiển thị ngoài trang</label>
           <label class="checkbox-field"><input name="isHighlight" type="checkbox" /> Nổi bật trên báo giá</label>

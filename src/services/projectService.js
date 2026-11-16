@@ -253,22 +253,52 @@ class ProjectService {
     const listFields = options.compact
       ? 'title slug investor clientName location area propertyType cost style thumbnail thumbnailPublicId thumbnailFormat thumbnailWidth thumbnailHeight thumbnailBytes gallery galleryItems isHighlight highlightOrder isVisible isPublished sortOrder designProjectId categoryIds createdAt'
       : 'title slug investor clientName location area propertyType cost style excerpt content status featured isHighlight highlightOrder isVisible isPublished sortOrder designProjectId categoryIds thumbnail thumbnailPublicId thumbnailFormat thumbnailWidth thumbnailHeight thumbnailBytes gallery galleryItems createdAt updatedAt';
-    let projectsQuery = Project.find(filter)
-      .select(listFields)
-      .sort(sortOption)
-      .skip(skip)
-      .limit(limit)
-      .lean();
+    let projectsPromise;
+    if (options.sort === 'order') {
+      // Keep legacy records without an explicit order usable, but place them
+      // after projects assigned 1, 2, 3... in the CMS.
+      const projection = Object.fromEntries(listFields.split(/\s+/).filter(Boolean).map(field => [field, 1]));
+      projectsPromise = Project.aggregate([
+        { $match: filter },
+        {
+          $addFields: {
+            __displayOrder: {
+              $cond: [
+                { $gt: [{ $ifNull: ['$sortOrder', 0] }, 0] },
+                '$sortOrder',
+                2147483647
+              ]
+            }
+          }
+        },
+        { $sort: { __displayOrder: 1, createdAt: -1, _id: 1 } },
+        { $skip: skip },
+        { $limit: limit },
+        { $project: projection }
+      ]).exec();
+    } else {
+      let projectsQuery = Project.find(filter)
+        .select(listFields)
+        .sort(sortOption)
+        .skip(skip)
+        .limit(limit)
+        .lean();
 
-    if (!options.compact) {
-      projectsQuery = projectsQuery.populate('categoryIds', 'name slug code isLeaf');
+      if (!options.compact) {
+        projectsQuery = projectsQuery.populate('categoryIds', 'name slug code isLeaf');
+      }
+      projectsPromise = projectsQuery;
     }
 
     // Execute count and query in parallel for a faster response.
     const [totalItems, projects] = await Promise.all([
       Project.countDocuments(filter),
-      projectsQuery
+      projectsPromise
     ]);
+
+    if (!options.compact && options.sort === 'order') {
+      await Project.populate(projects, { path: 'categoryIds', select: 'name slug code isLeaf' });
+    }
 
     const normalizedProjects = projects.map(normalizeProject);
 

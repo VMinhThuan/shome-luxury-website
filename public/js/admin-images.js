@@ -19,6 +19,7 @@
   const subpagePicker = $('[data-subpage-picker]');
   const subpageSelect = $('[data-subpage-select]');
   const contentManager = () => window.shomeContentManagers?.['admin-image-content'];
+  const constructionGalleryManager = () => window.shomeConstructionGalleries;
 
   const PAGE_URLS = {
     all: '/',
@@ -72,21 +73,26 @@
 
   function updateSubpagePickerVisibility(pageKey) {
     if (!subpagePicker) return;
-    const isQuotePage = pageKey === 'quote' || String(pageKey || '').startsWith('subpage:quote:');
-    subpagePicker.hidden = !isQuotePage;
-    if (!isQuotePage && subpageSelect) subpageSelect.value = '';
+    const isSelectableSubpage = pageKey === 'quote'
+      || String(pageKey || '').startsWith('subpage:quote:')
+      || String(pageKey || '').startsWith('subpage:tc-');
+    subpagePicker.hidden = !isSelectableSubpage;
+    if (!isSelectableSubpage && subpageSelect) subpageSelect.value = '';
   }
 
   function contentModuleForPage(pageKey) {
     if (pageKey === 'news') return 'articles';
     if (pageKey === 'recruitment') return 'careers';
-    if (contentContextFor(pageKey)) return 'projects';
+    const context = contentContextFor(pageKey);
+    if (context?.module === 'construction-projects') return 'construction-galleries';
+    if (context) return 'projects';
     return null;
   }
 
   function setContentWorkspaceVisibility(moduleKey) {
     const workspaceIds = {
       projects: 'admin-image-content',
+      'construction-galleries': 'admin-image-construction-galleries',
       careers: 'admin-image-careers',
       articles: 'admin-image-articles'
     };
@@ -196,13 +202,16 @@
       || category === 'thiet-ke-kien-truc'
       || category === 'thiet-ke-noi-that'
       || category.startsWith('tk-');
-    const isConstruction = category === 'thi-cong-cong-trinh' || category.startsWith('tc-');
+    // The construction parent page is the video overview. Only its child
+    // pages own the independent two-section image galleries.
+    const isConstruction = category.startsWith('tc-');
     if (!isDesign && !isConstruction) return null;
     return { module: isConstruction ? 'construction-projects' : 'design-projects', category, title: subpage.label, publicPath: subpage.path };
   }
 
   function syncContentManager(pageKey) {
     const manager = contentManager();
+    const galleryManager = constructionGalleryManager();
     const host = $('[data-manager-id="admin-image-content"]');
     const contextHost = $('[data-admin-submenu-context]');
     const context = contentContextFor(pageKey);
@@ -215,6 +224,11 @@
       contextHost.hidden = false;
       $('[data-admin-submenu-breadcrumb]').textContent = context.title;
       $('[data-admin-submenu-title]').textContent = context.title;
+    }
+    const workspace = contentModuleForPage(pageKey);
+    if (workspace === 'construction-galleries') {
+      galleryManager?.setContext(context).catch(error => setStatus(error.message || 'Không thể tải gallery thi công.', true));
+      return;
     }
     if (!manager || !host) return;
     manager.setContext(context).catch(error => setStatus(error.message || 'Không thể tải danh sách công trình.', true));
@@ -233,7 +247,7 @@
       }
 
       activePageKey = pageKey;
-      if (subpageSelect) subpageSelect.value = pageKey.startsWith('subpage:quote:') ? pageKey : '';
+      if (subpageSelect) subpageSelect.value = pageKey.startsWith('subpage:quote:') || pageKey.startsWith('subpage:tc-') ? pageKey : '';
       const url = new URL(window.location.href);
       if (pageKey === 'all') url.searchParams.delete('page');
       else url.searchParams.set('page', pageKey);
@@ -604,8 +618,8 @@
     subpageList = result.subpages || [];
     if (subpagePicker && subpageSelect && subpageList.length) {
       subpagePicker.hidden = false;
-      const quoteSubpages = subpageList.filter(page => page.key.startsWith('quote:'));
-      quoteSubpages.forEach(page => {
+      const selectableSubpages = subpageList.filter(page => page.key.startsWith('quote:') || page.key.startsWith('tc-'));
+      selectableSubpages.forEach(page => {
         const option = create('option', '', page.label);
         option.value = `subpage:${page.key}`;
         subpageSelect.append(option);
@@ -642,7 +656,7 @@
 
     renderTabs();
 
-    if (subpageSelect && activePageKey.startsWith('subpage:quote:')) subpageSelect.value = activePageKey;
+    if (subpageSelect && (activePageKey.startsWith('subpage:quote:') || activePageKey.startsWith('subpage:tc-'))) subpageSelect.value = activePageKey;
 
     if (eyebrow) {
       const curPageObj = pagesList.find(p => p.key === activePageKey);
@@ -672,7 +686,7 @@
           const pageResult = await request(`/api/admin/home-images?page=${encodeURIComponent(pageKey)}`);
           allSlots = pageResult.data || [];
           activePageKey = pageKey;
-          subpageSelect.value = pageKey.startsWith('subpage:quote:') ? pageKey : '';
+          subpageSelect.value = pageKey.startsWith('subpage:quote:') || pageKey.startsWith('subpage:tc-') ? pageKey : '';
           const url = new URL(window.location.href);
           url.searchParams.set('page', pageKey);
           window.history.replaceState({}, '', url.toString());
