@@ -9255,12 +9255,14 @@ main .surface-finish-section .surface-finish-title {
   grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 6px;
   margin-top: clamp(1.75rem, 3vw, 2.75rem);
-  align-items: start;
+  align-items: stretch;
 }
 
 .construction-upload-gallery-grid .construction-upload-gallery-tile {
   min-width: 0;
   align-self: stretch;
+  display: block !important;
+  overflow: hidden !important;
   height: auto !important;
   aspect-ratio: 1 / 1 !important;
 }
