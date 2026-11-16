@@ -55,8 +55,8 @@
           <% const visibleConstructionProjects = (constructionProjects || []).slice(0, 4); %>
           <div id="construction-project-grid" class="project-gallery-groups construction-project-grid" aria-label="Hình ảnh đang thi công công trình">
             <% if (visibleConstructionProjects.length > 0) { %>
-              <% visibleConstructionProjects.forEach(project => { %>
-                <%- include("partials/project-gallery-group", { project }) %>
+              <% visibleConstructionProjects.forEach((project, projectIndex) => { %>
+                <%- include("partials/project-gallery-group", { project, isExtraGallery: projectIndex >= 2 }) %>
               <% }); %>
             <% } else { %>
               <div class="empty-state-box">
@@ -161,8 +161,8 @@
           <% const visibleCompletedProjects = (completedProjects || []).slice(0, 4); %>
           <% if (visibleCompletedProjects.length > 0) { %>
             <div id="completed-project-grid" class="project-gallery-groups completed-projects-grid" aria-label="Hình ảnh hoàn công công trình">
-              <% visibleCompletedProjects.forEach(project => { %>
-                <%- include("partials/project-gallery-group", { project }) %>
+              <% visibleCompletedProjects.forEach((project, projectIndex) => { %>
+                <%- include("partials/project-gallery-group", { project, isExtraGallery: projectIndex >= 2 }) %>
               <% }); %>
             </div>
           <% } else { %>

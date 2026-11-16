@@ -9259,6 +9259,16 @@ main .surface-finish-section .surface-finish-title {
 
 /* Both construction galleries start with two rows (8 images) and reveal two
    more rows (8 images) when the user presses XEM THÊM. */
+.construction-project-grid:not(.is-expanded) .project-gallery-group.is-extra-gallery,
+.completed-projects-grid:not(.is-expanded) .project-gallery-group.is-extra-gallery {
+  display: none !important;
+}
+
+.construction-project-grid.is-expanded .project-gallery-group.is-extra-gallery,
+.completed-projects-grid.is-expanded .project-gallery-group.is-extra-gallery {
+  display: block !important;
+}
+
 .construction-project-grid:not(.is-expanded) .project-gallery-group:nth-child(n+3),
 .completed-projects-grid:not(.is-expanded) .project-gallery-group:nth-child(n+3) {
   display: none;
