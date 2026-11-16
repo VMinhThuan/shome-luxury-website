@@ -209,6 +209,11 @@
     return { module: isConstruction ? 'construction-projects' : 'design-projects', category, title: subpage.label, publicPath: subpage.path };
   }
 
+  function isSelectableSubpageKey(pageKey) {
+    return String(pageKey || '').startsWith('subpage:quote:')
+      || String(pageKey || '').startsWith('subpage:tc-');
+  }
+
   function syncContentManager(pageKey) {
     const manager = contentManager();
     const galleryManager = constructionGalleryManager();
@@ -236,6 +241,7 @@
 
   async function selectAdminImagePage(pageKey) {
     if (!pageKey || pageKey === activePageKey) return;
+    if (pageKey.startsWith('subpage:') && !isSelectableSubpageKey(pageKey)) return;
     const previousStatus = status?.textContent || '';
     try {
       if (pageKey.startsWith('subpage:')) {
@@ -643,10 +649,15 @@
     // Determine initial page from URL param
     const urlParams = new URLSearchParams(window.location.search);
     const initialPage = urlParams.get('page');
-    if (initialPage && (pagesList.some(p => p.key === initialPage) || subpageList.some(p => `subpage:${p.key}` === initialPage))) {
+    if (initialPage && (pagesList.some(p => p.key === initialPage) || (isSelectableSubpageKey(initialPage) && subpageList.some(p => `subpage:${p.key}` === initialPage)))) {
       activePageKey = initialPage;
     } else {
       activePageKey = 'all';
+      if (initialPage) {
+        const cleanUrl = new URL(window.location.href);
+        cleanUrl.searchParams.delete('page');
+        window.history.replaceState({}, '', cleanUrl.toString());
+      }
     }
 
     if (activePageKey.startsWith('subpage:')) {
