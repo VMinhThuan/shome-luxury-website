@@ -52,7 +52,7 @@
     <section class="project-showcase-section">
       <div class="container">
         <% if (isConstructionShowcase) { %>
-          <% const visibleConstructionProjects = (constructionProjects || []).slice(0, 2); %>
+          <% const visibleConstructionProjects = (constructionProjects || []).slice(0, 4); %>
           <div id="construction-project-grid" class="project-gallery-groups construction-project-grid" aria-label="Hình ảnh đang thi công công trình">
             <% if (visibleConstructionProjects.length > 0) { %>
               <% visibleConstructionProjects.forEach(project => { %>
@@ -64,11 +64,11 @@
               </div>
             <% } %>
           </div>
-          <% if (visibleConstructionProjects.length > 0) { %>
+          <% if (visibleConstructionProjects.length > 2) { %>
             <div class="completed-projects-more construction-projects-more">
-              <a class="construction-video-more-button" href="<%= pageConfig.completedProjectUrl || '/thiet-ke-cong-trinh' %>">
+              <button class="construction-video-more-button" type="button" data-expand-grid="construction-project-grid" aria-controls="construction-project-grid" aria-expanded="false" data-more-text="XEM THÊM" data-less-text="THU GỌN">
                 XEM THÊM
-              </a>
+              </button>
             </div>
           <% } %>
         <% } else if (isVideoShowcase) { %>
@@ -158,7 +158,7 @@
         </div>
 
         <div class="container">
-          <% const visibleCompletedProjects = (completedProjects || []).slice(0, 2); %>
+          <% const visibleCompletedProjects = (completedProjects || []).slice(0, 4); %>
           <% if (visibleCompletedProjects.length > 0) { %>
             <div id="completed-project-grid" class="project-gallery-groups completed-projects-grid" aria-label="Hình ảnh hoàn công công trình">
               <% visibleCompletedProjects.forEach(project => { %>
@@ -171,11 +171,13 @@
             </div>
           <% } %>
 
+          <% if (visibleCompletedProjects.length > 2) { %>
           <div class="completed-projects-more">
-            <a class="construction-video-more-button" href="<%= pageConfig.completedProjectUrl || '/thiet-ke-cong-trinh' %>">
+            <button class="construction-video-more-button" type="button" data-expand-grid="completed-project-grid" aria-controls="completed-project-grid" aria-expanded="false" data-more-text="XEM THÊM" data-less-text="THU GỌN">
               XEM THÊM
-            </a>
+            </button>
           </div>
+          <% } %>
         </div>
       </section>
 

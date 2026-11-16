@@ -1,30 +1,29 @@
-// Temporary local gallery data for projects that do not have enough images yet.
-// Remove this fallback once the project galleries are populated from the CMS.
+// Temporary local gallery data for UI testing when project galleries are not
+// populated from the CMS yet. Remove this fallback once real galleries exist.
 const MOCK_GALLERY_POOLS = [
   [
-    '/images/quote-hero-banner-bedroom.png',
-    // Deliberately portrait to exercise the Facebook-style letterbox viewer.
-    '/images/booking-luxury-interior.png',
-    '/images/quote-featured-villa-living-room.png',
-    '/images/completed-project-living-room.png'
+    '/images/mock-gallery/living-room-walnut.png',
+    '/images/mock-gallery/double-height-lounge.png',
+    '/images/mock-gallery/dining-room.png',
+    '/images/mock-gallery/bedroom-sunrise.png'
   ],
   [
-    '/images/quote-hero-banner-dining.png',
-    '/images/booking-luxury-interior.png',
-    '/images/quote-hero-mobile-bedroom.png',
-    '/images/booking-process-interior.png'
+    '/images/mock-gallery/open-kitchen.png',
+    '/images/mock-gallery/home-office.png',
+    '/images/mock-gallery/spa-bathroom.png',
+    '/images/mock-gallery/villa-lounge.png'
   ],
   [
-    '/images/hero_sofa_light.jpg',
-    '/images/hero_sofa_sharp.jpg',
-    '/images/showroom-shome-luxury.jpg',
-    '/images/quote-construction-interior.png'
+    '/images/mock-gallery/double-height-lounge.png',
+    '/images/mock-gallery/open-kitchen.png',
+    '/images/mock-gallery/living-room-walnut.png',
+    '/images/mock-gallery/home-office.png'
   ],
   [
-    '/images/project_apartment.jpg',
-    '/images/project_villa.jpg',
-    '/images/project-cat-chung-cu-v2.png',
-    '/images/project-cat-nha-pho.jpg'
+    '/images/mock-gallery/dining-room.png',
+    '/images/mock-gallery/bedroom-sunrise.png',
+    '/images/mock-gallery/villa-lounge.png',
+    '/images/mock-gallery/spa-bathroom.png'
   ]
 ];
 
