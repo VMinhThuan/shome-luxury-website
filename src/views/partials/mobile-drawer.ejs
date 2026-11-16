@@ -4,6 +4,11 @@
   const adminHomeTarget = typeof adminHomeHref !== 'undefined'
     ? adminHomeHref
     : (adminImageModeEnabled ? '/admin/images' : '/');
+  const publicSiteOrigin = 'https://shomeluxury.com';
+  const publicHref = href => {
+    if (!adminImageModeEnabled || !href || href.startsWith('javascript:')) return href;
+    return new URL(href, publicSiteOrigin).toString();
+  };
   const adminImageTarget = (item) => {
     const quoteSubpageTargets = {
       'tk-kt-nha-cap-4': 'subpage:quote:tk-kt-nha-cap-4',
@@ -83,7 +88,7 @@
       <% navigation.forEach(item => { %>
         <li class="mobile-menu-item">
           <div class="mobile-menu-row">
-            <a href="<%= (item.children && item.children.length) ? 'javascript:void(0)' : item.href %>" class="mobile-menu-link"<% if (adminImageModeEnabled && adminImageTarget(item)) { %> data-admin-image-page="<%= adminImageTarget(item) %>"<% } %>><%= item.label %></a>
+            <a href="<%= publicHref((item.children && item.children.length) ? 'javascript:void(0)' : item.href) %>" class="mobile-menu-link"<% if (adminImageModeEnabled && adminImageTarget(item)) { %> data-admin-image-page="<%= adminImageTarget(item) %>"<% } %>><%= item.label %></a>
             <% if (item.children) { %>
               <button class="accordion-toggle" aria-expanded="false" aria-controls="submenu-<%= item.id %>" aria-label="Mở <%= item.label %>">
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -98,7 +103,7 @@
               <% item.children.forEach(subItem => { %>
                 <li class="l2-item">
                   <div class="mobile-menu-row">
-                    <a href="<%= (subItem.children && subItem.children.length) ? 'javascript:void(0)' : subItem.href %>" class="l2-link"<% if (adminImageModeEnabled && adminImageTarget(subItem)) { %> data-admin-image-page="<%= adminImageTarget(subItem) %>"<% } %>><%= subItem.label %></a>
+                    <a href="<%= publicHref((subItem.children && subItem.children.length) ? 'javascript:void(0)' : subItem.href) %>" class="l2-link"<% if (adminImageModeEnabled && adminImageTarget(subItem)) { %> data-admin-image-page="<%= adminImageTarget(subItem) %>"<% } %>><%= subItem.label %></a>
                     <% if (subItem.children) { %>
                       <button class="accordion-toggle" aria-expanded="false" aria-controls="submenu-<%= subItem.id %>" aria-label="Mở <%= subItem.label %>">
                         <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -112,7 +117,7 @@
                     <ul class="mobile-submenu-l3" id="submenu-<%= subItem.id %>">
                       <% subItem.children.forEach(nestedItem => { %>
                         <li class="l3-item">
-                          <a href="<%= nestedItem.href %>" class="l3-link"<% if (adminImageModeEnabled && adminImageTarget(nestedItem)) { %> data-admin-image-page="<%= adminImageTarget(nestedItem) %>"<% } %>><%= nestedItem.label %></a>
+                          <a href="<%= publicHref(nestedItem.href) %>" class="l3-link"<% if (adminImageModeEnabled && adminImageTarget(nestedItem)) { %> data-admin-image-page="<%= adminImageTarget(nestedItem) %>"<% } %>><%= nestedItem.label %></a>
                         </li>
                       <% }); %>
                     </ul>

@@ -4,6 +4,9 @@
 
   const currentSection = document.body.dataset.section || 'thiet-ke-cong-trinh';
   const currentSectionTitle = document.body.dataset.sectionTitle || 'Thiết kế công trình';
+  const publicSiteOrigin = window.location.hostname === 'quanly.shomeluxury.com'
+    ? 'https://shomeluxury.com'
+    : window.location.origin;
 
   const state = {
     allProjects: [],
@@ -405,7 +408,7 @@
       : '';
 
     const hierarchyBadge = getProjectHierarchyBadge(project);
-    const liveUrl = `/cong-trinh/${encodeURIComponent(project.slug)}`;
+    const liveUrl = new URL(`/cong-trinh/${encodeURIComponent(project.slug)}`, publicSiteOrigin).toString();
 
     const locationText = project.location || 'Chưa cập nhật địa điểm';
     const clientText = project.clientName || project.investor || 'Chưa có thông tin khách';

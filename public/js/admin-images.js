@@ -32,10 +32,10 @@
   };
 
   // The CMS runs on quanly.shomeluxury.com while customer-facing pages run on
-  // design.shomeluxury.com. Relative links would keep visitors on the admin
-  // host, where public pages are intentionally blocked by hostname routing.
+  // shomeluxury.com. Relative links would keep visitors on the admin host,
+  // where public pages are intentionally blocked by hostname routing.
   const PUBLIC_SITE_ORIGIN = window.location.hostname === 'quanly.shomeluxury.com'
-    ? 'https://design.shomeluxury.com'
+    ? 'https://shomeluxury.com'
     : window.location.origin;
 
   let allSlots = [];

@@ -7,7 +7,7 @@
   <%- include('partials/site-favicon') %>
   <link rel="stylesheet" href="/css/admin-shell.css?v=1.0.0" />
   <link rel="stylesheet" href="/css/admin-projects.css?v=1.1.0" />
-  <script src="/js/admin-projects.js?v=1.1.0" defer></script>
+  <script src="/js/admin-projects.js?v=1.1.1" defer></script>
 </head>
 <body class="project-admin-page" data-section="<%= typeof currentSection !== 'undefined' ? currentSection : 'thiet-ke-cong-trinh' %>" data-section-title="<%= typeof currentSectionTitle !== 'undefined' ? currentSectionTitle : 'Thiết kế công trình' %>">
   <%- include('partials/admin-header', { activeAdmin: currentSection === 'thi-cong-cong-trinh' ? 'construction' : 'design' }) %>

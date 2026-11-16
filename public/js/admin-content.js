@@ -65,7 +65,15 @@
 
   const escapeHtml = value => String(value ?? '').replace(/[&<>'"]/g, char => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[char]));
   const idOf = row => String(row._id || row.id || '');
-  const publicUrl = row => config.kind === 'project' ? `/cong-trinh/${encodeURIComponent(row.slug || '')}` : `/${config.kind === 'career' ? 'tuyen-dung' : 'tin-tuc'}/${encodeURIComponent(row.id || row.slug || row._id || '')}`;
+  const publicSiteOrigin = window.location.hostname === 'quanly.shomeluxury.com'
+    ? 'https://shomeluxury.com'
+    : window.location.origin;
+  const publicUrl = row => {
+    const path = config.kind === 'project'
+      ? `/cong-trinh/${encodeURIComponent(row.slug || '')}`
+      : `/${config.kind === 'career' ? 'tuyen-dung' : 'tin-tuc'}/${encodeURIComponent(row.id || row.slug || row._id || '')}`;
+    return new URL(path, publicSiteOrigin).toString();
+  };
   const endpoint = () => `/api/admin/content/${moduleKey}`;
   const setFeedback = (message, error = false) => { feedback.textContent = message || ''; feedback.classList.toggle('is-error', error); };
   const field = name => form.elements.namedItem(name);
