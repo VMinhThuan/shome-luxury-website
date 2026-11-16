@@ -302,10 +302,10 @@
     const number = create('span', 'slot-title-number', String(displayOrder));
     const divider = create('span', 'slot-title-divider', '/');
     const titleLabel = create('span', 'slot-title-label', slot.label || 'Vị trí ảnh');
-    const showSlotTitle = slot.page_key === 'home';
-    if (showSlotTitle) {
-      heading.append(divider, titleLabel);
-    } else if (isMobileOnlySlot) {
+    // Every upload card needs a clear content title so administrators know
+    // exactly which image slot they are replacing, regardless of page group.
+    heading.append(divider, titleLabel);
+    if (isMobileOnlySlot) {
       const mobileLabel = create('span', 'slot-mobile-label', 'MOBILE');
       heading.append(mobileLabel);
     }
