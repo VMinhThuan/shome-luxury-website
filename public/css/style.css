@@ -576,6 +576,17 @@ ol {
   }
 }
 
+/* Project gallery: thumbnails stay cropped in the grid, while the fullscreen
+   viewer always shows the complete source image at its natural ratio. */
+.project-gallery-lightbox--grid .project-gallery-lightbox-stage > img {
+  width: auto !important;
+  height: auto !important;
+  max-width: calc(100vw - 2rem) !important;
+  max-height: calc(100dvh - 2rem) !important;
+  object-fit: contain !important;
+  object-position: center center !important;
+}
+
 @media (min-width: 1440px) {
   .container {
     padding-left: 40px;
@@ -10356,6 +10367,34 @@ main .surface-finish-section .surface-finish-title {
   .news-hero {
     min-height: clamp(240px, 58vw, 420px);
   }
+}
+
+/* Tin tức chỉ dùng một banner tĩnh: hiển thị nguyên ảnh, không phủ màu và không crop. */
+.news-page .news-hero {
+  height: auto !important;
+  min-height: 0 !important;
+  max-height: none !important;
+  background: transparent !important;
+}
+
+.news-page .news-hero-image {
+  position: relative;
+  inset: auto;
+  height: auto !important;
+  min-height: 0 !important;
+}
+
+.news-page .news-hero-image::before {
+  display: none;
+}
+
+.news-page .news-hero-image img {
+  display: block;
+  width: 100% !important;
+  height: auto !important;
+  max-height: none !important;
+  object-fit: contain !important;
+  object-position: center;
 }
 
 .news-content-section {
