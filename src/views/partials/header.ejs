@@ -62,9 +62,10 @@
     return pathTargets[item.href] || (item.id?.startsWith('bao-gia-') ? 'quote' : null);
   };
   const adminImageHref = (item) => {
-    if (!adminImageModeEnabled || (item.children && item.children.length)) {
-      return publicHref((item.children && item.children.length) ? 'javascript:void(0)' : item.href);
-    }
+    // Parent items only open their dropdown inside the image manager. Leaf
+    // items continue to point to the exact image-management context.
+    if (adminImageModeEnabled && item.children && item.children.length) return 'javascript:void(0)';
+    if (!adminImageModeEnabled) return publicHref(item.href);
     const target = adminImageTarget(item);
     if (!target) return publicHref(item.href);
     if (target.startsWith('content:')) return `/admin/images?content=${encodeURIComponent(target.slice('content:'.length))}`;

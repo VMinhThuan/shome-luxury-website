@@ -13730,7 +13730,7 @@ main .section-v2-title,
 /* Shome Luxury brand video panel. The whole panel links to the official YouTube channel. */
 .quote-page .quote-brand-video { padding: clamp(1.5rem, 3vw, 2.5rem) 0; background: #fff; }
 .quote-page .quote-video-heading { max-width: 920px; margin: 0 auto clamp(1rem, 2vw, 1.5rem); text-align: center; }
-.quote-page .quote-video-heading p { margin: 0 0 .35rem; color: #b87824; font-size: clamp(1.45rem, 3.4vw, 2.8rem); font-weight: 700; line-height: 1; }
+.quote-page .quote-video-heading p { margin: 0 0 .35rem; color: #b87824; font-size: 40px; font-weight: 700; line-height: 1; }
 .quote-page .quote-video-heading h2 { position: relative; display: inline-block; max-width: 780px; margin: 0 0 .35rem; color: #2b1d14; font-family: var(--font-heading); font-size: clamp(1rem, 2vw, 1.45rem); font-weight: 700; letter-spacing: .015em; line-height: 1.3; text-transform: uppercase; }
 .quote-page .quote-video-heading strong { display: block; color: #63564b; font-size: clamp(.74rem, 1.2vw, .92rem); font-weight: 400; }
 .quote-page .quote-video-card { display: block; width: 100%; max-width: 100%; aspect-ratio: 1.78; border-color: #e8d9c3; border-radius: 18px; background: #2f2115; box-shadow: 0 12px 30px rgba(74, 47, 18, .09); color: #fff; }
@@ -22116,6 +22116,12 @@ main.project-detail-page .project-detail-summary {
 
 .quote-page .quote-brand-video .quote-video-heading h2 {
   font-size: 21.6px !important;
+}
+
+@media (max-width: 767px) {
+  .quote-page .quote-brand-video .quote-video-heading h2 {
+    font-size: 12.183px !important;
+  }
 }
 
 /* Final mobile six-pixel gutter override for homepage, quote and factory UI. */

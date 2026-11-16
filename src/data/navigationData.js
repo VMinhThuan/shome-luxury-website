@@ -7,13 +7,13 @@ module.exports = [
   {
     id: "thiet-ke-cong-trinh",
     label: "Thiết kế công trình",
-    href: "javascript:void(0)",
+    href: "/thiet-ke-cong-trinh",
     categoryCode: "thiet-ke-cong-trinh",
     children: [
       {
         id: "thiet-ke-kien-truc",
         label: "Thiết kế kiến trúc",
-        href: "javascript:void(0)",
+        href: "/thiet-ke-kien-truc",
         categoryCode: "thiet-ke-kien-truc",
         children: [
           { id: "tk-kt-nha-cap-4", label: "Thiết kế kiến trúc nhà cấp 4", href: "/thiet-ke-kien-truc/nha-cap-4", categoryCode: "tk-kt-nha-cap-4" },
@@ -25,7 +25,7 @@ module.exports = [
       {
         id: "thiet-ke-noi-that",
         label: "Thiết kế nội thất",
-        href: "javascript:void(0)",
+        href: "/thiet-ke-noi-that",
         categoryCode: "thiet-ke-noi-that",
         children: [
           { id: "tk-nt-chung-cu", label: "Thiết kế nội thất chung cư", href: "/thiet-ke-noi-that/chung-cu", categoryCode: "tk-nt-chung-cu" },
@@ -39,13 +39,13 @@ module.exports = [
   {
     id: "thi-cong-cong-trinh",
     label: "Thi công công trình",
-    href: "javascript:void(0)",
+    href: "/thi-cong-cong-trinh",
     categoryCode: "thi-cong-cong-trinh",
     children: [
       {
         id: "thi-cong-kien-truc",
         label: "Thi công kiến trúc",
-        href: "javascript:void(0)",
+        href: "/thi-cong-cong-trinh",
         children: [
           { id: "tc-kt-nha-cap-4", label: "Thi công kiến trúc nhà cấp 4", href: "/thi-cong-cong-trinh/kien-truc/nha-cap-4" },
           { id: "tc-kt-nha-pho", label: "Thi công kiến trúc nhà phố", href: "/thi-cong-cong-trinh/kien-truc/nha-pho" },
@@ -56,7 +56,7 @@ module.exports = [
       {
         id: "thi-cong-noi-that",
         label: "Thi công nội thất",
-        href: "javascript:void(0)",
+        href: "/thi-cong-cong-trinh",
         children: [
           { id: "tc-nt-chung-cu", label: "Thi công nội thất chung cư", href: "/thi-cong-cong-trinh/noi-that/chung-cu" },
           { id: "tc-nt-nha-pho", label: "Thi công nội thất nhà phố", href: "/thi-cong-cong-trinh/noi-that/nha-pho" },

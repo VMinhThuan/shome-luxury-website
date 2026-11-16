@@ -1370,7 +1370,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function openProjectGalleryLightbox(tile) {
-      const grid = tile.closest('[data-project-gallery-grid]');
+      const grid = tile.closest('[data-project-gallery-grid], [data-construction-gallery-grid]');
       if (!grid) return;
       projectGalleryImages = Array.from(grid.querySelectorAll('[data-project-gallery-tile]')).map(item => ({
         src: item.dataset.gallerySrc,
@@ -1396,11 +1396,11 @@ document.addEventListener('DOMContentLoaded', () => {
       projectGalleryPointerStartX = null;
     }
 
-    projectGalleryTiles.forEach(tile => {
-      tile.addEventListener('click', event => {
-        event.preventDefault();
-        openProjectGalleryLightbox(tile);
-      });
+    document.addEventListener('click', event => {
+      const tile = event.target.closest('[data-project-gallery-tile]');
+      if (!tile || !tile.closest('[data-project-gallery-grid], [data-construction-gallery-grid]')) return;
+      event.preventDefault();
+      openProjectGalleryLightbox(tile);
     });
 
     document.addEventListener('keydown', event => {

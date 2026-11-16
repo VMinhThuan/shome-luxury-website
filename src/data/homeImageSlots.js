@@ -30,7 +30,7 @@ const rawSlots = [
   ['home', 'home_faq', 'home_faq_background', 'Câu hỏi thường gặp — Ảnh nền tối', '/images/background/1793129515218_6043215661779559246_6043215661779559246_bb3402190775a313002b3616fddfd2e4.jpg'],
   ['home', 'about_showroom', 'about_showroom_background', 'Về chúng tôi — Ảnh nền tối', '/images/background/1793129512539_6043215661779559246_6043215661779559246_d1b9a620a137ee0b6653f0d3f11cc5a5.jpg'],
 
-  // 2. XƯỞNG SẢN XUẤT (factory) - 21 slots
+  // 2. XƯỞNG SẢN XUẤT (factory) - 23 slots, in the same order as the public page
   ['factory', 'hero', 'factory_hero_banner_1', 'Hero — Banner 1 (Máy CNC)', '/images/factory_cnc.jpg'],
   ['factory', 'hero', 'factory_hero_banner_2', 'Hero — Banner 2 (Hệ thống CNC)', '/images/cnc_machine.jpg'],
   ['factory', 'hero', 'factory_hero_banner_3', 'Hero — Banner 3 (Máy khoan & thợ)', '/images/drill_machine.jpg'],
@@ -46,12 +46,14 @@ const rawSlots = [
   ['factory', 'tour', 'factory_tour_4', 'Một vòng quanh xưởng — Bước 4: Kiểm tra xuất xưởng', '/images/img-xuong-san-xuat/factory-tour-quality-check.png'],
   ['factory', 'renovation', 'factory_reno_living_before', 'Hiện trạng đến hoàn thiện — Phòng khách (Trước)', '/images/img-xuong-san-xuat/renovation-living-before.png'],
   ['factory', 'renovation', 'factory_reno_living_after', 'Hiện trạng đến hoàn thiện — Phòng khách (Sau)', '/images/img-xuong-san-xuat/renovation-living-after.png'],
-  ['factory', 'renovation', 'factory_reno_office_before', 'Hiện trạng đến hoàn thiện — Phòng làm việc (Trước)', '/images/img-xuong-san-xuat/renovation-office-before.png'],
-  ['factory', 'renovation', 'factory_reno_office_after', 'Hiện trạng đến hoàn thiện — Phòng làm việc (Sau)', '/images/img-xuong-san-xuat/renovation-office-after.png'],
-  ['factory', 'renovation', 'factory_reno_bath_before', 'Hiện trạng đến hoàn thiện — Phòng tắm (Trước)', '/images/img-xuong-san-xuat/renovation-bathroom-before.png'],
-  ['factory', 'renovation', 'factory_reno_bath_after', 'Hiện trạng đến hoàn thiện — Phòng tắm (Sau)', '/images/img-xuong-san-xuat/renovation-bathroom-after.png'],
   ['factory', 'renovation', 'factory_reno_bed_before', 'Hiện trạng đến hoàn thiện — Phòng ngủ (Trước)', '/images/img-xuong-san-xuat/renovation-bedroom-before.png'],
   ['factory', 'renovation', 'factory_reno_bed_after', 'Hiện trạng đến hoàn thiện — Phòng ngủ (Sau)', '/images/img-xuong-san-xuat/renovation-bedroom-after.png'],
+  ['factory', 'renovation', 'factory_reno_bath_before', 'Hiện trạng đến hoàn thiện — Phòng tắm (Trước)', '/images/img-xuong-san-xuat/renovation-bathroom-before.png'],
+  ['factory', 'renovation', 'factory_reno_bath_after', 'Hiện trạng đến hoàn thiện — Phòng tắm (Sau)', '/images/img-xuong-san-xuat/renovation-bathroom-after.png'],
+  ['factory', 'renovation', 'factory_reno_office_before', 'Hiện trạng đến hoàn thiện — Phòng làm việc (Trước)', '/images/img-xuong-san-xuat/renovation-office-before.png'],
+  ['factory', 'renovation', 'factory_reno_office_after', 'Hiện trạng đến hoàn thiện — Phòng làm việc (Sau)', '/images/img-xuong-san-xuat/renovation-office-after.png'],
+  ['factory', 'care', 'factory_care_image', 'Hướng dẫn chăm sóc nội thất — Ảnh minh họa', '/images/img-xuong-san-xuat/noi-that-de-cham-soc.png'],
+  ['factory', 'quality', 'factory_quality_image', 'Chất lượng sản phẩm — Ảnh đội ngũ tại xưởng', '/images/sanxuat/1790821105513_6043215661779559246_6043215661779559246_25e3de7c690af7e4cd9965163a643909.jpg'],
 
   // 3. BÁO GIÁ (quote) - all replaceable visual slots
   ['quote', 'hero', 'quote_hero_banner_1', 'Hero — Banner 1 (Chính)', '/images/banner-bao-gia.png'],
