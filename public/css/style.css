@@ -9212,6 +9212,17 @@ main .surface-finish-section .surface-finish-title {
 
 .construction-upload-gallery-grid .construction-upload-gallery-tile {
   min-width: 0;
+  height: auto;
+  aspect-ratio: auto;
+  align-self: start;
+}
+
+.construction-upload-gallery-grid .construction-upload-gallery-tile img {
+  width: 100%;
+  height: auto;
+  aspect-ratio: auto;
+  object-fit: contain;
+  object-position: center;
 }
 
 .construction-upload-gallery-more {

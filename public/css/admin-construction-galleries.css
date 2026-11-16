@@ -24,7 +24,7 @@
 .construction-gallery-admin__list { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; padding-top: 15px; }
 .construction-gallery-admin__list > p { grid-column: 1 / -1; margin: 0; color: #9a8d7e; font-size: 11px; }
 .construction-gallery-admin__item { position: relative; min-width: 0; overflow: hidden; border: 1px solid #e5dacb; border-radius: 6px; background: #f1ebe4; }
-.construction-gallery-admin__item img { display: block; width: 100%; aspect-ratio: 1 / 1; object-fit: cover; }
+.construction-gallery-admin__item img { display: block; width: 100%; height: auto; aspect-ratio: auto; object-fit: contain; object-position: center; }
 .construction-gallery-admin__item button { position: absolute; top: 4px; right: 4px; display: grid; width: 24px; height: 24px; place-items: center; padding: 0; border: 0; border-radius: 50%; color: #fff; background: rgba(28, 22, 17, .78); font-size: 15px; cursor: pointer; }
 .construction-gallery-admin__item button:hover { background: #ad352c; }
 @media (max-width: 720px) { .construction-gallery-admin__grid { grid-template-columns: 1fr; }.construction-gallery-admin__upload { grid-template-columns: 1fr; }.construction-gallery-admin__upload button { width: 100%; } }
