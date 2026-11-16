@@ -50,7 +50,7 @@ body.content-cms-page { min-height: 100vh; margin: 0; color: var(--cms-ink); bac
 .content-cms-empty { padding: 42px; color: var(--cms-muted); font-size: 13px; text-align: center; }
 .content-cms-pagination { display: flex; justify-content: flex-end; gap: 8px; padding-top: 14px; color: var(--cms-muted); font-size: 12px; }
 .content-cms-modal[hidden] { display: none; }
-.content-cms-modal { position: fixed; z-index: 100; inset: 0; display: grid; place-items: center; padding: 20px; }
+.content-cms-modal { position: fixed; z-index: 1100; inset: 0; display: grid; place-items: center; padding: 20px; }
 .content-cms-modal__backdrop { position: absolute; inset: 0; background: rgba(22,18,13,.56); }
 .content-cms-dialog { position: relative; width: min(920px, 100%); max-height: min(900px, 94vh); overflow: auto; border: 1px solid #ded1bf; border-radius: 12px; background: #fffdfa; box-shadow: 0 25px 80px rgba(0,0,0,.28); }
 .content-cms-dialog__header { display: flex; align-items: flex-start; justify-content: space-between; padding: 22px 24px 16px; border-bottom: 1px solid #eee5d9; }
