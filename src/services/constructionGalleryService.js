@@ -78,6 +78,19 @@ async function removeImage(pageKey, sectionKey, imageId) {
   return gallery.images.map(serializeImage);
 }
 
+async function getImage(pageKey, sectionKey, imageId) {
+  pageKey = assertPageKey(pageKey);
+  sectionKey = assertSectionKey(sectionKey);
+  if (!mongoose.Types.ObjectId.isValid(imageId)) {
+    throw Object.assign(new Error('Ảnh gallery không hợp lệ.'), { status: 400 });
+  }
+
+  const gallery = await ConstructionGallery.findOne({ page_key: pageKey, section_key: sectionKey }).lean();
+  const image = gallery?.images?.find(item => String(item._id) === String(imageId));
+  if (!image) throw Object.assign(new Error('Không tìm thấy ảnh gallery.'), { status: 404 });
+  return serializeImage(image);
+}
+
 module.exports = {
   SECTION_KEYS,
   CONSTRUCTION_PAGE_KEYS,
@@ -85,5 +98,6 @@ module.exports = {
   assertSectionKey,
   getGalleries,
   addImages,
+  getImage,
   removeImage
 };

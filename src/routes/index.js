@@ -163,6 +163,7 @@ router.get('/api/construction-galleries', constructionGalleryController.getPubli
 router.get('/api/admin/construction-videos', authenticateAdmin, constructionVideoController.getAdminVideos.bind(constructionVideoController));
 router.get('/api/admin/construction-galleries', authenticateAdmin, constructionGalleryController.getAdmin);
 router.post('/api/admin/construction-galleries/:pageKey/:sectionKey', authenticateAdmin, constructionGalleryController.uploadMiddleware, constructionGalleryController.uploadImages);
+router.get('/api/admin/construction-galleries/:pageKey/:sectionKey/:imageId/download', authenticateAdmin, constructionGalleryController.downloadImage);
 router.delete('/api/admin/construction-galleries/:pageKey/:sectionKey/:imageId', authenticateAdmin, constructionGalleryController.removeImage);
 router.get("/api/quote-page", quotePageController.getPublicContent.bind(quotePageController));
 router.put("/api/admin/quote-page", authenticateAdmin, quotePageController.updateContent.bind(quotePageController));

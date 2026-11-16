@@ -71,6 +71,21 @@ exports.uploadImages = async (req, res, next) => {
   }
 };
 
+exports.downloadImage = async (req, res, next) => {
+  try {
+    const image = await constructionGalleryService.getImage(req.params.pageKey, req.params.sectionKey, req.params.imageId);
+    const response = await fetch(image.url);
+    if (!response.ok) throw Object.assign(new Error('Không thể tải ảnh gallery.'), { status: 502 });
+
+    const buffer = Buffer.from(await response.arrayBuffer());
+    const contentType = response.headers.get('content-type') || 'image/webp';
+    const section = req.params.sectionKey === 'completed' ? 'hoan-cong' : 'dang-thi-cong';
+    res.setHeader('Content-Type', contentType);
+    res.setHeader('Content-Disposition', `attachment; filename="construction-${section}-${req.params.imageId}.webp"`);
+    return res.send(buffer);
+  } catch (error) { return next(error); }
+};
+
 exports.removeImage = async (req, res, next) => {
   try {
     const data = await constructionGalleryService.removeImage(req.params.pageKey, req.params.sectionKey, req.params.imageId);

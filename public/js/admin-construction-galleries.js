@@ -60,7 +60,10 @@
     const count = card.querySelector('[data-gallery-count]');
     count.textContent = `${images.length} ảnh`;
     list.innerHTML = images.length
-      ? images.map(image => `<div class="construction-gallery-admin__item"><img src="${escapeHtml(image.url)}" alt="" loading="lazy"><button type="button" data-gallery-delete="${escapeHtml(image.id)}" aria-label="Xóa ảnh">×</button></div>`).join('')
+      ? images.map((image, index) => {
+        const downloadUrl = `/api/admin/construction-galleries/${encodeURIComponent(pageKey)}/${encodeURIComponent(sectionKey)}/${encodeURIComponent(image.id)}/download`;
+        return `<div class="construction-gallery-admin__item"><img src="${escapeHtml(image.url)}" alt="" loading="lazy"><a class="construction-gallery-admin__download" data-gallery-download href="${downloadUrl}" download="construction-${escapeHtml(sectionKey)}-${index + 1}.webp" aria-label="Tải ảnh xuống" title="Tải ảnh xuống">↓</a><button type="button" data-gallery-delete="${escapeHtml(image.id)}" aria-label="Xóa ảnh">×</button></div>`;
+      }).join('')
       : '<p>Chưa có ảnh.</p>';
   };
 
