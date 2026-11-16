@@ -283,7 +283,6 @@
     setChecked('isHot', row?.isHot);
     setChecked('isClosed', row?.isClosed);
     setChecked('isFeatured', row?.isFeatured);
-    setChecked('isPublished', row ? row.isPublished !== false && row.status === 'published' : true);
     setImagePreview(row?.thumbnail || row?.image);
     state.dirty = false;
     const formLabel = config.kind === 'project' ? 'công trình' : config.kind === 'career' ? 'vị trí tuyển dụng' : 'bài viết';
