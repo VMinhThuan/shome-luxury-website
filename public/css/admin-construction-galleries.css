@@ -16,7 +16,11 @@
 .construction-gallery-admin__card > header > span { flex: 0 0 auto; padding: 5px 8px; border-radius: 999px; color: #74531f; background: #fff1d5; font-size: 10px; font-weight: 800; }
 .construction-gallery-admin__upload { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 9px; align-items: center; padding-bottom: 15px; border-bottom: 1px solid #eee5d9; }
 .construction-gallery-admin__upload input { min-width: 0; width: 100%; padding: 8px; border: 1px solid #ded2c3; border-radius: 6px; background: #fff; font-size: 11px; }
-.construction-gallery-admin__upload button { white-space: nowrap; }
+.construction-gallery-admin__upload button { display: inline-flex; min-width: 190px; align-items: center; justify-content: center; gap: 8px; white-space: nowrap; }
+.construction-gallery-admin__card[data-uploading="true"] .construction-gallery-admin__upload { opacity: .72; }
+.construction-gallery-admin__card[data-uploading="true"] [data-gallery-upload] { cursor: wait; }
+.construction-gallery-admin__spinner { display: inline-block; width: 14px; height: 14px; flex: 0 0 14px; border: 2px solid currentColor; border-right-color: transparent; border-radius: 50%; animation: construction-gallery-spin .75s linear infinite; }
+@keyframes construction-gallery-spin { to { transform: rotate(360deg); } }
 .construction-gallery-admin__list { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; padding-top: 15px; }
 .construction-gallery-admin__list > p { grid-column: 1 / -1; margin: 0; color: #9a8d7e; font-size: 11px; }
 .construction-gallery-admin__item { position: relative; min-width: 0; overflow: hidden; border: 1px solid #e5dacb; border-radius: 6px; background: #f1ebe4; }

@@ -7,6 +7,7 @@
   const title = $('[data-construction-gallery-title]');
   let pageKey = '';
   const sections = new Map();
+  const uploadLabels = new WeakMap();
   const escapeHtml = value => String(value ?? '').replace(/[&<>"']/g, character => ({
     '&': '&amp;',
     '<': '&lt;',
@@ -25,6 +26,31 @@
   const setStatus = (message, error = false) => {
     status.textContent = message || '';
     status.classList.toggle('is-error', error);
+  };
+
+  const setUploadState = (card, isUploading, fileCount = 0) => {
+    const input = card?.querySelector('[data-gallery-files]');
+    const button = card?.querySelector('[data-gallery-upload]');
+    if (!input || !button) return;
+
+    if (isUploading) {
+      uploadLabels.set(button, button.textContent.trim());
+      card.dataset.uploading = 'true';
+      card.setAttribute('aria-busy', 'true');
+      input.disabled = true;
+      button.disabled = true;
+      button.setAttribute('aria-busy', 'true');
+      button.innerHTML = `<span class="construction-gallery-admin__spinner" aria-hidden="true"></span><span>Đang tải ${fileCount} ảnh...</span>`;
+      return;
+    }
+
+    delete card.dataset.uploading;
+    card.removeAttribute('aria-busy');
+    input.disabled = false;
+    button.disabled = false;
+    button.removeAttribute('aria-busy');
+    button.innerHTML = escapeHtml(uploadLabels.get(button) || 'Tải ảnh lên section');
+    uploadLabels.delete(button);
   };
 
   const renderSection = (sectionKey, images = []) => {
@@ -52,13 +78,13 @@
   };
 
   const upload = async card => {
+    if (!card || card.dataset.uploading === 'true') return;
     const sectionKey = card.dataset.gallerySection;
     const input = card.querySelector('[data-gallery-files]');
-    const button = card.querySelector('[data-gallery-upload]');
     const files = [...(input.files || [])];
     if (!files.length) return setStatus('Vui lòng chọn ít nhất một ảnh.', true);
-    button.disabled = true;
-    setStatus(`Đang tải ${files.length} ảnh lên...`);
+    setUploadState(card, true, files.length);
+    setStatus(`Đang tải ${files.length} ảnh lên section, vui lòng chờ...`);
     try {
       const body = new FormData();
       files.forEach(file => body.append('images', file));
@@ -68,7 +94,7 @@
       input.value = '';
       setStatus(result.message || 'Đã lưu ảnh.');
     } catch (error) { setStatus(error.message, true); }
-    finally { button.disabled = false; }
+    finally { setUploadState(card, false); }
   };
 
   root.addEventListener('click', async event => {
