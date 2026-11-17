@@ -22479,6 +22479,17 @@ body.page-news #main-content > .news-hero.subpage-banner-frame > .news-hero-imag
   max-width: none !important;
 }
 
+/* Match the Recruitment hero on desktop: fill the fixed frame edge-to-edge.
+   The older News rule uses `contain`, which creates the white side gutters
+   visible when the source artwork is narrower than the 50dvh frame. */
+@media (min-width: 768px) {
+  body.page-news #main-content > .news-hero.subpage-banner-frame > .news-hero-image img {
+    height: 100% !important;
+    object-fit: cover !important;
+    object-position: center center !important;
+  }
+}
+
 body.page-news #main-content > .news-hero-full-bleed {
   transform: none !important;
 }
