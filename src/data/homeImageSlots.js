@@ -32,8 +32,6 @@ const rawSlots = [
 
   // 2. XƯỞNG SẢN XUẤT (factory) - 23 slots, in the same order as the public page
   ['factory', 'hero', 'factory_hero_banner_1', 'Hero — Banner 1 (Máy CNC)', '/images/factory_cnc.jpg'],
-  ['factory', 'hero', 'factory_hero_banner_2', 'Hero — Banner 2 (Hệ thống CNC)', '/images/cnc_machine.jpg'],
-  ['factory', 'hero', 'factory_hero_banner_3', 'Hero — Banner 3 (Máy khoan & thợ)', '/images/drill_machine.jpg'],
   ['factory', 'video', 'factory_video_thumb', 'Quy trình sản xuất — Ảnh đại diện video', '/images/sanxuat/1790821107047_6043215661779559246_6043215661779559246_12e6fb8d5bd86d38262d68c3ac2b66c2.jpg'],
   ['factory', 'capacity', 'factory_equip_1', 'Trang thiết bị 01 — Máy cắt CNC', '/images/cnc_machine.jpg'],
   ['factory', 'capacity', 'factory_equip_2', 'Trang thiết bị 02 — Dây chuyền tự động', '/images/auto_line.jpg'],

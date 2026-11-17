@@ -19556,8 +19556,7 @@ main .home-faq-item p {
 }
 
 /* Quote page — production-activity carousel placed after the craftsmanship
-   detail section. Captions live in HTML so Vietnamese copy stays sharp and
-   accessible while the image gallery remains lightweight. */
+   detail section. */
 .quote-page .quote-factory-activities {
   overflow: hidden;
   padding: clamp(2.75rem, 5.5vw, 5rem) 0;
@@ -19593,6 +19592,13 @@ main .home-faq-item p {
   letter-spacing: 0;
   line-height: 1;
   text-transform: none;
+}
+
+.quote-page .quote-factory-activities-heading p {
+  margin: .55rem auto 0;
+  color: #726a64;
+  font-size: clamp(.82rem, 1.35vw, 1rem);
+  line-height: 1.45;
 }
 
 .quote-page .quote-factory-activities-carousel {
@@ -19649,12 +19655,7 @@ main .home-faq-item p {
   width: 100%;
   aspect-ratio: 16 / 10;
   object-fit: cover;
-  transition: transform .45s ease;
   -webkit-user-drag: none;
-}
-
-.quote-page .quote-factory-activity-card:hover img {
-  transform: scale(1.035);
 }
 
 .quote-page .quote-factory-activity-card figcaption {
@@ -22039,6 +22040,14 @@ main.project-detail-page .project-detail-summary {
 }
 
 .quote-page .quote-craft-grid {
+  gap: 6px !important;
+  column-gap: 6px !important;
+  row-gap: 6px !important;
+}
+
+/* Craftsmanship cards are image-only and use the same tight 6px rhythm on
+   every viewport. */
+.quote-page .quote-craft-grid--all {
   gap: 6px !important;
   column-gap: 6px !important;
   row-gap: 6px !important;
