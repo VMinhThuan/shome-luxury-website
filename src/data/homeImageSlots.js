@@ -71,7 +71,7 @@ const rawSlots = [
   ['quote', 'pricing', 'quote_pricing_image_2', 'Báo giá tham khảo — Ảnh 2 (Phòng ăn)', '/images/quote-pricing-2.png'],
   ['quote', 'pricing', 'quote_pricing_image_3', 'Báo giá tham khảo — Ảnh 3 (Phòng sinh hoạt)', '/images/quote-pricing-3.png'],
   ['quote', 'pricing', 'quote_pricing_mobile_image_1', 'Báo giá tham khảo — Ảnh mobile (ghi chú: chỉ dùng cho responsive mobile)', '/images/quote-pricing-1.png'],
-  ['quote', 'capability', 'quote_capability_image', 'Năng lực Shome Luxury — Ảnh xưởng', '/images/factory_workers.jpg'],
+  ['quote', 'quality_commitment', 'quote_quality_commitment_image', 'Cam kết chất lượng — Ảnh section', '/images/sanxuat/1794883527801_6043215661779559246_6043215661779559246_3652b07680691eb2188360fa1e0e2a74.jpg'],
   ['quote', 'capability', 'quote_capability_gallery_1', 'Năng lực xưởng — Ảnh 1', '/images/img-xuong-san-xuat/factory-tour-cnc.png'],
   ['quote', 'capability', 'quote_capability_gallery_2', 'Năng lực xưởng — Ảnh 2', '/images/img-xuong-san-xuat/factory-tour-assembly.png'],
   ['quote', 'capability', 'quote_capability_gallery_3', 'Năng lực xưởng — Ảnh 3', '/images/img-xuong-san-xuat/factory-tour-quality-check.png'],

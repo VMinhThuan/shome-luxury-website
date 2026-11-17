@@ -39,7 +39,7 @@ const quoteImageDefinitions = [
   ['pricing', 'quote_pricing_image_3', 'Ảnh báo giá 3'],
   ['pricing', 'quote_pricing_mobile_image_1', 'Ảnh báo giá mobile (chỉ dùng cho responsive mobile)'],
   ['cta', 'quote_construction_cta_image', 'Ảnh section thi công nội thất'],
-  ['capability', 'quote_capability_image', 'Ảnh chính năng lực xưởng'],
+  ['quality_commitment', 'quote_quality_commitment_image', 'Ảnh section Cam kết chất lượng'],
   ['capability', 'quote_capability_gallery_1', 'Ảnh năng lực xưởng 1'],
   ['capability', 'quote_capability_gallery_2', 'Ảnh năng lực xưởng 2'],
   ['capability', 'quote_capability_gallery_3', 'Ảnh năng lực xưởng 3'],
