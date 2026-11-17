@@ -62,9 +62,9 @@
     return pathTargets[item.href] || (item.id?.startsWith('bao-gia-') ? 'quote' : null);
   };
   const adminImageHref = (item) => {
-    // Parent items only open their dropdown inside the image manager. Leaf
-    // items continue to point to the exact image-management context.
-    if (adminImageModeEnabled && item.children && item.children.length) return 'javascript:void(0)';
+    // Any item with children is a navigation group, not a destination. Its
+    // submenu is the only clickable route on desktop, responsive and mobile.
+    if (item.children && item.children.length) return 'javascript:void(0)';
     if (!adminImageModeEnabled) return publicHref(item.href);
     const target = adminImageTarget(item);
     if (!target) return publicHref(item.href);
