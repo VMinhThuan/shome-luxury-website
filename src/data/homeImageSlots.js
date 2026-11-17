@@ -106,18 +106,14 @@ const rawSlots = [
   ['quote', 'customer_stories', 'quote_feedback_09', 'Khách hàng chia sẻ — Ảnh 09', '/images/feedback/1792222122127_6043215661779559246_6043215661779559246_3b34868292132fdc1c97d45410cc629a.jpg'],
   ['quote', 'customer_stories', 'quote_feedback_10', 'Khách hàng chia sẻ — Ảnh 10', '/images/feedback/1792222123036_6043215661779559246_6043215661779559246_2babcfde9a165d462a5ecea4d8538e0f.jpg'],
   ['quote', 'customer_stories', 'quote_feedback_11', 'Khách hàng chia sẻ — Ảnh 11', '/images/feedback/1792222123788_6043215661779559246_6043215661779559246_7ec6445f346f1b40a77466a09ae5aff5.jpg'],
-  // 4. TIN TỨC (news) - 3 banner slots
+  // 4. TIN TỨC (news) - 1 banner slot
   ['news', 'hero', 'news_hero_banner_1', 'Tin tức — Banner 1', '/images/hero_sofa_sharp.jpg'],
-  ['news', 'hero', 'news_hero_banner_2', 'Tin tức — Banner 2', '/images/hero_interior.jpg'],
-  ['news', 'hero', 'news_hero_banner_3', 'Tin tức — Banner 3', '/images/project_apartment.jpg'],
 
   // 5. TUYỂN DỤNG (recruitment) - 1 slot
   ['recruitment', 'hero', 'recruitment_hero_banner', 'Banner chính trang Tuyển dụng', '/images/recruitment-hero-clean.png'],
 
-  // 6. ĐẶT LỊCH TƯ VẤN (booking) - 4 slots
+  // 6. ĐẶT LỊCH TƯ VẤN (booking) - 1 banner + 1 estimate image
   ['booking', 'hero', 'booking_hero_banner_1', 'Hero — Banner 1 (Nội thất cao cấp)', '/images/booking-luxury-interior.png'],
-  ['booking', 'hero', 'booking_hero_banner_2', 'Hero — Banner 2 (Phòng ngủ sang trọng)', '/images/booking-hero-banner-bedroom.png'],
-  ['booking', 'hero', 'booking_hero_banner_3', 'Hero — Banner 3 (Phòng ăn ấm cúng)', '/images/booking-hero-banner-dining.png'],
   ['booking', 'estimate', 'booking_estimate_visual', 'Báo giá chi tiết — Ảnh minh họa dự toán', '/images/booking-estimate-visual.png'],
 
   // 7. CHI TIẾT CÔNG TRÌNH (project-detail) - 1 slot

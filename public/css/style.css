@@ -10891,10 +10891,8 @@ main .surface-finish-section .surface-finish-title {
 }
 
 .booking-hero-media::after {
-  position: absolute;
-  inset: 0;
   content: '';
-  background: linear-gradient(180deg, rgba(16, 13, 10, .6) 0%, rgba(20, 16, 12, .45) 50%, rgba(20, 16, 12, .75) 100%);
+  display: none;
 }
 
 .booking-hero-media img {
@@ -10991,10 +10989,6 @@ main .surface-finish-section .surface-finish-title {
   .booking-hero {
     min-height: 460px;
     padding: 2.25rem 0 2rem;
-  }
-
-  .booking-hero-media::after {
-    background: linear-gradient(90deg, rgba(14, 11, 8, 0.78) 0%, rgba(14, 11, 8, 0.45) 55%, rgba(14, 11, 8, 0.65) 100%);
   }
 
   .booking-hero-media img {
@@ -16570,6 +16564,7 @@ main .completed-videos-heading h2 em {
    mobile scale defined above. */
 @media (min-width: 768px) {
   .home-page .home-faq-cta h3,
+  .booking-page .home-faq-cta h3,
   .quote-page .quote-faq-consult h2 {
     font-size: 40px !important;
   }
@@ -16577,6 +16572,7 @@ main .completed-videos-heading h2 em {
 
 @media (max-width: 767px) {
   .home-page .home-faq-cta h3,
+  .booking-page .home-faq-cta h3,
   .quote-page .quote-faq-consult h2 {
     font-size: 24px !important;
   }
@@ -17817,6 +17813,21 @@ main .customer-stories-section,
   .subpage-banner-frame > .hero-slider-track,
   .subpage-banner-frame > .news-hero-image,
   .subpage-banner-frame > .hero-slider-track > .hero-slide {
+    height: 100% !important;
+    min-height: 0 !important;
+    max-height: 100% !important;
+  }
+
+  /* The News page has older, more-specific `height: auto` rules for its
+     static artwork. Keep its desktop frame exactly as tall as Recruitment. */
+  .news-page .news-hero.subpage-banner-frame {
+    height: var(--subpage-banner-height) !important;
+    min-height: var(--subpage-banner-height) !important;
+    max-height: var(--subpage-banner-height) !important;
+  }
+
+  .news-page .news-hero.subpage-banner-frame > .news-hero-image,
+  .news-page .news-hero.subpage-banner-frame > .news-hero-image img {
     height: 100% !important;
     min-height: 0 !important;
     max-height: 100% !important;
