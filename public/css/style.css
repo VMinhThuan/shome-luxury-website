@@ -17802,6 +17802,14 @@ main .customer-stories-section,
 
 /* A single frame keeps the News, Factory, and Quote banners identical. */
 @media (min-width: 768px) {
+  /* Let Tin tức use the same edge-to-edge banner width as Tuyển dụng. */
+  .news-page .news-hero.subpage-banner-frame {
+    width: 100vw !important;
+    max-width: none !important;
+    margin-left: calc(50% - 50vw) !important;
+    margin-right: calc(50% - 50vw) !important;
+  }
+
   .subpage-banner-frame {
     height: var(--subpage-banner-height) !important;
     min-height: var(--subpage-banner-height) !important;
