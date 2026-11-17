@@ -22438,3 +22438,23 @@ main.project-detail-page .project-detail-summary {
     overflow-wrap: normal !important;
   }
 }
+
+/* Tin tức: banner luôn tràn toàn bộ chiều rộng viewport như trang Tuyển dụng. */
+#main-content.news-page > .news-hero.subpage-banner-frame {
+  position: relative !important;
+  left: 50% !important;
+  align-self: flex-start !important;
+  width: 100vw !important;
+  min-width: 100vw !important;
+  max-width: none !important;
+  margin-left: -50vw !important;
+  margin-right: 0 !important;
+  box-sizing: border-box !important;
+}
+
+#main-content.news-page > .news-hero.subpage-banner-frame > .news-hero-image,
+#main-content.news-page > .news-hero.subpage-banner-frame > .news-hero-image img {
+  width: 100% !important;
+  min-width: 100% !important;
+  max-width: none !important;
+}
