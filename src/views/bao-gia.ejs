@@ -113,15 +113,18 @@
     @media (max-width: 559px) { .quote-page .quote-workshop { width: 100%; }.quote-page .quote-workshop-main { aspect-ratio: 16 / 9; }.quote-page .quote-workshop-gallery { gap: .7rem; }.quote-page .quote-workshop-stats { margin-bottom: .9rem; }.quote-page .quote-workshop-stats div { padding: 0 .3rem; }.quote-page .quote-workshop-stats span { font-size: .6rem; }.quote-page .quote-workshop-main > span { bottom: 1.15rem; } }
     .quote-page .quote-quality-commitment { padding: clamp(2rem, 4vw, 4rem) 0; background: #fff; }
     .quote-page .quote-quality-commitment-heading { margin: 0 auto clamp(1.2rem, 2.2vw, 2rem); text-align: center; }
-    .quote-page .quote-quality-commitment-heading h2 { display: flex; align-items: baseline; justify-content: center; gap: .25em; margin: 0; color: #1d1a18; font-family: var(--font-heading); font-size: clamp(1.55rem, 3.5vw, 2.8rem); font-weight: 800; letter-spacing: -.045em; line-height: 1; }
-    .quote-page .quote-quality-commitment-heading h2 em { color: var(--quote-brand-yellow, #c27a1b); font-family: var(--font-script); font-size: 1.15em; font-weight: 500; letter-spacing: 0; line-height: .9; }
+    .quote-page .quote-quality-commitment-heading h2 { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: center; column-gap: .34em; row-gap: .25em; margin: 0; color: var(--content-heading-color); font-family: var(--font-heading); font-size: var(--fs-section-title); font-weight: var(--content-heading-weight); letter-spacing: -.035em; line-height: 1.25; text-transform: none; }
+    .quote-page .quote-quality-commitment-heading h2 span { color: var(--content-heading-color); font-family: var(--font-heading); font-size: var(--fs-section-title); font-weight: var(--content-heading-weight); letter-spacing: -.035em; line-height: 1.25; }
+    .quote-page .quote-quality-commitment-heading h2 em { display: inline-block; color: var(--brand-gold-text, var(--accent-gold)); font-family: var(--font-script); font-size: var(--fs-section-title); font-style: normal; font-weight: 400; font-synthesis: none; letter-spacing: 0; line-height: 1.1; text-shadow: none; text-transform: none; white-space: nowrap; }
     .quote-page .quote-quality-commitment-heading p { max-width: 760px; margin: .75rem auto 0; color: #716961; font-size: clamp(.8rem, 1.4vw, 1rem); line-height: 1.5; }
     .quote-page .quote-quality-commitment-photo { margin: 0 auto; overflow: hidden; max-width: var(--container-max); border: 1px solid #e8ddcf; border-radius: clamp(12px, 1.8vw, 20px); background: #f6f2ed; box-shadow: 0 10px 28px rgba(45, 30, 15, .08); }
     .quote-page .quote-quality-commitment-photo img { display: block; width: 100%; height: auto; object-fit: cover; object-position: center; }
     @media (max-width: 767px) {
       .quote-page .quote-quality-commitment { padding: 1.4rem 0; }
       .quote-page .quote-quality-commitment-heading { margin-bottom: 1rem; }
-      .quote-page .quote-quality-commitment-heading h2 { gap: .18em; font-size: clamp(1.35rem, 7vw, 2rem); }
+      .quote-page .quote-quality-commitment-heading h2,
+      .quote-page .quote-quality-commitment-heading h2 span,
+      .quote-page .quote-quality-commitment-heading h2 em { font-size: var(--fs-section-title); line-height: 1.35; }
       .quote-page .quote-quality-commitment-heading p { margin-top: .55rem; padding: 0 .5rem; font-size: .76rem; }
       .quote-page .quote-quality-commitment-photo { border-radius: 12px; }
     }
