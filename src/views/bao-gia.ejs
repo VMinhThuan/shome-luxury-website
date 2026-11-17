@@ -137,8 +137,7 @@
     .quote-page .quote-craft-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
     .quote-page .quote-craft-card { min-width: 0; }
     .quote-page .quote-craft-photo { position: relative; aspect-ratio: 16 / 9 !important; overflow: hidden; border-radius: 8px; background: #e6ddd2; }
-    .quote-page .quote-craft-photo img { position: absolute; width: 202%; height: 202%; max-width: none; object-fit: fill; }
-    .quote-page .quote-craft-card:nth-child(2) .quote-craft-photo img { left: -102%; }.quote-page .quote-craft-card:nth-child(3) .quote-craft-photo img { top: -102%; }.quote-page .quote-craft-card:nth-child(4) .quote-craft-photo img { top: -102%; left: -102%; }.quote-page .quote-craft-grid--all .quote-craft-card:nth-child(6) .quote-craft-photo img { left: -102%; }
+    .quote-page .quote-craft-photo img { display: block; width: 100%; height: 100%; max-width: none; object-fit: cover; object-position: center center; }
     @media (max-width: 559px) { .quote-page .quote-craftsmanship { padding: .75rem 0; }.quote-page .quote-craftsmanship-inner { width: calc(100% - 24px); }.quote-page .quote-craftsmanship-heading { margin-bottom: 1.3rem; }.quote-page .quote-craft-grid { gap: 6px; }.quote-page .quote-craft-group + .quote-craft-group { margin-top: 1.7rem; }.quote-page .quote-craft-group-heading { gap: .55rem; margin-bottom: .55rem; } }
     .quote-page .quote-handover-check { padding: clamp(2.25rem, 4.5vw, 4rem) 0; background: #fffdf9; }
     .quote-page .quote-handover-inner { width: min(720px, 100%); }
@@ -3046,20 +3045,19 @@
       </section>
     <% } %>
 
-    <% const craftsmanshipGroups = [
-      { number: '1', title: 'Bề mặt & góc cạnh', imageKey: 'quote_craftsmanship_1', image: '/images/craftsmanship-surface-details-grid.png', items: [['Dán cạnh gọn đẹp', 'Mép dán sạch, liền mạch.'], ['Góc nối khít', 'Chăm chút từng điểm tiếp giáp.'], ['Bo cạnh mềm mại', 'Mượt tay ở những điểm chạm.'], ['Bề mặt chỉnh chu', 'Rà soát vân gỗ và lớp hoàn thiện.']] },
-      { number: '2', title: 'Phụ kiện & chuyển động', imageKey: 'quote_craftsmanship_2', image: '/images/craftsmanship-hardware-details-grid.png', items: [['Căn chỉnh bản lề', 'Cánh cân, đóng mở nhẹ nhàng.'], ['Ray trượt êm thuận', 'Kéo mở mượt, vận hành ổn định.'], ['Khe cánh đều đẹp', 'Đồng nhất tại mọi điểm.'], ['Tay nắm ngay ngắn', 'Đúng độ cao và vị trí lắp đặt.']] },
-      { number: '3', title: 'Lắp đặt & hoàn thiện', imageKey: 'quote_craftsmanship_3', image: '/images/craftsmanship-finishing-details-grid.png', items: [['Căn chỉnh thẳng bằng', 'Kiểm tra độ phẳng và chắc chắn.'], ['Tiếp giáp gọn gàng', 'Chỉnh chu nơi tủ gặp tường.'], ['Đi dây ngăn nắp', 'Gọn đường dây, thuận tiện sử dụng.'], ['Vệ sinh hoàn thiện', 'Sạch từng góc trước bàn giao.']] },
-      { number: '4', title: 'Kiểm tra & bàn giao', imageKey: 'quote_craftsmanship_4', image: '/images/craftsmanship-final-inspection-details-grid.png', items: [['Kiểm tra khe tủ', 'Độ hở đều, đóng mở chuẩn xác.'], ['Rà soát ngăn kéo', 'Chuyển động mượt mà, chắc chắn.'], ['Chỉnh điểm tiếp giáp', 'Tủ ôm khít, liền mạch với tường.'], ['Hoàn thiện phụ kiện', 'Tháo bảo vệ và lau sạch trước bàn giao.']] }
-    ];
-    const craftsmanshipCards = craftsmanshipGroups
-      .flatMap(group => group.items.map(item => ({
-        item,
-        image: (locals.quoteImages && quoteImages[group.imageKey]) || group.image
-      })))
-      .slice(0, 6);
+    <% const craftsmanshipCards = [
+      ['Dán cạnh gọn đẹp', 'quote_craftsmanship_1', '/images/craftsmanship-surface-details-grid.png'],
+      ['Góc nối khít', 'quote_craftsmanship_2', '/images/craftsmanship-hardware-details-grid.png'],
+      ['Bo cạnh mềm mại', 'quote_craftsmanship_3', '/images/craftsmanship-finishing-details-grid.png'],
+      ['Bề mặt chỉnh chu', 'quote_craftsmanship_4', '/images/craftsmanship-final-inspection-details-grid.png'],
+      ['Căn chỉnh bản lề', 'quote_craftsmanship_5', '/images/quote-factory-activities/activity-07.webp'],
+      ['Ray trượt êm thuận', 'quote_craftsmanship_6', '/images/quote-factory-activities/activity-08.webp']
+    ].map(([title, imageKey, fallback]) => ({
+      title,
+      image: (locals.quoteImages && quoteImages[imageKey]) || fallback
+    }));
     %>
-    <section class="quote-craftsmanship"><div class="container quote-craftsmanship-inner"><header class="quote-craftsmanship-heading"><h2>Tinh tế <em>Từng góc nhỏ</em></h2><p>Từ bề mặt, góc cạnh đến phụ kiện và lắp đặt.<br />Mỗi chi tiết đều được chăm chút để tổng thể đẹp và dùng bền lâu.</p></header><div class="quote-craft-grid quote-craft-grid--all"><% craftsmanshipCards.forEach(({ item, image }) => { %><article class="quote-craft-card"><div class="quote-craft-photo"><img src="<%= image %>" alt="<%= item[0] %>" loading="lazy" /></div></article><% }) %></div></div></section>
+    <section class="quote-craftsmanship"><div class="container quote-craftsmanship-inner"><header class="quote-craftsmanship-heading"><h2>Tinh tế <em>Từng góc nhỏ</em></h2><p>Từ bề mặt, góc cạnh đến phụ kiện và lắp đặt.<br />Mỗi chi tiết đều được chăm chút để tổng thể đẹp và dùng bền lâu.</p></header><div class="quote-craft-grid quote-craft-grid--all"><% craftsmanshipCards.forEach(({ title, image }) => { %><article class="quote-craft-card"><div class="quote-craft-photo"><img src="<%= image %>" alt="<%= title %>" loading="lazy" /></div></article><% }) %></div></div></section>
 
     <% const factoryActivities = [
       ['activity-01.webp', 'Lắp đặt chuẩn xác', 'quote_factory_activity_01'],

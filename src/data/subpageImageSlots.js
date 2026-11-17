@@ -49,6 +49,8 @@ const quoteImageDefinitions = [
   ['craftsmanship', 'quote_craftsmanship_2', 'Tinh tế từng góc nhỏ 2'],
   ['craftsmanship', 'quote_craftsmanship_3', 'Tinh tế từng góc nhỏ 3'],
   ['craftsmanship', 'quote_craftsmanship_4', 'Tinh tế từng góc nhỏ 4'],
+  ['craftsmanship', 'quote_craftsmanship_5', 'Tinh tế từng góc nhỏ 5'],
+  ['craftsmanship', 'quote_craftsmanship_6', 'Tinh tế từng góc nhỏ 6'],
   ...Array.from({ length: 15 }, (_, index) => [
     'factory_activities',
     `quote_factory_activity_${String(index + 1).padStart(2, '0')}`,
