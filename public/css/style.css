@@ -22458,3 +22458,27 @@ main.project-detail-page .project-detail-summary {
   min-width: 100% !important;
   max-width: none !important;
 }
+
+/* Use the page-level hook as well: some rendered layouts keep the banner
+   inside a narrower content flex item even though the section is direct. */
+body.page-news #main-content > .news-hero.subpage-banner-frame {
+  position: relative !important;
+  left: auto !important;
+  align-self: stretch !important;
+  width: 100vw !important;
+  min-width: 100vw !important;
+  max-width: none !important;
+  margin-left: calc(50% - 50vw) !important;
+  margin-right: calc(50% - 50vw) !important;
+}
+
+body.page-news #main-content > .news-hero.subpage-banner-frame > .news-hero-image,
+body.page-news #main-content > .news-hero.subpage-banner-frame > .news-hero-image img {
+  width: 100% !important;
+  min-width: 100% !important;
+  max-width: none !important;
+}
+
+body.page-news #main-content > .news-hero-full-bleed {
+  transform: none !important;
+}
