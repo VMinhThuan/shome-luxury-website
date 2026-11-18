@@ -23,10 +23,10 @@ const {
 } = require('../data/publicRoutes');
 const { authenticateAdmin, requireAdminPage } = require("../middleware/auth");
 
-const QUOTE_ROUTE_CATEGORY_CODES = Object.entries({
-  ...QUOTE_CATEGORY_PATHS,
-  ...LEGACY_QUOTE_CATEGORY_PATHS
-}).reduce((routes, [categoryCode, path]) => {
+const QUOTE_ROUTE_CATEGORY_CODES = [
+  ...Object.entries(QUOTE_CATEGORY_PATHS),
+  ...Object.entries(LEGACY_QUOTE_CATEGORY_PATHS)
+].reduce((routes, [categoryCode, path]) => {
   routes[path.replace(/^\/bao-gia\//, '')] = categoryCode;
   return routes;
 }, {});
@@ -75,7 +75,9 @@ router.get("/bao-gia/:parentSlug/:categorySlug", (req, res, next) => {
   // Keep the public URL hierarchical, but resolve the child menu to its
   // stable category code before rendering dynamic titles and projects.
   const routeKey = `${req.params.parentSlug}/${req.params.categorySlug}`;
-  req.query.category = QUOTE_ROUTE_CATEGORY_CODES[routeKey] || req.params.categorySlug;
+  // Express exposes req.query through a getter; mutating that object is not
+  // reliable across middleware. Pass the resolved value explicitly instead.
+  req.routeCategory = QUOTE_ROUTE_CATEGORY_CODES[routeKey] || req.params.categorySlug;
   return quotePageController.renderPage(req, res, next);
 });
 router.get("/tin-tuc", homeController.getNewsPage);

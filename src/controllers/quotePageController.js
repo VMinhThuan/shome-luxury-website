@@ -163,7 +163,7 @@ class QuotePageController {
     try {
       const quotePage = await this.getContent();
       if (!quotePage.isVisible) return res.status(404).render('404', { title: 'Không tìm thấy trang | SHOME LUXURY', navigation });
-      const rawCategory = (req.query.category || DEFAULT_QUOTE_CATEGORY).trim();
+      const rawCategory = (req.routeCategory || req.query.category || DEFAULT_QUOTE_CATEGORY).trim();
       const selectedCategory = rawCategory ? await categoryService.getCategoryByIdOrSlug(rawCategory) : null;
       if (!selectedCategory) {
         return res.redirect('/');

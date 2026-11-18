@@ -1,4 +1,15 @@
 document.addEventListener('DOMContentLoaded', () => {
+  // A submenu click opens a fresh quote URL. Do not let Chrome restore the
+  // previous page's vertical position; hash links such as #nhan-du-toan are
+  // intentionally allowed to keep their target position.
+  if (!window.location.hash) {
+    if ('scrollRestoration' in window.history) window.history.scrollRestoration = 'manual';
+    const resetQuotePageScroll = () => window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
+    resetQuotePageScroll();
+    window.requestAnimationFrame(resetQuotePageScroll);
+    window.setTimeout(resetQuotePageScroll, 80);
+  }
+
   const form = document.querySelector('[data-quote-form]');
   if (form) {
     const status = form.querySelector('.quote-form-status');
