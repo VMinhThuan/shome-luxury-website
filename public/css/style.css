@@ -1457,6 +1457,15 @@ ol {
   filter: none;
 }
 
+.hero-v2-bg picture,
+.news-hero-image picture,
+.booking-hero-media picture,
+.recruitment-banner-card picture {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
 .hero-v2-fade-overlay {
   position: absolute;
   inset: 0;
@@ -10369,6 +10378,10 @@ main .surface-finish-section .surface-finish-title {
   object-position: center;
 }
 
+.news-page .news-hero-image picture {
+  height: auto;
+}
+
 .news-content-section {
   padding: .75rem 0;
   background: #FFFFFF;
@@ -17641,6 +17654,12 @@ body.showcase-page-body .project-showcase-hero {
 body.showcase-page-body .project-showcase-hero.has-managed-image::before {
   background: var(--showcase-hero-image) center / cover no-repeat;
   opacity: 1;
+}
+
+@media (max-width: 767px) {
+  body.showcase-page-body .project-showcase-hero.has-managed-image::before {
+    background-image: var(--showcase-hero-image-mobile, var(--showcase-hero-image));
+  }
 }
 
 body.showcase-page-body .showcase-title,

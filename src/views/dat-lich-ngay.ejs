@@ -22,7 +22,7 @@
         <% bookingHeroSlides.forEach((image, index) => { %>
           <div class="hero-slide booking-hero-slide" data-slide-index="<%= index %>" aria-label="Banner nhận dự toán <%= index + 1 %> trên 1">
             <div class="booking-hero-media" aria-hidden="true">
-              <img src="<%= image %>" alt="" width="2048" height="2048" <%= index === 0 ? 'fetchpriority="high"' : 'loading="lazy"' %> decoding="async" draggable="false" />
+              <picture><source media="(max-width: 767px)" srcset="<%= (locals.bookingImages && bookingImages.booking_hero_banner_1__mobile) || image %>"><img src="<%= image %>" alt="" width="2048" height="2048" <%= index === 0 ? 'fetchpriority="high"' : 'loading="lazy"' %> decoding="async" draggable="false" /></picture>
             </div>
           </div>
         <% }) %>

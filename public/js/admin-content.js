@@ -28,6 +28,7 @@
     const galleryFiles = $('[data-gallery-files]');
     const galleryPreview = $('[data-gallery-preview]');
     const designProjectField = $('[data-design-project]');
+    const MAX_GALLERY_IMAGES = 5;
     const state = { rows: [], categories: [], page: 1, totalPages: 1, dirty: false, thumbnailMeta: null, galleryMeta: [], category: root.dataset.category || '', filterCategory: '', requestedEditHandled: false };
     let searchTimer = null;
 
@@ -331,6 +332,10 @@
     const buttons = $$('[data-save-draft], [data-publish-item]');
     buttons.forEach(button => { button.disabled = true; });
     try {
+      // A file may be selected and saved without pressing the separate upload
+      // buttons. Upload pending files first so the project payload never saves
+      // an empty thumbnail/gallery by accident.
+      await uploadPendingFiles();
       const result = await request(id ? `${endpoint()}/${encodeURIComponent(id)}` : endpoint(), { method, body: JSON.stringify(buildPayload(publish)) });
       setFeedback(result.message || 'Đã lưu nội dung.');
       state.dirty = false;
@@ -340,28 +345,94 @@
     finally { buttons.forEach(button => { button.disabled = false; }); }
   }
 
-  async function uploadImage() {
-    const file = $('[data-image-file]').files[0];
-    if (!file) { formError.textContent = 'Vui lòng chọn ảnh trước khi tải lên.'; return; }
+  async function uploadRawImage(file, folder) {
     const body = new FormData();
     body.append('image', file);
-    body.append('folder', config.kind === 'project' ? `shome-luxury/projects/${moduleKey}` : `shome-luxury/content/${moduleKey}`);
+    body.append('folder', folder);
+    const response = await fetch('/api/upload', { method: 'POST', body, credentials: 'same-origin' });
+    const result = await response.json().catch(() => ({}));
+    if (!response.ok) throw new Error(result.message || 'Tải ảnh thất bại.');
+    if (!result.data?.url) throw new Error('Máy chủ không trả về đường dẫn ảnh sau khi tải lên.');
+    return result.data;
+  }
+
+  function applyThumbnailUpload(uploaded) {
+    setValue('thumbnail', uploaded.url);
+    state.thumbnailMeta = {
+      thumbnailPublicId: uploaded.public_id || null,
+      thumbnailFormat: uploaded.format || null,
+      thumbnailWidth: uploaded.width || null,
+      thumbnailHeight: uploaded.height || null,
+      thumbnailBytes: uploaded.bytes || null
+    };
+    setImagePreview(uploaded.url);
+    state.dirty = true;
+  }
+
+  function appendGalleryUpload(uploaded) {
+    const currentUrls = String(field('galleryUrls')?.value || '')
+      .split(/\r?\n/)
+      .map(value => value.trim())
+      .filter(Boolean);
+    if (currentUrls.includes(uploaded.url)) return;
+    currentUrls.push(uploaded.url);
+    setValue('galleryUrls', currentUrls.join('\n'));
+    state.galleryMeta.push({
+      url: uploaded.url,
+      publicId: uploaded.public_id || null,
+      format: uploaded.format || null,
+      width: uploaded.width || null,
+      height: uploaded.height || null,
+      bytes: uploaded.bytes || null
+    });
+    state.dirty = true;
+  }
+
+  async function uploadPendingFiles() {
+    if (config.kind !== 'project') return;
+
+    const imageFileInput = $('[data-image-file]');
+    const pendingThumbnail = imageFileInput?.files?.[0];
+    // uploadImage() already populated thumbnailMeta, so do not upload the same
+    // file twice when the user used the dedicated upload button first.
+    if (pendingThumbnail && !state.thumbnailMeta) {
+      formError.textContent = 'Đang tải ảnh đại diện lên...';
+      const uploaded = await uploadRawImage(pendingThumbnail, `shome-luxury/projects/${moduleKey}`);
+      applyThumbnailUpload(uploaded);
+      imageFileInput.value = '';
+    }
+
+    const pendingGallery = [...(galleryFiles?.files || [])];
+    if (!pendingGallery.length) return;
+
+    const currentUrls = String(field('galleryUrls')?.value || '')
+      .split(/\r?\n/)
+      .map(value => value.trim())
+      .filter(Boolean);
+    if (currentUrls.length + pendingGallery.length > MAX_GALLERY_IMAGES) {
+      throw new Error(`Gallery tối đa ${MAX_GALLERY_IMAGES} ảnh.`);
+    }
+
+    for (let index = 0; index < pendingGallery.length; index += 1) {
+      formError.textContent = `Đang tải gallery ${index + 1}/${pendingGallery.length}...`;
+      const uploaded = await uploadRawImage(pendingGallery[index], `shome-luxury/projects/${moduleKey}`);
+      appendGalleryUpload(uploaded);
+    }
+    renderGalleryPreview(String(field('galleryUrls')?.value || '').split(/\r?\n/).filter(Boolean).map(url => ({ url })));
+    galleryFiles.value = '';
+  }
+
+  async function uploadImage() {
+    const imageFileInput = $('[data-image-file]');
+    const file = imageFileInput?.files?.[0];
+    if (!file) { formError.textContent = 'Vui lòng chọn ảnh trước khi tải lên.'; return; }
     const button = $('[data-upload-image]');
     button.disabled = true;
     try {
-      const response = await fetch('/api/upload', { method: 'POST', body, credentials: 'same-origin' });
-      const result = await response.json();
-      if (!response.ok) throw new Error(result.message || 'Tải ảnh thất bại.');
-      setValue('thumbnail', result.data.url);
-      state.thumbnailMeta = {
-        thumbnailPublicId: result.data.public_id || null,
-        thumbnailFormat: result.data.format || null,
-        thumbnailWidth: result.data.width || null,
-        thumbnailHeight: result.data.height || null,
-        thumbnailBytes: result.data.bytes || null
-      };
-      setImagePreview(result.data.url);
-      state.dirty = true;
+      const folder = config.kind === 'project' ? `shome-luxury/projects/${moduleKey}` : `shome-luxury/content/${moduleKey}`;
+      const uploaded = await uploadRawImage(file, folder);
+      applyThumbnailUpload(uploaded);
+      imageFileInput.value = '';
       formError.textContent = '';
     } catch (error) { formError.textContent = error.message; }
     finally { button.disabled = false; }
@@ -374,19 +445,10 @@
     button.disabled = true;
     try {
       for (const file of files) {
-        const body = new FormData();
-        body.append('image', file);
-        body.append('folder', `shome-luxury/projects/${moduleKey}`);
-        const response = await fetch('/api/upload', { method: 'POST', body, credentials: 'same-origin' });
-        const result = await response.json();
-        if (!response.ok) throw new Error(result.message || 'Tải ảnh gallery thất bại.');
-        const currentUrls = String(field('galleryUrls')?.value || '').split(/\r?\n/).map(value => value.trim()).filter(Boolean);
-        if (!currentUrls.includes(result.data.url)) currentUrls.push(result.data.url);
-        setValue('galleryUrls', currentUrls.join('\n'));
-        state.galleryMeta.push({ url: result.data.url, publicId: result.data.public_id || null, format: result.data.format || null, width: result.data.width || null, height: result.data.height || null, bytes: result.data.bytes || null });
+        const uploaded = await uploadRawImage(file, `shome-luxury/projects/${moduleKey}`);
+        appendGalleryUpload(uploaded);
       }
       renderGalleryPreview(String(field('galleryUrls')?.value || '').split(/\r?\n/).filter(Boolean).map(url => ({ url })));
-      state.dirty = true;
       formError.textContent = '';
     } catch (error) { formError.textContent = error.message; }
     finally { button.disabled = false; galleryFiles.value = ''; }

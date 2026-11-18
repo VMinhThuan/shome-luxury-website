@@ -58,9 +58,9 @@ const rawSlots = [
   ['factory', 'quality', 'factory_quality_image', 'Chất lượng sản phẩm — Ảnh đội ngũ tại xưởng', '/images/sanxuat/1790821105513_6043215661779559246_6043215661779559246_25e3de7c690af7e4cd9965163a643909.jpg'],
 
   // 3. BÁO GIÁ (quote) - all replaceable visual slots
-  ['quote', 'hero', 'quote_hero_banner_1', 'Hero — Banner 1 (Chính)', '/images/banner-bao-gia.png'],
-  ['quote', 'hero', 'quote_hero_banner_2', 'Hero — Banner 2 (Phòng ngủ)', '/images/booking-hero-banner-bedroom.png'],
-  ['quote', 'hero', 'quote_hero_banner_3', 'Hero — Banner 3 (Phòng ăn)', '/images/booking-hero-banner-dining.png'],
+  ['quote', 'hero', 'quote_hero_banner_1', 'Hero — Banner 1 (Chính)', '/images/banner-bao-gia.png', '/images/quote-hero-mobile-living.png'],
+  ['quote', 'hero', 'quote_hero_banner_2', 'Hero — Banner 2 (Phòng ngủ)', '/images/booking-hero-banner-bedroom.png', '/images/quote-hero-mobile-bedroom.png'],
+  ['quote', 'hero', 'quote_hero_banner_3', 'Hero — Banner 3 (Phòng ăn)', '/images/booking-hero-banner-dining.png', '/images/quote-hero-mobile-dining.png'],
   ['quote', 'hero', 'quote_hero_mobile_1', 'Hero mobile — Banner 1', '/images/quote-hero-mobile-living.png'],
   ['quote', 'hero', 'quote_hero_mobile_2', 'Hero mobile — Banner 2', '/images/quote-hero-mobile-bedroom.png'],
   ['quote', 'hero', 'quote_hero_mobile_3', 'Hero mobile — Banner 3', '/images/quote-hero-mobile-dining.png'],
@@ -124,13 +124,14 @@ const rawSlots = [
   ['project-detail', 'summary', 'project_detail_summary_background', 'Chi tiết công trình — Ảnh nền tiêu đề', '/images/background/1793129513212_6043215661779559246_6043215661779559246_f2ba52d47d902705547739b26ef66555.jpg']
 ];
 
-const allSlots = rawSlots.map(([page_key, section_key, image_key, label, image_url]) => ({
+const allSlots = rawSlots.map(([page_key, section_key, image_key, label, image_url, mobile_image_url = null]) => ({
   page_key,
   page_label: PAGE_LABELS[page_key] || page_key,
   section_key,
   image_key,
   label,
-  image_url
+  image_url,
+  mobile_image_url
 }));
 
 module.exports = allSlots;

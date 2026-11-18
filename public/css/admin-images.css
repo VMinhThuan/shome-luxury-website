@@ -600,6 +600,42 @@
   margin-top: 12px;
 }
 
+.image-variant-picker {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  width: 100%;
+  margin-bottom: 2px;
+  padding: 4px;
+  border: 1px solid #e4d8c6;
+  border-radius: 7px;
+  background: #fbf8f2;
+}
+
+.image-variant-label {
+  margin: 0 3px 0 5px;
+  color: #7c6d5c;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.image-variant-btn {
+  border: 1px solid transparent;
+  border-radius: 5px;
+  padding: 6px 10px;
+  color: #786954;
+  background: transparent;
+  font-size: 11px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.image-variant-btn.is-active {
+  border-color: #d2a044;
+  color: #5b421e;
+  background: #f5e5c3;
+}
+
 .image-version {
   padding: 10px;
   border: 1px solid #eee6db;

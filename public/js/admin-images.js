@@ -313,6 +313,14 @@
     // group; the other quote image cards remain clean and untitled.
     const isMobileOnlySlot = slot.image_key === 'quote_pricing_mobile_image_1'
       || slot.parent_image_key === 'quote_pricing_mobile_image_1';
+    const isResponsiveBanner = Boolean(slot.is_responsive_banner || slot.section_key === 'hero');
+    let activeVariant = 'desktop';
+    const variantUrl = variant => variant === 'mobile'
+      ? (slot.active_mobile_image_url || slot.replacement_mobile_image_url || slot.default_mobile_image_url || slot.active_image_url || slot.default_image_url)
+      : (slot.active_image_url || slot.replacement_image_url || slot.default_image_url);
+    const variantReplacementUrl = variant => variant === 'mobile'
+      ? slot.replacement_mobile_image_url
+      : slot.replacement_image_url;
 
     const heading = create('h2', 'slot-number-title');
     const number = create('span', 'slot-title-number', String(displayOrder));
@@ -333,7 +341,7 @@
     const currentImageTitle = create('p', 'image-version-title');
     replacementWrap.append(currentImageTitle);
     const current = create('img', 'current-image');
-    current.src = slot.active_image_url || slot.replacement_image_url || slot.default_image_url;
+    current.src = variantUrl(activeVariant);
     current.alt = '';
     current.loading = 'lazy';
     const replacementNote = create('p', 'image-version-note');
@@ -366,7 +374,7 @@
     const input = create('input');
     input.type = 'file';
     input.accept = 'image/jpeg,image/png,image/webp';
-    const fileLabelText = create('span', '', slot.replacement_image_url ? '🔄 Đổi ảnh khác' : '📷 Chọn ảnh tải lên');
+    const fileLabelText = create('span', '', variantReplacementUrl(activeVariant) ? '🔄 Đổi ảnh khác' : '📷 Chọn ảnh tải lên');
     fileLabel.append(input, fileLabelText);
 
     // Cancel selection button (when a new file is chosen but not saved yet)
@@ -377,15 +385,29 @@
     // Delete replacement button (remove custom image & revert to website default)
     const deleteReplacementBtn = create('button', 'btn-delete-replacement', '🗑️ Xóa ảnh thay thế');
     deleteReplacementBtn.type = 'button';
-    deleteReplacementBtn.hidden = !Boolean(slot.replacement_image_url);
+    deleteReplacementBtn.hidden = !Boolean(variantReplacementUrl(activeVariant));
 
     // The download endpoint resolves the replacement first, then falls back to
     // the source image, so the saved file always matches what visitors see.
     const downloadCurrentLink = create('a', 'btn-download-current', '⬇ Tải ảnh hiện tại');
-    downloadCurrentLink.href = `/api/admin/home-images/${encodeURIComponent(slot.image_key)}/download`;
+    downloadCurrentLink.href = `/api/admin/home-images/${encodeURIComponent(slot.image_key)}/download?variant=${activeVariant}`;
     downloadCurrentLink.setAttribute('download', '');
 
-    actionBar.append(fileLabel, cancelSelectionBtn, deleteReplacementBtn, downloadCurrentLink);
+    if (isResponsiveBanner) {
+      const variantPicker = create('div', 'image-variant-picker');
+      const variantLabel = create('span', 'image-variant-label', 'Phiên bản:');
+      const desktopVariantBtn = create('button', 'image-variant-btn is-active', 'Desktop / Web');
+      const mobileVariantBtn = create('button', 'image-variant-btn', 'Mobile');
+      desktopVariantBtn.type = mobileVariantBtn.type = 'button';
+      variantPicker.append(variantLabel, desktopVariantBtn, mobileVariantBtn);
+      actionBar.append(variantPicker);
+      desktopVariantBtn.onclick = () => setVariant('desktop');
+      mobileVariantBtn.onclick = () => setVariant('mobile');
+      variantPicker.desktopVariantBtn = desktopVariantBtn;
+      variantPicker.mobileVariantBtn = mobileVariantBtn;
+      article.dataset.responsiveBanner = 'true';
+      article._variantPicker = variantPicker;
+    }
 
     // Selected file notice
     const fileInfoNotice = create('div', 'selected-file-info');
@@ -463,7 +485,7 @@
       selectedPreviewWrap.hidden = true;
       selectedPreview.removeAttribute('src');
       cancelSelectionBtn.hidden = true;
-      fileLabelText.textContent = slot.replacement_image_url ? '🔄 Đổi ảnh khác' : '📷 Chọn ảnh tải lên';
+      fileLabelText.textContent = variantReplacementUrl(activeVariant) ? '🔄 Đổi ảnh khác' : '📷 Chọn ảnh tải lên';
       displaySpecHint.textContent = preservesOriginalFile
         ? 'Ảnh giữ nguyên toàn bộ nội dung, không cắt khung.'
         : 'Ảnh lớn sẽ tự thu nhỏ; ảnh nhỏ không được phóng to khi lưu.';
@@ -482,19 +504,35 @@
       actionBar.hidden = false;
       fileInfoNotice.hidden = !file;
       save.hidden = !file;
-      const isInherited = !slot.replacement_image_url && slot.inherited_image_key;
-      currentImageTitle.textContent = slot.replacement_image_url
+      const replacementUrl = variantReplacementUrl(activeVariant);
+      const isInherited = !replacementUrl && slot.inherited_image_key;
+      currentImageTitle.textContent = replacementUrl
         ? 'Ảnh riêng đang hiển thị trên website'
         : isInherited
           ? 'Ảnh đang kế thừa và hiển thị trên website'
           : 'Ảnh mặc định đang hiển thị trên website';
-      replacementNote.textContent = slot.replacement_image_url
-        ? 'Đang hiển thị ảnh riêng của vị trí này'
+      replacementNote.textContent = replacementUrl
+        ? `Đang hiển thị ảnh riêng bản ${activeVariant === 'mobile' ? 'mobile' : 'desktop'} của vị trí này`
         : isInherited
           ? `Đang dùng ảnh của vị trí ${slot.inherited_image_label || 'Báo giá chung'}`
           : 'Mỗi trang dùng ảnh riêng của vị trí này';
-      current.src = slot.active_image_url || slot.replacement_image_url || slot.default_image_url;
-      deleteReplacementBtn.hidden = !Boolean(slot.replacement_image_url);
+      current.src = variantUrl(activeVariant);
+      deleteReplacementBtn.hidden = !Boolean(replacementUrl);
+      downloadCurrentLink.href = `/api/admin/home-images/${encodeURIComponent(slot.image_key)}/download?variant=${activeVariant}`;
+      fileLabelText.textContent = replacementUrl ? '🔄 Đổi ảnh khác' : '📷 Chọn ảnh tải lên';
+      targetImage.src = activeVariant === 'mobile'
+        ? (slot.default_mobile_image_url || slot.default_image_url)
+        : slot.default_image_url;
+    };
+
+    const setVariant = variant => {
+      if (!isResponsiveBanner || activeVariant === variant) return;
+      clearSelectedFile();
+      activeVariant = variant;
+      const picker = article._variantPicker;
+      picker?.desktopVariantBtn.classList.toggle('is-active', variant === 'desktop');
+      picker?.mobileVariantBtn.classList.toggle('is-active', variant === 'mobile');
+      updateSlotUi();
     };
 
     updateSlotUi();
@@ -531,12 +569,13 @@
       deleteReplacementBtn.disabled = true;
       deleteReplacementBtn.textContent = 'Đang xóa...';
       try {
-        const result = await request(`/api/admin/home-images/${encodeURIComponent(slot.image_key)}`, { method: 'DELETE' });
+        const result = await request(`/api/admin/home-images/${encodeURIComponent(slot.image_key)}?variant=${activeVariant}`, { method: 'DELETE' });
         Object.assign(slot, result.data || {}, {
-          replacement_image_url: null,
-          custom_image_reference: null
+          ...(activeVariant === 'mobile'
+            ? { replacement_mobile_image_url: null, custom_mobile_image_reference: null }
+            : { replacement_image_url: null, custom_image_reference: null })
         });
-        current.src = slot.active_image_url || slot.default_image_url;
+        current.src = variantUrl(activeVariant);
         updateSlotUi();
         deleteReplacementBtn.hidden = true;
         fileLabelText.textContent = '📷 Chọn ảnh tải lên';
@@ -557,6 +596,7 @@
       setStatus(`Đang tải ảnh và lưu "${slot.label}"...`);
       const form = new FormData();
       form.append('image', file);
+      if (isResponsiveBanner) form.append('variant', activeVariant);
 
       try {
         const result = await request(`/api/admin/home-images/${encodeURIComponent(slot.image_key)}`, {
@@ -564,7 +604,7 @@
           body: form
         });
         Object.assign(slot, result.data || {});
-        current.src = slot.active_image_url || result.data.image_url;
+        current.src = variantUrl(activeVariant);
         currentImageTitle.textContent = 'Ảnh riêng đang hiển thị trên website';
         replacementNote.textContent = 'Đang hiển thị ảnh riêng của vị trí này';
         deleteReplacementBtn.hidden = false;

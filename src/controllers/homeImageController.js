@@ -40,11 +40,19 @@ const HIDDEN_ADMIN_IMAGE_KEYS = new Set([
 
 const preservesOriginalFile = slot => SOURCE_PRESERVING_IMAGE_KEYS.has(slot.image_key);
 
-async function getSlotResizeTarget(slot) {
-  if (slotResizeTargetCache.has(slot.image_key)) return slotResizeTargetCache.get(slot.image_key);
-  if (!slot.image_url?.startsWith('/images/')) return null;
+async function getSlotResizeTarget(slot, variant = 'desktop') {
+  const cacheKey = `${slot.image_key}:${variant}`;
+  if (slotResizeTargetCache.has(cacheKey)) return slotResizeTargetCache.get(cacheKey);
+  const sourceUrl = variant === 'mobile'
+    ? (slot.mobile_image_url || slot.image_url)
+    : slot.image_url;
+  // Most existing banners do not have a mobile source asset yet. In that
+  // case keep the uploaded mobile artwork's own dimensions instead of forcing
+  // it into the desktop frame; the browser will cover the responsive banner.
+  if (variant === 'mobile' && !slot.mobile_image_url) return null;
+  if (!sourceUrl?.startsWith('/images/')) return null;
 
-  const imagePath = path.resolve(publicDirectory, `.${slot.image_url}`);
+  const imagePath = path.resolve(publicDirectory, `.${sourceUrl}`);
   if (!imagePath.startsWith(`${publicDirectory}${path.sep}`)) return null;
 
   try {
@@ -52,11 +60,11 @@ async function getSlotResizeTarget(slot) {
     const target = Number.isInteger(metadata.width) && Number.isInteger(metadata.height)
       ? { width: metadata.width, height: metadata.height }
       : null;
-    slotResizeTargetCache.set(slot.image_key, target);
+    slotResizeTargetCache.set(cacheKey, target);
     return target;
   } catch (error) {
-    console.warn(`[Home image resize target] Cannot read ${slot.image_url}:`, error.message);
-    slotResizeTargetCache.set(slot.image_key, null);
+    console.warn(`[Home image resize target] Cannot read ${sourceUrl}:`, error.message);
+    slotResizeTargetCache.set(cacheKey, null);
     return null;
   }
 }
@@ -116,10 +124,31 @@ const customReferenceFor = (record, slot) => {
   return null;
 };
 
+const customMobileReferenceFor = (record, slot) => {
+  if (record?.custom_mobile_image_reference?.image_url) return {
+    image_url: record.custom_mobile_image_reference.image_url,
+    cloudinary_public_id: record.custom_mobile_image_reference.cloudinary_public_id || null
+  };
+  if (record?.mobile_image_url && record.mobile_image_url !== (slot.mobile_image_url || slot.image_url)) {
+    return {
+      image_url: record.mobile_image_url,
+      cloudinary_public_id: record.mobile_cloudinary_public_id || null
+    };
+  }
+  return null;
+};
+
 function resolveState(slot, recordsByKey) {
   const parentSlot = slot.parent_image_key ? slotByKey.get(slot.parent_image_key) : null;
   const record = recordsByKey.get(slot.image_key);
   const custom = customReferenceFor(record, slot);
+  const ownMobileCustom = customMobileReferenceFor(record, slot);
+  const legacyMobileMatch = /^quote_hero_banner_(\d+)$/.exec(slot.image_key);
+  const legacyMobileRecord = legacyMobileMatch && recordsByKey.get(`quote_hero_mobile_${legacyMobileMatch[1]}`);
+  const legacyMobileCustom = legacyMobileRecord
+    ? customReferenceFor(legacyMobileRecord, { image_url: slot.mobile_image_url || slot.image_url })
+    : null;
+  const mobileCustom = ownMobileCustom || legacyMobileCustom;
   const parentState = parentSlot && parentSlot.image_key !== slot.image_key
     ? resolveState(parentSlot, recordsByKey)
     : null;
@@ -130,10 +159,14 @@ function resolveState(slot, recordsByKey) {
     sharedReference: null,
     activeImageUrl: custom?.image_url || parentState?.activeImageUrl || slot.image_url,
     activeCloudinaryPublicId: custom?.cloudinary_public_id || parentState?.activeCloudinaryPublicId || null,
+    mobileCustom,
+    activeMobileImageUrl: mobileCustom?.image_url || parentState?.activeMobileImageUrl || slot.mobile_image_url || slot.image_url,
+    activeMobileCloudinaryPublicId: mobileCustom?.cloudinary_public_id || parentState?.activeMobileCloudinaryPublicId || null,
     inheritedFrom: custom || !parentState ? null : {
       imageKey: parentSlot.image_key,
       label: parentSlot.label,
-      imageUrl: parentState.activeImageUrl
+      imageUrl: parentState.activeImageUrl,
+      mobileImageUrl: parentState.activeMobileImageUrl
     },
     sharedStatus: null,
     sharedSource: null
@@ -159,14 +192,20 @@ const serializeSlot = (slot, record, recordsByKey) => {
     displayOrder: displayOrderForSlot(slot),
     label: slot.label,
     default_image_url: slot.image_url,
+    default_mobile_image_url: slot.mobile_image_url || slot.image_url,
     // Backward-compatible field: it always means the saved custom override.
     replacement_image_url: state.custom?.image_url || null,
     replacement_cloudinary_public_id: state.custom?.cloudinary_public_id || null,
     active_image_url: state.activeImageUrl,
+    replacement_mobile_image_url: state.mobileCustom?.image_url || null,
+    replacement_mobile_cloudinary_public_id: state.mobileCustom?.cloudinary_public_id || null,
+    active_mobile_image_url: state.activeMobileImageUrl,
+    is_responsive_banner: slot.section_key === 'hero',
     mode: state.mode,
     inherited_image_key: state.inheritedFrom?.imageKey || null,
     inherited_image_label: state.inheritedFrom?.label || null,
     inherited_image_url: state.inheritedFrom?.imageUrl || null,
+    inherited_mobile_image_url: state.inheritedFrom?.mobileImageUrl || null,
     shared_image_reference: state.sharedReference,
     sharedImageReference: state.sharedReference,
     custom_image_reference: state.custom,
@@ -229,7 +268,10 @@ exports.getPublicImages = async (req, res, next) => {
     const pageFilter = req.query.page;
     const targetSlots = requestedSlots(pageFilter);
     const byKey = await allRecords();
-    const images = Object.fromEntries(targetSlots.map(slot => [slot.image_key, resolveState(slot, byKey).activeImageUrl]));
+    const images = Object.fromEntries(targetSlots.flatMap(slot => {
+      const state = resolveState(slot, byKey);
+      return [[slot.image_key, state.activeImageUrl], [`${slot.image_key}__mobile`, state.activeMobileImageUrl]];
+    }));
     return res.json({ success: true, data: images });
   } catch (error) { next(error); }
 };
@@ -263,10 +305,11 @@ exports.downloadImage = async (req, res, next) => {
     if (!slot) return res.status(404).json({ success: false, message: 'Vị trí ảnh không hợp lệ.' });
 
     const recordsByKey = await allRecords();
+    const variant = req.query.variant === 'mobile' ? 'mobile' : 'desktop';
     const state = resolveState(slot, recordsByKey);
-    const imageUrl = state.activeImageUrl;
+    const imageUrl = variant === 'mobile' ? state.activeMobileImageUrl : state.activeImageUrl;
     const publicDirectory = path.resolve(__dirname, '../../public');
-    const filenameStem = slot.image_key.replace(/[^a-z0-9_-]/gi, '-');
+    const filenameStem = `${slot.image_key}-${variant}`.replace(/[^a-z0-9_-]/gi, '-');
 
     if (imageUrl.startsWith('/images/')) {
       const imagePath = path.resolve(publicDirectory, `.${imageUrl}`);
@@ -314,9 +357,10 @@ exports.updateImage = async (req, res, next) => {
     const slot = slotByKey.get(req.params.imageKey);
     if (!slot) return res.status(404).json({ success: false, message: 'Vị trí ảnh không hợp lệ.' });
     if (!req.file) return res.status(400).json({ success: false, message: 'Vui lòng chọn ảnh JPG, PNG hoặc WebP (tối đa 10 MB).' });
+    const variant = req.body?.variant === 'mobile' && slot.section_key === 'hero' ? 'mobile' : 'desktop';
 
     const folder = `shome-luxury/${slot.page_key || 'general'}`;
-    const resizeTarget = await getSlotResizeTarget(slot);
+    const resizeTarget = await getSlotResizeTarget(slot, variant);
     const processed = await processImageBuffer(req.file.buffer, resizeTarget
       ? {
           // Page image uploads fit inside the slot's source dimensions. Sharp's
@@ -341,21 +385,38 @@ exports.updateImage = async (req, res, next) => {
       throw new Error('Cloudinary không trả về ảnh WebP sau khi tối ưu. Ảnh cũ vẫn được giữ nguyên.');
     }
     const previous = await HomeImage.findOne({ image_key: slot.image_key }).lean();
-    const previousCustom = customReferenceFor(previous, slot);
+    const previousCustom = variant === 'mobile'
+      ? customMobileReferenceFor(previous, slot)
+      : customReferenceFor(previous, slot);
+    const customReference = {
+      image_url: uploaded.secure_url,
+      cloudinary_public_id: uploaded.public_id
+    };
+    const updateFields = variant === 'mobile'
+      ? {
+          mobile_image_url: uploaded.secure_url,
+          mobile_cloudinary_public_id: uploaded.public_id,
+          custom_mobile_image_reference: customReference
+        }
+      : {
+          image_url: uploaded.secure_url,
+          cloudinary_public_id: uploaded.public_id,
+          custom_image_reference: customReference
+        };
     const saved = await HomeImage.findOneAndUpdate(
       { image_key: slot.image_key },
       {
         $set: {
           page_key: slot.page_key,
           section_key: slot.section_key,
-          image_url: uploaded.secure_url,
-          cloudinary_public_id: uploaded.public_id,
           mode: 'custom',
           shared_image_reference: null,
-          custom_image_reference: {
-            image_url: uploaded.secure_url,
-            cloudinary_public_id: uploaded.public_id
-          }
+          ...updateFields
+        },
+        $setOnInsert: {
+          image_url: slot.image_url,
+          cloudinary_public_id: null,
+          custom_image_reference: null
         }
       },
       { new: true, upsert: true, runValidators: true }
@@ -367,7 +428,9 @@ exports.updateImage = async (req, res, next) => {
       const stillUsed = await HomeImage.exists({
         $or: [
           { cloudinary_public_id: previousCustom.cloudinary_public_id },
-          { 'custom_image_reference.cloudinary_public_id': previousCustom.cloudinary_public_id }
+          { 'custom_image_reference.cloudinary_public_id': previousCustom.cloudinary_public_id },
+          { mobile_cloudinary_public_id: previousCustom.cloudinary_public_id },
+          { 'custom_mobile_image_reference.cloudinary_public_id': previousCustom.cloudinary_public_id }
         ],
         image_key: { $ne: slot.image_key }
       });
@@ -382,7 +445,7 @@ exports.updateImage = async (req, res, next) => {
           const QuotePage = require('../models/QuotePage');
           const page = await QuotePage.findOne({ key: 'main' });
           if (page && page.sections?.pricing?.items?.[itemIndex]) {
-            page.sections.pricing.items[itemIndex].image = uploaded.secure_url;
+            if (variant === 'desktop') page.sections.pricing.items[itemIndex].image = uploaded.secure_url;
             page.markModified('sections');
             await page.save();
           }
@@ -394,7 +457,7 @@ exports.updateImage = async (req, res, next) => {
 
     return res.json({
       success: true,
-      message: 'Ảnh đã được cập nhật.',
+      message: variant === 'mobile' ? 'Ảnh mobile đã được cập nhật.' : 'Ảnh desktop đã được cập nhật.',
       data: {
         ...saved,
         ...serializeSlot(slot, saved, new Map([[slot.image_key, saved]])),
@@ -415,21 +478,64 @@ exports.deleteImage = async (req, res, next) => {
   try {
     const slot = slotByKey.get(req.params.imageKey);
     if (!slot) return res.status(404).json({ success: false, message: 'Vị trí ảnh không hợp lệ.' });
+    const variant = req.query.variant === 'mobile' && slot.section_key === 'hero' ? 'mobile' : 'desktop';
 
     const existing = await HomeImage.findOne({ image_key: slot.image_key }).lean();
-    if (!existing) {
+    const legacyMobileMatch = variant === 'mobile' && /^quote_hero_banner_(\d+)$/.exec(slot.image_key);
+    const legacyMobileKey = legacyMobileMatch ? `quote_hero_mobile_${legacyMobileMatch[1]}` : null;
+    const legacyMobileSlot = legacyMobileKey ? slotByKey.get(legacyMobileKey) : null;
+    const legacyMobileExisting = legacyMobileKey
+      ? await HomeImage.findOne({ image_key: legacyMobileKey }).lean()
+      : null;
+    if (!existing && !legacyMobileExisting) {
       return res.json({ success: true, message: 'Ảnh đã ở trạng thái mặc định.' });
     }
 
-    const custom = customReferenceFor(existing, slot);
+    const custom = variant === 'mobile'
+      ? customMobileReferenceFor(existing, slot)
+        || customReferenceFor(legacyMobileExisting, legacyMobileSlot || { image_url: slot.mobile_image_url || slot.image_url })
+      : customReferenceFor(existing, slot);
+    const hasOtherVariant = variant === 'mobile'
+      ? Boolean(customReferenceFor(existing, slot))
+      : Boolean(customMobileReferenceFor(existing, slot));
 
-    await HomeImage.deleteOne({ image_key: slot.image_key });
+    if (variant === 'mobile') {
+      if (legacyMobileExisting) {
+        await HomeImage.deleteOne({ image_key: legacyMobileKey });
+      }
+      if (!existing) {
+        // The legacy quote mobile record was the only source for this variant.
+      } else if (hasOtherVariant) {
+        await HomeImage.updateOne({ image_key: slot.image_key }, {
+          $unset: {
+            mobile_image_url: 1,
+            mobile_cloudinary_public_id: 1,
+            custom_mobile_image_reference: 1
+          }
+        });
+      } else {
+        await HomeImage.deleteOne({ image_key: slot.image_key });
+      }
+    } else if (hasOtherVariant) {
+      await HomeImage.updateOne({ image_key: slot.image_key }, {
+        $set: {
+          image_url: slot.image_url,
+          cloudinary_public_id: null,
+          custom_image_reference: null,
+          mode: 'custom'
+        }
+      });
+    } else {
+      await HomeImage.deleteOne({ image_key: slot.image_key });
+    }
 
     if (custom?.cloudinary_public_id) {
       const stillUsed = await HomeImage.exists({
         $or: [
           { cloudinary_public_id: custom.cloudinary_public_id },
-          { 'custom_image_reference.cloudinary_public_id': custom.cloudinary_public_id }
+          { 'custom_image_reference.cloudinary_public_id': custom.cloudinary_public_id },
+          { mobile_cloudinary_public_id: custom.cloudinary_public_id },
+          { 'custom_mobile_image_reference.cloudinary_public_id': custom.cloudinary_public_id }
         ]
       });
       if (!stillUsed) {
@@ -437,7 +543,7 @@ exports.deleteImage = async (req, res, next) => {
       }
     }
 
-    if (slot.page_key === 'quote' && slot.section_key === 'pricing') {
+    if (variant === 'desktop' && slot.page_key === 'quote' && slot.section_key === 'pricing') {
       const itemIndex = parseInt(slot.image_key.replace('quote_pricing_image_', ''), 10) - 1;
       if (!isNaN(itemIndex) && itemIndex >= 0) {
         try {
@@ -457,7 +563,7 @@ exports.deleteImage = async (req, res, next) => {
     const recordsByKey = await allRecords();
     return res.json({
       success: true,
-      message: 'Đã khôi phục ảnh mặc định.',
+      message: variant === 'mobile' ? 'Đã khôi phục ảnh mobile mặc định.' : 'Đã khôi phục ảnh desktop mặc định.',
       data: serializeSlot(slot, null, recordsByKey)
     });
   } catch (error) {

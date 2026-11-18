@@ -13,6 +13,17 @@ function customReference(record, slot) {
   return null;
 }
 
+function customMobileReference(record, slot) {
+  if (record?.custom_mobile_image_reference?.image_url) return record.custom_mobile_image_reference;
+  if (record?.mobile_image_url && record.mobile_image_url !== (slot.mobile_image_url || slot.image_url)) {
+    return {
+      image_url: record.mobile_image_url,
+      cloudinary_public_id: record.mobile_cloudinary_public_id || null
+    };
+  }
+  return null;
+}
+
 function resolve(slot, records) {
   const record = records.get(slot.image_key);
   const custom = customReference(record, slot);
@@ -20,6 +31,26 @@ function resolve(slot, records) {
   // shared reference are deliberately ignored so one page can never inherit
   // another page's image after this feature was removed from the admin UI.
   return custom?.image_url || slot.image_url;
+}
+
+function resolveMobile(slot, records) {
+  const record = records.get(slot.image_key);
+  const custom = customMobileReference(record, slot);
+  if (custom?.image_url) return custom.image_url;
+
+  // Preserve old quote-specific mobile uploads while the admin migrates them
+  // to the new desktop/mobile controls on the parent banner card.
+  const legacyMatch = /^quote_hero_banner_(\d+)$/.exec(slot.image_key);
+  if (legacyMatch) {
+    const legacyRecord = records.get(`quote_hero_mobile_${legacyMatch[1]}`);
+    const legacyCustom = customReference(legacyRecord, { image_url: slot.mobile_image_url || slot.image_url });
+    if (legacyCustom?.image_url) return legacyCustom.image_url;
+  }
+  if (slot.parent_image_key) {
+    const parentSlot = configuredSlots.find(item => item.image_key === slot.parent_image_key);
+    if (parentSlot) return resolveMobile(parentSlot, records);
+  }
+  return slot.mobile_image_url || slot.image_url;
 }
 
 /**
@@ -49,14 +80,20 @@ async function getPageImages(pageKey = null, subpageKey = null) {
     if (!byKey.has('news_hero_banner_1') && byKey.has('news_hero_banner')) {
       byKey.set('news_hero_banner_1', byKey.get('news_hero_banner'));
     }
-    return Object.fromEntries(targetSlots.map(s => {
+    return Object.fromEntries(targetSlots.flatMap(s => {
       const override = subpageOverrides.get(s.image_key);
       const effectiveSlot = override && byKey.has(override.image_key) ? override : s;
-      return [s.image_key, resolve(effectiveSlot, byKey)];
+      return [
+        [s.image_key, resolve(effectiveSlot, byKey)],
+        [`${s.image_key}__mobile`, resolveMobile(effectiveSlot, byKey)]
+      ];
     }));
   } catch (error) {
     console.error(`[ImageService] Error fetching images for page "${pageKey}":`, error.message);
-    return Object.fromEntries(targetSlots.map(s => [s.image_key, s.image_url]));
+    return Object.fromEntries(targetSlots.flatMap(s => [
+      [s.image_key, s.image_url],
+      [`${s.image_key}__mobile`, s.mobile_image_url || s.image_url]
+    ]));
   }
 }
 
