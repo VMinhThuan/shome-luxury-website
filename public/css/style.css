@@ -10111,7 +10111,8 @@ main .surface-finish-section .surface-finish-title {
 .project-gallery-thumbnails {
   display: grid;
   grid-auto-flow: column;
-  grid-auto-columns: minmax(120px, 1fr);
+  /* Keep thumbnails compact even when a gallery only has one or two images. */
+  grid-auto-columns: clamp(132px, 15.8%, 160px);
   gap: 0.65rem;
   margin-top: 0.75rem;
   padding: 0.1rem;
