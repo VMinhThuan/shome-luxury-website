@@ -15610,10 +15610,25 @@ body.project-gallery-lightbox-open { overflow: hidden !important; }
 }
 
 .home-faq-cta button {
-  width: min(100%, 520px);
+  display: inline-flex;
+  width: fit-content !important;
+  min-width: 220px;
+  max-width: 100%;
+  padding-right: 2rem;
+  padding-left: 2rem;
+  align-items: center;
+  justify-content: center;
   min-height: 52px;
   border-radius: 9px;
   font-size: clamp(.88rem, 1.2vw, 1rem);
+}
+
+@media (max-width: 767px) {
+  .home-faq-cta button {
+    min-width: 200px;
+    padding-right: 1.4rem;
+    padding-left: 1.4rem;
+  }
 }
 
 @media (max-width: 767px) {
