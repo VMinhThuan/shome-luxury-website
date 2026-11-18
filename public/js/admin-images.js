@@ -314,13 +314,6 @@
     const isMobileOnlySlot = slot.image_key === 'quote_pricing_mobile_image_1'
       || slot.parent_image_key === 'quote_pricing_mobile_image_1';
     const isResponsiveBanner = Boolean(slot.is_responsive_banner || slot.section_key === 'hero');
-    let activeVariant = 'desktop';
-    const variantUrl = variant => variant === 'mobile'
-      ? (slot.active_mobile_image_url || slot.replacement_mobile_image_url || slot.default_mobile_image_url || slot.active_image_url || slot.default_image_url)
-      : (slot.active_image_url || slot.replacement_image_url || slot.default_image_url);
-    const variantReplacementUrl = variant => variant === 'mobile'
-      ? slot.replacement_mobile_image_url
-      : slot.replacement_image_url;
 
     const heading = create('h2', 'slot-number-title');
     const number = create('span', 'slot-title-number', String(displayOrder));
@@ -335,89 +328,8 @@
     }
     heading.prepend(number);
     heading.title = `Vị trí ảnh số ${displayOrder} trên website`;
-    const imagePair = create('div', 'image-pair');
-
-    const replacementWrap = create('div', 'image-version');
-    const currentImageTitle = create('p', 'image-version-title');
-    replacementWrap.append(currentImageTitle);
-    const current = create('img', 'current-image');
-    current.src = variantUrl(activeVariant);
-    current.alt = '';
-    current.loading = 'lazy';
-    const replacementNote = create('p', 'image-version-note');
-    replacementWrap.append(current, replacementNote);
-
-    const displaySpec = create('div', 'image-display-spec');
-    const displaySpecTitle = create('strong', '', 'Khung hiển thị trên website');
-    const displaySpecValue = create('span', 'image-display-spec-value', 'Đang tính kích thước...');
-    const displaySpecHint = create('small', '', preservesOriginalFile
-      ? 'Ảnh giữ nguyên toàn bộ nội dung, không cắt khung.'
-      : 'Ảnh lớn sẽ tự thu nhỏ; ảnh nhỏ không được phóng to khi lưu.');
-    displaySpec.append(displaySpecTitle, displaySpecValue, displaySpecHint);
-    replacementWrap.append(displaySpec);
-
-    const selectedPreviewWrap = create('div', 'selected-image-preview-wrap');
-    selectedPreviewWrap.hidden = true;
-    const selectedPreviewTitle = create('p', 'selected-image-preview-title', 'Xem trước ảnh sẽ hiển thị');
-    const selectedPreview = create('img', 'selected-image-preview');
-    selectedPreview.alt = 'Xem trước ảnh tải lên';
-    selectedPreviewWrap.append(selectedPreviewTitle, selectedPreview);
-
-    imagePair.append(replacementWrap);
-    imagePair.append(selectedPreviewWrap);
-
-    // Action bar
-    const actionBar = create('div', 'slot-action-bar');
-
-    // Styled choose file button
-    const fileLabel = create('label', 'btn-select-file');
-    const input = create('input');
-    input.type = 'file';
-    input.accept = 'image/jpeg,image/png,image/webp';
-    const fileLabelText = create('span', '', variantReplacementUrl(activeVariant) ? '🔄 Đổi ảnh khác' : '📷 Chọn ảnh tải lên');
-    fileLabel.append(input, fileLabelText);
-
-    // Cancel selection button (when a new file is chosen but not saved yet)
-    const cancelSelectionBtn = create('button', 'btn-cancel-selection', '✕ Hủy ảnh vừa chọn');
-    cancelSelectionBtn.type = 'button';
-    cancelSelectionBtn.hidden = true;
-
-    // Delete replacement button (remove custom image & revert to website default)
-    const deleteReplacementBtn = create('button', 'btn-delete-replacement', '🗑️ Xóa ảnh thay thế');
-    deleteReplacementBtn.type = 'button';
-    deleteReplacementBtn.hidden = !Boolean(variantReplacementUrl(activeVariant));
-
-    // The download endpoint resolves the replacement first, then falls back to
-    // the source image, so the saved file always matches what visitors see.
-    const downloadCurrentLink = create('a', 'btn-download-current', '⬇ Tải ảnh hiện tại');
-    downloadCurrentLink.href = `/api/admin/home-images/${encodeURIComponent(slot.image_key)}/download?variant=${activeVariant}`;
-    downloadCurrentLink.setAttribute('download', '');
-
-    if (isResponsiveBanner) {
-      const variantPicker = create('div', 'image-variant-picker');
-      const variantLabel = create('span', 'image-variant-label', 'Phiên bản:');
-      const desktopVariantBtn = create('button', 'image-variant-btn is-active', 'Desktop / Web');
-      const mobileVariantBtn = create('button', 'image-variant-btn', 'Mobile');
-      desktopVariantBtn.type = mobileVariantBtn.type = 'button';
-      variantPicker.append(variantLabel, desktopVariantBtn, mobileVariantBtn);
-      actionBar.append(variantPicker);
-      desktopVariantBtn.onclick = () => setVariant('desktop');
-      mobileVariantBtn.onclick = () => setVariant('mobile');
-      variantPicker.desktopVariantBtn = desktopVariantBtn;
-      variantPicker.mobileVariantBtn = mobileVariantBtn;
-      article.dataset.responsiveBanner = 'true';
-      article._variantPicker = variantPicker;
-    }
-
-    // Selected file notice
-    const fileInfoNotice = create('div', 'selected-file-info');
-    fileInfoNotice.hidden = true;
-
-    const save = create('button', 'save-image', 'Lưu ảnh này');
-    save.type = 'button';
-    save.hidden = true;
-
-    let file, sourceUrl, dimensions, targetDimensions;
+    const imagePair = create('div', `image-pair${isResponsiveBanner ? ' is-responsive-banner' : ''}`);
+    if (isResponsiveBanner) article.dataset.responsiveBanner = 'true';
 
     const formatNumber = value => Number(value || 0).toLocaleString('vi-VN');
     const greatestCommonDivisor = (a, b) => {
@@ -431,209 +343,254 @@
       const divisor = greatestCommonDivisor(width, height);
       return `${Math.round(width / divisor)}:${Math.round(height / divisor)}`;
     };
-    const fitMessage = () => {
-      if (!dimensions || !targetDimensions) return preservesOriginalFile
-        ? 'Tỷ lệ ảnh gốc được giữ nguyên.'
-        : '';
-      if (preservesOriginalFile) return 'Tỷ lệ ảnh gốc được giữ nguyên.';
-      const sourceRatio = dimensions.width / dimensions.height;
-      const targetRatio = targetDimensions.width / targetDimensions.height;
-      const difference = Math.abs(sourceRatio - targetRatio) / targetRatio;
-      if (difference <= .02) return 'Đúng tỷ lệ khung website, gần như không bị cắt.';
-      return sourceRatio > targetRatio
-        ? 'Ảnh rộng hơn khung: website sẽ cắt bớt hai bên.'
-        : 'Ảnh cao hơn khung: website sẽ cắt bớt phía trên và phía dưới.';
-    };
-    const updateDisplaySpec = () => {
-      if (!targetDimensions) return;
-      displaySpecValue.textContent = `${formatNumber(targetDimensions.width)} × ${formatNumber(targetDimensions.height)} px · Tỷ lệ ${ratioLabel(targetDimensions.width, targetDimensions.height)}`;
-      selectedPreview.style.aspectRatio = preservesOriginalFile
-        ? 'auto'
-        : `${targetDimensions.width} / ${targetDimensions.height}`;
-      if (dimensions) {
-        displaySpecHint.textContent = fitMessage();
-        displaySpecHint.classList.toggle('is-warning', !preservesOriginalFile && fitMessage().includes('cắt'));
-      }
-    };
-    const updateSelectedFileInfo = () => {
-      if (!file || !dimensions) return;
-      const fileSizeMB = (file.size / (1024 * 1024)).toFixed(2);
-      fileInfoNotice.replaceChildren(
-        create('span', '', `📎 ${file.name} · ${formatNumber(dimensions.width)} × ${formatNumber(dimensions.height)} px · ${fileSizeMB} MB`),
-        create('span', 'selected-file-fit', fitMessage())
-      );
-      fileInfoNotice.hidden = false;
-      updateDisplaySpec();
-    };
 
-    const targetImage = new Image();
-    targetImage.onload = () => {
-      targetDimensions = { width: targetImage.naturalWidth, height: targetImage.naturalHeight };
-      updateDisplaySpec();
-    };
-    targetImage.src = slot.default_image_url || current.src;
+    const createVariantEditor = variant => {
+      const isMobileVariant = variant === 'mobile';
+      const variantLabel = isResponsiveBanner
+        ? (isMobileVariant ? 'Ảnh Mobile' : 'Ảnh Desktop / Web')
+        : 'Ảnh đang hiển thị';
+      const variantUrl = isMobileVariant
+        ? (slot.active_mobile_image_url || slot.replacement_mobile_image_url || slot.default_mobile_image_url || slot.active_image_url || slot.default_image_url)
+        : (slot.active_image_url || slot.replacement_image_url || slot.default_image_url);
+      const replacementUrl = () => isMobileVariant
+        ? slot.replacement_mobile_image_url
+        : slot.replacement_image_url;
+      const editor = create('div', 'image-version image-version-variant');
+      const variantHeading = create('h3', 'image-variant-card-title', variantLabel);
+      editor.append(variantHeading);
 
-    const clearSelectedFile = () => {
-      if (sourceUrl) URL.revokeObjectURL(sourceUrl);
-      file = null;
-      sourceUrl = null;
-      dimensions = null;
-      input.value = '';
-      save.hidden = true;
-      fileInfoNotice.hidden = true;
-      fileInfoNotice.replaceChildren();
-      selectedPreviewWrap.hidden = true;
-      selectedPreview.removeAttribute('src');
-      cancelSelectionBtn.hidden = true;
-      fileLabelText.textContent = variantReplacementUrl(activeVariant) ? '🔄 Đổi ảnh khác' : '📷 Chọn ảnh tải lên';
-      displaySpecHint.textContent = preservesOriginalFile
+      const currentImageTitle = create('p', 'image-version-title');
+      const current = create('img', 'current-image');
+      current.src = variantUrl;
+      current.alt = '';
+      current.loading = 'lazy';
+      const replacementNote = create('p', 'image-version-note');
+      editor.append(currentImageTitle, current, replacementNote);
+
+      const displaySpec = create('div', 'image-display-spec');
+      const displaySpecTitle = create('strong', '', 'Khung hiển thị trên website');
+      const displaySpecValue = create('span', 'image-display-spec-value', 'Đang tính kích thước...');
+      const displaySpecHint = create('small', '', preservesOriginalFile
         ? 'Ảnh giữ nguyên toàn bộ nội dung, không cắt khung.'
-        : 'Ảnh lớn sẽ tự thu nhỏ; ảnh nhỏ không được phóng to khi lưu.';
-      displaySpecHint.classList.remove('is-warning');
-      setStatus('');
-    };
+        : 'Ảnh lớn sẽ tự thu nhỏ; ảnh nhỏ không được phóng to khi lưu.');
+      displaySpec.append(displaySpecTitle, displaySpecValue, displaySpecHint);
+      editor.append(displaySpec);
 
-    const updateSlotUi = () => {
-      // Every image slot owns its own image. The old shared-source controls
-      // are intentionally gone, but this keeps the card compatible with old
-      // API responses until all cached admin data has refreshed.
-      slot.mode = 'custom';
-      slot.shared_image_reference = null;
-      slot.shared_source = null;
-      slot.shared_status = null;
-      actionBar.hidden = false;
-      fileInfoNotice.hidden = !file;
-      save.hidden = !file;
-      const replacementUrl = variantReplacementUrl(activeVariant);
-      const isInherited = !replacementUrl && slot.inherited_image_key;
-      currentImageTitle.textContent = replacementUrl
-        ? 'Ảnh riêng đang hiển thị trên website'
-        : isInherited
-          ? 'Ảnh đang kế thừa và hiển thị trên website'
-          : 'Ảnh mặc định đang hiển thị trên website';
-      replacementNote.textContent = replacementUrl
-        ? `Đang hiển thị ảnh riêng bản ${activeVariant === 'mobile' ? 'mobile' : 'desktop'} của vị trí này`
-        : isInherited
-          ? `Đang dùng ảnh của vị trí ${slot.inherited_image_label || 'Báo giá chung'}`
-          : 'Mỗi trang dùng ảnh riêng của vị trí này';
-      current.src = variantUrl(activeVariant);
-      deleteReplacementBtn.hidden = !Boolean(replacementUrl);
-      downloadCurrentLink.href = `/api/admin/home-images/${encodeURIComponent(slot.image_key)}/download?variant=${activeVariant}`;
-      fileLabelText.textContent = replacementUrl ? '🔄 Đổi ảnh khác' : '📷 Chọn ảnh tải lên';
-      targetImage.src = activeVariant === 'mobile'
+      const selectedPreviewWrap = create('div', 'selected-image-preview-wrap');
+      selectedPreviewWrap.hidden = true;
+      const selectedPreviewTitle = create('p', 'selected-image-preview-title', 'Xem trước ảnh sẽ hiển thị');
+      const selectedPreview = create('img', 'selected-image-preview');
+      selectedPreview.alt = 'Xem trước ảnh tải lên';
+      selectedPreviewWrap.append(selectedPreviewTitle, selectedPreview);
+      editor.append(selectedPreviewWrap);
+
+      const actionBar = create('div', 'slot-action-bar');
+      const fileLabel = create('label', 'btn-select-file');
+      const input = create('input');
+      input.type = 'file';
+      input.accept = 'image/jpeg,image/png,image/webp';
+      const fileLabelText = create('span', '', replacementUrl() ? '🔄 Đổi ảnh khác' : '📷 Chọn ảnh tải lên');
+      fileLabel.append(input, fileLabelText);
+
+      const cancelSelectionBtn = create('button', 'btn-cancel-selection', '✕ Hủy ảnh vừa chọn');
+      cancelSelectionBtn.type = 'button';
+      cancelSelectionBtn.hidden = true;
+
+      const deleteReplacementBtn = create('button', 'btn-delete-replacement', '🗑️ Xóa ảnh thay thế');
+      deleteReplacementBtn.type = 'button';
+      deleteReplacementBtn.hidden = !Boolean(replacementUrl());
+
+      const downloadCurrentLink = create('a', 'btn-download-current', '⬇ Tải ảnh hiện tại');
+      downloadCurrentLink.href = `/api/admin/home-images/${encodeURIComponent(slot.image_key)}/download?variant=${variant}`;
+      downloadCurrentLink.setAttribute('download', '');
+      actionBar.append(fileLabel, cancelSelectionBtn, deleteReplacementBtn, downloadCurrentLink);
+      editor.append(actionBar);
+
+      const fileInfoNotice = create('div', 'selected-file-info');
+      fileInfoNotice.hidden = true;
+      editor.append(fileInfoNotice);
+
+      const save = create('button', 'save-image', 'Lưu ảnh này');
+      save.type = 'button';
+      save.hidden = true;
+      editor.append(save);
+
+      let file;
+      let sourceUrl;
+      let dimensions;
+      let targetDimensions;
+
+      const fitMessage = () => {
+        if (!dimensions || !targetDimensions) return preservesOriginalFile
+          ? 'Tỷ lệ ảnh gốc được giữ nguyên.'
+          : '';
+        if (preservesOriginalFile) return 'Tỷ lệ ảnh gốc được giữ nguyên.';
+        const sourceRatio = dimensions.width / dimensions.height;
+        const targetRatio = targetDimensions.width / targetDimensions.height;
+        const difference = Math.abs(sourceRatio - targetRatio) / targetRatio;
+        if (difference <= .02) return 'Đúng tỷ lệ khung website, gần như không bị cắt.';
+        return sourceRatio > targetRatio
+          ? 'Ảnh rộng hơn khung: website sẽ cắt bớt hai bên.'
+          : 'Ảnh cao hơn khung: website sẽ cắt bớt phía trên và phía dưới.';
+      };
+      const updateDisplaySpec = () => {
+        if (!targetDimensions) return;
+        displaySpecValue.textContent = `${formatNumber(targetDimensions.width)} × ${formatNumber(targetDimensions.height)} px · Tỷ lệ ${ratioLabel(targetDimensions.width, targetDimensions.height)}`;
+        selectedPreview.style.aspectRatio = preservesOriginalFile
+          ? 'auto'
+          : `${targetDimensions.width} / ${targetDimensions.height}`;
+        if (dimensions) {
+          displaySpecHint.textContent = fitMessage();
+          displaySpecHint.classList.toggle('is-warning', !preservesOriginalFile && fitMessage().includes('cắt'));
+        }
+      };
+      const updateSelectedFileInfo = () => {
+        if (!file || !dimensions) return;
+        const fileSizeMB = (file.size / (1024 * 1024)).toFixed(2);
+        fileInfoNotice.replaceChildren(
+          create('span', '', `📎 ${file.name} · ${formatNumber(dimensions.width)} × ${formatNumber(dimensions.height)} px · ${fileSizeMB} MB`),
+          create('span', 'selected-file-fit', fitMessage())
+        );
+        fileInfoNotice.hidden = false;
+        updateDisplaySpec();
+      };
+
+      const targetImage = new Image();
+      targetImage.onload = () => {
+        targetDimensions = { width: targetImage.naturalWidth, height: targetImage.naturalHeight };
+        updateDisplaySpec();
+      };
+      targetImage.src = isMobileVariant
         ? (slot.default_mobile_image_url || slot.default_image_url)
         : slot.default_image_url;
-    };
 
-    const setVariant = variant => {
-      if (!isResponsiveBanner || activeVariant === variant) return;
-      clearSelectedFile();
-      activeVariant = variant;
-      const picker = article._variantPicker;
-      picker?.desktopVariantBtn.classList.toggle('is-active', variant === 'desktop');
-      picker?.mobileVariantBtn.classList.toggle('is-active', variant === 'mobile');
-      updateSlotUi();
-    };
-
-    updateSlotUi();
-
-    cancelSelectionBtn.onclick = clearSelectedFile;
-
-    input.onchange = () => {
-      file = input.files[0];
-      if (!file) return;
-      if (file.size > 10 * 1024 * 1024) {
-        setStatus('Ảnh tối đa 10 MB.', true);
-        input.value = '';
-        return;
-      }
-      if (sourceUrl) URL.revokeObjectURL(sourceUrl);
-      const image = new Image();
-      sourceUrl = URL.createObjectURL(file);
-      image.onload = () => {
-        dimensions = { width: image.naturalWidth, height: image.naturalHeight };
-        selectedPreview.src = sourceUrl;
-        selectedPreviewWrap.hidden = false;
-        save.hidden = false;
-        save.textContent = 'Lưu ảnh này';
-
-        fileLabelText.textContent = '🔄 Chọn file khác';
-        cancelSelectionBtn.hidden = false;
-        updateSelectedFileInfo();
-      };
-      image.src = sourceUrl;
-    };
-
-    deleteReplacementBtn.onclick = async () => {
-      if (!confirm(`Xóa ảnh thay thế của "${slot.label}" và quay về ảnh mặc định của website?`)) return;
-      deleteReplacementBtn.disabled = true;
-      deleteReplacementBtn.textContent = 'Đang xóa...';
-      try {
-        const result = await request(`/api/admin/home-images/${encodeURIComponent(slot.image_key)}?variant=${activeVariant}`, { method: 'DELETE' });
-        Object.assign(slot, result.data || {}, {
-          ...(activeVariant === 'mobile'
-            ? { replacement_mobile_image_url: null, custom_mobile_image_reference: null }
-            : { replacement_image_url: null, custom_image_reference: null })
-        });
-        current.src = variantUrl(activeVariant);
-        updateSlotUi();
-        deleteReplacementBtn.hidden = true;
-        fileLabelText.textContent = '📷 Chọn ảnh tải lên';
-        clearSelectedFile();
-        setStatus(`Đã xóa ảnh thay thế và khôi phục mặc định: ${slot.label}.`);
-      } catch (error) {
-        setStatus(error.message, true);
-      } finally {
-        deleteReplacementBtn.disabled = false;
-        deleteReplacementBtn.textContent = '🗑️ Xóa ảnh thay thế';
-      }
-    };
-
-    save.onclick = async () => {
-      if (!file || !dimensions) return;
-      save.disabled = true;
-      save.textContent = 'Đang tải lên Cloudinary...';
-      setStatus(`Đang tải ảnh và lưu "${slot.label}"...`);
-      const form = new FormData();
-      form.append('image', file);
-      if (isResponsiveBanner) form.append('variant', activeVariant);
-
-      try {
-        const result = await request(`/api/admin/home-images/${encodeURIComponent(slot.image_key)}`, {
-          method: 'PUT',
-          body: form
-        });
-        Object.assign(slot, result.data || {});
-        current.src = variantUrl(activeVariant);
-        currentImageTitle.textContent = 'Ảnh riêng đang hiển thị trên website';
-        replacementNote.textContent = 'Đang hiển thị ảnh riêng của vị trí này';
-        deleteReplacementBtn.hidden = false;
-        fileLabelText.textContent = '🔄 Đổi ảnh khác';
-        cancelSelectionBtn.hidden = true;
-        fileInfoNotice.hidden = true;
-        save.hidden = true;
-        input.value = '';
-        file = null;
-        dimensions = null;
+      const clearSelectedFile = () => {
         if (sourceUrl) URL.revokeObjectURL(sourceUrl);
+        file = null;
         sourceUrl = null;
+        dimensions = null;
+        input.value = '';
+        save.hidden = true;
+        fileInfoNotice.hidden = true;
+        fileInfoNotice.replaceChildren();
         selectedPreviewWrap.hidden = true;
         selectedPreview.removeAttribute('src');
-        updateSlotUi();
-        const optimized = result.data?.processing?.optimized;
-        const savedSize = optimized?.width && optimized?.height
-          ? ` Kích thước lưu: ${optimized.width}×${optimized.height}px.`
-          : '';
-        setStatus(`Đã cập nhật thành công: ${slot.label}.${savedSize}`);
-      } catch (error) {
-        save.textContent = 'Lưu lại';
-        setStatus(error.message, true);
-      } finally {
-        save.disabled = false;
-      }
+        cancelSelectionBtn.hidden = true;
+        fileLabelText.textContent = replacementUrl() ? '🔄 Đổi ảnh khác' : '📷 Chọn ảnh tải lên';
+        displaySpecHint.textContent = preservesOriginalFile
+          ? 'Ảnh giữ nguyên toàn bộ nội dung, không cắt khung.'
+          : 'Ảnh lớn sẽ tự thu nhỏ; ảnh nhỏ không được phóng to khi lưu.';
+        displaySpecHint.classList.remove('is-warning');
+        setStatus('');
+      };
+
+      const updateEditorUi = () => {
+        const currentReplacementUrl = replacementUrl();
+        const isInherited = !currentReplacementUrl && slot.inherited_image_key;
+        currentImageTitle.textContent = currentReplacementUrl
+          ? 'Ảnh riêng đang hiển thị trên website'
+          : isInherited
+            ? 'Ảnh đang kế thừa và hiển thị trên website'
+            : 'Ảnh mặc định đang hiển thị trên website';
+        replacementNote.textContent = currentReplacementUrl
+          ? `Đang hiển thị ảnh riêng bản ${isMobileVariant ? 'mobile' : 'desktop'} của vị trí này`
+          : isInherited
+            ? `Đang dùng ảnh của vị trí ${slot.inherited_image_label || 'Báo giá chung'}`
+            : 'Mỗi trang dùng ảnh riêng của vị trí này';
+        current.src = isMobileVariant
+          ? (slot.active_mobile_image_url || slot.default_mobile_image_url || slot.active_image_url || slot.default_image_url)
+          : (slot.active_image_url || slot.default_image_url);
+        deleteReplacementBtn.hidden = !Boolean(currentReplacementUrl);
+        downloadCurrentLink.href = `/api/admin/home-images/${encodeURIComponent(slot.image_key)}/download?variant=${variant}`;
+        fileLabelText.textContent = currentReplacementUrl ? '🔄 Đổi ảnh khác' : '📷 Chọn ảnh tải lên';
+      };
+
+      input.onchange = () => {
+        file = input.files[0];
+        if (!file) return;
+        if (file.size > 10 * 1024 * 1024) {
+          setStatus('Ảnh tối đa 10 MB.', true);
+          input.value = '';
+          return;
+        }
+        if (sourceUrl) URL.revokeObjectURL(sourceUrl);
+        const image = new Image();
+        sourceUrl = URL.createObjectURL(file);
+        image.onload = () => {
+          dimensions = { width: image.naturalWidth, height: image.naturalHeight };
+          selectedPreview.src = sourceUrl;
+          selectedPreviewWrap.hidden = false;
+          save.hidden = false;
+          save.textContent = 'Lưu ảnh này';
+          fileLabelText.textContent = '🔄 Chọn file khác';
+          cancelSelectionBtn.hidden = false;
+          updateSelectedFileInfo();
+        };
+        image.src = sourceUrl;
+      };
+
+      cancelSelectionBtn.onclick = clearSelectedFile;
+      deleteReplacementBtn.onclick = async () => {
+        if (!confirm(`Xóa ảnh thay thế của "${slot.label}" (${variantLabel}) và quay về ảnh mặc định của website?`)) return;
+        deleteReplacementBtn.disabled = true;
+        deleteReplacementBtn.textContent = 'Đang xóa...';
+        try {
+          const result = await request(`/api/admin/home-images/${encodeURIComponent(slot.image_key)}?variant=${variant}`, { method: 'DELETE' });
+          Object.assign(slot, result.data || {});
+          if (isMobileVariant) {
+            slot.replacement_mobile_image_url = null;
+            slot.custom_mobile_image_reference = null;
+          } else {
+            slot.replacement_image_url = null;
+            slot.custom_image_reference = null;
+          }
+          updateEditorUi();
+          clearSelectedFile();
+          setStatus(`Đã xóa ảnh thay thế và khôi phục mặc định: ${slot.label} (${variantLabel}).`);
+        } catch (error) {
+          setStatus(error.message, true);
+        } finally {
+          deleteReplacementBtn.disabled = false;
+          deleteReplacementBtn.textContent = '🗑️ Xóa ảnh thay thế';
+        }
+      };
+
+      save.onclick = async () => {
+        if (!file || !dimensions) return;
+        save.disabled = true;
+        save.textContent = 'Đang tải lên Cloudinary...';
+        setStatus(`Đang tải ảnh và lưu "${slot.label}" (${variantLabel})...`);
+        const form = new FormData();
+        form.append('image', file);
+        if (isResponsiveBanner) form.append('variant', variant);
+        try {
+          const result = await request(`/api/admin/home-images/${encodeURIComponent(slot.image_key)}`, {
+            method: 'PUT',
+            body: form
+          });
+          Object.assign(slot, result.data || {});
+          clearSelectedFile();
+          updateEditorUi();
+          const optimized = result.data?.processing?.optimized;
+          const savedSize = optimized?.width && optimized?.height
+            ? ` Kích thước lưu: ${optimized.width}×${optimized.height}px.`
+            : '';
+          setStatus(`Đã cập nhật thành công: ${slot.label} (${variantLabel}).${savedSize}`);
+        } catch (error) {
+          save.textContent = 'Lưu lại';
+          setStatus(error.message, true);
+        } finally {
+          save.disabled = false;
+        }
+      };
+
+      updateEditorUi();
+      return editor;
     };
 
-    article.append(heading, imagePair, actionBar, fileInfoNotice, save);
+    imagePair.append(createVariantEditor('desktop'));
+    if (isResponsiveBanner) imagePair.append(createVariantEditor('mobile'));
+    article.append(heading, imagePair);
     return article;
   }
 

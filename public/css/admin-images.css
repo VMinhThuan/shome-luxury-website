@@ -600,6 +600,20 @@
   margin-top: 12px;
 }
 
+.image-pair.is-responsive-banner {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.image-variant-card-title {
+  margin: 0 0 9px;
+  color: #4e3a20;
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: .01em;
+}
+
 .image-variant-picker {
   display: inline-flex;
   align-items: center;
@@ -634,6 +648,12 @@
   border-color: #d2a044;
   color: #5b421e;
   background: #f5e5c3;
+}
+
+@media (max-width: 720px) {
+  .image-pair.is-responsive-banner {
+    grid-template-columns: 1fr;
+  }
 }
 
 .image-version {
