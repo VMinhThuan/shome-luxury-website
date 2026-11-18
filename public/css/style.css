@@ -10110,9 +10110,9 @@ main .surface-finish-section .surface-finish-title {
 
 .project-gallery-thumbnails {
   display: grid;
-  grid-auto-flow: column;
-  /* Keep thumbnails compact even when a gallery only has one or two images. */
-  grid-auto-columns: clamp(132px, 15.8%, 160px);
+  /* Always reserve six thumbnail slots so short galleries don't stretch. */
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  grid-auto-flow: row;
   gap: 0.65rem;
   margin-top: 0.75rem;
   padding: 0.1rem;
@@ -10177,6 +10177,8 @@ main .surface-finish-section .surface-finish-title {
   }
 
   .project-gallery-thumbnails {
+    grid-template-columns: none;
+    grid-auto-flow: column;
     gap: 0.5rem;
     grid-auto-columns: minmax(92px, 1fr);
     padding: 0.1rem 0.25rem 0.4rem;
