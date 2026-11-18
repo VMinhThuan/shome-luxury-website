@@ -1155,36 +1155,6 @@ ol {
   object-fit: contain;
 }
 
-.drawer-search-container {
-  padding: 8px 14px 12px;
-  background-color: var(--bg-dark-surface);
-  border-bottom: 1px solid var(--border-dark);
-}
-
-.drawer-search-box {
-  display: flex;
-  align-items: center;
-  background-color: var(--bg-dark-lighter);
-  border: 1px solid var(--border-dark);
-  border-radius: 0;
-  min-height: 52px;
-  padding: 0.625rem 0.875rem;
-}
-
-.drawer-search-input {
-  flex: 1;
-  color: var(--text-on-dark);
-  font-size: 0.875rem;
-}
-
-.drawer-search-input::placeholder {
-  color: var(--text-muted);
-}
-
-.drawer-search-icon {
-  color: var(--text-muted);
-}
-
 /* Accordion Drawer Menu Body */
 .drawer-body {
   flex: 1;
@@ -13848,6 +13818,10 @@ main .section-v2-title,
   .quote-page .quote-brand-video .quote-video-frame { aspect-ratio: 28 / 9 !important; }
 }
 @media (max-width: 767px) {
+  .quote-page .quote-brand-video .quote-video-heading p {
+    font-size: 18.04px !important;
+  }
+
   .quote-page .quote-brand-video .quote-video-card,
   .quote-page .quote-brand-video .quote-video-frame {
     aspect-ratio: 16 / 9 !important;
@@ -17333,7 +17307,7 @@ main :is(
   .home-page .professional-team-media {
     display: flex;
     min-height: 0;
-    align-items: flex-end;
+    align-items: center;
     justify-content: flex-end;
     aspect-ratio: auto;
   }
@@ -17344,7 +17318,7 @@ main :is(
     height: auto;
     min-height: 0;
     object-fit: contain !important;
-    object-position: center bottom !important;
+    object-position: center center !important;
   }
 
   .home-page .team-script-eyebrow {
@@ -22381,6 +22355,17 @@ main.project-detail-page .project-detail-summary {
   .site-footer .footer-col-fb .fb-card-box > .card-top-header,
   .site-footer .footer-col-map .map-card-box > .card-top-header {
     padding: .45rem !important;
+  }
+}
+
+/* Keep the Facebook and map cards at the same 16:9 footprint on phones. */
+@media (max-width: 767px) {
+  .site-footer .footer-col-fb .fb-card-box,
+  .site-footer .footer-col-map .map-card-box {
+    height: auto !important;
+    min-height: 0 !important;
+    max-height: none !important;
+    aspect-ratio: 16 / 9 !important;
   }
 }
 
