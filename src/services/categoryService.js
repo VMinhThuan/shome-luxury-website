@@ -1,5 +1,6 @@
 const Category = require('../models/Category');
 const mongoose = require('mongoose');
+const { PROJECT_CATEGORY_PATHS, CONSTRUCTION_CATEGORY_PATHS } = require('../data/publicRoutes');
 
 class CategoryService {
   /**
@@ -138,16 +139,10 @@ class CategoryService {
     const CATEGORY_URL_MAP = {
       'thiet-ke-cong-trinh': '/thiet-ke-cong-trinh',
       'thiet-ke-kien-truc': '/thiet-ke-kien-truc',
-      'tk-kt-nha-cap-4': '/thiet-ke-kien-truc/nha-cap-4',
-      'tk-kt-nha-pho': '/thiet-ke-kien-truc/nha-pho',
-      'tk-kt-biet-thu': '/thiet-ke-kien-truc/biet-thu',
-      'tk-kt-villa': '/thiet-ke-kien-truc/villa',
+      ...PROJECT_CATEGORY_PATHS,
       'thiet-ke-noi-that': '/thiet-ke-noi-that',
-      'tk-nt-chung-cu': '/thiet-ke-noi-that/chung-cu',
-      'tk-nt-nha-pho': '/thiet-ke-noi-that/nha-pho',
-      'tk-nt-biet-thu': '/thiet-ke-noi-that/biet-thu',
-      'tk-nt-van-phong': '/thiet-ke-noi-that/van-phong',
-      'thi-cong-cong-trinh': '/thi-cong-cong-trinh'
+      'thi-cong-cong-trinh': '/thi-cong-cong-trinh',
+      ...CONSTRUCTION_CATEGORY_PATHS
     };
 
     const breadcrumbs = [{ label: 'Trang chủ', href: '/' }];

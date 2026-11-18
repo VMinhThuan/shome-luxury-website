@@ -1,27 +1,29 @@
 // Image slots owned by public project/category and quote submenu pages. They are
 // kept separate from the legacy six-page list so existing image API clients
 // continue to receive the same legacy slots and page counts.
+const { PROJECT_CATEGORY_PATHS, CONSTRUCTION_CATEGORY_PATHS, QUOTE_CATEGORY_PATHS } = require('./publicRoutes');
+
 const definitions = [
   ['thiet-ke-cong-trinh', 'Thiết kế công trình', '/thiet-ke-cong-trinh'],
   ['thiet-ke-kien-truc', 'Thiết kế kiến trúc', '/thiet-ke-kien-truc'],
-  ['tk-kt-nha-cap-4', 'Thiết kế kiến trúc — Nhà cấp 4', '/thiet-ke-kien-truc/nha-cap-4'],
-  ['tk-kt-nha-pho', 'Thiết kế kiến trúc — Nhà phố', '/thiet-ke-kien-truc/nha-pho'],
-  ['tk-kt-biet-thu', 'Thiết kế kiến trúc — Biệt thự', '/thiet-ke-kien-truc/biet-thu'],
-  ['tk-kt-villa', 'Thiết kế kiến trúc — Villa', '/thiet-ke-kien-truc/villa'],
+  ['tk-kt-nha-cap-4', 'Thiết kế kiến trúc — Nhà cấp 4', PROJECT_CATEGORY_PATHS['tk-kt-nha-cap-4']],
+  ['tk-kt-nha-pho', 'Thiết kế kiến trúc — Nhà phố', PROJECT_CATEGORY_PATHS['tk-kt-nha-pho']],
+  ['tk-kt-biet-thu', 'Thiết kế kiến trúc — Biệt thự', PROJECT_CATEGORY_PATHS['tk-kt-biet-thu']],
+  ['tk-kt-villa', 'Thiết kế kiến trúc — Villa', PROJECT_CATEGORY_PATHS['tk-kt-villa']],
   ['thiet-ke-noi-that', 'Thiết kế nội thất', '/thiet-ke-noi-that'],
-  ['tk-nt-chung-cu', 'Thiết kế nội thất — Chung cư', '/thiet-ke-noi-that/chung-cu'],
-  ['tk-nt-nha-pho', 'Thiết kế nội thất — Nhà phố', '/thiet-ke-noi-that/nha-pho'],
-  ['tk-nt-biet-thu', 'Thiết kế nội thất — Biệt thự', '/thiet-ke-noi-that/biet-thu'],
-  ['tk-nt-van-phong', 'Thiết kế nội thất — Văn phòng', '/thiet-ke-noi-that/van-phong'],
+  ['tk-nt-chung-cu', 'Thiết kế nội thất — Chung cư', PROJECT_CATEGORY_PATHS['tk-nt-chung-cu']],
+  ['tk-nt-nha-pho', 'Thiết kế nội thất — Nhà phố', PROJECT_CATEGORY_PATHS['tk-nt-nha-pho']],
+  ['tk-nt-biet-thu', 'Thiết kế nội thất — Biệt thự', PROJECT_CATEGORY_PATHS['tk-nt-biet-thu']],
+  ['tk-nt-van-phong', 'Thiết kế nội thất — Văn phòng', PROJECT_CATEGORY_PATHS['tk-nt-van-phong']],
   ['thi-cong-cong-trinh', 'Thi công công trình', '/thi-cong-cong-trinh'],
-  ['tc-kt-nha-cap-4', 'Thi công kiến trúc — Nhà cấp 4', '/thi-cong-cong-trinh/kien-truc/nha-cap-4'],
-  ['tc-kt-nha-pho', 'Thi công kiến trúc — Nhà phố', '/thi-cong-cong-trinh/kien-truc/nha-pho'],
-  ['tc-kt-biet-thu', 'Thi công kiến trúc — Biệt thự', '/thi-cong-cong-trinh/kien-truc/biet-thu'],
-  ['tc-kt-villa', 'Thi công kiến trúc — Villa', '/thi-cong-cong-trinh/kien-truc/villa'],
-  ['tc-nt-chung-cu', 'Thi công nội thất — Chung cư', '/thi-cong-cong-trinh/noi-that/chung-cu'],
-  ['tc-nt-nha-pho', 'Thi công nội thất — Nhà phố', '/thi-cong-cong-trinh/noi-that/nha-pho'],
-  ['tc-nt-biet-thu', 'Thi công nội thất — Biệt thự', '/thi-cong-cong-trinh/noi-that/biet-thu'],
-  ['tc-nt-van-phong', 'Thi công nội thất — Văn phòng', '/thi-cong-cong-trinh/noi-that/van-phong']
+  ['tc-kt-nha-cap-4', 'Thi công kiến trúc — Nhà cấp 4', CONSTRUCTION_CATEGORY_PATHS['tc-kt-nha-cap-4']],
+  ['tc-kt-nha-pho', 'Thi công kiến trúc — Nhà phố', CONSTRUCTION_CATEGORY_PATHS['tc-kt-nha-pho']],
+  ['tc-kt-biet-thu', 'Thi công kiến trúc — Biệt thự', CONSTRUCTION_CATEGORY_PATHS['tc-kt-biet-thu']],
+  ['tc-kt-villa', 'Thi công kiến trúc — Villa', CONSTRUCTION_CATEGORY_PATHS['tc-kt-villa']],
+  ['tc-nt-chung-cu', 'Thi công nội thất — Chung cư', CONSTRUCTION_CATEGORY_PATHS['tc-nt-chung-cu']],
+  ['tc-nt-nha-pho', 'Thi công nội thất — Nhà phố', CONSTRUCTION_CATEGORY_PATHS['tc-nt-nha-pho']],
+  ['tc-nt-biet-thu', 'Thi công nội thất — Biệt thự', CONSTRUCTION_CATEGORY_PATHS['tc-nt-biet-thu']],
+  ['tc-nt-van-phong', 'Thi công nội thất — Văn phòng', CONSTRUCTION_CATEGORY_PATHS['tc-nt-van-phong']]
 ];
 
 const quoteImageDefinitions = [
@@ -64,14 +66,14 @@ const quoteImageDefinitions = [
 ];
 
 const quoteDefinitions = [
-  ['quote:tk-kt-nha-cap-4', 'Báo giá — Kiến trúc nhà cấp 4 trọn gói', '/bao-gia/thiet-ke-thi-cong-kien-truc/thiet-ke-kien-truc-nha-cap-4'],
-  ['quote:tk-kt-nha-pho', 'Báo giá — Kiến trúc nhà phố trọn gói', '/bao-gia/thiet-ke-thi-cong-kien-truc/thiet-ke-kien-truc-nha-pho'],
-  ['quote:tk-kt-biet-thu', 'Báo giá — Kiến trúc biệt thự trọn gói', '/bao-gia/thiet-ke-thi-cong-kien-truc/thiet-ke-kien-truc-biet-thu'],
-  ['quote:tk-kt-villa', 'Báo giá — Kiến trúc villa trọn gói', '/bao-gia/thiet-ke-thi-cong-kien-truc/thiet-ke-kien-truc-villa'],
-  ['quote:tk-nt-chung-cu', 'Báo giá — Nội thất chung cư trọn gói', '/bao-gia/thiet-ke-thi-cong-noi-that/thiet-ke-noi-that-chung-cu'],
-  ['quote:tk-nt-nha-pho', 'Báo giá — Nội thất nhà phố trọn gói', '/bao-gia/thiet-ke-thi-cong-noi-that/thiet-ke-noi-that-nha-pho'],
-  ['quote:tk-nt-biet-thu', 'Báo giá — Nội thất biệt thự trọn gói', '/bao-gia/thiet-ke-thi-cong-noi-that/thiet-ke-noi-that-biet-thu'],
-  ['quote:tk-nt-van-phong', 'Báo giá — Nội thất văn phòng trọn gói', '/bao-gia/thiet-ke-thi-cong-noi-that/thiet-ke-noi-that-van-phong']
+  ['quote:tk-kt-nha-cap-4', 'Báo giá — Kiến trúc nhà cấp 4 trọn gói', QUOTE_CATEGORY_PATHS['tk-kt-nha-cap-4']],
+  ['quote:tk-kt-nha-pho', 'Báo giá — Kiến trúc nhà phố trọn gói', QUOTE_CATEGORY_PATHS['tk-kt-nha-pho']],
+  ['quote:tk-kt-biet-thu', 'Báo giá — Kiến trúc biệt thự trọn gói', QUOTE_CATEGORY_PATHS['tk-kt-biet-thu']],
+  ['quote:tk-kt-villa', 'Báo giá — Kiến trúc villa trọn gói', QUOTE_CATEGORY_PATHS['tk-kt-villa']],
+  ['quote:tk-nt-chung-cu', 'Báo giá — Nội thất chung cư trọn gói', QUOTE_CATEGORY_PATHS['tk-nt-chung-cu']],
+  ['quote:tk-nt-nha-pho', 'Báo giá — Nội thất nhà phố trọn gói', QUOTE_CATEGORY_PATHS['tk-nt-nha-pho']],
+  ['quote:tk-nt-biet-thu', 'Báo giá — Nội thất biệt thự trọn gói', QUOTE_CATEGORY_PATHS['tk-nt-biet-thu']],
+  ['quote:tk-nt-van-phong', 'Báo giá — Nội thất văn phòng trọn gói', QUOTE_CATEGORY_PATHS['tk-nt-van-phong']]
 ];
 
 const baseSubpageSlots = definitions.map(([page_key, page_label, page_path]) => ({

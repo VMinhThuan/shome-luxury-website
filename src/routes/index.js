@@ -13,18 +13,23 @@ const quotePageController = require("../controllers/quotePageController");
 const homeImageController = require('../controllers/homeImageController');
 const contentController = require('../controllers/contentController');
 const navigationData = require('../data/navigationData');
+const {
+  PROJECT_CATEGORY_PATHS,
+  CONSTRUCTION_CATEGORY_PATHS,
+  QUOTE_CATEGORY_PATHS,
+  LEGACY_PROJECT_CATEGORY_PATHS,
+  LEGACY_CONSTRUCTION_CATEGORY_PATHS,
+  LEGACY_QUOTE_CATEGORY_PATHS
+} = require('../data/publicRoutes');
 const { authenticateAdmin, requireAdminPage } = require("../middleware/auth");
 
-const QUOTE_ROUTE_CATEGORY_CODES = {
-  'thiet-ke-thi-cong-kien-truc/thiet-ke-kien-truc-nha-cap-4': 'tk-kt-nha-cap-4',
-  'thiet-ke-thi-cong-kien-truc/thiet-ke-kien-truc-nha-pho': 'tk-kt-nha-pho',
-  'thiet-ke-thi-cong-kien-truc/thiet-ke-kien-truc-biet-thu': 'tk-kt-biet-thu',
-  'thiet-ke-thi-cong-kien-truc/thiet-ke-kien-truc-villa': 'tk-kt-villa',
-  'thiet-ke-thi-cong-noi-that/thiet-ke-noi-that-chung-cu': 'tk-nt-chung-cu',
-  'thiet-ke-thi-cong-noi-that/thiet-ke-noi-that-nha-pho': 'tk-nt-nha-pho',
-  'thiet-ke-thi-cong-noi-that/thiet-ke-noi-that-biet-thu': 'tk-nt-biet-thu',
-  'thiet-ke-thi-cong-noi-that/thiet-ke-noi-that-van-phong': 'tk-nt-van-phong'
-};
+const QUOTE_ROUTE_CATEGORY_CODES = Object.entries({
+  ...QUOTE_CATEGORY_PATHS,
+  ...LEGACY_QUOTE_CATEGORY_PATHS
+}).reduce((routes, [categoryCode, path]) => {
+  routes[path.replace(/^\/bao-gia\//, '')] = categoryCode;
+  return routes;
+}, {});
 
 // Admin Routes (Unified under /admin/*, server-authenticated, no subdomain needed)
 router.get(["/admin", "/admin/"], requireAdminPage, (req, res) => res.redirect('/admin/images'));
@@ -88,30 +93,27 @@ const createShowcaseHandler = (categoryCode) => (req, res, next) => {
 // Overview Showcase Route
 router.get("/thiet-ke-cong-trinh", createShowcaseHandler("thiet-ke-cong-trinh"));
 
-// Architecture Showcase Routes
+// Architecture Showcase Routes. The legacy paths remain supported so old
+// bookmarks and search results do not break after the canonical slug change.
 router.get("/thiet-ke-kien-truc", createShowcaseHandler("thiet-ke-kien-truc"));
-router.get("/thiet-ke-kien-truc/nha-cap-4", createShowcaseHandler("tk-kt-nha-cap-4"));
-router.get("/thiet-ke-kien-truc/nha-pho", createShowcaseHandler("tk-kt-nha-pho"));
-router.get("/thiet-ke-kien-truc/biet-thu", createShowcaseHandler("tk-kt-biet-thu"));
-router.get("/thiet-ke-kien-truc/villa", createShowcaseHandler("tk-kt-villa"));
+Object.entries(PROJECT_CATEGORY_PATHS).filter(([code]) => code.startsWith('tk-kt-')).forEach(([code, path]) => {
+  router.get(path, createShowcaseHandler(code));
+  router.get(LEGACY_PROJECT_CATEGORY_PATHS[code], createShowcaseHandler(code));
+});
 
 // Interior Showcase Routes
 router.get("/thiet-ke-noi-that", createShowcaseHandler("thiet-ke-noi-that"));
-router.get("/thiet-ke-noi-that/chung-cu", createShowcaseHandler("tk-nt-chung-cu"));
-router.get("/thiet-ke-noi-that/nha-pho", createShowcaseHandler("tk-nt-nha-pho"));
-router.get("/thiet-ke-noi-that/biet-thu", createShowcaseHandler("tk-nt-biet-thu"));
-router.get("/thiet-ke-noi-that/van-phong", createShowcaseHandler("tk-nt-van-phong"));
+Object.entries(PROJECT_CATEGORY_PATHS).filter(([code]) => code.startsWith('tk-nt-')).forEach(([code, path]) => {
+  router.get(path, createShowcaseHandler(code));
+  router.get(LEGACY_PROJECT_CATEGORY_PATHS[code], createShowcaseHandler(code));
+});
 
 // Construction Route
 router.get("/thi-cong-cong-trinh", createShowcaseHandler("thi-cong-cong-trinh"));
-router.get("/thi-cong-cong-trinh/kien-truc/nha-cap-4", createShowcaseHandler("tc-kt-nha-cap-4"));
-router.get("/thi-cong-cong-trinh/kien-truc/nha-pho", createShowcaseHandler("tc-kt-nha-pho"));
-router.get("/thi-cong-cong-trinh/kien-truc/biet-thu", createShowcaseHandler("tc-kt-biet-thu"));
-router.get("/thi-cong-cong-trinh/kien-truc/villa", createShowcaseHandler("tc-kt-villa"));
-router.get("/thi-cong-cong-trinh/noi-that/chung-cu", createShowcaseHandler("tc-nt-chung-cu"));
-router.get("/thi-cong-cong-trinh/noi-that/nha-pho", createShowcaseHandler("tc-nt-nha-pho"));
-router.get("/thi-cong-cong-trinh/noi-that/biet-thu", createShowcaseHandler("tc-nt-biet-thu"));
-router.get("/thi-cong-cong-trinh/noi-that/van-phong", createShowcaseHandler("tc-nt-van-phong"));
+Object.entries(CONSTRUCTION_CATEGORY_PATHS).forEach(([code, path]) => {
+  router.get(path, createShowcaseHandler(code));
+  router.get(LEGACY_CONSTRUCTION_CATEGORY_PATHS[code], createShowcaseHandler(code));
+});
 
 // Project Detail Page Routes (support both /cong-trinh/:slug and /san-pham/:slug)
 router.get("/cong-trinh/:slug", projectShowcaseController.renderDetailPage.bind(projectShowcaseController));

@@ -13773,7 +13773,7 @@ main .section-v2-title,
 .quote-page .quote-free-estimate-copy li i { display: inline-flex; align-items: center; justify-content: center; width: 44px; height: 44px; min-width: 44px; min-height: 44px; max-width: 44px; max-height: 44px; flex: 0 0 44px; border-radius: 50%; border: 1.5px solid var(--accent-gold, #c47a1c); color: var(--accent-gold, #c47a1c); background: rgba(255, 255, 255, 0.85); box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04); }
 .quote-page .quote-free-estimate-copy li i svg { width: 22px; height: 22px; stroke: currentColor; stroke-width: 1.8; fill: none; }
 .quote-page .quote-free-estimate-copy li span { white-space: normal; flex: 1 1 auto; }
-.quote-page .quote-free-estimate-button { align-self: flex-start; width: fit-content; padding: .85rem 1.6rem; border: 1px solid var(--accent-gold, #D2A044); border-radius: 999px; background: var(--accent-gold, #D2A044); color: #111111; font-size: clamp(.72rem, .95vw, .84rem); font-weight: 700; letter-spacing: .02em; text-transform: uppercase; box-shadow: 0 4px 14px rgba(200, 155, 75, 0.28); transition: all .25s ease; }
+.quote-page .quote-free-estimate-button { display: inline-flex; align-self: flex-start; width: fit-content !important; min-width: 220px; max-width: 100%; min-height: 52px; padding: 0 2rem; align-items: center; justify-content: center; border: 0; border-radius: 9px; background: var(--accent-gold, #D2A044); color: #111111; font-size: clamp(.88rem, 1.2vw, 1rem); font-weight: 700; letter-spacing: normal; text-transform: none; box-shadow: 0 4px 14px rgba(200, 155, 75, 0.28); transition: all .25s ease; }
 .quote-page .quote-free-estimate-button:hover { background: var(--accent-gold-hover, #D2A653); border-color: var(--accent-gold-hover, #D2A653); color: #000000; transform: translateY(-2px); box-shadow: 0 6px 20px rgba(200, 155, 75, 0.45); }
 @media (max-width: 900px) {
   .quote-page .quote-free-estimate-copy { width: min(64%, 480px); padding: 2rem 1.75rem; }
@@ -13792,7 +13792,7 @@ main .section-v2-title,
   .quote-page .quote-free-estimate-copy li { gap: .75rem; font-size: .86rem; }
   .quote-page .quote-free-estimate-copy li i { width: 38px; height: 38px; min-width: 38px; min-height: 38px; max-width: 38px; max-height: 38px; flex: 0 0 38px; }
   .quote-page .quote-free-estimate-copy li i svg { width: 19px; height: 19px; }
-  .quote-page .quote-free-estimate-button { width: 100%; text-align: center; justify-content: center; }
+  .quote-page .quote-free-estimate-button { width: fit-content !important; min-width: 200px; max-width: 100%; min-height: 52px; padding: 0 1.4rem; text-align: center; justify-content: center; }
 }
 
 /* Shome Luxury brand video panel. The whole panel links to the official YouTube channel. */

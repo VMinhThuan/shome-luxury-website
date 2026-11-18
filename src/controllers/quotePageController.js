@@ -6,6 +6,7 @@ const navigation = require('../data/navigationData');
 const completedVideosData = require('../data/completedVideosData');
 const { getRequestToken, verifyAdminToken } = require('../middleware/auth');
 const { getPageImages } = require('../services/imageService');
+const { PROJECT_CATEGORY_PATHS } = require('../data/publicRoutes');
 
 const QUOTE_CATEGORY_LABELS = {
   'tk-kt-nha-cap-4': 'Nhà cấp 4',
@@ -132,17 +133,7 @@ class QuotePageController {
         limit: 4,
         sort: 'highlight'
       });
-      const categoryHrefs = {
-        'tk-nt-chung-cu': '/thiet-ke-noi-that/chung-cu',
-        'tk-nt-nha-pho': '/thiet-ke-noi-that/nha-pho',
-        'tk-nt-biet-thu': '/thiet-ke-noi-that/biet-thu',
-        'tk-nt-van-phong': '/thiet-ke-noi-that/van-phong',
-        'tk-kt-nha-cap-4': '/thiet-ke-kien-truc/nha-cap-4',
-        'tk-kt-nha-pho': '/thiet-ke-kien-truc/nha-pho',
-        'tk-kt-biet-thu': '/thiet-ke-kien-truc/biet-thu',
-        'tk-kt-villa': '/thiet-ke-kien-truc/villa'
-      };
-      return { ...item, category, href: categoryHrefs[category.code] || '/thiet-ke-cong-trinh', projects: highlighted.projects.slice(0, 4) };
+      return { ...item, category, href: PROJECT_CATEGORY_PATHS[category.code] || '/thiet-ke-cong-trinh', projects: highlighted.projects.slice(0, 4) };
     })).then(items => items.filter(Boolean));
   }
 

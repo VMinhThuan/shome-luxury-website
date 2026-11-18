@@ -4,17 +4,7 @@ const categoryService = require('../services/categoryService');
 const navigationData = require('../data/navigationData');
 const constructionGalleryService = require('../services/constructionGalleryService');
 const { getPageImages } = require('../services/imageService');
-
-const PROJECT_CATEGORY_PATHS = {
-  'tk-kt-nha-cap-4': '/thiet-ke-kien-truc/nha-cap-4',
-  'tk-kt-nha-pho': '/thiet-ke-kien-truc/nha-pho',
-  'tk-kt-biet-thu': '/thiet-ke-kien-truc/biet-thu',
-  'tk-kt-villa': '/thiet-ke-kien-truc/villa',
-  'tk-nt-chung-cu': '/thiet-ke-noi-that/chung-cu',
-  'tk-nt-nha-pho': '/thiet-ke-noi-that/nha-pho',
-  'tk-nt-biet-thu': '/thiet-ke-noi-that/biet-thu',
-  'tk-nt-van-phong': '/thiet-ke-noi-that/van-phong'
-};
+const { PROJECT_CATEGORY_PATHS } = require('../data/publicRoutes');
 
 const createConstructionConfig = ({ titleMain, titleScript, completedProjectCategory, description }) => ({
   eyebrow: 'HÌNH ẢNH ĐANG THI CÔNG',
@@ -265,6 +255,16 @@ class ProjectShowcaseController {
     try {
       const categoryCode = req.params.categoryCode || 'thiet-ke-cong-trinh';
       const config = PAGE_CONFIGS[categoryCode] || PAGE_CONFIGS['thiet-ke-cong-trinh'];
+      const pageConfig = {
+        ...config,
+        filters: (config.filters || []).map(filter => ({
+          ...filter,
+          href: PROJECT_CATEGORY_PATHS[filter.categoryCode] || filter.href
+        })),
+        completedProjectUrl: config.completedProjectCategory
+          ? PROJECT_CATEGORY_PATHS[config.completedProjectCategory] || config.completedProjectUrl
+          : config.completedProjectUrl
+      };
 
       const isConstructionShowcase = Boolean(config.completedProjectCategory);
       const isVideoShowcase = config.contentType === 'videos' && !isConstructionShowcase;
@@ -289,14 +289,14 @@ class ProjectShowcaseController {
         });
       }
 
-      const pageTitle = `${config.titleMain} ${config.titleScript} | LUXURY HOME`.trim();
+      const pageTitle = `${pageConfig.titleMain} ${pageConfig.titleScript} | LUXURY HOME`.trim();
       const pageImages = await getPageImages(categoryCode);
 
       return res.render('cong-trinh', {
         title: pageTitle,
         headerSlogan: 'Nâng tầm cuộc sống',
         navigation: navigationData,
-        pageConfig: config,
+        pageConfig,
         activeCategoryCode: categoryCode,
         pageImages,
         isConstructionShowcase,

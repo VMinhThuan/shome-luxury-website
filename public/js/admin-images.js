@@ -25,7 +25,7 @@
     all: '/',
     home: '/',
     factory: '/xuong-san-xuat',
-    quote: '/bao-gia/thiet-ke-thi-cong-noi-that/thiet-ke-noi-that-chung-cu',
+    quote: '/bao-gia/thiet-ke-thi-cong-noi-that/noi-that-chung-cu-tron-goi',
     news: '/tin-tuc',
     recruitment: '/tuyen-dung',
     booking: '/dat-lich-ngay',
