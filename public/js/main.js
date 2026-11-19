@@ -880,6 +880,18 @@ document.addEventListener('DOMContentLoaded', () => {
     const getHeroImage = () => gallery?.querySelector('[data-detail-image]');
     const getPreviewImage = () => gallery?.querySelector('[data-gallery-drag-preview]');
     const getProjectTitle = () => detailPage.querySelector('[data-project-field="title"]')?.textContent || 'Công trình Shome Luxury';
+
+    const updateDetailGalleryControlPosition = () => {
+      const stage = getGalleryStage();
+      const image = getHeroImage();
+      if (!stage || !image?.naturalWidth || !image.naturalHeight) return;
+      window.requestAnimationFrame(() => {
+        const imageRect = image.getBoundingClientRect();
+        const stageRect = stage.getBoundingClientRect();
+        stage.style.setProperty('--detail-gallery-image-left', `${Math.max(0, imageRect.left - stageRect.left)}px`);
+        stage.style.setProperty('--detail-gallery-image-right', `${Math.max(0, stageRect.right - imageRect.right)}px`);
+      });
+    };
     let galleryLightbox = null;
     let lightboxZoomScale = 1;
     let lightboxPanX = 0;
@@ -1126,6 +1138,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function updateSlideImage(image, src, index) {
       image.src = src;
       image.alt = `${getProjectTitle()} - ảnh ${index + 1}`;
+      updateDetailGalleryControlPosition();
     }
 
     const setGalleryImageTransform = (image, offset = '0%') => {
@@ -1305,7 +1318,10 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     if (gallery) {
+      getHeroImage()?.addEventListener('load', updateDetailGalleryControlPosition);
+      window.addEventListener('resize', updateDetailGalleryControlPosition);
       selectGalleryImage(0, true);
+      updateDetailGalleryControlPosition();
       enableHorizontalThumbnailDrag(gallery.querySelector('[data-gallery-thumbnails]'));
       gallery.addEventListener('click', event => {
         const thumbnail = event.target.closest('[data-gallery-thumb]');

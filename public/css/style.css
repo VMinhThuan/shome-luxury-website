@@ -12882,6 +12882,16 @@ html {
 }
 
 @media (max-width: 767px) {
+  /* Keep detail-page arrows over the actual image, including when the source
+     ratio leaves black/white side space inside the gallery stage. */
+  .project-detail-page .project-gallery-stage .project-gallery-control.previous {
+    left: max(.7rem, calc(var(--detail-gallery-image-left, 0px) + .7rem));
+  }
+
+  .project-detail-page .project-gallery-stage .project-gallery-control.next {
+    right: max(.7rem, calc(var(--detail-gallery-image-right, 0px) + .7rem));
+  }
+
   .project-detail-title {
     width: 100%;
     font-size: clamp(.7rem, 3.8vw, 1.2rem);
@@ -12891,7 +12901,9 @@ html {
   }
 
   .project-detail-header {
-    padding-top: 1.75rem;
+    /* Balance the title's top breathing room with the gap below the last
+       metadata value before the gallery banner. */
+    padding-top: 3rem;
     padding-bottom: 1.25rem;
   }
 
