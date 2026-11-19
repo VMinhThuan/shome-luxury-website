@@ -10106,6 +10106,8 @@ main .surface-finish-section .surface-finish-title {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  pointer-events: none;
+  -webkit-user-drag: none;
 }
 
 .project-gallery-hint {
@@ -13883,12 +13885,12 @@ body.quote-project-gallery-open { overflow: hidden !important; }
 
 .project-gallery-lightbox-stage > img {
   display: block;
-  width: auto;
-  height: auto;
-  max-width: 100%;
-  max-height: 100%;
-  object-fit: contain;
-  object-position: center;
+  width: auto !important;
+  height: auto !important;
+  max-width: 100% !important;
+  max-height: 100% !important;
+  object-fit: contain !important;
+  object-position: center !important;
   user-select: none;
   -webkit-user-drag: none;
 }
@@ -13949,11 +13951,16 @@ body.quote-project-gallery-open { overflow: hidden !important; }
   display: flex;
   gap: .55rem;
   overflow-x: auto;
+  overflow-y: hidden;
   padding: .15rem .1rem .35rem;
   scrollbar-width: none;
+  cursor: grab;
+  touch-action: pan-x;
+  user-select: none;
 }
 
 .project-gallery-lightbox-thumbnails::-webkit-scrollbar { display: none; }
+.project-gallery-lightbox-thumbnails.is-dragging { cursor: grabbing; scroll-behavior: auto; }
 
 .project-gallery-lightbox-thumbnail {
   width: 88px;
@@ -13973,6 +13980,8 @@ body.quote-project-gallery-open { overflow: hidden !important; }
   width: 100%;
   height: 100%;
   object-fit: cover;
+  pointer-events: none;
+  -webkit-user-drag: none;
 }
 
 .project-gallery-lightbox-thumbnail:is(:hover, .is-active) {
