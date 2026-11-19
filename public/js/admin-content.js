@@ -178,7 +178,12 @@
       const published = row.isPublished !== false && row.status === 'published';
       const status = row.isClosed ? '<span class="content-cms-status is-closed">Đã đóng</span>' : published ? '<span class="content-cms-status is-published">Đã xuất bản</span>' : '<span class="content-cms-status is-draft">Bản nháp</span>';
       const order = config.kind === 'project' && Number(row.sortOrder) > 0 ? Number(row.sortOrder) : '—';
-      return `<tr><td>${thumb}</td><td>${escapeHtml(row.title || 'Chưa có tiêu đề')}</td><td>${escapeHtml(categoryText(row))}</td><td>${order}</td><td>${status}</td><td>${formatDate(row.updatedAt || row.date)}</td><td><div class="content-cms-actions"><a href="${publicUrl(row)}" target="_blank" rel="noopener">Xem</a><button type="button" data-edit="${id}">Sửa</button><button type="button" data-duplicate="${id}">Nhân bản</button><button type="button" data-publish="${id}" data-published="${published}">${published ? 'Ẩn' : 'Xuất bản'}</button><button type="button" class="danger" data-delete="${id}">Xóa</button></div></td></tr>`;
+      const editLink = new URL(window.location.href);
+      editLink.searchParams.set('edit', idOf(row));
+      const editAction = config.kind === 'project'
+        ? `<a href="${escapeHtml(editLink.toString())}" data-edit="${id}">Sửa</a>`
+        : `<button type="button" data-edit="${id}">Sửa</button>`;
+      return `<tr><td>${thumb}</td><td>${escapeHtml(row.title || 'Chưa có tiêu đề')}</td><td>${escapeHtml(categoryText(row))}</td><td>${order}</td><td>${status}</td><td>${formatDate(row.updatedAt || row.date)}</td><td><div class="content-cms-actions"><a href="${publicUrl(row)}" target="_blank" rel="noopener">Xem</a>${editAction}<button type="button" data-duplicate="${id}">Nhân bản</button><button type="button" data-publish="${id}" data-published="${published}">${published ? 'Ẩn' : 'Xuất bản'}</button><button type="button" class="danger" data-delete="${id}">Xóa</button></div></td></tr>`;
     }).join('');
   }
 
@@ -655,45 +660,14 @@
     return { succeeded: 0, failed: [] };
   }
 
-  async function uploadImage() {
-    const imageFileInput = $('[data-image-file]');
-    const file = imageFileInput?.files?.[0];
-    if (!file) { formError.textContent = 'Vui lòng chọn ảnh trước khi tải lên.'; return; }
-    const button = $('[data-upload-image]');
-    button.disabled = true;
-    try {
-      const folder = config.kind === 'project' ? `shome-luxury/projects/${moduleKey}` : `shome-luxury/content/${moduleKey}`;
-      const uploaded = await uploadRawImage(file, folder);
-      applyThumbnailUpload(uploaded);
-      imageFileInput.value = '';
-      formError.textContent = '';
-    } catch (error) { formError.textContent = error.message; }
-    finally { button.disabled = false; }
-  }
-
-  async function uploadGallery() {
-    if (!state.pendingGalleryFiles.length) {
-      formError.textContent = 'Vui lòng chọn ảnh gallery trước khi tải lên.';
-      return;
-    }
-    const projectId = field('id')?.value;
-    if (!projectId) {
-      formError.textContent = 'Hãy lưu công trình trước để có thể tải gallery ngay.';
-      return;
-    }
-    const button = $('[data-upload-gallery]');
-    button.disabled = true;
-    try {
-      await uploadGalleryEntries([...state.pendingGalleryFiles], projectId);
-    } catch (error) { formError.textContent = error.message; }
-    finally { button.disabled = false; renderGalleryPreview(); }
-  }
-
   table.addEventListener('click', async event => {
     const button = event.target.closest('button, a');
     if (!button) return;
     const id = button.dataset.edit || button.dataset.delete || button.dataset.publish || button.dataset.duplicate;
-    if (button.dataset.edit) return openForm(state.rows.find(row => idOf(row) === id));
+    if (button.dataset.edit) {
+      if (config.kind === 'project' && button.tagName === 'A') return;
+      return openForm(state.rows.find(row => idOf(row) === id));
+    }
     if (button.dataset.delete) {
       if (!window.confirm('Xóa nội dung này? Hành động này không thể hoàn tác.')) return;
       try { await request(`${endpoint()}/${encodeURIComponent(id)}`, { method: 'DELETE' }); setFeedback('Đã xóa nội dung.'); await load(); } catch (error) { setFeedback(error.message, true); }
@@ -715,8 +689,6 @@
   });
   $('[data-category-filter]').addEventListener('change', event => { state.filterCategory = event.target.value; state.page = 1; load(); });
   $('[data-status-filter]').addEventListener('change', () => { state.page = 1; load(); });
-  $('[data-upload-image]').addEventListener('click', uploadImage);
-  $('[data-upload-gallery]').addEventListener('click', uploadGallery);
   $$('[data-close-modal]').forEach(button => button.addEventListener('click', closeForm));
   $('[data-save-draft]').addEventListener('click', () => save(false));
   form.addEventListener('submit', event => { event.preventDefault(); save(true); });

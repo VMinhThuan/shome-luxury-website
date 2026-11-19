@@ -72,6 +72,7 @@ body.content-cms-page { min-height: 100vh; margin: 0; color: var(--cms-ink); bac
 .content-cms-inline-image label { display: grid; gap: 6px; color: #786f63; font-size: 11px; font-weight: 700; }
 .content-cms-inline-image input { width: 100%; border: 1px solid #ded2c3; border-radius: 6px; padding: 11px 12px; color: var(--cms-ink); background: #fffdfa; font: inherit; font-size: 13px; }
 .content-cms-upload { display: grid; grid-template-columns: 1fr auto; gap: 9px; align-items: center; }
+.content-cms-upload--file-only { grid-template-columns: 1fr; }
 .content-cms-image-preview { grid-column: 1 / -1; min-height: 46px; color: #9a8d7e; font-size: 11px; }
 .content-cms-image-preview img { display: block; width: 140px; height: 84px; border-radius: 6px; object-fit: cover; }
 .content-cms-image-toolbar { grid-column: 1 / -1; display: flex; align-items: center; justify-content: flex-end; min-height: 32px; }
