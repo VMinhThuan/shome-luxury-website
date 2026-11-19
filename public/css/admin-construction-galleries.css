@@ -25,6 +25,15 @@
 .construction-gallery-admin__card[data-uploading="true"] [data-gallery-upload] { cursor: wait; }
 .construction-gallery-admin__spinner { display: inline-block; width: 14px; height: 14px; flex: 0 0 14px; border: 2px solid currentColor; border-right-color: transparent; border-radius: 50%; animation: construction-gallery-spin .75s linear infinite; }
 @keyframes construction-gallery-spin { to { transform: rotate(360deg); } }
+.construction-gallery-admin__upload-progress { display: grid; gap: 7px; padding: 12px 0 0; color: #8f6321; font-size: 11px; }
+.construction-gallery-admin__upload-progress-head { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.construction-gallery-admin__upload-progress progress { width: 100%; height: 7px; accent-color: #c99432; }
+.construction-gallery-admin__retry { padding: 5px 8px; border: 1px solid #d8c8b5; border-radius: 5px; color: #68491e; background: #fff8eb; font: inherit; font-size: 10px; font-weight: 800; cursor: pointer; }
+.construction-gallery-admin__batch-statuses { display: flex; flex-wrap: wrap; gap: 5px; }
+.construction-gallery-admin__batch-status { padding: 4px 6px; border-radius: 999px; background: #f2ede6; color: #766e64; font-size: 9px; font-weight: 700; }
+.construction-gallery-admin__batch-status.is-success { color: #247a46; background: #e7f6ed; }
+.construction-gallery-admin__batch-status.is-failed { color: #a33b2f; background: #fbe9e6; }
+.construction-gallery-admin__batch-status.is-uploading { color: #8c631a; background: #fff4dc; }
 .construction-gallery-admin__list { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; padding-top: 15px; }
 .construction-gallery-admin__list > p { grid-column: 1 / -1; margin: 0; color: #9a8d7e; font-size: 11px; }
 .construction-gallery-admin__item { position: relative; min-width: 0; overflow: hidden; border: 1px solid #e5dacb; border-radius: 6px; background: #f1ebe4; }

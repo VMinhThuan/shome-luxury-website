@@ -18,6 +18,11 @@
         <input type="file" accept="image/jpeg,image/png,image/webp" multiple data-gallery-files />
         <button class="content-cms-primary" type="button" data-gallery-upload>Tải ảnh lên section</button>
       </div>
+      <div class="construction-gallery-admin__upload-progress" data-gallery-upload-progress hidden>
+        <div class="construction-gallery-admin__upload-progress-head"><span data-gallery-progress-label>Đang chờ upload...</span><button type="button" class="construction-gallery-admin__retry" data-gallery-retry hidden>Thử lại ảnh lỗi</button></div>
+        <progress data-gallery-progress max="1" value="0"></progress>
+        <div class="construction-gallery-admin__batch-statuses" data-gallery-batch-status></div>
+      </div>
       <div class="construction-gallery-admin__list" data-gallery-list><p>Chưa có ảnh.</p></div>
     </article>
 
@@ -29,6 +34,11 @@
       <div class="construction-gallery-admin__upload">
         <input type="file" accept="image/jpeg,image/png,image/webp" multiple data-gallery-files />
         <button class="content-cms-primary" type="button" data-gallery-upload>Tải ảnh lên section</button>
+      </div>
+      <div class="construction-gallery-admin__upload-progress" data-gallery-upload-progress hidden>
+        <div class="construction-gallery-admin__upload-progress-head"><span data-gallery-progress-label>Đang chờ upload...</span><button type="button" class="construction-gallery-admin__retry" data-gallery-retry hidden>Thử lại ảnh lỗi</button></div>
+        <progress data-gallery-progress max="1" value="0"></progress>
+        <div class="construction-gallery-admin__batch-statuses" data-gallery-batch-status></div>
       </div>
       <div class="construction-gallery-admin__list" data-gallery-list><p>Chưa có ảnh.</p></div>
     </article>
