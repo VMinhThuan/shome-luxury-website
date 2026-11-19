@@ -919,6 +919,50 @@ document.addEventListener('DOMContentLoaded', () => {
     const getPreviewImage = () => gallery?.querySelector('[data-gallery-drag-preview]');
     const getProjectTitle = () => detailPage.querySelector('[data-project-field="title"]')?.textContent || 'Công trình Shome Luxury';
     let galleryLightbox = null;
+    let lightboxZoomScale = 1;
+    let lightboxPanX = 0;
+    let lightboxPanY = 0;
+    let lightboxPointerId = null;
+    let lightboxPointerStartX = 0;
+    let lightboxPointerStartY = 0;
+    let lightboxPanStartX = 0;
+    let lightboxPanStartY = 0;
+    let lightboxSwipeStartX = null;
+
+    function applyLightboxZoom() {
+      const image = galleryLightbox?.querySelector('[data-gallery-lightbox-image]');
+      if (!image) return;
+      image.style.transform = lightboxZoomScale > 1
+        ? `translate(${lightboxPanX}px, ${lightboxPanY}px) scale(${lightboxZoomScale})`
+        : '';
+      image.classList.toggle('is-zoomed', lightboxZoomScale > 1);
+    }
+
+    function resetLightboxZoom() {
+      lightboxZoomScale = 1;
+      lightboxPanX = 0;
+      lightboxPanY = 0;
+      lightboxPointerId = null;
+      lightboxSwipeStartX = null;
+      applyLightboxZoom();
+    }
+
+    function setLightboxZoom(scale) {
+      const image = galleryLightbox?.querySelector('[data-gallery-lightbox-image]');
+      const stage = galleryLightbox?.querySelector('.project-gallery-lightbox-stage');
+      if (!image || !stage) return;
+      lightboxZoomScale = Math.min(3, Math.max(1, scale));
+      if (lightboxZoomScale === 1) {
+        lightboxPanX = 0;
+        lightboxPanY = 0;
+      } else {
+        const maxX = Math.max(0, (image.offsetWidth * lightboxZoomScale - stage.clientWidth) / 2);
+        const maxY = Math.max(0, (image.offsetHeight * lightboxZoomScale - stage.clientHeight) / 2);
+        lightboxPanX = Math.max(-maxX, Math.min(maxX, lightboxPanX));
+        lightboxPanY = Math.max(-maxY, Math.min(maxY, lightboxPanY));
+      }
+      applyLightboxZoom();
+    }
 
     function enableHorizontalThumbnailDrag(thumbnailStrip) {
       if (!thumbnailStrip || thumbnailStrip.dataset.dragEnabled === 'true') return;
@@ -986,11 +1030,61 @@ document.addEventListener('DOMContentLoaded', () => {
             </button>
             <span class="project-gallery-lightbox-count" aria-live="polite"><span data-gallery-lightbox-current>01</span> / <span data-gallery-lightbox-total>01</span></span>
           </div>
-          <div class="project-gallery-lightbox-thumbnails" data-gallery-lightbox-thumbnails aria-label="Chọn ảnh phóng to"></div>
         </div>`;
       document.body.append(modal);
       galleryLightbox = modal;
-      enableHorizontalThumbnailDrag(modal.querySelector('[data-gallery-lightbox-thumbnails]'));
+
+      const stage = modal.querySelector('.project-gallery-lightbox-stage');
+      stage?.addEventListener('wheel', event => {
+        event.preventDefault();
+        setLightboxZoom(lightboxZoomScale + (event.deltaY < 0 ? 0.2 : -0.2));
+      }, { passive: false });
+      stage?.addEventListener('dblclick', event => {
+        if (event.target.closest('button')) return;
+        setLightboxZoom(lightboxZoomScale > 1 ? 1 : 2);
+      });
+      stage?.addEventListener('pointerdown', event => {
+        if (!event.isPrimary || event.target.closest('button')) return;
+        event.preventDefault();
+        if (lightboxZoomScale > 1) {
+          lightboxPointerId = event.pointerId;
+          lightboxPointerStartX = event.clientX;
+          lightboxPointerStartY = event.clientY;
+          lightboxPanStartX = lightboxPanX;
+          lightboxPanStartY = lightboxPanY;
+          stage.setPointerCapture?.(event.pointerId);
+          return;
+        }
+        lightboxSwipeStartX = event.clientX;
+      });
+      stage?.addEventListener('pointermove', event => {
+        if (event.pointerId !== lightboxPointerId) return;
+        const image = galleryLightbox?.querySelector('[data-gallery-lightbox-image]');
+        if (!image) return;
+        const maxX = Math.max(0, (image.offsetWidth * lightboxZoomScale - stage.clientWidth) / 2);
+        const maxY = Math.max(0, (image.offsetHeight * lightboxZoomScale - stage.clientHeight) / 2);
+        lightboxPanX = Math.max(-maxX, Math.min(maxX, lightboxPanStartX + event.clientX - lightboxPointerStartX));
+        lightboxPanY = Math.max(-maxY, Math.min(maxY, lightboxPanStartY + event.clientY - lightboxPointerStartY));
+        applyLightboxZoom();
+      });
+      const finishLightboxPointer = event => {
+        if (event.pointerId === lightboxPointerId) {
+          stage.releasePointerCapture?.(event.pointerId);
+          lightboxPointerId = null;
+          return;
+        }
+        if (lightboxSwipeStartX === null || lightboxZoomScale > 1) return;
+        const distance = event.clientX - lightboxSwipeStartX;
+        lightboxSwipeStartX = null;
+        if (Math.abs(distance) < 50) return;
+        showLightboxImage(Number(galleryLightbox.dataset.galleryLightboxIndex || 0) + (distance < 0 ? 1 : -1));
+      };
+      stage?.addEventListener('pointerup', finishLightboxPointer);
+      stage?.addEventListener('pointercancel', event => {
+        lightboxPointerId = null;
+        lightboxSwipeStartX = null;
+        stage.releasePointerCapture?.(event.pointerId);
+      });
       return modal;
     }
 
@@ -999,35 +1093,17 @@ document.addEventListener('DOMContentLoaded', () => {
       if (!galleryImages.length) return;
       const normalizedIndex = (index + galleryImages.length) % galleryImages.length;
       const image = modal.querySelector('[data-gallery-lightbox-image]');
+      resetLightboxZoom();
       image.src = galleryImages[normalizedIndex];
       image.alt = `${getProjectTitle()} - ảnh ${normalizedIndex + 1}`;
       modal.querySelector('[data-gallery-lightbox-current]').textContent = String(normalizedIndex + 1).padStart(2, '0');
       modal.querySelector('[data-gallery-lightbox-total]').textContent = String(galleryImages.length).padStart(2, '0');
-      modal.querySelectorAll('[data-gallery-lightbox-thumb]').forEach((thumbnail, thumbnailIndex) => {
-        thumbnail.classList.toggle('is-active', thumbnailIndex === normalizedIndex);
-        thumbnail.setAttribute('aria-current', thumbnailIndex === normalizedIndex ? 'true' : 'false');
-      });
       modal.dataset.galleryLightboxIndex = String(normalizedIndex);
     }
 
     function openGalleryLightbox() {
       if (!galleryImages.length) return;
       const modal = createGalleryLightbox();
-      const thumbnails = modal.querySelector('[data-gallery-lightbox-thumbnails]');
-      thumbnails.replaceChildren();
-      galleryImages.forEach((src, index) => {
-        const thumbnail = document.createElement('button');
-        thumbnail.type = 'button';
-        thumbnail.className = 'project-gallery-lightbox-thumbnail';
-        thumbnail.dataset.galleryLightboxThumb = '';
-        thumbnail.setAttribute('aria-label', `Xem ảnh ${index + 1}`);
-        const image = document.createElement('img');
-        image.src = src;
-        image.alt = '';
-        image.loading = 'lazy';
-        thumbnail.append(image);
-        thumbnails.append(thumbnail);
-      });
       modal.hidden = false;
       document.body.classList.add('project-gallery-lightbox-open');
       showLightboxImage(activeGalleryIndex);
@@ -1036,6 +1112,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function closeGalleryLightbox() {
       if (!galleryLightbox) return;
+      resetLightboxZoom();
       galleryLightbox.hidden = true;
       document.body.classList.remove('project-gallery-lightbox-open');
       getGalleryStage()?.focus();
@@ -1231,11 +1308,6 @@ document.addEventListener('DOMContentLoaded', () => {
         if (event.target.closest('[data-gallery-lightbox-next]')) {
           showLightboxImage(Number(galleryLightbox.dataset.galleryLightboxIndex || 0) + 1);
         }
-        const thumbnail = event.target.closest('[data-gallery-lightbox-thumb]');
-        if (thumbnail) {
-          const allThumbnails = Array.from(galleryLightbox.querySelectorAll('[data-gallery-lightbox-thumb]'));
-          showLightboxImage(allThumbnails.indexOf(thumbnail));
-        }
       });
 
       document.addEventListener('keydown', event => {
@@ -1243,6 +1315,9 @@ document.addEventListener('DOMContentLoaded', () => {
         if (event.key === 'Escape') closeGalleryLightbox();
         if (event.key === 'ArrowLeft') showLightboxImage(Number(galleryLightbox.dataset.galleryLightboxIndex || 0) - 1);
         if (event.key === 'ArrowRight') showLightboxImage(Number(galleryLightbox.dataset.galleryLightboxIndex || 0) + 1);
+        if (event.key === '+' || event.key === '=') setLightboxZoom(lightboxZoomScale + 0.2);
+        if (event.key === '-') setLightboxZoom(lightboxZoomScale - 0.2);
+        if (event.key === '0') resetLightboxZoom();
       });
       gallery.addEventListener('mouseenter', stopGalleryAutoplay);
       gallery.addEventListener('mouseleave', startGalleryAutoplay);
