@@ -935,6 +935,8 @@ document.addEventListener('DOMContentLoaded', () => {
     let lightboxPendingPanY = null;
     let lightboxWheelFrame = null;
     let lightboxWheelTargetScale = 1;
+    const galleryImagePreloads = new Map();
+    let galleryTransitionToken = 0;
 
     function updateLightboxPanLimits() {
       const image = galleryLightbox?.querySelector('[data-gallery-lightbox-image]');
@@ -1206,6 +1208,9 @@ document.addEventListener('DOMContentLoaded', () => {
       if (!gallery || !images.length) return;
       galleryImages = [...new Set(images.filter(Boolean))];
       activeGalleryIndex = 0;
+      preloadGalleryImage(galleryImages[0]);
+      preloadGalleryImage(galleryImages[1 % galleryImages.length]);
+      preloadGalleryImage(galleryImages[(galleryImages.length - 1) % galleryImages.length]);
       const stage = getGalleryStage();
       if (stage && !getHeroImage()) {
         stage.querySelector('.project-gallery-empty')?.remove();
@@ -1242,6 +1247,33 @@ document.addEventListener('DOMContentLoaded', () => {
       });
       selectGalleryImage(0, true);
       startGalleryAutoplay();
+    }
+
+    function preloadGalleryImage(src) {
+      if (!src) return Promise.resolve();
+      if (galleryImagePreloads.has(src)) return galleryImagePreloads.get(src);
+      const image = new Image();
+      image.decoding = 'async';
+      const promise = new Promise(resolve => {
+        let settled = false;
+        const finish = () => {
+          if (settled) return;
+          settled = true;
+          resolve(image);
+        };
+        image.onload = () => {
+          if (typeof image.decode !== 'function') {
+            finish();
+            return;
+          }
+          image.decode().catch(() => {}).finally(finish);
+        };
+        image.onerror = finish;
+        image.src = src;
+        if (image.complete) image.onload();
+      });
+      galleryImagePreloads.set(src, promise);
+      return promise;
     }
 
     function updateGalleryUi() {
@@ -1293,30 +1325,38 @@ document.addEventListener('DOMContentLoaded', () => {
 
       const direction = requestedDirection || (nextGalleryIndex > activeGalleryIndex ? 1 : -1);
       isGallerySliding = true;
-      updateSlideImage(previewImage, galleryImages[nextGalleryIndex], nextGalleryIndex);
-      stage.classList.remove('is-dragging');
-      stage.classList.remove('is-sliding');
-      setGalleryImageTransform(heroImage, '0%');
-      setGalleryImageTransform(previewImage, `${direction > 0 ? 100 : -100}%`);
+      const transitionToken = ++galleryTransitionToken;
+      preloadGalleryImage(galleryImages[nextGalleryIndex]).then(() => {
+        if (transitionToken !== galleryTransitionToken) return;
 
-      // Keep both images mounted and slide them together; this avoids a white flash.
-      void previewImage.offsetWidth;
-      stage.classList.add('is-sliding');
-      window.requestAnimationFrame(() => {
-        setGalleryImageTransform(heroImage, `${direction > 0 ? -100 : 100}%`);
-        setGalleryImageTransform(previewImage, '0%');
+        updateSlideImage(previewImage, galleryImages[nextGalleryIndex], nextGalleryIndex);
+        stage.classList.remove('is-dragging');
+        stage.classList.remove('is-sliding');
+        setGalleryImageTransform(heroImage, '0%');
+        setGalleryImageTransform(previewImage, `${direction > 0 ? 100 : -100}%`);
+
+        // Start the slide only after the target bitmap is decoded. This avoids
+        // showing the previous image while the next one is still downloading.
+        void previewImage.offsetWidth;
+        stage.classList.add('is-sliding');
+        window.requestAnimationFrame(() => {
+          setGalleryImageTransform(heroImage, `${direction > 0 ? -100 : 100}%`);
+          setGalleryImageTransform(previewImage, '0%');
+        });
+
+        const completeSlide = event => {
+          if (event.target !== previewImage || event.propertyName !== 'transform') return;
+          previewImage.removeEventListener('transitionend', completeSlide);
+          activeGalleryIndex = nextGalleryIndex;
+          updateSlideImage(heroImage, galleryImages[activeGalleryIndex], activeGalleryIndex);
+          resetSlidePosition();
+          isGallerySliding = false;
+          preloadGalleryImage(galleryImages[(activeGalleryIndex + 1) % galleryImages.length]);
+          preloadGalleryImage(galleryImages[(activeGalleryIndex - 1 + galleryImages.length) % galleryImages.length]);
+          updateGalleryUi();
+        };
+        previewImage.addEventListener('transitionend', completeSlide);
       });
-
-      const completeSlide = event => {
-        if (event.target !== previewImage || event.propertyName !== 'transform') return;
-        previewImage.removeEventListener('transitionend', completeSlide);
-        activeGalleryIndex = nextGalleryIndex;
-        updateSlideImage(heroImage, galleryImages[activeGalleryIndex], activeGalleryIndex);
-        resetSlidePosition();
-        isGallerySliding = false;
-        updateGalleryUi();
-      };
-      previewImage.addEventListener('transitionend', completeSlide);
     }
 
     if (gallery) {
