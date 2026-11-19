@@ -1127,7 +1127,14 @@ document.addEventListener('DOMContentLoaded', () => {
       if (!image) return;
       // Keep every image centered from its own midpoint so a portrait/landscape
       // ratio change cannot expose the hidden preview beside the active image.
-      image.style.transform = `translateX(calc(-50% + ${offset}))`;
+      const centeredTransform = offset === '0%'
+        ? '-50%'
+        : offset === '100%'
+          ? '100%'
+          : offset === '-100%'
+            ? '-150%'
+            : `calc(-50% + ${offset})`;
+      image.style.transform = `translateX(${centeredTransform})`;
     };
 
     function resetSlidePosition() {

@@ -13107,7 +13107,13 @@ html {
 }
 
 .project-detail-page .project-gallery-drag-preview {
-  transform: translateX(calc(-50% + 100%));
+  transform: translateX(100%);
+  visibility: hidden;
+}
+
+.project-detail-page .project-gallery-stage.is-sliding .project-gallery-drag-preview,
+.project-detail-page .project-gallery-stage.is-dragging .project-gallery-drag-preview {
+  visibility: visible;
 }
 
 .project-detail-page .project-gallery-stage-shade {
