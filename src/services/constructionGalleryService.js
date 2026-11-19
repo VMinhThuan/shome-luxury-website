@@ -74,7 +74,11 @@ async function removeImage(pageKey, sectionKey, imageId) {
   const publicId = image.publicId;
   gallery.images.pull(imageId);
   await gallery.save();
-  if (publicId) destroyCloudinaryImage(publicId).catch(error => console.error('[Construction gallery cleanup]', error.message));
+  if (publicId) {
+    await destroyCloudinaryImage(publicId).catch(error => {
+      console.error('[Construction gallery cleanup]', error.message);
+    });
+  }
   return gallery.images.map(serializeImage);
 }
 
