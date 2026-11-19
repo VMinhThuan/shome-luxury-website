@@ -1323,39 +1323,21 @@ document.addEventListener('DOMContentLoaded', () => {
       }
       if (isGallerySliding) return;
 
-      const direction = requestedDirection || (nextGalleryIndex > activeGalleryIndex ? 1 : -1);
       isGallerySliding = true;
       const transitionToken = ++galleryTransitionToken;
       preloadGalleryImage(galleryImages[nextGalleryIndex]).then(() => {
         if (transitionToken !== galleryTransitionToken) return;
 
-        updateSlideImage(previewImage, galleryImages[nextGalleryIndex], nextGalleryIndex);
-        stage.classList.remove('is-dragging');
-        stage.classList.remove('is-sliding');
-        setGalleryImageTransform(heroImage, '0%');
-        setGalleryImageTransform(previewImage, `${direction > 0 ? 100 : -100}%`);
-
-        // Start the slide only after the target bitmap is decoded. This avoids
-        // showing the previous image while the next one is still downloading.
-        void previewImage.offsetWidth;
-        stage.classList.add('is-sliding');
-        window.requestAnimationFrame(() => {
-          setGalleryImageTransform(heroImage, `${direction > 0 ? -100 : 100}%`);
-          setGalleryImageTransform(previewImage, '0%');
-        });
-
-        const completeSlide = event => {
-          if (event.target !== previewImage || event.propertyName !== 'transform') return;
-          previewImage.removeEventListener('transitionend', completeSlide);
-          activeGalleryIndex = nextGalleryIndex;
-          updateSlideImage(heroImage, galleryImages[activeGalleryIndex], activeGalleryIndex);
-          resetSlidePosition();
-          isGallerySliding = false;
-          preloadGalleryImage(galleryImages[(activeGalleryIndex + 1) % galleryImages.length]);
-          preloadGalleryImage(galleryImages[(activeGalleryIndex - 1 + galleryImages.length) % galleryImages.length]);
-          updateGalleryUi();
-        };
-        previewImage.addEventListener('transitionend', completeSlide);
+        // Swap only after the target image is decoded. The old two-layer slide
+        // animation could leave a strip of the previous image visible when
+        // natural image sizes differed.
+        activeGalleryIndex = nextGalleryIndex;
+        updateSlideImage(heroImage, galleryImages[activeGalleryIndex], activeGalleryIndex);
+        resetSlidePosition();
+        isGallerySliding = false;
+        preloadGalleryImage(galleryImages[(activeGalleryIndex + 1) % galleryImages.length]);
+        preloadGalleryImage(galleryImages[(activeGalleryIndex - 1 + galleryImages.length) % galleryImages.length]);
+        updateGalleryUi();
       });
     }
 
