@@ -6,8 +6,8 @@
   <title><%= title %></title>
   <%- include('partials/site-favicon') %>
   <link rel="stylesheet" href="/css/admin-shell.css?v=1.0.0" />
-  <link rel="stylesheet" href="/css/admin-projects.css?v=1.1.0" />
-  <script src="/js/admin-projects.js?v=1.1.2" defer></script>
+  <link rel="stylesheet" href="/css/admin-projects.css?v=1.1.1" />
+  <script src="/js/admin-projects.js?v=1.2.0" defer></script>
 </head>
 <body class="project-admin-page" data-section="<%= typeof currentSection !== 'undefined' ? currentSection : 'thiet-ke-cong-trinh' %>" data-section-title="<%= typeof currentSectionTitle !== 'undefined' ? currentSectionTitle : 'Thiết kế công trình' %>">
   <%- include('partials/admin-header', { activeAdmin: currentSection === 'thi-cong-cong-trinh' ? 'construction' : 'design' }) %>
@@ -107,9 +107,16 @@
         </section>
 
         <section class="project-upload-section">
-          <h3>Gallery ảnh thực tế <span class="project-gallery-count" data-gallery-count>0/6 ảnh</span><button type="button" class="project-gallery-clear-all" data-gallery-clear-all disabled>Xóa tất cả</button></h3>
-          <p class="project-upload-hint" data-gallery-hint>Tối đa 5 ảnh. Ảnh JPG/PNG sẽ được tối ưu WebP, cạnh lớn nhất 2048px.</p>
+          <h3>Gallery ảnh thực tế <span class="project-gallery-count" data-gallery-count>0/30 ảnh</span><button type="button" class="project-gallery-clear-all" data-gallery-clear-all disabled>Xóa tất cả</button></h3>
+          <p class="project-upload-hint" data-gallery-hint>Tối đa 30 ảnh. Khi lưu, ảnh sẽ tự chia thành các batch tối đa 5 ảnh.</p>
           <input type="file" name="galleryFiles" accept="image/jpeg,image/png,image/webp" multiple data-gallery-input />
+          <div class="project-gallery-upload-progress" data-gallery-upload-progress hidden>
+            <div class="project-gallery-upload-progress-head">
+              <span data-gallery-progress-label>Đang chờ upload...</span>
+              <progress data-gallery-progress max="1" value="0"></progress>
+            </div>
+            <div class="project-gallery-batch-statuses" data-gallery-batch-status></div>
+          </div>
           <div class="project-gallery-manager" data-gallery-manager></div>
         </section>
 

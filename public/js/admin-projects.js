@@ -17,7 +17,14 @@
     categoryMap: new Map(),
     selectedGroup: null, // null = all, or category._id
     selectedSubcat: null, // null = all in group, or leaf category._id
-    current: null
+    current: null,
+    pendingGalleryFiles: [],
+    galleryUpload: {
+      active: false,
+      total: 0,
+      processed: 0,
+      batches: []
+    }
   };
 
   const list = $('[data-project-list]');
@@ -33,7 +40,8 @@
   const filterCategory = $('[data-filter-category]');
   const filterStatus = $('[data-filter-status]');
 
-  const MAX_GALLERY_IMAGES = 6;
+  const MAX_GALLERY_IMAGES = 30;
+  const GALLERY_UPLOAD_BATCH_SIZE = 5;
 
   const escapeHtml = value => String(value ?? '').replace(/[&<>'"]/g, char => ({
     '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;'
@@ -57,9 +65,14 @@
       throw new Error('Phiên đăng nhập đã hết hạn.');
     }
     if (!response.ok || payload.success === false) {
-      throw new Error(payload.message || 'Không thể thực hiện thao tác.');
+      const error = new Error(payload.message || 'Không thể thực hiện thao tác.');
+      error.status = response.status;
+      error.code = payload.code;
+      error.data = payload.data;
+      error.retryable = payload.retryable !== false && [408, 425, 429, 500, 502, 503, 504].includes(response.status);
+      throw error;
     }
-    return payload;
+    return { ...payload, httpStatus: response.status };
   }
 
   // Build hierarchy and map
@@ -528,7 +541,33 @@
     list.append(grid);
   }
 
+  function revokePendingGalleryPreviews() {
+    state.pendingGalleryFiles.forEach(item => {
+      if (item.previewUrl) URL.revokeObjectURL(item.previewUrl);
+    });
+  }
+
+  function clearPendingGalleryFiles() {
+    revokePendingGalleryPreviews();
+    state.pendingGalleryFiles = [];
+    state.galleryUpload = { active: false, total: 0, processed: 0, batches: [] };
+  }
+
+  function syncGalleryInput() {
+    const input = $('[data-gallery-input]');
+    if (!input || typeof DataTransfer === 'undefined') return;
+    try {
+      const transfer = new DataTransfer();
+      state.pendingGalleryFiles.forEach(item => transfer.items.add(item.file));
+      input.files = transfer.files;
+    } catch (_error) {
+      // The upload flow uses state.pendingGalleryFiles directly, so browsers
+      // without writable FileList support remain fully functional.
+    }
+  }
+
   function resetForm(project = null) {
+    clearPendingGalleryFiles();
     state.current = project;
     form.reset();
     form.elements.id.value = project?._id || '';
@@ -578,8 +617,10 @@
     const hint = $('[data-gallery-hint]');
     const clearButton = $('[data-gallery-clear-all]');
     const total = count + pending;
-    if (countNode) countNode.textContent = `${total}/${MAX_GALLERY_IMAGES} ảnh`;
-    if (clearButton) clearButton.disabled = count === 0;
+    if (countNode) {
+      countNode.textContent = `${count}/${MAX_GALLERY_IMAGES} ảnh${pending ? ` · ${pending} chờ upload` : ''}`;
+    }
+    if (clearButton) clearButton.disabled = total === 0;
 
     const overLimit = count > MAX_GALLERY_IMAGES || total > MAX_GALLERY_IMAGES;
     if (input) input.disabled = count >= MAX_GALLERY_IMAGES || total >= MAX_GALLERY_IMAGES;
@@ -589,7 +630,7 @@
         ? `Gallery hiện có ${count} ảnh, vượt giới hạn. Hãy xoá ảnh dư trước khi lưu gallery.`
         : total >= MAX_GALLERY_IMAGES
           ? `Đã đủ ${MAX_GALLERY_IMAGES} ảnh. Xoá ảnh để upload ảnh thay thế.`
-          : `Tối đa ${MAX_GALLERY_IMAGES} ảnh. Ảnh JPG/PNG sẽ được tối ưu WebP, cạnh lớn nhất 2048px.`;
+          : `Tối đa ${MAX_GALLERY_IMAGES} ảnh. Chọn ảnh sẽ tự chia batch tối đa ${GALLERY_UPLOAD_BATCH_SIZE} ảnh.`;
     }
   }
 
@@ -612,19 +653,44 @@
     }
   }
 
+  function renderGalleryUploadProgress() {
+    const wrapper = $('[data-gallery-upload-progress]');
+    const progress = $('[data-gallery-progress]');
+    const label = $('[data-gallery-progress-label]');
+    const batches = $('[data-gallery-batch-status]');
+    if (!wrapper || !progress || !label || !batches) return;
+
+    const upload = state.galleryUpload;
+    const hasActivity = upload.active || upload.batches.length > 0;
+    wrapper.hidden = !hasActivity;
+    if (!hasActivity) return;
+
+    progress.max = upload.total || 1;
+    progress.value = Math.min(upload.processed, upload.total || 1);
+    label.textContent = upload.active
+      ? `Đang upload ${upload.processed}/${upload.total} ảnh...`
+      : `Đã xử lý ${upload.processed}/${upload.total} ảnh.`;
+    batches.innerHTML = upload.batches.map(batch => {
+      const status = batch.status === 'partial' ? 'một phần' : batch.status === 'success' ? 'hoàn tất' : batch.status === 'failed' ? 'thất bại' : 'đang xử lý';
+      return `<span class="project-gallery-batch-status is-${escapeHtml(batch.status)}">Batch ${batch.index}/${batch.total}: ${status}${batch.failed ? ` · ${batch.failed} lỗi` : ''}</span>`;
+    }).join('');
+  }
+
   function renderGallery(items) {
     const manager = $('[data-gallery-manager]');
+    if (!manager) return;
     manager.innerHTML = '';
-    updateGalleryCount((items || []).length, $('[data-gallery-input]')?.files?.length || 0);
+    const galleryItems = items || [];
+    updateGalleryCount(galleryItems.length, state.pendingGalleryFiles.length);
 
-    (items || []).forEach((item, index) => {
+    galleryItems.forEach((item, index) => {
       const element = document.createElement('div');
       element.className = `project-gallery-item${state.current?.thumbnail === item.url ? ' is-thumbnail' : ''}`;
       element.draggable = true;
       element.dataset.id = item.id || '';
       element.dataset.url = item.url;
       element.innerHTML = `
-        <img src="${escapeHtml(item.url)}" alt="${escapeHtml(item.alt || '')}">
+        <img src="${escapeHtml(item.thumbnailUrl || item.url)}" alt="${escapeHtml(item.alt || '')}" loading="lazy" decoding="async">
         <small>${index + 1}</small>
         <button type="button" data-thumbnail title="Dùng làm thumbnail">${state.current?.thumbnail === item.url ? 'Thumbnail' : 'Chọn thumbnail'}</button>
         <button type="button" data-remove title="Xoá ảnh">×</button>
@@ -673,6 +739,36 @@
 
       manager.append(element);
     });
+
+    state.pendingGalleryFiles.forEach(item => {
+      const element = document.createElement('div');
+      const statusClass = item.status === 'failed' ? ' is-upload-failed' : item.status === 'uploading' ? ' is-uploading' : ' is-pending';
+      element.className = `project-gallery-item project-gallery-item--pending${statusClass}`;
+      element.dataset.pendingKey = item.key;
+      const retryButton = item.status === 'failed' && item.retryable
+        ? '<button type="button" data-pending-retry>Thử lại</button>'
+        : '';
+      const statusLabel = item.status === 'failed'
+        ? (item.error?.message || 'Upload thất bại')
+        : item.status === 'uploading' ? 'Đang upload...' : 'Chờ upload';
+      element.innerHTML = `
+        <img src="${escapeHtml(item.previewUrl)}" alt="${escapeHtml(item.file.name)}">
+        <small>${escapeHtml(statusLabel)}</small>
+        ${retryButton}
+        <button type="button" data-pending-remove title="Xóa ảnh đã chọn" ${item.status === 'uploading' ? 'disabled' : ''}>×</button>
+      `;
+      element.querySelector('[data-pending-remove]')?.addEventListener('click', () => {
+        if (item.status === 'uploading') return;
+        state.pendingGalleryFiles = state.pendingGalleryFiles.filter(candidate => candidate.key !== item.key);
+        if (item.previewUrl) URL.revokeObjectURL(item.previewUrl);
+        syncGalleryInput();
+        renderGallery(galleryItems);
+        setFormStatus('Đã bỏ ảnh khỏi danh sách chờ upload.');
+      });
+      element.querySelector('[data-pending-retry]')?.addEventListener('click', () => retryPendingGalleryFile(item.key));
+      manager.append(element);
+    });
+    renderGalleryUploadProgress();
   }
 
   async function persistGalleryOrder() {
@@ -700,6 +796,136 @@
     return result.data;
   }
 
+  function currentGalleryItems() {
+    return state.current?.galleryItems || (state.current?.gallery || []).map((url, index) => ({
+      id: `legacy-${index}`,
+      url,
+      order: index
+    }));
+  }
+
+  function createPendingGalleryFiles(files) {
+    clearPendingGalleryFiles();
+    state.pendingGalleryFiles = files.map((file, index) => ({
+      key: `${file.name}-${file.size}-${file.lastModified}-${index}`,
+      file,
+      previewUrl: URL.createObjectURL(file),
+      status: 'queued',
+      retryable: false,
+      error: null
+    }));
+    syncGalleryInput();
+  }
+
+  function galleryEntriesForSave() {
+    return state.pendingGalleryFiles.filter(item => item.status === 'queued');
+  }
+
+  async function uploadGalleryEntries(entries) {
+    if (!entries.length) return { successCount: 0, failedCount: 0, interrupted: false };
+    if (!state.current?._id) throw new Error('Công trình chưa được tạo, không thể upload gallery.');
+
+    const existingCount = currentGalleryItems().length;
+    if (existingCount + entries.length > MAX_GALLERY_IMAGES) {
+      throw new Error(`Gallery tối đa ${MAX_GALLERY_IMAGES} ảnh. Hiện có ${existingCount} ảnh.`);
+    }
+
+    const batches = [];
+    for (let index = 0; index < entries.length; index += GALLERY_UPLOAD_BATCH_SIZE) {
+      batches.push(entries.slice(index, index + GALLERY_UPLOAD_BATCH_SIZE));
+    }
+    state.galleryUpload = {
+      active: true,
+      total: entries.length,
+      processed: 0,
+      batches: []
+    };
+
+    let successCount = 0;
+    let failedCount = 0;
+    let interrupted = false;
+    for (let batchIndex = 0; batchIndex < batches.length; batchIndex += 1) {
+      const batchEntries = batches[batchIndex];
+      const batchStatus = {
+        index: batchIndex + 1,
+        total: batches.length,
+        status: 'uploading',
+        failed: 0
+      };
+      state.galleryUpload.batches.push(batchStatus);
+      batchEntries.forEach(entry => { entry.status = 'uploading'; });
+      renderGallery(currentGalleryItems());
+      setFormStatus(`Đang upload batch ${batchStatus.index}/${batchStatus.total} (${batchEntries.length} ảnh)...`);
+
+      try {
+        const data = new FormData();
+        batchEntries.forEach(entry => data.append('files', entry.file, entry.file.name));
+        data.append('alt', state.current.title || '');
+        const result = await request(`/api/admin/projects/${state.current._id}/gallery/upload`, {
+          method: 'POST',
+          body: data
+        });
+        const responseData = result.data || {};
+        const failedByIndex = new Map((responseData.failed || []).map(failure => [Number(failure.index), failure]));
+        batchStatus.failed = failedByIndex.size;
+        batchStatus.status = result.httpStatus === 207 || failedByIndex.size ? 'partial' : 'success';
+
+        batchEntries.forEach((entry, index) => {
+          const failure = failedByIndex.get(index);
+          if (failure) {
+            const failureDetail = failure.error || failure;
+            entry.status = 'failed';
+            entry.retryable = failureDetail.retryable === true;
+            entry.error = failureDetail;
+            failedCount += 1;
+          } else {
+            entry.status = 'uploaded';
+            successCount += 1;
+          }
+        });
+        if (responseData.project) state.current = responseData.project;
+      } catch (error) {
+        batchStatus.status = 'failed';
+        batchStatus.failed = batchEntries.length;
+        failedCount += batchEntries.length;
+        interrupted = true;
+        batchEntries.forEach(entry => {
+          entry.status = 'failed';
+          entry.retryable = error.retryable === true
+            || (error.retryable !== false && (!error.status || [408, 425, 429, 500, 502, 503, 504].includes(error.status)));
+          entry.error = { message: error.message, retryable: entry.retryable };
+        });
+        setFormStatus(`Batch ${batchStatus.index}/${batchStatus.total} thất bại: ${error.message}`, true);
+      }
+
+      state.galleryUpload.processed += batchEntries.length;
+      state.pendingGalleryFiles = state.pendingGalleryFiles.filter(entry => !batchEntries.includes(entry) || entry.status === 'failed');
+      syncGalleryInput();
+      renderGallery(currentGalleryItems());
+      if (interrupted) break;
+    }
+
+    state.galleryUpload.active = false;
+    renderGallery(currentGalleryItems());
+    return { successCount, failedCount, interrupted };
+  }
+
+  async function retryPendingGalleryFile(key) {
+    if (state.galleryUpload.active) return;
+    const entry = state.pendingGalleryFiles.find(item => item.key === key);
+    if (!entry || !entry.retryable) return;
+    try {
+      const result = await uploadGalleryEntries([entry]);
+      if (result.successCount) {
+        setFormStatus('Đã retry ảnh gallery thành công.');
+      } else {
+        setFormStatus('Retry ảnh gallery không thành công.', true);
+      }
+    } catch (error) {
+      setFormStatus(error.message, true);
+    }
+  }
+
   async function saveProject(event) {
     event.preventDefault();
     const saveButton = $('[data-save-project]');
@@ -725,9 +951,15 @@
 
       const id = form.elements.id.value;
       const existingGalleryCount = state.current?.galleryItems?.length || state.current?.gallery?.length || 0;
-      const galleryFiles = [...form.elements.galleryFiles.files];
+      const galleryEntries = galleryEntriesForSave();
+      const failedGalleryEntries = state.pendingGalleryFiles.filter(item => item.status === 'failed');
 
-      if (existingGalleryCount + galleryFiles.length > MAX_GALLERY_IMAGES) {
+      if (failedGalleryEntries.length) {
+        setFormStatus(`Còn ${failedGalleryEntries.length} ảnh gallery chưa xử lý. Hãy retry ảnh có thể thử lại hoặc xóa ảnh lỗi trước khi lưu.`, true);
+        return;
+      }
+
+      if (existingGalleryCount + state.pendingGalleryFiles.length > MAX_GALLERY_IMAGES) {
         throw new Error(`Gallery tối đa ${MAX_GALLERY_IMAGES} ảnh. Đang có ${existingGalleryCount} ảnh.`);
       }
 
@@ -755,21 +987,15 @@
         state.current = thumbResult.data;
       }
 
-      // Handle gallery upload if provided
-      for (let index = 0; index < galleryFiles.length; index += 1) {
-        setFormStatus(`Đang tải gallery ${index + 1}/${galleryFiles.length}...`);
-        const uploaded = await uploadFile(galleryFiles[index], 'shome-luxury/projects');
-        const galleryResult = await request(`/api/admin/projects/${state.current._id}/gallery`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            imageUrl: uploaded.url,
-            publicId: uploaded.public_id,
-            alt: state.current.title,
-            metadata: uploaded.processing?.optimized
-          })
-        });
-        state.current = galleryResult.data;
+      // Gallery files go through the backend batch endpoint. The backend
+      // owns optimization, Cloudinary upload, deduplication and persistence.
+      if (galleryEntries.length) {
+        const uploadResult = await uploadGalleryEntries(galleryEntries);
+        if (uploadResult.failedCount) {
+          await loadProjects();
+          setFormStatus(`Đã upload ${uploadResult.successCount} ảnh; còn ${uploadResult.failedCount} ảnh lỗi${uploadResult.interrupted ? '' : ' một phần'}. Có thể retry ảnh được đánh dấu.`, true);
+          return;
+        }
       }
 
       await loadProjects();
@@ -916,8 +1142,11 @@
       setFormStatus(`Không thể chọn ${selected.length} ảnh: gallery chỉ còn ${Math.max(0, MAX_GALLERY_IMAGES - existing)} vị trí.`, true);
       return;
     }
-    updateGalleryCount(existing, selected.length);
-    setFormStatus(selected.length ? `Đã chọn ${selected.length} ảnh, sẽ tối ưu WebP khi lưu.` : '');
+    createPendingGalleryFiles(selected);
+    renderGallery(currentGalleryItems());
+    setFormStatus(selected.length
+      ? `Đã chọn ${selected.length} ảnh. Khi lưu sẽ tự chia batch tối đa ${GALLERY_UPLOAD_BATCH_SIZE} ảnh.`
+      : '');
   });
 
   $('[data-gallery-clear-all]', form)?.addEventListener('click', async () => {
@@ -930,6 +1159,7 @@
         const result = await request(`/api/admin/projects/${state.current._id}/gallery/all`, { method: 'DELETE' });
         state.current = result.data;
       }
+      clearPendingGalleryFiles();
       form.elements.galleryFiles.value = '';
       renderGallery([]);
       setFormStatus('Đã xóa toàn bộ ảnh gallery.');

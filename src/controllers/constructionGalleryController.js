@@ -2,10 +2,11 @@ const multer = require('multer');
 const constructionGalleryService = require('../services/constructionGalleryService');
 const { uploadToCloudinary, destroyCloudinaryImage } = require('../utils/cloudinary');
 const { processImageBuffer } = require('../utils/imageProcessing');
+const { IMAGE_MAX_FILE_SIZE } = require('../config/imageUpload');
 
 const upload = multer({
   storage: multer.memoryStorage(),
-  limits: { fileSize: 10 * 1024 * 1024, files: 100 },
+  limits: { fileSize: IMAGE_MAX_FILE_SIZE, files: 100 },
   fileFilter: (req, file, cb) => {
     if (/^image\/(jpeg|png|webp)$/i.test(file.mimetype)) return cb(null, true);
     return cb(new Error('Chỉ hỗ trợ tải lên ảnh JPG, PNG hoặc WebP.'));
@@ -17,7 +18,7 @@ exports.uploadMiddleware = (req, res, next) => upload.array('images', 100)(req, 
   return res.status(400).json({
     success: false,
     message: error.code === 'LIMIT_FILE_SIZE'
-      ? 'Ảnh vượt quá dung lượng tối đa 10MB.'
+      ? `Ảnh vượt quá dung lượng tối đa ${Math.round(IMAGE_MAX_FILE_SIZE / (1024 * 1024))}MB.`
       : error.message || 'Chỉ hỗ trợ tải lên ảnh JPG, PNG hoặc WebP.'
   });
 });

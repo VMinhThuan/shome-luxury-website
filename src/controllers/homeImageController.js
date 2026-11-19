@@ -11,6 +11,7 @@ const subpageList = subpageSlots.subpageList || [...new Map(subpageSlots.map(slo
 }])).values()];
 const { uploadToCloudinary, destroyCloudinaryImage } = require('../utils/cloudinary');
 const { processImageBuffer } = require('../utils/imageProcessing');
+const { IMAGE_MAX_FILE_SIZE } = require('../config/imageUpload');
 
 const allConfiguredSlots = [...slots, ...subpageSlots];
 const slotByKey = new Map(allConfiguredSlots.map(slot => [slot.image_key, slot]));
@@ -89,7 +90,7 @@ const displayOrderForSlot = slot => {
 
 const upload = multer({
   storage: multer.memoryStorage(),
-  limits: { fileSize: 10 * 1024 * 1024 },
+  limits: { fileSize: IMAGE_MAX_FILE_SIZE },
   fileFilter: (req, file, cb) => cb(null, /^image\/(jpeg|png|webp)$/i.test(file.mimetype))
 });
 

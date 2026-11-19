@@ -1,4 +1,5 @@
 const cloudinary = require("cloudinary").v2;
+const { CLOUDINARY_UPLOAD_RETRIES } = require('../config/imageUpload');
 
 const readEnv = (name) => {
   const raw = process.env[name];
@@ -70,10 +71,48 @@ const uploadToCloudinary = (fileBuffer, folderName = "shome-luxury/recruitment",
   });
 };
 
+const isRetryableUploadError = (error) => {
+  const status = Number(error?.http_code || error?.statusCode || error?.status);
+  const code = String(error?.code || '').toUpperCase();
+  const message = String(error?.message || '').toLowerCase();
+  return status === 408 || status === 409 || status === 425 || status === 429
+    || (status >= 500 && status < 600)
+    || ['ETIMEDOUT', 'ECONNRESET', 'EAI_AGAIN', 'ECONNABORTED'].includes(code)
+    || /timeout|temporar|socket hang up|connection reset|rate limit|too many requests/.test(message);
+};
+
+const wait = milliseconds => new Promise(resolve => setTimeout(resolve, milliseconds));
+
+/**
+ * Upload with bounded exponential backoff. A deterministic public_id supplied
+ * by the caller makes a retried upload idempotent instead of creating copies.
+ */
+const uploadToCloudinaryWithRetry = async (fileBuffer, folderName, options = {}) => {
+  let lastError;
+  for (let attempt = 0; attempt <= CLOUDINARY_UPLOAD_RETRIES; attempt += 1) {
+    try {
+      return await uploadToCloudinary(fileBuffer, folderName, options);
+    } catch (error) {
+      lastError = error;
+      if (attempt >= CLOUDINARY_UPLOAD_RETRIES || !isRetryableUploadError(error)) throw error;
+      await wait(250 * (2 ** attempt));
+    }
+  }
+  throw lastError;
+};
+
+const optimizedImageUrl = (url, { width = 480 } = {}) => {
+  if (!url || !String(url).includes('/image/upload/')) return url || null;
+  return String(url).replace('/image/upload/', `/image/upload/f_auto,q_auto,w_${width},c_limit/`);
+};
+
 const destroyCloudinaryImage = (publicId) => cloudinary.uploader.destroy(publicId, { resource_type: 'image', invalidate: true });
 
 module.exports = {
   cloudinary,
   uploadToCloudinary,
+  uploadToCloudinaryWithRetry,
+  isRetryableUploadError,
+  optimizedImageUrl,
   destroyCloudinaryImage
 };

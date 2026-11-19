@@ -66,6 +66,7 @@ app.use((err, req, res, next) => {
   const status = err.status || (err.name === 'ValidationError' || err.name === 'CastError' ? 400 : err.code === 11000 ? 409 : 500);
   return res.status(status).json({
     success: false,
+    code: err.code || undefined,
     message: err.message || "Internal Server Error"
   });
 });

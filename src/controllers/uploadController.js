@@ -1,6 +1,14 @@
 const multer = require("multer");
-const { uploadToCloudinary, destroyCloudinaryImage } = require("../utils/cloudinary");
+const crypto = require('crypto');
+const { uploadToCloudinary, uploadToCloudinaryWithRetry, isRetryableUploadError, destroyCloudinaryImage } = require("../utils/cloudinary");
 const { processImageBuffer } = require('../utils/imageProcessing');
+const projectService = require('../services/projectService');
+const { mapWithConcurrency } = require('../utils/async');
+const {
+  GALLERY_UPLOAD_BATCH_SIZE,
+  GALLERY_UPLOAD_CONCURRENCY,
+  IMAGE_MAX_FILE_SIZE
+} = require('../config/imageUpload');
 
 // Multer memory storage configuration (in-memory buffer for streaming to Cloudinary)
 const storage = multer.memoryStorage();
@@ -18,8 +26,20 @@ const upload = multer({
   storage: storage,
   fileFilter: fileFilter,
   limits: {
-    fileSize: 10 * 1024 * 1024 // Max 10MB
+    fileSize: IMAGE_MAX_FILE_SIZE // Max 10MB by default
   }
+});
+
+// The batch endpoint validates the actual bytes with Sharp below. Accepting
+// the MIME header here lets one bad file fail independently while the other
+// files in the same batch can still be processed and reported as successful.
+const galleryBatchUpload = multer({
+  storage,
+  limits: {
+    fileSize: IMAGE_MAX_FILE_SIZE,
+    files: GALLERY_UPLOAD_BATCH_SIZE
+  },
+  fileFilter: (_req, _file, cb) => cb(null, true)
 });
 
 // Middleware for single image upload with field name 'image' or 'file'
@@ -29,11 +49,21 @@ const uploadSingleMiddleware = (req, res, next) => uploadSingle(req, res, (error
     return res.status(400).json({
       success: false,
       message: error.code === 'LIMIT_FILE_SIZE'
-        ? 'Ảnh vượt quá dung lượng tối đa 10MB.'
+        ? `Ảnh vượt quá dung lượng tối đa ${Math.round(IMAGE_MAX_FILE_SIZE / (1024 * 1024))}MB.`
         : error.message || 'Tệp ảnh không hợp lệ.'
     });
   }
   return next();
+});
+
+const uploadGalleryBatchMiddleware = (req, res, next) => galleryBatchUpload.array('files', GALLERY_UPLOAD_BATCH_SIZE)(req, res, (error) => {
+  if (!error) return next();
+  const message = error.code === 'LIMIT_FILE_SIZE'
+    ? `Ảnh vượt quá dung lượng tối đa ${Math.round(IMAGE_MAX_FILE_SIZE / (1024 * 1024))}MB.`
+    : error.code === 'LIMIT_FILE_COUNT'
+      ? `Mỗi batch chỉ được tối đa ${GALLERY_UPLOAD_BATCH_SIZE} ảnh.`
+      : error.message || 'Batch ảnh không hợp lệ.';
+  return res.status(400).json({ success: false, code: error.code || 'INVALID_BATCH', message });
 });
 
 // Controller action to process Cloudinary upload
@@ -98,7 +128,145 @@ const handleImageUpload = async (req, res) => {
   }
 };
 
+const galleryUploadError = (error) => ({
+  name: error?.name || null,
+  message: error?.message || 'Tải ảnh thất bại.',
+  retryable: isRetryableUploadError(error)
+});
+
+const processGalleryFile = async (file, index, projectId) => {
+  let uploaded;
+  try {
+    const processed = await processImageBuffer(file.buffer, {
+      resize_preset: 'project',
+      quality: '100',
+      sharpness: '100'
+    });
+    const hash = crypto.createHash('sha256').update(processed.buffer).digest('hex');
+    uploaded = await uploadToCloudinaryWithRetry(
+      processed.buffer,
+      `shome-luxury/projects/${projectId}/gallery`,
+      {
+        public_id: `gallery-${hash}`,
+        overwrite: true,
+        unique_filename: false,
+        use_filename: false
+      }
+    );
+    if (String(uploaded.format || '').toLowerCase() !== 'webp') {
+      throw new Error('Cloudinary không trả về ảnh WebP sau khi tối ưu.');
+    }
+    return {
+      index,
+      originalName: file.originalname || `image-${index + 1}`,
+      image: {
+        url: uploaded.secure_url,
+        publicId: uploaded.public_id,
+        alt: '',
+        metadata: {
+          format: uploaded.format,
+          width: uploaded.width || processed.optimized.width,
+          height: uploaded.height || processed.optimized.height,
+          bytes: uploaded.bytes || processed.optimized.bytes
+        }
+      }
+    };
+  } catch (error) {
+    if (uploaded?.public_id) {
+      await destroyCloudinaryImage(uploaded.public_id).catch(cleanupError => {
+        console.error('[Gallery upload rollback]', cleanupError.message);
+      });
+    }
+    return {
+      index,
+      originalName: file.originalname || `image-${index + 1}`,
+      error: galleryUploadError(error)
+    };
+  }
+};
+
+/**
+ * POST /api/admin/projects/:id/gallery/upload
+ * Accepts a small multipart batch. The client can send multiple batches for
+ * a 30-image gallery; the server never starts 30 Cloudinary uploads at once.
+ */
+const uploadProjectGalleryBatch = async (req, res, next) => {
+  const uploadedPublicIds = [];
+  try {
+    const files = Array.isArray(req.files) ? req.files : [];
+    if (!files.length) {
+      return res.status(400).json({ success: false, code: 'NO_FILES', message: 'Vui lòng chọn ít nhất một ảnh.' });
+    }
+
+    const capacity = await projectService.getGalleryCapacity(req.params.id);
+    if (files.length > capacity.remaining) {
+      return res.status(409).json({
+        success: false,
+        code: 'GALLERY_LIMIT_EXCEEDED',
+        message: `Gallery chỉ còn ${capacity.remaining} vị trí trên tối đa ${capacity.limit} ảnh.`,
+        data: { limit: capacity.limit, current: capacity.current, remaining: capacity.remaining }
+      });
+    }
+
+    const results = await mapWithConcurrency(
+      files,
+      GALLERY_UPLOAD_CONCURRENCY,
+      (file, index) => processGalleryFile(file, index, req.params.id)
+    );
+    const successful = results.filter(result => result.image);
+    successful.forEach(result => uploadedPublicIds.push(result.image.publicId));
+    const failed = results.filter(result => result.error);
+
+    let project = null;
+    if (successful.length) {
+      try {
+        project = await projectService.addBatchToGallery(
+          req.params.id,
+          successful.map(result => ({
+            ...result.image,
+            alt: req.body.alt || result.image.alt
+          }))
+        );
+      } catch (error) {
+        await Promise.all(uploadedPublicIds.map(publicId => destroyCloudinaryImage(publicId).catch(cleanupError => {
+          console.error('[Gallery batch database rollback]', cleanupError.message);
+        })));
+        throw error;
+      }
+    }
+
+    if (!successful.length) {
+      return res.status(422).json({
+        success: false,
+        code: 'BATCH_UPLOAD_FAILED',
+        message: 'Không có ảnh nào tải lên thành công.',
+        data: { requested: files.length, succeeded: 0, failed }
+      });
+    }
+
+    const status = failed.length ? 207 : 201;
+    return res.status(status).json({
+      success: true,
+      message: failed.length
+        ? `Đã lưu ${successful.length}/${files.length} ảnh; có ${failed.length} ảnh lỗi.`
+        : `Đã lưu ${successful.length} ảnh gallery.`,
+      data: {
+        project,
+        requested: files.length,
+        succeeded: successful.length,
+        failed,
+        limit: capacity.limit,
+        remaining: Math.max(0, capacity.limit - (project?.galleryItems?.length || project?.gallery?.length || 0))
+      }
+    });
+  } catch (error) {
+    return next(error);
+  }
+};
+
 module.exports = {
   uploadSingleMiddleware,
-  handleImageUpload
+  handleImageUpload,
+  uploadGalleryBatchMiddleware,
+  uploadProjectGalleryBatch
 };

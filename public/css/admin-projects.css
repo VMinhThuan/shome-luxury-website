@@ -1214,6 +1214,98 @@ body.project-admin-page {
   border-color: var(--project-gold);
 }
 
+.project-gallery-item--pending {
+  border-color: rgba(210, 160, 68, 0.7);
+}
+
+.project-gallery-item--pending img {
+  opacity: .72;
+}
+
+.project-gallery-item--pending.is-uploading {
+  border-color: var(--project-gold);
+  animation: galleryUploadPulse 1.2s ease-in-out infinite;
+}
+
+.project-gallery-item--pending.is-upload-failed {
+  border-color: #c0392b;
+}
+
+.project-gallery-item--pending small {
+  top: 5px;
+  bottom: auto;
+  left: 5px;
+  right: 5px;
+  max-width: calc(100% - 10px);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.project-gallery-item--pending [data-pending-retry] {
+  left: 5px;
+  right: auto;
+  top: auto;
+  bottom: 5px;
+  width: auto;
+  height: auto;
+  padding: 4px 7px;
+  border-radius: 5px;
+  font-size: 11px;
+}
+
+.project-gallery-item--pending [data-pending-remove] {
+  right: 5px;
+  top: 5px;
+}
+
+.project-gallery-upload-progress {
+  margin-top: 12px;
+  padding: 10px 12px;
+  border: 1px solid var(--project-line);
+  border-radius: 9px;
+  background: #fbf9f6;
+}
+
+.project-gallery-upload-progress-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  color: var(--project-muted);
+  font-size: 12px;
+}
+
+.project-gallery-upload-progress progress {
+  width: min(220px, 45%);
+  height: 8px;
+  accent-color: var(--project-gold);
+}
+
+.project-gallery-batch-statuses {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 8px;
+}
+
+.project-gallery-batch-status {
+  padding: 3px 7px;
+  border-radius: 999px;
+  background: #eee8df;
+  color: var(--project-muted);
+  font-size: 10px;
+  font-weight: 700;
+}
+
+.project-gallery-batch-status.is-success { background: #e7f6ed; color: #247a46; }
+.project-gallery-batch-status.is-partial { background: #fff4dc; color: #8c631a; }
+.project-gallery-batch-status.is-failed { background: #fbe9e6; color: #a33b2f; }
+
+@keyframes galleryUploadPulse {
+  50% { opacity: .62; }
+}
+
 .project-gallery-item [data-thumbnail] {
   position: absolute;
   left: 5px;
@@ -1266,6 +1358,18 @@ body.project-admin-page {
 
 .project-upload-hint.is-error {
   color: #a94535;
+}
+
+@media (max-width: 560px) {
+  .project-gallery-upload-progress-head {
+    align-items: stretch;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .project-gallery-upload-progress progress {
+    width: 100%;
+  }
 }
 
 @keyframes fadeIn {

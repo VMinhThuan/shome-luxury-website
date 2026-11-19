@@ -192,6 +192,7 @@ router.put("/api/admin/projects/:id", authenticateAdmin, projectController.updat
 router.delete("/api/admin/projects/:id", authenticateAdmin, projectController.deleteProject.bind(projectController));
 router.put("/api/admin/projects/:id/thumbnail", authenticateAdmin, projectController.updateThumbnail.bind(projectController));
 router.post("/api/admin/projects/:id/gallery", authenticateAdmin, projectController.addToGallery.bind(projectController));
+router.post("/api/admin/projects/:id/gallery/upload", authenticateAdmin, uploadController.uploadGalleryBatchMiddleware, uploadController.uploadProjectGalleryBatch);
 router.delete("/api/admin/projects/:id/gallery/all", authenticateAdmin, projectController.removeAllFromGallery.bind(projectController));
 router.put("/api/admin/projects/:id/gallery", authenticateAdmin, projectController.reorderGallery.bind(projectController));
 router.delete("/api/admin/projects/:id/gallery", authenticateAdmin, projectController.removeFromGallery.bind(projectController));

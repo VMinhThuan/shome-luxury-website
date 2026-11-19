@@ -142,7 +142,8 @@ const projectSchema = new mongoose.Schema({
     format: { type: String, default: null, trim: true },
     width: { type: Number, default: null },
     height: { type: Number, default: null },
-    bytes: { type: Number, default: null }
+    bytes: { type: Number, default: null },
+    thumbnailUrl: { type: String, default: null, trim: true }
   }],
   legacy: {
     wordpressId: { type: Number, index: true },

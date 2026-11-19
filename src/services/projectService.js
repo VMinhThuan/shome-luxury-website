@@ -1,9 +1,9 @@
 const Project = require('../models/Project');
 const categoryService = require('./categoryService');
-const { destroyCloudinaryImage } = require('../utils/cloudinary');
+const { destroyCloudinaryImage, optimizedImageUrl } = require('../utils/cloudinary');
 const { htmlToPlainText } = require('../utils/sanitizeHtml');
 const mongoose = require('mongoose');
-const MAX_GALLERY_IMAGES = 6;
+const { MAX_GALLERY_IMAGES } = require('../config/imageUpload');
 
 const escapeRegExp = value => String(value || '').replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 
@@ -48,13 +48,14 @@ const normalizeGallery = (project) => {
       format: item?.format || null,
       width: Number.isFinite(Number(item?.width)) ? Number(item.width) : null,
       height: Number.isFinite(Number(item?.height)) ? Number(item.height) : null,
-      bytes: Number.isFinite(Number(item?.bytes)) ? Number(item.bytes) : null
+      bytes: Number.isFinite(Number(item?.bytes)) ? Number(item.bytes) : null,
+      thumbnailUrl: item?.thumbnailUrl || optimizedImageUrl(url)
     });
   });
   sourceUrls.forEach((url) => {
     if (!url || seen.has(url)) return;
     seen.add(url);
-    items.push({ id: `gallery-${items.length + 1}`, url, publicId: null, order: items.length, alt: project.title || '', format: null, width: null, height: null, bytes: null });
+    items.push({ id: `gallery-${items.length + 1}`, url, publicId: null, order: items.length, alt: project.title || '', format: null, width: null, height: null, bytes: null, thumbnailUrl: optimizedImageUrl(url) });
   });
   items.sort((a, b) => a.order - b.order);
   return items.map((item, index) => ({ ...item, order: index }));
@@ -401,25 +402,98 @@ class ProjectService {
     return normalizeProject(project);
   }
 
+  async getGalleryCapacity(id) {
+    const current = await Project.findById(id).select('title gallery galleryItems').lean();
+    if (!current) throw Object.assign(new Error('Project not found'), { status: 404 });
+    const currentCount = normalizeGallery(current).length;
+    return {
+      limit: MAX_GALLERY_IMAGES,
+      current: currentCount,
+      remaining: Math.max(0, MAX_GALLERY_IMAGES - currentCount)
+    };
+  }
+
   /**
    * Add image to Project Gallery
    */
   async addToGallery(id, imageUrl, publicId = null, alt = '', metadata = {}) {
     metadata = metadata || {};
     if (!imageUrl) throw new Error('imageUrl is required');
-    const current = await Project.findById(id).lean();
-    if (!current) throw Object.assign(new Error('Project not found'), { status: 404 });
-    const items = normalizeGallery(current);
-    if (items.length >= MAX_GALLERY_IMAGES) throw Object.assign(new Error(`Gallery đã đủ ${MAX_GALLERY_IMAGES} ảnh. Hãy xoá một ảnh trước khi thêm ảnh mới.`), { status: 400 });
-    if (!items.some(item => item.url === imageUrl)) {
-      items.push({ id: `gallery-${Date.now()}-${items.length + 1}`, url: imageUrl, publicId, order: items.length, alt: alt || current.title, format: metadata.format || null, width: Number(metadata.width) || null, height: Number(metadata.height) || null, bytes: Number(metadata.bytes) || null });
+    try {
+      return await this.addBatchToGallery(id, [{ url: imageUrl, publicId, alt, metadata }]);
+    } catch (error) {
+      // Preserve the legacy endpoint's 400 response while the new batch API
+      // uses 409 to signal a concurrent/capacity conflict.
+      if (error.code === 'GALLERY_LIMIT_EXCEEDED') error.status = 400;
+      throw error;
     }
-    const project = await Project.findByIdAndUpdate(
-      id,
-      { $set: { gallery: items.map(item => item.url), galleryItems: items } },
-      { new: true, runValidators: true }
-    ).lean();
-    return normalizeProject(project);
+  }
+
+  /**
+   * Add a batch with optimistic concurrency. A retrying client cannot create
+   * duplicate gallery entries because publicId/url are deduplicated before the
+   * atomic versioned update.
+   */
+  async addBatchToGallery(id, images = {}) {
+    const incoming = Array.isArray(images) ? images : [images];
+    if (!incoming.length) throw Object.assign(new Error('Chưa có ảnh để lưu.'), { status: 400 });
+
+    for (let attempt = 0; attempt < 4; attempt += 1) {
+      const current = await Project.findById(id).lean();
+      if (!current) throw Object.assign(new Error('Project not found'), { status: 404 });
+      const existing = normalizeGallery(current);
+      const seenUrls = new Set(existing.map(item => item.url));
+      const seenPublicIds = new Set(existing.map(item => item.publicId).filter(Boolean));
+      const additions = [];
+
+      incoming.forEach((input, index) => {
+        const url = String(input?.url || input?.imageUrl || '').trim();
+        const publicId = input?.publicId || null;
+        if (!url || seenUrls.has(url) || (publicId && seenPublicIds.has(publicId))) return;
+        const metadata = input?.metadata || input || {};
+        additions.push({
+          id: input?.id || `gallery-${Date.now()}-${attempt}-${index}`,
+          url,
+          publicId,
+          order: existing.length + additions.length,
+          alt: input?.alt || current.title || '',
+          format: metadata.format || null,
+          width: Number(metadata.width) || null,
+          height: Number(metadata.height) || null,
+          bytes: Number(metadata.bytes) || null,
+          thumbnailUrl: input?.thumbnailUrl || optimizedImageUrl(url)
+        });
+        seenUrls.add(url);
+        if (publicId) seenPublicIds.add(publicId);
+      });
+
+      if (existing.length + additions.length > MAX_GALLERY_IMAGES) {
+        throw Object.assign(new Error(`Gallery tối đa ${MAX_GALLERY_IMAGES} ảnh. Gallery hiện có ${existing.length} ảnh và batch mới có ${additions.length} ảnh.`), {
+          status: 409,
+          code: 'GALLERY_LIMIT_EXCEEDED'
+        });
+      }
+
+      if (!additions.length) return normalizeProject(current);
+      const merged = [...existing, ...additions].map((item, index) => ({ ...item, order: index }));
+      const versionFilter = Number.isInteger(current.__v)
+        ? { __v: current.__v }
+        : { __v: { $exists: false } };
+      const updated = await Project.findOneAndUpdate(
+        { _id: id, ...versionFilter },
+        {
+          $set: { gallery: merged.map(item => item.url), galleryItems: merged },
+          $inc: { __v: 1 }
+        },
+        { new: true, runValidators: true }
+      ).lean();
+      if (updated) return normalizeProject(updated);
+    }
+
+    throw Object.assign(new Error('Gallery đang được cập nhật bởi một request khác. Vui lòng thử lại.'), {
+      status: 409,
+      code: 'GALLERY_CONCURRENT_UPDATE'
+    });
   }
 
   /**
