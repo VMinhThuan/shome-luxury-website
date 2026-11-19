@@ -19,6 +19,7 @@ const {
   QUOTE_CATEGORY_PATHS,
   LEGACY_PROJECT_CATEGORY_PATHS,
   LEGACY_CONSTRUCTION_CATEGORY_PATHS,
+  PREVIOUS_CONSTRUCTION_CATEGORY_PATHS,
   LEGACY_QUOTE_CATEGORY_PATHS
 } = require('../data/publicRoutes');
 const { authenticateAdmin, requireAdminPage } = require("../middleware/auth");
@@ -68,7 +69,8 @@ router.get("/admin/content/:module", requireAdminPage, (req, res, next) => {
 // Page Routes - Homepage, Workshop & Recruitment
 router.get("/", homeController.getHomePage);
 router.get("/xuong-san-xuat", homeController.getFactoryPage);
-router.get("/dat-lich-ngay", homeController.getBookingPage);
+router.get("/dat-lich-tu-van", homeController.getBookingPage);
+router.get("/dat-lich-ngay", (req, res) => res.redirect(301, "/dat-lich-tu-van"));
 router.get("/ho-so-nang-luc", homeController.getCompanyProfilePage);
 router.get("/bao-gia", quotePageController.renderPage.bind(quotePageController));
 router.get("/bao-gia/:parentSlug/:categorySlug", (req, res, next) => {
@@ -114,6 +116,8 @@ Object.entries(PROJECT_CATEGORY_PATHS).filter(([code]) => code.startsWith('tk-nt
 router.get("/thi-cong-cong-trinh", createShowcaseHandler("thi-cong-cong-trinh"));
 Object.entries(CONSTRUCTION_CATEGORY_PATHS).forEach(([code, path]) => {
   router.get(path, createShowcaseHandler(code));
+  const previousPath = PREVIOUS_CONSTRUCTION_CATEGORY_PATHS[code];
+  if (previousPath) router.get(previousPath, (req, res) => res.redirect(301, path));
   router.get(LEGACY_CONSTRUCTION_CATEGORY_PATHS[code], createShowcaseHandler(code));
 });
 
@@ -168,6 +172,7 @@ router.get('/api/admin/construction-videos', authenticateAdmin, constructionVide
 router.get('/api/admin/construction-galleries', authenticateAdmin, constructionGalleryController.getAdmin);
 router.post('/api/admin/construction-galleries/:pageKey/:sectionKey', authenticateAdmin, constructionGalleryController.uploadMiddleware, constructionGalleryController.uploadImages);
 router.get('/api/admin/construction-galleries/:pageKey/:sectionKey/:imageId/download', authenticateAdmin, constructionGalleryController.downloadImage);
+router.delete('/api/admin/construction-galleries/:pageKey/:sectionKey', authenticateAdmin, constructionGalleryController.removeAllImages);
 router.delete('/api/admin/construction-galleries/:pageKey/:sectionKey/:imageId', authenticateAdmin, constructionGalleryController.removeImage);
 router.get("/api/quote-page", quotePageController.getPublicContent.bind(quotePageController));
 router.put("/api/admin/quote-page", authenticateAdmin, quotePageController.updateContent.bind(quotePageController));
@@ -185,6 +190,7 @@ router.put("/api/admin/projects/:id", authenticateAdmin, projectController.updat
 router.delete("/api/admin/projects/:id", authenticateAdmin, projectController.deleteProject.bind(projectController));
 router.put("/api/admin/projects/:id/thumbnail", authenticateAdmin, projectController.updateThumbnail.bind(projectController));
 router.post("/api/admin/projects/:id/gallery", authenticateAdmin, projectController.addToGallery.bind(projectController));
+router.delete("/api/admin/projects/:id/gallery/all", authenticateAdmin, projectController.removeAllFromGallery.bind(projectController));
 router.put("/api/admin/projects/:id/gallery", authenticateAdmin, projectController.reorderGallery.bind(projectController));
 router.delete("/api/admin/projects/:id/gallery", authenticateAdmin, projectController.removeFromGallery.bind(projectController));
 router.post('/api/admin/construction-videos', authenticateAdmin, constructionVideoController.createVideo.bind(constructionVideoController));

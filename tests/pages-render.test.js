@@ -20,7 +20,7 @@ async function testPageRenders() {
     { name: 'Báo giá', path: '/bao-gia?category=tk-nt-chung-cu' },
     { name: 'Tin tức', path: '/tin-tuc' },
     { name: 'Tuyển dụng', path: '/tuyen-dung' },
-    { name: 'Đặt lịch tư vấn', path: '/dat-lich-ngay' }
+    { name: 'Đặt lịch tư vấn', path: '/dat-lich-tu-van' }
   ];
 
   console.log('\n--- VERIFYING RENDERING OF ALL 6 PAGES ---');

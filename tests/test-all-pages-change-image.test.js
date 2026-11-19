@@ -66,7 +66,7 @@ async function testAllPagesCanChangeImage() {
       pageName: 'Đặt lịch tư vấn',
       pageKey: 'booking',
       slotKey: 'booking_hero_banner_1',
-      pageUrl: '/dat-lich-ngay',
+      pageUrl: '/dat-lich-tu-van',
       testImageUrl: 'https://res.cloudinary.com/demo/image/upload/v123456/test_booking_hero.webp',
       defaultSnippet: '/images/booking-luxury-interior.png'
     }

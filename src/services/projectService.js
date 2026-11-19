@@ -3,7 +3,7 @@ const categoryService = require('./categoryService');
 const { destroyCloudinaryImage } = require('../utils/cloudinary');
 const { htmlToPlainText } = require('../utils/sanitizeHtml');
 const mongoose = require('mongoose');
-const MAX_GALLERY_IMAGES = 5;
+const MAX_GALLERY_IMAGES = 6;
 
 const escapeRegExp = value => String(value || '').replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 
@@ -433,6 +433,19 @@ class ProjectService {
       { new: true, runValidators: true }
     ).lean();
     if (removed?.publicId) await cleanupPublicIdIfUnused(removed.publicId, removed.url);
+    return normalizeProject(project);
+  }
+
+  async removeAllFromGallery(id) {
+    const current = await Project.findById(id).lean();
+    if (!current) throw Object.assign(new Error('Project not found'), { status: 404 });
+    const items = normalizeGallery(current);
+    const project = await Project.findByIdAndUpdate(
+      id,
+      { $set: { gallery: [], galleryItems: [] } },
+      { new: true, runValidators: true }
+    ).lean();
+    await Promise.all(items.filter(item => item.publicId).map(item => cleanupPublicIdIfUnused(item.publicId, item.url)));
     return normalizeProject(project);
   }
 

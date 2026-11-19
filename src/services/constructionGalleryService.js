@@ -78,6 +78,20 @@ async function removeImage(pageKey, sectionKey, imageId) {
   return gallery.images.map(serializeImage);
 }
 
+async function removeAllImages(pageKey, sectionKey) {
+  pageKey = assertPageKey(pageKey);
+  sectionKey = assertSectionKey(sectionKey);
+  const gallery = await ConstructionGallery.findOne({ page_key: pageKey, section_key: sectionKey });
+  if (!gallery) return [];
+
+  const publicIds = gallery.images.map(image => image.publicId).filter(Boolean);
+  await ConstructionGallery.deleteOne({ _id: gallery._id });
+  await Promise.all(publicIds.map(publicId => destroyCloudinaryImage(publicId).catch(error => {
+    console.error('[Construction gallery bulk cleanup]', error.message);
+  })));
+  return [];
+}
+
 async function getImage(pageKey, sectionKey, imageId) {
   pageKey = assertPageKey(pageKey);
   sectionKey = assertSectionKey(sectionKey);
@@ -99,5 +113,6 @@ module.exports = {
   getGalleries,
   addImages,
   getImage,
-  removeImage
+  removeImage,
+  removeAllImages
 };

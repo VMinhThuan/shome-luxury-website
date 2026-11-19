@@ -47,10 +47,10 @@ module.exports = [
         label: "Thi công kiến trúc",
         href: "/thi-cong-cong-trinh",
         children: [
-          { id: "tc-kt-nha-cap-4", label: "Thi công kiến trúc nhà cấp 4", href: "/thi-cong-cong-trinh/kien-truc/thi-cong-kien-truc-nha-cap-4", categoryCode: "tc-kt-nha-cap-4" },
-          { id: "tc-kt-nha-pho", label: "Thi công kiến trúc nhà phố", href: "/thi-cong-cong-trinh/kien-truc/thi-cong-kien-truc-nha-pho", categoryCode: "tc-kt-nha-pho" },
-          { id: "tc-kt-biet-thu", label: "Thi công kiến trúc biệt thự", href: "/thi-cong-cong-trinh/kien-truc/thi-cong-kien-truc-biet-thu", categoryCode: "tc-kt-biet-thu" },
-          { id: "tc-kt-villa", label: "Thi công kiến trúc villa", href: "/thi-cong-cong-trinh/kien-truc/thi-cong-kien-truc-villa", categoryCode: "tc-kt-villa" }
+          { id: "tc-kt-nha-cap-4", label: "Thi công kiến trúc nhà cấp 4", href: "/thi-cong-cong-trinh/thi-cong-kien-truc/thi-cong-kien-truc-nha-cap-4", categoryCode: "tc-kt-nha-cap-4" },
+          { id: "tc-kt-nha-pho", label: "Thi công kiến trúc nhà phố", href: "/thi-cong-cong-trinh/thi-cong-kien-truc/thi-cong-kien-truc-nha-pho", categoryCode: "tc-kt-nha-pho" },
+          { id: "tc-kt-biet-thu", label: "Thi công kiến trúc biệt thự", href: "/thi-cong-cong-trinh/thi-cong-kien-truc/thi-cong-kien-truc-biet-thu", categoryCode: "tc-kt-biet-thu" },
+          { id: "tc-kt-villa", label: "Thi công kiến trúc villa", href: "/thi-cong-cong-trinh/thi-cong-kien-truc/thi-cong-kien-truc-villa", categoryCode: "tc-kt-villa" }
         ]
       },
       {
@@ -58,10 +58,10 @@ module.exports = [
         label: "Thi công nội thất",
         href: "/thi-cong-cong-trinh",
         children: [
-          { id: "tc-nt-chung-cu", label: "Thi công nội thất chung cư", href: "/thi-cong-cong-trinh/noi-that/thi-cong-noi-that-chung-cu", categoryCode: "tc-nt-chung-cu" },
-          { id: "tc-nt-nha-pho", label: "Thi công nội thất nhà phố", href: "/thi-cong-cong-trinh/noi-that/thi-cong-noi-that-nha-pho", categoryCode: "tc-nt-nha-pho" },
-          { id: "tc-nt-biet-thu", label: "Thi công nội thất biệt thự", href: "/thi-cong-cong-trinh/noi-that/thi-cong-noi-that-biet-thu", categoryCode: "tc-nt-biet-thu" },
-          { id: "tc-nt-van-phong", label: "Thi công nội thất văn phòng", href: "/thi-cong-cong-trinh/noi-that/thi-cong-noi-that-van-phong", categoryCode: "tc-nt-van-phong" }
+          { id: "tc-nt-chung-cu", label: "Thi công nội thất chung cư", href: "/thi-cong-cong-trinh/thi-cong-noi-that/thi-cong-noi-that-chung-cu", categoryCode: "tc-nt-chung-cu" },
+          { id: "tc-nt-nha-pho", label: "Thi công nội thất nhà phố", href: "/thi-cong-cong-trinh/thi-cong-noi-that/thi-cong-noi-that-nha-pho", categoryCode: "tc-nt-nha-pho" },
+          { id: "tc-nt-biet-thu", label: "Thi công nội thất biệt thự", href: "/thi-cong-cong-trinh/thi-cong-noi-that/thi-cong-noi-that-biet-thu", categoryCode: "tc-nt-biet-thu" },
+          { id: "tc-nt-van-phong", label: "Thi công nội thất văn phòng", href: "/thi-cong-cong-trinh/thi-cong-noi-that/thi-cong-noi-that-van-phong", categoryCode: "tc-nt-van-phong" }
         ]
       }
     ]

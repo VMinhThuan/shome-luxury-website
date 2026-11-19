@@ -28,7 +28,7 @@
     const galleryFiles = $('[data-gallery-files]');
     const galleryPreview = $('[data-gallery-preview]');
     const designProjectField = $('[data-design-project]');
-    const MAX_GALLERY_IMAGES = 5;
+    const MAX_GALLERY_IMAGES = 6;
     const state = { rows: [], categories: [], page: 1, totalPages: 1, dirty: false, thumbnailMeta: null, galleryMeta: [], category: root.dataset.category || '', filterCategory: '', requestedEditHandled: false };
     let searchTimer = null;
 
@@ -229,8 +229,43 @@
 
   function renderGalleryPreview(items = []) {
     const urls = items.map(item => item?.url || item).filter(Boolean);
-    galleryPreview.innerHTML = urls.length ? urls.map(url => `<img src="${escapeHtml(url)}" alt="Ảnh gallery" loading="lazy">`).join('') : 'Chưa có ảnh gallery';
+    const galleryCount = $('[data-gallery-count]');
+    if (galleryCount) galleryCount.textContent = `${urls.length}/${MAX_GALLERY_IMAGES} ảnh`;
+    if (galleryFiles) galleryFiles.disabled = urls.length >= MAX_GALLERY_IMAGES;
+    galleryPreview.innerHTML = urls.length
+      ? urls.map((url, index) => `
+          <div class="content-cms-gallery-item">
+            <img src="${escapeHtml(url)}" alt="Ảnh gallery ${index + 1}" loading="lazy">
+            <button type="button" class="content-cms-gallery-remove" data-remove-gallery="${escapeHtml(url)}" aria-label="Xoá ảnh gallery ${index + 1}" title="Xoá ảnh">×</button>
+          </div>
+        `).join('')
+      : 'Chưa có ảnh gallery';
   }
+
+  galleryPreview.addEventListener('click', event => {
+    const removeButton = event.target.closest('[data-remove-gallery]');
+    if (!removeButton) return;
+
+    const url = removeButton.dataset.removeGallery;
+    const currentUrls = String(field('galleryUrls')?.value || '')
+      .split(/\r?\n/)
+      .map(value => value.trim())
+      .filter(value => value && value !== url);
+
+    setValue('galleryUrls', currentUrls.join('\n'));
+    state.galleryMeta = state.galleryMeta.filter(item => item.url !== url);
+    state.dirty = true;
+    renderGalleryPreview(currentUrls.map(item => ({ url: item })));
+  });
+
+  $('[data-clear-gallery]')?.addEventListener('click', () => {
+    const currentUrls = String(field('galleryUrls')?.value || '').split(/\r?\n/).filter(Boolean);
+    if (!currentUrls.length || !window.confirm('Xóa toàn bộ ảnh gallery khỏi công trình?')) return;
+    setValue('galleryUrls', '');
+    state.galleryMeta = [];
+    state.dirty = true;
+    renderGalleryPreview();
+  });
 
   function openForm(row = null) {
     form.reset();
@@ -441,6 +476,15 @@
   async function uploadGallery() {
     const files = [...(galleryFiles?.files || [])];
     if (!files.length) { formError.textContent = 'Vui lòng chọn ảnh gallery trước khi tải lên.'; return; }
+    const currentCount = String(field('galleryUrls')?.value || '')
+      .split(/\r?\n/)
+      .map(value => value.trim())
+      .filter(Boolean).length;
+    if (currentCount + files.length > MAX_GALLERY_IMAGES) {
+      formError.textContent = `Gallery tối đa ${MAX_GALLERY_IMAGES} ảnh. Hiện đã có ${currentCount} ảnh.`;
+      galleryFiles.value = '';
+      return;
+    }
     const button = $('[data-upload-gallery]');
     button.disabled = true;
     try {

@@ -9,15 +9,6 @@
 %>
 
 <%
-  const quotes = [
-    { title: 'KIẾN TẠO\nTỔ ẤM HOÀN MỸ', desc: 'Nơi hạnh phúc bắt đầu từ những điều giản dị' },
-    { title: 'SỐNG ĐẸP\nMỖI NGÀY', desc: 'Không gian phản chiếu phong cách sống của bạn' },
-    { title: 'KHÔNG GIAN\nTRUYỀN CẢM HƯNG', desc: 'Mỗi góc nhỏ đều kể một câu chuyện' },
-    { title: 'TINH GIẢN CHO CUỘC SỐNG\nTRỌN VẸN', desc: 'Sống thoải mái trong không gian gia đình riêng cho bạn' }
-  ];
-  const charSum = (project.title || '').split('').reduce((sum, ch) => sum + ch.charCodeAt(0), 0);
-  const selectedQuote = quotes[charSum % quotes.length];
-  const titleLines = selectedQuote.title.split('\n');
   const galleryImages = [...new Set([project.thumbnail, ...(project.gallery || [])].filter(Boolean))];
   const galleryData = encodeURIComponent(JSON.stringify(galleryImages));
 %>
@@ -28,7 +19,7 @@
       <% if (galleryImages.length) { %>
         <img src="<%= galleryImages[0] %>" alt="<%= project.title %> - ảnh 1" class="project-card-img" data-project-card-image loading="lazy" draggable="false" />
       <% } else { %>
-        <div class="project-card-image-placeholder" role="img" aria-label="Chưa có ảnh đại diện">Chưa có ảnh</div>
+        <div class="project-card-image-placeholder" role="img" aria-label="Chưa có ảnh đại diện"></div>
       <% } %>
       <span class="project-card-gallery-count" aria-live="polite"><span data-project-card-current><%= galleryImages.length ? '01' : '00' %></span><span>/</span><span data-project-card-total><%= String(galleryImages.length).padStart(2, '0') %></span></span>
       <% if (galleryImages.length > 1) { %>
@@ -39,14 +30,6 @@
           <svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="9 18 15 12 9 6"></polyline></svg>
         </button>
       <% } %>
-    </div>
-    <div class="project-card-quote-overlay">
-      <div class="quote-title">
-        <% titleLines.forEach(line => { %>
-          <div><%= line %></div>
-        <% }); %>
-      </div>
-      <div class="quote-desc"><%= selectedQuote.desc %></div>
     </div>
   </div>
 

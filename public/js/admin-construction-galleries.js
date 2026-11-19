@@ -58,7 +58,9 @@
     if (!card) return;
     const list = card.querySelector('[data-gallery-list]');
     const count = card.querySelector('[data-gallery-count]');
+    const deleteAll = card.querySelector('[data-gallery-delete-all]');
     count.textContent = `${images.length} ảnh`;
+    if (deleteAll) deleteAll.disabled = images.length === 0;
     list.innerHTML = images.length
       ? images.map((image, index) => {
         const downloadUrl = `/api/admin/construction-galleries/${encodeURIComponent(pageKey)}/${encodeURIComponent(sectionKey)}/${encodeURIComponent(image.id)}/download`;
@@ -104,6 +106,24 @@
     const uploadButton = event.target.closest('[data-gallery-upload]');
     if (uploadButton) return upload(uploadButton.closest('[data-gallery-section]'));
     const deleteButton = event.target.closest('[data-gallery-delete]');
+    const deleteAllButton = event.target.closest('[data-gallery-delete-all]');
+    if (deleteAllButton) {
+      const card = deleteAllButton.closest('[data-gallery-section]');
+      const sectionKey = card.dataset.gallerySection;
+      const images = sections.get(sectionKey) || [];
+      if (!images.length || !window.confirm(`Xóa toàn bộ ${images.length} ảnh trong section này?`)) return;
+      deleteAllButton.disabled = true;
+      try {
+        const result = await request(`/api/admin/construction-galleries/${encodeURIComponent(pageKey)}/${sectionKey}`, { method: 'DELETE' });
+        sections.set(sectionKey, result.data || []);
+        renderSection(sectionKey, result.data || []);
+        setStatus('Đã xóa toàn bộ ảnh trong section.');
+      } catch (error) {
+        setStatus(error.message, true);
+        deleteAllButton.disabled = false;
+      }
+      return;
+    }
     if (!deleteButton) return;
     if (!window.confirm('Xóa ảnh này khỏi section?')) return;
     const card = deleteButton.closest('[data-gallery-section]');

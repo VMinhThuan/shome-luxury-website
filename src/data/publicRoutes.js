@@ -12,6 +12,19 @@ const PROJECT_CATEGORY_PATHS = Object.freeze({
 });
 
 const CONSTRUCTION_CATEGORY_PATHS = Object.freeze({
+  'tc-kt-nha-cap-4': '/thi-cong-cong-trinh/thi-cong-kien-truc/thi-cong-kien-truc-nha-cap-4',
+  'tc-kt-nha-pho': '/thi-cong-cong-trinh/thi-cong-kien-truc/thi-cong-kien-truc-nha-pho',
+  'tc-kt-biet-thu': '/thi-cong-cong-trinh/thi-cong-kien-truc/thi-cong-kien-truc-biet-thu',
+  'tc-kt-villa': '/thi-cong-cong-trinh/thi-cong-kien-truc/thi-cong-kien-truc-villa',
+  'tc-nt-chung-cu': '/thi-cong-cong-trinh/thi-cong-noi-that/thi-cong-noi-that-chung-cu',
+  'tc-nt-nha-pho': '/thi-cong-cong-trinh/thi-cong-noi-that/thi-cong-noi-that-nha-pho',
+  'tc-nt-biet-thu': '/thi-cong-cong-trinh/thi-cong-noi-that/thi-cong-noi-that-biet-thu',
+  'tc-nt-van-phong': '/thi-cong-cong-trinh/thi-cong-noi-that/thi-cong-noi-that-van-phong'
+});
+
+// Previous canonical construction paths remain supported and redirect to the
+// menu-aligned paths above.
+const PREVIOUS_CONSTRUCTION_CATEGORY_PATHS = Object.freeze({
   'tc-kt-nha-cap-4': '/thi-cong-cong-trinh/kien-truc/thi-cong-kien-truc-nha-cap-4',
   'tc-kt-nha-pho': '/thi-cong-cong-trinh/kien-truc/thi-cong-kien-truc-nha-pho',
   'tc-kt-biet-thu': '/thi-cong-cong-trinh/kien-truc/thi-cong-kien-truc-biet-thu',
@@ -73,5 +86,6 @@ module.exports = {
   QUOTE_CATEGORY_PATHS,
   LEGACY_PROJECT_CATEGORY_PATHS,
   LEGACY_CONSTRUCTION_CATEGORY_PATHS,
+  PREVIOUS_CONSTRUCTION_CATEGORY_PATHS,
   LEGACY_QUOTE_CATEGORY_PATHS
 };

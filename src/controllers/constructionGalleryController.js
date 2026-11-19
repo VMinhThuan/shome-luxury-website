@@ -92,3 +92,10 @@ exports.removeImage = async (req, res, next) => {
     return res.json({ success: true, message: 'Đã xóa ảnh khỏi section.', data });
   } catch (error) { return next(error); }
 };
+
+exports.removeAllImages = async (req, res, next) => {
+  try {
+    const data = await constructionGalleryService.removeAllImages(req.params.pageKey, req.params.sectionKey);
+    return res.json({ success: true, message: 'Đã xóa toàn bộ ảnh trong section.', data });
+  } catch (error) { return next(error); }
+};

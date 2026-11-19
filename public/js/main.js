@@ -1441,21 +1441,13 @@ document.addEventListener('DOMContentLoaded', () => {
     const attributeSlots = Array.from({ length: 4 }, (_, index) => attrs[index] || null);
     const projectDetailUrl = `/cong-trinh/${encodeURIComponent(project.slug || '')}`;
 
-    const quotes = [
-      { title: 'KIẾN TẠO<br>TỔ ẤM HOÀN MỸ', desc: 'Nơi hạnh phúc bắt đầu từ những điều giản dị' },
-      { title: 'SỐNG ĐẸP<br>MỖI NGÀY', desc: 'Không gian phản chiếu phong cách sống của bạn' },
-      { title: 'KHÔNG GIAN<br>TRUYỀN CẢM HƯNG', desc: 'Mỗi góc nhỏ đều kể một câu chuyện' },
-      { title: 'TINH GIẢN CHO CUỘC SỐNG<br>TRỌN VẸN', desc: 'Sống thoải mái trong không gian gia đình riêng cho bạn' }
-    ];
-    const charSum = (project.title || '').split('').reduce((sum, ch) => sum + ch.charCodeAt(0), 0);
-    const selectedQuote = quotes[charSum % quotes.length];
 
     const safeTitle = escapeHtml(project.title);
     const galleryImages = getProjectGalleryImages(project);
     const galleryData = encodeURIComponent(JSON.stringify(galleryImages));
     const imageHtml = galleryImages.length
       ? `<img src="${escapeHtml(galleryImages[0])}" alt="${safeTitle} - ảnh 1" class="project-card-img" data-project-card-image loading="lazy" draggable="false" />`
-      : '<div class="project-card-image-placeholder" role="img" aria-label="Chưa có ảnh đại diện">Chưa có ảnh</div>';
+      : '<div class="project-card-image-placeholder" role="img" aria-label="Chưa có ảnh đại diện"></div>';
     const galleryControlsHtml = galleryImages.length > 1 ? `
       <button class="project-card-gallery-control previous" type="button" data-project-card-prev aria-label="Ảnh trước">
         <svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="15 18 9 12 15 6"></polyline></svg>
@@ -1478,11 +1470,6 @@ document.addEventListener('DOMContentLoaded', () => {
             ${imageHtml}
             <span class="project-card-gallery-count" aria-live="polite"><span data-project-card-current>${galleryImages.length ? '01' : '00'}</span><span>/</span><span data-project-card-total>${String(galleryImages.length).padStart(2, '0')}</span></span>
             ${galleryControlsHtml}
-          </div>
-          <div class="project-card-quote-overlay">
-            <div class="quote-title">${selectedQuote.title}</div>
-            <div class="quote-line"></div>
-            <div class="quote-desc">${selectedQuote.desc}</div>
           </div>
         </div>
 

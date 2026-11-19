@@ -28,7 +28,7 @@
     quote: '/bao-gia/thiet-ke-thi-cong-noi-that/noi-that-chung-cu-tron-goi',
     news: '/tin-tuc',
     recruitment: '/tuyen-dung',
-    booking: '/dat-lich-ngay',
+    booking: '/dat-lich-tu-van',
     'project-detail': '/thiet-ke-cong-trinh'
   };
 

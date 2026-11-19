@@ -168,6 +168,16 @@ class ProjectController {
     }
   }
 
+  // DELETE /api/admin/projects/:id/gallery/all
+  async removeAllFromGallery(req, res, next) {
+    try {
+      const project = await projectService.removeAllFromGallery(req.params.id);
+      return res.json({ success: true, message: 'Đã xóa toàn bộ ảnh gallery.', data: project });
+    } catch (err) {
+      next(err);
+    }
+  }
+
   // PUT /api/admin/projects/:id/gallery — persists drag-and-drop order.
   async reorderGallery(req, res, next) {
     try {

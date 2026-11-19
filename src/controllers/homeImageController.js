@@ -413,11 +413,18 @@ exports.updateImage = async (req, res, next) => {
           shared_image_reference: null,
           ...updateFields
         },
-        $setOnInsert: {
-          image_url: slot.image_url,
-          cloudinary_public_id: null,
-          custom_image_reference: null
-        }
+        // A desktop upload already sets image_url, cloudinary_public_id and
+        // custom_image_reference above. Repeating those paths in $setOnInsert
+        // makes MongoDB reject the upsert with a path-conflict error. A mobile
+        // upload still needs the desktop default fields when creating a new
+        // document for the first time.
+        ...(variant === 'mobile' ? {
+          $setOnInsert: {
+            image_url: slot.image_url,
+            cloudinary_public_id: null,
+            custom_image_reference: null
+          }
+        } : {})
       },
       { new: true, upsert: true, runValidators: true }
     ).lean();

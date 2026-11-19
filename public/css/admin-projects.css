@@ -1242,6 +1242,21 @@ body.project-admin-page {
   font-weight: 700;
 }
 
+.project-gallery-clear-all {
+  margin-left: .65rem;
+  padding: 4px 8px;
+  border: 1px solid #e0b9b1;
+  border-radius: 6px;
+  color: #a33b2f;
+  background: #fff6f4;
+  font-size: 10px;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.project-gallery-clear-all:hover:not(:disabled) { color: #fff; background: #a33b2f; }
+.project-gallery-clear-all:disabled { cursor: not-allowed; opacity: .45; }
+
 .project-upload-hint {
   margin: -4px 0 10px;
   color: var(--project-muted);

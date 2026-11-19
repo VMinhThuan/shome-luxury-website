@@ -33,7 +33,7 @@
   const filterCategory = $('[data-filter-category]');
   const filterStatus = $('[data-filter-status]');
 
-  const MAX_GALLERY_IMAGES = 5;
+  const MAX_GALLERY_IMAGES = 6;
 
   const escapeHtml = value => String(value ?? '').replace(/[&<>'"]/g, char => ({
     '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;'
@@ -576,8 +576,10 @@
     const countNode = $('[data-gallery-count]');
     const input = $('[data-gallery-input]');
     const hint = $('[data-gallery-hint]');
+    const clearButton = $('[data-gallery-clear-all]');
     const total = count + pending;
     if (countNode) countNode.textContent = `${total}/${MAX_GALLERY_IMAGES} ảnh`;
+    if (clearButton) clearButton.disabled = count === 0;
 
     const overLimit = count > MAX_GALLERY_IMAGES || total > MAX_GALLERY_IMAGES;
     if (input) input.disabled = count >= MAX_GALLERY_IMAGES || total >= MAX_GALLERY_IMAGES;
@@ -587,7 +589,7 @@
         ? `Gallery hiện có ${count} ảnh, vượt giới hạn. Hãy xoá ảnh dư trước khi lưu gallery.`
         : total >= MAX_GALLERY_IMAGES
           ? `Đã đủ ${MAX_GALLERY_IMAGES} ảnh. Xoá ảnh để upload ảnh thay thế.`
-          : 'Tối đa 5 ảnh. Ảnh JPG/PNG sẽ được tối ưu WebP, cạnh lớn nhất 2048px.';
+          : `Tối đa ${MAX_GALLERY_IMAGES} ảnh. Ảnh JPG/PNG sẽ được tối ưu WebP, cạnh lớn nhất 2048px.`;
     }
   }
 
@@ -916,6 +918,25 @@
     }
     updateGalleryCount(existing, selected.length);
     setFormStatus(selected.length ? `Đã chọn ${selected.length} ảnh, sẽ tối ưu WebP khi lưu.` : '');
+  });
+
+  $('[data-gallery-clear-all]', form)?.addEventListener('click', async () => {
+    const items = state.current?.galleryItems || state.current?.gallery || [];
+    if (!items.length || !window.confirm('Xóa toàn bộ ảnh gallery của công trình này?')) return;
+    const button = $('[data-gallery-clear-all]', form);
+    button.disabled = true;
+    try {
+      if (state.current?._id) {
+        const result = await request(`/api/admin/projects/${state.current._id}/gallery/all`, { method: 'DELETE' });
+        state.current = result.data;
+      }
+      form.elements.galleryFiles.value = '';
+      renderGallery([]);
+      setFormStatus('Đã xóa toàn bộ ảnh gallery.');
+    } catch (error) {
+      setFormStatus(error.message, true);
+      button.disabled = false;
+    }
   });
 
   // Custom Category Dropdown Handlers
