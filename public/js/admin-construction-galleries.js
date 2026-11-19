@@ -53,7 +53,7 @@
         : state.total
           ? `Đã xử lý ${state.completed}/${state.total} ảnh.`
           : 'Đang chờ upload...';
-    batches.innerHTML = state.batches.map(batch => `<span class="construction-gallery-admin__batch-status is-${escapeHtml(batch.status)}">Batch ${batch.index}/${batch.total}: ${escapeHtml(batch.status === 'success' ? 'Hoàn tất' : batch.status === 'failed' ? 'Lỗi' : 'Đang tải')}</span>`).join('');
+    batches.innerHTML = state.batches.map(batch => `<span class="construction-gallery-admin__batch-status is-${escapeHtml(batch.status)}">Batch ${batch.index}/${batch.total}: ${escapeHtml(batch.status === 'success' ? 'Hoàn tất' : batch.status === 'failed' ? 'Lỗi' : batch.status === 'uploading' ? 'Đang tải' : 'Chờ xử lý')}</span>`).join('');
     if (retry) retry.hidden = state.uploading || failedCount === 0;
   };
 

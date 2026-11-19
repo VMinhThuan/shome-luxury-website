@@ -2,7 +2,8 @@ const multer = require('multer');
 const constructionGalleryService = require('../services/constructionGalleryService');
 const { uploadToCloudinary, imageFormatsMatch, destroyCloudinaryImage } = require('../utils/cloudinary');
 const { processImageBuffer } = require('../utils/imageProcessing');
-const { IMAGE_MAX_FILE_SIZE } = require('../config/imageUpload');
+const { mapWithConcurrency } = require('../utils/async');
+const { IMAGE_MAX_FILE_SIZE, GALLERY_UPLOAD_CONCURRENCY } = require('../config/imageUpload');
 
 const upload = multer({
   storage: multer.memoryStorage(),
@@ -46,22 +47,36 @@ exports.uploadImages = async (req, res, next) => {
       return res.status(400).json({ success: false, message: 'Vui lòng chọn ít nhất một ảnh.' });
     }
 
-    for (const file of req.files) {
-      const processed = await processImageBuffer(file.buffer, { original_webp: 'true' });
-      const result = await uploadToCloudinary(processed.buffer, `shome-luxury/construction-galleries/${pageKey}/${sectionKey}`, { format: processed.optimized.format });
-      if (!imageFormatsMatch(result.format, processed.optimized.format)) {
-        if (result.public_id) await destroyCloudinaryImage(result.public_id).catch(() => null);
-        throw new Error(`Cloudinary trả về định dạng ${result.format || 'không xác định'}, mong đợi ${processed.optimized.format}.`);
+    const results = await mapWithConcurrency(req.files, GALLERY_UPLOAD_CONCURRENCY, async (file, index) => {
+      try {
+        const processed = await processImageBuffer(file.buffer, { original_webp: 'true' });
+        const result = await uploadToCloudinary(processed.buffer, `shome-luxury/construction-galleries/${pageKey}/${sectionKey}`, { format: processed.optimized.format });
+        if (!imageFormatsMatch(result.format, processed.optimized.format)) {
+          if (result.public_id) await destroyCloudinaryImage(result.public_id).catch(() => null);
+          throw new Error(`Cloudinary trả về định dạng ${result.format || 'không xác định'}, mong đợi ${processed.optimized.format}.`);
+        }
+        return {
+          index,
+          image: {
+            url: result.secure_url,
+            publicId: result.public_id,
+            format: result.format,
+            width: result.width || processed.optimized.width,
+            height: result.height || processed.optimized.height,
+            bytes: result.bytes || processed.optimized.bytes,
+            alt: ''
+          }
+        };
+      } catch (error) {
+        return { index, error };
       }
-      uploaded.push({
-        url: result.secure_url,
-        publicId: result.public_id,
-        format: result.format,
-        width: result.width || processed.optimized.width,
-        height: result.height || processed.optimized.height,
-        bytes: result.bytes || processed.optimized.bytes,
-        alt: ''
-      });
+    });
+    uploaded.push(...results.filter(result => result.image).map(result => result.image));
+    const failed = results.filter(result => result.error);
+    if (failed.length) {
+      const error = failed[0].error;
+      error.details = failed.map(result => ({ index: result.index, message: result.error.message }));
+      throw error;
     }
 
     const images = await constructionGalleryService.addImages(pageKey, sectionKey, uploaded);
