@@ -1085,10 +1085,11 @@ document.addEventListener('DOMContentLoaded', () => {
         // previous controls move the strip to the next/previous group of six.
         const pageStartIndex = Math.floor(activeGalleryIndex / 6) * 6;
         const pageStartThumbnail = gallery.querySelector(`[data-gallery-thumb][data-index="${pageStartIndex}"]`);
+        const firstThumbnail = gallery.querySelector('[data-gallery-thumb][data-index="0"]');
         const targetLeft = pageStartThumbnail
-          ? Math.max(0, pageStartThumbnail.getBoundingClientRect().left - thumbnails.getBoundingClientRect().left + thumbnails.scrollLeft)
+          ? Math.max(0, pageStartThumbnail.getBoundingClientRect().left - (firstThumbnail?.getBoundingClientRect().left || thumbnails.getBoundingClientRect().left))
           : 0;
-        thumbnails.scrollTo({ left: targetLeft, behavior: 'smooth' });
+        thumbnails.scrollTo({ left: targetLeft, behavior: pageStartIndex === 0 ? 'auto' : 'smooth' });
       }
     }
 
