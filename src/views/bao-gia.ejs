@@ -1333,14 +1333,6 @@
     .quote-page .quote-project-gallery-control.next {
       right: 0.85rem !important;
     }
-    .quote-page .quote-project-gallery-control:hover,
-    .quote-page .quote-project-gallery-control:active {
-      background: var(--accent-gold, #D2A044) !important;
-      background-color: var(--accent-gold, #D2A044) !important;
-      color: #111111 !important;
-      border-color: var(--accent-gold, #D2A044) !important;
-      transform: translateY(-50%) scale(1.08) !important;
-    }
     .quote-page .quote-project-gallery-control svg {
       width: 20px !important;
       height: 20px !important;
@@ -2732,21 +2724,10 @@
                    const projectImage = project.thumbnail || (Array.isArray(project.gallery) ? project.gallery[0] : '') || '';
                    const galleryImages = [...new Set([projectImage, ...(project.gallery || [])].filter(Boolean))];
                    const costLabel = project.cost ? `${Math.round(project.cost / 1000000)} triệu` : 'Liên hệ tư vấn';
-                   const overlays = [
-                     { title: 'Không gian truyền cảm hứng', sub: 'Mỗi góc nhỏ đều kể một câu chuyện' },
-                     { title: 'Tinh giản cho cuộc sống trọn vẹn', sub: 'Sống thoải mái trong không gian dành cho bạn' },
-                     { title: 'Đẳng cấp trong từng chi tiết', sub: 'Kiến tạo tổ ấm sang trọng và tiện nghi' }
-                   ];
-                   const overlay = overlays[index % overlays.length];
               %>
                 <article class="quote-featured-project-card <%= index >= 6 ? 'quote-featured-project-card--desktop-only' : '' %>">
                   <button class="quote-featured-project-image" type="button" data-quote-project-gallery data-project-title="<%= project.title %>" data-gallery-images="<%= JSON.stringify(galleryImages) %>" aria-label="Xem thư viện ảnh dự án <%= project.title %>">
                     <% if (projectImage) { %><img src="<%= projectImage %>" alt="<%= project.title %>" loading="lazy" /><% } else { %><span class="quote-featured-project-image-placeholder">Chưa có ảnh</span><% } %>
-                    <div class="quote-featured-project-overlay">
-                      <b><%= overlay.title %></b>
-                      <span><%= overlay.sub %></span>
-                    </div>
-                    <span class="quote-featured-project-view" aria-hidden="true">Xem ảnh <i>↗</i></span>
                   </button>
                   <div class="quote-featured-project-info">
                     <h3><a href="/cong-trinh/<%= project.slug %>"><%= project.title %></a></h3>
@@ -2808,12 +2789,6 @@
                    const galleryImages = [...new Set([project.thumbnail, ...(project.gallery || [])].filter(Boolean))];
                    const projectImage = galleryImages[0] || '';
                    const costLabel = project.cost ? `${Math.round(project.cost / 1000000)} triệu` : 'Liên hệ tư vấn';
-                   const overlays = [
-                     { title: 'Không gian truyền cảm hứng', sub: 'Mỗi góc nhỏ đều kể một câu chuyện' },
-                     { title: 'Tinh giản cho cuộc sống trọn vẹn', sub: 'Sống thoải mái trong không gian dành cho bạn' },
-                     { title: 'Đẳng cấp trong từng chi tiết', sub: 'Kiến tạo tổ ấm sang trọng và tiện nghi' }
-                   ];
-                   const overlay = overlays[index % overlays.length];
               %>
                 <article class="quote-featured-project-card quote-featured-project-card--inline-gallery">
                   <section class="project-showcase-gallery quote-featured-project-gallery" data-quote-inline-gallery data-project-title="<%= project.title %>" data-gallery-images="<%= encodeURIComponent(JSON.stringify(galleryImages)) %>" aria-label="Thư viện ảnh công trình <%= project.title %>">
@@ -2824,10 +2799,6 @@
                         <div class="project-gallery-empty">Công trình chưa có hình ảnh</div>
                       <% } %>
                       <div class="project-gallery-stage-shade" aria-hidden="true"></div>
-                      <div class="quote-featured-project-overlay">
-                        <b><%= overlay.title %></b>
-                        <span><%= overlay.sub %></span>
-                      </div>
                       <div class="project-gallery-count" aria-live="polite"><span data-quote-inline-current><%= galleryImages.length ? '01' : '00' %></span><span>/</span><span data-quote-inline-total><%= String(galleryImages.length).padStart(2, '0') %></span></div>
                       <button class="project-gallery-control previous" type="button" data-quote-inline-prev aria-label="Ảnh trước" <%= galleryImages.length < 2 ? 'hidden' : '' %>>
                         <svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="15 18 9 12 15 6"></polyline></svg>

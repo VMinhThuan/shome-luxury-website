@@ -25,6 +25,8 @@
     const formError = $('[data-form-error]');
     const imageUrl = $('[data-thumbnail-url]');
     const imagePreview = $('[data-image-preview]');
+    const imageClear = $('[data-clear-thumbnail]');
+    const imageFile = $('[data-image-file]');
     const galleryFiles = $('[data-gallery-files]');
     const galleryPreview = $('[data-gallery-preview]');
     const designProjectField = $('[data-design-project]');
@@ -225,13 +227,16 @@
 
   function setImagePreview(url) {
     imagePreview.innerHTML = url ? `<img src="${escapeHtml(url)}" alt="Xem trước ảnh">` : 'Chưa có ảnh';
+    if (imageClear) imageClear.disabled = !url;
   }
 
   function renderGalleryPreview(items = []) {
     const urls = items.map(item => item?.url || item).filter(Boolean);
     const galleryCount = $('[data-gallery-count]');
+    const galleryClear = $('[data-clear-gallery]');
     if (galleryCount) galleryCount.textContent = `${urls.length}/${MAX_GALLERY_IMAGES} ảnh`;
     if (galleryFiles) galleryFiles.disabled = urls.length >= MAX_GALLERY_IMAGES;
+    if (galleryClear) galleryClear.disabled = urls.length === 0;
     galleryPreview.innerHTML = urls.length
       ? urls.map((url, index) => `
           <div class="content-cms-gallery-item">
@@ -263,6 +268,7 @@
     if (!currentUrls.length || !window.confirm('Xóa toàn bộ ảnh gallery khỏi công trình?')) return;
     setValue('galleryUrls', '');
     state.galleryMeta = [];
+    if (galleryFiles) galleryFiles.value = '';
     state.dirty = true;
     renderGalleryPreview();
   });
@@ -346,6 +352,7 @@
       const galleryUrls = String(field('galleryUrls')?.value || '').split(/\r?\n/).map(value => value.trim()).filter(Boolean);
       if (state.galleryMeta.length) data.galleryItems = galleryUrls.map((url, index) => state.galleryMeta.find(item => item.url === url) || { url, order: index });
       else data.gallery = galleryUrls;
+      if (field('thumbnail')) data.thumbnail = String(field('thumbnail').value || '').trim() || null;
     }
     if (config.kind === 'career') {
       data.requirements = String(field('requirementsText')?.value || '').split(/\r?\n/).map(value => value.trim()).filter(Boolean);
@@ -354,6 +361,13 @@
     }
     if (config.kind === 'article') data.tags = String(field('tagsText')?.value || '').split(',').map(value => value.trim()).filter(Boolean);
     if (state.thumbnailMeta) Object.assign(data, state.thumbnailMeta);
+    if (config.kind === 'project' && !data.thumbnail) {
+      data.thumbnailPublicId = null;
+      data.thumbnailFormat = null;
+      data.thumbnailWidth = null;
+      data.thumbnailHeight = null;
+      data.thumbnailBytes = null;
+    }
     if (publish !== null) { data.isPublished = publish; data.status = publish ? 'published' : 'draft'; }
     return data;
   }
@@ -403,6 +417,17 @@
     setImagePreview(uploaded.url);
     state.dirty = true;
   }
+
+  imageClear?.addEventListener('click', () => {
+    if (!imageUrl?.value && !state.thumbnailMeta) return;
+    if (!window.confirm('Xóa ảnh đại diện của công trình?')) return;
+    setValue('thumbnail', '');
+    state.thumbnailMeta = null;
+    if (imageFile) imageFile.value = '';
+    setImagePreview('');
+    state.dirty = true;
+    formError.textContent = '';
+  });
 
   function appendGalleryUpload(uploaded) {
     const currentUrls = String(field('galleryUrls')?.value || '')

@@ -354,6 +354,10 @@ class ProjectService {
     }
     const project = await Project.findByIdAndUpdate(id, input, { new: true, runValidators: true }).lean();
     if (!project) throw Object.assign(new Error('Project not found'), { status: 404 });
+    const thumbnailChanged = input.thumbnail !== undefined && input.thumbnail !== current.thumbnail;
+    if (thumbnailChanged && current.thumbnailPublicId && current.thumbnailPublicId !== input.thumbnailPublicId) {
+      await cleanupPublicIdIfUnused(current.thumbnailPublicId, current.thumbnail);
+    }
     return normalizeProject(project);
   }
 

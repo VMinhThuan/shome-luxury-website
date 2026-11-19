@@ -9577,11 +9577,9 @@ main .surface-finish-section .surface-finish-title {
   backdrop-filter: blur(8px);
 }
 
-.project-card-gallery-control:hover,
 .project-card-gallery-control:focus-visible {
-  color: var(--bg-dark);
-  background: var(--accent-gold);
-  transform: translateY(-50%) scale(1.08);
+  outline: 3px solid var(--accent-gold);
+  outline-offset: 2px;
 }
 
 .project-card-gallery-control.previous { left: .8rem; }
@@ -10040,11 +10038,6 @@ main .surface-finish-section .surface-finish-title {
   transform: translateY(-50%);
   transition: background-color var(--transition-fast), color var(--transition-fast);
   backdrop-filter: blur(8px);
-}
-
-.project-gallery-control:hover {
-  background: var(--accent-gold);
-  color: var(--bg-dark);
 }
 
 .project-gallery-control:focus-visible,
@@ -12854,13 +12847,6 @@ html {
   color: #FFFFFF !important;
 }
 
-.project-gallery-control:hover {
-  background: var(--accent-gold) !important;
-  color: var(--bg-dark) !important;
-  box-shadow: none !important;
-  transform: translateY(-50%) !important;
-}
-
 .project-gallery-control svg {
   stroke: currentColor !important;
 }
@@ -13836,7 +13822,6 @@ main .section-v2-title,
 .quote-page .quote-project-gallery-control { position: absolute !important; top: 50% !important; z-index: 25 !important; width: 44px !important; height: 44px !important; display: flex !important; align-items: center !important; justify-content: center !important; border-radius: 50% !important; background: rgba(18, 15, 12, 0.72) !important; background-color: rgba(18, 15, 12, 0.72) !important; border: 1px solid rgba(255, 255, 255, 0.28) !important; color: #ffffff !important; backdrop-filter: blur(8px) !important; -webkit-backdrop-filter: blur(8px) !important; box-shadow: 0 4px 16px rgba(0, 0, 0, 0.35) !important; cursor: pointer !important; padding: 0 !important; margin: 0 !important; transform: translateY(-50%) !important; transition: background 0.2s ease, transform 0.2s ease, border-color 0.2s ease, color 0.2s ease !important; }
 .quote-page .quote-project-gallery-control.previous { left: 0.85rem !important; }
 .quote-page .quote-project-gallery-control.next { right: 0.85rem !important; }
-.quote-page .quote-project-gallery-control:hover, .quote-page .quote-project-gallery-control:active { background: var(--accent-gold, #D2A044) !important; background-color: var(--accent-gold, #D2A044) !important; color: #111111 !important; border-color: var(--accent-gold, #D2A044) !important; transform: translateY(-50%) scale(1.08) !important; }
 .quote-page .quote-project-gallery-control svg { width: 20px !important; height: 20px !important; stroke: currentColor !important; fill: none !important; stroke-width: 2.4 !important; }
 .quote-page .quote-project-gallery-count { position: absolute !important; right: 0.85rem !important; bottom: 0.85rem !important; z-index: 20 !important; display: inline-flex !important; align-items: center !important; gap: 0.2rem !important; padding: 0.28rem 0.65rem !important; border: 1px solid rgba(255, 255, 255, 0.22) !important; border-radius: 999px !important; color: #ffffff !important; background: rgba(18, 15, 12, 0.75) !important; backdrop-filter: blur(8px) !important; -webkit-backdrop-filter: blur(8px) !important; font-size: 0.72rem !important; font-weight: 600 !important; letter-spacing: 0.05em !important; pointer-events: none !important; }
 .quote-page .quote-project-gallery-thumbnails { display: flex !important; flex-direction: row !important; gap: 0.55rem !important; width: 100% !important; max-width: 100% !important; min-width: 0 !important; overflow-x: auto !important; overscroll-behavior-x: contain !important; -webkit-overflow-scrolling: touch !important; scrollbar-width: none !important; padding: 0.25rem 0.15rem 0.45rem !important; margin: 0 auto !important; box-sizing: border-box !important; }
@@ -13923,7 +13908,7 @@ body.quote-project-gallery-open { overflow: hidden !important; }
 .project-gallery-lightbox-control.previous { left: .85rem; }
 .project-gallery-lightbox-control.next { right: .85rem; }
 
-.project-gallery-lightbox :is(.project-gallery-lightbox-close, .project-gallery-lightbox-control):hover {
+.project-gallery-lightbox .project-gallery-lightbox-close:hover {
   border-color: var(--accent-gold, #D2A044) !important;
   background: var(--accent-gold, #D2A044) !important;
   color: #111 !important;
@@ -14071,12 +14056,6 @@ body.project-gallery-lightbox-open { overflow: hidden !important; }
 
 .project-gallery-lightbox--grid .project-gallery-lightbox-control.next {
   right: 1.25rem;
-}
-
-.project-gallery-lightbox--grid .project-gallery-lightbox-control:hover {
-  background: rgba(228, 230, 235, .9) !important;
-  color: #4b4f56 !important;
-  transform: translateY(-50%) !important;
 }
 
 .project-gallery-lightbox--grid .project-gallery-lightbox-count,
@@ -16108,13 +16087,6 @@ body.project-gallery-lightbox-open { overflow: hidden !important; }
 
 .home-page #main-content > section:nth-child(odd):not(.hero-section-v2) {
   background: #eceeef !important;
-}
-
-/* Navigation arrows must remain fixed when hovered. Global button styling adds
-   a hover lift, so preserve each control's positioning transform explicitly. */
-.project-gallery-control:is(:hover, :focus, :active),
-.quote-page .quote-project-gallery-control:is(:hover, :focus, :active) {
-  transform: translateY(-50%) !important;
 }
 
 .customer-story-nav:is(:hover, :focus, :active),
@@ -22507,4 +22479,36 @@ body.page-news #main-content > .news-hero.subpage-banner-frame > .news-hero-imag
 
 body.page-news #main-content > .news-hero-full-bleed {
   transform: none !important;
+}
+
+/* Gallery navigation arrows stay visually identical while hovered/pressed.
+   This intentionally overrides the global button hover treatment. */
+.project-card-gallery-control:is(:hover, :active) {
+  background: rgba(23, 23, 23, .5) !important;
+  color: #fff !important;
+  box-shadow: none !important;
+  transform: translateY(-50%) !important;
+}
+
+.project-gallery-control:is(:hover, :active) {
+  background: rgba(23, 23, 23, .54) !important;
+  color: #fff !important;
+  box-shadow: none !important;
+  transform: translateY(-50%) !important;
+}
+
+.quote-page .quote-project-gallery-control:is(:hover, :active) {
+  background: rgba(18, 15, 12, .72) !important;
+  background-color: rgba(18, 15, 12, .72) !important;
+  border-color: rgba(255, 255, 255, .28) !important;
+  color: #fff !important;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, .35) !important;
+  transform: translateY(-50%) !important;
+}
+
+.project-gallery-lightbox-control:is(:hover, :active) {
+  background: rgba(20, 17, 14, .72) !important;
+  color: #fff !important;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, .35) !important;
+  transform: translateY(-50%) !important;
 }
