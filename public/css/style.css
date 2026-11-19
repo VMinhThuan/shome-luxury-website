@@ -13084,6 +13084,31 @@ html {
   object-fit: contain !important;
 }
 
+/* Detail gallery outside the lightbox: preserve the source ratio and anchor
+   the image at the top of the fixed gallery frame. Smaller portrait/landscape
+   images leave a clean white area below instead of being cropped or enlarged. */
+.project-detail-page .project-gallery-stage {
+  background: #fff !important;
+}
+
+.project-detail-page .project-gallery-stage > img {
+  top: 0 !important;
+  right: 0 !important;
+  bottom: auto !important;
+  left: 0 !important;
+  width: auto !important;
+  height: auto !important;
+  max-width: 100% !important;
+  max-height: 100% !important;
+  margin: 0 auto !important;
+  object-fit: contain !important;
+  object-position: center top !important;
+}
+
+.project-detail-page .project-gallery-stage-shade {
+  display: none;
+}
+
 /* ==========================================================================
    STANDARDIZED 3-TIER TYPOGRAPHY SYSTEM (CONTENT SECTIONS ONLY)
    ========================================================================== */
@@ -13996,6 +14021,7 @@ body.project-gallery-lightbox-open { overflow: hidden !important; }
    composition visible while still leaving room for the thumbnail rail. */
 .project-gallery-lightbox:not(.project-gallery-lightbox--grid) {
   padding: 1rem;
+  --project-gallery-control-gutter: clamp(3.25rem, 8vw, 6rem);
 }
 
 .project-gallery-lightbox:not(.project-gallery-lightbox--grid) .project-gallery-lightbox-dialog {
@@ -14009,7 +14035,7 @@ body.project-gallery-lightbox-open { overflow: hidden !important; }
   display: flex;
   align-self: center;
   width: fit-content;
-  max-width: calc(100vw - 2rem);
+  max-width: calc(100vw - (var(--project-gallery-control-gutter) * 2));
   height: auto;
   max-height: calc(100dvh - 6rem);
   overflow: visible;
@@ -14018,23 +14044,33 @@ body.project-gallery-lightbox-open { overflow: hidden !important; }
 .project-gallery-lightbox:not(.project-gallery-lightbox--grid) .project-gallery-lightbox-stage > img {
   width: auto !important;
   height: auto !important;
-  max-width: calc(100vw - 2rem) !important;
+  max-width: calc(100vw - (var(--project-gallery-control-gutter) * 2)) !important;
   max-height: calc(100dvh - 6rem) !important;
   object-fit: contain !important;
 }
 
-/* Keep the controls clear of the photo on wide screens. */
+/* Keep all controls fixed to the viewport so changing image ratios never
+   changes their position. */
+.project-gallery-lightbox:not(.project-gallery-lightbox--grid) :is(.project-gallery-lightbox-close, .project-gallery-lightbox-control) {
+  position: fixed;
+  z-index: 10;
+}
+
 .project-gallery-lightbox:not(.project-gallery-lightbox--grid) .project-gallery-lightbox-control.previous {
-  left: -4.25rem;
+  top: 50%;
+  left: 1.25rem;
+  transform: translateY(-50%);
 }
 
 .project-gallery-lightbox:not(.project-gallery-lightbox--grid) .project-gallery-lightbox-control.next {
-  right: -4.25rem;
+  top: 50%;
+  right: 1.25rem;
+  transform: translateY(-50%);
 }
 
 .project-gallery-lightbox:not(.project-gallery-lightbox--grid) .project-gallery-lightbox-close {
-  top: .85rem;
-  right: -4.25rem;
+  top: 1rem;
+  right: 1.25rem;
 }
 
 .project-gallery-lightbox:not(.project-gallery-lightbox--grid) :is(.project-gallery-lightbox-close, .project-gallery-lightbox-control) {
@@ -14188,14 +14224,21 @@ body.project-gallery-lightbox-open { overflow: hidden !important; }
   }
 
   .project-gallery-lightbox:not(.project-gallery-lightbox--grid) .project-gallery-lightbox-control.previous {
+    position: fixed;
+    top: 50%;
     left: .55rem;
+    transform: translateY(-50%);
   }
 
   .project-gallery-lightbox:not(.project-gallery-lightbox--grid) .project-gallery-lightbox-control.next {
+    position: fixed;
+    top: 50%;
     right: .55rem;
+    transform: translateY(-50%);
   }
 
   .project-gallery-lightbox:not(.project-gallery-lightbox--grid) .project-gallery-lightbox-close {
+    position: fixed;
     top: .55rem;
     right: .55rem;
   }
