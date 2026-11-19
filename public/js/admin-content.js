@@ -430,7 +430,10 @@
   }
 
   function closeForm() {
-    if (state.dirty && !window.confirm('Bạn có thay đổi chưa lưu. Đóng biểu mẫu?')) return;
+    revokePendingGalleryPreviews();
+    state.pendingGalleryFiles = [];
+    state.galleryUploading = false;
+    state.dirty = false;
     modal.hidden = true;
   }
 
@@ -689,7 +692,12 @@
   });
   $('[data-category-filter]').addEventListener('change', event => { state.filterCategory = event.target.value; state.page = 1; load(); });
   $('[data-status-filter]').addEventListener('change', () => { state.page = 1; load(); });
-  $$('[data-close-modal]').forEach(button => button.addEventListener('click', closeForm));
+  modal.addEventListener('click', event => {
+    const closeTarget = event.target.closest('[data-close-modal]');
+    if (!closeTarget) return;
+    event.preventDefault();
+    closeForm();
+  });
   $('[data-save-draft]').addEventListener('click', () => save(false));
   form.addEventListener('submit', event => { event.preventDefault(); save(true); });
   $('[data-pagination]').addEventListener('click', event => { const page = event.target.dataset.page; if (!page) return; state.page += page === 'next' ? 1 : -1; load(); });
