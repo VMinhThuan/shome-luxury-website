@@ -49,13 +49,15 @@ const uploadToCloudinary = (fileBuffer, folderName = "shome-luxury/recruitment",
       return reject(new Error("Thiếu cấu hình Cloudinary (CLOUDINARY_CLOUD_NAME, CLOUDINARY_API_KEY, CLOUDINARY_API_SECRET) trong biến môi trường."));
     }
 
+    const uploadOptions = {
+      folder: folderName,
+      resource_type: "image",
+      ...options
+    };
+    if (uploadOptions.format === undefined) uploadOptions.format = 'webp';
+
     const uploadStream = cloudinary.uploader.upload_stream(
-      {
-        folder: folderName,
-        resource_type: "image",
-        ...options,
-        format: "webp"
-      },
+      uploadOptions,
       (error, result) => {
         if (error) {
           if (/invalid signature/i.test(error.message || '')) {
@@ -106,6 +108,9 @@ const optimizedImageUrl = (url, { width = 480 } = {}) => {
   return String(url).replace('/image/upload/', `/image/upload/f_auto,q_auto,w_${width},c_limit/`);
 };
 
+const normalizeImageFormat = format => String(format || '').toLowerCase() === 'jpeg' ? 'jpg' : String(format || '').toLowerCase();
+const imageFormatsMatch = (actual, expected) => normalizeImageFormat(actual) === normalizeImageFormat(expected);
+
 const destroyCloudinaryImage = (publicId) => cloudinary.uploader.destroy(publicId, { resource_type: 'image', invalidate: true });
 
 module.exports = {
@@ -114,5 +119,7 @@ module.exports = {
   uploadToCloudinaryWithRetry,
   isRetryableUploadError,
   optimizedImageUrl,
+  normalizeImageFormat,
+  imageFormatsMatch,
   destroyCloudinaryImage
 };

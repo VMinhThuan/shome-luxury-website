@@ -1,13 +1,14 @@
 const multer = require("multer");
 const crypto = require('crypto');
-const { uploadToCloudinary, uploadToCloudinaryWithRetry, isRetryableUploadError, destroyCloudinaryImage } = require("../utils/cloudinary");
+const { uploadToCloudinary, uploadToCloudinaryWithRetry, isRetryableUploadError, imageFormatsMatch, destroyCloudinaryImage } = require("../utils/cloudinary");
 const { processImageBuffer } = require('../utils/imageProcessing');
 const projectService = require('../services/projectService');
 const { mapWithConcurrency } = require('../utils/async');
 const {
   GALLERY_UPLOAD_BATCH_SIZE,
   GALLERY_UPLOAD_CONCURRENCY,
-  IMAGE_MAX_FILE_SIZE
+  IMAGE_MAX_FILE_SIZE,
+  IMAGE_WEBP_QUALITY
 } = require('../config/imageUpload');
 
 // Multer memory storage configuration (in-memory buffer for streaming to Cloudinary)
@@ -84,16 +85,16 @@ const handleImageUpload = async (req, res) => {
       ? {
           ...req.body,
           resize_preset: 'project',
-          quality: req.body.quality || '100',
+          quality: req.body.quality || String(IMAGE_WEBP_QUALITY),
           sharpness: req.body.sharpness || '100'
         }
       : req.body;
     const processed = await processImageBuffer(req.file.buffer, processingBody);
-    // Upload the already-encoded WebP directly. Keep Cloudinary free of a
+    // Upload the already-processed buffer directly. Keep Cloudinary free of a
     // second transformation/quality decision.
-    uploaded = await uploadToCloudinary(processed.buffer, folder);
-    if (String(uploaded.format || '').toLowerCase() !== 'webp') {
-      throw new Error('Cloudinary không trả về ảnh WebP sau khi tối ưu. Ảnh cũ vẫn được giữ nguyên.');
+    uploaded = await uploadToCloudinary(processed.buffer, folder, { format: processed.optimized.format });
+    if (!imageFormatsMatch(uploaded.format, processed.optimized.format)) {
+      throw new Error(`Cloudinary trả về định dạng ${uploaded.format || 'không xác định'}, mong đợi ${processed.optimized.format}. Ảnh cũ vẫn được giữ nguyên.`);
     }
 
     return res.status(200).json({
@@ -107,6 +108,8 @@ const handleImageUpload = async (req, res) => {
         width: uploaded.width,
         height: uploaded.height,
         bytes: uploaded.bytes,
+        storedFormat: uploaded.format,
+        storedBytes: uploaded.bytes,
         processing: {
           original: processed.original,
           optimized: processed.optimized,
@@ -139,7 +142,7 @@ const processGalleryFile = async (file, index, projectId) => {
   try {
     const processed = await processImageBuffer(file.buffer, {
       resize_preset: 'project',
-      quality: '100',
+      quality: String(IMAGE_WEBP_QUALITY),
       sharpness: '100'
     });
     const hash = crypto.createHash('sha256').update(processed.buffer).digest('hex');
@@ -150,11 +153,12 @@ const processGalleryFile = async (file, index, projectId) => {
         public_id: `gallery-${hash}`,
         overwrite: true,
         unique_filename: false,
-        use_filename: false
+        use_filename: false,
+        format: processed.optimized.format
       }
     );
-    if (String(uploaded.format || '').toLowerCase() !== 'webp') {
-      throw new Error('Cloudinary không trả về ảnh WebP sau khi tối ưu.');
+    if (!imageFormatsMatch(uploaded.format, processed.optimized.format)) {
+      throw new Error(`Cloudinary trả về định dạng ${uploaded.format || 'không xác định'}, mong đợi ${processed.optimized.format}.`);
     }
     return {
       index,
@@ -169,6 +173,10 @@ const processGalleryFile = async (file, index, projectId) => {
           height: uploaded.height || processed.optimized.height,
           bytes: uploaded.bytes || processed.optimized.bytes
         }
+      },
+      processing: {
+        original: processed.original,
+        optimized: processed.optimized
       }
     };
   } catch (error) {
@@ -252,6 +260,15 @@ const uploadProjectGalleryBatch = async (req, res, next) => {
         : `Đã lưu ${successful.length} ảnh gallery.`,
       data: {
         project,
+        uploaded: successful.map(result => ({
+          index: result.index,
+          originalName: result.originalName,
+          format: result.image.metadata.format,
+          bytes: result.image.metadata.bytes,
+          originalBytes: result.processing.original.bytes,
+          convertedToWebp: result.processing.optimized.convertedToWebp,
+          keptOriginal: result.processing.optimized.keptOriginal
+        })),
         requested: files.length,
         succeeded: successful.length,
         failed,

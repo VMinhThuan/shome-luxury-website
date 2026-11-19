@@ -1,6 +1,6 @@
 const multer = require('multer');
 const constructionGalleryService = require('../services/constructionGalleryService');
-const { uploadToCloudinary, destroyCloudinaryImage } = require('../utils/cloudinary');
+const { uploadToCloudinary, imageFormatsMatch, destroyCloudinaryImage } = require('../utils/cloudinary');
 const { processImageBuffer } = require('../utils/imageProcessing');
 const { IMAGE_MAX_FILE_SIZE } = require('../config/imageUpload');
 
@@ -48,10 +48,10 @@ exports.uploadImages = async (req, res, next) => {
 
     for (const file of req.files) {
       const processed = await processImageBuffer(file.buffer, { original_webp: 'true' });
-      const result = await uploadToCloudinary(processed.buffer, `shome-luxury/construction-galleries/${pageKey}/${sectionKey}`);
-      if (String(result.format || '').toLowerCase() !== 'webp') {
+      const result = await uploadToCloudinary(processed.buffer, `shome-luxury/construction-galleries/${pageKey}/${sectionKey}`, { format: processed.optimized.format });
+      if (!imageFormatsMatch(result.format, processed.optimized.format)) {
         if (result.public_id) await destroyCloudinaryImage(result.public_id).catch(() => null);
-        throw new Error('Cloudinary không trả về ảnh WebP sau khi tối ưu.');
+        throw new Error(`Cloudinary trả về định dạng ${result.format || 'không xác định'}, mong đợi ${processed.optimized.format}.`);
       }
       uploaded.push({
         url: result.secure_url,
@@ -81,8 +81,9 @@ exports.downloadImage = async (req, res, next) => {
     const buffer = Buffer.from(await response.arrayBuffer());
     const contentType = response.headers.get('content-type') || 'image/webp';
     const section = req.params.sectionKey === 'completed' ? 'hoan-cong' : 'dang-thi-cong';
+    const extension = image.format === 'png' ? 'png' : image.format === 'jpg' || image.format === 'jpeg' ? 'jpg' : 'webp';
     res.setHeader('Content-Type', contentType);
-    res.setHeader('Content-Disposition', `attachment; filename="construction-${section}-${req.params.imageId}.webp"`);
+    res.setHeader('Content-Disposition', `attachment; filename="construction-${section}-${req.params.imageId}.${extension}"`);
     return res.send(buffer);
   } catch (error) { return next(error); }
 };

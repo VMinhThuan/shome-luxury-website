@@ -9,7 +9,7 @@ const subpageList = subpageSlots.subpageList || [...new Map(subpageSlots.map(slo
   label: slot.page_label,
   path: slot.page_path
 }])).values()];
-const { uploadToCloudinary, destroyCloudinaryImage } = require('../utils/cloudinary');
+const { uploadToCloudinary, imageFormatsMatch, destroyCloudinaryImage } = require('../utils/cloudinary');
 const { processImageBuffer } = require('../utils/imageProcessing');
 const { IMAGE_MAX_FILE_SIZE } = require('../config/imageUpload');
 
@@ -379,11 +379,11 @@ exports.updateImage = async (req, res, next) => {
           // the safe existing behavior and only convert the upload to WebP.
           original_webp: 'true'
         });
-    // Cloudinary receives the already-encoded WebP directly. Oversized images
-    // are reduced to the slot bounds; undersized images are never enlarged.
-    uploaded = await uploadToCloudinary(processed.buffer, folder);
-    if (String(uploaded.format || '').toLowerCase() !== 'webp') {
-      throw new Error('Cloudinary không trả về ảnh WebP sau khi tối ưu. Ảnh cũ vẫn được giữ nguyên.');
+    // Cloudinary receives the already-processed buffer directly. Oversized
+    // images are reduced to the slot bounds; undersized images are never enlarged.
+    uploaded = await uploadToCloudinary(processed.buffer, folder, { format: processed.optimized.format });
+    if (!imageFormatsMatch(uploaded.format, processed.optimized.format)) {
+      throw new Error(`Cloudinary trả về định dạng ${uploaded.format || 'không xác định'}, mong đợi ${processed.optimized.format}. Ảnh cũ vẫn được giữ nguyên.`);
     }
     const previous = await HomeImage.findOne({ image_key: slot.image_key }).lean();
     const previousCustom = variant === 'mobile'
