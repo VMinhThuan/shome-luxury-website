@@ -82,6 +82,8 @@ body.content-cms-page { min-height: 100vh; margin: 0; color: var(--cms-ink); bac
 .content-cms-gallery-tools { display: grid; gap: 9px; }
 .content-cms-gallery-tools > label { display: grid; gap: 6px; color: #786f63; font-size: 11px; font-weight: 700; }
 .content-cms-gallery-toolbar { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+.content-cms-gallery-upload-progress { display: grid; gap: 5px; color: #8f6321; font-size: 10px; font-weight: 700; }
+.content-cms-gallery-upload-progress progress { width: 100%; height: 7px; accent-color: var(--cms-gold); }
 .content-cms-gallery-preview { display: flex; flex-wrap: wrap; gap: 7px; min-height: 32px; color: #9a8d7e; font-size: 11px; }
 .content-cms-gallery-count { color: #8f6321; font-size: 11px; font-weight: 800; }
 .content-cms-gallery-clear { padding: 5px 9px; border: 1px solid #e0b9b1; border-radius: 6px; color: #a33b2f; background: #fff6f4; font-size: 10px; font-weight: 800; cursor: pointer; }
@@ -89,6 +91,12 @@ body.content-cms-page { min-height: 100vh; margin: 0; color: var(--cms-ink); bac
 .content-cms-gallery-clear:disabled { cursor: not-allowed; opacity: .45; }
 .content-cms-gallery-item { position: relative; width: 74px; height: 52px; }
 .content-cms-gallery-item img { display: block; width: 74px; height: 52px; border-radius: 5px; object-fit: cover; }
+.content-cms-gallery-item.is-pending img { opacity: .75; }
+.content-cms-gallery-item.is-failed img { outline: 2px solid #ad352c; }
+.content-cms-gallery-status { position: absolute; right: 3px; bottom: 3px; left: 3px; overflow: hidden; padding: 2px 3px; border-radius: 3px; color: #fff; background: rgba(37,33,28,.72); font-size: 8px; line-height: 1.1; text-align: center; text-overflow: ellipsis; white-space: nowrap; }
+.content-cms-gallery-item.is-failed .content-cms-gallery-status { background: rgba(173,53,44,.9); }
+.content-cms-gallery-retry { position: absolute; right: 3px; bottom: 3px; left: 3px; padding: 2px 3px; border: 0; border-radius: 3px; color: #fff; background: rgba(143,99,33,.92); font-size: 8px; font-weight: 800; cursor: pointer; }
+.content-cms-gallery-retry:hover { background: #68491e; }
 .content-cms-gallery-remove { position: absolute; top: 4px; right: 4px; z-index: 1; display: grid; width: 22px; height: 22px; place-items: center; padding: 0; border: 2px solid #fffdfa; border-radius: 50%; color: #fff; background: #a33b2f; font: 700 15px/1 Arial, sans-serif; cursor: pointer; box-shadow: 0 2px 5px rgba(45, 27, 12, .25); }
 .content-cms-gallery-remove:hover { background: #7f241b; }
 .content-cms-gallery-remove:focus-visible { outline: 2px solid var(--cms-gold); outline-offset: 2px; }
