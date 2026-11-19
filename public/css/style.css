@@ -13999,6 +13999,7 @@ body.project-gallery-lightbox-open { overflow: hidden !important; }
 }
 
 .project-gallery-lightbox:not(.project-gallery-lightbox--grid) .project-gallery-lightbox-dialog {
+  align-items: center;
   width: fit-content;
   max-width: 100%;
   max-height: calc(100dvh - 2rem);
@@ -14006,11 +14007,12 @@ body.project-gallery-lightbox-open { overflow: hidden !important; }
 
 .project-gallery-lightbox:not(.project-gallery-lightbox--grid) .project-gallery-lightbox-stage {
   display: flex;
+  align-self: center;
   width: fit-content;
   max-width: calc(100vw - 2rem);
   height: auto;
   max-height: calc(100dvh - 6rem);
-  overflow: hidden;
+  overflow: visible;
 }
 
 .project-gallery-lightbox:not(.project-gallery-lightbox--grid) .project-gallery-lightbox-stage > img {
@@ -14019,6 +14021,26 @@ body.project-gallery-lightbox-open { overflow: hidden !important; }
   max-width: calc(100vw - 2rem) !important;
   max-height: calc(100dvh - 6rem) !important;
   object-fit: contain !important;
+}
+
+/* Keep the controls clear of the photo on wide screens. */
+.project-gallery-lightbox:not(.project-gallery-lightbox--grid) .project-gallery-lightbox-control.previous {
+  left: -4.25rem;
+}
+
+.project-gallery-lightbox:not(.project-gallery-lightbox--grid) .project-gallery-lightbox-control.next {
+  right: -4.25rem;
+}
+
+.project-gallery-lightbox:not(.project-gallery-lightbox--grid) .project-gallery-lightbox-close {
+  top: .85rem;
+  right: -4.25rem;
+}
+
+.project-gallery-lightbox:not(.project-gallery-lightbox--grid) .project-gallery-lightbox-thumbnails {
+  align-self: center;
+  width: fit-content;
+  max-width: min(calc(100vw - 2rem), 100%);
 }
 
 .project-gallery-lightbox--grid .project-gallery-lightbox-stage {
@@ -14149,6 +14171,19 @@ body.project-gallery-lightbox-open { overflow: hidden !important; }
 
   .project-gallery-lightbox--grid .project-gallery-lightbox-control.next {
     right: .75rem;
+  }
+
+  .project-gallery-lightbox:not(.project-gallery-lightbox--grid) .project-gallery-lightbox-control.previous {
+    left: .55rem;
+  }
+
+  .project-gallery-lightbox:not(.project-gallery-lightbox--grid) .project-gallery-lightbox-control.next {
+    right: .55rem;
+  }
+
+  .project-gallery-lightbox:not(.project-gallery-lightbox--grid) .project-gallery-lightbox-close {
+    top: .55rem;
+    right: .55rem;
   }
 }
 @media (max-width: 767px) {
