@@ -16,10 +16,10 @@ module.exports = [
         href: "/thiet-ke-kien-truc",
         categoryCode: "thiet-ke-kien-truc",
         children: [
-          { id: "tk-kt-nha-cap-4", label: "Thiết kế kiến trúc nhà cấp 4", href: "/thiet-ke-kien-truc/thiet-ke-kien-truc-nha-cap-4", categoryCode: "tk-kt-nha-cap-4" },
-          { id: "tk-kt-nha-pho", label: "Thiết kế kiến trúc nhà phố", href: "/thiet-ke-kien-truc/thiet-ke-kien-truc-nha-pho", categoryCode: "tk-kt-nha-pho" },
-          { id: "tk-kt-biet-thu", label: "Thiết kế kiến trúc biệt thự", href: "/thiet-ke-kien-truc/thiet-ke-kien-truc-biet-thu", categoryCode: "tk-kt-biet-thu" },
-          { id: "tk-kt-villa", label: "Thiết kế kiến trúc villa", href: "/thiet-ke-kien-truc/thiet-ke-kien-truc-villa", categoryCode: "tk-kt-villa" }
+          { id: "tk-kt-nha-cap-4", label: "Thiết kế kiến trúc nhà cấp 4", href: "/thiet-ke-cong-trinh/thiet-ke-kien-truc/thiet-ke-kien-truc-nha-cap-4", categoryCode: "tk-kt-nha-cap-4" },
+          { id: "tk-kt-nha-pho", label: "Thiết kế kiến trúc nhà phố", href: "/thiet-ke-cong-trinh/thiet-ke-kien-truc/thiet-ke-kien-truc-nha-pho", categoryCode: "tk-kt-nha-pho" },
+          { id: "tk-kt-biet-thu", label: "Thiết kế kiến trúc biệt thự", href: "/thiet-ke-cong-trinh/thiet-ke-kien-truc/thiet-ke-kien-truc-biet-thu", categoryCode: "tk-kt-biet-thu" },
+          { id: "tk-kt-villa", label: "Thiết kế kiến trúc villa", href: "/thiet-ke-cong-trinh/thiet-ke-kien-truc/thiet-ke-kien-truc-villa", categoryCode: "tk-kt-villa" }
         ]
       },
       {

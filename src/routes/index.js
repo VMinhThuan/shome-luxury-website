@@ -15,6 +15,7 @@ const contentController = require('../controllers/contentController');
 const navigationData = require('../data/navigationData');
 const {
   PROJECT_CATEGORY_PATHS,
+  LEGACY_VERBOSE_PROJECT_CATEGORY_PATHS,
   CONSTRUCTION_CATEGORY_PATHS,
   QUOTE_CATEGORY_PATHS,
   LEGACY_PROJECT_CATEGORY_PATHS,
@@ -102,6 +103,7 @@ router.get("/thiet-ke-cong-trinh", createShowcaseHandler("thiet-ke-cong-trinh"))
 router.get("/thiet-ke-kien-truc", createShowcaseHandler("thiet-ke-kien-truc"));
 Object.entries(PROJECT_CATEGORY_PATHS).filter(([code]) => code.startsWith('tk-kt-')).forEach(([code, path]) => {
   router.get(path, createShowcaseHandler(code));
+  router.get(LEGACY_VERBOSE_PROJECT_CATEGORY_PATHS[code], (req, res) => res.redirect(301, path));
   router.get(LEGACY_PROJECT_CATEGORY_PATHS[code], createShowcaseHandler(code));
 });
 

@@ -1,14 +1,22 @@
 // Canonical public URLs for every customer-facing menu category.
 // Keep the complete menu name in the leaf slug so links remain descriptive.
 const PROJECT_CATEGORY_PATHS = Object.freeze({
-  'tk-kt-nha-cap-4': '/thiet-ke-kien-truc/thiet-ke-kien-truc-nha-cap-4',
-  'tk-kt-nha-pho': '/thiet-ke-kien-truc/thiet-ke-kien-truc-nha-pho',
-  'tk-kt-biet-thu': '/thiet-ke-kien-truc/thiet-ke-kien-truc-biet-thu',
-  'tk-kt-villa': '/thiet-ke-kien-truc/thiet-ke-kien-truc-villa',
+  'tk-kt-nha-cap-4': '/thiet-ke-cong-trinh/thiet-ke-kien-truc/thiet-ke-kien-truc-nha-cap-4',
+  'tk-kt-nha-pho': '/thiet-ke-cong-trinh/thiet-ke-kien-truc/thiet-ke-kien-truc-nha-pho',
+  'tk-kt-biet-thu': '/thiet-ke-cong-trinh/thiet-ke-kien-truc/thiet-ke-kien-truc-biet-thu',
+  'tk-kt-villa': '/thiet-ke-cong-trinh/thiet-ke-kien-truc/thiet-ke-kien-truc-villa',
   'tk-nt-chung-cu': '/thiet-ke-noi-that/thiet-ke-noi-that-chung-cu',
   'tk-nt-nha-pho': '/thiet-ke-noi-that/thiet-ke-noi-that-nha-pho',
   'tk-nt-biet-thu': '/thiet-ke-noi-that/thiet-ke-noi-that-biet-thu',
   'tk-nt-van-phong': '/thiet-ke-noi-that/thiet-ke-noi-that-van-phong'
+});
+
+// Previous descriptive design URLs remain supported for existing bookmarks.
+const LEGACY_VERBOSE_PROJECT_CATEGORY_PATHS = Object.freeze({
+  'tk-kt-nha-cap-4': '/thiet-ke-kien-truc/thiet-ke-kien-truc-nha-cap-4',
+  'tk-kt-nha-pho': '/thiet-ke-kien-truc/thiet-ke-kien-truc-nha-pho',
+  'tk-kt-biet-thu': '/thiet-ke-kien-truc/thiet-ke-kien-truc-biet-thu',
+  'tk-kt-villa': '/thiet-ke-kien-truc/thiet-ke-kien-truc-villa'
 });
 
 const CONSTRUCTION_CATEGORY_PATHS = Object.freeze({
@@ -82,6 +90,7 @@ const LEGACY_QUOTE_CATEGORY_PATHS = Object.freeze({
 
 module.exports = {
   PROJECT_CATEGORY_PATHS,
+  LEGACY_VERBOSE_PROJECT_CATEGORY_PATHS,
   CONSTRUCTION_CATEGORY_PATHS,
   QUOTE_CATEGORY_PATHS,
   LEGACY_PROJECT_CATEGORY_PATHS,
