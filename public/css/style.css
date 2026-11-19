@@ -13991,6 +13991,36 @@ body.quote-project-gallery-open { overflow: hidden !important; }
 
 body.project-gallery-lightbox-open { overflow: hidden !important; }
 
+/* Detail lightbox: size the stage around the source image instead of forcing
+   every image into a landscape frame. This keeps the complete original
+   composition visible while still leaving room for the thumbnail rail. */
+.project-gallery-lightbox:not(.project-gallery-lightbox--grid) {
+  padding: 1rem;
+}
+
+.project-gallery-lightbox:not(.project-gallery-lightbox--grid) .project-gallery-lightbox-dialog {
+  width: fit-content;
+  max-width: 100%;
+  max-height: calc(100dvh - 2rem);
+}
+
+.project-gallery-lightbox:not(.project-gallery-lightbox--grid) .project-gallery-lightbox-stage {
+  display: flex;
+  width: fit-content;
+  max-width: calc(100vw - 2rem);
+  height: auto;
+  max-height: calc(100dvh - 6rem);
+  overflow: hidden;
+}
+
+.project-gallery-lightbox:not(.project-gallery-lightbox--grid) .project-gallery-lightbox-stage > img {
+  width: auto !important;
+  height: auto !important;
+  max-width: calc(100vw - 2rem) !important;
+  max-height: calc(100dvh - 6rem) !important;
+  object-fit: contain !important;
+}
+
 .project-gallery-lightbox--grid .project-gallery-lightbox-stage {
   touch-action: pan-y;
 }

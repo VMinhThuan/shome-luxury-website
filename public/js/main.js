@@ -1361,16 +1361,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const fitProjectGalleryLightboxImage = image => {
       if (!image?.naturalWidth || !image?.naturalHeight) return;
 
-      const viewportWidth = Math.max(1, window.innerWidth - 32);
-      const viewportHeight = Math.max(1, window.innerHeight - 32);
-      const scale = Math.min(
-        1,
-        viewportWidth / image.naturalWidth,
-        viewportHeight / image.naturalHeight
-      );
-
-      image.style.width = `${Math.max(1, Math.round(image.naturalWidth * scale))}px`;
-      image.style.height = `${Math.max(1, Math.round(image.naturalHeight * scale))}px`;
+      // Let the browser preserve the source ratio and let the lightbox CSS
+      // constrain the image by the available viewport. Setting both pixel
+      // dimensions here made the image fight the flex layout and could leave
+      // the edges clipped when the source ratio differed from the old stage.
+      image.style.width = 'auto';
+      image.style.height = 'auto';
     };
 
     const createProjectGalleryLightbox = () => {
