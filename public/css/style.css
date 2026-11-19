@@ -13093,16 +13093,21 @@ html {
 
 .project-detail-page .project-gallery-stage > img {
   top: 0 !important;
-  right: 0 !important;
+  right: auto !important;
   bottom: auto !important;
-  left: 0 !important;
+  left: 50% !important;
   width: auto !important;
   height: auto !important;
   max-width: 100% !important;
   max-height: 100% !important;
-  margin: 0 auto !important;
+  margin: 0 !important;
+  transform: translateX(-50%);
   object-fit: contain !important;
   object-position: center top !important;
+}
+
+.project-detail-page .project-gallery-drag-preview {
+  transform: translateX(calc(-50% + 100%));
 }
 
 .project-detail-page .project-gallery-stage-shade {

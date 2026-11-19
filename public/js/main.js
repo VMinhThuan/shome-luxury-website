@@ -1046,14 +1046,21 @@ document.addEventListener('DOMContentLoaded', () => {
       image.alt = `${getProjectTitle()} - ảnh ${index + 1}`;
     }
 
+    const setGalleryImageTransform = (image, offset = '0%') => {
+      if (!image) return;
+      // Keep every image centered from its own midpoint so a portrait/landscape
+      // ratio change cannot expose the hidden preview beside the active image.
+      image.style.transform = `translateX(calc(-50% + ${offset}))`;
+    };
+
     function resetSlidePosition() {
       const stage = getGalleryStage();
       const heroImage = getHeroImage();
       const previewImage = getPreviewImage();
       if (!stage || !heroImage || !previewImage) return;
       stage.classList.remove('is-dragging', 'is-sliding');
-      heroImage.style.transform = 'translateX(0)';
-      previewImage.style.transform = 'translateX(100%)';
+      setGalleryImageTransform(heroImage, '0%');
+      setGalleryImageTransform(previewImage, '100%');
       dragOffsetX = 0;
     }
 
@@ -1164,15 +1171,15 @@ document.addEventListener('DOMContentLoaded', () => {
       updateSlideImage(previewImage, galleryImages[nextGalleryIndex], nextGalleryIndex);
       stage.classList.remove('is-dragging');
       stage.classList.remove('is-sliding');
-      heroImage.style.transform = 'translateX(0)';
-      previewImage.style.transform = `translateX(${direction > 0 ? 100 : -100}%)`;
+      setGalleryImageTransform(heroImage, '0%');
+      setGalleryImageTransform(previewImage, `${direction > 0 ? 100 : -100}%`);
 
       // Keep both images mounted and slide them together; this avoids a white flash.
       void previewImage.offsetWidth;
       stage.classList.add('is-sliding');
       window.requestAnimationFrame(() => {
-        heroImage.style.transform = `translateX(${direction > 0 ? -100 : 100}%)`;
-        previewImage.style.transform = 'translateX(0)';
+        setGalleryImageTransform(heroImage, `${direction > 0 ? -100 : 100}%`);
+        setGalleryImageTransform(previewImage, '0%');
       });
 
       const completeSlide = event => {
@@ -1274,8 +1281,8 @@ document.addEventListener('DOMContentLoaded', () => {
           const previewIndex = getDragIndex(dragOffsetX);
           updateSlideImage(dragPreview, galleryImages[previewIndex], previewIndex);
           const previewStart = dragOffsetX < 0 ? stageWidth : -stageWidth;
-          heroImage.style.transform = `translateX(${dragOffsetX}px)`;
-          dragPreview.style.transform = `translateX(${previewStart + dragOffsetX}px)`;
+          setGalleryImageTransform(heroImage, `${dragOffsetX}px`);
+          setGalleryImageTransform(dragPreview, `${previewStart + dragOffsetX}px`);
         });
 
         const finishDrag = event => {
@@ -1298,8 +1305,8 @@ document.addEventListener('DOMContentLoaded', () => {
           stage.classList.add('is-sliding');
           isGallerySliding = true;
           window.requestAnimationFrame(() => {
-            heroImage.style.transform = `translateX(${shouldChange ? -direction * 100 : 0}%)`;
-            dragPreview.style.transform = `translateX(${shouldChange ? 0 : direction * 100}%)`;
+            setGalleryImageTransform(heroImage, `${shouldChange ? -direction * 100 : 0}%`);
+            setGalleryImageTransform(dragPreview, `${shouldChange ? 0 : direction * 100}%`);
           });
           const finishDragSlide = transitionEvent => {
             if (transitionEvent.target !== dragPreview || transitionEvent.propertyName !== 'transform') return;
