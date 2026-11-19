@@ -20,6 +20,10 @@
   const subpageSelect = $('[data-subpage-select]');
   const contentManager = () => window.shomeContentManagers?.['admin-image-content'];
   const constructionGalleryManager = () => window.shomeConstructionGalleries;
+  window.addEventListener('shome-content-manager-ready', event => {
+    if (event.detail?.managerId !== 'admin-image-content' || !activePageKey) return;
+    syncContentManager(activePageKey);
+  });
 
   const PAGE_URLS = {
     all: '/',

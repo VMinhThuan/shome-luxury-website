@@ -732,7 +732,9 @@
   };
 
   window.shomeContentManagers = window.shomeContentManagers || {};
-  window.shomeContentManagers[root.dataset.managerId || 'content-cms'] = { setContext };
+  const managerId = root.dataset.managerId || 'content-cms';
+  window.shomeContentManagers[managerId] = { setContext };
+  window.dispatchEvent(new CustomEvent('shome-content-manager-ready', { detail: { managerId } }));
 
   if (root.dataset.lazy !== 'true') {
     loadDesignProjects();

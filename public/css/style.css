@@ -8883,6 +8883,13 @@ main .surface-finish-section .surface-finish-title {
   padding-bottom: 28px;
 }
 
+@media (max-width: 767px) {
+  /* Keep the first card inset equal to the mobile page gutter on every side. */
+  .project-showcase-section > .container {
+    padding-top: var(--mobile-page-spacing);
+  }
+}
+
 .project-list-vertical {
   display: flex;
   flex-direction: column;
@@ -9387,9 +9394,21 @@ main .surface-finish-section .surface-finish-title {
 }
 
 @media (max-width: 767px) {
-  .construction-upload-gallery-grid {
+  .project-showcase-section .construction-upload-gallery-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 6px;
+    /* The section container already supplies the mobile page gutter. */
+    margin-top: 0;
+  }
+
+  .project-showcase-section > .container {
+    padding-bottom: 0;
+  }
+
+  .project-showcase-section .construction-upload-gallery-more {
+    /* Keep the button's top and bottom breathing room identical to the page gutter. */
+    margin: 0;
+    padding-block: var(--mobile-page-spacing);
   }
 
   .completed-projects-heading h2,
@@ -17717,11 +17736,17 @@ body.showcase-page-body .site-footer {
     padding-bottom: 0 !important;
   }
 
+  /* The gallery button already owns the final mobile gutter; do not add a
+     second section-level gap before the footer. */
+  body.showcase-page-body .completed-projects-section {
+    padding-bottom: 0 !important;
+  }
+
   body.showcase-page-body .construction-upload-gallery-more {
     margin-top: 0 !important;
     margin-bottom: 0 !important;
-    padding-top: 1.1rem !important;
-    padding-bottom: 1.1rem !important;
+    padding-top: var(--mobile-page-spacing) !important;
+    padding-bottom: var(--mobile-page-spacing) !important;
   }
 }
 
