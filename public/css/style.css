@@ -14060,6 +14060,9 @@ body.project-gallery-lightbox-open { overflow: hidden !important; }
   max-height: calc(100dvh - 2rem) !important;
   object-fit: contain !important;
   transform-origin: center center;
+  will-change: transform;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
   cursor: zoom-in;
 }
 
