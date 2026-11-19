@@ -14037,6 +14037,20 @@ body.project-gallery-lightbox-open { overflow: hidden !important; }
   right: -4.25rem;
 }
 
+.project-gallery-lightbox:not(.project-gallery-lightbox--grid) :is(.project-gallery-lightbox-close, .project-gallery-lightbox-control) {
+  border: 2px solid rgba(255, 255, 255, .88) !important;
+  background: rgba(244, 239, 231, .98) !important;
+  color: #211b16 !important;
+  box-shadow: 0 5px 18px rgba(0, 0, 0, .38) !important;
+}
+
+.project-gallery-lightbox:not(.project-gallery-lightbox--grid) :is(.project-gallery-lightbox-close, .project-gallery-lightbox-control):hover,
+.project-gallery-lightbox:not(.project-gallery-lightbox--grid) :is(.project-gallery-lightbox-close, .project-gallery-lightbox-control):focus-visible {
+  border-color: var(--accent-gold, #D2A044) !important;
+  background: var(--accent-gold, #D2A044) !important;
+  color: #17120e !important;
+}
+
 .project-gallery-lightbox:not(.project-gallery-lightbox--grid) .project-gallery-lightbox-thumbnails {
   align-self: center;
   width: fit-content;
