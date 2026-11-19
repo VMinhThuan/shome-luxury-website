@@ -1348,3 +1348,37 @@
   }
 
 }
+
+/* Keep image-management cards balanced across each grid row. */
+.image-slots {
+  align-items: stretch;
+}
+
+.image-slot {
+  height: 100%;
+}
+
+.image-slot .image-pair {
+  flex: 1 1 auto;
+  align-items: stretch;
+}
+
+.image-pair.is-responsive-banner > .image-version {
+  display: flex;
+  min-width: 0;
+  height: 100%;
+  flex-direction: column;
+}
+
+.image-version-variant .current-image,
+.image-version-variant .selected-image-preview {
+  width: 100%;
+}
+
+.image-version-variant .image-display-spec {
+  min-height: 122px;
+}
+
+.image-version-variant .slot-action-bar {
+  margin-top: auto;
+}
