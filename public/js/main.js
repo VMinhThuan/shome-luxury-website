@@ -1077,12 +1077,16 @@ document.addEventListener('DOMContentLoaded', () => {
       gallery.querySelectorAll('[data-gallery-thumb]').forEach((thumbnail, thumbnailIndex) => {
         const isActive = thumbnailIndex === activeGalleryIndex;
         thumbnail.classList.toggle('is-active', isActive);
-        if (isActive && thumbnail.parentElement) {
-          const parent = thumbnail.parentElement;
-          const targetLeft = thumbnail.offsetLeft - (parent.clientWidth / 2) + (thumbnail.clientWidth / 2);
-          parent.scrollTo({ left: targetLeft, behavior: 'smooth' });
-        }
       });
+      const thumbnails = gallery.querySelector('[data-gallery-thumbnails]');
+      const activeThumbnail = gallery.querySelector('[data-gallery-thumb].is-active');
+      if (thumbnails && activeThumbnail) {
+        // Show exactly one page of thumbnails at a time. The main-image next/
+        // previous controls move the strip to the next/previous group of six.
+        const pageStartIndex = Math.floor(activeGalleryIndex / 6) * 6;
+        const pageStartThumbnail = gallery.querySelector(`[data-gallery-thumb][data-index="${pageStartIndex}"]`);
+        thumbnails.scrollTo({ left: pageStartThumbnail?.offsetLeft || 0, behavior: 'smooth' });
+      }
     }
 
     function selectGalleryImage(index, force = false, requestedDirection = null) {
