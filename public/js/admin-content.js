@@ -178,10 +178,8 @@
       const published = row.isPublished !== false && row.status === 'published';
       const status = row.isClosed ? '<span class="content-cms-status is-closed">Đã đóng</span>' : published ? '<span class="content-cms-status is-published">Đã xuất bản</span>' : '<span class="content-cms-status is-draft">Bản nháp</span>';
       const order = config.kind === 'project' && Number(row.sortOrder) > 0 ? Number(row.sortOrder) : '—';
-      const editLink = new URL(window.location.href);
-      editLink.searchParams.set('edit', idOf(row));
       const editAction = config.kind === 'project'
-        ? `<a href="${escapeHtml(editLink.toString())}" data-edit="${id}">Sửa</a>`
+        ? `<button type="button" data-edit="${id}">Sửa</button>`
         : `<button type="button" data-edit="${id}">Sửa</button>`;
       return `<tr><td>${thumb}</td><td>${escapeHtml(row.title || 'Chưa có tiêu đề')}</td><td>${escapeHtml(categoryText(row))}</td><td>${order}</td><td>${status}</td><td>${formatDate(row.updatedAt || row.date)}</td><td><div class="content-cms-actions"><a href="${publicUrl(row)}" target="_blank" rel="noopener">Xem</a>${editAction}<button type="button" data-duplicate="${id}">Nhân bản</button><button type="button" data-publish="${id}" data-published="${published}">${published ? 'Ẩn' : 'Xuất bản'}</button><button type="button" class="danger" data-delete="${id}">Xóa</button></div></td></tr>`;
     }).join('');
@@ -668,7 +666,6 @@
     if (!button) return;
     const id = button.dataset.edit || button.dataset.delete || button.dataset.publish || button.dataset.duplicate;
     if (button.dataset.edit) {
-      if (config.kind === 'project' && button.tagName === 'A') return;
       return openForm(state.rows.find(row => idOf(row) === id));
     }
     if (button.dataset.delete) {

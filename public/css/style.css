@@ -14211,11 +14211,13 @@ body.project-gallery-lightbox-open { overflow: hidden !important; }
   }
 
   .project-gallery-lightbox--grid .project-gallery-lightbox-control.previous {
-    left: .75rem;
+    position: absolute;
+    left: max(.75rem, calc(var(--project-grid-image-left, 0px) + .75rem));
   }
 
   .project-gallery-lightbox--grid .project-gallery-lightbox-control.next {
-    right: .75rem;
+    position: absolute;
+    right: max(.75rem, calc(var(--project-grid-image-right, 0px) + .75rem));
   }
 
   .project-gallery-lightbox:not(.project-gallery-lightbox--grid) .project-gallery-lightbox-control.previous {

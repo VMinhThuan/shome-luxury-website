@@ -1482,6 +1482,16 @@ document.addEventListener('DOMContentLoaded', () => {
       // the edges clipped when the source ratio differed from the old stage.
       image.style.width = 'auto';
       image.style.height = 'auto';
+
+      const stage = image.closest('.project-gallery-lightbox--grid .project-gallery-lightbox-stage');
+      if (stage) {
+        window.requestAnimationFrame(() => {
+          const imageRect = image.getBoundingClientRect();
+          const stageRect = stage.getBoundingClientRect();
+          stage.style.setProperty('--project-grid-image-left', `${Math.max(0, imageRect.left - stageRect.left)}px`);
+          stage.style.setProperty('--project-grid-image-right', `${Math.max(0, stageRect.right - imageRect.right)}px`);
+        });
+      }
     };
 
     const createProjectGalleryLightbox = () => {
