@@ -1177,7 +1177,7 @@ document.addEventListener('DOMContentLoaded', () => {
           : offset === '-100%'
             ? '-150%'
             : `calc(-50% + ${offset})`;
-      image.style.transform = `translateX(${centeredTransform})`;
+      image.style.setProperty('transform', `translateX(${centeredTransform})`, 'important');
     };
 
     function resetSlidePosition() {
@@ -1291,9 +1291,10 @@ document.addEventListener('DOMContentLoaded', () => {
       const thumbnails = gallery.querySelector('[data-gallery-thumbnails]');
       const activeThumbnail = gallery.querySelector('[data-gallery-thumb].is-active');
       if (thumbnails && activeThumbnail) {
-        // Show exactly one page of thumbnails at a time. The main-image next/
-        // previous controls move the strip to the next/previous group of six.
-        const pageStartIndex = Math.floor(activeGalleryIndex / 6) * 6;
+        // Show exactly one page of thumbnails at a time. Mobile displays four
+        // thumbnails, while wider layouts display six.
+        const thumbnailsPerPage = window.matchMedia('(max-width: 767px)').matches ? 4 : 6;
+        const pageStartIndex = Math.floor(activeGalleryIndex / thumbnailsPerPage) * thumbnailsPerPage;
         const pageStartThumbnail = gallery.querySelector(`[data-gallery-thumb][data-index="${pageStartIndex}"]`);
         const firstThumbnail = gallery.querySelector('[data-gallery-thumb][data-index="0"]');
         const targetLeft = pageStartThumbnail
@@ -1755,33 +1756,6 @@ document.addEventListener('DOMContentLoaded', () => {
       if (entries.some(entry => entry.isIntersecting)) loadNextProjectPage();
     }, { rootMargin: '200px 0px' });
     observer.observe(projectLoadSentinel);
-  }
-
-  // Related projects on the detail page: offer visible previous/next controls
-  // in addition to the native swipe gesture on mobile.
-  const relatedProjectsCarousel = document.querySelector('[data-related-projects-carousel]');
-  const relatedProjectsPrev = document.querySelector('[data-related-projects-prev]');
-  const relatedProjectsNext = document.querySelector('[data-related-projects-next]');
-
-  if (relatedProjectsCarousel && relatedProjectsPrev && relatedProjectsNext) {
-    const updateRelatedProjectsControls = () => {
-      const maxScroll = relatedProjectsCarousel.scrollWidth - relatedProjectsCarousel.clientWidth;
-      relatedProjectsPrev.disabled = relatedProjectsCarousel.scrollLeft <= 2;
-      relatedProjectsNext.disabled = relatedProjectsCarousel.scrollLeft >= maxScroll - 2;
-    };
-
-    const scrollRelatedProjects = (direction) => {
-      const firstCard = relatedProjectsCarousel.querySelector('.project-showcase-card');
-      const gap = parseFloat(window.getComputedStyle(relatedProjectsCarousel).gap) || 0;
-      const amount = firstCard ? firstCard.getBoundingClientRect().width + gap : relatedProjectsCarousel.clientWidth;
-      relatedProjectsCarousel.scrollBy({ left: direction * amount, behavior: 'smooth' });
-    };
-
-    relatedProjectsPrev.addEventListener('click', () => scrollRelatedProjects(-1));
-    relatedProjectsNext.addEventListener('click', () => scrollRelatedProjects(1));
-    relatedProjectsCarousel.addEventListener('scroll', updateRelatedProjectsControls, { passive: true });
-    window.addEventListener('resize', updateRelatedProjectsControls);
-    updateRelatedProjectsControls();
   }
 
   // Mail link handler: Copies email to clipboard and prompts user

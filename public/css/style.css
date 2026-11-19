@@ -9257,7 +9257,8 @@ main .surface-finish-section .surface-finish-title {
 }
 
 .construction-upload-gallery-more {
-  margin-top: 1.1rem;
+  margin-top: 0;
+  padding: 1.1rem 0;
 }
 
 .completed-projects-heading p {
@@ -9824,7 +9825,7 @@ main .surface-finish-section .surface-finish-title {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 0.75rem 0 clamp(1.1rem, 2.5vw, 2rem);
+  padding: clamp(2rem, 4vw, 3rem) 0 clamp(1.1rem, 2.5vw, 2rem);
 }
 
 .project-detail-title-rule {
@@ -10147,8 +10148,8 @@ main .surface-finish-section .surface-finish-title {
   }
 
   .project-gallery-thumbnail {
-    flex-basis: calc((100% - 1rem) / 3);
-    width: calc((100% - 1rem) / 3);
+    flex-basis: calc((100% - 1.5rem) / 4);
+    width: calc((100% - 1.5rem) / 4);
   }
 
   .project-gallery-hint {
@@ -10184,6 +10185,13 @@ main .surface-finish-section .surface-finish-title {
   font-weight: 700;
   margin-bottom: 2rem;
   letter-spacing: 0.05em;
+}
+
+/* Remove legacy carousel controls from cached detail-page markup. */
+.project-detail-page .related-projects-carousel-bar,
+.project-detail-page .related-projects-controls,
+.project-detail-page .related-projects-control {
+  display: none !important;
 }
 
 /* Related projects use a compact responsive grid instead of the main vertical showcase list. */
@@ -12926,7 +12934,7 @@ html {
   }
 
   .project-detail-header {
-    padding-top: 0.75rem;
+    padding-top: 1.75rem;
     padding-bottom: 1.25rem;
   }
 
@@ -13101,14 +13109,23 @@ html {
   max-width: 100% !important;
   max-height: 100% !important;
   margin: 0 !important;
-  transform: translateX(-50%);
+  transform: translateX(-50%) !important;
   object-fit: contain !important;
   object-position: center top !important;
+  will-change: transform;
 }
 
 .project-detail-page .project-gallery-drag-preview {
-  transform: translateX(100%);
+  transform: translateX(100%) !important;
   visibility: hidden;
+}
+
+.project-detail-page .project-gallery-stage.is-dragging > img {
+  transition: none !important;
+}
+
+.project-detail-page .project-gallery-stage.is-sliding > img {
+  transition: transform 360ms cubic-bezier(0.22, 0.61, 0.36, 1) !important;
 }
 
 .project-detail-page .project-gallery-stage.is-sliding .project-gallery-drag-preview,
@@ -14245,14 +14262,14 @@ body.project-gallery-lightbox-open { overflow: hidden !important; }
   }
 
   .project-gallery-lightbox:not(.project-gallery-lightbox--grid) .project-gallery-lightbox-control.previous {
-    position: fixed;
+    position: absolute;
     top: 50%;
     left: .55rem;
     transform: translateY(-50%);
   }
 
   .project-gallery-lightbox:not(.project-gallery-lightbox--grid) .project-gallery-lightbox-control.next {
-    position: fixed;
+    position: absolute;
     top: 50%;
     right: .55rem;
     transform: translateY(-50%);
@@ -17747,6 +17764,29 @@ body.showcase-page-body .project-showcase-section {
   background: #000;
 }
 
+/* Keep the final project-card-to-footer gap aligned with the hero-to-card
+   spacing instead of stretching the showcase page with an auto footer gap. */
+body.showcase-page-body .project-showcase-section > .container {
+  padding-bottom: 0;
+}
+
+body.showcase-page-body .site-footer {
+  margin-top: 0 !important;
+}
+
+@media (max-width: 767px) {
+  body.showcase-page-body .project-showcase-section > .container {
+    padding-bottom: 0 !important;
+  }
+
+  body.showcase-page-body .construction-upload-gallery-more {
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+    padding-top: 1.1rem !important;
+    padding-bottom: 1.1rem !important;
+  }
+}
+
 /* Keep the completed-project and completed-video content on the light
    surface used by the original showcase layout. The hero remains dark. */
 body.showcase-page-body .completed-projects-section,
@@ -17768,6 +17808,18 @@ body.showcase-page-body .project-showcase-hero.has-managed-image::before {
 }
 
 @media (max-width: 767px) {
+  /* Keep the mobile banner edge aligned with the gallery cards below it.
+     Both use the same horizontal inset from the viewport. */
+  body.showcase-page-body .project-showcase-hero {
+    width: calc(100% - (var(--mobile-page-spacing) * 2));
+    margin-inline: auto;
+  }
+
+  body.showcase-page-body .project-showcase-hero > .container {
+    padding-right: 0;
+    padding-left: 0;
+  }
+
   body.showcase-page-body .project-showcase-hero.has-managed-image::before {
     background-image: var(--showcase-hero-image-mobile, var(--showcase-hero-image));
   }
@@ -18627,54 +18679,6 @@ main .home-faq-item p {
     margin-bottom: .7rem;
   }
 
-  .project-detail-page .related-projects-carousel-bar {
-    display: flex;
-    justify-content: flex-end;
-    margin-bottom: .65rem;
-  }
-
-  .project-detail-page .related-projects-controls {
-    display: flex;
-    flex: none;
-    gap: .45rem;
-    margin: 0;
-  }
-
-  .project-detail-page .related-projects-control {
-    display: grid;
-    width: 34px;
-    height: 34px;
-    place-items: center;
-    border: 1px solid #caa35f;
-    border-radius: 50%;
-    background: #fff;
-    color: #9a6a1d;
-    cursor: pointer;
-    transition: background-color .2s ease, color .2s ease, opacity .2s ease;
-  }
-
-  .project-detail-page .related-projects-control svg {
-    width: 18px;
-    height: 18px;
-    fill: none;
-    stroke: currentColor;
-    stroke-linecap: round;
-    stroke-linejoin: round;
-    stroke-width: 2;
-  }
-
-  .project-detail-page .related-projects-control:disabled {
-    border-color: #d9d9d9;
-    color: #aaa;
-    cursor: default;
-    opacity: .55;
-  }
-}
-
-@media (min-width: 768px) {
-  .project-detail-page .related-projects-carousel-bar {
-    display: none;
-  }
 }
 
 /* Keep the copy in the pale panel of each real-project tile on phones. */
