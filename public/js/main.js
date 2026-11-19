@@ -851,48 +851,10 @@ document.addEventListener('DOMContentLoaded', () => {
     }[char]));
   }
 
-  function getProjectImage(project) {
-    return project.thumbnail || '';
-  }
-
   function getProjectGalleryImages(project) {
     const projectGallery = Array.isArray(project.gallery) ? project.gallery : [];
     return [...new Set([project.thumbnail, ...projectGallery].filter(Boolean))];
   }
-
-  function readProjectCardGallery(stage) {
-    try {
-      return JSON.parse(decodeURIComponent(stage?.dataset.galleryImages || '[]')) || [];
-    } catch (_) {
-      return [];
-    }
-  }
-
-  function showProjectCardGallery(stage, step) {
-    const images = readProjectCardGallery(stage);
-    if (!stage || images.length < 2) return;
-    const current = Number(stage.dataset.galleryIndex || 0);
-    const next = (current + step + images.length) % images.length;
-    const image = stage.querySelector('[data-project-card-image]');
-    if (!image) return;
-    stage.dataset.galleryIndex = String(next);
-    image.src = images[next];
-    image.alt = `${stage.getAttribute('aria-label') || 'Công trình'} - ảnh ${next + 1}`;
-    stage.querySelector('[data-project-card-current]').textContent = String(next + 1).padStart(2, '0');
-    stage.classList.remove('is-changing');
-    void image.offsetWidth;
-    stage.classList.add('is-changing');
-  }
-
-  document.addEventListener('click', event => {
-    const previous = event.target.closest('[data-project-card-prev]');
-    const next = event.target.closest('[data-project-card-next]');
-    const control = previous || next;
-    if (!control) return;
-    event.preventDefault();
-    event.stopPropagation();
-    showProjectCardGallery(control.closest('[data-project-card-gallery]'), previous ? -1 : 1);
-  });
 
   function formatProjectCost(cost) {
     const numericCost = Number(cost);
@@ -1647,18 +1609,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
     const safeTitle = escapeHtml(project.title);
-    const galleryImages = getProjectGalleryImages(project);
-    const galleryData = encodeURIComponent(JSON.stringify(galleryImages));
-    const imageHtml = galleryImages.length
-      ? `<img src="${escapeHtml(galleryImages[0])}" alt="${safeTitle} - ảnh 1" class="project-card-img" data-project-card-image loading="lazy" draggable="false" />`
+    const primaryImage = getProjectGalleryImages(project)[0] || '';
+    const imageHtml = primaryImage
+      ? `<img src="${escapeHtml(primaryImage)}" alt="${safeTitle}" class="project-card-img" loading="lazy" />`
       : '<div class="project-card-image-placeholder" role="img" aria-label="Chưa có ảnh đại diện"></div>';
-    const galleryControlsHtml = galleryImages.length > 1 ? `
-      <button class="project-card-gallery-control previous" type="button" data-project-card-prev aria-label="Ảnh trước">
-        <svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="15 18 9 12 15 6"></polyline></svg>
-      </button>
-      <button class="project-card-gallery-control next" type="button" data-project-card-next aria-label="Ảnh tiếp theo">
-        <svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="9 18 15 12 9 6"></polyline></svg>
-      </button>` : '';
     const attributesHtml = attrs.length ? `
       <div class="project-card-attributes">
         ${attributeSlots.map(attribute => attribute
@@ -1670,11 +1624,9 @@ document.addEventListener('DOMContentLoaded', () => {
     return `
       <article class="project-showcase-card">
         <div class="project-card-image-wrapper">
-          <div class="project-card-gallery-stage" data-project-card-gallery data-gallery-images="${galleryData}" aria-label="Gallery ảnh ${safeTitle}">
-            ${imageHtml}
-            <span class="project-card-gallery-count" aria-live="polite"><span data-project-card-current>${galleryImages.length ? '01' : '00'}</span><span>/</span><span data-project-card-total>${String(galleryImages.length).padStart(2, '0')}</span></span>
-            ${galleryControlsHtml}
-          </div>
+          <a class="project-card-image-link" href="${projectDetailUrl}" aria-label="Xem chi tiết ${safeTitle}">
+            <div class="project-card-gallery-stage" aria-label="Ảnh chính công trình ${safeTitle}">${imageHtml}</div>
+          </a>
         </div>
 
         <div class="project-card-info-bar">
