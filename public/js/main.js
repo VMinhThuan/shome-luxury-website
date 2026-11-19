@@ -913,6 +913,11 @@ document.addEventListener('DOMContentLoaded', () => {
     let dragPointerId = null;
     let isGallerySliding = false;
     let galleryAutoplayTimer = null;
+    let thumbnailPointerId = null;
+    let thumbnailDragStartX = 0;
+    let thumbnailDragStartScrollLeft = 0;
+    let thumbnailDragMoved = false;
+    let suppressThumbnailClick = false;
 
     const getGalleryStage = () => gallery?.querySelector('.project-gallery-stage');
     const getHeroImage = () => gallery?.querySelector('[data-detail-image]');
@@ -1143,9 +1148,43 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (gallery) {
       selectGalleryImage(0, true);
+      const thumbnailStrip = gallery.querySelector('[data-gallery-thumbnails]');
+      if (thumbnailStrip) {
+        thumbnailStrip.addEventListener('pointerdown', event => {
+          if (!event.isPrimary || (event.button !== undefined && event.button !== 0)) return;
+          thumbnailPointerId = event.pointerId;
+          thumbnailDragStartX = event.clientX;
+          thumbnailDragStartScrollLeft = thumbnailStrip.scrollLeft;
+          thumbnailDragMoved = false;
+          thumbnailStrip.setPointerCapture?.(thumbnailPointerId);
+        });
+        thumbnailStrip.addEventListener('pointermove', event => {
+          if (event.pointerId !== thumbnailPointerId) return;
+          const distance = event.clientX - thumbnailDragStartX;
+          if (Math.abs(distance) > 5) {
+            thumbnailDragMoved = true;
+            thumbnailStrip.classList.add('is-dragging');
+            thumbnailStrip.scrollLeft = thumbnailDragStartScrollLeft - distance;
+          }
+        });
+        const finishThumbnailDrag = event => {
+          if (event.pointerId !== thumbnailPointerId) return;
+          if (thumbnailDragMoved) suppressThumbnailClick = true;
+          thumbnailStrip.classList.remove('is-dragging');
+          thumbnailStrip.releasePointerCapture?.(thumbnailPointerId);
+          thumbnailPointerId = null;
+          window.setTimeout(() => { suppressThumbnailClick = false; }, 0);
+        };
+        thumbnailStrip.addEventListener('pointerup', finishThumbnailDrag);
+        thumbnailStrip.addEventListener('pointercancel', finishThumbnailDrag);
+      }
       gallery.addEventListener('click', event => {
         const thumbnail = event.target.closest('[data-gallery-thumb]');
         if (thumbnail) {
+          if (suppressThumbnailClick) {
+            event.preventDefault();
+            return;
+          }
           selectGalleryImage(Number(thumbnail.dataset.index));
           return;
         }

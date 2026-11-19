@@ -10070,9 +10070,17 @@ main .surface-finish-section .surface-finish-title {
   gap: 0.65rem;
   margin-top: 0.75rem;
   padding: 0.1rem;
-  overflow: hidden;
+  overflow-x: auto;
+  overflow-y: hidden;
   scroll-behavior: smooth;
+  scrollbar-width: none;
+  cursor: grab;
+  touch-action: pan-x;
+  user-select: none;
 }
+
+.project-gallery-thumbnails::-webkit-scrollbar { display: none; }
+.project-gallery-thumbnails.is-dragging { cursor: grabbing; scroll-behavior: auto; }
 
 .project-gallery-thumbnail {
   position: relative;
