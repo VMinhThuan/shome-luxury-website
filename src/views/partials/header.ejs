@@ -1,5 +1,8 @@
 <%
   const adminImageModeEnabled = typeof adminImageMode !== 'undefined' && adminImageMode;
+  const headerNavigation = adminImageModeEnabled
+    ? navigation
+    : navigation.filter(item => item.id !== 'ho-so-nang-luc');
   const adminHomeTarget = typeof adminHomeHref !== 'undefined'
     ? adminHomeHref
     : (adminImageModeEnabled ? '/admin/images' : '/');
@@ -87,7 +90,7 @@
 
     <!-- Desktop Navigation -->
     <nav class="desktop-nav" aria-label="Main Navigation">
-      <% navigation.forEach(item => { %>
+      <% headerNavigation.forEach(item => { %>
         <div class="nav-item <%= item.children ? 'has-dropdown' : '' %>">
           <a href="<%= adminImageHref(item) %>" class="nav-link"<% if (adminImageModeEnabled && !(item.children && item.children.length) && adminImageTarget(item)) { %> data-admin-image-page="<%= adminImageTarget(item) %>"<% } %>>
             <%= item.label %>

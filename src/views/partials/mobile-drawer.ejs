@@ -1,6 +1,9 @@
 <!-- Mobile Menu Backdrop -->
 <%
   const adminImageModeEnabled = typeof adminImageMode !== 'undefined' && adminImageMode;
+  const drawerNavigation = adminImageModeEnabled
+    ? navigation
+    : navigation.filter(item => item.id !== 'ho-so-nang-luc');
   const adminHomeTarget = typeof adminHomeHref !== 'undefined'
     ? adminHomeHref
     : (adminImageModeEnabled ? '/admin/images' : '/');
@@ -83,7 +86,7 @@
   <!-- Drawer Body - Accordion Navigation -->
   <nav class="drawer-body" aria-label="Mobile Navigation">
     <ul class="mobile-menu-list">
-      <% navigation.forEach(item => { %>
+      <% drawerNavigation.forEach(item => { %>
         <li class="mobile-menu-item">
           <div class="mobile-menu-row">
             <a href="<%= adminImageHref(item) %>" class="mobile-menu-link"<% if (adminImageModeEnabled && !(item.children && item.children.length) && adminImageTarget(item)) { %> data-admin-image-page="<%= adminImageTarget(item) %>"<% } %>><%= item.label %></a>
