@@ -862,27 +862,6 @@ document.addEventListener('DOMContentLoaded', () => {
     return `${Math.round(numericCost / 1000000).toLocaleString('vi-VN')} triệu`;
   }
 
-  // Portrait project covers need a slightly lower focal point when they are
-  // cropped into the 16:9 card frame. Otherwise the default center crop can
-  // leave the room's main furniture below the fold and show mostly ceiling.
-  const normalizeProjectCardImage = image => {
-    if (!image || image.dataset.projectCardFocusReady === 'true') return;
-    const applyFocus = () => {
-      if (!image.naturalWidth || !image.naturalHeight) return;
-      const isPortrait = image.naturalHeight > image.naturalWidth * 1.05;
-      image.classList.toggle('is-portrait', isPortrait);
-      image.dataset.projectCardFocusReady = 'true';
-    };
-    if (image.complete) applyFocus();
-    else image.addEventListener('load', applyFocus, { once: true });
-  };
-
-  const normalizeProjectCardImages = (root = document) => {
-    root.querySelectorAll?.('.project-showcase-section .project-card-img').forEach(normalizeProjectCardImage);
-  };
-
-  normalizeProjectCardImages();
-
   // Detail pages are server-rendered for a fast first paint, then hydrate from
   // the public API. This makes the API request visible in Network and keeps
   // the displayed metadata in sync with the backend.
@@ -1082,6 +1061,7 @@ document.addEventListener('DOMContentLoaded', () => {
       stage?.addEventListener('pointerdown', event => {
         if (!event.isPrimary || event.target.closest('button')) return;
         event.preventDefault();
+        galleryLightbox?.classList.remove('is-swiping');
         if (lightboxZoomScale > 1) {
           lightboxPointerId = event.pointerId;
           lightboxPointerStartX = event.clientX;
@@ -1094,6 +1074,9 @@ document.addEventListener('DOMContentLoaded', () => {
         lightboxSwipeStartX = event.clientX;
       });
       stage?.addEventListener('pointermove', event => {
+        if (lightboxSwipeStartX !== null && Math.abs(event.clientX - lightboxSwipeStartX) > 4) {
+          galleryLightbox?.classList.add('is-swiping');
+        }
         if (event.pointerId !== lightboxPointerId) return;
         event.preventDefault();
         queueLightboxPan(event.clientX, event.clientY);
@@ -1107,6 +1090,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (lightboxSwipeStartX === null || lightboxZoomScale > 1) return;
         const distance = event.clientX - lightboxSwipeStartX;
         lightboxSwipeStartX = null;
+        galleryLightbox?.classList.remove('is-swiping');
         if (Math.abs(distance) < 50) return;
         showLightboxImage(Number(galleryLightbox.dataset.galleryLightboxIndex || 0) + (distance < 0 ? 1 : -1));
       };
@@ -1114,6 +1098,7 @@ document.addEventListener('DOMContentLoaded', () => {
       stage?.addEventListener('pointercancel', event => {
         lightboxPointerId = null;
         lightboxSwipeStartX = null;
+        galleryLightbox?.classList.remove('is-swiping');
         stage.releasePointerCapture?.(event.pointerId);
       });
       image?.addEventListener('load', () => {
@@ -1176,6 +1161,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function closeGalleryLightbox() {
       if (!galleryLightbox) return;
       resetLightboxZoom();
+      galleryLightbox.classList.remove('is-swiping');
       galleryLightbox.hidden = true;
       document.body.classList.remove('project-gallery-lightbox-open');
       getGalleryStage()?.focus();
@@ -1774,7 +1760,6 @@ document.addEventListener('DOMContentLoaded', () => {
         if (json.data && json.data.length) {
           const existingCardCount = projectListContainer.querySelectorAll('.project-showcase-card').length;
           projectListContainer.insertAdjacentHTML('beforeend', json.data.map(renderProjectCardHtml).join(''));
-          normalizeProjectCardImages(projectListContainer);
           projectListContainer.querySelectorAll('.project-showcase-card').forEach((card, index) => {
             if (index >= existingCardCount) {
               card.classList.add('is-loading-in');

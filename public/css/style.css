@@ -13138,20 +13138,25 @@ html {
     height: auto !important;
     max-width: 100% !important;
     max-height: none !important;
+    margin: 0 !important;
     object-fit: contain !important;
-    object-position: center top !important;
+    object-position: center center !important;
     transform: translateX(0) !important;
   }
 
   .project-detail-page .project-gallery-stage > img.project-gallery-drag-preview {
     position: absolute;
-    inset: 0;
+    inset: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
     width: 100% !important;
     height: 100% !important;
     max-width: 100% !important;
     max-height: none !important;
+    margin: 0 !important;
     object-fit: contain !important;
-    object-position: center top !important;
+    object-position: center center !important;
   }
 }
 
@@ -13974,11 +13979,12 @@ body.quote-project-gallery-open { overflow: hidden !important; }
   height: 46px;
   padding: 0;
   place-items: center;
-  border: 1px solid rgba(255, 255, 255, .3) !important;
+  border: 0 !important;
   border-radius: 50%;
   background: rgba(0, 0, 0, .7) !important;
   color: #fff !important;
   box-shadow: 0 4px 16px rgba(0, 0, 0, .35) !important;
+  outline: none !important;
   cursor: pointer;
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
@@ -13990,9 +13996,10 @@ body.quote-project-gallery-open { overflow: hidden !important; }
 .project-gallery-lightbox-control.next { right: .85rem; }
 
 .project-gallery-lightbox .project-gallery-lightbox-close:hover {
-  border-color: var(--accent-gold, #D2A044) !important;
-  background: var(--accent-gold, #D2A044) !important;
-  color: #111 !important;
+  border: 0 !important;
+  outline: none !important;
+  background: rgba(0, 0, 0, .7) !important;
+  color: #fff !important;
 }
 
 .project-gallery-lightbox :is(.project-gallery-lightbox-close, .project-gallery-lightbox-control) svg {
@@ -14136,15 +14143,17 @@ body.project-gallery-lightbox-open { overflow: hidden !important; }
 }
 
 .project-gallery-lightbox:not(.project-gallery-lightbox--grid) :is(.project-gallery-lightbox-close, .project-gallery-lightbox-control) {
-  border: 2px solid rgba(255, 255, 255, .88) !important;
+  border: 0 !important;
   background: rgba(0, 0, 0, .7) !important;
   color: #fff !important;
   box-shadow: 0 5px 18px rgba(0, 0, 0, .38) !important;
+  outline: none !important;
 }
 
 .project-gallery-lightbox:not(.project-gallery-lightbox--grid) :is(.project-gallery-lightbox-close, .project-gallery-lightbox-control):hover,
 .project-gallery-lightbox:not(.project-gallery-lightbox--grid) :is(.project-gallery-lightbox-close, .project-gallery-lightbox-control):focus-visible {
-  border-color: var(--accent-gold, #D2A044) !important;
+  border: 0 !important;
+  outline: none !important;
   background: rgba(0, 0, 0, .7) !important;
   color: #fff !important;
 }
@@ -14206,10 +14215,11 @@ body.project-gallery-lightbox-open { overflow: hidden !important; }
   left: auto;
   width: 48px;
   height: 48px;
-  border: 1px solid rgba(255, 255, 255, .88) !important;
+  border: 0 !important;
   background: rgba(0, 0, 0, .7) !important;
   color: #fff !important;
   box-shadow: none !important;
+  outline: none !important;
   transition: none !important;
 }
 
@@ -14217,7 +14227,8 @@ body.project-gallery-lightbox-open { overflow: hidden !important; }
 .project-gallery-lightbox--grid .project-gallery-lightbox-dialog > .project-gallery-lightbox-close:focus-visible {
   background: rgba(0, 0, 0, .7) !important;
   color: #fff !important;
-  border-color: var(--accent-gold, #D2A044) !important;
+  border: 0 !important;
+  outline: none !important;
   transform: none !important;
 }
 
@@ -14225,11 +14236,12 @@ body.project-gallery-lightbox-open { overflow: hidden !important; }
   position: fixed;
   width: 48px;
   height: 48px;
-  border: 1px solid rgba(255, 255, 255, .88) !important;
+  border: 0 !important;
   background: rgba(0, 0, 0, .7) !important;
   color: #fff !important;
   box-shadow: none !important;
   transition: none !important;
+  outline: none !important;
 }
 
 .project-gallery-lightbox--grid .project-gallery-lightbox-control.previous {
@@ -14321,6 +14333,8 @@ body.project-gallery-lightbox-open { overflow: hidden !important; }
     width: 100vw;
     max-width: none;
     max-height: none;
+    align-items: center;
+    margin-inline: auto;
   }
 
   .project-gallery-lightbox:not(.project-gallery-lightbox--grid) .project-gallery-lightbox-stage {
@@ -14331,6 +14345,7 @@ body.project-gallery-lightbox-open { overflow: hidden !important; }
     overflow: visible;
     border: 0;
     border-radius: 0;
+    margin-inline: auto;
   }
 
   .project-gallery-lightbox:not(.project-gallery-lightbox--grid) .project-gallery-lightbox-stage > img {
@@ -14340,6 +14355,21 @@ body.project-gallery-lightbox-open { overflow: hidden !important; }
     height: auto !important;
     max-height: none !important;
     object-fit: contain !important;
+  }
+
+  /* Keep mobile navigation controls out of the way until the user starts
+     swiping the image. The close button remains visible at all times. */
+  .project-gallery-lightbox:not(.project-gallery-lightbox--grid) .project-gallery-lightbox-control {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition: opacity .18s ease, visibility .18s ease;
+  }
+
+  .project-gallery-lightbox:not(.project-gallery-lightbox--grid).is-swiping .project-gallery-lightbox-control {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
   }
 }
 @media (max-width: 767px) {
@@ -22717,12 +22747,6 @@ body.page-news #main-content > .news-hero-full-bleed {
 .project-showcase-section .project-card-img {
   object-fit: cover !important;
   object-position: center center !important;
-}
-
-/* Portrait covers place the room's visual subject slightly below the geometric
-   center, so the 16:9 card does not spend most of its crop on the ceiling. */
-.project-showcase-section .project-card-img.is-portrait {
-  object-position: center 62% !important;
 }
 
 /* Keep the quotation-page project gallery in sync with the detail gallery:

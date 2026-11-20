@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400&family=Playfair+Display:ital,wght@0,600;0,700;0,800;0,900;1,600&family=Great+Vibes&family=Alex+Brush&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="/css/style.css?v=6.8.129" />
+  <link rel="stylesheet" href="/css/style.css?v=6.8.134" />
   <style>
     /* Alternating section backgrounds on quote page handled by style.css design system */
     .quote-page .quote-video-card-link { display: block; padding: 0; color: inherit; font: inherit; text-align: left; cursor: pointer; }
@@ -2201,7 +2201,7 @@
         height: auto !important;
         min-height: 0 !important;
         max-height: none !important;
-        padding: .75rem 16px !important;
+        padding: .75rem 16px 0 !important;
         margin: 0 auto !important;
       }
 
@@ -2457,6 +2457,12 @@
       }
     }
     @media (max-width: 767px) {
+      /* Match the gap below the construction banner to the same horizontal
+         inset used by the project images on the device viewport. */
+      .quote-page .quote-category-overview {
+        padding-top: clamp(1rem, 4.2vw, 5.2rem) !important;
+      }
+
       /* The overview renders nine cards for desktop, while phones retain
          the requested six-project selection. This matches the specificity
          of the mobile card display rule above, then wins by source order. */
