@@ -1,4 +1,60 @@
 document.addEventListener('DOMContentLoaded', () => {
+  // Match the project-detail gallery: thumbnail strips can be grabbed and
+  // dragged horizontally with a mouse, trackpad or touch pointer. A drag must
+  // not accidentally activate the thumbnail that happened to be released on.
+  const enableHorizontalThumbnailDrag = thumbnailStrip => {
+    if (!thumbnailStrip || thumbnailStrip.dataset.dragEnabled === 'true') return;
+    thumbnailStrip.dataset.dragEnabled = 'true';
+
+    let activePointerId = null;
+    let pointerStartX = 0;
+    let scrollStartX = 0;
+    let isDragging = false;
+    let suppressClick = false;
+
+    thumbnailStrip.addEventListener('pointerdown', event => {
+      if (!event.isPrimary || (event.button !== undefined && event.button !== 0)) return;
+      activePointerId = event.pointerId;
+      pointerStartX = event.clientX;
+      scrollStartX = thumbnailStrip.scrollLeft;
+      isDragging = false;
+      thumbnailStrip.setPointerCapture?.(activePointerId);
+    });
+
+    thumbnailStrip.addEventListener('pointermove', event => {
+      if (event.pointerId !== activePointerId) return;
+      const distance = event.clientX - pointerStartX;
+      if (!isDragging && Math.abs(distance) < 5) return;
+      if (!isDragging) {
+        isDragging = true;
+        thumbnailStrip.classList.add('is-dragging');
+      }
+      if (event.cancelable) event.preventDefault();
+      thumbnailStrip.scrollLeft = scrollStartX - distance;
+    }, { passive: false });
+
+    const finishDrag = event => {
+      if (event.pointerId !== activePointerId) return;
+      if (isDragging) suppressClick = true;
+      if (thumbnailStrip.hasPointerCapture?.(activePointerId)) {
+        thumbnailStrip.releasePointerCapture(activePointerId);
+      }
+      activePointerId = null;
+      isDragging = false;
+      thumbnailStrip.classList.remove('is-dragging');
+      window.setTimeout(() => { suppressClick = false; }, 0);
+    };
+
+    thumbnailStrip.addEventListener('pointerup', finishDrag);
+    thumbnailStrip.addEventListener('pointercancel', finishDrag);
+    thumbnailStrip.addEventListener('click', event => {
+      if (!suppressClick) return;
+      event.preventDefault();
+      event.stopPropagation();
+      suppressClick = false;
+    }, true);
+  };
+
   // A submenu click opens a fresh quote URL. Do not let Chrome restore the
   // previous page's vertical position; hash links such as #nhan-du-toan are
   // intentionally allowed to keep their target position.
@@ -93,6 +149,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const current = modal.querySelector('[data-quote-gallery-current]');
     const total = modal.querySelector('[data-quote-gallery-total]');
     const stage = modal.querySelector('[data-quote-gallery-stage]');
+    enableHorizontalThumbnailDrag(thumbnails);
     let images = [];
     let activeIndex = 0;
     let pointerStartX = null;
@@ -211,6 +268,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const total = gallery.querySelector('[data-quote-inline-total]');
       const thumbnails = gallery.querySelector('[data-quote-inline-thumbnails]');
       if (!stage || !image || !images.length) return;
+      enableHorizontalThumbnailDrag(thumbnails);
 
       let activeIndex = 0;
       let pointerStartX = null;

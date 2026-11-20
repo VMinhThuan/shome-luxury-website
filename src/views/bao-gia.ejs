@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400&family=Playfair+Display:ital,wght@0,600;0,700;0,800;0,900;1,600&family=Great+Vibes&family=Alex+Brush&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="/css/style.css?v=6.8.119" />
+  <link rel="stylesheet" href="/css/style.css?v=6.8.129" />
   <style>
     /* Alternating section backgrounds on quote page handled by style.css design system */
     .quote-page .quote-video-card-link { display: block; padding: 0; color: inherit; font: inherit; text-align: left; cursor: pointer; }
@@ -1374,9 +1374,16 @@
       padding: 0.25rem 0.15rem 0.45rem !important;
       margin: 0 auto !important;
       box-sizing: border-box !important;
+      cursor: grab !important;
+      touch-action: pan-x !important;
+      user-select: none !important;
     }
     .quote-page .quote-project-gallery-thumbnails::-webkit-scrollbar {
       display: none !important;
+    }
+    .quote-page .quote-project-gallery-thumbnails.is-dragging {
+      cursor: grabbing !important;
+      scroll-behavior: auto !important;
     }
     .quote-page .quote-project-gallery-thumbnail {
       flex: 0 0 88px !important;
@@ -2608,7 +2615,7 @@
     }
   </style>
   <script src="/js/main.js?v=2.0.5" defer></script>
-  <script src="/js/quote-page.js?v=1.2.13" defer></script>
+  <script src="/js/quote-page.js?v=1.2.14" defer></script>
 </head>
 <body>
   <% const quoteProjectUrls = { 'tk-kt-nha-cap-4': '/thiet-ke-cong-trinh/thiet-ke-kien-truc/thiet-ke-kien-truc-nha-cap-4', 'tk-kt-nha-pho': '/thiet-ke-cong-trinh/thiet-ke-kien-truc/thiet-ke-kien-truc-nha-pho', 'tk-kt-biet-thu': '/thiet-ke-cong-trinh/thiet-ke-kien-truc/thiet-ke-kien-truc-biet-thu', 'tk-kt-villa': '/thiet-ke-cong-trinh/thiet-ke-kien-truc/thiet-ke-kien-truc-villa', 'tk-nt-chung-cu': '/thiet-ke-noi-that/thiet-ke-noi-that-chung-cu', 'tk-nt-nha-pho': '/thiet-ke-noi-that/thiet-ke-noi-that-nha-pho', 'tk-nt-biet-thu': '/thiet-ke-noi-that/thiet-ke-noi-that-biet-thu', 'tk-nt-van-phong': '/thiet-ke-noi-that/thiet-ke-noi-that-van-phong' }; const dynamicProjectUrl = quoteProjectUrls[selectedCategory?.code] || '/thiet-ke-cong-trinh'; %>

@@ -7,7 +7,9 @@
 
 @font-face {
   font-family: 'NVN Motherland Signature';
-  src: url('/fonts/NVNMotherlandSignature-Reg.woff2') format('woff2');
+  /* Keep one deterministic brand script asset across every page. The query
+     string also prevents browsers/CDNs from reusing the pre self-hosted font. */
+  src: url('/fonts/NVNMotherlandSignature-Reg.woff2?v=6.8.129') format('woff2');
   font-weight: normal;
   font-style: normal;
   font-display: swap;
