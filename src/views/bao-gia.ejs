@@ -1779,15 +1779,16 @@
     }
     .quote-page .home-faq-cta h3 { font-weight: 800 !important; }
 
-    /* Keep quotation-page handwritten gold labels on the original brand font. */
+    /* Inline quotation-page styles load after the shared stylesheet, so make
+       its handwritten gold labels obey the same brand token and stroke. */
     .quote-page :is(.font-script, [class*="script"], h1 em, h2 em) {
       color: var(--accent-gold) !important;
       font-family: var(--font-script) !important;
-      font-weight: 400 !important;
-      font-synthesis: none !important;
-      -webkit-text-stroke: 0 !important;
-      text-stroke: 0 !important;
-      text-shadow: none !important;
+      font-weight: 700 !important;
+      font-synthesis: weight;
+      -webkit-text-stroke: .85px currentColor;
+      text-stroke: .85px currentColor;
+      text-shadow: 0 0 .45px currentColor;
     }
     .quote-page .quote-completed-heading h2 .font-script {
       letter-spacing: 0 !important;
@@ -1853,10 +1854,9 @@
     }
     .quote-page .quote-hero-carousel .quote-hero-corner-script {
       color: #e1aa3e !important;
-      font-weight: 400 !important;
-      font-synthesis: none !important;
-      -webkit-text-stroke: 0 !important;
-      text-stroke: 0 !important;
+      font-weight: 700 !important;
+      -webkit-text-stroke: .35px currentColor;
+      text-stroke: .35px currentColor;
       filter: drop-shadow(0 2px 3px rgba(0, 0, 0, .82)) !important;
       opacity: 1 !important;
     }
