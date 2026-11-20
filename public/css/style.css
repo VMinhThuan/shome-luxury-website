@@ -23075,9 +23075,10 @@ main.project-detail-page .project-gallery-thumbnails > .project-gallery-thumbnai
 
 @media (max-width: 767px) {
   .project-detail-page > .container > .project-showcase-gallery {
-    width: calc(100% + 32px) !important;
-    margin-right: -16px !important;
-    margin-left: -16px !important;
+    width: 100vw !important;
+    max-width: 100vw !important;
+    margin-right: 0 !important;
+    margin-left: calc(50% - 50vw) !important;
   }
 }
 
