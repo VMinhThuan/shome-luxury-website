@@ -7,6 +7,9 @@
  * 
  *   2. Real Import (Writes to MongoDB):
  *      node scripts/import-wordpress-projects.js <PATH_TO_XML>
+ *
+ *   3. Media-only repair (Writes only missing project image fields):
+ *      node scripts/import-wordpress-projects.js <PATH_TO_XML> --media-only
  */
 
 const fs = require('fs');
@@ -107,15 +110,19 @@ function parseTitle(title) {
   return { investor: title.trim(), location: null, parsedCleanly: false };
 }
 
+function readXmlField(tag, source) {
+  const regex = new RegExp(`<${tag}><!\\[CDATA\\[([\\s\\S]*?)\\]\\]><\\/${tag}>|<${tag}>([\\s\\S]*?)<\\/${tag}>`);
+  const match = source.match(regex);
+  if (!match) return '';
+  return (match[1] !== undefined ? match[1] : match[2] || '').trim();
+}
+
 /**
  * Parse an <item> XML string block
  */
 function parseItemBlock(itemXml) {
   const getCdataOrText = (tag, src = itemXml) => {
-    const regex = new RegExp(`<${tag}><!\\[CDATA\\[([\\s\\S]*?)\\]\\]><\\/${tag}>|<${tag}>([\\s\\S]*?)<\\/${tag}>`);
-    const match = src.match(regex);
-    if (!match) return '';
-    return (match[1] !== undefined ? match[1] : match[2] || '').trim();
+    return readXmlField(tag, src);
   };
 
   const postType = getCdataOrText('wp:post_type');
@@ -161,6 +168,11 @@ function parseItemBlock(itemXml) {
   // Status mapping
   const status = wpStatus === 'publish' ? 'published' : wpStatus;
   const categoryIds = Array.from(categoryIdsSet);
+  const thumbnailId = (metas['_thumbnail_id'] || '').trim() || null;
+  const galleryIds = (metas['_product_image_gallery'] || '')
+    .split(',')
+    .map(value => value.trim())
+    .filter(Boolean);
 
   return {
     postType,
@@ -169,6 +181,7 @@ function parseItemBlock(itemXml) {
     wpStatus,
     rawCategories,
     metas,
+    media: { thumbnailId, galleryIds },
     parsedCleanly,
     transformed: {
       title: originalTitle,
@@ -235,6 +248,7 @@ async function seedCategoryTree(db) {
 async function runMigration() {
   const args = process.argv.slice(2);
   const isDryRun = args.includes('--dry-run');
+  const isMediaOnly = args.includes('--media-only');
   const xmlPathArg = args.find(arg => !arg.startsWith('--'));
 
   if (!xmlPathArg) {
@@ -251,7 +265,7 @@ async function runMigration() {
 
   console.log(`\n==================================================`);
   console.log(` WORDPRESS DATA MIGRATION SCRIPT`);
-  console.log(` Mode: ${isDryRun ? '1. DRY RUN (Analysis & Report Only)' : '2. REAL IMPORT (Writing to MongoDB)'}`);
+  console.log(` Mode: ${isDryRun ? '1. DRY RUN (Analysis & Report Only)' : isMediaOnly ? '3. MEDIA-ONLY REPAIR (Writing missing image fields)' : '2. REAL IMPORT (Writing to MongoDB)'}`);
   console.log(` Target XML: ${xmlPath}`);
   console.log(`==================================================\n`);
 
@@ -260,6 +274,7 @@ async function runMigration() {
 
   let totalXmlItems = 0;
   let totalProducts = 0;
+  let totalAttachments = 0;
 
   const productStatusBreakdown = {
     publish: 0,
@@ -292,6 +307,8 @@ async function runMigration() {
   let investorLocationNeedsReview = 0;
 
   const eligible = [];
+  const mediaRefsByProductId = new Map();
+  const attachmentsById = new Map();
   const skipped = [];
   const needsReview = [];
   const unknownCategories = {};
@@ -316,8 +333,17 @@ async function runMigration() {
         inItem = false;
 
         const parsed = parseItemBlock(itemBuffer);
-        if (parsed.postType === 'product') {
+        if (parsed.postType === 'attachment') {
+          const attachmentUrl = readXmlField('wp:attachment_url', itemBuffer);
+          if (parsed.wordpressId && attachmentUrl) {
+            attachmentsById.set(String(parsed.wordpressId), attachmentUrl);
+          }
+          totalAttachments++;
+        } else if (parsed.postType === 'product') {
           totalProducts++;
+          if (parsed.wordpressId) {
+            mediaRefsByProductId.set(String(parsed.wordpressId), parsed.media);
+          }
 
           if (productStatusBreakdown[parsed.wpStatus] !== undefined) {
             productStatusBreakdown[parsed.wpStatus]++;
@@ -385,6 +411,26 @@ async function runMigration() {
     }
   }
 
+  // Resolve the WordPress attachment IDs into actual image URLs. The previous
+  // importer parsed the IDs but deliberately stored null/[], which made every
+  // migrated card render the empty-image state.
+  let projectsWithMedia = 0;
+  let projectsWithoutMedia = 0;
+  eligible.forEach(record => {
+    const media = mediaRefsByProductId.get(String(record.legacy.wordpressId));
+    const gallery = (media?.galleryIds || [])
+      .map(id => attachmentsById.get(String(id)))
+      .filter(Boolean);
+    const thumbnail = media?.thumbnailId
+      ? attachmentsById.get(String(media.thumbnailId)) || null
+      : null;
+
+    record.thumbnail = thumbnail || gallery[0] || null;
+    record.gallery = gallery;
+    if (record.thumbnail || record.gallery.length) projectsWithMedia++;
+    else projectsWithoutMedia++;
+  });
+
   const categoryMappingRules = {};
   Object.entries(APPROVED_LEAF_CATEGORIES).forEach(([wpSlug, config]) => {
     categoryMappingRules[wpSlug] = config.id;
@@ -396,6 +442,7 @@ async function runMigration() {
     sourceFile: xmlPath,
     stats: {
       totalXmlItems,
+      totalAttachments,
       totalProducts,
       productStatusBreakdown,
       leafCategoriesBreakdown: {
@@ -428,6 +475,11 @@ async function runMigration() {
       investorLocationStats: {
         investorLocationParsed,
         investorLocationNeedsReview
+      },
+      mediaStats: {
+        projectsWithMedia,
+        projectsWithoutMedia,
+        attachmentsResolved: Array.from(attachmentsById.keys()).length
       }
     },
     categoryMappingRules,
@@ -461,17 +513,52 @@ async function runMigration() {
     console.log(`Connected successfully to MongoDB at ${mongoUri}`);
     const db = client.db();
 
-    // 1. Seed Category Tree and get Code -> ObjectId mapping
-    console.log(`[REAL IMPORT] Seeding Category tree in MongoDB...`);
-    const codeToIdMap = await seedCategoryTree(db);
-    console.log(`Category tree seeded. Category ObjectIds mapped.`);
+    let codeToIdMap = {};
+    if (!isMediaOnly) {
+      // 1. Seed Category Tree and get Code -> ObjectId mapping
+      console.log(`[REAL IMPORT] Seeding Category tree in MongoDB...`);
+      codeToIdMap = await seedCategoryTree(db);
+      console.log(`Category tree seeded. Category ObjectIds mapped.`);
+    }
 
     const collection = db.collection('projects');
 
     let insertedCount = 0;
     let updatedCount = 0;
+    let mediaUpdatedCount = 0;
 
     for (const record of eligible) {
+      const filter = { 'legacy.wordpressId': record.legacy.wordpressId };
+
+      if (isMediaOnly) {
+        if (!record.thumbnail && !record.gallery.length) continue;
+        const current = await collection.findOne(filter, { projection: { thumbnail: 1, gallery: 1, galleryItems: 1 } });
+        if (!current) continue;
+
+        const updateFields = {};
+        if (!current.thumbnail && record.thumbnail) updateFields.thumbnail = record.thumbnail;
+        if (!Array.isArray(current.gallery) || current.gallery.length === 0) {
+          updateFields.gallery = record.gallery;
+          updateFields.galleryItems = record.gallery.map((url, index) => ({
+            id: `wordpress-${record.legacy.wordpressId}-${index + 1}`,
+            url,
+            publicId: null,
+            order: index,
+            alt: record.title || '',
+            format: null,
+            width: null,
+            height: null,
+            bytes: null,
+            thumbnailUrl: url
+          }));
+        }
+        if (Object.keys(updateFields).length) {
+          await collection.updateOne(filter, { $set: updateFields });
+          mediaUpdatedCount++;
+        }
+        continue;
+      }
+
       // Map code categoryIds (e.g. "tk-kt-nha-cap-4") -> real MongoDB Category ObjectIds
       const objectIdCategories = record.categoryIds.map(code => codeToIdMap[code]).filter(Boolean);
 
@@ -482,7 +569,6 @@ async function runMigration() {
         updatedAt: record.updatedAt ? new Date(record.updatedAt) : new Date()
       };
 
-      const filter = { 'legacy.wordpressId': record.legacy.wordpressId };
       const update = { $set: dbRecord };
       const result = await collection.updateOne(filter, update, { upsert: true });
 
@@ -496,6 +582,7 @@ async function runMigration() {
     report.importResults = {
       insertedCount,
       updatedCount,
+      mediaUpdatedCount,
       totalProcessed: eligible.length
     };
 
@@ -513,7 +600,11 @@ async function runMigration() {
   }
 }
 
-runMigration().catch(err => {
-  console.error('Migration failed:', err);
-  process.exit(1);
-});
+if (require.main === module) {
+  runMigration().catch(err => {
+    console.error('Migration failed:', err);
+    process.exit(1);
+  });
+}
+
+module.exports = { parseItemBlock, readXmlField };

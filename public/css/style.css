@@ -23001,8 +23001,8 @@ body.page-news #main-content > .news-hero-full-bleed {
 }
 
 .project-showcase-section .project-card-gallery-stage > img.project-card-img {
-  position: static !important;
-  inset: auto !important;
+  position: absolute !important;
+  inset: 0 !important;
   display: block !important;
   width: 100% !important;
   height: 100% !important;

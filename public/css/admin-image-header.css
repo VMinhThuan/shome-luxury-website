@@ -30,6 +30,55 @@ body.home-images-admin {
   color: var(--accent-gold, #d2a044) !important;
 }
 
+/* The image manager has one extra action ("Đăng xuất") in the header.
+   Keep its navigation in a dedicated three-column layout so the last menu
+   item cannot slide underneath the CTA buttons. */
+@media (min-width: 1024px) {
+  .admin-image-public-header .header-container {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    column-gap: clamp(.5rem, 1vw, 1.25rem);
+  }
+
+  .admin-image-public-header .brand-logo-wrapper {
+    margin-right: 0;
+  }
+
+  .admin-image-public-header .desktop-nav {
+    min-width: 0;
+    margin-left: 0;
+    margin-right: 0;
+    gap: clamp(.1rem, .35vw, .55rem);
+    overflow: visible;
+  }
+
+  .admin-image-public-header .nav-link {
+    padding: .28rem clamp(.1rem, .24vw, .3rem);
+    gap: .14rem;
+    font-size: clamp(.68rem, .72vw, .82rem);
+  }
+
+  .admin-image-public-header .header-actions {
+    margin-left: 0;
+    gap: .4rem;
+  }
+
+  .admin-image-public-header .btn-header-consult,
+  .admin-image-public-header .admin-image-logout {
+    font-size: .78rem !important;
+  }
+
+  .admin-image-public-header .btn-header-consult {
+    padding: .42rem .7rem !important;
+    gap: .25rem !important;
+  }
+
+  .admin-image-public-header .admin-image-logout {
+    min-height: 40px;
+    padding: .42rem .7rem;
+  }
+}
+
 @media (max-width: 1023px) {
   body.home-images-admin {
     padding-top: var(--header-height-mobile, 68px);

@@ -3,7 +3,7 @@
   const extraGallery = typeof isExtraGallery !== 'undefined' && isExtraGallery;
 %>
 
-<article class="project-gallery-group <%= project.galleryIsMock ? 'is-mock-gallery' : '' %> <%= extraGallery ? 'is-extra-gallery' : '' %>"<%= extraGallery ? ' data-extra-gallery' : '' %>>
+<article class="project-gallery-group <%= extraGallery ? 'is-extra-gallery' : '' %>"<%= extraGallery ? ' data-extra-gallery' : '' %>>
   <div class="project-gallery-grid" data-project-gallery-grid aria-label="Ảnh công trình <%= project.title %>">
     <% galleryImages.forEach((image, index) => { %>
       <a
