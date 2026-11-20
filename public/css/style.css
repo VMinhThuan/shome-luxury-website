@@ -23002,29 +23002,28 @@ body.page-news #main-content > .news-hero-full-bleed {
 }
 
 /* List-page cards: keep the image in normal flow so lazy-loaded images paint
-   reliably, then crop every source from its vertical and horizontal center. */
+   reliably, and preserve the complete source image inside the fixed card.
+   Portrait images may show white side gutters instead of being cropped. */
 .project-showcase-section .project-card-gallery-stage {
   position: relative !important;
   overflow: hidden !important;
 }
 
 .project-showcase-section .project-card-gallery-stage > img.project-card-img {
-  position: absolute !important;
-  top: 50% !important;
-  left: 50% !important;
-  right: auto !important;
-  bottom: auto !important;
+  position: static !important;
+  inset: auto !important;
   display: block !important;
   width: 100% !important;
-  height: auto !important;
-  min-width: 100% !important;
-  min-height: 100% !important;
-  max-width: none !important;
-  max-height: none !important;
+  height: 100% !important;
+  min-width: 0 !important;
+  min-height: 0 !important;
+  max-width: 100% !important;
+  max-height: 100% !important;
   margin: 0 !important;
-  object-fit: cover !important;
+  background: #fff !important;
+  object-fit: contain !important;
   object-position: center center !important;
-  transform: translate(-50%, -50%) !important;
+  transform: none !important;
 }
 
 /* On mobile, align the detail gallery and its thumbnail rail with the full
@@ -23104,4 +23103,26 @@ main :is(
     min-height: 0 !important;
     padding: .7rem 1rem !important;
   }
+}
+
+/* Keep factory-page gold title accents consistent with the homepage and
+   quotation page brand treatment. */
+.factory-page main :is(
+  .process-v2-title-script,
+  .capacity-paired-title-accent,
+  .factory-detail-script,
+  .factory-tour-accent,
+  .material-inspiration-accent,
+  .surface-finish-accent,
+  .project-consultation-accent,
+  .work-process-title-accent,
+  .hero-script-eyebrow,
+  .font-script
+) {
+  color: #D2A044 !important;
+  font-weight: 700 !important;
+  font-synthesis: weight !important;
+  -webkit-text-stroke: .45px currentColor !important;
+  text-stroke: .45px currentColor !important;
+  text-shadow: 0 0 .2px currentColor !important;
 }
