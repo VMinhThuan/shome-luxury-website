@@ -23034,6 +23034,9 @@ main.project-detail-page .project-gallery-thumbnails > .project-gallery-thumbnai
   display: flex !important;
   align-items: center !important;
   justify-content: center !important;
+  width: 100% !important;
+  height: auto !important;
+  aspect-ratio: 16 / 9 !important;
   overflow: hidden !important;
   background: #fff !important;
 }
@@ -23043,7 +23046,7 @@ main.project-detail-page .project-gallery-thumbnails > .project-gallery-thumbnai
   inset: auto !important;
   display: block !important;
   width: auto !important;
-  height: auto !important;
+  height: 100% !important;
   min-width: 0 !important;
   min-height: 0 !important;
   max-width: 100% !important;
