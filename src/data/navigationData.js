@@ -72,6 +72,11 @@ module.exports = [
     href: "/xuong-san-xuat"
   },
   {
+    id: "ho-so-nang-luc",
+    label: "Hồ sơ năng lực",
+    href: "/ho-so-nang-luc"
+  },
+  {
     id: "bao-gia",
     label: "Báo giá",
     href: "/bao-gia?category=tk-nt-chung-cu",
