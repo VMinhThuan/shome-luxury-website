@@ -23031,20 +23031,24 @@ main.project-detail-page .project-gallery-thumbnails > .project-gallery-thumbnai
    Portrait images may show clean white side space instead of being cropped. */
 .project-showcase-section .project-card-gallery-stage {
   position: relative !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
   overflow: hidden !important;
+  background: #fff !important;
 }
 
 .project-showcase-section .project-card-gallery-stage > img.project-card-img {
   position: static !important;
   inset: auto !important;
   display: block !important;
-  width: 100% !important;
-  height: 100% !important;
+  width: auto !important;
+  height: auto !important;
   min-width: 0 !important;
   min-height: 0 !important;
   max-width: 100% !important;
   max-height: 100% !important;
-  margin: 0 !important;
+  margin: auto !important;
   background: #fff !important;
   object-fit: contain !important;
   object-position: center center !important;

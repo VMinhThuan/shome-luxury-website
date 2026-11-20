@@ -857,8 +857,9 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function getProjectCardImage(project) {
-    return project.thumbnail
+    return project.galleryItems?.[0]?.url
       || (Array.isArray(project.gallery) ? project.gallery[0] : '')
+      || project.thumbnail
       || project.thumbnailUrl
       || project.galleryItems?.[0]?.thumbnailUrl
       || '';

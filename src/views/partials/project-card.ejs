@@ -17,7 +17,7 @@
   const projectDetailUrl = `/cong-trinh/${project.slug}`;
 %>
 
-<% const primaryImage = project.thumbnail || project.gallery?.[0] || project.thumbnailUrl || project.galleryItems?.[0]?.thumbnailUrl || ''; %>
+<% const primaryImage = project.galleryItems?.[0]?.url || project.gallery?.[0] || project.thumbnail || project.thumbnailUrl || project.galleryItems?.[0]?.thumbnailUrl || ''; %>
 
 <article class="project-showcase-card">
   <div class="project-card-image-wrapper">
