@@ -23023,3 +23023,25 @@ body.page-news #main-content > .news-hero-full-bleed {
   object-position: center center !important;
   transform: none !important;
 }
+
+/* Final site-wide brand treatment for gold title accents. Keep typography
+   sizing and layout untouched; only unify the logo gold and emphasis. */
+main :is(
+  h1 em,
+  h2 em,
+  h3 em,
+  h4 em,
+  h1 .font-script,
+  h2 .font-script,
+  h3 .font-script,
+  h4 .font-script,
+  .title-script,
+  .font-script-heading,
+  [class$="-title-script"],
+  [class$="-title-accent"],
+  [class$="-script"],
+  [class$="-accent"]
+) {
+  color: #D2A044 !important;
+  font-weight: 600 !important;
+}
