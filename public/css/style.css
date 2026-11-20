@@ -9757,7 +9757,7 @@ main .surface-finish-section .surface-finish-title {
   min-width: 0;
 }
 
-/* The collapse action must remain invisible until the first page is loaded. */
+/* Never show either pagination action while its hidden attribute is present. */
 .project-pagination-actions .project-collapse-button[hidden],
 .project-pagination-actions .project-load-more-button[hidden] {
   display: none !important;
@@ -17893,6 +17893,22 @@ body.showcase-page-body .site-footer {
   margin-top: 0 !important;
 }
 
+/* Do not let the flex layout stretch the showcase main area and create an
+   extra white band before the footer. The gallery action owns this gap. */
+body.showcase-page-body .showcase-page-main {
+  flex: 0 0 auto !important;
+}
+
+/* Pull the construction gallery up to the banner. The section container and
+   the gallery grid previously added two vertical gaps on top of each other. */
+body.showcase-page-body .project-showcase-section > .container.has-construction-gallery {
+  padding-top: 12px !important;
+}
+
+body.showcase-page-body .project-showcase-section .construction-upload-gallery-grid {
+  margin-top: 0 !important;
+}
+
 /* The gallery button is the last element before the footer on showcase
    pages. Keep the footer attached to the button's bottom edge instead of
    leaving a second, larger white band below it. */
@@ -17994,6 +18010,33 @@ body.showcase-page-body .completed-videos-heading strong {
 body.showcase-page-body .completed-projects-section,
 body.showcase-page-body .completed-videos-section {
   border-top-color: rgba(210, 160, 68, .35);
+}
+
+/* Compact, shared vertical rhythm for construction banners and galleries. */
+@media (min-width: 768px) {
+  body.showcase-page-body {
+    --showcase-compact-gap: 12px;
+  }
+
+  body.showcase-page-body .project-showcase-hero,
+  body.showcase-page-body .completed-projects-heading-band {
+    padding-top: var(--showcase-compact-gap) !important;
+    padding-bottom: var(--showcase-compact-gap) !important;
+  }
+
+  body.showcase-page-body .project-showcase-section > .container.has-construction-gallery {
+    padding-top: 0 !important;
+  }
+
+  body.showcase-page-body .project-showcase-section .construction-upload-gallery-grid,
+  body.showcase-page-body .completed-projects-section .construction-upload-gallery-grid {
+    margin-top: 0 !important;
+  }
+
+  body.showcase-page-body .construction-upload-gallery-more {
+    padding-top: var(--showcase-compact-gap) !important;
+    padding-bottom: var(--showcase-compact-gap) !important;
+  }
 }
 
 /* Paired section titles use the same bold sans-serif face for every black
