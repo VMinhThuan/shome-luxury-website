@@ -22772,21 +22772,22 @@ body.page-news #main-content > .news-hero-full-bleed {
 
 @media (max-width: 767px) {
   .quote-page .quote-featured-project-card--inline-gallery .project-gallery-stage {
-    aspect-ratio: auto !important;
+    aspect-ratio: 16 / 9 !important;
     height: auto !important;
     min-height: 0 !important;
+    overflow: hidden !important;
   }
 
   .quote-page .quote-featured-project-card--inline-gallery .project-gallery-stage > img {
-    position: relative !important;
-    inset: auto !important;
+    position: absolute !important;
+    inset: 0 !important;
     display: block !important;
     width: 100% !important;
-    height: auto !important;
-    max-width: 100% !important;
+    height: 100% !important;
+    max-width: none !important;
     max-height: none !important;
     margin: 0 !important;
-    object-fit: contain !important;
+    object-fit: cover !important;
     object-position: center center !important;
   }
 
