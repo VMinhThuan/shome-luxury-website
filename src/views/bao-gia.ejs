@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400&family=Playfair+Display:ital,wght@0,600;0,700;0,800;0,900;1,600&family=Great+Vibes&family=Alex+Brush&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="/css/style.css?v=6.8.154" />
+  <link rel="stylesheet" href="/css/style.css?v=6.8.159" />
   <style>
     /* Alternating section backgrounds on quote page handled by style.css design system */
     .quote-page .quote-video-card-link { display: block; padding: 0; color: inherit; font: inherit; text-align: left; cursor: pointer; }
@@ -18,7 +18,7 @@
     .quote-page .quote-completed-heading { margin: 0 auto clamp(1.5rem, 3vw, 2.5rem); text-align: center; }
     .quote-page .quote-completed-heading p { margin: 0 0 .45rem; padding-bottom: .2rem; color: #b86a14; font-family: var(--font-script); font-size: clamp(1.8rem, 4vw, 3.5rem); font-weight: 500; line-height: 1.15; }
     .quote-page .quote-completed-heading h2 { margin: .2rem 0 0; color: #1d1a19; font-family: var(--font-heading); font-size: clamp(1.8rem, 4.5vw, 3.6rem); font-weight: 800; letter-spacing: -.055em; line-height: 1.15; }
-    .quote-page .quote-completed-heading h2 em { color: #D2A044 !important; font-family: var(--font-heading); font-style: normal; font-weight: 600; }
+    .quote-page .quote-completed-heading h2 em { color: #D2A044 !important; font-family: var(--font-heading); font-style: normal; font-weight: 700; }
     .quote-page .quote-completed-heading > span { display: block; max-width: 720px; margin: .35rem auto 0; color: #7a7067; font-size: clamp(.76rem, 1.4vw, 1rem); line-height: 1.55; }
     .quote-page .quote-completed-videos { display: grid; width: min(1080px, 100%); margin: auto; gap: clamp(.8rem, 1.7vw, 1.35rem); }
     .quote-page .quote-completed-video { position: relative; aspect-ratio: 16 / 9; overflow: hidden; border: 1px solid #eadfce; border-radius: 18px; background: #2a1c12; box-shadow: 0 8px 20px rgba(76, 48, 20, .06); }
@@ -1472,6 +1472,26 @@
       }
     }
 
+    /* Match the detail-page gallery: preserve the complete source image and
+       let the card background provide clean space around portrait images. */
+    .quote-page .quote-featured-project-card--inline-gallery .project-gallery-stage {
+      background: #fff !important;
+      cursor: zoom-in;
+    }
+    .quote-page .quote-featured-project-card--inline-gallery .project-gallery-stage > img {
+      background: #fff !important;
+      object-fit: contain !important;
+      object-position: center center !important;
+    }
+    .quote-page .quote-project-gallery-stage {
+      background: #fff !important;
+    }
+    .quote-page .quote-project-gallery-stage > img {
+      background: #fff !important;
+      object-fit: contain !important;
+      object-position: center center !important;
+    }
+
     /* Đồng bộ toàn bộ button nền vàng trang báo giá về màu vàng thương hiệu chuẩn */
     .quote-page :is(
       .quote-button,
@@ -2712,7 +2732,10 @@
          slightly stronger without changing its size or layout. */
       .quote-page .quote-completed-heading h2 em {
         color: #D2A044 !important;
-        font-weight: 600 !important;
+        font-weight: 700 !important;
+        -webkit-text-stroke: .45px currentColor !important;
+        text-stroke: .45px currentColor !important;
+        text-shadow: 0 0 .2px currentColor !important;
       }
     }
 
@@ -2735,11 +2758,15 @@
       .home-faq-script
     ) {
       color: #D2A044 !important;
-      font-weight: 600 !important;
+      font-weight: 700 !important;
+      font-synthesis: weight !important;
+      -webkit-text-stroke: .45px currentColor !important;
+      text-stroke: .45px currentColor !important;
+      text-shadow: 0 0 .2px currentColor !important;
     }
   </style>
   <script src="/js/main.js?v=2.0.5" defer></script>
-  <script src="/js/quote-page.js?v=1.2.14" defer></script>
+  <script src="/js/quote-page.js?v=1.2.15" defer></script>
 </head>
 <body>
   <% const quoteProjectUrls = { 'tk-kt-nha-cap-4': '/thiet-ke-cong-trinh/thiet-ke-kien-truc/thiet-ke-kien-truc-nha-cap-4', 'tk-kt-nha-pho': '/thiet-ke-cong-trinh/thiet-ke-kien-truc/thiet-ke-kien-truc-nha-pho', 'tk-kt-biet-thu': '/thiet-ke-cong-trinh/thiet-ke-kien-truc/thiet-ke-kien-truc-biet-thu', 'tk-kt-villa': '/thiet-ke-cong-trinh/thiet-ke-kien-truc/thiet-ke-kien-truc-villa', 'tk-nt-chung-cu': '/thiet-ke-noi-that/thiet-ke-noi-that-chung-cu', 'tk-nt-nha-pho': '/thiet-ke-noi-that/thiet-ke-noi-that-nha-pho', 'tk-nt-biet-thu': '/thiet-ke-noi-that/thiet-ke-noi-that-biet-thu', 'tk-nt-van-phong': '/thiet-ke-noi-that/thiet-ke-noi-that-van-phong' }; const dynamicProjectUrl = quoteProjectUrls[selectedCategory?.code] || '/thiet-ke-cong-trinh'; %>
@@ -2931,7 +2958,7 @@
               %>
                 <article class="quote-featured-project-card quote-featured-project-card--inline-gallery">
                   <section class="project-showcase-gallery quote-featured-project-gallery" data-quote-inline-gallery data-project-title="<%= project.title %>" data-gallery-images="<%= encodeURIComponent(JSON.stringify(galleryImages)) %>" aria-label="Thư viện ảnh công trình <%= project.title %>">
-                    <div class="project-gallery-stage" data-quote-inline-stage tabindex="0" aria-label="Ảnh công trình <%= project.title %>">
+                    <div class="project-gallery-stage" data-quote-inline-stage tabindex="0" aria-label="Bấm để xem ảnh công trình <%= project.title %> phóng to">
                       <% if (projectImage) { %>
                         <img src="<%= projectImage %>" alt="<%= project.title %> - ảnh 1" data-quote-inline-image loading="lazy" draggable="false" />
                       <% } else { %>

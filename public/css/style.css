@@ -6184,7 +6184,7 @@ main .surface-finish-section .surface-finish-title {
   isolation: isolate;
   overflow: hidden;
   padding: calc(var(--header-height-desktop) + 3.5rem) 0 1rem;
-  background-image: linear-gradient(118deg, rgba(255, 253, 249, .9), rgba(242, 231, 212, .84)), var(--company-profile-banner-image, none);
+  background-image: var(--company-profile-banner-image, none);
   background-position: center;
   background-size: cover;
   text-align: center;
@@ -23009,19 +23009,66 @@ body.page-news #main-content > .news-hero-full-bleed {
 }
 
 .project-showcase-section .project-card-gallery-stage > img.project-card-img {
-  position: static !important;
-  inset: auto !important;
+  position: absolute !important;
+  top: 50% !important;
+  left: 50% !important;
+  right: auto !important;
+  bottom: auto !important;
   display: block !important;
   width: 100% !important;
-  height: 100% !important;
-  min-width: 0 !important;
-  min-height: 0 !important;
-  max-width: 100% !important;
-  max-height: 100% !important;
+  height: auto !important;
+  min-width: 100% !important;
+  min-height: 100% !important;
+  max-width: none !important;
+  max-height: none !important;
   margin: 0 !important;
   object-fit: cover !important;
   object-position: center center !important;
-  transform: none !important;
+  transform: translate(-50%, -50%) !important;
+}
+
+/* On mobile, align the detail gallery and its thumbnail rail with the full
+   mobile header width instead of the inner .container padding. */
+@media (max-width: 1023px) {
+  .project-detail-page > .container > .project-showcase-gallery {
+    width: calc(100% + 48px) !important;
+    max-width: none !important;
+    margin-right: -24px !important;
+    margin-left: -24px !important;
+  }
+
+  .project-detail-page .project-gallery-stage,
+  .project-detail-page .project-gallery-thumbnails {
+    width: 100% !important;
+    max-width: none !important;
+  }
+
+  .project-detail-page .project-gallery-thumbnails {
+    padding-right: 0 !important;
+    padding-left: 0 !important;
+  }
+}
+
+@media (max-width: 767px) {
+  .project-detail-page > .container > .project-showcase-gallery {
+    width: calc(100% + 32px) !important;
+    margin-right: -16px !important;
+    margin-left: -16px !important;
+  }
+}
+
+/* Mobile detail galleries keep the existing card dimensions but show the
+   complete portrait/square source with clean white side space. */
+@media (max-width: 1023px) {
+  .project-detail-page .project-gallery-stage {
+    background: #fff !important;
+  }
+
+  .project-detail-page .project-gallery-stage > img.hero-img,
+  .project-detail-page .project-gallery-stage > img.project-gallery-drag-preview {
+    object-fit: contain !important;
+    object-position: center center !important;
+  }
 }
 
 /* Final site-wide brand treatment for gold title accents. Keep typography
@@ -23043,5 +23090,18 @@ main :is(
   [class$="-accent"]
 ) {
   color: #D2A044 !important;
-  font-weight: 600 !important;
+  font-weight: 700 !important;
+  font-synthesis: weight !important;
+  -webkit-text-stroke: .45px currentColor !important;
+  text-stroke: .45px currentColor !important;
+  text-shadow: 0 0 .2px currentColor !important;
+}
+
+/* Compact only the consultation CTA on phones; keep its text size unchanged. */
+@media (max-width: 767px) {
+  .quote-page .quote-free-estimate-button {
+    min-width: 0 !important;
+    min-height: 0 !important;
+    padding: .7rem 1rem !important;
+  }
 }

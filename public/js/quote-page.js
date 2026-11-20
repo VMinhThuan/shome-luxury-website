@@ -203,7 +203,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const close = () => { modal.hidden = true; document.body.classList.remove('quote-project-gallery-open'); };
     const open = trigger => {
-      try { images = JSON.parse(trigger.dataset.galleryImages || '[]').filter(Boolean); } catch (_) { images = []; }
+      try {
+        const encodedImages = trigger.hasAttribute('data-quote-inline-gallery');
+        const rawImages = trigger.dataset.galleryImages || '[]';
+        images = JSON.parse(encodedImages ? decodeURIComponent(rawImages) : rawImages).filter(Boolean);
+      } catch (_) { images = []; }
       if (!images.length) return;
       modal.dataset.projectTitle = trigger.dataset.projectTitle || 'Công trình Shome Luxury';
       thumbnails.replaceChildren();
@@ -222,11 +226,28 @@ document.addEventListener('DOMContentLoaded', () => {
     document.addEventListener('click', event => {
       const trigger = event.target.closest('[data-quote-project-gallery]');
       if (trigger) { event.preventDefault(); open(trigger); return; }
+
+      const inlineStage = event.target.closest('[data-quote-inline-stage]');
+      const inlineGallery = inlineStage?.closest('[data-quote-inline-gallery]');
+      const inlineControl = event.target.closest('[data-quote-inline-prev], [data-quote-inline-next], [data-quote-inline-thumb]');
+      if (inlineGallery && !inlineControl && !inlineStage?.dataset.suppressClick) {
+        event.preventDefault();
+        open(inlineGallery);
+        return;
+      }
+
       if (event.target.closest('[data-quote-gallery-close]')) close();
       if (event.target.closest('[data-quote-gallery-prev]')) show(activeIndex - 1);
       if (event.target.closest('[data-quote-gallery-next]')) show(activeIndex + 1);
     });
     document.addEventListener('keydown', event => {
+      const inlineStage = event.target.closest?.('[data-quote-inline-stage]');
+      const inlineGallery = inlineStage?.closest('[data-quote-inline-gallery]');
+      if (inlineGallery && (event.key === 'Enter' || event.key === ' ')) {
+        event.preventDefault();
+        open(inlineGallery);
+        return;
+      }
       if (modal.hidden) return;
       if (event.key === 'Escape') close();
       if (event.key === 'ArrowLeft') show(activeIndex - 1);
@@ -276,6 +297,7 @@ document.addEventListener('DOMContentLoaded', () => {
       let dragOffsetX = 0;
       let touchStartX = null;
       let transitionToken = 0;
+      let suppressStageClick = false;
 
       const preloadedImages = new Map();
       const preload = src => {
@@ -364,7 +386,15 @@ document.addEventListener('DOMContentLoaded', () => {
         dragOffsetX = 0;
         stage.classList.remove('is-dragging');
         image.style.removeProperty('transform');
-        if (shouldChange) show(activeIndex + (distance < 0 ? 1 : -1));
+        if (shouldChange) {
+          suppressStageClick = true;
+          stage.dataset.suppressClick = 'true';
+          window.setTimeout(() => {
+            suppressStageClick = false;
+            delete stage.dataset.suppressClick;
+          }, 0);
+          show(activeIndex + (distance < 0 ? 1 : -1));
+        }
       };
       stage.addEventListener('pointerup', finishInlineDrag);
       stage.addEventListener('pointercancel', finishInlineDrag);
@@ -389,8 +419,23 @@ document.addEventListener('DOMContentLoaded', () => {
         dragOffsetX = 0;
         stage.classList.remove('is-dragging');
         image.style.removeProperty('transform');
-        if (shouldChange) show(activeIndex + (distance < 0 ? 1 : -1));
+        if (shouldChange) {
+          suppressStageClick = true;
+          stage.dataset.suppressClick = 'true';
+          window.setTimeout(() => {
+            suppressStageClick = false;
+            delete stage.dataset.suppressClick;
+          }, 0);
+          show(activeIndex + (distance < 0 ? 1 : -1));
+        }
       }, { passive: true });
+      stage.addEventListener('click', event => {
+        if (!suppressStageClick) return;
+        event.preventDefault();
+        event.stopPropagation();
+        suppressStageClick = false;
+        delete stage.dataset.suppressClick;
+      }, true);
       stage.addEventListener('touchcancel', () => {
         touchStartX = null;
         dragOffsetX = 0;
