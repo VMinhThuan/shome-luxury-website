@@ -17877,18 +17877,18 @@ body.showcase-page-body .project-showcase-section > .container {
   padding-bottom: 0;
 }
 
+/* The gallery wrapper owns the final gap before the footer. Keep the
+   completed-gallery section from adding a second, larger bottom gap. */
+body.showcase-page-body .completed-projects-section {
+  padding-bottom: 0 !important;
+}
+
 body.showcase-page-body .site-footer {
   margin-top: 0 !important;
 }
 
 @media (max-width: 767px) {
   body.showcase-page-body .project-showcase-section > .container {
-    padding-bottom: 0 !important;
-  }
-
-  /* The gallery button already owns the final mobile gutter; do not add a
-     second section-level gap before the footer. */
-  body.showcase-page-body .completed-projects-section {
     padding-bottom: 0 !important;
   }
 
