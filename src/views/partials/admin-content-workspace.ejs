@@ -7,6 +7,7 @@
   const workspaceManagerId = typeof managerId !== 'undefined' ? managerId : 'content-cms';
   const workspaceFormTitleId = `${workspaceManagerId}-form-title`;
   const workspaceInitiallyHidden = typeof initiallyHidden !== 'undefined' && initiallyHidden;
+  const workspaceIsProject = ['design-projects', 'construction-projects'].includes(currentModule);
 %>
 <section
   id="<%= workspaceManagerId %>"
@@ -41,7 +42,7 @@
   <div class="content-cms-feedback" data-feedback aria-live="polite"></div>
   <section class="content-cms-table-wrap">
     <table class="content-cms-table">
-      <thead><tr><th>Ảnh</th><th>Tiêu đề</th><th>Danh mục</th><th>Thứ tự</th><th>Trạng thái</th><th>Cập nhật</th><th>Thao tác</th></tr></thead>
+      <thead><tr><th>Ảnh</th><th>Tiêu đề</th><% if (workspaceIsProject) { %><th>Thông tin công trình</th><% } %><th>Danh mục</th><th>Thứ tự</th><th>Trạng thái</th><th>Cập nhật</th><th>Thao tác</th></tr></thead>
       <tbody data-table></tbody>
     </table>
     <div class="content-cms-empty" data-empty hidden>Chưa có công trình phù hợp.</div>
@@ -65,7 +66,7 @@
           <label class="project-only project-hidden">Khách hàng / chủ đầu tư<input name="clientName" /></label>
           <label class="project-only project-hidden">Địa điểm<input name="location" /></label>
           <label class="project-only">Diện tích<input name="area" /></label>
-          <label class="project-only">Chi phí (VNĐ)<input name="cost" type="number" min="0" step="1000000" /></label>
+          <label class="project-only">Chi phí (VNĐ)<input name="cost" type="text" inputmode="text" placeholder="Ví dụ: 2xx, 3xx, 4xx, 5xx hoặc 234000000" /></label>
           <label class="project-only">Loại hình<select name="propertyType"><option value="">Chọn loại hình</option><option>Căn hộ 1 PN</option><option>Căn hộ 2 PN</option><option>Căn hộ 3 PN</option><option>Chung cư</option><option>Nhà phố</option><option>Nhà cấp 4</option><option>Biệt thự</option><option>Villa</option><option>Văn phòng</option></select></label>
           <label class="project-only">Phong cách<input name="style" /></label>
           <label class="construction-only project-hidden">Liên kết thiết kế<select name="designProjectId" data-design-project><option value="">Không liên kết</option></select></label>

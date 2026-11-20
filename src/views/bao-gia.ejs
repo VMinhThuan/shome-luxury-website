@@ -2825,7 +2825,11 @@
               <% highlightProjects.slice(0, 9).forEach((project, index) => {
                    const projectImage = project.thumbnail || (Array.isArray(project.gallery) ? project.gallery[0] : '') || '';
                    const galleryImages = [...new Set([projectImage, ...(project.gallery || [])].filter(Boolean))];
-                   const costLabel = project.cost ? `${Math.round(project.cost / 1000000)} triệu` : 'Liên hệ tư vấn';
+                   const rawCost = String(project.cost ?? '').trim();
+                   const numericCost = Number(rawCost);
+                   const costLabel = rawCost
+                     ? (/^\d+(?:\.\d+)?$/.test(rawCost) && Number.isFinite(numericCost) ? `${Math.round(numericCost / 1000000)} triệu` : rawCost)
+                     : 'Liên hệ tư vấn';
               %>
                 <article class="quote-featured-project-card <%= index >= 6 ? 'quote-featured-project-card--desktop-only' : '' %>">
                   <button class="quote-featured-project-image" type="button" data-quote-project-gallery data-project-title="<%= project.title %>" data-gallery-images="<%= JSON.stringify(galleryImages) %>" aria-label="Xem thư viện ảnh dự án <%= project.title %>">
@@ -2890,7 +2894,11 @@
               <% highlightProjects.slice(0, 5).forEach((project, index) => {
                    const galleryImages = [...new Set([project.thumbnail, ...(project.gallery || [])].filter(Boolean))];
                    const projectImage = galleryImages[0] || '';
-                   const costLabel = project.cost ? `${Math.round(project.cost / 1000000)} triệu` : 'Liên hệ tư vấn';
+                   const rawCost = String(project.cost ?? '').trim();
+                   const numericCost = Number(rawCost);
+                   const costLabel = rawCost
+                     ? (/^\d+(?:\.\d+)?$/.test(rawCost) && Number.isFinite(numericCost) ? `${Math.round(numericCost / 1000000)} triệu` : rawCost)
+                     : 'Liên hệ tư vấn';
               %>
                 <article class="quote-featured-project-card quote-featured-project-card--inline-gallery">
                   <section class="project-showcase-gallery quote-featured-project-gallery" data-quote-inline-gallery data-project-title="<%= project.title %>" data-gallery-images="<%= encodeURIComponent(JSON.stringify(galleryImages)) %>" aria-label="Thư viện ảnh công trình <%= project.title %>">

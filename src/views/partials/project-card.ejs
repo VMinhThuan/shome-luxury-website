@@ -1,7 +1,15 @@
 <%
+  const formatProjectCost = cost => {
+    const value = String(cost ?? '').trim();
+    if (!value) return '';
+    const numericCost = Number(value);
+    return /^\d+(?:\.\d+)?$/.test(value) && Number.isFinite(numericCost)
+      ? `${Math.round(numericCost / 1000000).toLocaleString('vi-VN')} triệu`
+      : value;
   const attrs = [];
   if (project.area) attrs.push({ label: 'Diện tích', value: project.area });
-  if (Number.isFinite(Number(project.cost))) attrs.push({ label: 'Chi phí', value: `${Math.round(Number(project.cost) / 1000000).toLocaleString('vi-VN')} triệu` });
+  const costLabel = formatProjectCost(project.cost);
+  if (costLabel) attrs.push({ label: 'Chi phí', value: costLabel });
   if (project.style) attrs.push({ label: 'Phong cách', value: project.style });
   if (project.propertyType) attrs.push({ label: 'Loại hình', value: project.propertyType });
   const attributeSlots = Array.from({ length: 4 }, (_, index) => attrs[index] || null);

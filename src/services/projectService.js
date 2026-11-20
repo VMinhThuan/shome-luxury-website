@@ -112,9 +112,8 @@ const normalizeInput = (data = {}, { partial = false } = {}) => {
       ? input.categoryIds.filter(Boolean).map(value => value?._id || value)
       : [];
   }
-  if (input.cost !== undefined && input.cost !== null && input.cost !== '') {
-    input.cost = Number(input.cost);
-    if (!Number.isFinite(input.cost) || input.cost < 0) throw Object.assign(new Error('Chi phí công trình không hợp lệ.'), { status: 400 });
+  if (input.cost !== undefined) {
+    input.cost = input.cost === null ? null : String(input.cost).trim() || null;
   }
   if (input.sortOrder !== undefined) input.sortOrder = Number(input.sortOrder) || 0;
   if (input.highlightOrder !== undefined) input.highlightOrder = Number(input.highlightOrder) || 0;

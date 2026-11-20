@@ -425,7 +425,13 @@
 
     const locationText = project.location || 'Chưa cập nhật địa điểm';
     const clientText = project.clientName || project.investor || 'Chưa có thông tin khách';
-    const costText = project.cost ? `${(project.cost / 1000000).toLocaleString('vi-VN')} tr` : '';
+    const rawCost = String(project.cost ?? '').trim();
+    const numericCost = Number(rawCost);
+    const costText = rawCost
+      ? (/^\d+(?:\.\d+)?$/.test(rawCost) && Number.isFinite(numericCost)
+        ? `${(numericCost / 1000000).toLocaleString('vi-VN')} tr`
+        : rawCost)
+      : '';
     const areaOrType = project.area ? project.area : (project.propertyType || '');
 
     card.innerHTML = `
@@ -940,7 +946,7 @@
       ].forEach(name => {
         const value = form.elements[name].value;
         if (value !== '') {
-          payload[name] = name === 'cost' || name === 'sortOrder' ? Number(value) : value;
+          payload[name] = name === 'sortOrder' ? Number(value) : value;
         }
       });
 

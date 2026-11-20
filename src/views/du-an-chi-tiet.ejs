@@ -52,10 +52,11 @@
                   <span class="meta-value" data-project-field="style"><%= project.style %></span>
                 </div>
               <% } %>
-              <% if (Number.isFinite(Number(project.cost))) { %>
+              <% const detailCost = String(project.cost ?? '').trim(); %>
+              <% if (detailCost) { %>
                 <div class="meta-item">
                   <span class="meta-label">Chi phí</span>
-                  <span class="meta-value" data-project-field="cost" data-project-cost><%= Math.round(Number(project.cost) / 1000000).toLocaleString('vi-VN') %> triệu</span>
+                  <span class="meta-value" data-project-field="cost" data-project-cost><%= /^\d+(?:\.\d+)?$/.test(detailCost) ? `${Math.round(Number(detailCost) / 1000000).toLocaleString('vi-VN')} triệu` : detailCost %></span>
                 </div>
               <% } %>
             </div>

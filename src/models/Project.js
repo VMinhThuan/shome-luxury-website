@@ -33,10 +33,9 @@ const projectSchema = new mongoose.Schema({
     trim: true
   },
   cost: {
-    type: Number,
+    type: String,
     default: null,
-    min: [200000000, 'Chi phí tối thiểu là 200 triệu đồng'],
-    max: [500000000, 'Chi phí tối đa là 500 triệu đồng']
+    trim: true
   },
   propertyType: {
     type: String,

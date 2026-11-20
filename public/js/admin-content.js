@@ -163,6 +163,25 @@
     return (row.categoryIds || []).map(category => category.name || category.code || category.slug || '').filter(Boolean).join(', ') || 'Chưa phân loại';
   }
 
+  function formatProjectCost(value) {
+    const rawValue = String(value ?? '').trim();
+    if (!rawValue) return '—';
+    const numericValue = Number(rawValue);
+    return /^\d+(?:\.\d+)?$/.test(rawValue) && Number.isFinite(numericValue)
+      ? `${Math.round(numericValue / 1000000).toLocaleString('vi-VN')} triệu`
+      : rawValue;
+  }
+
+  function projectMetaMarkup(row) {
+    const meta = [
+      ['Diện tích', row.area || '—'],
+      ['Chi phí', formatProjectCost(row.cost)],
+      ['Loại hình', row.propertyType || '—'],
+      ['Phong cách', row.style || '—']
+    ];
+    return `<dl class="content-cms-project-meta">${meta.map(([label, value]) => `<div><dt>${label}</dt><dd>${escapeHtml(value)}</dd></div>`).join('')}</dl>`;
+  }
+
   function renderRows() {
     const category = state.category || state.filterCategory || $('[data-category-filter]').value;
     const rows = state.rows.filter(row => {
@@ -181,7 +200,8 @@
       const editAction = config.kind === 'project'
         ? `<button type="button" data-edit="${id}">Sửa</button>`
         : `<button type="button" data-edit="${id}">Sửa</button>`;
-      return `<tr><td>${thumb}</td><td>${escapeHtml(row.title || 'Chưa có tiêu đề')}</td><td>${escapeHtml(categoryText(row))}</td><td>${order}</td><td>${status}</td><td>${formatDate(row.updatedAt || row.date)}</td><td><div class="content-cms-actions"><a href="${publicUrl(row)}" target="_blank" rel="noopener">Xem</a>${editAction}<button type="button" data-duplicate="${id}">Nhân bản</button><button type="button" data-publish="${id}" data-published="${published}">${published ? 'Ẩn' : 'Xuất bản'}</button><button type="button" class="danger" data-delete="${id}">Xóa</button></div></td></tr>`;
+      const projectMeta = config.kind === 'project' ? `<td>${projectMetaMarkup(row)}</td>` : '';
+      return `<tr><td>${thumb}</td><td>${escapeHtml(row.title || 'Chưa có tiêu đề')}</td>${projectMeta}<td>${escapeHtml(categoryText(row))}</td><td>${order}</td><td>${status}</td><td>${formatDate(row.updatedAt || row.date)}</td><td><div class="content-cms-actions"><a href="${publicUrl(row)}" target="_blank" rel="noopener">Xem</a>${editAction}<button type="button" data-duplicate="${id}">Nhân bản</button><button type="button" data-publish="${id}" data-published="${published}">${published ? 'Ẩn' : 'Xuất bản'}</button><button type="button" class="danger" data-delete="${id}">Xóa</button></div></td></tr>`;
     }).join('');
   }
 

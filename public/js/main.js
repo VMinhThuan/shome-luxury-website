@@ -865,9 +865,12 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function formatProjectCost(cost) {
-    const numericCost = Number(cost);
-    if (!Number.isFinite(numericCost)) return '';
-    return `${Math.round(numericCost / 1000000).toLocaleString('vi-VN')} triệu`;
+    const value = String(cost ?? '').trim();
+    if (!value) return '';
+    const numericCost = Number(value);
+    return /^\d+(?:\.\d+)?$/.test(value) && Number.isFinite(numericCost)
+      ? `${Math.round(numericCost / 1000000).toLocaleString('vi-VN')} triệu`
+      : value;
   }
 
   // Detail pages are server-rendered for a fast first paint, then hydrate from
@@ -1556,7 +1559,8 @@ document.addEventListener('DOMContentLoaded', () => {
           detailPage.querySelectorAll('[data-project-field]').forEach(element => {
             const field = element.dataset.projectField;
             if (field === 'cost') {
-              if (Number.isFinite(Number(project.cost))) element.textContent = formatProjectCost(project.cost);
+              const formattedCost = formatProjectCost(project.cost);
+              if (formattedCost) element.textContent = formattedCost;
               return;
             }
             if (project[field]) element.textContent = project[field];
@@ -1717,7 +1721,7 @@ document.addEventListener('DOMContentLoaded', () => {
   function renderProjectCardHtml(project) {
     const attrs = [];
     if (project.area) attrs.push({ label: 'Diện tích', value: project.area });
-    if (Number.isFinite(Number(project.cost))) attrs.push({ label: 'Chi phí', value: formatProjectCost(project.cost) });
+    if (String(project.cost ?? '').trim()) attrs.push({ label: 'Chi phí', value: formatProjectCost(project.cost) });
     if (project.style) attrs.push({ label: 'Phong cách', value: project.style });
     if (project.propertyType) attrs.push({ label: 'Loại hình', value: project.propertyType });
     const attributeSlots = Array.from({ length: 4 }, (_, index) => attrs[index] || null);
