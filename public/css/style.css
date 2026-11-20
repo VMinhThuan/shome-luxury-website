@@ -9574,6 +9574,7 @@ main .surface-finish-section .surface-finish-title {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  object-position: 50% 50%;
   transition: opacity .24s ease, transform .6s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
@@ -22831,7 +22832,13 @@ body.page-news #main-content > .news-hero-full-bleed {
    crop does not favor the ceiling/top of the source photo. */
 .project-showcase-section .project-card-img {
   object-fit: cover !important;
-  object-position: center center !important;
+  object-position: 50% 50% !important;
+}
+
+/* Explicitly center the crop for portrait/square source images in every
+   project-list card, including cards hydrated after pagination. */
+.project-showcase-section .project-card-gallery-stage > img.project-card-img {
+  object-position: 50% 50% !important;
 }
 
 /* Keep the quotation-page project gallery in sync with the detail gallery:
