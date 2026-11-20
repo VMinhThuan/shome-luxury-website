@@ -6,6 +6,7 @@
     return /^\d+(?:\.\d+)?$/.test(value) && Number.isFinite(numericCost)
       ? `${Math.round(numericCost / 1000000).toLocaleString('vi-VN')} triệu`
       : value;
+  };
   const attrs = [];
   if (project.area) attrs.push({ label: 'Diện tích', value: project.area });
   const costLabel = formatProjectCost(project.cost);

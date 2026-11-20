@@ -22683,6 +22683,14 @@ main.project-detail-page .project-detail-summary {
     padding-right: 1.4rem !important;
     padding-left: 1.4rem !important;
   }
+
+  /* Keep the project-list CTA compact on phones without changing its text
+     size or the shared consultation buttons. */
+  .quote-page .quote-featured-view-all a.brand-cta-button {
+    min-width: 0 !important;
+    min-height: 0 !important;
+    padding: .7rem 1rem !important;
+  }
 }
 
 /* Footer white copy uses one exact size at every viewport width. */
