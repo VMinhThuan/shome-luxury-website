@@ -18025,12 +18025,16 @@ body.showcase-page-body .completed-videos-section {
   }
 
   body.showcase-page-body .project-showcase-section > .container.has-construction-gallery {
-    padding-top: 0 !important;
+    padding-top: var(--showcase-compact-gap) !important;
   }
 
   body.showcase-page-body .project-showcase-section .construction-upload-gallery-grid,
   body.showcase-page-body .completed-projects-section .construction-upload-gallery-grid {
     margin-top: 0 !important;
+  }
+
+  body.showcase-page-body .completed-projects-section > .container {
+    padding-top: var(--showcase-compact-gap) !important;
   }
 
   body.showcase-page-body .construction-upload-gallery-more {
