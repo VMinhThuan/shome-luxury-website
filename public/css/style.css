@@ -22982,6 +22982,17 @@ body.page-news #main-content > .news-hero-full-bleed {
   object-position: center center !important;
 }
 
+/* Final override for the detail-page thumbnail rail: the legacy global rule
+   uses `cover`, which crops the thumbnail even when the hero uses `contain`. */
+main.project-detail-page .project-gallery-thumbnails > .project-gallery-thumbnail > img {
+  display: block !important;
+  width: 100% !important;
+  height: 100% !important;
+  background: #fff !important;
+  object-fit: contain !important;
+  object-position: center center !important;
+}
+
 /* Mobile detail galleries show one complete image while a swipe is detected;
    the next image is committed after it is decoded instead of being painted
    beside the current image. */
@@ -23016,8 +23027,8 @@ body.page-news #main-content > .news-hero-full-bleed {
 }
 
 /* List-page cards: keep the image in normal flow so lazy-loaded images paint
-   reliably, and preserve the complete source image inside the fixed card.
-   Portrait images may show white side gutters instead of being cropped. */
+   reliably, then crop the complete source from its exact center. The detail
+   gallery remains responsible for showing the uncropped original. */
 .project-showcase-section .project-card-gallery-stage {
   position: relative !important;
   overflow: hidden !important;
@@ -23034,8 +23045,8 @@ body.page-news #main-content > .news-hero-full-bleed {
   max-width: 100% !important;
   max-height: 100% !important;
   margin: 0 !important;
-  background: #fff !important;
-  object-fit: contain !important;
+  background: #242424 !important;
+  object-fit: cover !important;
   object-position: center center !important;
   transform: none !important;
 }
