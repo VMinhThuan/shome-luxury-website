@@ -1176,15 +1176,22 @@ document.addEventListener('DOMContentLoaded', () => {
     const setGalleryImageTransform = (image, offset = '0%') => {
       if (!image) return;
       const isMobileGallery = window.matchMedia?.('(max-width: 767px)').matches;
+      if (isMobileGallery) {
+        // The mobile gallery intentionally uses one in-flow image. Remove any
+        // stale inline transform left by an interrupted drag so the image can
+        // never remain shifted to one side of the stage.
+        image.style.removeProperty('transform');
+        return;
+      }
       // Keep every image centered from its own midpoint so a portrait/landscape
       // ratio change cannot expose the hidden preview beside the active image.
       const centeredTransform = offset === '0%'
-        ? (isMobileGallery ? '0%' : '-50%')
+        ? '-50%'
         : offset === '100%'
           ? '100%'
           : offset === '-100%'
-            ? (isMobileGallery ? '-100%' : '-150%')
-            : (isMobileGallery ? offset : `calc(-50% + ${offset})`);
+            ? '-150%'
+            : `calc(-50% + ${offset})`;
       image.style.setProperty('transform', `translateX(${centeredTransform})`, 'important');
     };
 

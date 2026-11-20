@@ -22830,6 +22830,24 @@ body.page-news #main-content > .news-hero-full-bleed {
    the next image is committed after it is decoded instead of being painted
    beside the current image. */
 @media (max-width: 767px) {
+  .project-detail-page .project-gallery-stage > img.hero-img {
+    position: relative !important;
+    inset: auto !important;
+    left: auto !important;
+    top: auto !important;
+    right: auto !important;
+    bottom: auto !important;
+    display: block !important;
+    width: 100% !important;
+    height: auto !important;
+    max-width: 100% !important;
+    max-height: none !important;
+    margin: 0 !important;
+    transform: none !important;
+    object-fit: contain !important;
+    object-position: center center !important;
+  }
+
   .project-detail-page .project-gallery-stage > img.project-gallery-drag-preview {
     visibility: hidden !important;
     pointer-events: none !important;
