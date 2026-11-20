@@ -33,6 +33,7 @@
     news: '/tin-tuc',
     recruitment: '/tuyen-dung',
     booking: '/dat-lich-tu-van',
+    profile: '/ho-so-nang-luc',
     'project-detail': '/thiet-ke-cong-trinh'
   };
 
@@ -641,6 +642,7 @@
       { key: 'news', label: 'Tin tức' },
       { key: 'recruitment', label: 'Tuyển dụng' },
       { key: 'booking', label: 'Đặt lịch tư vấn' },
+      { key: 'profile', label: 'Hồ sơ năng lực' },
       { key: 'project-detail', label: 'Chi tiết công trình' }
     ];
 

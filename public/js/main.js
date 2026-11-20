@@ -1719,7 +1719,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const safeTitle = escapeHtml(project.title);
     const primaryImage = getProjectGalleryImages(project)[0] || '';
     const imageHtml = primaryImage
-      ? `<img src="${escapeHtml(primaryImage)}" alt="${safeTitle}" class="project-card-img" loading="lazy" />`
+      ? `<img src="${escapeHtml(primaryImage)}" alt="${safeTitle}" class="project-card-img" loading="lazy" style="object-position: 50% 50%;" />`
       : '<div class="project-card-image-placeholder" role="img" aria-label="Chưa có ảnh đại diện"></div>';
     const attributesHtml = attrs.length ? `
       <div class="project-card-attributes">

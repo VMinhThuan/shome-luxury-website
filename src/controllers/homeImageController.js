@@ -102,6 +102,7 @@ const PAGES_LIST = [
   { key: 'news', label: 'Tin tức' },
   { key: 'recruitment', label: 'Tuyển dụng' },
   { key: 'booking', label: 'Đặt lịch tư vấn' },
+  { key: 'profile', label: 'Hồ sơ năng lực' },
   { key: 'project-detail', label: 'Chi tiết công trình' }
 ];
 

@@ -6,7 +6,7 @@
   <meta name="description" content="Hồ sơ năng lực của SHOME LUXURY." />
   <title><%= title %></title>
   <%- include("partials/site-favicon") %>
-  <link rel="stylesheet" href="/css/style.css?v=6.8.129" />
+  <link rel="stylesheet" href="/css/style.css?v=6.8.147" />
   <!-- DearFlip 3D FlipBook Viewer (Same as old web) -->
   <link rel="stylesheet" href="/vendor/dflip/css/dflip.min.css" />
   <link rel="stylesheet" href="/vendor/dflip/css/themify-icons.min.css" />
@@ -80,7 +80,8 @@
   <%- include("partials/mobile-drawer") %>
 
   <main id="main-content" class="company-profile-page">
-    <section class="company-profile-hero">
+    <% const profileBanner = (locals.profileImages && profileImages.profile_hero_banner) || '/images/hero_sofa_sharp.jpg'; %>
+    <section class="company-profile-hero has-managed-image" style="--company-profile-banner-image: url('<%= profileBanner %>');">
       <div class="container">
         <h1>Hồ sơ <em>năng lực</em></h1>
         <span>Khám phá hành trình, năng lực và các công trình tiêu biểu của chúng tôi.</span>

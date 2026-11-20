@@ -6147,7 +6147,7 @@ main .surface-finish-section .surface-finish-title {
 .footer-social-icons-row {
   display: grid;
   width: 100%;
-  grid-template-columns: repeat(7, minmax(0, 1fr));
+  grid-template-columns: repeat(6, minmax(0, 1fr));
   align-items: center;
   gap: clamp(6px, 1vw, 12px);
 }
@@ -6179,7 +6179,16 @@ main .surface-finish-section .surface-finish-title {
 
 /* Company profile — an on-site, two-page PDF reader styled as a refined book. */
 .company-profile-page { background: #f7f4ef; }
-.company-profile-hero { padding: calc(var(--header-height-desktop) + 3.5rem) 0 1rem; background: linear-gradient(118deg, #fffdf9, #f2e7d4); text-align: center; }
+.company-profile-hero {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  padding: calc(var(--header-height-desktop) + 3.5rem) 0 1rem;
+  background-image: linear-gradient(118deg, rgba(255, 253, 249, .9), rgba(242, 231, 212, .84)), var(--company-profile-banner-image, none);
+  background-position: center;
+  background-size: cover;
+  text-align: center;
+}
 .company-profile-hero p { margin: 0 0 .45rem; color: #b37728; font-size: .76rem; font-weight: 700; letter-spacing: .16em; }
 .company-profile-hero h1 { display: flex; align-items: baseline; justify-content: center; gap: .28em; margin: 0 0 1.2rem; color: #1d1a18; font-family: var(--font-heading); font-size: clamp(2rem, 4vw, 3.55rem); line-height: 1.16; text-transform: uppercase; }
 .company-profile-hero h1 em { display: inline-block; color: #c9903f; font-family: var(--font-script); font-size: 1.08em; font-style: normal; font-weight: 500; text-transform: none; }
@@ -6199,6 +6208,13 @@ main .surface-finish-section .surface-finish-title {
   width: 100%;
   margin: 0 auto;
   min-height: 640px;
+}
+
+/* The shared typography layer lowercases banner headings globally. The
+   company-profile title is a proper Vietnamese page name and must retain its
+   authored capitalization: “Hồ sơ năng lực”. */
+main.company-profile-page .company-profile-hero h1 {
+  text-transform: none !important;
 }
 
 @media (max-width: 767px) {
@@ -16996,7 +17012,7 @@ main .news-list-body p {
 
   .site-footer .footer-social-icons-row {
     display: grid;
-    grid-template-columns: repeat(7, minmax(0, 1fr));
+    grid-template-columns: repeat(6, minmax(0, 1fr));
     gap: clamp(4px, 1.5vw, 8px);
   }
 
@@ -22959,4 +22975,29 @@ body.page-news #main-content > .news-hero-full-bleed {
     visibility: hidden !important;
     pointer-events: none !important;
   }
+}
+
+/* List-page cards: center the actual image box before cropping it. This is
+   intentionally scoped away from the project-detail gallery. */
+.project-showcase-section .project-card-gallery-stage {
+  position: relative !important;
+  overflow: hidden !important;
+}
+
+.project-showcase-section .project-card-gallery-stage > img.project-card-img {
+  position: absolute !important;
+  inset: auto !important;
+  top: 50% !important;
+  left: 50% !important;
+  right: auto !important;
+  bottom: auto !important;
+  width: auto !important;
+  height: auto !important;
+  min-width: 100% !important;
+  min-height: 100% !important;
+  max-width: none !important;
+  max-height: none !important;
+  object-fit: cover !important;
+  object-position: center center !important;
+  transform: translate(-50%, -50%) !important;
 }

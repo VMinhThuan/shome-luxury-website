@@ -5,6 +5,7 @@ const PAGE_LABELS = {
   news: 'Tin tức',
   recruitment: 'Tuyển dụng',
   booking: 'Đặt lịch tư vấn',
+  profile: 'Hồ sơ năng lực',
   'project-detail': 'Chi tiết công trình'
 };
 
@@ -121,7 +122,10 @@ const rawSlots = [
   ['booking', 'estimate', 'booking_estimate_visual', 'Báo giá chi tiết — Ảnh minh họa dự toán', '/images/booking-estimate-visual.png'],
 
   // 7. CHI TIẾT CÔNG TRÌNH (project-detail) - 1 slot
-  ['project-detail', 'summary', 'project_detail_summary_background', 'Chi tiết công trình — Ảnh nền tiêu đề', '/images/background/1793129513212_6043215661779559246_6043215661779559246_f2ba52d47d902705547739b26ef66555.jpg']
+  ['project-detail', 'summary', 'project_detail_summary_background', 'Chi tiết công trình — Ảnh nền tiêu đề', '/images/background/1793129513212_6043215661779559246_6043215661779559246_f2ba52d47d902705547739b26ef66555.jpg'],
+
+  // 8. HỒ SƠ NĂNG LỰC (profile) - 1 banner chính
+  ['profile', 'banner', 'profile_hero_banner', 'Hồ sơ năng lực — Banner chính', '/images/hero_sofa_sharp.jpg']
 ];
 
 const allSlots = rawSlots.map(([page_key, section_key, image_key, label, image_url, mobile_image_url = null]) => ({

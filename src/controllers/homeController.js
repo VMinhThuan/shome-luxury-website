@@ -214,12 +214,16 @@ exports.getBookingPage = async (req, res, next) => {
   } catch (error) { next(error); }
 };
 
-exports.getCompanyProfilePage = (req, res) => {
-  res.render("ho-so-nang-luc", {
-    title: "Hồ sơ năng lực | SHOME LUXURY",
-    headerSlogan: "Nâng tầm cuộc sống",
-    navigation: navigationData
-  });
+exports.getCompanyProfilePage = async (req, res, next) => {
+  try {
+    const profileImages = await getPageImages('profile');
+    res.render("ho-so-nang-luc", {
+      title: "Hồ sơ năng lực | SHOME LUXURY",
+      headerSlogan: "Nâng tầm cuộc sống",
+      navigation: navigationData,
+      profileImages
+    });
+  } catch (error) { next(error); }
 };
 
 exports.getNewsPage = async (req, res, next) => {
