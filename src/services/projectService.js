@@ -64,6 +64,9 @@ const normalizeGallery = (project) => {
 const normalizeProject = (value) => {
   const project = asPlainObject(value);
   const galleryItems = normalizeGallery(project);
+  project.thumbnailUrl = project.thumbnail
+    ? optimizedImageUrl(project.thumbnail, { width: 640 })
+    : null;
   project.galleryItems = galleryItems;
   project.gallery = galleryItems.map(item => item.url);
   project.excerpt = htmlToPlainText(project.excerpt || '');

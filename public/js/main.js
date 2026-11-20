@@ -856,6 +856,14 @@ document.addEventListener('DOMContentLoaded', () => {
     return [...new Set([project.thumbnail, ...projectGallery].filter(Boolean))];
   }
 
+  function getProjectCardImage(project) {
+    return project.thumbnailUrl
+      || project.galleryItems?.[0]?.thumbnailUrl
+      || project.thumbnail
+      || (Array.isArray(project.gallery) ? project.gallery[0] : '')
+      || '';
+  }
+
   function formatProjectCost(cost) {
     const numericCost = Number(cost);
     if (!Number.isFinite(numericCost)) return '';
@@ -1717,9 +1725,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
     const safeTitle = escapeHtml(project.title);
-    const primaryImage = getProjectGalleryImages(project)[0] || '';
+    const primaryImage = getProjectCardImage(project);
     const imageHtml = primaryImage
-      ? `<img src="${escapeHtml(primaryImage)}" alt="${safeTitle}" class="project-card-img" loading="lazy" style="object-position: 50% 50%;" />`
+      ? `<img src="${escapeHtml(primaryImage)}" alt="${safeTitle}" class="project-card-img" loading="lazy" decoding="async" style="object-position: 50% 50%;" />`
       : '<div class="project-card-image-placeholder" role="img" aria-label="Chưa có ảnh đại diện"></div>';
     const attributesHtml = attrs.length ? `
       <div class="project-card-attributes">
