@@ -9757,6 +9757,12 @@ main .surface-finish-section .surface-finish-title {
   min-width: 0;
 }
 
+/* The collapse action must remain invisible until the first page is loaded. */
+.project-pagination-actions .project-collapse-button[hidden],
+.project-pagination-actions .project-load-more-button[hidden] {
+  display: none !important;
+}
+
 .project-pagination-status {
   flex-basis: 100%;
   min-height: 1.2em;
@@ -17885,6 +17891,22 @@ body.showcase-page-body .completed-projects-section {
 
 body.showcase-page-body .site-footer {
   margin-top: 0 !important;
+}
+
+/* The gallery button is the last element before the footer on showcase
+   pages. Keep the footer attached to the button's bottom edge instead of
+   leaving a second, larger white band below it. */
+@media (min-width: 768px) {
+  body.showcase-page-body .construction-upload-gallery-more {
+    margin-bottom: 0 !important;
+    padding-bottom: 0 !important;
+  }
+
+  body.showcase-page-body .completed-projects-section,
+  body.showcase-page-body .project-showcase-section > .container.has-construction-gallery {
+    margin-bottom: 0 !important;
+    padding-bottom: 0 !important;
+  }
 }
 
 @media (max-width: 767px) {
