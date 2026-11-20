@@ -22719,6 +22719,12 @@ body.page-news #main-content > .news-hero-full-bleed {
   object-position: center center !important;
 }
 
+/* Portrait covers place the room's visual subject slightly below the geometric
+   center, so the 16:9 card does not spend most of its crop on the ceiling. */
+.project-showcase-section .project-card-img.is-portrait {
+  object-position: center 62% !important;
+}
+
 /* Keep the quotation-page project gallery in sync with the detail gallery:
    desktop preserves the source ratio inside the 16:9 frame, while mobile
    lets the frame grow with the image instead of cropping it. */

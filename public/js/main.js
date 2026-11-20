@@ -862,6 +862,27 @@ document.addEventListener('DOMContentLoaded', () => {
     return `${Math.round(numericCost / 1000000).toLocaleString('vi-VN')} triệu`;
   }
 
+  // Portrait project covers need a slightly lower focal point when they are
+  // cropped into the 16:9 card frame. Otherwise the default center crop can
+  // leave the room's main furniture below the fold and show mostly ceiling.
+  const normalizeProjectCardImage = image => {
+    if (!image || image.dataset.projectCardFocusReady === 'true') return;
+    const applyFocus = () => {
+      if (!image.naturalWidth || !image.naturalHeight) return;
+      const isPortrait = image.naturalHeight > image.naturalWidth * 1.05;
+      image.classList.toggle('is-portrait', isPortrait);
+      image.dataset.projectCardFocusReady = 'true';
+    };
+    if (image.complete) applyFocus();
+    else image.addEventListener('load', applyFocus, { once: true });
+  };
+
+  const normalizeProjectCardImages = (root = document) => {
+    root.querySelectorAll?.('.project-showcase-section .project-card-img').forEach(normalizeProjectCardImage);
+  };
+
+  normalizeProjectCardImages();
+
   // Detail pages are server-rendered for a fast first paint, then hydrate from
   // the public API. This makes the API request visible in Network and keeps
   // the displayed metadata in sync with the backend.
@@ -1753,6 +1774,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (json.data && json.data.length) {
           const existingCardCount = projectListContainer.querySelectorAll('.project-showcase-card').length;
           projectListContainer.insertAdjacentHTML('beforeend', json.data.map(renderProjectCardHtml).join(''));
+          normalizeProjectCardImages(projectListContainer);
           projectListContainer.querySelectorAll('.project-showcase-card').forEach((card, index) => {
             if (index >= existingCardCount) {
               card.classList.add('is-loading-in');
