@@ -7,8 +7,7 @@
 
 @font-face {
   font-family: 'NVN Motherland Signature';
-  src: url('https://db.onlinewebfonts.com/t/6a8d458bb5852341196e6bd04864c70c.woff2') format('woff2'),
-    url('https://db.onlinewebfonts.com/t/6a8d458bb5852341196e6bd04864c70c.woff') format('woff');
+  src: url('/fonts/NVNMotherlandSignature-Reg.woff2') format('woff2');
   font-weight: normal;
   font-style: normal;
   font-display: swap;
@@ -13139,6 +13138,7 @@ html {
     max-height: none !important;
     object-fit: contain !important;
     object-position: center top !important;
+    transform: translateX(0) !important;
   }
 
   .project-detail-page .project-gallery-stage > img.project-gallery-drag-preview {

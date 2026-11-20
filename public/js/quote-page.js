@@ -214,6 +214,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
       let activeIndex = 0;
       let pointerStartX = null;
+      let dragPointerId = null;
+      let dragOffsetX = 0;
+      let touchStartX = null;
       let transitionToken = 0;
 
       const preloadedImages = new Map();
@@ -277,13 +280,65 @@ document.addEventListener('DOMContentLoaded', () => {
         if (event.key === 'ArrowLeft') { event.preventDefault(); show(activeIndex - 1); }
         if (event.key === 'ArrowRight') { event.preventDefault(); show(activeIndex + 1); }
       });
-      stage.addEventListener('pointerdown', event => { pointerStartX = event.clientX; });
-      stage.addEventListener('pointerup', event => {
-        if (pointerStartX === null) return;
-        const distance = event.clientX - pointerStartX;
-        pointerStartX = null;
-        if (Math.abs(distance) > 40) show(activeIndex + (distance < 0 ? 1 : -1));
+      stage.addEventListener('pointerdown', event => {
+        if (!event.isPrimary || event.pointerType === 'touch' || event.target.closest('button')) return;
+        event.preventDefault();
+        pointerStartX = event.clientX;
+        dragOffsetX = 0;
+        dragPointerId = event.pointerId;
+        stage.setPointerCapture?.(dragPointerId);
+        stage.classList.add('is-dragging');
       });
+      stage.addEventListener('pointermove', event => {
+        if (event.pointerId !== dragPointerId || pointerStartX === null) return;
+        dragOffsetX = Math.max(-stage.clientWidth * 0.85, Math.min(stage.clientWidth * 0.85, event.clientX - pointerStartX));
+        if (Math.abs(dragOffsetX) < 3) return;
+        event.preventDefault();
+        image.style.setProperty('transform', `translateX(${dragOffsetX}px)`, 'important');
+      });
+      const finishInlineDrag = event => {
+        if (event.pointerId !== dragPointerId) return;
+        if (stage.hasPointerCapture?.(dragPointerId)) stage.releasePointerCapture(dragPointerId);
+        const distance = dragOffsetX || (pointerStartX === null ? 0 : event.clientX - pointerStartX);
+        const shouldChange = Math.abs(distance) > Math.min(60, stage.clientWidth * 0.15);
+        pointerStartX = null;
+        dragPointerId = null;
+        dragOffsetX = 0;
+        stage.classList.remove('is-dragging');
+        image.style.removeProperty('transform');
+        if (shouldChange) show(activeIndex + (distance < 0 ? 1 : -1));
+      };
+      stage.addEventListener('pointerup', finishInlineDrag);
+      stage.addEventListener('pointercancel', finishInlineDrag);
+      stage.addEventListener('touchstart', event => {
+        if (event.touches?.length !== 1) return;
+        touchStartX = event.touches[0].clientX;
+        dragOffsetX = 0;
+        stage.classList.add('is-dragging');
+      }, { passive: true });
+      stage.addEventListener('touchmove', event => {
+        if (touchStartX === null || !event.touches?.length) return;
+        dragOffsetX = Math.max(-stage.clientWidth * 0.85, Math.min(stage.clientWidth * 0.85, event.touches[0].clientX - touchStartX));
+        if (Math.abs(dragOffsetX) < 3) return;
+        event.preventDefault();
+        image.style.setProperty('transform', `translateX(${dragOffsetX}px)`, 'important');
+      }, { passive: false });
+      stage.addEventListener('touchend', event => {
+        if (touchStartX === null || !event.changedTouches?.length) return;
+        const distance = dragOffsetX || event.changedTouches[0].clientX - touchStartX;
+        const shouldChange = Math.abs(distance) > Math.min(60, stage.clientWidth * 0.15);
+        touchStartX = null;
+        dragOffsetX = 0;
+        stage.classList.remove('is-dragging');
+        image.style.removeProperty('transform');
+        if (shouldChange) show(activeIndex + (distance < 0 ? 1 : -1));
+      }, { passive: true });
+      stage.addEventListener('touchcancel', () => {
+        touchStartX = null;
+        dragOffsetX = 0;
+        stage.classList.remove('is-dragging');
+        image.style.removeProperty('transform');
+      }, { passive: true });
       show(0, false);
     });
   })();
