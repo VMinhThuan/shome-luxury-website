@@ -22710,6 +22710,13 @@ body.page-news #main-content > .news-hero-full-bleed {
   transform: none !important;
 }
 
+/* Keep construction/project list card thumbnails centered vertically so the
+   crop does not favor the ceiling/top of the source photo. */
+.project-showcase-section .project-card-img {
+  object-fit: cover !important;
+  object-position: center center !important;
+}
+
 /* Detail gallery navigation arrows stay visually identical while hovered/pressed.
    This intentionally overrides the global button hover treatment. */
 .project-gallery-control:is(:hover, :active) {
