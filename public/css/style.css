@@ -6191,9 +6191,18 @@ main .surface-finish-section .surface-finish-title {
 }
 .company-profile-hero p { margin: 0 0 .45rem; color: #b37728; font-size: .76rem; font-weight: 700; letter-spacing: .16em; }
 .company-profile-hero h1 { display: flex; align-items: baseline; justify-content: center; gap: .28em; margin: 0 0 1.2rem; color: #1d1a18; font-family: var(--font-heading); font-size: clamp(2rem, 4vw, 3.55rem); line-height: 1.16; text-transform: uppercase; }
-.company-profile-hero h1 .company-profile-title-first { text-transform: none !important; }
+.company-profile-hero h1 .company-profile-title-first {
+  display: inline;
+  margin: 0;
+  color: #1d1a18 !important;
+  font-family: var(--font-heading) !important;
+  font-size: 1em !important;
+  font-weight: inherit !important;
+  line-height: inherit !important;
+  text-transform: none !important;
+}
 .company-profile-hero h1 em { display: inline-block; color: #c9903f; font-family: var(--font-script); font-size: 1.08em; font-style: normal; font-weight: 500; text-transform: none; }
-.company-profile-hero span { display: block; margin-top: 2rem; color: #6b645c; font-size: .92rem; }
+.company-profile-hero .container > span { display: block; margin-top: 2rem; color: #6b645c; font-size: .92rem; }
 .company-profile-viewer-section {
   padding: clamp(1rem, 2.5vw, 2.5rem) 0 clamp(2rem, 4vw, 3.5rem);
   background: #f7f4ef;
@@ -6225,7 +6234,7 @@ main.company-profile-page .company-profile-hero h1 {
   .company-profile-hero h1 {
     gap: .18em;
   }
-  .company-profile-hero span {
+  .company-profile-hero .container > span {
     padding: 0 1.5rem;
     font-size: .82rem;
   }
