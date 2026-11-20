@@ -857,10 +857,10 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function getProjectCardImage(project) {
-    return project.thumbnailUrl
-      || project.galleryItems?.[0]?.thumbnailUrl
-      || project.thumbnail
+    return project.thumbnail
       || (Array.isArray(project.gallery) ? project.gallery[0] : '')
+      || project.thumbnailUrl
+      || project.galleryItems?.[0]?.thumbnailUrl
       || '';
   }
 

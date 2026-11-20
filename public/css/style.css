@@ -23051,14 +23051,15 @@ main.project-detail-page .project-gallery-thumbnails > .project-gallery-thumbnai
   transform: none !important;
 }
 
-/* On mobile, align the detail gallery and its thumbnail rail with the full
-   mobile header width instead of the inner .container padding. */
+/* On mobile, keep the detail gallery and its thumbnail rail aligned with the
+   header content. The gallery is already inside `.container`, so expanding it
+   to the viewport width makes it wider than the logo/menu row. */
 @media (max-width: 1023px) {
   .project-detail-page > .container > .project-showcase-gallery {
-    width: calc(100% + 48px) !important;
-    max-width: none !important;
-    margin-right: -24px !important;
-    margin-left: -24px !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    margin-right: 0 !important;
+    margin-left: 0 !important;
   }
 
   .project-detail-page .project-gallery-stage,
@@ -23070,15 +23071,6 @@ main.project-detail-page .project-gallery-thumbnails > .project-gallery-thumbnai
   .project-detail-page .project-gallery-thumbnails {
     padding-right: 0 !important;
     padding-left: 0 !important;
-  }
-}
-
-@media (max-width: 767px) {
-  .project-detail-page > .container > .project-showcase-gallery {
-    width: 100vw !important;
-    max-width: 100vw !important;
-    margin-right: 0 !important;
-    margin-left: calc(50% - 50vw) !important;
   }
 }
 
