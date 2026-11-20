@@ -22821,6 +22821,16 @@ body.page-news #main-content > .news-hero-full-bleed {
   transform: translateY(-50%) !important;
 }
 
+/* Force every gallery control glyph to stay visible on the dark controls. */
+.project-gallery-lightbox :is(.project-gallery-lightbox-close, .project-gallery-lightbox-control) svg,
+.quote-page .quote-project-gallery-close svg,
+.quote-page .quote-project-gallery-control svg,
+.project-detail-page .project-gallery-control svg {
+  color: #fff !important;
+  fill: none !important;
+  stroke: #fff !important;
+}
+
 /* Keep portrait sources centered in the quote-page project-card crop. */
 .quote-page .quote-category-overview .quote-featured-project-image img {
   object-position: center center !important;
@@ -22830,18 +22840,23 @@ body.page-news #main-content > .news-hero-full-bleed {
    the next image is committed after it is decoded instead of being painted
    beside the current image. */
 @media (max-width: 767px) {
-  .project-detail-page .project-gallery-stage > img.hero-img {
-    position: relative !important;
-    inset: auto !important;
-    left: auto !important;
-    top: auto !important;
-    right: auto !important;
-    bottom: auto !important;
-    display: block !important;
+  .project-detail-page .project-gallery-stage {
     width: 100% !important;
     height: auto !important;
+    min-height: 0 !important;
+    aspect-ratio: 16 / 9 !important;
+    overflow: hidden !important;
+    background: #fff !important;
+  }
+
+  .project-detail-page .project-gallery-stage > img.hero-img {
+    position: absolute !important;
+    inset: 0 !important;
+    display: block !important;
+    width: 100% !important;
+    height: 100% !important;
     max-width: 100% !important;
-    max-height: none !important;
+    max-height: 100% !important;
     margin: 0 !important;
     transform: none !important;
     object-fit: contain !important;
