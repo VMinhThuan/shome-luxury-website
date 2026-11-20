@@ -23027,8 +23027,8 @@ main.project-detail-page .project-gallery-thumbnails > .project-gallery-thumbnai
 }
 
 /* List-page cards: keep the image in normal flow so lazy-loaded images paint
-   reliably, then crop the complete source from its exact center. The detail
-   gallery remains responsible for showing the uncropped original. */
+   reliably, and preserve the complete source just like the detail gallery.
+   Portrait images may show clean white side space instead of being cropped. */
 .project-showcase-section .project-card-gallery-stage {
   position: relative !important;
   overflow: hidden !important;
@@ -23045,8 +23045,8 @@ main.project-detail-page .project-gallery-thumbnails > .project-gallery-thumbnai
   max-width: 100% !important;
   max-height: 100% !important;
   margin: 0 !important;
-  background: #242424 !important;
-  object-fit: cover !important;
+  background: #fff !important;
+  object-fit: contain !important;
   object-position: center center !important;
   transform: none !important;
 }
