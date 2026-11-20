@@ -96,9 +96,43 @@ document.addEventListener('DOMContentLoaded', () => {
     let images = [];
     let activeIndex = 0;
     let pointerStartX = null;
+    let transitionToken = 0;
+    const preloadedImages = new Map();
 
-    const show = index => {
-      activeIndex = (index + images.length) % images.length;
+    const preload = src => {
+      if (!src) return Promise.resolve();
+      if (preloadedImages.has(src)) return preloadedImages.get(src);
+      const preloadImage = new Image();
+      preloadImage.decoding = 'async';
+      const promise = new Promise(resolve => {
+        let settled = false;
+        const finish = () => {
+          if (settled) return;
+          settled = true;
+          resolve();
+        };
+        preloadImage.onload = () => {
+          if (typeof preloadImage.decode !== 'function') {
+            finish();
+            return;
+          }
+          preloadImage.decode().catch(() => {}).finally(finish);
+        };
+        preloadImage.onerror = finish;
+        preloadImage.src = src;
+        if (preloadImage.complete) preloadImage.onload();
+      });
+      preloadedImages.set(src, promise);
+      return promise;
+    };
+
+    const show = async index => {
+      const nextIndex = (index + images.length) % images.length;
+      const requestToken = ++transitionToken;
+      await preload(images[nextIndex]);
+      if (requestToken !== transitionToken) return;
+
+      activeIndex = nextIndex;
       image.src = images[activeIndex];
       image.alt = `${modal.dataset.projectTitle} - ảnh ${activeIndex + 1}`;
       current.textContent = String(activeIndex + 1).padStart(2, '0');
@@ -180,9 +214,43 @@ document.addEventListener('DOMContentLoaded', () => {
 
       let activeIndex = 0;
       let pointerStartX = null;
+      let transitionToken = 0;
 
-      const show = (index, animate = true) => {
-        activeIndex = (index + images.length) % images.length;
+      const preloadedImages = new Map();
+      const preload = src => {
+        if (!src) return Promise.resolve();
+        if (preloadedImages.has(src)) return preloadedImages.get(src);
+        const preloadImage = new Image();
+        preloadImage.decoding = 'async';
+        const promise = new Promise(resolve => {
+          let settled = false;
+          const finish = () => {
+            if (settled) return;
+            settled = true;
+            resolve();
+          };
+          preloadImage.onload = () => {
+            if (typeof preloadImage.decode !== 'function') {
+              finish();
+              return;
+            }
+            preloadImage.decode().catch(() => {}).finally(finish);
+          };
+          preloadImage.onerror = finish;
+          preloadImage.src = src;
+          if (preloadImage.complete) preloadImage.onload();
+        });
+        preloadedImages.set(src, promise);
+        return promise;
+      };
+
+      const show = async (index, animate = true) => {
+        const nextIndex = (index + images.length) % images.length;
+        const requestToken = ++transitionToken;
+        await preload(images[nextIndex]);
+        if (requestToken !== transitionToken) return;
+
+        activeIndex = nextIndex;
         image.src = images[activeIndex];
         image.alt = `${gallery.dataset.projectTitle || 'Công trình Shome Luxury'} - ảnh ${activeIndex + 1}`;
         if (current) current.textContent = String(activeIndex + 1).padStart(2, '0');
