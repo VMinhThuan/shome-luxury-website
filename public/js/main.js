@@ -1435,6 +1435,10 @@ document.addEventListener('DOMContentLoaded', () => {
           const stageWidth = stage.clientWidth;
           dragOffsetX = Math.max(-stageWidth * 0.85, Math.min(stageWidth * 0.85, event.clientX - dragStartX));
           if (Math.abs(dragOffsetX) < 3) return;
+          // Mobile uses a single visible image. Keep tracking the gesture,
+          // but do not move the two-layer preview across the stage because
+          // different source ratios can expose a split/blank frame.
+          if (window.matchMedia?.('(max-width: 767px)').matches) return;
           const previewIndex = getDragIndex(dragOffsetX);
           updateSlideImage(dragPreview, galleryImages[previewIndex], previewIndex);
           const previewStart = dragOffsetX < 0 ? stageWidth : -stageWidth;
@@ -1457,6 +1461,17 @@ document.addEventListener('DOMContentLoaded', () => {
           const direction = offset < 0 ? 1 : -1;
           const targetIndex = getDragIndex(offset);
           const shouldChange = Math.abs(offset) > Math.min(80, stageWidth * 0.15);
+
+          if (window.matchMedia?.('(max-width: 767px)').matches) {
+            // On mobile, commit the swipe after the target is decoded. This
+            // keeps exactly one complete image visible throughout the change.
+            stage.classList.remove('is-dragging', 'is-sliding');
+            resetSlidePosition();
+            if (shouldChange) {
+              selectGalleryImage(targetIndex, false, direction);
+            }
+            return;
+          }
 
           stage.classList.remove('is-dragging');
           stage.classList.add('is-sliding');

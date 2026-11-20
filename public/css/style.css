@@ -22820,3 +22820,18 @@ body.page-news #main-content > .news-hero-full-bleed {
   box-shadow: 0 4px 16px rgba(0, 0, 0, .35) !important;
   transform: translateY(-50%) !important;
 }
+
+/* Keep portrait sources centered in the quote-page project-card crop. */
+.quote-page .quote-category-overview .quote-featured-project-image img {
+  object-position: center center !important;
+}
+
+/* Mobile detail galleries show one complete image while a swipe is detected;
+   the next image is committed after it is decoded instead of being painted
+   beside the current image. */
+@media (max-width: 767px) {
+  .project-detail-page .project-gallery-stage > img.project-gallery-drag-preview {
+    visibility: hidden !important;
+    pointer-events: none !important;
+  }
+}
