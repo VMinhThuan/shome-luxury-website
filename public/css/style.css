@@ -9394,6 +9394,11 @@ main .surface-finish-section .surface-finish-title {
 }
 
 @media (max-width: 767px) {
+  .completed-projects-section .construction-upload-gallery-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 6px;
+  }
+
   .project-showcase-section .construction-upload-gallery-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 6px;
@@ -12813,7 +12818,7 @@ html {
 
 /* Keep the project gallery controls visual-light despite global button styles. */
 .project-gallery-control {
-  background: rgba(23, 23, 23, 0.54) !important;
+  background: rgba(0, 0, 0, 0.7) !important;
   border: 1px solid rgba(255, 255, 255, 0.38) !important;
   box-shadow: none !important;
   color: #FFFFFF !important;
@@ -12892,6 +12897,12 @@ html {
     right: max(.7rem, calc(var(--detail-gallery-image-right, 0px) + .7rem));
   }
 
+  /* Mobile users can swipe the gallery directly, so keep the image clean and
+     remove the inline arrows. Desktop keeps both controls unchanged. */
+  .project-detail-page .project-gallery-stage .project-gallery-control {
+    display: none !important;
+  }
+
   .project-detail-title {
     width: 100%;
     font-size: clamp(.7rem, 3.8vw, 1.2rem);
@@ -12904,12 +12915,12 @@ html {
     /* Balance the title's top breathing room with the gap below the last
        metadata value before the gallery banner. */
     padding-top: 3rem;
-    padding-bottom: 1.25rem;
+    padding-bottom: 0.7rem;
   }
 
   .project-detail-title-rule {
     width: 48px;
-    margin-top: 0.45rem;
+    margin-top: 0.3rem;
   }
 
   .project-info-banner {
@@ -12927,10 +12938,11 @@ html {
   }
 
   .project-info-banner .meta-item {
-    min-height: 66px;
-    gap: 0.2rem !important;
+    min-height: 58px;
+    gap: 0.12rem !important;
     font-size: 0.85rem !important;
-    padding: 0.55rem 0.5rem;
+    padding: 0.35rem 0.45rem;
+    line-height: 1.25 !important;
   }
 
   .project-info-banner .meta-item:not(:last-child) {
@@ -12943,6 +12955,7 @@ html {
 
   .project-info-banner .meta-value {
     font-size: 1rem;
+    line-height: 1.22;
   }
 }
 
@@ -13104,6 +13117,40 @@ html {
 
 .project-detail-page .project-gallery-stage-shade {
   display: none;
+}
+
+@media (max-width: 767px) {
+  /* The mobile detail gallery follows the source image ratio instead of
+     forcing every photo into the desktop 4:3 frame. */
+  .project-detail-page .project-gallery-stage {
+    aspect-ratio: auto;
+    height: auto;
+    min-height: 0;
+    overflow: hidden;
+  }
+
+  .project-detail-page .project-gallery-stage > img:not(.project-gallery-drag-preview) {
+    position: relative;
+    inset: auto;
+    display: block;
+    width: 100% !important;
+    height: auto !important;
+    max-width: 100% !important;
+    max-height: none !important;
+    object-fit: contain !important;
+    object-position: center top !important;
+  }
+
+  .project-detail-page .project-gallery-stage > img.project-gallery-drag-preview {
+    position: absolute;
+    inset: 0;
+    width: 100% !important;
+    height: 100% !important;
+    max-width: 100% !important;
+    max-height: none !important;
+    object-fit: contain !important;
+    object-position: center top !important;
+  }
 }
 
 /* ==========================================================================
@@ -13841,14 +13888,14 @@ main .section-v2-title,
 @keyframes quote-inline-gallery-fade { from { opacity: .45; } to { opacity: 1; } }
 .quote-page .quote-project-gallery-modal[hidden] { display: none !important; }
 .quote-page .quote-project-gallery-modal { position: fixed !important; inset: 0 !important; z-index: 99999 !important; display: flex !important; align-items: center !important; justify-content: center !important; padding: clamp(0.5rem, 1vw, 0.85rem) !important; box-sizing: border-box !important; width: 100vw !important; height: 100vh !important; }
-.quote-page .quote-project-gallery-modal-backdrop { position: absolute !important; inset: 0 !important; background: rgba(10, 8, 6, 0.88) !important; backdrop-filter: blur(12px) !important; -webkit-backdrop-filter: blur(12px) !important; }
+.quote-page .quote-project-gallery-modal-backdrop { position: absolute !important; inset: 0 !important; background: rgba(0, 0, 0, 0.7) !important; backdrop-filter: blur(12px) !important; -webkit-backdrop-filter: blur(12px) !important; }
 .quote-page .quote-project-gallery-dialog { position: relative !important; z-index: 2 !important; width: min(96vw, 154vh) !important; max-width: none !important; min-width: 0 !important; margin: 0 auto !important; display: flex !important; flex-direction: column !important; gap: 0.65rem !important; box-sizing: border-box !important; }
 .quote-page .quote-project-gallery-stage { position: relative !important; width: 100% !important; aspect-ratio: 16 / 9 !important; overflow: hidden !important; border-radius: 16px !important; background: #17120e !important; box-shadow: 0 16px 48px rgba(0, 0, 0, 0.6) !important; touch-action: pan-y !important; user-select: none !important; }
 .quote-page .quote-project-gallery-stage > img { display: block !important; width: 100% !important; height: 100% !important; object-fit: cover !important; user-select: none !important; }
-.quote-page .quote-project-gallery-close { position: absolute !important; top: 0.85rem !important; right: 0.85rem !important; z-index: 30 !important; width: 38px !important; height: 38px !important; display: flex !important; align-items: center !important; justify-content: center !important; border-radius: 50% !important; background: rgba(18, 15, 12, 0.72) !important; background-color: rgba(18, 15, 12, 0.72) !important; border: 1px solid rgba(255, 255, 255, 0.28) !important; color: #ffffff !important; backdrop-filter: blur(8px) !important; -webkit-backdrop-filter: blur(8px) !important; box-shadow: 0 4px 16px rgba(0, 0, 0, 0.35) !important; cursor: pointer !important; padding: 0 !important; margin: 0 !important; transition: background 0.2s ease, transform 0.2s ease, border-color 0.2s ease !important; }
-.quote-page .quote-project-gallery-close:hover, .quote-page .quote-project-gallery-close:active { background: var(--accent-gold, #D2A044) !important; background-color: var(--accent-gold, #D2A044) !important; color: #111111 !important; border-color: var(--accent-gold, #D2A044) !important; transform: scale(1.08) !important; }
+.quote-page .quote-project-gallery-close { position: absolute !important; top: 0.85rem !important; right: 0.85rem !important; z-index: 30 !important; width: 38px !important; height: 38px !important; display: flex !important; align-items: center !important; justify-content: center !important; border-radius: 50% !important; background: rgba(0, 0, 0, 0.7) !important; background-color: rgba(0, 0, 0, 0.7) !important; border: 1px solid rgba(255, 255, 255, 0.88) !important; color: #ffffff !important; backdrop-filter: blur(8px) !important; -webkit-backdrop-filter: blur(8px) !important; box-shadow: 0 4px 16px rgba(0, 0, 0, 0.35) !important; cursor: pointer !important; padding: 0 !important; margin: 0 !important; transition: background 0.2s ease, transform 0.2s ease, border-color 0.2s ease !important; }
+.quote-page .quote-project-gallery-close:hover, .quote-page .quote-project-gallery-close:active { background: rgba(0, 0, 0, 0.7) !important; background-color: rgba(0, 0, 0, 0.7) !important; color: #ffffff !important; border-color: var(--accent-gold, #D2A044) !important; transform: scale(1.08) !important; }
 .quote-page .quote-project-gallery-close svg { width: 18px !important; height: 18px !important; stroke: currentColor !important; fill: none !important; stroke-width: 2.2 !important; }
-.quote-page .quote-project-gallery-control { position: absolute !important; top: 50% !important; z-index: 25 !important; width: 44px !important; height: 44px !important; display: flex !important; align-items: center !important; justify-content: center !important; border-radius: 50% !important; background: rgba(18, 15, 12, 0.72) !important; background-color: rgba(18, 15, 12, 0.72) !important; border: 1px solid rgba(255, 255, 255, 0.28) !important; color: #ffffff !important; backdrop-filter: blur(8px) !important; -webkit-backdrop-filter: blur(8px) !important; box-shadow: 0 4px 16px rgba(0, 0, 0, 0.35) !important; cursor: pointer !important; padding: 0 !important; margin: 0 !important; transform: translateY(-50%) !important; transition: background 0.2s ease, transform 0.2s ease, border-color 0.2s ease, color 0.2s ease !important; }
+.quote-page .quote-project-gallery-control { position: absolute !important; top: 50% !important; z-index: 25 !important; width: 44px !important; height: 44px !important; display: flex !important; align-items: center !important; justify-content: center !important; border-radius: 50% !important; background: rgba(0, 0, 0, 0.7) !important; background-color: rgba(0, 0, 0, 0.7) !important; border: 1px solid rgba(255, 255, 255, 0.88) !important; color: #ffffff !important; backdrop-filter: blur(8px) !important; -webkit-backdrop-filter: blur(8px) !important; box-shadow: 0 4px 16px rgba(0, 0, 0, 0.35) !important; cursor: pointer !important; padding: 0 !important; margin: 0 !important; transform: translateY(-50%) !important; transition: background 0.2s ease, transform 0.2s ease, border-color 0.2s ease, color 0.2s ease !important; }
 .quote-page .quote-project-gallery-control.previous { left: 0.85rem !important; }
 .quote-page .quote-project-gallery-control.next { right: 0.85rem !important; }
 .quote-page .quote-project-gallery-control svg { width: 20px !important; height: 20px !important; stroke: currentColor !important; fill: none !important; stroke-width: 2.4 !important; }
@@ -13927,7 +13974,7 @@ body.quote-project-gallery-open { overflow: hidden !important; }
   place-items: center;
   border: 1px solid rgba(255, 255, 255, .3) !important;
   border-radius: 50%;
-  background: rgba(20, 17, 14, .72) !important;
+  background: rgba(0, 0, 0, .7) !important;
   color: #fff !important;
   box-shadow: 0 4px 16px rgba(0, 0, 0, .35) !important;
   cursor: pointer;
@@ -14021,6 +14068,12 @@ body.project-gallery-lightbox-open { overflow: hidden !important; }
   --project-gallery-control-gutter: clamp(3.25rem, 8vw, 6rem);
 }
 
+/* Keep the page underneath visible in both desktop and mobile lightbox
+   layouts instead of covering it with an almost-solid black layer. */
+.project-gallery-lightbox:not(.project-gallery-lightbox--grid) .project-gallery-lightbox-backdrop {
+  background: rgba(9, 8, 7, .7);
+}
+
 .project-gallery-lightbox:not(.project-gallery-lightbox--grid) .project-gallery-lightbox-dialog {
   align-items: center;
   width: fit-content;
@@ -14082,16 +14135,16 @@ body.project-gallery-lightbox-open { overflow: hidden !important; }
 
 .project-gallery-lightbox:not(.project-gallery-lightbox--grid) :is(.project-gallery-lightbox-close, .project-gallery-lightbox-control) {
   border: 2px solid rgba(255, 255, 255, .88) !important;
-  background: rgba(244, 239, 231, .98) !important;
-  color: #211b16 !important;
+  background: rgba(0, 0, 0, .7) !important;
+  color: #fff !important;
   box-shadow: 0 5px 18px rgba(0, 0, 0, .38) !important;
 }
 
 .project-gallery-lightbox:not(.project-gallery-lightbox--grid) :is(.project-gallery-lightbox-close, .project-gallery-lightbox-control):hover,
 .project-gallery-lightbox:not(.project-gallery-lightbox--grid) :is(.project-gallery-lightbox-close, .project-gallery-lightbox-control):focus-visible {
   border-color: var(--accent-gold, #D2A044) !important;
-  background: var(--accent-gold, #D2A044) !important;
-  color: #17120e !important;
+  background: rgba(0, 0, 0, .7) !important;
+  color: #fff !important;
 }
 
 .project-gallery-lightbox:not(.project-gallery-lightbox--grid) .project-gallery-lightbox-thumbnails {
@@ -14109,11 +14162,11 @@ body.project-gallery-lightbox-open { overflow: hidden !important; }
 .project-gallery-lightbox--grid {
   z-index: 100001;
   padding: 0;
-  background: #000;
+  background: transparent;
 }
 
 .project-gallery-lightbox--grid .project-gallery-lightbox-backdrop {
-  background: #000;
+  background: rgba(0, 0, 0, .7);
   backdrop-filter: none;
   -webkit-backdrop-filter: none;
 }
@@ -14151,17 +14204,18 @@ body.project-gallery-lightbox-open { overflow: hidden !important; }
   left: auto;
   width: 48px;
   height: 48px;
-  border: 0 !important;
-  background: #e4e6eb !important;
-  color: #1c1e21 !important;
+  border: 1px solid rgba(255, 255, 255, .88) !important;
+  background: rgba(0, 0, 0, .7) !important;
+  color: #fff !important;
   box-shadow: none !important;
   transition: none !important;
 }
 
 .project-gallery-lightbox--grid .project-gallery-lightbox-dialog > .project-gallery-lightbox-close:hover,
 .project-gallery-lightbox--grid .project-gallery-lightbox-dialog > .project-gallery-lightbox-close:focus-visible {
-  background: #fff !important;
-  color: #1c1e21 !important;
+  background: rgba(0, 0, 0, .7) !important;
+  color: #fff !important;
+  border-color: var(--accent-gold, #D2A044) !important;
   transform: none !important;
 }
 
@@ -14169,9 +14223,9 @@ body.project-gallery-lightbox-open { overflow: hidden !important; }
   position: fixed;
   width: 48px;
   height: 48px;
-  border: 0 !important;
-  background: rgba(228, 230, 235, .9) !important;
-  color: #4b4f56 !important;
+  border: 1px solid rgba(255, 255, 255, .88) !important;
+  background: rgba(0, 0, 0, .7) !important;
+  color: #fff !important;
   box-shadow: none !important;
   transition: none !important;
 }
@@ -14250,6 +14304,40 @@ body.project-gallery-lightbox-open { overflow: hidden !important; }
     position: fixed;
     top: .55rem;
     right: .55rem;
+  }
+
+  /* On mobile the detail viewer should use the full device width. Keep the
+     source ratio so the image grows vertically instead of being cropped to a
+     fixed-height stage or narrowed to make room for the side controls. */
+  .project-gallery-lightbox:not(.project-gallery-lightbox--grid) {
+    padding: 0;
+    align-items: flex-start;
+    overflow-y: auto;
+  }
+
+  .project-gallery-lightbox:not(.project-gallery-lightbox--grid) .project-gallery-lightbox-dialog {
+    width: 100vw;
+    max-width: none;
+    max-height: none;
+  }
+
+  .project-gallery-lightbox:not(.project-gallery-lightbox--grid) .project-gallery-lightbox-stage {
+    width: 100vw;
+    max-width: none;
+    height: auto;
+    max-height: none;
+    overflow: visible;
+    border: 0;
+    border-radius: 0;
+  }
+
+  .project-gallery-lightbox:not(.project-gallery-lightbox--grid) .project-gallery-lightbox-stage > img {
+    display: block;
+    width: 100vw !important;
+    max-width: 100vw !important;
+    height: auto !important;
+    max-height: none !important;
+    object-fit: contain !important;
   }
 }
 @media (max-width: 767px) {
@@ -22625,23 +22713,23 @@ body.page-news #main-content > .news-hero-full-bleed {
 /* Detail gallery navigation arrows stay visually identical while hovered/pressed.
    This intentionally overrides the global button hover treatment. */
 .project-gallery-control:is(:hover, :active) {
-  background: rgba(23, 23, 23, .54) !important;
+  background: rgba(0, 0, 0, .7) !important;
   color: #fff !important;
   box-shadow: none !important;
   transform: translateY(-50%) !important;
 }
 
 .quote-page .quote-project-gallery-control:is(:hover, :active) {
-  background: rgba(18, 15, 12, .72) !important;
-  background-color: rgba(18, 15, 12, .72) !important;
-  border-color: rgba(255, 255, 255, .28) !important;
+  background: rgba(0, 0, 0, .7) !important;
+  background-color: rgba(0, 0, 0, .7) !important;
+  border-color: var(--accent-gold, #D2A044) !important;
   color: #fff !important;
   box-shadow: 0 4px 16px rgba(0, 0, 0, .35) !important;
   transform: translateY(-50%) !important;
 }
 
 .project-gallery-lightbox-control:is(:hover, :active) {
-  background: rgba(20, 17, 14, .72) !important;
+  background: rgba(0, 0, 0, .7) !important;
   color: #fff !important;
   box-shadow: 0 4px 16px rgba(0, 0, 0, .35) !important;
   transform: translateY(-50%) !important;

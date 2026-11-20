@@ -348,6 +348,13 @@ class ProjectShowcaseController {
       // Fetch dynamic category breadcrumbs
       const breadcrumbs = await categoryService.getCategoryBreadcrumbs(project.categoryIds);
       const projectDetailImages = await getPageImages('project-detail');
+      const projectCategoryCode = project.categoryIds?.find(category => category?.code)?.code || null;
+      const projectCategoryImages = projectCategoryCode
+        ? await getPageImages(projectCategoryCode)
+        : {};
+      const categoryHeroImage = projectCategoryCode
+        ? projectCategoryImages[`subpage_${projectCategoryCode}_hero_banner`]
+        : null;
 
       return res.render('du-an-chi-tiet', {
         title: `${project.title} | LUXURY HOME`,
@@ -356,7 +363,10 @@ class ProjectShowcaseController {
         project,
         breadcrumbs,
         relatedProjects,
-        projectDetailBackground: projectDetailImages.project_detail_summary_background
+        // Keep the detail banner aligned with the banner shown on the
+        // project's category listing page, with the legacy detail image as a
+        // fallback for projects without a populated category.
+        projectDetailBackground: categoryHeroImage || projectDetailImages.project_detail_summary_background
       });
     } catch (err) {
       next(err);

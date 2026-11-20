@@ -911,6 +911,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let lightboxWheelTargetScale = 1;
     const galleryImagePreloads = new Map();
     let galleryTransitionToken = 0;
+    let lightboxImageTransitionToken = 0;
 
     function updateLightboxPanLimits() {
       const image = galleryLightbox?.querySelector('[data-gallery-lightbox-image]');
@@ -1110,12 +1111,36 @@ document.addEventListener('DOMContentLoaded', () => {
       if (!galleryImages.length) return;
       const normalizedIndex = (index + galleryImages.length) % galleryImages.length;
       const image = modal.querySelector('[data-gallery-lightbox-image]');
+      const source = galleryImages[normalizedIndex];
+      const transitionToken = ++lightboxImageTransitionToken;
       resetLightboxZoom();
-      image.src = galleryImages[normalizedIndex];
-      image.alt = `${getProjectTitle()} - ảnh ${normalizedIndex + 1}`;
+      // Do not let the previous bitmap remain visible while the next mobile
+      // image is loading. It is especially noticeable in the narrow lightbox
+      // where a swipe can finish before the new image has been painted.
+      image.style.visibility = 'hidden';
       modal.querySelector('[data-gallery-lightbox-current]').textContent = String(normalizedIndex + 1).padStart(2, '0');
       modal.querySelector('[data-gallery-lightbox-total]').textContent = String(galleryImages.length).padStart(2, '0');
       modal.dataset.galleryLightboxIndex = String(normalizedIndex);
+
+      preloadGalleryImage(source).then(() => {
+        if (transitionToken !== lightboxImageTransitionToken) return;
+        image.src = source;
+        image.alt = `${getProjectTitle()} - ảnh ${normalizedIndex + 1}`;
+        const reveal = () => {
+          if (transitionToken !== lightboxImageTransitionToken) return;
+          image.style.visibility = 'visible';
+          updateLightboxPanLimits();
+          applyLightboxZoom();
+        };
+        if (typeof image.decode === 'function') {
+          image.decode().catch(() => {}).finally(reveal);
+        } else if (image.complete) {
+          reveal();
+        } else {
+          image.addEventListener('load', reveal, { once: true });
+          image.addEventListener('error', reveal, { once: true });
+        }
+      });
     }
 
     function openGalleryLightbox() {
@@ -1432,18 +1457,45 @@ document.addEventListener('DOMContentLoaded', () => {
             setGalleryImageTransform(heroImage, `${shouldChange ? -direction * 100 : 0}%`);
             setGalleryImageTransform(dragPreview, `${shouldChange ? 0 : direction * 100}%`);
           });
+          let slideFinished = false;
+          let slideFallbackTimer = null;
           const finishDragSlide = transitionEvent => {
-            if (transitionEvent.target !== dragPreview || transitionEvent.propertyName !== 'transform') return;
+            if (transitionEvent && (transitionEvent.target !== dragPreview || transitionEvent.propertyName !== 'transform')) return;
+            if (slideFinished) return;
+            slideFinished = true;
             dragPreview.removeEventListener('transitionend', finishDragSlide);
-            if (shouldChange) {
-              activeGalleryIndex = targetIndex;
-              updateSlideImage(heroImage, galleryImages[activeGalleryIndex], activeGalleryIndex);
-              updateGalleryUi();
+            if (slideFallbackTimer !== null) window.clearTimeout(slideFallbackTimer);
+
+            const finish = async () => {
+              if (shouldChange) {
+                activeGalleryIndex = targetIndex;
+                updateSlideImage(heroImage, galleryImages[activeGalleryIndex], activeGalleryIndex);
+                if (typeof heroImage.decode === 'function') {
+                  await heroImage.decode().catch(() => {});
+                }
+                updateGalleryUi();
+              }
+              resetSlidePosition();
+              isGallerySliding = false;
+            };
+
+            if (!shouldChange) {
+              finish();
+              return;
             }
-            resetSlidePosition();
-            isGallerySliding = false;
+
+            // The preview is already visible after the slide animation. Wait
+            // until the same URL is decoded by the real image layer before
+            // moving that layer back to the center. Without this handoff,
+            // mobile browsers can paint the previous src for one frame.
+            preloadGalleryImage(galleryImages[targetIndex]).then(() => {
+              if (slideFinished) finish();
+            });
           };
           dragPreview.addEventListener('transitionend', finishDragSlide);
+          // Keep the gallery recoverable when a browser skips transitionend
+          // during a touch gesture or when reduced-motion styles are applied.
+          slideFallbackTimer = window.setTimeout(() => finishDragSlide(), 450);
         };
 
         stage.addEventListener('pointerup', finishDrag);
