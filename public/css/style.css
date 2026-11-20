@@ -22968,6 +22968,20 @@ body.page-news #main-content > .news-hero-full-bleed {
   object-position: center center !important;
 }
 
+/* Keep gallery thumbnails visually consistent with the full image: portrait
+   sources stay complete and use the same clean white letterbox. */
+.project-detail-page .project-gallery-thumbnail,
+.quote-page .quote-featured-project-card--inline-gallery .project-gallery-thumbnail {
+  background: #fff !important;
+}
+
+.project-detail-page .project-gallery-thumbnail img,
+.quote-page .quote-featured-project-card--inline-gallery .project-gallery-thumbnail img {
+  background: #fff !important;
+  object-fit: contain !important;
+  object-position: center center !important;
+}
+
 /* Mobile detail galleries show one complete image while a swipe is detected;
    the next image is committed after it is decoded instead of being painted
    beside the current image. */
