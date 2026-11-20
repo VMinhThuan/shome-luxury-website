@@ -2619,6 +2619,95 @@
         transform: none !important;
       }
     }
+
+    /* Mobile Báo giá: use “Các công trình tiêu biểu” as the single heading
+       reference for every section title. Keep this override at the end so the
+       older section-specific mobile rules cannot produce different scales. */
+    @media (max-width: 767px) {
+      .quote-page :is(
+        .quote-pricing .quote-heading h2,
+        .quote-featured-heading h2,
+        .quote-completed-heading h2,
+        .quote-workshop-heading h2,
+        .quote-quality-commitment-heading h2,
+        .quote-craftsmanship-heading h2,
+        .quote-factory-activities-heading h2,
+        .quote-handover-heading h2,
+        .quote-video-heading h2,
+        .quote-free-estimate-copy h2,
+        .customer-stories-main,
+        .home-faq-main,
+        .quote-final-faq h2,
+        .quote-faq-consult h2
+      ) {
+        margin-top: 0 !important;
+        margin-bottom: .35rem !important;
+        color: #1d1a19 !important;
+        font-family: var(--font-heading) !important;
+        font-size: clamp(1.05rem, 5vw, 1.5rem) !important;
+        font-weight: 700 !important;
+        letter-spacing: -.04em !important;
+        line-height: 1.2 !important;
+        text-transform: none !important;
+        white-space: normal !important;
+      }
+
+      .quote-page :is(
+        .quote-pricing .quote-heading h2 em,
+        .quote-featured-heading h2 em,
+        .quote-completed-heading h2 em,
+        .quote-workshop-heading h2 em,
+        .quote-quality-commitment-heading h2 em,
+        .quote-craftsmanship-heading h2 em,
+        .quote-factory-activities-heading h2 em,
+        .quote-handover-heading h2 em,
+        .quote-free-estimate-copy h2 em,
+        .customer-stories-script,
+        .home-faq-script
+      ) {
+        display: inline-block !important;
+        margin: 0 0 0 .18em !important;
+        padding: 0 !important;
+        color: var(--accent-gold) !important;
+        font-family: var(--font-script) !important;
+        font-size: 1.05em !important;
+        font-style: normal !important;
+        font-weight: 400 !important;
+        letter-spacing: 0 !important;
+        line-height: 1 !important;
+        text-transform: none !important;
+        vertical-align: baseline !important;
+        white-space: nowrap !important;
+      }
+
+      .quote-page :is(
+        .quote-quality-commitment-heading h2,
+        .quote-factory-activities-heading h2,
+        .customer-stories-title,
+        .home-faq-title
+      ) {
+        display: block !important;
+      }
+
+      .quote-page :is(
+        .quote-quality-commitment-heading h2 span,
+        .quote-factory-activities-heading h2 span
+      ) {
+        color: #1d1a19 !important;
+        font-family: var(--font-heading) !important;
+        font-size: inherit !important;
+        font-weight: 700 !important;
+        letter-spacing: inherit !important;
+        line-height: inherit !important;
+      }
+
+      /* The category-specific project section contains five projects on web.
+         Keep all five cards on phones too; the shared quote-page rule hides
+         cards from the fourth onward for the legacy overview grid. */
+      .quote-page #cong-trinh-thiet-ke-moi .quote-featured-project-list > .quote-featured-project-card {
+        display: flex !important;
+      }
+    }
   </style>
   <script src="/js/main.js?v=2.0.5" defer></script>
   <script src="/js/quote-page.js?v=1.2.14" defer></script>
