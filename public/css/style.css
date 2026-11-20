@@ -22993,16 +22993,16 @@ body.page-news #main-content > .news-hero-full-bleed {
   }
 }
 
-/* List-page cards: center the actual image box before cropping it. This is
-   intentionally scoped away from the project-detail gallery. */
+/* List-page cards: keep the image in normal flow so lazy-loaded images paint
+   reliably, then crop every source from its vertical and horizontal center. */
 .project-showcase-section .project-card-gallery-stage {
   position: relative !important;
   overflow: hidden !important;
 }
 
 .project-showcase-section .project-card-gallery-stage > img.project-card-img {
-  position: absolute !important;
-  inset: 0 !important;
+  position: static !important;
+  inset: auto !important;
   display: block !important;
   width: 100% !important;
   height: 100% !important;
@@ -23010,6 +23010,7 @@ body.page-news #main-content > .news-hero-full-bleed {
   min-height: 0 !important;
   max-width: 100% !important;
   max-height: 100% !important;
+  margin: 0 !important;
   object-fit: cover !important;
   object-position: center center !important;
   transform: none !important;
