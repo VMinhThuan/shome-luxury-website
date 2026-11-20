@@ -16,8 +16,8 @@
 
   <!-- CSS Stylesheet -->
   <link rel="preload" href="/images/shome-logo.png" as="image" />
-  <link rel="stylesheet" href="/css/style.css?v=6.8.133" />
-  <script src="/js/main.js?v=2.0.16" defer></script>
+  <link rel="stylesheet" href="/css/style.css?v=6.8.135" />
+  <script src="/js/main.js?v=2.0.17" defer></script>
 </head>
 <body class="showcase-page-body">
 
@@ -50,7 +50,7 @@
 
     <!-- Construction videos or project showcase -->
     <section class="project-showcase-section">
-      <div class="container">
+      <div class="container <%= isConstructionShowcase ? 'has-construction-gallery' : '' %>">
         <% if (isConstructionShowcase) { %>
           <%- include("partials/construction-gallery-section", {
             images: constructionGalleries && constructionGalleries['in-progress'],
@@ -118,15 +118,23 @@
           <% } %>
         </div>
 
-        <!-- Infinite-scroll sentinel: the next page is fetched as this enters view. -->
-        <div id="project-load-sentinel" class="project-infinite-loader" aria-live="polite"
-             data-page="<%= initialPagination ? initialPagination.page : 1 %>"
-             data-total-pages="<%= initialPagination ? initialPagination.totalPages : 0 %>"
-             data-category="<%= activeCategoryCode %>"
-             style="<%= (initialPagination && initialPagination.totalPages > 1) ? '' : 'display: none;' %>">
-          <span class="infinite-loader-spinner" aria-hidden="true"></span>
-          <span class="infinite-loader-text">Đang tải thêm công trình...</span>
-        </div>
+        <% if (initialPagination && initialPagination.totalPages > 1) { %>
+          <div id="project-pagination-actions" class="project-pagination-actions" aria-live="polite"
+               data-page="<%= initialPagination.page %>"
+               data-total-pages="<%= initialPagination.totalPages %>"
+               data-category="<%= activeCategoryCode %>"
+               data-limit="6">
+            <button class="construction-video-more-button project-load-more-button" type="button"
+                    aria-controls="project-list-container" aria-expanded="false">
+              XEM THÊM
+            </button>
+            <button class="construction-video-more-button project-collapse-button" type="button"
+                    aria-controls="project-list-container" hidden>
+              THU GỌN
+            </button>
+            <span class="project-pagination-status" role="status" aria-live="polite"></span>
+          </div>
+        <% } %>
         <% } %>
       </div>
     </section>

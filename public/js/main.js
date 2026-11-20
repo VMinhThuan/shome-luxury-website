@@ -841,8 +841,8 @@ document.addEventListener('DOMContentLoaded', () => {
     quickContactWidget.classList.remove('at-footer');
   }
 
-  // 9. PROJECT SHOWCASE INFINITE SCROLL & API HANDLING
-  const projectLoadSentinel = document.getElementById('project-load-sentinel');
+  // 9. PROJECT SHOWCASE PAGINATION & API HANDLING
+  const projectPaginationActions = document.getElementById('project-pagination-actions');
   const projectListContainer = document.getElementById('project-list-container');
 
   function escapeHtml(value) {
@@ -1749,73 +1749,122 @@ document.addEventListener('DOMContentLoaded', () => {
     `;
   }
 
-  if (projectLoadSentinel && projectListContainer) {
+  if (projectPaginationActions && projectListContainer) {
     const requestTimeout = 8000;
     let isLoading = false;
-    let observer;
+    const loadMoreButton = projectPaginationActions.querySelector('.project-load-more-button');
+    const collapseButton = projectPaginationActions.querySelector('.project-collapse-button');
+    const status = projectPaginationActions.querySelector('.project-pagination-status');
+    const pageCache = new Map();
 
-    async function loadNextProjectPage() {
-      const currentPage = parseInt(projectLoadSentinel.dataset.page, 10) || 1;
-      const totalPages = parseInt(projectLoadSentinel.dataset.totalPages, 10) || 1;
-      const category = projectLoadSentinel.dataset.category || '';
-      const nextPage = currentPage + 1;
-      if (isLoading || nextPage > totalPages) return;
+    const getCurrentPage = () => parseInt(projectPaginationActions.dataset.page, 10) || 1;
+    const getTotalPages = () => parseInt(projectPaginationActions.dataset.totalPages, 10) || 1;
+    const getPageLimit = () => parseInt(projectPaginationActions.dataset.limit, 10) || 6;
 
-      isLoading = true;
+    function updateProjectPaginationButtons() {
+      const currentPage = getCurrentPage();
+      const totalPages = getTotalPages();
+      if (loadMoreButton) {
+        loadMoreButton.hidden = currentPage >= totalPages;
+        loadMoreButton.disabled = isLoading;
+        loadMoreButton.setAttribute('aria-expanded', currentPage > 1 ? 'true' : 'false');
+      }
+      if (collapseButton) {
+        collapseButton.hidden = currentPage <= 1;
+        collapseButton.disabled = isLoading;
+      }
+      projectPaginationActions.hidden = totalPages <= 1;
+    }
+
+    function appendProjectCards(projects) {
+      if (!projects?.length) return;
+      const existingCardCount = projectListContainer.querySelectorAll('.project-showcase-card').length;
+      projectListContainer.insertAdjacentHTML('beforeend', projects.map(renderProjectCardHtml).join(''));
+      projectListContainer.querySelectorAll('.project-showcase-card').forEach((card, index) => {
+        if (index >= existingCardCount) {
+          card.classList.add('is-loading-in');
+          card.style.setProperty('--card-reveal-delay', `${(index - existingCardCount) * 80}ms`);
+          card.addEventListener('animationend', () => card.classList.remove('is-loading-in'), { once: true });
+        }
+      });
+    }
+
+    function removeLastProjectPage() {
+      const currentPage = getCurrentPage();
+      if (currentPage <= 1) return;
+      const previousPage = currentPage - 1;
+      const pageProjects = pageCache.get(currentPage) || [];
+      const cards = projectListContainer.querySelectorAll('.project-showcase-card');
+      const removeCount = Math.min(pageProjects.length || getPageLimit(), cards.length);
+      for (let index = cards.length - 1; index >= cards.length - removeCount; index -= 1) {
+        cards[index]?.remove();
+      }
+      projectPaginationActions.dataset.page = String(previousPage);
+      status.textContent = '';
+      updateProjectPaginationButtons();
+    }
+
+    async function fetchProjectPage(page) {
+      if (pageCache.has(page)) return pageCache.get(page);
+
+      const category = projectPaginationActions.dataset.category || '';
+      const params = new URLSearchParams({
+        category,
+        page: String(page),
+        limit: String(getPageLimit()),
+        sort: 'order'
+      });
       const controller = new AbortController();
       const timeoutId = window.setTimeout(() => controller.abort(), requestTimeout);
-      projectListContainer.setAttribute('aria-busy', 'true');
-      projectLoadSentinel.dataset.loading = 'true';
-
       try {
-        const params = new URLSearchParams({ category, page: String(nextPage), limit: '4', sort: 'order' });
         const response = await fetch(`/api/projects?${params.toString()}`, {
           headers: { Accept: 'application/json' },
           signal: controller.signal
         });
         if (!response.ok) throw new Error(`API returned ${response.status}`);
-
         const json = await response.json();
-        window.clearTimeout(timeoutId);
         if (!json.success) throw new Error('API did not return a successful response');
-
-        if (json.data && json.data.length) {
-          const existingCardCount = projectListContainer.querySelectorAll('.project-showcase-card').length;
-          projectListContainer.insertAdjacentHTML('beforeend', json.data.map(renderProjectCardHtml).join(''));
-          projectListContainer.querySelectorAll('.project-showcase-card').forEach((card, index) => {
-            if (index >= existingCardCount) {
-              card.classList.add('is-loading-in');
-              card.style.setProperty('--card-reveal-delay', `${(index - existingCardCount) * 80}ms`);
-              card.addEventListener('animationend', () => card.classList.remove('is-loading-in'), { once: true });
-            }
-          });
-        }
-
-        projectLoadSentinel.dataset.page = String(json.pagination.page);
-        projectLoadSentinel.dataset.totalPages = String(json.pagination.totalPages);
-        if (json.pagination.page >= json.pagination.totalPages || !json.data || !json.data.length) {
-          observer?.disconnect();
-          projectLoadSentinel.style.display = 'none';
-        }
-      } catch (err) {
-        console.error('Failed loading more projects:', err);
-        const errorText = err.name === 'AbortError'
-          ? 'Kết nối chậm, vui lòng cuộn lại để thử lại'
-          : 'Không thể tải thêm công trình';
-        projectLoadSentinel.querySelector('.infinite-loader-text').textContent = errorText;
-        observer?.disconnect();
+        const projects = Array.isArray(json.data) ? json.data : [];
+        pageCache.set(page, projects);
+        projectPaginationActions.dataset.totalPages = String(json.pagination?.totalPages || getTotalPages());
+        return projects;
       } finally {
         window.clearTimeout(timeoutId);
-        isLoading = false;
-        delete projectLoadSentinel.dataset.loading;
-        projectListContainer.removeAttribute('aria-busy');
       }
     }
 
-    observer = new IntersectionObserver(entries => {
-      if (entries.some(entry => entry.isIntersecting)) loadNextProjectPage();
-    }, { rootMargin: '200px 0px' });
-    observer.observe(projectLoadSentinel);
+    async function loadNextProjectPage() {
+      const currentPage = getCurrentPage();
+      const nextPage = currentPage + 1;
+      if (isLoading || nextPage > getTotalPages()) return;
+
+      isLoading = true;
+      projectListContainer.setAttribute('aria-busy', 'true');
+      if (status) status.textContent = 'Đang tải thêm công trình...';
+      updateProjectPaginationButtons();
+
+      try {
+        const projects = await fetchProjectPage(nextPage);
+        appendProjectCards(projects);
+        projectPaginationActions.dataset.page = String(nextPage);
+        if (status) status.textContent = '';
+      } catch (err) {
+        console.error('Failed loading more projects:', err);
+        if (status) {
+          status.textContent = err.name === 'AbortError'
+            ? 'Kết nối chậm, vui lòng thử lại.'
+            : 'Không thể tải thêm công trình.';
+        }
+      } finally {
+        isLoading = false;
+        projectListContainer.removeAttribute('aria-busy');
+        updateProjectPaginationButtons();
+      }
+    }
+
+    loadMoreButton?.addEventListener('click', loadNextProjectPage);
+    collapseButton?.addEventListener('click', removeLastProjectPage);
+    updateProjectPaginationButtons();
   }
 
   // Mail link handler: Copies email to clipboard and prompts user

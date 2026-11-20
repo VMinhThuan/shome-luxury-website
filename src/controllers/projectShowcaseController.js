@@ -283,7 +283,7 @@ class ProjectShowcaseController {
         initialData = await projectService.getProjects({
           category: categoryCode,
           page: 1,
-          limit: 4,
+          limit: 6,
           sort: 'order',
           compact: true
         });
