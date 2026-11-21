@@ -9838,7 +9838,7 @@ main.company-profile-page .company-profile-hero h1 {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: clamp(2rem, 4vw, 3rem) 0 clamp(1.1rem, 2.5vw, 2rem);
+  padding: clamp(1.35rem, 2.5vw, 2rem) 0 clamp(0.75rem, 1.5vw, 1.25rem);
 }
 
 .project-detail-title-rule {
@@ -9869,7 +9869,7 @@ main.company-profile-page .company-profile-hero h1 {
   display: block;
   min-height: 0;
   width: 100%;
-  margin: 0 0 clamp(1.5rem, 3vw, 2.5rem);
+  margin: 0 0 clamp(0.75rem, 1.5vw, 1.25rem);
   padding: 0;
   box-sizing: border-box;
   background: transparent;
@@ -18048,11 +18048,16 @@ body.showcase-page-body .completed-videos-section {
 /* Compact, shared vertical rhythm for construction banners and galleries. */
 @media (min-width: 768px) {
   body.showcase-page-body {
-    --showcase-compact-gap: 12px;
+    /* Match the vertical footprint of the project-detail summary banner. */
+    --showcase-compact-gap: 30px;
   }
 
   body.showcase-page-body .project-showcase-hero,
   body.showcase-page-body .completed-projects-heading-band {
+    min-height: 202px;
+    box-sizing: border-box;
+    display: grid;
+    place-items: center;
     padding-top: var(--showcase-compact-gap) !important;
     padding-bottom: var(--showcase-compact-gap) !important;
   }

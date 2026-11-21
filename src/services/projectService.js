@@ -63,6 +63,7 @@ const normalizeGallery = (project) => {
 
 const normalizeProject = (value) => {
   const project = asPlainObject(value);
+  project.cost = normalizeProjectCost(project.cost);
   const galleryItems = normalizeGallery(project);
   project.thumbnailUrl = project.thumbnail
     ? optimizedImageUrl(project.thumbnail, { width: 640 })
@@ -82,6 +83,13 @@ const normalizeProject = (value) => {
 };
 
 const normalizeBoolean = (value) => value === true || value === 'true' || value === '1' || value === 1;
+
+const normalizeProjectCost = (value) => {
+  if (value === null || value === undefined) return value;
+  const cost = String(value).trim();
+  if (!cost) return null;
+  return /^\d+(?:\.\d+)?\s*xx$/i.test(cost) ? `${cost} triệu` : cost;
+};
 
 const normalizeInput = (data = {}, { partial = false } = {}) => {
   const input = {};
@@ -113,7 +121,7 @@ const normalizeInput = (data = {}, { partial = false } = {}) => {
       : [];
   }
   if (input.cost !== undefined) {
-    input.cost = input.cost === null ? null : String(input.cost).trim() || null;
+    input.cost = normalizeProjectCost(input.cost);
   }
   if (input.sortOrder !== undefined) input.sortOrder = Number(input.sortOrder) || 0;
   if (input.highlightOrder !== undefined) input.highlightOrder = Number(input.highlightOrder) || 0;
