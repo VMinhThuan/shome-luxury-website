@@ -1008,9 +1008,12 @@ document.addEventListener('DOMContentLoaded', () => {
       applyLightboxZoom();
     }
 
-    function setLightboxSlideTransform(image, offset = 0) {
+    function setLightboxSlideTransform(image, offset = 0, lift = 0) {
       if (!image) return;
-      image.style.transform = `translate3d(${offset}px, 0, 0)`;
+      const liftProgress = Math.max(0, Math.min(1, lift));
+      const liftY = Math.round(-8 * liftProgress);
+      const liftScale = (1 + (0.022 * liftProgress)).toFixed(3);
+      image.style.transform = `translate3d(${offset}px, ${liftY}px, 0) scale3d(${liftScale}, ${liftScale}, 1)`;
     }
 
     function updateLightboxSwipePreview(index) {
@@ -1035,7 +1038,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const offset = pendingLightboxSwipeOffsetX;
       const stageWidth = stage.clientWidth || window.innerWidth;
       const previewStart = offset < 0 ? stageWidth : -stageWidth;
-      setLightboxSlideTransform(image, offset);
+      setLightboxSlideTransform(image, offset, 1);
       setLightboxSlideTransform(preview, previewStart + offset);
     }
 
@@ -1173,7 +1176,8 @@ document.addEventListener('DOMContentLoaded', () => {
         lightboxSwipeLastTime = lightboxSwipeStartTime;
         lightboxSwipeVelocityX = 0;
         lightboxSwipePreviewIndex = null;
-        stage.classList.add('is-page-dragging');
+        stage.classList.add('is-page-dragging', 'is-page-lifted');
+        setLightboxSlideTransform(image, 0, 1);
         stage.setPointerCapture?.(event.pointerId);
       });
       stage?.addEventListener('pointermove', event => {
@@ -1222,7 +1226,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const shouldChange = !cancelled && Math.abs(distance) > Math.min(80, stageWidth * 0.15)
           || (!cancelled && Math.abs(velocity) > 0.5 && Math.abs(distance) > 12);
 
-        stage.classList.remove('is-page-dragging');
+        stage.classList.remove('is-page-dragging', 'is-page-lifted');
         stage.classList.add('is-page-settling');
         const settleOffset = shouldChange ? direction * stageWidth : 0;
         setLightboxSlideTransform(image, shouldChange ? -settleOffset : 0);
@@ -1278,10 +1282,71 @@ document.addEventListener('DOMContentLoaded', () => {
       return modal;
     }
 
+    function animateLightboxButtonSlide(index, direction) {
+      const modal = galleryLightbox;
+      const stage = modal?.querySelector('.project-gallery-lightbox-stage');
+      const image = modal?.querySelector('[data-gallery-lightbox-image]');
+      const preview = modal?.querySelector('[data-gallery-lightbox-preview]');
+      if (!modal || !stage || !image || !preview || stage.classList.contains('is-page-settling')) return;
+
+      const normalizedIndex = (index + galleryImages.length) % galleryImages.length;
+      const transitionToken = ++lightboxImageTransitionToken;
+      resetLightboxZoom();
+      preloadGalleryImage(galleryImages[normalizedIndex]).then(() => {
+        if (transitionToken !== lightboxImageTransitionToken) return;
+
+        const stageWidth = stage.clientWidth || window.innerWidth;
+        updateLightboxSwipePreview(normalizedIndex);
+        stage.classList.add('is-page-settling', 'is-page-lifted');
+        setLightboxSlideTransform(image, 0, 1);
+        setLightboxSlideTransform(preview, direction > 0 ? stageWidth : -stageWidth);
+        void image.offsetWidth;
+
+        let slideFinished = false;
+        const finish = async () => {
+          if (slideFinished) return;
+          slideFinished = true;
+          preview.removeEventListener('transitionend', onTransitionEnd);
+          if (lightboxSettleTimer !== null) {
+            window.clearTimeout(lightboxSettleTimer);
+            lightboxSettleTimer = null;
+          }
+          if (transitionToken !== lightboxImageTransitionToken) return;
+          image.src = galleryImages[normalizedIndex];
+          image.alt = `${getProjectTitle()} - ảnh ${normalizedIndex + 1}`;
+          if (typeof image.decode === 'function') await image.decode().catch(() => {});
+          modal.dataset.galleryLightboxIndex = String(normalizedIndex);
+          modal.querySelector('[data-gallery-lightbox-current]').textContent = String(normalizedIndex + 1).padStart(2, '0');
+          stage.classList.remove('is-page-settling', 'is-page-lifted');
+          resetLightboxSwipePosition();
+          image.style.visibility = 'visible';
+          updateLightboxPanLimits();
+          applyLightboxZoom();
+          preloadGalleryImage(galleryImages[(normalizedIndex + 1) % galleryImages.length]);
+          preloadGalleryImage(galleryImages[(normalizedIndex - 1 + galleryImages.length) % galleryImages.length]);
+        };
+        const onTransitionEnd = event => {
+          if (event.target === preview && event.propertyName === 'transform') finish();
+        };
+
+        window.requestAnimationFrame(() => {
+          stage.classList.remove('is-page-lifted');
+          setLightboxSlideTransform(image, direction > 0 ? -stageWidth : stageWidth);
+          setLightboxSlideTransform(preview, 0);
+        });
+        preview.addEventListener('transitionend', onTransitionEnd);
+        lightboxSettleTimer = window.setTimeout(finish, 520);
+      });
+    }
+
     function showLightboxImage(index, direction = 0) {
       const modal = createGalleryLightbox();
       if (!galleryImages.length) return;
       const normalizedIndex = (index + galleryImages.length) % galleryImages.length;
+      if (direction && !modal.hidden && modal.dataset.galleryLightboxIndex !== undefined) {
+        animateLightboxButtonSlide(normalizedIndex, direction);
+        return;
+      }
       const image = modal.querySelector('[data-gallery-lightbox-image]');
       const preview = modal.querySelector('[data-gallery-lightbox-preview]');
       const source = galleryImages[normalizedIndex];
@@ -1341,7 +1406,7 @@ document.addEventListener('DOMContentLoaded', () => {
       resetLightboxZoom();
       galleryLightbox.classList.remove('is-swiping');
       const stage = galleryLightbox.querySelector('.project-gallery-lightbox-stage');
-      stage?.classList.remove('is-page-dragging', 'is-page-settling');
+      stage?.classList.remove('is-page-dragging', 'is-page-settling', 'is-page-lifted');
       if (stage) stage.dataset.lightboxDragSettled = 'true';
       if (lightboxSettleTimer !== null) {
         window.clearTimeout(lightboxSettleTimer);
@@ -1358,12 +1423,15 @@ document.addEventListener('DOMContentLoaded', () => {
       updateDetailGalleryControlPosition();
     }
 
-    const setGalleryImageTransform = (image, offset = '0%') => {
+    const setGalleryImageTransform = (image, offset = '0%', lift = 0) => {
       if (!image) return;
       const isMobileGallery = window.matchMedia?.('(max-width: 767px)').matches;
+      const liftProgress = Math.max(0, Math.min(1, lift));
+      const liftY = `${Math.round(-8 * liftProgress)}px`;
+      const liftScale = (1 + (0.022 * liftProgress)).toFixed(3);
       if (isMobileGallery) {
         const mobileOffset = offset === '0%' ? '0' : offset;
-        image.style.setProperty('transform', `translate3d(${mobileOffset}, 0, 0)`, 'important');
+        image.style.setProperty('transform', `translate3d(${mobileOffset}, ${liftY}, 0) scale3d(${liftScale}, ${liftScale}, 1)`, 'important');
         return;
       }
       // Keep every image centered from its own midpoint so a portrait/landscape
@@ -1375,7 +1443,7 @@ document.addEventListener('DOMContentLoaded', () => {
           : offset === '-100%'
             ? '-150%'
             : `calc(-50% + ${offset})`;
-      image.style.setProperty('transform', `translate3d(${centeredTransform}, 0, 0)`, 'important');
+      image.style.setProperty('transform', `translate3d(${centeredTransform}, ${liftY}, 0) scale3d(${liftScale}, ${liftScale}, 1)`, 'important');
     };
 
     const getPointerTime = event => (
@@ -1405,7 +1473,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const offset = pendingDragOffsetX;
       const stageWidth = stage.clientWidth;
       const previewStart = offset < 0 ? stageWidth : -stageWidth;
-      setGalleryImageTransform(heroImage, `${offset}px`);
+      setGalleryImageTransform(heroImage, `${offset}px`, 1);
       setGalleryImageTransform(previewImage, `${previewStart + offset}px`);
     }
 
@@ -1427,7 +1495,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const heroImage = getHeroImage();
       const previewImage = getPreviewImage();
       if (!stage || !heroImage || !previewImage) return;
-      stage.classList.remove('is-dragging', 'is-sliding');
+      stage.classList.remove('is-dragging', 'is-sliding', 'is-lifted');
       setGalleryImageTransform(heroImage, '0%');
       setGalleryImageTransform(previewImage, '100%');
       previewImage.style.visibility = 'hidden';
@@ -1436,6 +1504,62 @@ document.addEventListener('DOMContentLoaded', () => {
       dragFrame = null;
       dragOffsetX = 0;
       pendingDragOffsetX = 0;
+    }
+
+    function animateGalleryButtonSlide(nextIndex, direction = 1) {
+      const stage = getGalleryStage();
+      const heroImage = getHeroImage();
+      const previewImage = getPreviewImage();
+      if (!stage || !heroImage || !previewImage || isGallerySliding || galleryImages.length < 2) return;
+
+      const normalizedIndex = (nextIndex + galleryImages.length) % galleryImages.length;
+      const slideToken = ++galleryTransitionToken;
+      isGallerySliding = true;
+      preloadGalleryImage(galleryImages[normalizedIndex]).then(() => {
+        if (slideToken !== galleryTransitionToken) return;
+
+        const stageWidth = stage.clientWidth;
+        updateDragPreview(normalizedIndex);
+        previewImage.style.visibility = 'visible';
+        stage.classList.add('is-sliding', 'is-lifted');
+        setGalleryImageTransform(heroImage, '0%', 1);
+        setGalleryImageTransform(previewImage, `${direction > 0 ? stageWidth : -stageWidth}px`);
+        void heroImage.offsetWidth;
+
+        let slideFinished = false;
+        let slideFallbackTimer = null;
+        const finish = async () => {
+          if (slideFinished) return;
+          slideFinished = true;
+          previewImage.removeEventListener('transitionend', onTransitionEnd);
+          if (slideFallbackTimer !== null) window.clearTimeout(slideFallbackTimer);
+          if (slideToken !== galleryTransitionToken) {
+            resetSlidePosition();
+            isGallerySliding = false;
+            return;
+          }
+          activeGalleryIndex = normalizedIndex;
+          updateSlideImage(heroImage, galleryImages[activeGalleryIndex], activeGalleryIndex);
+          if (typeof heroImage.decode === 'function') await heroImage.decode().catch(() => {});
+          updateGalleryUi();
+          resetSlidePosition();
+          isGallerySliding = false;
+          preloadGalleryImage(galleryImages[(activeGalleryIndex + 1) % galleryImages.length]);
+          preloadGalleryImage(galleryImages[(activeGalleryIndex - 1 + galleryImages.length) % galleryImages.length]);
+        };
+        const onTransitionEnd = event => {
+          if (event.target === previewImage && event.propertyName === 'transform') finish();
+        };
+
+        // The old image starts slightly lifted, then hands the stage to the
+        // image underneath. Both layers animate on the same compositor frame.
+        window.requestAnimationFrame(() => {
+          setGalleryImageTransform(heroImage, `${direction > 0 ? -100 : 100}%`);
+          setGalleryImageTransform(previewImage, '0%');
+        });
+        previewImage.addEventListener('transitionend', onTransitionEnd);
+        slideFallbackTimer = window.setTimeout(finish, 520);
+      });
     }
 
     function stopGalleryAutoplay() {
@@ -1572,23 +1696,8 @@ document.addEventListener('DOMContentLoaded', () => {
         return;
       }
       if (isGallerySliding) return;
-
-      isGallerySliding = true;
-      const transitionToken = ++galleryTransitionToken;
-      preloadGalleryImage(galleryImages[nextGalleryIndex]).then(() => {
-        if (transitionToken !== galleryTransitionToken) return;
-
-        // Swap only after the target image is decoded. The old two-layer slide
-        // animation could leave a strip of the previous image visible when
-        // natural image sizes differed.
-        activeGalleryIndex = nextGalleryIndex;
-        updateSlideImage(heroImage, galleryImages[activeGalleryIndex], activeGalleryIndex);
-        resetSlidePosition();
-        isGallerySliding = false;
-        preloadGalleryImage(galleryImages[(activeGalleryIndex + 1) % galleryImages.length]);
-        preloadGalleryImage(galleryImages[(activeGalleryIndex - 1 + galleryImages.length) % galleryImages.length]);
-        updateGalleryUi();
-      });
+      const direction = requestedDirection || (nextGalleryIndex > activeGalleryIndex ? 1 : -1);
+      animateGalleryButtonSlide(nextGalleryIndex, direction);
     }
 
     if (gallery) {
@@ -1598,20 +1707,21 @@ document.addEventListener('DOMContentLoaded', () => {
       updateDetailGalleryControlPosition();
       enableHorizontalThumbnailDrag(gallery.querySelector('[data-gallery-thumbnails]'));
       gallery.addEventListener('click', event => {
-        if (suppressGalleryClick) {
-          event.preventDefault();
-          event.stopPropagation();
-          suppressGalleryClick = false;
-          return;
-        }
         const thumbnail = event.target.closest('[data-gallery-thumb]');
         if (thumbnail) {
           event.preventDefault();
           event.stopPropagation();
+          suppressGalleryClick = false;
           // A thumbnail is an explicit selection, so always commit its exact
           // image immediately instead of letting an unfinished slide block it.
           isGallerySliding = false;
           selectGalleryImage(Number(thumbnail.dataset.index), true);
+          return;
+        }
+        if (suppressGalleryClick) {
+          event.preventDefault();
+          event.stopPropagation();
+          suppressGalleryClick = false;
           return;
         }
         if (event.target.closest('[data-gallery-prev]')) {
@@ -1685,7 +1795,8 @@ document.addEventListener('DOMContentLoaded', () => {
           dragPreviewIndex = null;
           suppressGalleryClick = false;
           stage.setPointerCapture?.(dragPointerId);
-          stage.classList.add('is-dragging');
+          stage.classList.add('is-dragging', 'is-lifted');
+          setGalleryImageTransform(heroImage, '0%', 1);
         });
 
         stage.addEventListener('pointermove', event => {
@@ -1733,6 +1844,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
           stage.classList.remove('is-dragging');
           stage.classList.add('is-sliding');
+          stage.classList.remove('is-lifted');
           isGallerySliding = true;
           const slideToken = ++galleryTransitionToken;
           if (shouldChange) updateDragPreview(targetIndex);

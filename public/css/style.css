@@ -13146,6 +13146,10 @@ html {
   will-change: transform;
 }
 
+.project-detail-page .project-gallery-stage > [data-detail-image] {
+  z-index: 2;
+}
+
 .project-detail-page .project-gallery-drag-preview {
   transform: translate3d(100%, 0, 0) !important;
   visibility: hidden;
@@ -13156,7 +13160,11 @@ html {
 }
 
 .project-detail-page .project-gallery-stage.is-sliding > img {
-  transition: transform 420ms cubic-bezier(0.22, 1.04, 0.36, 1) !important;
+  transition: transform 460ms cubic-bezier(0.22, 1.04, 0.36, 1), filter 180ms ease-out !important;
+}
+
+.project-detail-page .project-gallery-stage:is(.is-dragging, .is-lifted) > [data-detail-image] {
+  filter: drop-shadow(0 12px 18px rgba(24, 17, 10, .24));
 }
 
 .project-detail-page .project-gallery-stage.is-sliding .project-gallery-drag-preview,
@@ -14246,6 +14254,10 @@ body.project-gallery-lightbox-open { overflow: hidden !important; }
   pointer-events: none;
 }
 
+.project-gallery-lightbox:not(.project-gallery-lightbox--grid) .project-gallery-lightbox-stage > [data-gallery-lightbox-image] {
+  z-index: 2;
+}
+
 .project-gallery-lightbox:not(.project-gallery-lightbox--grid) .project-gallery-lightbox-stage {
   cursor: grab;
 }
@@ -14255,8 +14267,12 @@ body.project-gallery-lightbox-open { overflow: hidden !important; }
   cursor: grabbing !important;
 }
 
+.project-gallery-lightbox:not(.project-gallery-lightbox--grid) .project-gallery-lightbox-stage:is(.is-page-dragging, .is-page-lifted) > [data-gallery-lightbox-image] {
+  filter: drop-shadow(0 12px 18px rgba(0, 0, 0, .3));
+}
+
 .project-gallery-lightbox:not(.project-gallery-lightbox--grid) .project-gallery-lightbox-stage.is-page-settling > img {
-  transition: transform 420ms cubic-bezier(.22, 1.04, .36, 1) !important;
+  transition: transform 460ms cubic-bezier(.22, 1.04, .36, 1), filter 180ms ease-out !important;
 }
 
 .project-gallery-lightbox:not(.project-gallery-lightbox--grid) .project-gallery-lightbox-stage > img.is-zoomed {
