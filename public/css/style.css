@@ -14495,6 +14495,31 @@ body.project-gallery-lightbox-open { overflow: hidden !important; }
     pointer-events: auto;
   }
 }
+
+/* On the responsive desktop layout, keep detail-lightbox controls outside
+   the image. Their positions follow the image's actual viewport edges while
+   leaving the existing mobile layout untouched. */
+@media (min-width: 768px) {
+  .project-gallery-lightbox:not(.project-gallery-lightbox--grid) :is(.project-gallery-lightbox-close, .project-gallery-lightbox-control) {
+    position: fixed;
+  }
+
+  .project-gallery-lightbox:not(.project-gallery-lightbox--grid) .project-gallery-lightbox-control.previous {
+    left: max(1rem, calc(var(--project-gallery-image-left, 50vw) - 4.875rem));
+    right: auto;
+  }
+
+  .project-gallery-lightbox:not(.project-gallery-lightbox--grid) .project-gallery-lightbox-control.next {
+    left: min(calc(100vw - 4.875rem), calc(var(--project-gallery-image-right, 50vw) + 1rem));
+    right: auto;
+  }
+
+  .project-gallery-lightbox:not(.project-gallery-lightbox--grid) .project-gallery-lightbox-close {
+    top: max(1rem, var(--project-gallery-image-top, 1rem));
+    left: min(calc(100vw - 4.875rem), calc(var(--project-gallery-image-right, 50vw) + 1rem));
+    right: auto;
+  }
+}
 @media (max-width: 767px) {
   .quote-page .quote-project-gallery-dialog { width: 100% !important; height: calc(100dvh - 1rem) !important; }
   .quote-page .quote-project-gallery-stage { flex: 1 1 auto !important; min-height: 0 !important; aspect-ratio: auto !important; border-radius: 14px !important; }

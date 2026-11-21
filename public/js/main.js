@@ -933,6 +933,22 @@ document.addEventListener('DOMContentLoaded', () => {
       lightboxPanLimitY = Math.max(0, (image.offsetHeight * lightboxZoomScale - stage.clientHeight) / 2);
     }
 
+    // Desktop controls live outside the image. The lightbox stage sizes itself
+    // to the current source ratio, so expose its viewport edges to CSS after
+    // every image/viewport change instead of anchoring controls to the stage.
+    function updateLightboxControlPosition() {
+      const modal = galleryLightbox;
+      const stage = modal?.querySelector('.project-gallery-lightbox-stage');
+      if (!modal || !stage || modal.hidden || window.matchMedia('(max-width: 767px)').matches) return;
+      window.requestAnimationFrame(() => {
+        if (modal.hidden) return;
+        const rect = stage.getBoundingClientRect();
+        modal.style.setProperty('--project-gallery-image-left', `${rect.left}px`);
+        modal.style.setProperty('--project-gallery-image-right', `${rect.right}px`);
+        modal.style.setProperty('--project-gallery-image-top', `${rect.top}px`);
+      });
+    }
+
     function applyLightboxZoom() {
       const image = galleryLightbox?.querySelector('[data-gallery-lightbox-image]');
       if (!image) return;
@@ -1058,6 +1074,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
       const stage = modal.querySelector('.project-gallery-lightbox-stage');
       const image = modal.querySelector('[data-gallery-lightbox-image]');
+      image?.addEventListener('load', updateLightboxControlPosition);
+      window.addEventListener('resize', updateLightboxControlPosition);
       stage?.addEventListener('wheel', event => {
         event.preventDefault();
         lightboxWheelTargetScale = Math.min(3, Math.max(1, lightboxWheelTargetScale + (event.deltaY < 0 ? 0.12 : -0.12)));
@@ -1176,6 +1194,7 @@ document.addEventListener('DOMContentLoaded', () => {
           }
           updateLightboxPanLimits();
           applyLightboxZoom();
+          updateLightboxControlPosition();
         };
         if (typeof image.decode === 'function') {
           image.decode().catch(() => {}).finally(reveal);
@@ -1194,6 +1213,7 @@ document.addEventListener('DOMContentLoaded', () => {
       modal.hidden = false;
       document.body.classList.add('project-gallery-lightbox-open');
       showLightboxImage(activeGalleryIndex);
+      updateLightboxControlPosition();
       modal.querySelector('.project-gallery-lightbox-close')?.focus();
     }
 
