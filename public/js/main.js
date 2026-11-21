@@ -1080,7 +1080,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
       thumbnailStrip.addEventListener('pointerdown', event => {
         if (!event.isPrimary || (event.button !== undefined && event.button !== 0)) return;
-        event.preventDefault();
         pointerId = event.pointerId;
         startX = event.clientX;
         startScrollLeft = thumbnailStrip.scrollLeft;
@@ -1658,6 +1657,7 @@ document.addEventListener('DOMContentLoaded', () => {
       gallery.querySelectorAll('[data-gallery-thumb]').forEach((thumbnail, thumbnailIndex) => {
         const isActive = thumbnailIndex === activeGalleryIndex;
         thumbnail.classList.toggle('is-active', isActive);
+        thumbnail.setAttribute('aria-current', String(isActive));
       });
       const thumbnails = gallery.querySelector('[data-gallery-thumbnails]');
       const activeThumbnail = gallery.querySelector('[data-gallery-thumb].is-active');
