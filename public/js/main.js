@@ -1040,6 +1040,7 @@ document.addEventListener('DOMContentLoaded', () => {
         <div class="project-gallery-lightbox-dialog" role="dialog" aria-modal="true" aria-label="Xem ảnh công trình">
           <div class="project-gallery-lightbox-stage">
             <img data-gallery-lightbox-image alt="" draggable="false" />
+            <img data-gallery-lightbox-preview alt="" aria-hidden="true" draggable="false" />
             <button type="button" class="project-gallery-lightbox-close" data-gallery-lightbox-close aria-label="Đóng ảnh phóng to">
               <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"></path></svg>
             </button>
@@ -1088,6 +1089,11 @@ document.addEventListener('DOMContentLoaded', () => {
       stage?.addEventListener('pointermove', event => {
         if (lightboxSwipeStartX !== null && Math.abs(event.clientX - lightboxSwipeStartX) > 4) {
           galleryLightbox?.classList.add('is-swiping');
+          if (lightboxZoomScale === 1) {
+            event.preventDefault();
+            const distance = event.clientX - lightboxSwipeStartX;
+            image.style.transform = `translate3d(${distance}px, 0, 0)`;
+          }
         }
         if (event.pointerId !== lightboxPointerId) return;
         event.preventDefault();
@@ -1103,14 +1109,25 @@ document.addEventListener('DOMContentLoaded', () => {
         const distance = event.clientX - lightboxSwipeStartX;
         lightboxSwipeStartX = null;
         galleryLightbox?.classList.remove('is-swiping');
-        if (Math.abs(distance) < 50) return;
-        showLightboxImage(Number(galleryLightbox.dataset.galleryLightboxIndex || 0) + (distance < 0 ? 1 : -1));
+        if (Math.abs(distance) < 50) {
+          image.style.transition = 'transform .28s cubic-bezier(.22, .61, .36, 1)';
+          image.style.transform = '';
+          window.setTimeout(() => { image.style.transition = ''; }, 300);
+          return;
+        }
+        showLightboxImage(
+          Number(galleryLightbox.dataset.galleryLightboxIndex || 0) + (distance < 0 ? 1 : -1),
+          distance < 0 ? 1 : -1
+        );
       };
       stage?.addEventListener('pointerup', finishLightboxPointer);
       stage?.addEventListener('pointercancel', event => {
         lightboxPointerId = null;
         lightboxSwipeStartX = null;
         galleryLightbox?.classList.remove('is-swiping');
+        image.style.transition = 'transform .28s cubic-bezier(.22, .61, .36, 1)';
+        image.style.transform = '';
+        window.setTimeout(() => { image.style.transition = ''; }, 300);
         stage.releasePointerCapture?.(event.pointerId);
       });
       image?.addEventListener('load', () => {
@@ -1124,11 +1141,12 @@ document.addEventListener('DOMContentLoaded', () => {
       return modal;
     }
 
-    function showLightboxImage(index) {
+    function showLightboxImage(index, direction = 0) {
       const modal = createGalleryLightbox();
       if (!galleryImages.length) return;
       const normalizedIndex = (index + galleryImages.length) % galleryImages.length;
       const image = modal.querySelector('[data-gallery-lightbox-image]');
+      const preview = modal.querySelector('[data-gallery-lightbox-preview]');
       const source = galleryImages[normalizedIndex];
       const transitionToken = ++lightboxImageTransitionToken;
       resetLightboxZoom();
@@ -1147,6 +1165,15 @@ document.addEventListener('DOMContentLoaded', () => {
         const reveal = () => {
           if (transitionToken !== lightboxImageTransitionToken) return;
           image.style.visibility = 'visible';
+          image.classList.remove('is-page-turn-next', 'is-page-turn-previous');
+          if (direction) {
+            void image.offsetWidth;
+            image.classList.add(direction > 0 ? 'is-page-turn-next' : 'is-page-turn-previous');
+          }
+          if (preview) {
+            preview.classList.remove('is-page-turn-next', 'is-page-turn-previous');
+            preview.style.visibility = 'hidden';
+          }
           updateLightboxPanLimits();
           applyLightboxZoom();
         };
@@ -1404,18 +1431,18 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!galleryLightbox || galleryLightbox.hidden) return;
         if (event.target.closest('[data-gallery-lightbox-close]')) closeGalleryLightbox();
         if (event.target.closest('[data-gallery-lightbox-prev]')) {
-          showLightboxImage(Number(galleryLightbox.dataset.galleryLightboxIndex || 0) - 1);
+          showLightboxImage(Number(galleryLightbox.dataset.galleryLightboxIndex || 0) - 1, -1);
         }
         if (event.target.closest('[data-gallery-lightbox-next]')) {
-          showLightboxImage(Number(galleryLightbox.dataset.galleryLightboxIndex || 0) + 1);
+          showLightboxImage(Number(galleryLightbox.dataset.galleryLightboxIndex || 0) + 1, 1);
         }
       });
 
       document.addEventListener('keydown', event => {
         if (!galleryLightbox || galleryLightbox.hidden) return;
         if (event.key === 'Escape') closeGalleryLightbox();
-        if (event.key === 'ArrowLeft') showLightboxImage(Number(galleryLightbox.dataset.galleryLightboxIndex || 0) - 1);
-        if (event.key === 'ArrowRight') showLightboxImage(Number(galleryLightbox.dataset.galleryLightboxIndex || 0) + 1);
+        if (event.key === 'ArrowLeft') showLightboxImage(Number(galleryLightbox.dataset.galleryLightboxIndex || 0) - 1, -1);
+        if (event.key === 'ArrowRight') showLightboxImage(Number(galleryLightbox.dataset.galleryLightboxIndex || 0) + 1, 1);
         if (event.key === '+' || event.key === '=') setLightboxZoom(lightboxZoomScale + 0.2);
         if (event.key === '-') setLightboxZoom(lightboxZoomScale - 0.2);
         if (event.key === '0') resetLightboxZoom();
@@ -1618,6 +1645,7 @@ document.addEventListener('DOMContentLoaded', () => {
           </button>
           <div class="project-gallery-lightbox-stage" data-project-grid-lightbox-stage>
             <img data-project-grid-lightbox-image alt="" draggable="false" />
+            <img data-project-grid-lightbox-preview alt="" aria-hidden="true" draggable="false" />
             <button type="button" class="project-gallery-lightbox-control previous" data-project-grid-lightbox-prev aria-label="Ảnh trước">
               <svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="15 18 9 12 15 6"></polyline></svg>
             </button>
@@ -1635,11 +1663,11 @@ document.addEventListener('DOMContentLoaded', () => {
           return;
         }
         if (event.target.closest('[data-project-grid-lightbox-prev]')) {
-          showProjectGalleryLightboxImage(projectGalleryIndex - 1);
+          showProjectGalleryLightboxImage(projectGalleryIndex - 1, -1);
           return;
         }
         if (event.target.closest('[data-project-grid-lightbox-next]')) {
-          showProjectGalleryLightboxImage(projectGalleryIndex + 1);
+          showProjectGalleryLightboxImage(projectGalleryIndex + 1, 1);
         }
       });
 
@@ -1650,30 +1678,56 @@ document.addEventListener('DOMContentLoaded', () => {
       stage?.addEventListener('pointerdown', event => {
         if (event.isPrimary) projectGalleryPointerStartX = event.clientX;
       });
+      stage?.addEventListener('pointermove', event => {
+        if (projectGalleryPointerStartX === null) return;
+        const distance = event.clientX - projectGalleryPointerStartX;
+        if (Math.abs(distance) < 4) return;
+        event.preventDefault();
+        stage.classList.add('is-page-dragging');
+        image.style.transform = `translate3d(${distance}px, 0, 0)`;
+      }, { passive: false });
       stage?.addEventListener('pointerup', event => {
         if (projectGalleryPointerStartX === null) return;
         const distance = event.clientX - projectGalleryPointerStartX;
         projectGalleryPointerStartX = null;
+        stage.classList.remove('is-page-dragging');
+        image.style.transition = 'transform .28s cubic-bezier(.22, .61, .36, 1)';
+        image.style.transform = '';
+        window.setTimeout(() => { image.style.transition = ''; }, 300);
         if (Math.abs(distance) < 50) return;
-        showProjectGalleryLightboxImage(projectGalleryIndex + (distance < 0 ? 1 : -1));
+        showProjectGalleryLightboxImage(projectGalleryIndex + (distance < 0 ? 1 : -1), distance < 0 ? 1 : -1);
       });
       stage?.addEventListener('pointercancel', () => {
         projectGalleryPointerStartX = null;
+        stage.classList.remove('is-page-dragging');
+        image.style.transition = 'transform .28s cubic-bezier(.22, .61, .36, 1)';
+        image.style.transform = '';
+        window.setTimeout(() => { image.style.transition = ''; }, 300);
       });
 
       return modal;
     };
 
-    function showProjectGalleryLightboxImage(index) {
+    function showProjectGalleryLightboxImage(index, direction = 0) {
       if (!projectGalleryImages.length) return;
       const normalizedIndex = (index + projectGalleryImages.length) % projectGalleryImages.length;
-      const image = createProjectGalleryLightbox().querySelector('[data-project-grid-lightbox-image]');
+      const modal = createProjectGalleryLightbox();
+      const image = modal.querySelector('[data-project-grid-lightbox-image]');
       const current = projectGalleryImages[normalizedIndex];
       image.style.width = '';
       image.style.height = '';
+      image.style.transform = '';
+      image.classList.remove('is-page-turn-next', 'is-page-turn-previous');
       image.src = current.src;
       image.alt = current.alt;
-      if (image.complete) fitProjectGalleryLightboxImage(image);
+      const reveal = () => {
+        fitProjectGalleryLightboxImage(image);
+        if (!direction) return;
+        void image.offsetWidth;
+        image.classList.add(direction > 0 ? 'is-page-turn-next' : 'is-page-turn-previous');
+      };
+      if (image.complete) reveal();
+      else image.addEventListener('load', reveal, { once: true });
       projectGalleryIndex = normalizedIndex;
     }
 
@@ -1714,8 +1768,8 @@ document.addEventListener('DOMContentLoaded', () => {
     document.addEventListener('keydown', event => {
       if (!projectGalleryLightbox || projectGalleryLightbox.hidden) return;
       if (event.key === 'Escape') closeProjectGalleryLightbox();
-      if (event.key === 'ArrowLeft') showProjectGalleryLightboxImage(projectGalleryIndex - 1);
-      if (event.key === 'ArrowRight') showProjectGalleryLightboxImage(projectGalleryIndex + 1);
+      if (event.key === 'ArrowLeft') showProjectGalleryLightboxImage(projectGalleryIndex - 1, -1);
+      if (event.key === 'ArrowRight') showProjectGalleryLightboxImage(projectGalleryIndex + 1, 1);
     });
   }
 

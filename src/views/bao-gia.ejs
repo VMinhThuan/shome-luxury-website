@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400&family=Playfair+Display:ital,wght@0,600;0,700;0,800;0,900;1,600&family=Great+Vibes&family=Alex+Brush&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="/css/style.css?v=6.8.166" />
+  <link rel="stylesheet" href="/css/style.css?v=6.8.175" />
   <style>
     /* Alternating section backgrounds on quote page handled by style.css design system */
     .quote-page .quote-video-card-link { display: block; padding: 0; color: inherit; font: inherit; text-align: left; cursor: pointer; }
@@ -1250,20 +1250,31 @@
     }
     .quote-page .quote-project-gallery-stage {
       position: relative !important;
-      width: 100% !important;
-      aspect-ratio: 16 / 9 !important;
-      overflow: hidden !important;
+      display: flex !important;
+      align-self: center !important;
+      width: fit-content !important;
+      max-width: calc(100vw - 12rem) !important;
+      height: auto !important;
+      max-height: calc(100dvh - 2rem) !important;
+      aspect-ratio: auto !important;
+      overflow: visible !important;
+      border: 1px solid rgba(200, 155, 75, .35) !important;
       border-radius: 16px !important;
-      background: #17120e !important;
-      box-shadow: 0 16px 48px rgba(0, 0, 0, 0.6) !important;
-      touch-action: pan-y !important;
+      background: #15120f !important;
+      box-shadow: 0 20px 64px rgba(0, 0, 0, .65) !important;
+      touch-action: none !important;
+      perspective: 1200px !important;
       user-select: none !important;
     }
     .quote-page .quote-project-gallery-stage > img {
       display: block !important;
-      width: 100% !important;
-      height: 100% !important;
-      object-fit: cover !important;
+      width: auto !important;
+      height: auto !important;
+      max-width: calc(100vw - 12rem) !important;
+      max-height: calc(100dvh - 2rem) !important;
+      object-fit: contain !important;
+      object-position: center !important;
+      background: transparent !important;
       user-select: none !important;
     }
     .quote-page .quote-project-gallery-close {
@@ -1363,7 +1374,7 @@
       pointer-events: none !important;
     }
     .quote-page .quote-project-gallery-thumbnails {
-      display: flex !important;
+      display: none !important;
       flex-direction: row !important;
       gap: 0.55rem !important;
       width: 100% !important;
@@ -1425,14 +1436,20 @@
         height: auto !important;
       }
       .quote-page .quote-project-gallery-stage {
-        flex: 0 0 auto !important;
-        min-height: unset !important;
+        display: flex !important;
+        align-self: center !important;
+        width: fit-content !important;
+        max-width: calc(100vw - 2rem) !important;
         height: auto !important;
-        aspect-ratio: 16 / 9 !important;
+        max-height: calc(100dvh - 1rem) !important;
+        aspect-ratio: auto !important;
+        overflow: visible !important;
         border-radius: 14px !important;
       }
       .quote-page .quote-project-gallery-stage > img {
-        object-fit: cover !important;
+        max-width: calc(100vw - 2rem) !important;
+        max-height: calc(100dvh - 1rem) !important;
+        object-fit: contain !important;
       }
       .quote-page .quote-project-gallery-control {
         width: 38px !important;
@@ -2771,9 +2788,101 @@
       text-stroke: .45px currentColor !important;
       text-shadow: 0 0 .2px currentColor !important;
     }
+
+    /* Use the same full-image viewer treatment as the project-detail page. */
+    .quote-page .quote-project-gallery-modal {
+      padding: 1rem !important;
+      background: transparent !important;
+    }
+    .quote-page .quote-project-gallery-modal-backdrop {
+      background: rgba(9, 8, 7, .7) !important;
+      backdrop-filter: blur(12px) !important;
+      -webkit-backdrop-filter: blur(12px) !important;
+    }
+    .quote-page .quote-project-gallery-dialog {
+      align-items: center !important;
+      width: fit-content !important;
+      max-width: 100% !important;
+      max-height: calc(100dvh - 2rem) !important;
+      gap: 0 !important;
+    }
+    .quote-page .quote-project-gallery-stage {
+      display: flex !important;
+      align-self: center !important;
+      width: fit-content !important;
+      max-width: calc(100vw - 12rem) !important;
+      height: auto !important;
+      max-height: calc(100dvh - 2rem) !important;
+      aspect-ratio: auto !important;
+      overflow: visible !important;
+      border: 1px solid rgba(200, 155, 75, .35) !important;
+      border-radius: 16px !important;
+      background: #15120f !important;
+      box-shadow: 0 20px 64px rgba(0, 0, 0, .65) !important;
+      touch-action: none !important;
+      perspective: 1200px !important;
+    }
+    .quote-page .quote-project-gallery-stage > img:not([data-quote-gallery-preview]) {
+      width: auto !important;
+      height: auto !important;
+      max-width: calc(100vw - 12rem) !important;
+      max-height: calc(100dvh - 2rem) !important;
+      object-fit: contain !important;
+      object-position: center !important;
+      background: transparent !important;
+      transform-origin: center center !important;
+      will-change: transform !important;
+      backface-visibility: hidden !important;
+      -webkit-backface-visibility: hidden !important;
+      cursor: zoom-in !important;
+    }
+    .quote-page .quote-project-gallery-stage > [data-quote-gallery-preview],
+    .quote-page .quote-project-gallery-thumbnails {
+      display: none !important;
+    }
+    .quote-page .quote-project-gallery-close,
+    .quote-page .quote-project-gallery-control {
+      position: fixed !important;
+      z-index: 30 !important;
+      border: 0 !important;
+      background: rgba(0, 0, 0, .7) !important;
+      color: #fff !important;
+      box-shadow: 0 5px 18px rgba(0, 0, 0, .38) !important;
+      outline: none !important;
+    }
+    .quote-page .quote-project-gallery-close {
+      top: 1rem !important;
+      right: 1.25rem !important;
+    }
+    .quote-page .quote-project-gallery-control {
+      top: 50% !important;
+      transform: translateY(-50%) !important;
+    }
+    .quote-page .quote-project-gallery-control.previous { left: 1.25rem !important; }
+    .quote-page .quote-project-gallery-control.next { right: 1.25rem !important; }
+    .quote-page .quote-project-gallery-count {
+      position: absolute !important;
+      right: .85rem !important;
+      bottom: .85rem !important;
+    }
+    @media (max-width: 767px) {
+      .quote-page .quote-project-gallery-modal { padding: .5rem !important; }
+      .quote-page .quote-project-gallery-stage {
+        max-width: calc(100vw - 2rem) !important;
+        max-height: calc(100dvh - 1rem) !important;
+        border-radius: 12px !important;
+      }
+      .quote-page .quote-project-gallery-stage > img:not([data-quote-gallery-preview]) {
+        max-width: calc(100vw - 2rem) !important;
+        max-height: calc(100dvh - 1rem) !important;
+      }
+      .quote-page .quote-project-gallery-close { top: .55rem !important; right: .55rem !important; }
+      .quote-page .quote-project-gallery-control.previous { left: .55rem !important; }
+      .quote-page .quote-project-gallery-control.next { right: .55rem !important; }
+    }
   </style>
-  <script src="/js/main.js?v=2.0.5" defer></script>
-  <script src="/js/quote-page.js?v=1.2.15" defer></script>
+  <script src="/js/main.js?v=2.0.6" defer></script>
+  <script src="/js/quote-page.js?v=1.2.16" defer></script>
 </head>
 <body>
   <% const quoteProjectUrls = { 'tk-kt-nha-cap-4': '/thiet-ke-cong-trinh/thiet-ke-kien-truc/thiet-ke-kien-truc-nha-cap-4', 'tk-kt-nha-pho': '/thiet-ke-cong-trinh/thiet-ke-kien-truc/thiet-ke-kien-truc-nha-pho', 'tk-kt-biet-thu': '/thiet-ke-cong-trinh/thiet-ke-kien-truc/thiet-ke-kien-truc-biet-thu', 'tk-kt-villa': '/thiet-ke-cong-trinh/thiet-ke-kien-truc/thiet-ke-kien-truc-villa', 'tk-nt-chung-cu': '/thiet-ke-noi-that/thiet-ke-noi-that-chung-cu', 'tk-nt-nha-pho': '/thiet-ke-noi-that/thiet-ke-noi-that-nha-pho', 'tk-nt-biet-thu': '/thiet-ke-noi-that/thiet-ke-noi-that-biet-thu', 'tk-nt-van-phong': '/thiet-ke-noi-that/thiet-ke-noi-that-van-phong' }; const dynamicProjectUrl = quoteProjectUrls[selectedCategory?.code] || '/thiet-ke-cong-trinh'; %>
@@ -3005,6 +3114,7 @@
               <div class="quote-project-gallery-dialog">
                 <div class="quote-project-gallery-stage" data-quote-gallery-stage>
                   <img src="" alt="" data-quote-gallery-image draggable="false" />
+                  <img alt="" data-quote-gallery-preview aria-hidden="true" draggable="false" />
                   <button class="quote-project-gallery-close" type="button" data-quote-gallery-close aria-label="Đóng thư viện ảnh">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
                   </button>

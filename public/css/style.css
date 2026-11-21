@@ -13943,6 +13943,74 @@ main .section-v2-title,
 .quote-page .quote-featured-project-card--inline-gallery .project-gallery-thumbnails { margin: .75rem 1rem .15rem; }
 .quote-page .quote-featured-project-card--inline-gallery .project-gallery-thumbnail { min-width: 88px; }
 @keyframes quote-inline-gallery-fade { from { opacity: .45; } to { opacity: 1; } }
+
+/* Shared page-turn motion for every image viewer. The slight perspective and
+   eased overshoot make a swipe feel like a real page turn without being
+   distracting or slowing down the gallery. */
+@keyframes image-page-turn-next {
+  0% { opacity: .35; transform: translate3d(7%, 0, 0) scale(.985) rotateY(-2deg); filter: blur(1px); }
+  62% { opacity: 1; transform: translate3d(-.8%, 0, 0) scale(1.002) rotateY(.25deg); filter: blur(0); }
+  100% { opacity: 1; transform: translate3d(0, 0, 0) scale(1) rotateY(0); filter: none; }
+}
+
+@keyframes image-page-turn-previous {
+  0% { opacity: .35; transform: translate3d(-7%, 0, 0) scale(.985) rotateY(2deg); filter: blur(1px); }
+  62% { opacity: 1; transform: translate3d(.8%, 0, 0) scale(1.002) rotateY(-.25deg); filter: blur(0); }
+  100% { opacity: 1; transform: translate3d(0, 0, 0) scale(1) rotateY(0); filter: none; }
+}
+
+.project-gallery-lightbox-stage,
+.quote-page .quote-project-gallery-stage {
+  perspective: 1200px;
+}
+
+.project-gallery-lightbox-stage > [data-gallery-lightbox-preview],
+.project-gallery-lightbox-stage > [data-project-grid-lightbox-preview],
+.quote-page .quote-project-gallery-stage > [data-quote-gallery-preview] {
+  display: none !important;
+}
+
+.project-gallery-lightbox-stage > .is-page-turn-next,
+.quote-page .quote-project-gallery-stage > .is-page-turn-next {
+  animation: image-page-turn-next .48s cubic-bezier(.22, .61, .36, 1) both;
+  transform-origin: 50% 50%;
+  will-change: transform, opacity, filter;
+  backface-visibility: hidden;
+}
+
+.project-gallery-lightbox-stage > .is-page-turn-previous,
+.quote-page .quote-project-gallery-stage > .is-page-turn-previous {
+  animation: image-page-turn-previous .48s cubic-bezier(.22, .61, .36, 1) both;
+  transform-origin: 50% 50%;
+  will-change: transform, opacity, filter;
+  backface-visibility: hidden;
+}
+
+.quote-page .quote-featured-project-card--inline-gallery .project-gallery-stage.is-inline-changing-next > img {
+  animation: image-page-turn-next .42s cubic-bezier(.22, .61, .36, 1);
+}
+
+.quote-page .quote-featured-project-card--inline-gallery .project-gallery-stage.is-inline-changing-previous > img {
+  animation: image-page-turn-previous .42s cubic-bezier(.22, .61, .36, 1);
+}
+
+.project-gallery-lightbox-stage.is-page-dragging > img,
+.quote-page .quote-project-gallery-stage.is-page-dragging > img {
+  animation: none !important;
+  transition: none !important;
+  cursor: grabbing;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .project-gallery-lightbox-stage > .is-page-turn-next,
+  .project-gallery-lightbox-stage > .is-page-turn-previous,
+  .quote-page .quote-project-gallery-stage > .is-page-turn-next,
+  .quote-page .quote-project-gallery-stage > .is-page-turn-previous,
+  .quote-page .quote-featured-project-card--inline-gallery .project-gallery-stage.is-inline-changing-next > img,
+  .quote-page .quote-featured-project-card--inline-gallery .project-gallery-stage.is-inline-changing-previous > img {
+    animation: none !important;
+  }
+}
 .quote-page .quote-project-gallery-modal[hidden] { display: none !important; }
 .quote-page .quote-project-gallery-modal { position: fixed !important; inset: 0 !important; z-index: 99999 !important; display: flex !important; align-items: center !important; justify-content: center !important; padding: clamp(0.5rem, 1vw, 0.85rem) !important; box-sizing: border-box !important; width: 100vw !important; height: 100vh !important; }
 .quote-page .quote-project-gallery-modal-backdrop { position: absolute !important; inset: 0 !important; background: rgba(0, 0, 0, 0.7) !important; backdrop-filter: blur(12px) !important; -webkit-backdrop-filter: blur(12px) !important; }

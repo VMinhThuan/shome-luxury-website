@@ -149,6 +149,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const current = modal.querySelector('[data-quote-gallery-current]');
     const total = modal.querySelector('[data-quote-gallery-total]');
     const stage = modal.querySelector('[data-quote-gallery-stage]');
+    const preview = modal.querySelector('[data-quote-gallery-preview]');
     enableHorizontalThumbnailDrag(thumbnails);
     let images = [];
     let activeIndex = 0;
@@ -183,7 +184,7 @@ document.addEventListener('DOMContentLoaded', () => {
       return promise;
     };
 
-    const show = async index => {
+    const show = async (index, direction = 0) => {
       const nextIndex = (index + images.length) % images.length;
       const requestToken = ++transitionToken;
       await preload(images[nextIndex]);
@@ -192,6 +193,15 @@ document.addEventListener('DOMContentLoaded', () => {
       activeIndex = nextIndex;
       image.src = images[activeIndex];
       image.alt = `${modal.dataset.projectTitle} - ảnh ${activeIndex + 1}`;
+      image.classList.remove('is-page-turn-next', 'is-page-turn-previous');
+      if (preview) {
+        preview.classList.remove('is-page-turn-next', 'is-page-turn-previous');
+        preview.style.visibility = 'hidden';
+      }
+      if (direction) {
+        void image.offsetWidth;
+        image.classList.add(direction > 0 ? 'is-page-turn-next' : 'is-page-turn-previous');
+      }
       current.textContent = String(activeIndex + 1).padStart(2, '0');
       total.textContent = String(images.length).padStart(2, '0');
       thumbnails.querySelectorAll('button').forEach((button, buttonIndex) => button.classList.toggle('is-active', buttonIndex === activeIndex));
@@ -237,8 +247,8 @@ document.addEventListener('DOMContentLoaded', () => {
       }
 
       if (event.target.closest('[data-quote-gallery-close]')) close();
-      if (event.target.closest('[data-quote-gallery-prev]')) show(activeIndex - 1);
-      if (event.target.closest('[data-quote-gallery-next]')) show(activeIndex + 1);
+      if (event.target.closest('[data-quote-gallery-prev]')) show(activeIndex - 1, -1);
+      if (event.target.closest('[data-quote-gallery-next]')) show(activeIndex + 1, 1);
     });
     document.addEventListener('keydown', event => {
       const inlineStage = event.target.closest?.('[data-quote-inline-stage]');
@@ -250,24 +260,48 @@ document.addEventListener('DOMContentLoaded', () => {
       }
       if (modal.hidden) return;
       if (event.key === 'Escape') close();
-      if (event.key === 'ArrowLeft') show(activeIndex - 1);
-      if (event.key === 'ArrowRight') show(activeIndex + 1);
+      if (event.key === 'ArrowLeft') show(activeIndex - 1, -1);
+      if (event.key === 'ArrowRight') show(activeIndex + 1, 1);
     });
     stage.addEventListener('pointerdown', event => { pointerStartX = event.clientX; });
+    stage.addEventListener('pointermove', event => {
+      if (pointerStartX === null) return;
+      const distance = event.clientX - pointerStartX;
+      if (Math.abs(distance) < 4) return;
+      event.preventDefault();
+      stage.classList.add('is-page-dragging');
+      image.style.transform = `translate3d(${distance}px, 0, 0)`;
+    }, { passive: false });
     stage.addEventListener('pointerup', event => {
       if (pointerStartX === null) return;
       const distance = event.clientX - pointerStartX; pointerStartX = null;
-      if (Math.abs(distance) > 40) show(activeIndex + (distance < 0 ? 1 : -1));
+      stage.classList.remove('is-page-dragging');
+      image.style.transition = 'transform .28s cubic-bezier(.22, .61, .36, 1)';
+      image.style.transform = '';
+      window.setTimeout(() => { image.style.transition = ''; }, 300);
+      if (Math.abs(distance) > 40) show(activeIndex + (distance < 0 ? 1 : -1), distance < 0 ? 1 : -1);
     });
     let touchStartX = null;
     stage.addEventListener('touchstart', event => {
       if (event.touches?.length) touchStartX = event.touches[0].clientX;
     }, { passive: true });
+    stage.addEventListener('touchmove', event => {
+      if (touchStartX === null || !event.touches?.length) return;
+      const distance = event.touches[0].clientX - touchStartX;
+      if (Math.abs(distance) < 4) return;
+      event.preventDefault();
+      stage.classList.add('is-page-dragging');
+      image.style.transform = `translate3d(${distance}px, 0, 0)`;
+    }, { passive: false });
     stage.addEventListener('touchend', event => {
       if (touchStartX === null || !event.changedTouches?.length) return;
       const diff = event.changedTouches[0].clientX - touchStartX;
       touchStartX = null;
-      if (Math.abs(diff) > 40) show(activeIndex + (diff < 0 ? 1 : -1));
+      stage.classList.remove('is-page-dragging');
+      image.style.transition = 'transform .28s cubic-bezier(.22, .61, .36, 1)';
+      image.style.transform = '';
+      window.setTimeout(() => { image.style.transition = ''; }, 300);
+      if (Math.abs(diff) > 40) show(activeIndex + (diff < 0 ? 1 : -1), diff < 0 ? 1 : -1);
     }, { passive: true });
   })();
 
@@ -327,7 +361,7 @@ document.addEventListener('DOMContentLoaded', () => {
         return promise;
       };
 
-      const show = async (index, animate = true) => {
+      const show = async (index, animate = true, direction = 0) => {
         const nextIndex = (index + images.length) % images.length;
         const requestToken = ++transitionToken;
         await preload(images[nextIndex]);
@@ -344,21 +378,23 @@ document.addEventListener('DOMContentLoaded', () => {
           thumbnail.setAttribute('aria-current', isActive ? 'true' : 'false');
         });
         if (animate) {
-          stage.classList.remove('is-inline-changing');
+          stage.classList.remove('is-inline-changing', 'is-inline-changing-next', 'is-inline-changing-previous');
           void image.offsetWidth;
-          stage.classList.add('is-inline-changing');
+          stage.classList.add(
+            direction > 0 ? 'is-inline-changing-next' : direction < 0 ? 'is-inline-changing-previous' : 'is-inline-changing'
+          );
         }
         thumbnails?.querySelector('[data-quote-inline-thumb].is-active')?.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
       };
 
-      gallery.querySelector('[data-quote-inline-prev]')?.addEventListener('click', () => show(activeIndex - 1));
-      gallery.querySelector('[data-quote-inline-next]')?.addEventListener('click', () => show(activeIndex + 1));
+      gallery.querySelector('[data-quote-inline-prev]')?.addEventListener('click', () => show(activeIndex - 1, true, -1));
+      gallery.querySelector('[data-quote-inline-next]')?.addEventListener('click', () => show(activeIndex + 1, true, 1));
       thumbnails?.querySelectorAll('[data-quote-inline-thumb]').forEach(thumbnail => {
         thumbnail.addEventListener('click', () => show(Number(thumbnail.dataset.index) || 0));
       });
       stage.addEventListener('keydown', event => {
-        if (event.key === 'ArrowLeft') { event.preventDefault(); show(activeIndex - 1); }
-        if (event.key === 'ArrowRight') { event.preventDefault(); show(activeIndex + 1); }
+        if (event.key === 'ArrowLeft') { event.preventDefault(); show(activeIndex - 1, true, -1); }
+        if (event.key === 'ArrowRight') { event.preventDefault(); show(activeIndex + 1, true, 1); }
       });
       stage.addEventListener('pointerdown', event => {
         if (!event.isPrimary || event.pointerType === 'touch' || event.target.closest('button')) return;
@@ -393,7 +429,7 @@ document.addEventListener('DOMContentLoaded', () => {
             suppressStageClick = false;
             delete stage.dataset.suppressClick;
           }, 0);
-          show(activeIndex + (distance < 0 ? 1 : -1));
+          show(activeIndex + (distance < 0 ? 1 : -1), true, distance < 0 ? 1 : -1);
         }
       };
       stage.addEventListener('pointerup', finishInlineDrag);
@@ -426,7 +462,7 @@ document.addEventListener('DOMContentLoaded', () => {
             suppressStageClick = false;
             delete stage.dataset.suppressClick;
           }, 0);
-          show(activeIndex + (distance < 0 ? 1 : -1));
+          show(activeIndex + (distance < 0 ? 1 : -1), true, distance < 0 ? 1 : -1);
         }
       }, { passive: true });
       stage.addEventListener('click', event => {
