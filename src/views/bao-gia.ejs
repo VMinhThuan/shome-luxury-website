@@ -2865,6 +2865,13 @@
       right: .85rem !important;
       bottom: .85rem !important;
     }
+    @media (min-width: 768px) {
+      /* Keep fixed desktop controls attached to the viewport, not the image
+         stage's 3D containing block. */
+      .quote-page .quote-project-gallery-stage {
+        perspective: none !important;
+      }
+    }
     @media (max-width: 767px) {
       .quote-page .quote-project-gallery-modal { padding: .5rem !important; }
       .quote-page .quote-project-gallery-stage {

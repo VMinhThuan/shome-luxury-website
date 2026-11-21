@@ -14496,28 +14496,37 @@ body.project-gallery-lightbox-open { overflow: hidden !important; }
   }
 }
 
-/* On the responsive desktop layout, keep detail-lightbox controls outside
-   the image. Their positions follow the image's actual viewport edges while
-   leaving the existing mobile layout untouched. */
+/* On the responsive desktop layout, keep detail-lightbox controls fixed
+   outside the image. Mobile keeps its existing in-stage controls below. */
 @media (min-width: 768px) {
+  /* The stage's 3D perspective would create a containing block for fixed
+     controls. Disable it on desktop so controls are truly viewport-fixed. */
+  .project-gallery-lightbox:not(.project-gallery-lightbox--grid) .project-gallery-lightbox-stage {
+    perspective: none !important;
+  }
+
   .project-gallery-lightbox:not(.project-gallery-lightbox--grid) :is(.project-gallery-lightbox-close, .project-gallery-lightbox-control) {
-    position: fixed;
+    position: fixed !important;
   }
 
   .project-gallery-lightbox:not(.project-gallery-lightbox--grid) .project-gallery-lightbox-control.previous {
-    left: max(1rem, calc(var(--project-gallery-image-left, 50vw) - 4.875rem));
-    right: auto;
+    top: 50% !important;
+    left: 1.25rem !important;
+    right: auto !important;
+    transform: translateY(-50%) !important;
   }
 
   .project-gallery-lightbox:not(.project-gallery-lightbox--grid) .project-gallery-lightbox-control.next {
-    left: min(calc(100vw - 4.875rem), calc(var(--project-gallery-image-right, 50vw) + 1rem));
-    right: auto;
+    top: 50% !important;
+    left: auto !important;
+    right: 1.25rem !important;
+    transform: translateY(-50%) !important;
   }
 
   .project-gallery-lightbox:not(.project-gallery-lightbox--grid) .project-gallery-lightbox-close {
-    top: max(1rem, var(--project-gallery-image-top, 1rem));
-    left: min(calc(100vw - 4.875rem), calc(var(--project-gallery-image-right, 50vw) + 1rem));
-    right: auto;
+    top: 1rem !important;
+    left: auto !important;
+    right: 1.25rem !important;
   }
 }
 @media (max-width: 767px) {
