@@ -6,6 +6,7 @@ const uploadController = require("../controllers/uploadController");
 const categoryController = require("../controllers/categoryController");
 const projectController = require("../controllers/projectController");
 const constructionVideoController = require('../controllers/constructionVideoController');
+const quoteVideoController = require('../controllers/quoteVideoController');
 const constructionGalleryController = require('../controllers/constructionGalleryController');
 const projectShowcaseController = require("../controllers/projectShowcaseController");
 const authController = require("../controllers/authController");
@@ -171,6 +172,9 @@ const contentAlias = module => (req, res, next) => {
 router.get('/api/construction-videos', constructionVideoController.getVideos.bind(constructionVideoController));
 router.get('/api/construction-galleries', constructionGalleryController.getPublic);
 router.get('/api/admin/construction-videos', authenticateAdmin, constructionVideoController.getAdminVideos.bind(constructionVideoController));
+router.get('/api/admin/quote-videos', authenticateAdmin, quoteVideoController.getAdminVideos.bind(quoteVideoController));
+router.put('/api/admin/quote-videos/:videoIndex', authenticateAdmin, quoteVideoController.updateVideo.bind(quoteVideoController));
+router.delete('/api/admin/quote-videos/:videoIndex', authenticateAdmin, quoteVideoController.resetVideo.bind(quoteVideoController));
 router.get('/api/admin/construction-galleries', authenticateAdmin, constructionGalleryController.getAdmin);
 router.post('/api/admin/construction-galleries/:pageKey/:sectionKey', authenticateAdmin, constructionGalleryController.uploadMiddleware, constructionGalleryController.uploadImages);
 router.get('/api/admin/construction-galleries/:pageKey/:sectionKey/:imageId/download', authenticateAdmin, constructionGalleryController.downloadImage);

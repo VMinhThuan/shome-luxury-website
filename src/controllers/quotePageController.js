@@ -3,7 +3,7 @@ const quotePageDefaults = require('../data/quotePageDefaults');
 const categoryService = require('../services/categoryService');
 const projectService = require('../services/projectService');
 const navigation = require('../data/navigationData');
-const completedVideosData = require('../data/completedVideosData');
+const quoteVideoService = require('../services/quoteVideoService');
 const { getRequestToken, verifyAdminToken } = require('../middleware/auth');
 const { getPageImages } = require('../services/imageService');
 const { PROJECT_CATEGORY_PATHS } = require('../data/publicRoutes');
@@ -191,6 +191,7 @@ class QuotePageController {
       // Image overrides are keyed by the stable category code. The public URL
       // may use the human-readable hierarchical slug instead.
       const quoteImages = await getPageImages('quote', selectedCategory?.code || rawCategory);
+      const customizedCompletedVideosData = await quoteVideoService.getPublicVideosData(rawCategory);
       return res.render('bao-gia', {
         title: `${selectedCategory?.name ? `Báo giá ${selectedCategory.name.toLowerCase()}` : 'Báo giá thiết kế & thi công'} | SHOME LUXURY`,
         navigation,
@@ -202,7 +203,7 @@ class QuotePageController {
         quoteScript,
         featuredCategoryName: dynamicCategoryName,
         quotePricingTitle,
-        completedVideosData,
+        completedVideosData: customizedCompletedVideosData,
         quoteImages
       });
     } catch (error) { next(error); }

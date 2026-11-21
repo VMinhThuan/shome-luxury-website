@@ -1,7 +1,11 @@
 (() => {
   const $ = (s, root = document) => root.querySelector(s);
   const request = async (url, options = {}) => {
-    const response = await fetch(url, { credentials: 'same-origin', ...options });
+    const headers = {
+      ...(options.body ? { 'Content-Type': 'application/json' } : {}),
+      ...(options.headers || {})
+    };
+    const response = await fetch(url, { credentials: 'same-origin', ...options, headers });
     const body = await response.json();
     if (!response.ok || body.success === false) {
       const error = new Error(body.message || 'Có lỗi xảy ra.');
@@ -18,6 +22,9 @@
   const liveLink = $('[data-live-link]');
   const subpagePicker = $('[data-subpage-picker]');
   const subpageSelect = $('[data-subpage-select]');
+  const quoteVideoManager = $('[data-quote-video-manager]');
+  const quoteVideoScope = $('[data-quote-video-scope]');
+  const quoteVideoList = $('[data-quote-video-list]');
   const contentManager = () => window.shomeContentManagers?.['admin-image-content'];
   const constructionGalleryManager = () => window.shomeConstructionGalleries;
   window.addEventListener('shome-content-manager-ready', event => {
@@ -49,12 +56,99 @@
   let pagesList = [];
   let subpageList = [];
   let activePageKey = 'all';
+  let quoteVideoSyncToken = 0;
 
   const setStatus = (message, bad = false) => {
     if (!status) return;
     status.textContent = message || '';
     status.classList.toggle('error', bad);
   };
+
+  const isQuoteVideoPage = pageKey => pageKey === 'quote'
+    || String(pageKey || '').startsWith('subpage:quote:');
+
+  function renderQuoteVideoManager(data, pageKey) {
+    if (!quoteVideoList) return;
+    quoteVideoList.replaceChildren();
+    if (quoteVideoScope) quoteVideoScope.textContent = `${data.categoryName} · URL hiện tại của 6 video đang hiển thị trên trang này`;
+    (data.videos || []).forEach(video => {
+      const card = create('article', 'admin-quote-video-card');
+      const heading = create('div', 'admin-quote-video-card-heading');
+      const title = create('h3', '', `Video ${video.index + 1}${video.episode ? ` · Tập ${video.episode}` : ''}`);
+      const state = create('span', video.isCustomized ? 'is-customized' : '', video.isCustomized ? 'Đã thay link riêng' : 'Đang dùng link mặc định');
+      heading.append(title, state);
+      const description = create('p', 'admin-quote-video-title', video.title || 'Video thước phim thực tế');
+      const label = create('label', 'admin-quote-video-field', 'URL YouTube hiện tại');
+      const input = create('input');
+      input.type = 'url';
+      input.value = video.url || '';
+      input.placeholder = 'https://www.youtube.com/watch?v=...';
+      input.autocomplete = 'off';
+      input.spellcheck = false;
+      label.append(input);
+      const actions = create('div', 'admin-quote-video-actions');
+      const save = create('button', 'admin-quote-video-save', 'Lưu link mới');
+      save.type = 'button';
+      const reset = create('button', 'admin-quote-video-reset', 'Khôi phục mặc định');
+      reset.type = 'button';
+      reset.disabled = !video.isCustomized;
+      actions.append(save, reset);
+      const defaultNote = create('small', 'admin-quote-video-default', `Link mặc định: ${video.defaultUrl || ''}`);
+      card.append(heading, description, label, actions, defaultNote);
+      quoteVideoList.append(card);
+
+      save.onclick = async () => {
+        save.disabled = true;
+        reset.disabled = true;
+        try {
+          const result = await request(`/api/admin/quote-videos/${video.index}`, {
+            method: 'PUT',
+            body: JSON.stringify({ pageKey, url: input.value.trim() })
+          });
+          input.value = result.data?.url || input.value;
+          setStatus(`Đã cập nhật URL video ${video.index + 1} cho menu báo giá.`);
+          await syncQuoteVideoManager(pageKey);
+        } catch (error) {
+          setStatus(error.message, true);
+          save.disabled = false;
+          reset.disabled = !video.isCustomized;
+        }
+      };
+
+      reset.onclick = async () => {
+        if (!confirm('Khôi phục URL mặc định cho video này?')) return;
+        save.disabled = true;
+        reset.disabled = true;
+        try {
+          await request(`/api/admin/quote-videos/${video.index}?page=${encodeURIComponent(pageKey)}`, { method: 'DELETE' });
+          setStatus(`Đã khôi phục URL mặc định cho video ${video.index + 1}.`);
+          await syncQuoteVideoManager(pageKey);
+        } catch (error) {
+          setStatus(error.message, true);
+          save.disabled = false;
+          reset.disabled = false;
+        }
+      };
+    });
+  }
+
+  async function syncQuoteVideoManager(pageKey) {
+    const token = ++quoteVideoSyncToken;
+    if (!quoteVideoManager) return;
+    const visible = isQuoteVideoPage(pageKey);
+    quoteVideoManager.hidden = !visible;
+    if (!visible) return;
+    if (quoteVideoScope) quoteVideoScope.textContent = 'Đang tải link video hiện tại...';
+    if (quoteVideoList) quoteVideoList.replaceChildren(create('p', 'admin-quote-video-loading', 'Đang tải danh sách video...'));
+    try {
+      const result = await request(`/api/admin/quote-videos?page=${encodeURIComponent(pageKey)}`);
+      if (token !== quoteVideoSyncToken || activePageKey !== pageKey) return;
+      renderQuoteVideoManager(result.data || {}, pageKey);
+    } catch (error) {
+      if (token !== quoteVideoSyncToken) return;
+      if (quoteVideoList) quoteVideoList.replaceChildren(create('p', 'admin-quote-video-error', error.message));
+    }
+  }
 
   const create = (tag, className, text) => {
     const node = document.createElement(tag);
@@ -179,6 +273,7 @@
     updateAdminImageNav(pageKey);
     renderSlots();
     syncContentManager(pageKey);
+    syncQuoteVideoManager(pageKey);
   }
 
   function updateAdminImageNav(pageKey) {
@@ -282,6 +377,7 @@
       updateAdminImageNav(pageKey);
       renderSlots();
       syncContentManager(pageKey);
+      syncQuoteVideoManager(pageKey);
       setStatus('');
 
       document.getElementById('mobileDrawer')?.classList.remove('active');
@@ -685,6 +781,7 @@
     updateAdminImageNav(activePageKey);
     renderSlots();
     syncContentManager(activePageKey);
+    syncQuoteVideoManager(activePageKey);
 
     const requestedContent = urlParams.get('content');
     if (['careers', 'articles'].includes(requestedContent)) {
@@ -710,6 +807,7 @@
           updateLiveLink(pageKey);
           renderSlots();
           syncContentManager(pageKey);
+          syncQuoteVideoManager(pageKey);
           setStatus('');
         } catch (error) {
           setStatus(error.message || previousLabel, true);

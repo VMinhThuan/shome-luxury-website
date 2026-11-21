@@ -1363,6 +1363,151 @@
   align-items: stretch;
 }
 
+.admin-quote-video-manager {
+  margin: 1.25rem 0 1.5rem;
+  padding: 1.25rem;
+  border: 1px solid #e2d3bd;
+  border-radius: 16px;
+  background: #fffaf3;
+  box-shadow: 0 8px 24px rgba(75, 48, 20, .07);
+}
+
+.admin-quote-video-manager-heading h2 {
+  margin: .15rem 0 .35rem;
+  color: #2a2119;
+  font-size: 1.35rem;
+}
+
+.admin-quote-video-manager-heading p:last-child {
+  margin: 0;
+  color: #76695a;
+  font-size: .85rem;
+}
+
+.admin-quote-video-list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: .9rem;
+  margin-top: 1rem;
+}
+
+.admin-quote-video-card {
+  min-width: 0;
+  padding: 1rem;
+  border: 1px solid #eadfce;
+  border-radius: 12px;
+  background: #fff;
+}
+
+.admin-quote-video-card-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: .75rem;
+}
+
+.admin-quote-video-card-heading h3 {
+  margin: 0;
+  color: #32261b;
+  font-size: .95rem;
+}
+
+.admin-quote-video-card-heading span {
+  color: #877866;
+  font-size: .7rem;
+  white-space: nowrap;
+}
+
+.admin-quote-video-card-heading span.is-customized {
+  color: #9a671e;
+  font-weight: 700;
+}
+
+.admin-quote-video-title {
+  min-height: 2.5em;
+  margin: .35rem 0 .7rem;
+  color: #75695d;
+  font-size: .78rem;
+  line-height: 1.35;
+}
+
+.admin-quote-video-field {
+  display: grid;
+  gap: .35rem;
+  color: #57483a;
+  font-size: .75rem;
+  font-weight: 700;
+}
+
+.admin-quote-video-field input {
+  width: 100%;
+  min-width: 0;
+  padding: .62rem .7rem;
+  border: 1px solid #d9c9b5;
+  border-radius: 8px;
+  color: #30261e;
+  background: #fff;
+  font: inherit;
+  font-weight: 400;
+}
+
+.admin-quote-video-field input:focus {
+  outline: 2px solid rgba(202, 162, 93, .35);
+  border-color: #caa25d;
+}
+
+.admin-quote-video-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .5rem;
+  margin-top: .65rem;
+}
+
+.admin-quote-video-actions button {
+  min-height: 34px;
+  padding: .45rem .7rem;
+  border: 1px solid #caa25d;
+  border-radius: 8px;
+  color: #fff;
+  background: #1b1713;
+  cursor: pointer;
+  font: inherit;
+  font-size: .75rem;
+  font-weight: 700;
+}
+
+.admin-quote-video-actions button:disabled {
+  cursor: not-allowed;
+  opacity: .45;
+}
+
+.admin-quote-video-actions .admin-quote-video-reset {
+  color: #655548;
+  background: #fffaf3;
+}
+
+.admin-quote-video-default {
+  display: block;
+  margin-top: .55rem;
+  color: #998b7b;
+  font-size: .68rem;
+  line-height: 1.35;
+  overflow-wrap: anywhere;
+}
+
+.admin-quote-video-loading,
+.admin-quote-video-error {
+  margin: .5rem 0 0;
+  color: #76695a;
+}
+
+.admin-quote-video-error { color: #a43e2b; }
+
+@media (max-width: 720px) {
+  .admin-quote-video-list { grid-template-columns: 1fr; }
+  .admin-quote-video-manager { padding: .9rem; }
+}
+
 .image-pair.is-responsive-banner > .image-version {
   display: flex;
   min-width: 0;

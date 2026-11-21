@@ -1083,10 +1083,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
       thumbnailStrip.addEventListener('pointerdown', event => {
         if (!event.isPrimary || (event.button !== undefined && event.button !== 0)) return;
+        const pressedThumbnail = event.target.closest?.('[data-gallery-thumb]');
         pointerId = event.pointerId;
         startX = event.clientX;
         startScrollLeft = thumbnailStrip.scrollLeft;
         moved = false;
+        thumbnailStrip.dataset.pointerIndex = pressedThumbnail?.dataset.index || '';
+        thumbnailStrip.dataset.pointerMoved = 'false';
         thumbnailStrip.setPointerCapture?.(pointerId);
       });
       thumbnailStrip.addEventListener('pointermove', event => {
@@ -1101,6 +1104,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const finish = event => {
         if (event.pointerId !== pointerId) return;
         if (moved) suppressClick = true;
+        thumbnailStrip.dataset.pointerMoved = moved ? 'true' : 'false';
         thumbnailStrip.classList.remove('is-dragging');
         thumbnailStrip.releasePointerCapture?.(pointerId);
         pointerId = null;
@@ -1776,6 +1780,12 @@ document.addEventListener('DOMContentLoaded', () => {
       gallery.addEventListener('click', event => {
         const thumbnail = event.target.closest('[data-gallery-thumb]');
         if (thumbnail) {
+          if (suppressGalleryClick) {
+            event.preventDefault();
+            event.stopPropagation();
+            suppressGalleryClick = false;
+            return;
+          }
           event.preventDefault();
           event.stopPropagation();
           suppressGalleryClick = false;
@@ -1800,6 +1810,24 @@ document.addEventListener('DOMContentLoaded', () => {
           return;
         }
         if (event.target.closest('[data-gallery-open]')) openGalleryLightbox();
+      });
+      gallery.addEventListener('pointerup', event => {
+        const thumbnailStrip = gallery.querySelector('[data-gallery-thumbnails]');
+        const directThumbnail = event.target.closest?.('[data-gallery-thumb]');
+        const thumbnailIndex = directThumbnail?.dataset.index || thumbnailStrip?.dataset.pointerIndex;
+        if (thumbnailIndex === undefined || thumbnailIndex === '') return;
+        const wasThumbnailDrag = thumbnailStrip?.dataset.pointerMoved === 'true';
+        if (thumbnailStrip) {
+          thumbnailStrip.dataset.pointerIndex = '';
+          thumbnailStrip.dataset.pointerMoved = 'false';
+        }
+        if (wasThumbnailDrag) return;
+        event.preventDefault();
+        event.stopPropagation();
+        suppressGalleryClick = true;
+        window.setTimeout(() => { suppressGalleryClick = false; }, 0);
+        isGallerySliding = false;
+        selectGalleryImage(Number(thumbnailIndex), true);
       });
       gallery.addEventListener('keydown', event => {
         if (event.key === 'ArrowLeft') { event.preventDefault(); selectGalleryImage(activeGalleryIndex - 1, false, -1); }
