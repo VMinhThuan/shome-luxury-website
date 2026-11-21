@@ -18117,12 +18117,12 @@ body.showcase-page-body .completed-videos-section {
 @media (min-width: 768px) {
   body.showcase-page-body {
     /* Match the vertical footprint of the project-detail summary banner. */
-    --showcase-compact-gap: 30px;
+    --showcase-compact-gap: 15px;
   }
 
   body.showcase-page-body .project-showcase-hero,
   body.showcase-page-body .completed-projects-heading-band {
-    min-height: 202px;
+    min-height: 0;
     box-sizing: border-box;
     display: grid;
     place-items: center;
