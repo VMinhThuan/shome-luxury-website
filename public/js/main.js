@@ -883,12 +883,14 @@ document.addEventListener('DOMContentLoaded', () => {
     let galleryImages = Array.from(gallery?.querySelectorAll('[data-gallery-thumb] img') || []).map(image => image.currentSrc || image.src);
     let activeGalleryIndex = 0;
     let dragStartX = 0;
+    let dragStartY = 0;
     let dragOffsetX = 0;
     let dragPointerId = null;
     let dragStartTime = 0;
     let dragLastX = 0;
     let dragLastTime = 0;
     let dragVelocityX = 0;
+    let dragAxisLocked = false;
     let dragPreviewIndex = null;
     let dragFrame = null;
     let pendingDragOffsetX = 0;
@@ -940,6 +942,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let lightboxWheelTargetScale = 1;
     const galleryImagePreloads = new Map();
     let galleryTransitionToken = 0;
+    let gallerySpringFrame = null;
     let lightboxImageTransitionToken = 0;
 
     function updateLightboxPanLimits() {
@@ -1105,6 +1108,7 @@ document.addEventListener('DOMContentLoaded', () => {
       };
       thumbnailStrip.addEventListener('pointerup', finish);
       thumbnailStrip.addEventListener('pointercancel', finish);
+      thumbnailStrip.addEventListener('dragstart', event => event.preventDefault());
       thumbnailStrip.addEventListener('click', event => {
         if (!suppressClick) return;
         event.preventDefault();
@@ -1422,20 +1426,26 @@ document.addEventListener('DOMContentLoaded', () => {
       updateDetailGalleryControlPosition();
     }
 
-    const setGalleryImageTransform = (image, offset = '0%', lift = 0) => {
+    const setGalleryImageTransform = (image, offset = '0%', lift = 0, depth = 0, blur = 0, opacity = 1) => {
       if (!image) return;
       const isMobileGallery = window.matchMedia?.('(max-width: 767px)').matches;
       const liftProgress = Math.max(0, Math.min(1, lift));
+      const depthProgress = Math.max(0, Math.min(1, depth));
       const liftY = `${Math.round(-8 * liftProgress)}px`;
-      const liftScale = (1 + (0.022 * liftProgress)).toFixed(3);
+      const liftScale = (1 + (0.022 * liftProgress) + (0.06 * depthProgress)).toFixed(3);
+      const motionBlur = Math.max(0, Math.min(1.8, blur));
+      image.style.setProperty('--gallery-motion-blur', `${motionBlur.toFixed(2)}px`);
+      image.style.opacity = String(Math.max(0, Math.min(1, opacity)));
       if (isMobileGallery) {
-        const mobileOffset = offset === '0%' ? '0' : offset;
+        const mobileOffset = offset === '0%' ? '0' : typeof offset === 'number' ? `${offset}px` : offset;
         image.style.setProperty('transform', `translate3d(${mobileOffset}, ${liftY}, 0) scale3d(${liftScale}, ${liftScale}, 1)`, 'important');
         return;
       }
       // Keep every image centered from its own midpoint so a portrait/landscape
       // ratio change cannot expose the hidden preview beside the active image.
-      const centeredTransform = offset === '0%'
+      const centeredTransform = typeof offset === 'number'
+        ? `calc(-50% + ${offset}px)`
+        : offset === '0%'
         ? '-50%'
         : offset === '100%'
           ? '100%'
@@ -1444,6 +1454,57 @@ document.addEventListener('DOMContentLoaded', () => {
             : `calc(-50% + ${offset})`;
       image.style.setProperty('transform', `translate3d(${centeredTransform}, ${liftY}, 0) scale3d(${liftScale}, ${liftScale}, 1)`, 'important');
     };
+
+    function cancelGallerySpring() {
+      if (gallerySpringFrame !== null) window.cancelAnimationFrame(gallerySpringFrame);
+      gallerySpringFrame = null;
+    }
+
+    function animateGallerySpring({ fromHero, fromPreview, toHero, toPreview, initialVelocity = 0, onFrame, onComplete }) {
+      cancelGallerySpring();
+      if (window.matchMedia?.('(prefers-reduced-motion: reduce)').matches) {
+        onFrame(toHero, toPreview, 0);
+        onComplete();
+        return;
+      }
+
+      let heroX = fromHero;
+      let previewX = fromPreview;
+      let heroVelocity = initialVelocity;
+      let previewVelocity = initialVelocity * 0.86;
+      let lastTime = performance.now();
+      const springStartTime = lastTime;
+      const stiffness = 0.24;
+      const damping = 0.65;
+      const finish = () => {
+        gallerySpringFrame = null;
+        onFrame(toHero, toPreview, 0);
+        onComplete();
+      };
+      const frame = now => {
+        const deltaFrames = Math.min(2, Math.max(0.5, (now - lastTime) / 16.667));
+        lastTime = now;
+
+        heroVelocity += (toHero - heroX) * stiffness * deltaFrames;
+        previewVelocity += (toPreview - previewX) * stiffness * deltaFrames;
+        heroVelocity *= Math.pow(damping, deltaFrames);
+        previewVelocity *= Math.pow(damping, deltaFrames);
+        heroX += heroVelocity * deltaFrames;
+        previewX += previewVelocity * deltaFrames;
+
+        onFrame(heroX, previewX, Math.max(Math.abs(heroVelocity), Math.abs(previewVelocity)) / 8);
+        const settled = Math.abs(toHero - heroX) < 0.45
+          && Math.abs(toPreview - previewX) < 0.45
+          && Math.abs(heroVelocity) < 0.45
+          && Math.abs(previewVelocity) < 0.45;
+        if (settled || now - springStartTime > 700) {
+          finish();
+          return;
+        }
+        gallerySpringFrame = window.requestAnimationFrame(frame);
+      };
+      gallerySpringFrame = window.requestAnimationFrame(frame);
+    }
 
     const getPointerTime = event => (
       typeof event.timeStamp === 'number' && event.timeStamp > 0
@@ -1472,8 +1533,17 @@ document.addEventListener('DOMContentLoaded', () => {
       const offset = pendingDragOffsetX;
       const stageWidth = stage.clientWidth;
       const previewStart = offset < 0 ? stageWidth : -stageWidth;
-      setGalleryImageTransform(heroImage, `${offset}px`, 1);
-      setGalleryImageTransform(previewImage, `${previewStart + offset}px`);
+      const revealProgress = Math.min(1, Math.abs(offset) / Math.max(1, stageWidth));
+      const motionBlur = Math.min(1.8, Math.abs(dragVelocityX) * 2.2);
+      setGalleryImageTransform(heroImage, offset, 1, 0, motionBlur, 1 - (revealProgress * 0.015));
+      setGalleryImageTransform(
+        previewImage,
+        previewStart + (offset * 0.86),
+        0,
+        1 - revealProgress,
+        motionBlur * 0.45,
+        0.96 + (revealProgress * 0.04),
+      );
     }
 
     function queueGalleryDragFrame() {
@@ -1494,9 +1564,10 @@ document.addEventListener('DOMContentLoaded', () => {
       const heroImage = getHeroImage();
       const previewImage = getPreviewImage();
       if (!stage || !heroImage || !previewImage) return;
-      stage.classList.remove('is-dragging', 'is-sliding', 'is-lifted');
-      setGalleryImageTransform(heroImage, '0%');
-      setGalleryImageTransform(previewImage, '100%');
+      cancelGallerySpring();
+      stage.classList.remove('is-dragging', 'is-sliding', 'is-lifted', 'is-springing');
+      setGalleryImageTransform(heroImage, '0%', 0, 0, 0, 1);
+      setGalleryImageTransform(previewImage, '100%', 0, 1, 0, 1);
       previewImage.style.visibility = 'hidden';
       dragPreviewIndex = null;
       if (dragFrame !== null) window.cancelAnimationFrame(dragFrame);
@@ -1520,18 +1591,13 @@ document.addEventListener('DOMContentLoaded', () => {
         const stageWidth = stage.clientWidth;
         updateDragPreview(normalizedIndex);
         previewImage.style.visibility = 'visible';
-        stage.classList.add('is-sliding', 'is-lifted');
-        setGalleryImageTransform(heroImage, '0%', 1);
-        setGalleryImageTransform(previewImage, `${direction > 0 ? stageWidth : -stageWidth}px`);
-        void heroImage.offsetWidth;
+        const startPreviewX = direction > 0 ? stageWidth : -stageWidth;
+        const targetHeroX = direction > 0 ? -stageWidth : stageWidth;
+        stage.classList.add('is-sliding', 'is-lifted', 'is-springing');
+        setGalleryImageTransform(heroImage, 0, 1, 0, 0, 1);
+        setGalleryImageTransform(previewImage, startPreviewX, 0, 1, 0, 0.96);
 
-        let slideFinished = false;
-        let slideFallbackTimer = null;
         const finish = async () => {
-          if (slideFinished) return;
-          slideFinished = true;
-          previewImage.removeEventListener('transitionend', onTransitionEnd);
-          if (slideFallbackTimer !== null) window.clearTimeout(slideFallbackTimer);
           if (slideToken !== galleryTransitionToken) {
             resetSlidePosition();
             isGallerySliding = false;
@@ -1546,18 +1612,18 @@ document.addEventListener('DOMContentLoaded', () => {
           preloadGalleryImage(galleryImages[(activeGalleryIndex + 1) % galleryImages.length]);
           preloadGalleryImage(galleryImages[(activeGalleryIndex - 1 + galleryImages.length) % galleryImages.length]);
         };
-        const onTransitionEnd = event => {
-          if (event.target === previewImage && event.propertyName === 'transform') finish();
-        };
-
-        // The old image starts slightly lifted, then hands the stage to the
-        // image underneath. Both layers animate on the same compositor frame.
-        window.requestAnimationFrame(() => {
-          setGalleryImageTransform(heroImage, `${direction > 0 ? -100 : 100}%`);
-          setGalleryImageTransform(previewImage, '0%');
+        animateGallerySpring({
+          fromHero: 0,
+          fromPreview: startPreviewX,
+          toHero: targetHeroX,
+          toPreview: 0,
+          onFrame: (heroX, previewX, blur) => {
+            const revealProgress = Math.min(1, Math.abs(previewX - startPreviewX) / Math.max(1, stageWidth));
+            setGalleryImageTransform(heroImage, heroX, 1 - revealProgress, 0, blur, 1 - (revealProgress * 0.015));
+            setGalleryImageTransform(previewImage, previewX, 0, 1 - revealProgress, blur * 0.45, 0.96 + (revealProgress * 0.04));
+          },
+          onComplete: finish,
         });
-        previewImage.addEventListener('transitionend', onTransitionEnd);
-        slideFallbackTimer = window.setTimeout(finish, 520);
       });
     }
 
@@ -1612,6 +1678,7 @@ document.addEventListener('DOMContentLoaded', () => {
         image.src = src;
         image.alt = `${projectTitle} - thumbnail ${index + 1}`;
         image.loading = 'lazy';
+        image.draggable = false;
         button.append(image);
         thumbnails.append(button);
       });
@@ -1783,15 +1850,16 @@ document.addEventListener('DOMContentLoaded', () => {
         stage.addEventListener('pointerdown', event => {
           if (isGallerySliding || galleryImages.length < 2 || !event.isPrimary || (event.button !== undefined && event.button !== 0)) return;
           if (event.target.closest('button')) return;
-          event.preventDefault();
           dragPointerId = event.pointerId;
           dragStartX = event.clientX;
+          dragStartY = event.clientY;
           dragOffsetX = 0;
           pendingDragOffsetX = 0;
           dragStartTime = getPointerTime(event);
           dragLastX = event.clientX;
           dragLastTime = dragStartTime;
           dragVelocityX = 0;
+          dragAxisLocked = false;
           dragPreviewIndex = null;
           suppressGalleryClick = false;
           stage.setPointerCapture?.(dragPointerId);
@@ -1801,6 +1869,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
         stage.addEventListener('pointermove', event => {
           if (event.pointerId !== dragPointerId) return;
+          const deltaX = event.clientX - dragStartX;
+          const deltaY = event.clientY - dragStartY;
+          if (!dragAxisLocked) {
+            if (Math.max(Math.abs(deltaX), Math.abs(deltaY)) < 4) return;
+            if (Math.abs(deltaY) > Math.abs(deltaX)) {
+              if (stage.hasPointerCapture?.(dragPointerId)) stage.releasePointerCapture(dragPointerId);
+              dragPointerId = null;
+              stage.classList.remove('is-dragging', 'is-lifted');
+              return;
+            }
+            dragAxisLocked = true;
+          }
           event.preventDefault();
           const now = getPointerTime(event);
           const elapsed = now - dragLastTime;
@@ -1808,7 +1888,7 @@ document.addEventListener('DOMContentLoaded', () => {
           dragLastX = event.clientX;
           dragLastTime = now;
           const stageWidth = stage.clientWidth;
-          dragOffsetX = Math.max(-stageWidth * 0.85, Math.min(stageWidth * 0.85, event.clientX - dragStartX));
+          dragOffsetX = Math.max(-stageWidth * 0.85, Math.min(stageWidth * 0.85, deltaX));
           if (Math.abs(dragOffsetX) < 3) return;
           suppressGalleryClick = true;
           const previewIndex = getDragIndex(dragOffsetX);
@@ -1843,25 +1923,37 @@ document.addEventListener('DOMContentLoaded', () => {
             || (!cancelled && Math.abs(velocity) > 0.5 && Math.abs(offset) > 12);
 
           stage.classList.remove('is-dragging');
-          stage.classList.add('is-sliding');
-          stage.classList.remove('is-lifted');
+          stage.classList.add('is-sliding', 'is-springing');
+          stage.classList.add('is-lifted');
           isGallerySliding = true;
           const slideToken = ++galleryTransitionToken;
           if (shouldChange) updateDragPreview(targetIndex);
-          window.requestAnimationFrame(() => {
-            setGalleryImageTransform(heroImage, `${shouldChange ? -direction * 100 : 0}%`);
-            setGalleryImageTransform(dragPreview, `${shouldChange ? 0 : direction * 100}%`);
-          });
-          let slideFinished = false;
-          let slideFallbackTimer = null;
-          const finishDragSlide = transitionEvent => {
-            if (transitionEvent && (transitionEvent.target !== dragPreview || transitionEvent.propertyName !== 'transform')) return;
-            if (slideFinished) return;
-            slideFinished = true;
-            dragPreview.removeEventListener('transitionend', finishDragSlide);
-            if (slideFallbackTimer !== null) window.clearTimeout(slideFallbackTimer);
+          const currentPreviewX = (offset < 0 ? stageWidth : -stageWidth) + (offset * 0.86);
+          const targetHeroX = shouldChange ? -direction * stageWidth : 0;
+          const targetPreviewX = shouldChange ? 0 : (offset < 0 ? stageWidth : -stageWidth);
+          const initialVelocity = velocity * 16.667;
 
-            const finish = async () => {
+          animateGallerySpring({
+            fromHero: offset,
+            fromPreview: currentPreviewX,
+            toHero: targetHeroX,
+            toPreview: targetPreviewX,
+            initialVelocity,
+            onFrame: (heroX, previewX, blur) => {
+              const revealProgress = shouldChange
+                ? Math.min(1, Math.abs(previewX - (offset < 0 ? stageWidth : -stageWidth)) / Math.max(1, stageWidth))
+                : 0;
+              setGalleryImageTransform(heroImage, heroX, 1 - revealProgress, 0, blur, 1 - (revealProgress * 0.015));
+              setGalleryImageTransform(
+                dragPreview,
+                previewX,
+                0,
+                shouldChange ? 1 - revealProgress : 1,
+                blur * 0.45,
+                shouldChange ? 0.96 + (revealProgress * 0.04) : 0.96,
+              );
+            },
+            onComplete: async () => {
               if (slideToken !== galleryTransitionToken) {
                 resetSlidePosition();
                 isGallerySliding = false;
@@ -1877,25 +1969,12 @@ document.addEventListener('DOMContentLoaded', () => {
               }
               resetSlidePosition();
               isGallerySliding = false;
-            };
-
-            if (!shouldChange) {
-              finish();
-              return;
-            }
-
-            // The preview is already visible after the slide animation. Wait
-            // until the same URL is decoded by the real image layer before
-            // moving that layer back to the center. Without this handoff,
-            // mobile browsers can paint the previous src for one frame.
-            preloadGalleryImage(galleryImages[targetIndex]).then(() => {
-              if (slideFinished) finish();
-            });
-          };
-          dragPreview.addEventListener('transitionend', finishDragSlide);
-          // Keep the gallery recoverable when a browser skips transitionend
-          // during a touch gesture or when reduced-motion styles are applied.
-          slideFallbackTimer = window.setTimeout(() => finishDragSlide(), 450);
+              if (shouldChange) {
+                preloadGalleryImage(galleryImages[(activeGalleryIndex + 1) % galleryImages.length]);
+                preloadGalleryImage(galleryImages[(activeGalleryIndex - 1 + galleryImages.length) % galleryImages.length]);
+              }
+            },
+          });
         };
 
         stage.addEventListener('pointerup', finishDrag);

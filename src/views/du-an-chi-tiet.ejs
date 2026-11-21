@@ -9,8 +9,8 @@
   <%- include("partials/site-favicon") %>
 
   <!-- CSS Stylesheet -->
-  <link rel="stylesheet" href="/css/style.css?v=6.8.174" />
-  <script src="/js/main.js?v=2.0.22" defer></script>
+  <link rel="stylesheet" href="/css/style.css?v=6.8.175" />
+  <script src="/js/main.js?v=2.0.23" defer></script>
 </head>
 <body>
 
@@ -83,7 +83,7 @@
         <div class="project-gallery-thumbnails" data-gallery-thumbnails role="list" aria-label="Chọn ảnh công trình">
           <% galleryImages.forEach((imgUrl, idx) => { %>
             <button class="project-gallery-thumbnail <%= idx === 0 ? 'is-active' : '' %>" type="button" data-gallery-thumb data-index="<%= idx %>" aria-label="Xem ảnh <%= idx + 1 %>" aria-current="<%= idx === 0 ? 'true' : 'false' %>" role="listitem">
-              <img src="<%= imgUrl %>" alt="<%= project.title %> - thumbnail <%= idx + 1 %>" loading="lazy" />
+              <img src="<%= imgUrl %>" alt="<%= project.title %> - thumbnail <%= idx + 1 %>" loading="lazy" draggable="false" />
             </button>
           <% }); %>
         </div>
