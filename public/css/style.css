@@ -23426,3 +23426,42 @@ main.project-detail-page .project-detail-summary .project-detail-title {
     line-height: 1.25 !important;
   }
 }
+
+/* Keep all project image banners visually uniform. The media frame already
+   has a fixed 16:9 height; fill it so portrait and landscape uploads do not
+   create different-looking banner heights or white side gutters. */
+.project-detail-page .project-gallery-stage > img,
+.project-showcase-section .project-card-gallery-stage > img.project-card-img,
+.quote-page .quote-featured-project-card--inline-gallery .project-gallery-stage > img {
+  width: 100% !important;
+  height: 100% !important;
+  max-width: none !important;
+  max-height: none !important;
+  object-fit: cover !important;
+  object-position: center center !important;
+}
+
+/* Mobile quote cards: make every thumbnail identifiable and align the rail
+   with the card's left edge instead of adding an extra inner margin. */
+@media (max-width: 767px) {
+  .quote-page .quote-featured-project-card--inline-gallery .project-gallery-thumbnails {
+    margin: .75rem 0 .15rem !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+  }
+
+  .quote-page .quote-featured-project-card--inline-gallery .project-gallery-thumbnail {
+    box-sizing: border-box !important;
+    border: 2px solid #d8d0c5 !important;
+    border-radius: 9px !important;
+    opacity: 1 !important;
+    background: #fff !important;
+    box-shadow: none !important;
+    transform: none !important;
+  }
+
+  .quote-page .quote-featured-project-card--inline-gallery .project-gallery-thumbnail.is-active {
+    border-color: var(--accent-gold, #D2A044) !important;
+    box-shadow: 0 0 0 1px rgba(210, 160, 68, .18) !important;
+  }
+}

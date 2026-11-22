@@ -3,24 +3,36 @@ const allSlots = require('../data/homeImageSlots');
 const subpageSlots = require('../data/subpageImageSlots');
 
 const configuredSlots = [...allSlots, ...subpageSlots];
-const APARTMENT_SUBPAGE_KEY = 'tk-nt-chung-cu';
+const APARTMENT_SUBPAGE_KEY = 'quote:tk-nt-chung-cu';
 
 function apartmentFallbackScope(pageKey, subpageKey = null) {
   const scope = String(subpageKey ? `${pageKey}:${subpageKey}` : pageKey || '');
-  if (scope === APARTMENT_SUBPAGE_KEY || scope === `quote:${APARTMENT_SUBPAGE_KEY}`) return null;
-  if (scope.startsWith('quote:tk-nt-')) return `quote:${APARTMENT_SUBPAGE_KEY}`;
-  if (scope.startsWith('tk-nt-')) return APARTMENT_SUBPAGE_KEY;
-  return null;
+  if (scope === APARTMENT_SUBPAGE_KEY) return null;
+  if (!subpageSlots.some(slot => slot.page_key === scope)) return null;
+  return APARTMENT_SUBPAGE_KEY;
+}
+
+function findFallbackSlot(slot, fallbackPageKey = apartmentFallbackScope(slot?.page_key)) {
+  if (!fallbackPageKey) return null;
+  const candidates = subpageSlots.filter(candidate => candidate.page_key === fallbackPageKey);
+  if (slot?.parent_image_key) {
+    return candidates.find(candidate => candidate.parent_image_key === slot.parent_image_key) || null;
+  }
+
+  // Project/construction child pages have one standalone hero slot, while
+  // the apartment quote page owns the complete set of source slots. Pair that
+  // hero with the first quote hero banner so its uploaded desktop/mobile
+  // images can be inherited without copying records in the database.
+  if (slot?.section_key === 'hero') {
+    return candidates.find(candidate => candidate.parent_image_key === 'quote_hero_banner_1')
+      || candidates.find(candidate => candidate.section_key === 'hero')
+      || null;
+  }
+  return candidates.find(candidate => candidate.section_key === slot?.section_key) || null;
 }
 
 function getApartmentFallbackSlot(slot) {
-  const fallbackPageKey = apartmentFallbackScope(slot?.page_key);
-  if (!fallbackPageKey) return null;
-  return subpageSlots.find(candidate => candidate.page_key === fallbackPageKey && (
-    slot.parent_image_key
-      ? candidate.parent_image_key === slot.parent_image_key
-      : candidate.section_key === slot.section_key
-  )) || null;
+  return findFallbackSlot(slot);
 }
 
 function customReference(record, slot) {
@@ -41,6 +53,10 @@ function customMobileReference(record, slot) {
     };
   }
   return null;
+}
+
+function hasCustomImage(record, slot) {
+  return Boolean(customReference(record, slot) || customMobileReference(record, slot));
 }
 
 function resolve(slot, records) {
@@ -87,9 +103,6 @@ async function getPageImages(pageKey = null, subpageKey = null) {
     ? new Map(subpageSlots.filter(s => s.page_key === scopedSubpageKey).map(s => [s.parent_image_key, s]))
     : new Map();
   const fallbackScope = apartmentFallbackScope(pageKey, subpageKey);
-  const fallbackSlots = fallbackScope
-    ? new Map(subpageSlots.filter(s => s.page_key === fallbackScope).map(s => [s.parent_image_key || s.section_key, s]))
-    : new Map();
   const targetSlots = pageKey && subpageKey
     ? parentSlots
     : pageKey
@@ -106,11 +119,16 @@ async function getPageImages(pageKey = null, subpageKey = null) {
     return Object.fromEntries(targetSlots.flatMap(s => {
       const override = subpageOverrides.get(s.image_key);
       const ownSlot = scopedSubpageKey ? override : s;
-      const fallbackSlot = fallbackSlots.get(scopedSubpageKey ? s.image_key : s.section_key);
-      const effectiveSlot = customReference(byKey.get(ownSlot?.image_key), ownSlot)
+      const fallbackSlot = fallbackScope ? findFallbackSlot(ownSlot || s, fallbackScope) : null;
+      const fallbackParentSlot = fallbackSlot?.parent_image_key
+        ? configuredSlots.find(item => item.image_key === fallbackSlot.parent_image_key)
+        : null;
+      const effectiveSlot = hasCustomImage(byKey.get(ownSlot?.image_key), ownSlot)
         ? ownSlot
-        : customReference(byKey.get(fallbackSlot?.image_key), fallbackSlot)
+        : hasCustomImage(byKey.get(fallbackSlot?.image_key), fallbackSlot)
           ? fallbackSlot
+          : hasCustomImage(byKey.get(fallbackParentSlot?.image_key), fallbackParentSlot)
+            ? fallbackParentSlot
           : s;
       return [
         [s.image_key, resolve(effectiveSlot, byKey)],

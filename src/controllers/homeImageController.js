@@ -119,6 +119,8 @@ function resolveState(slot, recordsByKey) {
   const fallbackState = fallbackSlot && fallbackSlot.image_key !== slot.image_key
     ? resolveState(fallbackSlot, recordsByKey)
     : null;
+  const inheritedSlot = fallbackState ? fallbackSlot : parentSlot;
+  const inheritedState = fallbackState || parentState;
 
   return {
     mode: 'custom',
@@ -129,11 +131,11 @@ function resolveState(slot, recordsByKey) {
     mobileCustom,
     activeMobileImageUrl: mobileCustom?.image_url || fallbackState?.activeMobileImageUrl || parentState?.activeMobileImageUrl || slot.mobile_image_url || slot.image_url,
     activeMobileCloudinaryPublicId: mobileCustom?.cloudinary_public_id || fallbackState?.activeMobileCloudinaryPublicId || parentState?.activeMobileCloudinaryPublicId || null,
-    inheritedFrom: custom || !parentState ? null : {
-      imageKey: parentSlot.image_key,
-      label: parentSlot.label,
-      imageUrl: parentState.activeImageUrl,
-      mobileImageUrl: parentState.activeMobileImageUrl
+    inheritedFrom: custom || !inheritedState ? null : {
+      imageKey: inheritedSlot.image_key,
+      label: inheritedSlot.label,
+      imageUrl: inheritedState.activeImageUrl,
+      mobileImageUrl: inheritedState.activeMobileImageUrl
     },
     sharedStatus: null,
     sharedSource: null

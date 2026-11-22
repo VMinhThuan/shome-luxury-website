@@ -3,6 +3,7 @@ const ConstructionGallery = require('../models/ConstructionGallery');
 const { destroyCloudinaryImage } = require('../utils/cloudinary');
 
 const SECTION_KEYS = ['in-progress', 'completed'];
+const FALLBACK_PAGE_KEY = 'tc-nt-chung-cu';
 const CONSTRUCTION_PAGE_KEYS = new Set([
   'tc-kt-nha-cap-4', 'tc-kt-nha-pho', 'tc-kt-biet-thu', 'tc-kt-villa',
   'tc-nt-chung-cu', 'tc-nt-nha-pho', 'tc-nt-biet-thu', 'tc-nt-van-phong'
@@ -41,6 +42,21 @@ async function getGalleries(pageKey) {
   const result = emptyResult();
   rows.forEach(row => {
     if (result[row.section_key]) result[row.section_key] = (row.images || []).map(serializeImage);
+  });
+  return result;
+}
+
+async function getPublicGalleries(pageKey) {
+  pageKey = assertPageKey(pageKey);
+  const result = await getGalleries(pageKey);
+  if (pageKey === FALLBACK_PAGE_KEY) return result;
+
+  const hasMissingSection = SECTION_KEYS.some(sectionKey => result[sectionKey].length === 0);
+  if (!hasMissingSection) return result;
+
+  const fallback = await getGalleries(FALLBACK_PAGE_KEY);
+  SECTION_KEYS.forEach(sectionKey => {
+    if (result[sectionKey].length === 0) result[sectionKey] = fallback[sectionKey];
   });
   return result;
 }
@@ -115,6 +131,7 @@ module.exports = {
   assertPageKey,
   assertSectionKey,
   getGalleries,
+  getPublicGalleries,
   addImages,
   getImage,
   removeImage,

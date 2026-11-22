@@ -26,7 +26,7 @@ exports.uploadMiddleware = (req, res, next) => upload.array('images', 100)(req, 
 
 exports.getPublic = async (req, res, next) => {
   try {
-    const data = await constructionGalleryService.getGalleries(req.query.page);
+    const data = await constructionGalleryService.getPublicGalleries(req.query.page);
     return res.json({ success: true, data });
   } catch (error) { return next(error); }
 };

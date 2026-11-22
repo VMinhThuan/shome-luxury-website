@@ -276,7 +276,7 @@ class ProjectShowcaseController {
       if (isConstructionShowcase) {
         // Construction child pages own two independent, arbitrary-length galleries.
         // They no longer inherit or derive images from the project list.
-        constructionGalleries = await constructionGalleryService.getGalleries(categoryCode);
+        constructionGalleries = await constructionGalleryService.getPublicGalleries(categoryCode);
       } else if (isVideoShowcase) {
         videos = await constructionVideoService.getVisibleVideos();
       } else {
