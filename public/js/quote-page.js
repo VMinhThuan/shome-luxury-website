@@ -150,6 +150,8 @@ document.addEventListener('DOMContentLoaded', () => {
     let pinchStartDistance = null;
     let pinchStartScale = 1;
     let gestureMode = null;
+    let safariGestureActive = false;
+    let safariGestureStartScale = 1;
     let panStartX = 0;
     let panStartY = 0;
     let panOriginX = 0;
@@ -182,6 +184,8 @@ document.addEventListener('DOMContentLoaded', () => {
       pinchStartDistance = null;
       pinchStartScale = 1;
       gestureMode = null;
+      safariGestureActive = false;
+      safariGestureStartScale = 1;
       image.style.removeProperty('transform');
     };
 
@@ -358,6 +362,11 @@ document.addEventListener('DOMContentLoaded', () => {
     stage.addEventListener('touchmove', event => {
       if (!event.touches?.length) return;
 
+      if (safariGestureActive) {
+        event.preventDefault();
+        return;
+      }
+
       if (event.touches.length >= 2 && pinchStartDistance) {
         event.preventDefault();
         const distance = touchDistance(event.touches[0], event.touches[1]);
@@ -429,10 +438,39 @@ document.addEventListener('DOMContentLoaded', () => {
       pinchStartDistance = null;
       pinchStartScale = 1;
       gestureMode = null;
+      safariGestureActive = false;
+      safariGestureStartScale = 1;
       stage.classList.remove('is-page-dragging');
       if (zoomScale <= 1.001) resetZoom();
       else applyZoom();
     }, { passive: true });
+
+    // iOS Safari/Chrome can expose native two-finger pinch through
+    // GestureEvent instead of delivering a reliable touchmove distance.
+    stage.addEventListener('gesturestart', event => {
+      event.preventDefault();
+      safariGestureActive = true;
+      safariGestureStartScale = zoomScale;
+      pinchStartDistance = null;
+      gestureMode = 'pinch';
+    }, { passive: false });
+    stage.addEventListener('gesturechange', event => {
+      if (!safariGestureActive) return;
+      event.preventDefault();
+      zoomScale = clamp(safariGestureStartScale * event.scale, 1, 4);
+      applyZoom();
+    }, { passive: false });
+    stage.addEventListener('gestureend', event => {
+      if (!safariGestureActive) return;
+      event.preventDefault();
+      safariGestureActive = false;
+      safariGestureStartScale = 1;
+      pinchStartDistance = null;
+      pinchStartScale = 1;
+      gestureMode = null;
+      if (zoomScale <= 1.001) resetZoom();
+      else applyZoom();
+    }, { passive: false });
   })();
 
   (function initInlineProjectGalleries() {

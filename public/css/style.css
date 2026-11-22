@@ -14176,6 +14176,10 @@ body.quote-project-gallery-open { overflow: hidden !important; }
   border-radius: 16px;
   background: #15120f;
   box-shadow: 0 20px 64px rgba(0, 0, 0, .65);
+  touch-action: none !important;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
+  user-select: none;
 }
 
 .project-gallery-lightbox-stage > img {

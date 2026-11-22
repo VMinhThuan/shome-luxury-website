@@ -1014,6 +1014,8 @@ document.addEventListener('DOMContentLoaded', () => {
     let lightboxPinchStartDistance = null;
     let lightboxPinchStartScale = 1;
     let lightboxTouchMode = null;
+    let lightboxSafariGestureActive = false;
+    let lightboxSafariGestureStartScale = 1;
     const galleryImagePreloads = new Map();
     let galleryTransitionToken = 0;
     let gallerySpringFrame = null;
@@ -1091,6 +1093,8 @@ document.addEventListener('DOMContentLoaded', () => {
       lightboxPinchStartDistance = null;
       lightboxPinchStartScale = 1;
       lightboxTouchMode = null;
+      lightboxSafariGestureActive = false;
+      lightboxSafariGestureStartScale = 1;
       if (lightboxPanFrame !== null) window.cancelAnimationFrame(lightboxPanFrame);
       lightboxPanFrame = null;
       resetLightboxSwipePosition();
@@ -1372,6 +1376,10 @@ document.addEventListener('DOMContentLoaded', () => {
       }, { passive: false });
       stage?.addEventListener('touchmove', event => {
         if (!event.touches?.length) return;
+        if (lightboxSafariGestureActive) {
+          event.preventDefault();
+          return;
+        }
         if (event.touches.length >= 2 && lightboxPinchStartDistance) {
           event.preventDefault();
           applyLightboxPinchZoom(event.touches[0], event.touches[1]);
@@ -1431,10 +1439,41 @@ document.addEventListener('DOMContentLoaded', () => {
         lightboxPinchStartDistance = null;
         lightboxPinchStartScale = 1;
         lightboxTouchMode = null;
+        lightboxSafariGestureActive = false;
+        lightboxSafariGestureStartScale = 1;
         lightboxSwipeStartX = null;
         resetLightboxSwipePosition();
         applyLightboxZoom();
       }, { passive: true });
+      stage?.addEventListener('gesturestart', event => {
+        event.preventDefault();
+        lightboxSafariGestureActive = true;
+        lightboxSafariGestureStartScale = lightboxZoomScale;
+        lightboxPinchStartDistance = null;
+        lightboxTouchMode = 'pinch';
+      }, { passive: false });
+      stage?.addEventListener('gesturechange', event => {
+        if (!lightboxSafariGestureActive) return;
+        event.preventDefault();
+        lightboxZoomScale = Math.min(3, Math.max(1,
+          lightboxSafariGestureStartScale * event.scale
+        ));
+        lightboxWheelTargetScale = lightboxZoomScale;
+        updateLightboxPanLimits();
+        lightboxPanX = Math.max(-lightboxPanLimitX, Math.min(lightboxPanLimitX, lightboxPanX));
+        lightboxPanY = Math.max(-lightboxPanLimitY, Math.min(lightboxPanLimitY, lightboxPanY));
+        applyLightboxZoom();
+      }, { passive: false });
+      stage?.addEventListener('gestureend', event => {
+        if (!lightboxSafariGestureActive) return;
+        event.preventDefault();
+        lightboxSafariGestureActive = false;
+        lightboxSafariGestureStartScale = 1;
+        lightboxPinchStartDistance = null;
+        lightboxPinchStartScale = 1;
+        lightboxTouchMode = null;
+        applyLightboxZoom();
+      }, { passive: false });
       image?.addEventListener('load', () => {
         updateLightboxPanLimits();
         applyLightboxZoom();
@@ -2204,6 +2243,8 @@ document.addEventListener('DOMContentLoaded', () => {
     let projectGalleryPinchStartDistance = null;
     let projectGalleryPinchStartScale = 1;
     let projectGalleryTouchMode = null;
+    let projectGallerySafariGestureActive = false;
+    let projectGallerySafariGestureStartScale = 1;
     let projectGalleryPanStartX = 0;
     let projectGalleryPanStartY = 0;
     let projectGalleryPanOriginX = 0;
@@ -2252,6 +2293,8 @@ document.addEventListener('DOMContentLoaded', () => {
       projectGalleryPinchStartDistance = null;
       projectGalleryPinchStartScale = 1;
       projectGalleryTouchMode = null;
+      projectGallerySafariGestureActive = false;
+      projectGallerySafariGestureStartScale = 1;
       projectGalleryPointerStartX = null;
       projectGalleryLightbox?.querySelector('[data-project-grid-lightbox-image]')?.style.removeProperty('transform');
     };
@@ -2389,6 +2432,10 @@ document.addEventListener('DOMContentLoaded', () => {
       }, { passive: false });
       stage?.addEventListener('touchmove', event => {
         if (!event.touches?.length) return;
+        if (projectGallerySafariGestureActive) {
+          event.preventDefault();
+          return;
+        }
         if (event.touches.length >= 2 && projectGalleryPinchStartDistance) {
           event.preventDefault();
           applyProjectGalleryPinchZoom(stage, image, event.touches[0], event.touches[1]);
@@ -2448,10 +2495,40 @@ document.addEventListener('DOMContentLoaded', () => {
         projectGalleryPinchStartDistance = null;
         projectGalleryPinchStartScale = 1;
         projectGalleryTouchMode = null;
+        projectGallerySafariGestureActive = false;
+        projectGallerySafariGestureStartScale = 1;
         projectGalleryPointerStartX = null;
         stage.classList.remove('is-page-dragging');
         applyProjectGalleryZoom(image);
       }, { passive: true });
+      stage?.addEventListener('gesturestart', event => {
+        event.preventDefault();
+        projectGallerySafariGestureActive = true;
+        projectGallerySafariGestureStartScale = projectGalleryZoomScale;
+        projectGalleryPinchStartDistance = null;
+        projectGalleryTouchMode = 'pinch';
+      }, { passive: false });
+      stage?.addEventListener('gesturechange', event => {
+        if (!projectGallerySafariGestureActive) return;
+        event.preventDefault();
+        projectGalleryZoomScale = Math.min(4, Math.max(1,
+          projectGallerySafariGestureStartScale * event.scale
+        ));
+        const limits = updateProjectGalleryPanLimits(stage, image);
+        projectGalleryPanX = Math.max(-limits.x, Math.min(limits.x, projectGalleryPanX));
+        projectGalleryPanY = Math.max(-limits.y, Math.min(limits.y, projectGalleryPanY));
+        applyProjectGalleryZoom(image);
+      }, { passive: false });
+      stage?.addEventListener('gestureend', event => {
+        if (!projectGallerySafariGestureActive) return;
+        event.preventDefault();
+        projectGallerySafariGestureActive = false;
+        projectGallerySafariGestureStartScale = 1;
+        projectGalleryPinchStartDistance = null;
+        projectGalleryPinchStartScale = 1;
+        projectGalleryTouchMode = null;
+        applyProjectGalleryZoom(image);
+      }, { passive: false });
 
       return modal;
     };
