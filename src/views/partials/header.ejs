@@ -69,9 +69,6 @@
     // Any item with children is a navigation group, not a destination. Its
     // submenu is the only clickable route on desktop, responsive and mobile.
     if (item.children && item.children.length) {
-      // The Báo giá parent is also a real landing page. Keep its submenu
-      // available, but let clicking the parent open the page itself.
-      if (!adminImageModeEnabled && item.id === 'bao-gia') return publicHref(item.href);
       return 'javascript:void(0)';
     }
     if (!adminImageModeEnabled) return publicHref(item.href);

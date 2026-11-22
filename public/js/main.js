@@ -1011,6 +1011,9 @@ document.addEventListener('DOMContentLoaded', () => {
     let lightboxPendingPanY = null;
     let lightboxWheelFrame = null;
     let lightboxWheelTargetScale = 1;
+    let lightboxPinchStartDistance = null;
+    let lightboxPinchStartScale = 1;
+    let lightboxTouchMode = null;
     const galleryImagePreloads = new Map();
     let galleryTransitionToken = 0;
     let gallerySpringFrame = null;
@@ -1031,6 +1034,32 @@ document.addEventListener('DOMContentLoaded', () => {
         ? `translate3d(${lightboxPanX}px, ${lightboxPanY}px, 0) scale3d(${lightboxZoomScale}, ${lightboxZoomScale}, 1)`
         : '';
       image.classList.toggle('is-zoomed', lightboxZoomScale > 1);
+    }
+
+    function getLightboxTouchDistance(first, second) {
+      return Math.hypot(second.clientX - first.clientX, second.clientY - first.clientY);
+    }
+
+    function applyLightboxPinchZoom(first, second) {
+      if (!lightboxPinchStartDistance) return;
+      const stage = galleryLightbox?.querySelector('.project-gallery-lightbox-stage');
+      if (!stage) return;
+
+      const nextScale = Math.min(3, Math.max(1,
+        getLightboxTouchDistance(first, second) / lightboxPinchStartDistance * lightboxPinchStartScale
+      ));
+      const rect = stage.getBoundingClientRect();
+      const centerX = (first.clientX + second.clientX) / 2 - rect.left - rect.width / 2;
+      const centerY = (first.clientY + second.clientY) / 2 - rect.top - rect.height / 2;
+      const ratio = nextScale / lightboxZoomScale;
+      lightboxPanX = centerX - ratio * (centerX - lightboxPanX);
+      lightboxPanY = centerY - ratio * (centerY - lightboxPanY);
+      lightboxZoomScale = nextScale;
+      lightboxWheelTargetScale = nextScale;
+      updateLightboxPanLimits();
+      lightboxPanX = Math.max(-lightboxPanLimitX, Math.min(lightboxPanLimitX, lightboxPanX));
+      lightboxPanY = Math.max(-lightboxPanLimitY, Math.min(lightboxPanLimitY, lightboxPanY));
+      applyLightboxZoom();
     }
 
     function queueLightboxPan(clientX, clientY) {
@@ -1059,6 +1088,9 @@ document.addEventListener('DOMContentLoaded', () => {
       lightboxSwipeLastX = 0;
       lightboxSwipeLastTime = 0;
       lightboxSwipeVelocityX = 0;
+      lightboxPinchStartDistance = null;
+      lightboxPinchStartScale = 1;
+      lightboxTouchMode = null;
       if (lightboxPanFrame !== null) window.cancelAnimationFrame(lightboxPanFrame);
       lightboxPanFrame = null;
       resetLightboxSwipePosition();
@@ -1234,7 +1266,7 @@ document.addEventListener('DOMContentLoaded', () => {
         setLightboxZoom(lightboxZoomScale > 1 ? 1 : 2);
       });
       stage?.addEventListener('pointerdown', event => {
-        if (!event.isPrimary || event.target.closest('button')) return;
+        if (!event.isPrimary || event.pointerType === 'touch' || event.target.closest('button')) return;
         if (stage.classList.contains('is-page-settling')) return;
         event.preventDefault();
         galleryLightbox?.classList.remove('is-swiping');
@@ -1257,6 +1289,7 @@ document.addEventListener('DOMContentLoaded', () => {
         stage.setPointerCapture?.(event.pointerId);
       });
       stage?.addEventListener('pointermove', event => {
+        if (event.pointerType === 'touch') return;
         if (event.pointerId !== lightboxPointerId && lightboxSwipeStartX === null) return;
         if (lightboxZoomScale > 1) {
           event.preventDefault();
@@ -1276,6 +1309,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
       });
       const finishLightboxPointer = event => {
+        if (event.pointerType === 'touch') return;
         if (event.pointerId === lightboxPointerId) {
           stage.releasePointerCapture?.(event.pointerId);
           lightboxPointerId = null;
@@ -1308,6 +1342,99 @@ document.addEventListener('DOMContentLoaded', () => {
       };
       stage?.addEventListener('pointerup', finishLightboxPointer);
       stage?.addEventListener('pointercancel', finishLightboxPointer);
+      stage?.addEventListener('touchstart', event => {
+        if (!event.touches?.length) return;
+        if (event.touches.length >= 2) {
+          event.preventDefault();
+          lightboxPinchStartDistance = getLightboxTouchDistance(event.touches[0], event.touches[1]);
+          lightboxPinchStartScale = lightboxZoomScale;
+          lightboxTouchMode = 'pinch';
+          lightboxSwipeStartX = null;
+          lightboxPointerId = null;
+          return;
+        }
+
+        const touch = event.touches[0];
+        if (lightboxZoomScale > 1) {
+          event.preventDefault();
+          lightboxTouchMode = 'pan';
+          lightboxPointerStartX = touch.clientX;
+          lightboxPointerStartY = touch.clientY;
+          lightboxPanStartX = lightboxPanX;
+          lightboxPanStartY = lightboxPanY;
+          return;
+        }
+
+        lightboxTouchMode = 'swipe';
+        lightboxSwipeStartX = touch.clientX;
+        lightboxSwipeOffsetX = 0;
+        lightboxSwipePreviewIndex = null;
+      }, { passive: false });
+      stage?.addEventListener('touchmove', event => {
+        if (!event.touches?.length) return;
+        if (event.touches.length >= 2 && lightboxPinchStartDistance) {
+          event.preventDefault();
+          applyLightboxPinchZoom(event.touches[0], event.touches[1]);
+          return;
+        }
+        if (lightboxTouchMode === 'pan' && event.touches.length === 1) {
+          event.preventDefault();
+          queueLightboxPan(event.touches[0].clientX, event.touches[0].clientY);
+          return;
+        }
+        if (lightboxTouchMode !== 'swipe' || lightboxSwipeStartX === null) return;
+        const distance = event.touches[0].clientX - lightboxSwipeStartX;
+        if (Math.abs(distance) < 4) return;
+        event.preventDefault();
+        lightboxSwipeOffsetX = Math.max(-window.innerWidth * 0.95, Math.min(window.innerWidth * 0.95, distance));
+        pendingLightboxSwipeOffsetX = lightboxSwipeOffsetX;
+        queueLightboxSwipeFrame();
+      }, { passive: false });
+      stage?.addEventListener('touchend', event => {
+        if (lightboxPinchStartDistance !== null) {
+          if (event.touches?.length >= 2) return;
+          lightboxPinchStartDistance = null;
+          lightboxPinchStartScale = 1;
+          if (event.touches?.length === 1 && lightboxZoomScale > 1) {
+            const touch = event.touches[0];
+            lightboxTouchMode = 'pan';
+            lightboxPointerStartX = touch.clientX;
+            lightboxPointerStartY = touch.clientY;
+            lightboxPanStartX = lightboxPanX;
+            lightboxPanStartY = lightboxPanY;
+          } else {
+            lightboxTouchMode = null;
+          }
+          return;
+        }
+
+        if (lightboxTouchMode === 'pan') {
+          lightboxTouchMode = null;
+          return;
+        }
+        if (lightboxTouchMode !== 'swipe' || lightboxSwipeStartX === null || !event.changedTouches?.length) return;
+        const distance = lightboxSwipeOffsetX || event.changedTouches[0].clientX - lightboxSwipeStartX;
+        lightboxSwipeStartX = null;
+        lightboxTouchMode = null;
+        flushLightboxSwipeFrame();
+        const stageWidth = stage.clientWidth || window.innerWidth;
+        const shouldChange = Math.abs(distance) > Math.min(80, stageWidth * 0.15);
+        stage.classList.remove('is-page-dragging', 'is-page-lifted');
+        stage.dataset.lightboxDragSettled = 'true';
+        if (shouldChange) {
+          animateLightboxButtonSlide(Number(galleryLightbox.dataset.galleryLightboxIndex || 0) + (distance < 0 ? 1 : -1), distance < 0 ? 1 : -1);
+        } else {
+          resetLightboxSwipePosition();
+        }
+      }, { passive: true });
+      stage?.addEventListener('touchcancel', () => {
+        lightboxPinchStartDistance = null;
+        lightboxPinchStartScale = 1;
+        lightboxTouchMode = null;
+        lightboxSwipeStartX = null;
+        resetLightboxSwipePosition();
+        applyLightboxZoom();
+      }, { passive: true });
       image?.addEventListener('load', () => {
         updateLightboxPanLimits();
         applyLightboxZoom();
@@ -2071,6 +2198,16 @@ document.addEventListener('DOMContentLoaded', () => {
     let projectGalleryIndex = 0;
     let projectGalleryPreviousFocus = null;
     let projectGalleryPointerStartX = null;
+    let projectGalleryZoomScale = 1;
+    let projectGalleryPanX = 0;
+    let projectGalleryPanY = 0;
+    let projectGalleryPinchStartDistance = null;
+    let projectGalleryPinchStartScale = 1;
+    let projectGalleryTouchMode = null;
+    let projectGalleryPanStartX = 0;
+    let projectGalleryPanStartY = 0;
+    let projectGalleryPanOriginX = 0;
+    let projectGalleryPanOriginY = 0;
 
     const fitProjectGalleryLightboxImage = image => {
       if (!image?.naturalWidth || !image?.naturalHeight) return;
@@ -2091,6 +2228,55 @@ document.addEventListener('DOMContentLoaded', () => {
           stage.style.setProperty('--project-grid-image-right', `${Math.max(0, stageRect.right - imageRect.right)}px`);
         });
       }
+    };
+
+    const applyProjectGalleryZoom = image => {
+      if (!image) return;
+      image.style.transform = projectGalleryZoomScale > 1
+        ? `translate3d(${projectGalleryPanX}px, ${projectGalleryPanY}px, 0) scale3d(${projectGalleryZoomScale}, ${projectGalleryZoomScale}, 1)`
+        : '';
+    };
+
+    const updateProjectGalleryPanLimits = (stage, image) => {
+      if (!stage || !image) return { x: 0, y: 0 };
+      return {
+        x: Math.max(0, (image.offsetWidth * projectGalleryZoomScale - stage.clientWidth) / 2),
+        y: Math.max(0, (image.offsetHeight * projectGalleryZoomScale - stage.clientHeight) / 2)
+      };
+    };
+
+    const resetProjectGalleryZoom = () => {
+      projectGalleryZoomScale = 1;
+      projectGalleryPanX = 0;
+      projectGalleryPanY = 0;
+      projectGalleryPinchStartDistance = null;
+      projectGalleryPinchStartScale = 1;
+      projectGalleryTouchMode = null;
+      projectGalleryPointerStartX = null;
+      projectGalleryLightbox?.querySelector('[data-project-grid-lightbox-image]')?.style.removeProperty('transform');
+    };
+
+    const projectGalleryTouchDistance = (first, second) => Math.hypot(
+      second.clientX - first.clientX,
+      second.clientY - first.clientY
+    );
+
+    const applyProjectGalleryPinchZoom = (stage, image, first, second) => {
+      if (!projectGalleryPinchStartDistance) return;
+      const nextScale = Math.min(3, Math.max(1,
+        projectGalleryTouchDistance(first, second) / projectGalleryPinchStartDistance * projectGalleryPinchStartScale
+      ));
+      const rect = stage.getBoundingClientRect();
+      const centerX = (first.clientX + second.clientX) / 2 - rect.left - rect.width / 2;
+      const centerY = (first.clientY + second.clientY) / 2 - rect.top - rect.height / 2;
+      const ratio = nextScale / projectGalleryZoomScale;
+      projectGalleryPanX = centerX - ratio * (centerX - projectGalleryPanX);
+      projectGalleryPanY = centerY - ratio * (centerY - projectGalleryPanY);
+      projectGalleryZoomScale = nextScale;
+      const limits = updateProjectGalleryPanLimits(stage, image);
+      projectGalleryPanX = Math.max(-limits.x, Math.min(limits.x, projectGalleryPanX));
+      projectGalleryPanY = Math.max(-limits.y, Math.min(limits.y, projectGalleryPanY));
+      applyProjectGalleryZoom(image);
     };
 
     const createProjectGalleryLightbox = () => {
@@ -2134,12 +2320,22 @@ document.addEventListener('DOMContentLoaded', () => {
 
       const stage = modal.querySelector('[data-project-grid-lightbox-stage]');
       const image = modal.querySelector('[data-project-grid-lightbox-image]');
-      image?.addEventListener('load', () => fitProjectGalleryLightboxImage(image));
-      window.addEventListener('resize', () => fitProjectGalleryLightboxImage(image));
+      image?.addEventListener('load', () => {
+        fitProjectGalleryLightboxImage(image);
+        applyProjectGalleryZoom(image);
+      });
+      window.addEventListener('resize', () => {
+        fitProjectGalleryLightboxImage(image);
+        const limits = updateProjectGalleryPanLimits(stage, image);
+        projectGalleryPanX = Math.max(-limits.x, Math.min(limits.x, projectGalleryPanX));
+        projectGalleryPanY = Math.max(-limits.y, Math.min(limits.y, projectGalleryPanY));
+        applyProjectGalleryZoom(image);
+      });
       stage?.addEventListener('pointerdown', event => {
-        if (event.isPrimary) projectGalleryPointerStartX = event.clientX;
+        if (event.isPrimary && event.pointerType !== 'touch') projectGalleryPointerStartX = event.clientX;
       });
       stage?.addEventListener('pointermove', event => {
+        if (event.pointerType === 'touch') return;
         if (projectGalleryPointerStartX === null) return;
         const distance = event.clientX - projectGalleryPointerStartX;
         if (Math.abs(distance) < 4) return;
@@ -2148,6 +2344,7 @@ document.addEventListener('DOMContentLoaded', () => {
         image.style.transform = `translate3d(${distance}px, 0, 0)`;
       }, { passive: false });
       stage?.addEventListener('pointerup', event => {
+        if (event.pointerType === 'touch') return;
         if (projectGalleryPointerStartX === null) return;
         const distance = event.clientX - projectGalleryPointerStartX;
         projectGalleryPointerStartX = null;
@@ -2158,13 +2355,103 @@ document.addEventListener('DOMContentLoaded', () => {
         if (Math.abs(distance) < 50) return;
         showProjectGalleryLightboxImage(projectGalleryIndex + (distance < 0 ? 1 : -1), distance < 0 ? 1 : -1);
       });
-      stage?.addEventListener('pointercancel', () => {
+      stage?.addEventListener('pointercancel', event => {
+        if (event.pointerType === 'touch') return;
         projectGalleryPointerStartX = null;
         stage.classList.remove('is-page-dragging');
         image.style.transition = 'transform .28s cubic-bezier(.22, .61, .36, 1)';
         image.style.transform = '';
         window.setTimeout(() => { image.style.transition = ''; }, 300);
       });
+      stage?.addEventListener('touchstart', event => {
+        if (!event.touches?.length) return;
+        if (event.touches.length >= 2) {
+          event.preventDefault();
+          projectGalleryPinchStartDistance = projectGalleryTouchDistance(event.touches[0], event.touches[1]);
+          projectGalleryPinchStartScale = projectGalleryZoomScale;
+          projectGalleryTouchMode = 'pinch';
+          projectGalleryPointerStartX = null;
+          return;
+        }
+
+        const touch = event.touches[0];
+        if (projectGalleryZoomScale > 1) {
+          event.preventDefault();
+          projectGalleryTouchMode = 'pan';
+          projectGalleryPanStartX = touch.clientX;
+          projectGalleryPanStartY = touch.clientY;
+          projectGalleryPanOriginX = projectGalleryPanX;
+          projectGalleryPanOriginY = projectGalleryPanY;
+          return;
+        }
+        projectGalleryTouchMode = 'swipe';
+        projectGalleryPointerStartX = touch.clientX;
+      }, { passive: false });
+      stage?.addEventListener('touchmove', event => {
+        if (!event.touches?.length) return;
+        if (event.touches.length >= 2 && projectGalleryPinchStartDistance) {
+          event.preventDefault();
+          applyProjectGalleryPinchZoom(stage, image, event.touches[0], event.touches[1]);
+          return;
+        }
+        if (projectGalleryTouchMode === 'pan' && event.touches.length === 1) {
+          event.preventDefault();
+          const limits = updateProjectGalleryPanLimits(stage, image);
+          projectGalleryPanX = projectGalleryPanOriginX + event.touches[0].clientX - projectGalleryPanStartX;
+          projectGalleryPanY = projectGalleryPanOriginY + event.touches[0].clientY - projectGalleryPanStartY;
+          projectGalleryPanX = Math.max(-limits.x, Math.min(limits.x, projectGalleryPanX));
+          projectGalleryPanY = Math.max(-limits.y, Math.min(limits.y, projectGalleryPanY));
+          applyProjectGalleryZoom(image);
+          return;
+        }
+        if (projectGalleryTouchMode !== 'swipe' || projectGalleryPointerStartX === null) return;
+        const distance = event.touches[0].clientX - projectGalleryPointerStartX;
+        if (Math.abs(distance) < 4) return;
+        event.preventDefault();
+        stage.classList.add('is-page-dragging');
+        image.style.transform = `translate3d(${distance}px, 0, 0)`;
+      }, { passive: false });
+      stage?.addEventListener('touchend', event => {
+        if (projectGalleryPinchStartDistance !== null) {
+          if (event.touches?.length >= 2) return;
+          projectGalleryPinchStartDistance = null;
+          projectGalleryPinchStartScale = 1;
+          if (event.touches?.length === 1 && projectGalleryZoomScale > 1) {
+            const touch = event.touches[0];
+            projectGalleryTouchMode = 'pan';
+            projectGalleryPanStartX = touch.clientX;
+            projectGalleryPanStartY = touch.clientY;
+            projectGalleryPanOriginX = projectGalleryPanX;
+            projectGalleryPanOriginY = projectGalleryPanY;
+          } else {
+            projectGalleryTouchMode = null;
+          }
+          return;
+        }
+        if (projectGalleryTouchMode === 'pan') {
+          projectGalleryTouchMode = null;
+          return;
+        }
+        if (projectGalleryTouchMode !== 'swipe' || projectGalleryPointerStartX === null || !event.changedTouches?.length) return;
+        const distance = event.changedTouches[0].clientX - projectGalleryPointerStartX;
+        projectGalleryPointerStartX = null;
+        projectGalleryTouchMode = null;
+        stage.classList.remove('is-page-dragging');
+        image.style.transition = 'transform .28s cubic-bezier(.22, .61, .36, 1)';
+        image.style.transform = '';
+        window.setTimeout(() => { image.style.transition = ''; }, 300);
+        if (Math.abs(distance) >= 50) {
+          showProjectGalleryLightboxImage(projectGalleryIndex + (distance < 0 ? 1 : -1), distance < 0 ? 1 : -1);
+        }
+      }, { passive: true });
+      stage?.addEventListener('touchcancel', () => {
+        projectGalleryPinchStartDistance = null;
+        projectGalleryPinchStartScale = 1;
+        projectGalleryTouchMode = null;
+        projectGalleryPointerStartX = null;
+        stage.classList.remove('is-page-dragging');
+        applyProjectGalleryZoom(image);
+      }, { passive: true });
 
       return modal;
     };
@@ -2175,6 +2462,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const modal = createProjectGalleryLightbox();
       const image = modal.querySelector('[data-project-grid-lightbox-image]');
       const current = projectGalleryImages[normalizedIndex];
+      resetProjectGalleryZoom();
       image.style.width = '';
       image.style.height = '';
       image.style.transform = '';
@@ -2217,6 +2505,7 @@ document.addEventListener('DOMContentLoaded', () => {
       projectGalleryPreviousFocus?.focus();
       projectGalleryPreviousFocus = null;
       projectGalleryPointerStartX = null;
+      resetProjectGalleryZoom();
     }
 
     document.addEventListener('click', event => {

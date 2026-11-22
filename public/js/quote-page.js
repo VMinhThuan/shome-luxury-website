@@ -144,7 +144,46 @@ document.addEventListener('DOMContentLoaded', () => {
     let activeIndex = 0;
     let pointerStartX = null;
     let transitionToken = 0;
+    let zoomScale = 1;
+    let panX = 0;
+    let panY = 0;
+    let pinchStartDistance = null;
+    let pinchStartScale = 1;
+    let gestureMode = null;
+    let panStartX = 0;
+    let panStartY = 0;
+    let panOriginX = 0;
+    let panOriginY = 0;
     const preloadedImages = new Map();
+
+    const clamp = (value, min, max) => Math.min(max, Math.max(min, value));
+    const touchDistance = (first, second) => Math.hypot(
+      second.clientX - first.clientX,
+      second.clientY - first.clientY
+    );
+    const touchCenter = (first, second, rect) => ({
+      x: (first.clientX + second.clientX) / 2 - rect.left - rect.width / 2,
+      y: (first.clientY + second.clientY) / 2 - rect.top - rect.height / 2
+    });
+    const clampPan = () => {
+      const maxX = Math.max(0, (stage.clientWidth * zoomScale - stage.clientWidth) / 2);
+      const maxY = Math.max(0, (stage.clientHeight * zoomScale - stage.clientHeight) / 2);
+      panX = clamp(panX, -maxX, maxX);
+      panY = clamp(panY, -maxY, maxY);
+    };
+    const applyZoom = () => {
+      clampPan();
+      image.style.transform = `translate3d(${panX}px, ${panY}px, 0) scale(${zoomScale})`;
+    };
+    const resetZoom = () => {
+      zoomScale = 1;
+      panX = 0;
+      panY = 0;
+      pinchStartDistance = null;
+      pinchStartScale = 1;
+      gestureMode = null;
+      image.style.removeProperty('transform');
+    };
 
     const preload = src => {
       if (!src) return Promise.resolve();
@@ -176,6 +215,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const show = async (index, direction = 0) => {
       const nextIndex = (index + images.length) % images.length;
       const requestToken = ++transitionToken;
+      resetZoom();
       image.style.visibility = 'hidden';
       image.classList.remove('is-gallery-lightbox-fading', 'is-page-turn-next', 'is-page-turn-previous');
       await preload(images[nextIndex]);
@@ -210,7 +250,11 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     };
 
-    const close = () => { modal.hidden = true; document.body.classList.remove('project-gallery-lightbox-open'); };
+    const close = () => {
+      resetZoom();
+      modal.hidden = true;
+      document.body.classList.remove('project-gallery-lightbox-open');
+    };
     const open = trigger => {
       try {
         const encodedImages = trigger.hasAttribute('data-quote-inline-gallery');
@@ -262,7 +306,10 @@ document.addEventListener('DOMContentLoaded', () => {
       if (event.key === 'ArrowLeft') show(activeIndex - 1, -1);
       if (event.key === 'ArrowRight') show(activeIndex + 1, 1);
     });
-    stage.addEventListener('pointerdown', event => { pointerStartX = event.clientX; });
+    stage.addEventListener('pointerdown', event => {
+      if (event.pointerType === 'touch') return;
+      pointerStartX = event.clientX;
+    });
     stage.addEventListener('pointermove', event => {
       if (pointerStartX === null) return;
       const distance = event.clientX - pointerStartX;
@@ -282,10 +329,60 @@ document.addEventListener('DOMContentLoaded', () => {
     });
     let touchStartX = null;
     stage.addEventListener('touchstart', event => {
-      if (event.touches?.length) touchStartX = event.touches[0].clientX;
-    }, { passive: true });
+      if (!event.touches?.length) return;
+      if (event.touches.length >= 2) {
+        event.preventDefault();
+        pinchStartDistance = touchDistance(event.touches[0], event.touches[1]);
+        pinchStartScale = zoomScale;
+        gestureMode = 'pinch';
+        touchStartX = null;
+        stage.classList.remove('is-page-dragging');
+        return;
+      }
+
+      if (zoomScale > 1.001) {
+        event.preventDefault();
+        const touch = event.touches[0];
+        gestureMode = 'pan';
+        panStartX = touch.clientX;
+        panStartY = touch.clientY;
+        panOriginX = panX;
+        panOriginY = panY;
+        stage.classList.add('is-page-dragging');
+        return;
+      }
+
+      gestureMode = 'swipe';
+      touchStartX = event.touches[0].clientX;
+    }, { passive: false });
     stage.addEventListener('touchmove', event => {
-      if (touchStartX === null || !event.touches?.length) return;
+      if (!event.touches?.length) return;
+
+      if (event.touches.length >= 2 && pinchStartDistance) {
+        event.preventDefault();
+        const distance = touchDistance(event.touches[0], event.touches[1]);
+        const nextScale = clamp(distance / pinchStartDistance * pinchStartScale, 1, 4);
+        const rect = stage.getBoundingClientRect();
+        const center = touchCenter(event.touches[0], event.touches[1], rect);
+        const ratio = nextScale / zoomScale;
+        panX = center.x - ratio * (center.x - panX);
+        panY = center.y - ratio * (center.y - panY);
+        zoomScale = nextScale;
+        gestureMode = 'pinch';
+        applyZoom();
+        return;
+      }
+
+      if (gestureMode === 'pan' && event.touches.length === 1) {
+        event.preventDefault();
+        const touch = event.touches[0];
+        panX = panOriginX + touch.clientX - panStartX;
+        panY = panOriginY + touch.clientY - panStartY;
+        applyZoom();
+        return;
+      }
+
+      if (gestureMode !== 'swipe' || touchStartX === null) return;
       const distance = event.touches[0].clientX - touchStartX;
       if (Math.abs(distance) < 4) return;
       event.preventDefault();
@@ -293,14 +390,48 @@ document.addEventListener('DOMContentLoaded', () => {
       image.style.transform = `translate3d(${distance}px, 0, 0)`;
     }, { passive: false });
     stage.addEventListener('touchend', event => {
-      if (touchStartX === null || !event.changedTouches?.length) return;
+      if (pinchStartDistance !== null) {
+        if (event.touches?.length >= 2) return;
+        pinchStartDistance = null;
+        pinchStartScale = 1;
+        if (zoomScale < 1.05) resetZoom();
+        if (event.touches?.length === 1 && zoomScale > 1.001) {
+          const touch = event.touches[0];
+          gestureMode = 'pan';
+          panStartX = touch.clientX;
+          panStartY = touch.clientY;
+          panOriginX = panX;
+          panOriginY = panY;
+        } else {
+          gestureMode = null;
+        }
+        return;
+      }
+
+      if (gestureMode === 'pan') {
+        stage.classList.remove('is-page-dragging');
+        gestureMode = null;
+        return;
+      }
+
+      if (gestureMode !== 'swipe' || touchStartX === null || !event.changedTouches?.length) return;
       const diff = event.changedTouches[0].clientX - touchStartX;
       touchStartX = null;
+      gestureMode = null;
       stage.classList.remove('is-page-dragging');
       image.style.transition = 'transform .28s cubic-bezier(.22, .61, .36, 1)';
       image.style.transform = '';
       window.setTimeout(() => { image.style.transition = ''; }, 300);
       if (Math.abs(diff) > 40) show(activeIndex + (diff < 0 ? 1 : -1), diff < 0 ? 1 : -1);
+    }, { passive: true });
+    stage.addEventListener('touchcancel', () => {
+      touchStartX = null;
+      pinchStartDistance = null;
+      pinchStartScale = 1;
+      gestureMode = null;
+      stage.classList.remove('is-page-dragging');
+      if (zoomScale <= 1.001) resetZoom();
+      else applyZoom();
     }, { passive: true });
   })();
 

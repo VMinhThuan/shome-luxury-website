@@ -3497,6 +3497,7 @@ body.page-recruitment,
   min-width: 0 !important;
   min-height: 0 !important;
   overflow: hidden !important;
+  touch-action: none !important;
 }
 
 .project-gallery-lightbox--grid .project-gallery-lightbox-stage > img {
