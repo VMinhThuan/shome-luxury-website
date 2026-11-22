@@ -14541,12 +14541,65 @@ body.project-gallery-lightbox-open { overflow: hidden !important; }
   display: none;
 }
 
-/* Keep legacy cached markup from resurfacing the removed zoom/fullscreen tools. */
-.project-gallery-lightbox--grid .project-gallery-lightbox-tools,
-.project-gallery-lightbox--grid [data-project-grid-lightbox-zoom-in],
-.project-gallery-lightbox--grid [data-project-grid-lightbox-zoom-out],
-.project-gallery-lightbox--grid [data-project-grid-lightbox-fullscreen] {
-  display: none !important;
+/* Zoom controls for the construction photo viewer. Pinch and double-tap are
+   supported on touch devices; these controls keep the same actions available
+   on every device as well. */
+.project-gallery-lightbox--grid .project-gallery-lightbox-tools {
+  position: fixed;
+  z-index: 12;
+  right: 1rem;
+  bottom: 1rem;
+  display: inline-flex;
+  align-items: center;
+  gap: .2rem;
+  padding: .25rem;
+  border: 1px solid rgba(255, 255, 255, .2);
+  border-radius: 999px;
+  background: rgba(0, 0, 0, .55);
+  box-shadow: 0 4px 18px rgba(0, 0, 0, .3);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+.project-gallery-lightbox--grid .project-gallery-lightbox-tools button {
+  display: grid;
+  width: 38px;
+  height: 34px;
+  padding: 0;
+  place-items: center;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  color: #fff;
+  font: 700 1.25rem/1 var(--font-menu, Arial, sans-serif);
+  cursor: pointer;
+  touch-action: manipulation;
+}
+
+.project-gallery-lightbox--grid .project-gallery-lightbox-tools button[data-project-grid-lightbox-zoom-reset] {
+  width: 46px;
+  font-size: .72rem;
+  letter-spacing: .02em;
+}
+
+.project-gallery-lightbox--grid .project-gallery-lightbox-tools button:is(:hover, :focus-visible, :active) {
+  background: rgba(255, 255, 255, .18);
+  outline: none;
+}
+
+.project-gallery-lightbox--grid .project-gallery-lightbox-stage > [data-project-grid-lightbox-image] {
+  transform-origin: center center;
+  will-change: transform;
+  cursor: zoom-in;
+  transition: none !important;
+}
+
+.project-gallery-lightbox--grid .project-gallery-lightbox-stage > [data-project-grid-lightbox-image].is-zoomed {
+  cursor: grab;
+}
+
+.project-gallery-lightbox--grid .project-gallery-lightbox-stage > [data-project-grid-lightbox-image].is-zoomed:active {
+  cursor: grabbing;
 }
 
 @media (max-width: 767px) {
@@ -14582,6 +14635,11 @@ body.project-gallery-lightbox-open { overflow: hidden !important; }
   .project-gallery-lightbox--grid .project-gallery-lightbox-control.next {
     position: absolute;
     right: max(.75rem, calc(var(--project-grid-image-right, 0px) + .75rem));
+  }
+
+  .project-gallery-lightbox--grid .project-gallery-lightbox-tools {
+    right: .65rem;
+    bottom: .65rem;
   }
 
   .project-gallery-lightbox:not(.project-gallery-lightbox--grid) .project-gallery-lightbox-control.previous {

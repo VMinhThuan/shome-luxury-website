@@ -2249,6 +2249,9 @@ document.addEventListener('DOMContentLoaded', () => {
     let projectGalleryPanStartY = 0;
     let projectGalleryPanOriginX = 0;
     let projectGalleryPanOriginY = 0;
+    let projectGalleryLastTapTime = 0;
+    let projectGalleryLastTapX = 0;
+    let projectGalleryLastTapY = 0;
 
     const fitProjectGalleryLightboxImage = image => {
       if (!image?.naturalWidth || !image?.naturalHeight) return;
@@ -2276,6 +2279,37 @@ document.addEventListener('DOMContentLoaded', () => {
       image.style.transform = projectGalleryZoomScale > 1
         ? `translate3d(${projectGalleryPanX}px, ${projectGalleryPanY}px, 0) scale3d(${projectGalleryZoomScale}, ${projectGalleryZoomScale}, 1)`
         : '';
+      image.classList.toggle('is-zoomed', projectGalleryZoomScale > 1);
+    };
+
+    const setProjectGalleryZoom = (scale, focusX = null, focusY = null) => {
+      const modal = projectGalleryLightbox;
+      const stage = modal?.querySelector('[data-project-grid-lightbox-stage]');
+      const image = modal?.querySelector('[data-project-grid-lightbox-image]');
+      if (!stage || !image) return;
+
+      const nextScale = Math.min(4, Math.max(1, Number(scale) || 1));
+      if (nextScale === 1) {
+        projectGalleryZoomScale = 1;
+        projectGalleryPanX = 0;
+        projectGalleryPanY = 0;
+        applyProjectGalleryZoom(image);
+        return;
+      }
+
+      // Keep the point under the fingers/mouse in place while changing scale.
+      const rect = stage.getBoundingClientRect();
+      const centerX = (focusX ?? (rect.left + rect.width / 2)) - rect.left - rect.width / 2;
+      const centerY = (focusY ?? (rect.top + rect.height / 2)) - rect.top - rect.height / 2;
+      const ratio = nextScale / projectGalleryZoomScale;
+      projectGalleryPanX = centerX - ratio * (centerX - projectGalleryPanX);
+      projectGalleryPanY = centerY - ratio * (centerY - projectGalleryPanY);
+      projectGalleryZoomScale = nextScale;
+
+      const limits = updateProjectGalleryPanLimits(stage, image);
+      projectGalleryPanX = Math.max(-limits.x, Math.min(limits.x, projectGalleryPanX));
+      projectGalleryPanY = Math.max(-limits.y, Math.min(limits.y, projectGalleryPanY));
+      applyProjectGalleryZoom(image);
     };
 
     const updateProjectGalleryPanLimits = (stage, image) => {
@@ -2296,7 +2330,11 @@ document.addEventListener('DOMContentLoaded', () => {
       projectGallerySafariGestureActive = false;
       projectGallerySafariGestureStartScale = 1;
       projectGalleryPointerStartX = null;
+      projectGalleryLastTapTime = 0;
+      projectGalleryLastTapX = 0;
+      projectGalleryLastTapY = 0;
       projectGalleryLightbox?.querySelector('[data-project-grid-lightbox-image]')?.style.removeProperty('transform');
+      projectGalleryLightbox?.querySelector('[data-project-grid-lightbox-image]')?.classList.remove('is-zoomed');
     };
 
     const projectGalleryTouchDistance = (first, second) => Math.hypot(
@@ -2342,6 +2380,11 @@ document.addEventListener('DOMContentLoaded', () => {
             <button type="button" class="project-gallery-lightbox-control next" data-project-grid-lightbox-next aria-label="Ảnh tiếp theo">
               <svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="9 18 15 12 9 6"></polyline></svg>
             </button>
+            <div class="project-gallery-lightbox-tools" aria-label="Điều khiển phóng to ảnh">
+              <button type="button" data-project-grid-lightbox-zoom-out aria-label="Thu nhỏ ảnh">−</button>
+              <button type="button" data-project-grid-lightbox-zoom-reset aria-label="Đặt lại kích thước ảnh">1:1</button>
+              <button type="button" data-project-grid-lightbox-zoom-in aria-label="Phóng to ảnh">+</button>
+            </div>
           </div>
         </div>`;
       document.body.append(modal);
@@ -2358,6 +2401,18 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         if (event.target.closest('[data-project-grid-lightbox-next]')) {
           showProjectGalleryLightboxImage(projectGalleryIndex + 1, 1);
+          return;
+        }
+        if (event.target.closest('[data-project-grid-lightbox-zoom-in]')) {
+          setProjectGalleryZoom(projectGalleryZoomScale + 0.5);
+          return;
+        }
+        if (event.target.closest('[data-project-grid-lightbox-zoom-out]')) {
+          setProjectGalleryZoom(projectGalleryZoomScale - 0.5);
+          return;
+        }
+        if (event.target.closest('[data-project-grid-lightbox-zoom-reset]')) {
+          setProjectGalleryZoom(1);
         }
       });
 
@@ -2375,11 +2430,29 @@ document.addEventListener('DOMContentLoaded', () => {
         applyProjectGalleryZoom(image);
       });
       stage?.addEventListener('pointerdown', event => {
-        if (event.isPrimary && event.pointerType !== 'touch') projectGalleryPointerStartX = event.clientX;
+        if (!event.isPrimary || event.pointerType === 'touch' || event.target.closest('button')) return;
+        projectGalleryPointerStartX = event.clientX;
+        if (projectGalleryZoomScale > 1) {
+          projectGalleryPanStartX = event.clientX;
+          projectGalleryPanStartY = event.clientY;
+          projectGalleryPanOriginX = projectGalleryPanX;
+          projectGalleryPanOriginY = projectGalleryPanY;
+          stage.setPointerCapture?.(event.pointerId);
+        }
       });
       stage?.addEventListener('pointermove', event => {
         if (event.pointerType === 'touch') return;
         if (projectGalleryPointerStartX === null) return;
+        if (projectGalleryZoomScale > 1) {
+          event.preventDefault();
+          const limits = updateProjectGalleryPanLimits(stage, image);
+          projectGalleryPanX = projectGalleryPanOriginX + event.clientX - projectGalleryPanStartX;
+          projectGalleryPanY = projectGalleryPanOriginY + event.clientY - projectGalleryPanStartY;
+          projectGalleryPanX = Math.max(-limits.x, Math.min(limits.x, projectGalleryPanX));
+          projectGalleryPanY = Math.max(-limits.y, Math.min(limits.y, projectGalleryPanY));
+          applyProjectGalleryZoom(image);
+          return;
+        }
         const distance = event.clientX - projectGalleryPointerStartX;
         if (Math.abs(distance) < 4) return;
         event.preventDefault();
@@ -2391,6 +2464,10 @@ document.addEventListener('DOMContentLoaded', () => {
         if (projectGalleryPointerStartX === null) return;
         const distance = event.clientX - projectGalleryPointerStartX;
         projectGalleryPointerStartX = null;
+        if (projectGalleryZoomScale > 1) {
+          stage.releasePointerCapture?.(event.pointerId);
+          return;
+        }
         stage.classList.remove('is-page-dragging');
         image.style.transition = 'transform .28s cubic-bezier(.22, .61, .36, 1)';
         image.style.transform = '';
@@ -2401,10 +2478,23 @@ document.addEventListener('DOMContentLoaded', () => {
       stage?.addEventListener('pointercancel', event => {
         if (event.pointerType === 'touch') return;
         projectGalleryPointerStartX = null;
+        if (projectGalleryZoomScale > 1) stage.releasePointerCapture?.(event.pointerId);
         stage.classList.remove('is-page-dragging');
         image.style.transition = 'transform .28s cubic-bezier(.22, .61, .36, 1)';
         image.style.transform = '';
         window.setTimeout(() => { image.style.transition = ''; }, 300);
+      });
+      stage?.addEventListener('wheel', event => {
+        event.preventDefault();
+        setProjectGalleryZoom(
+          projectGalleryZoomScale + (event.deltaY < 0 ? 0.2 : -0.2),
+          event.clientX,
+          event.clientY
+        );
+      }, { passive: false });
+      stage?.addEventListener('dblclick', event => {
+        if (event.target.closest('button')) return;
+        setProjectGalleryZoom(projectGalleryZoomScale > 1 ? 1 : 2, event.clientX, event.clientY);
       });
       stage?.addEventListener('touchstart', event => {
         if (!event.touches?.length) return;
@@ -2418,6 +2508,19 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         const touch = event.touches[0];
+        const now = Date.now();
+        const isDoubleTap = now - projectGalleryLastTapTime < 320
+          && Math.hypot(touch.clientX - projectGalleryLastTapX, touch.clientY - projectGalleryLastTapY) < 32;
+        projectGalleryLastTapTime = now;
+        projectGalleryLastTapX = touch.clientX;
+        projectGalleryLastTapY = touch.clientY;
+        if (isDoubleTap) {
+          event.preventDefault();
+          setProjectGalleryZoom(projectGalleryZoomScale > 1 ? 1 : 2, touch.clientX, touch.clientY);
+          projectGalleryTouchMode = null;
+          projectGalleryPointerStartX = null;
+          return;
+        }
         if (projectGalleryZoomScale > 1) {
           event.preventDefault();
           projectGalleryTouchMode = 'pan';
