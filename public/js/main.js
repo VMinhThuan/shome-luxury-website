@@ -1257,6 +1257,36 @@ document.addEventListener('DOMContentLoaded', () => {
 
       const stage = modal.querySelector('.project-gallery-lightbox-stage');
       const image = modal.querySelector('[data-gallery-lightbox-image]');
+      const previousControl = modal.querySelector('[data-gallery-lightbox-prev]');
+      const nextControl = modal.querySelector('[data-gallery-lightbox-next]');
+
+      // Bind navigation directly to the controls. Delegating only from the
+      // document can lose the synthetic click after a two-finger pinch on
+      // mobile Safari/Chrome, especially while the image is still zoomed.
+      const activateLightboxControl = (event, direction) => {
+        if (event.type === 'pointerup' && event.pointerType !== 'touch') return;
+        const control = event.currentTarget;
+        if (event.type === 'click' && control?.dataset.touchActivated === 'true') {
+          delete control.dataset.touchActivated;
+          event.preventDefault();
+          event.stopPropagation();
+          return;
+        }
+        if (event.type === 'pointerup' && event.pointerType === 'touch' && control) {
+          control.dataset.touchActivated = 'true';
+          window.setTimeout(() => delete control.dataset.touchActivated, 500);
+        }
+        event.preventDefault();
+        event.stopPropagation();
+        if (!galleryImages.length) return;
+        const currentIndex = Number(galleryLightbox?.dataset.galleryLightboxIndex || 0);
+        showLightboxImage(currentIndex + direction, direction);
+      };
+      previousControl?.addEventListener('pointerup', event => activateLightboxControl(event, -1));
+      nextControl?.addEventListener('pointerup', event => activateLightboxControl(event, 1));
+      previousControl?.addEventListener('click', event => activateLightboxControl(event, -1));
+      nextControl?.addEventListener('click', event => activateLightboxControl(event, 1));
+
       stage?.addEventListener('wheel', event => {
         event.preventDefault();
         lightboxWheelTargetScale = Math.min(3, Math.max(1, lightboxWheelTargetScale + (event.deltaY < 0 ? 0.12 : -0.12)));

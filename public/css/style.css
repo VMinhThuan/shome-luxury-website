@@ -23490,6 +23490,16 @@ main.project-detail-page .project-detail-summary .project-detail-title {
   }
 }
 
+/* Keep lightbox navigation tappable after pinch-zoom. */
+.project-gallery-lightbox:not(.project-gallery-lightbox--grid) :is(
+  .project-gallery-lightbox-control,
+  .project-gallery-lightbox-close
+) {
+  z-index: 30 !important;
+  pointer-events: auto !important;
+  touch-action: manipulation !important;
+}
+
 /* Responsive/tablet detail summary scale. This also covers device-toolbar
    previews wider than the phone breakpoint, where the older desktop rules
    would otherwise keep the title and metadata too large. */
@@ -23744,5 +23754,45 @@ main.project-detail-page .project-info-banner .meta-value {
   main.project-detail-page .project-info-banner .meta-label,
   main.project-detail-page .project-info-banner .meta-value {
     font-size: 12.8px !important;
+  }
+}
+
+/* The mobile hero and its thumbnails must use one identical 4:3 frame.
+   Keep the complete source image inside that frame so the white letterbox
+   visible in the thumbnail is also visible in the large image. */
+@media (max-width: 767px) {
+  main.project-detail-page .project-gallery-stage {
+    width: 100% !important;
+    height: auto !important;
+    min-height: 0 !important;
+    aspect-ratio: 4 / 3 !important;
+    background: #fff !important;
+    overflow: hidden !important;
+  }
+
+  main.project-detail-page .project-gallery-stage > img.hero-img,
+  main.project-detail-page .project-gallery-stage > img.project-gallery-drag-preview {
+    position: absolute !important;
+    inset: 0 !important;
+    display: block !important;
+    width: 100% !important;
+    height: 100% !important;
+    max-width: 100% !important;
+    max-height: 100% !important;
+    margin: 0 !important;
+    object-fit: contain !important;
+    object-position: center center !important;
+  }
+
+  main.project-detail-page .project-gallery-thumbnail {
+    aspect-ratio: 4 / 3 !important;
+    background: #fff !important;
+  }
+
+  main.project-detail-page .project-gallery-thumbnail > img {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: contain !important;
+    object-position: center center !important;
   }
 }
