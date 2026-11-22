@@ -1,8 +1,9 @@
 (() => {
   const $ = (s, root = document) => root.querySelector(s);
   const request = async (url, options = {}) => {
+    const isFormData = options.body instanceof FormData;
     const headers = {
-      ...(options.body ? { 'Content-Type': 'application/json' } : {}),
+      ...(options.body && !isFormData ? { 'Content-Type': 'application/json' } : {}),
       ...(options.headers || {})
     };
     const response = await fetch(url, { credentials: 'same-origin', ...options, headers });

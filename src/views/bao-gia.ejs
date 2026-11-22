@@ -2889,7 +2889,7 @@
     }
   </style>
   <script src="/js/main.js?v=2.0.7" defer></script>
-  <script src="/js/quote-page.js?v=1.2.17" defer></script>
+  <script src="/js/quote-page.js?v=1.2.19" defer></script>
 </head>
 <body>
   <% const quoteProjectUrls = { 'tk-kt-nha-cap-4': '/thiet-ke-cong-trinh/thiet-ke-kien-truc/thiet-ke-kien-truc-nha-cap-4', 'tk-kt-nha-pho': '/thiet-ke-cong-trinh/thiet-ke-kien-truc/thiet-ke-kien-truc-nha-pho', 'tk-kt-biet-thu': '/thiet-ke-cong-trinh/thiet-ke-kien-truc/thiet-ke-kien-truc-biet-thu', 'tk-kt-villa': '/thiet-ke-cong-trinh/thiet-ke-kien-truc/thiet-ke-kien-truc-villa', 'tk-nt-chung-cu': '/thiet-ke-noi-that/thiet-ke-noi-that-chung-cu', 'tk-nt-nha-pho': '/thiet-ke-noi-that/thiet-ke-noi-that-nha-pho', 'tk-nt-biet-thu': '/thiet-ke-noi-that/thiet-ke-noi-that-biet-thu', 'tk-nt-van-phong': '/thiet-ke-noi-that/thiet-ke-noi-that-van-phong' }; const dynamicProjectUrl = quoteProjectUrls[selectedCategory?.code] || '/thiet-ke-cong-trinh'; %>
@@ -3116,24 +3116,24 @@
                 </article>
               <% }) %>
             </div>
-            <div class="quote-project-gallery-modal project-gallery-lightbox" data-quote-project-gallery-modal hidden role="dialog" aria-modal="true" aria-label="Thư viện ảnh công trình">
-              <div class="quote-project-gallery-modal-backdrop project-gallery-lightbox-backdrop" data-quote-gallery-close></div>
-              <div class="quote-project-gallery-dialog project-gallery-lightbox-dialog">
-                <div class="quote-project-gallery-stage project-gallery-lightbox-stage" data-quote-gallery-stage>
-                  <img src="" alt="" data-quote-gallery-image draggable="false" />
-                  <img alt="" data-quote-gallery-preview aria-hidden="true" draggable="false" />
-                  <button class="quote-project-gallery-close project-gallery-lightbox-close" type="button" data-quote-gallery-close aria-label="Đóng thư viện ảnh">
+            <div class="project-gallery-lightbox" data-quote-project-gallery-modal hidden role="dialog" aria-modal="true" aria-label="Thư viện ảnh công trình">
+              <div class="project-gallery-lightbox-backdrop" data-quote-gallery-close></div>
+              <div class="project-gallery-lightbox-dialog">
+                <div class="project-gallery-lightbox-stage" data-quote-gallery-stage>
+                  <img src="" alt="" data-quote-gallery-image data-gallery-lightbox-image draggable="false" />
+                  <img alt="" data-quote-gallery-preview data-gallery-lightbox-preview aria-hidden="true" draggable="false" />
+                  <button class="project-gallery-lightbox-close" type="button" data-quote-gallery-close aria-label="Đóng thư viện ảnh">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
                   </button>
-                  <span class="quote-project-gallery-count"><b data-quote-gallery-current>01</b>/<span data-quote-gallery-total>01</span></span>
-                  <button class="quote-project-gallery-control project-gallery-lightbox-control previous" type="button" data-quote-gallery-prev aria-label="Ảnh trước">
+                  <span class="project-gallery-lightbox-count"><b data-quote-gallery-current>01</b>/<span data-quote-gallery-total>01</span></span>
+                  <button class="project-gallery-lightbox-control previous" type="button" data-quote-gallery-prev aria-label="Ảnh trước">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
                   </button>
-                  <button class="quote-project-gallery-control project-gallery-lightbox-control next" type="button" data-quote-gallery-next aria-label="Ảnh tiếp theo">
+                  <button class="project-gallery-lightbox-control next" type="button" data-quote-gallery-next aria-label="Ảnh tiếp theo">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
                   </button>
                 </div>
-                <div class="quote-project-gallery-thumbnails project-gallery-lightbox-thumbnails" data-quote-gallery-thumbnails aria-label="Chọn ảnh công trình"></div>
+                <div class="project-gallery-lightbox-thumbnails" data-quote-gallery-thumbnails aria-label="Chọn ảnh công trình"></div>
               </div>
             </div>
           <% } else { %>

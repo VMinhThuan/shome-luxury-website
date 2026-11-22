@@ -279,6 +279,10 @@ exports.downloadImage = async (req, res, next) => {
     const publicDirectory = path.resolve(__dirname, '../../public');
     const filenameStem = `${slot.image_key}-${variant}`.replace(/[^a-z0-9_-]/gi, '-');
 
+    if (!imageUrl) {
+      return res.status(404).json({ success: false, message: 'Chưa có ảnh để tải xuống.' });
+    }
+
     if (imageUrl.startsWith('/images/')) {
       const imagePath = path.resolve(publicDirectory, `.${imageUrl}`);
       if (!imagePath.startsWith(`${publicDirectory}${path.sep}`)) {
@@ -297,23 +301,16 @@ exports.downloadImage = async (req, res, next) => {
       return res.status(400).json({ success: false, message: 'Nguồn ảnh tải xuống không được hỗ trợ.' });
     }
 
-    const remoteResponse = await fetch(remoteUrl);
-    if (!remoteResponse.ok) {
-      return res.status(502).json({ success: false, message: 'Không thể tải ảnh từ kho lưu trữ.' });
+    // Let Cloudinary handle the remote download directly. Proxy-fetching the
+    // image through the server can hang or fail at the deployment gateway even
+    // when the same delivery URL works in the browser, resulting in a 502.
+    if (remoteUrl.pathname.includes('/image/upload/')) {
+      remoteUrl.pathname = remoteUrl.pathname.replace(
+        '/image/upload/',
+        `/image/upload/fl_attachment:${filenameStem}/`
+      );
     }
-    const contentType = (remoteResponse.headers.get('content-type') || 'application/octet-stream').split(';')[0];
-    if (!contentType.startsWith('image/')) {
-      return res.status(502).json({ success: false, message: 'Tệp tải về không phải là ảnh hợp lệ.' });
-    }
-    const extensions = { 'image/jpeg': '.jpg', 'image/png': '.png', 'image/webp': '.webp', 'image/avif': '.avif' };
-    const imageBuffer = Buffer.from(await remoteResponse.arrayBuffer());
-    res.set({
-      'Content-Type': contentType,
-      'Content-Length': imageBuffer.length,
-      'Content-Disposition': `attachment; filename="${filenameStem}${extensions[contentType] || '.img'}"`,
-      'Cache-Control': 'no-store'
-    });
-    return res.send(imageBuffer);
+    return res.redirect(302, remoteUrl.toString());
   } catch (error) {
     return next(error);
   }

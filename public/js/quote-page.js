@@ -1,17 +1,3 @@
-// A quote submenu is a full page navigation. Always start the new quote page
-// at the top instead of inheriting Chrome's previous scroll position. Keep
-// hash links intact because they intentionally point to a section on this page.
-const shouldResetQuotePageScroll = !window.location.hash;
-const resetQuotePageScroll = () => window.scrollTo(0, 0);
-
-if (shouldResetQuotePageScroll) {
-  if ('scrollRestoration' in window.history) window.history.scrollRestoration = 'manual';
-  resetQuotePageScroll();
-  window.requestAnimationFrame(resetQuotePageScroll);
-  window.addEventListener('load', resetQuotePageScroll, { once: true });
-  window.addEventListener('pageshow', resetQuotePageScroll, { once: true });
-}
-
 document.addEventListener('DOMContentLoaded', () => {
   // Match the project-detail gallery: thumbnail strips can be grabbed and
   // dragged horizontally with a mouse, trackpad or touch pointer. A drag must
@@ -214,7 +200,7 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     };
 
-    const close = () => { modal.hidden = true; document.body.classList.remove('quote-project-gallery-open'); };
+    const close = () => { modal.hidden = true; document.body.classList.remove('project-gallery-lightbox-open'); };
     const open = trigger => {
       try {
         const encodedImages = trigger.hasAttribute('data-quote-inline-gallery');
@@ -226,14 +212,14 @@ document.addEventListener('DOMContentLoaded', () => {
       thumbnails.replaceChildren();
       images.forEach((src, index) => {
         const button = document.createElement('button');
-        button.type = 'button'; button.className = 'quote-project-gallery-thumbnail';
+        button.type = 'button'; button.className = 'project-gallery-lightbox-thumbnail';
         button.setAttribute('aria-label', `Xem ảnh ${index + 1}`);
         const thumb = document.createElement('img');
         thumb.src = src; thumb.alt = ''; thumb.loading = 'lazy';
         button.append(thumb); button.addEventListener('click', () => show(index)); thumbnails.append(button);
       });
-      modal.hidden = false; document.body.classList.add('quote-project-gallery-open'); show(0);
-      modal.querySelector('.quote-project-gallery-close')?.focus();
+      modal.hidden = false; document.body.classList.add('project-gallery-lightbox-open'); show(0);
+      modal.querySelector('[data-quote-gallery-close]')?.focus();
     };
 
     document.addEventListener('click', event => {
