@@ -408,23 +408,11 @@ document.addEventListener('DOMContentLoaded', () => {
       return iframe;
     };
 
-    const requestFullscreen = iframe => {
-      if (!iframe) return;
-      const enterFullscreen = iframe.requestFullscreen || iframe.webkitRequestFullscreen;
-      if (enterFullscreen) {
-        Promise.resolve(enterFullscreen.call(iframe)).catch(() => {});
-        return;
-      }
-      // Older mobile browsers can still provide YouTube's own fullscreen
-      // control after opening the video directly.
-      const videoUrl = frame.dataset.videoUrl;
-      if (videoUrl) window.open(videoUrl, '_blank', 'noopener,noreferrer');
-    };
-
     cover.addEventListener('click', () => {
-      const iframe = createIframe();
-      const isQuoteCompletedVideo = frame.closest('.quote-page .quote-completed-video-card');
-      if (isQuoteCompletedVideo && window.matchMedia?.('(max-width: 767px)').matches) requestFullscreen(iframe);
+      // Let YouTube own fullscreen state. Calling requestFullscreen() here
+      // puts the iframe in a second fullscreen layer on mobile, which makes
+      // YouTube's own exit control unreliable.
+      createIframe();
     }, { once: true });
   });
   document.dispatchEvent(new Event('shomeluxuryreviewcarouselready'));
