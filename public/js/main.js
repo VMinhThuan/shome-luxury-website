@@ -389,6 +389,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // thumbnail for the real embed.
   document.querySelectorAll('[data-youtube-thumbnail]').forEach(frame => {
     const cover = frame.querySelector('.youtube-thumbnail-cover');
+    const fullscreenButton = frame.querySelector('[data-youtube-fullscreen]');
     if (!cover) return;
 
     const createIframe = () => {
@@ -403,10 +404,41 @@ document.addEventListener('DOMContentLoaded', () => {
       iframe.referrerPolicy = 'strict-origin-when-cross-origin';
       iframe.allowFullscreen = true;
       frame.replaceChildren(iframe);
+      if (fullscreenButton) frame.append(fullscreenButton);
       frame.classList.add('is-playing');
       iframe.focus();
       return iframe;
     };
+
+    const getFullscreenElement = () => document.fullscreenElement || document.webkitFullscreenElement || null;
+    const updateFullscreenButton = () => {
+      if (!fullscreenButton) return;
+      const isFullscreen = getFullscreenElement() === frame;
+      fullscreenButton.classList.toggle('is-active', isFullscreen);
+      fullscreenButton.setAttribute('aria-label', isFullscreen ? 'Thoát toàn màn hình' : 'Mở video toàn màn hình');
+      fullscreenButton.title = isFullscreen ? 'Thoát toàn màn hình' : 'Mở video toàn màn hình';
+    };
+
+    const toggleFullscreen = async event => {
+      event.preventDefault();
+      event.stopPropagation();
+      if (getFullscreenElement() === frame) {
+        if (document.exitFullscreen) await document.exitFullscreen().catch(() => {});
+        else if (document.webkitExitFullscreen) document.webkitExitFullscreen();
+        return;
+      }
+
+      if (!frame.classList.contains('is-playing')) createIframe();
+      const enterFullscreen = frame.requestFullscreen || frame.webkitRequestFullscreen;
+      if (enterFullscreen) {
+        await Promise.resolve(enterFullscreen.call(frame)).catch(() => {});
+      }
+      updateFullscreenButton();
+    };
+
+    fullscreenButton?.addEventListener('click', toggleFullscreen);
+    document.addEventListener('fullscreenchange', updateFullscreenButton);
+    document.addEventListener('webkitfullscreenchange', updateFullscreenButton);
 
     cover.addEventListener('click', () => {
       // Let YouTube own fullscreen state. Calling requestFullscreen() here
