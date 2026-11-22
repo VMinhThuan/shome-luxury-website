@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400&family=Playfair+Display:ital,wght@0,600;0,700;0,800;0,900;1,600&family=Great+Vibes&family=Alex+Brush&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="/css/style.css?v=6.8.175" />
+  <link rel="stylesheet" href="/css/style.css?v=6.8.176" />
   <style>
     /* Alternating section backgrounds on quote page handled by style.css design system */
     .quote-page .quote-video-card-link { display: block; padding: 0; color: inherit; font: inherit; text-align: left; cursor: pointer; }
@@ -2888,8 +2888,8 @@
       .quote-page .quote-project-gallery-modal .quote-project-gallery-control.next { right: .55rem !important; }
     }
   </style>
-  <script src="/js/main.js?v=2.0.6" defer></script>
-  <script src="/js/quote-page.js?v=1.2.16" defer></script>
+  <script src="/js/main.js?v=2.0.7" defer></script>
+  <script src="/js/quote-page.js?v=1.2.17" defer></script>
 </head>
 <body>
   <% const quoteProjectUrls = { 'tk-kt-nha-cap-4': '/thiet-ke-cong-trinh/thiet-ke-kien-truc/thiet-ke-kien-truc-nha-cap-4', 'tk-kt-nha-pho': '/thiet-ke-cong-trinh/thiet-ke-kien-truc/thiet-ke-kien-truc-nha-pho', 'tk-kt-biet-thu': '/thiet-ke-cong-trinh/thiet-ke-kien-truc/thiet-ke-kien-truc-biet-thu', 'tk-kt-villa': '/thiet-ke-cong-trinh/thiet-ke-kien-truc/thiet-ke-kien-truc-villa', 'tk-nt-chung-cu': '/thiet-ke-noi-that/thiet-ke-noi-that-chung-cu', 'tk-nt-nha-pho': '/thiet-ke-noi-that/thiet-ke-noi-that-nha-pho', 'tk-nt-biet-thu': '/thiet-ke-noi-that/thiet-ke-noi-that-biet-thu', 'tk-nt-van-phong': '/thiet-ke-noi-that/thiet-ke-noi-that-van-phong' }; const dynamicProjectUrl = quoteProjectUrls[selectedCategory?.code] || '/thiet-ke-cong-trinh'; %>
@@ -3233,6 +3233,9 @@
                               <img class="youtube-play-icon" src="/images/ytb.avif?v=2" alt="" />
                             </span>
                           </button>
+                          <button type="button" class="youtube-fullscreen-button" data-youtube-fullscreen aria-label="Mở video toàn màn hình">
+                            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 3H3v5M3 3l6 6M16 3h5v5M21 3l-6 6M8 21H3v-5M3 21l6-6M16 21h5v-5M21 21l-6-6" /></svg>
+                          </button>
                         </div>
                       </article>
                     <% }) %>
@@ -3273,6 +3276,9 @@
                         <span class="youtube-play-button" aria-hidden="true">
                           <img class="youtube-play-icon" src="/images/ytb.avif?v=2" alt="" />
                         </span>
+                      </button>
+                      <button type="button" class="youtube-fullscreen-button" data-youtube-fullscreen aria-label="Mở video toàn màn hình">
+                        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 3H3v5M3 3l6 6M16 3h5v5M21 3l-6 6M8 21H3v-5M3 21l6-6M16 21h5v-5M21 21l-6-6" /></svg>
                       </button>
                     </div>
                   </article>

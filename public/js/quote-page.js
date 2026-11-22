@@ -1,3 +1,17 @@
+// A quote submenu is a full page navigation. Always start the new quote page
+// at the top instead of inheriting Chrome's previous scroll position. Keep
+// hash links intact because they intentionally point to a section on this page.
+const shouldResetQuotePageScroll = !window.location.hash;
+const resetQuotePageScroll = () => window.scrollTo(0, 0);
+
+if (shouldResetQuotePageScroll) {
+  if ('scrollRestoration' in window.history) window.history.scrollRestoration = 'manual';
+  resetQuotePageScroll();
+  window.requestAnimationFrame(resetQuotePageScroll);
+  window.addEventListener('load', resetQuotePageScroll, { once: true });
+  window.addEventListener('pageshow', resetQuotePageScroll, { once: true });
+}
+
 document.addEventListener('DOMContentLoaded', () => {
   // Match the project-detail gallery: thumbnail strips can be grabbed and
   // dragged horizontally with a mouse, trackpad or touch pointer. A drag must
@@ -54,17 +68,6 @@ document.addEventListener('DOMContentLoaded', () => {
       suppressClick = false;
     }, true);
   };
-
-  // A submenu click opens a fresh quote URL. Do not let Chrome restore the
-  // previous page's vertical position; hash links such as #nhan-du-toan are
-  // intentionally allowed to keep their target position.
-  if (!window.location.hash) {
-    if ('scrollRestoration' in window.history) window.history.scrollRestoration = 'manual';
-    const resetQuotePageScroll = () => window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
-    resetQuotePageScroll();
-    window.requestAnimationFrame(resetQuotePageScroll);
-    window.setTimeout(resetQuotePageScroll, 80);
-  }
 
   const form = document.querySelector('[data-quote-form]');
   if (form) {

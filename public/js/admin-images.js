@@ -87,7 +87,7 @@
       input.spellcheck = false;
       label.append(input);
       const actions = create('div', 'admin-quote-video-actions');
-      const save = create('button', 'admin-quote-video-save', 'Lưu link mới');
+      const save = create('button', 'admin-quote-video-save', 'Thay thế link mới');
       save.type = 'button';
       const reset = create('button', 'admin-quote-video-reset', 'Khôi phục mặc định');
       reset.type = 'button';

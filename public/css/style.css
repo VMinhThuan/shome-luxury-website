@@ -9035,6 +9035,47 @@ main.company-profile-page .company-profile-hero h1 {
   inset: 0;
 }
 
+.youtube-fullscreen-button {
+  display: none;
+  position: absolute;
+  top: .55rem;
+  right: .55rem;
+  z-index: 3;
+  width: 2.15rem;
+  height: 2.15rem;
+  align-items: center;
+  justify-content: center;
+  padding: .45rem;
+  border: 1px solid rgba(255, 255, 255, .72);
+  border-radius: .45rem;
+  background: rgba(0, 0, 0, .66);
+  color: #fff;
+  cursor: pointer;
+  transition: background-color .2s ease, transform .2s ease;
+}
+
+.youtube-fullscreen-button svg {
+  width: 100%;
+  height: 100%;
+  fill: none;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 1.8;
+}
+
+.youtube-fullscreen-button:hover,
+.youtube-fullscreen-button:focus-visible {
+  background: rgba(0, 0, 0, .88);
+  transform: scale(1.06);
+}
+
+@media (max-width: 767px) {
+  .youtube-thumbnail-card .youtube-fullscreen-button {
+    display: inline-flex;
+  }
+}
+
 .youtube-responsive-iframe {
   display: none;
   position: relative;
@@ -13955,11 +13996,10 @@ main .section-v2-title,
 .quote-page .quote-featured-project-card--inline-gallery .quote-featured-project-overlay { z-index: 4; pointer-events: none; }
 .quote-page .quote-featured-project-card--inline-gallery .project-gallery-thumbnails { margin: .75rem 1rem .15rem; }
 .quote-page .quote-featured-project-card--inline-gallery .project-gallery-thumbnail { min-width: 88px; }
-@keyframes quote-inline-gallery-fade { from { opacity: .45; } to { opacity: 1; } }
+@keyframes quote-inline-gallery-fade { from { opacity: .72; } to { opacity: 1; } }
 
-/* Shared page-turn motion for every image viewer. The slight perspective and
-   eased overshoot make a swipe feel like a real page turn without being
-   distracting or slowing down the gallery. */
+/* The fullscreen viewer keeps its page-turn motion. The inline quote gallery
+   below intentionally uses only a soft opacity change. */
 @keyframes image-page-turn-next {
   0% { opacity: .35; transform: translate3d(7%, 0, 0) scale(.985) rotateY(-2deg); filter: blur(1px); }
   62% { opacity: 1; transform: translate3d(-.8%, 0, 0) scale(1.002) rotateY(.25deg); filter: blur(0); }
@@ -14000,11 +14040,11 @@ main .section-v2-title,
 }
 
 .quote-page .quote-featured-project-card--inline-gallery .project-gallery-stage.is-inline-changing-next > img {
-  animation: image-page-turn-next .42s cubic-bezier(.22, .61, .36, 1);
+  animation: quote-inline-gallery-fade .28s ease-out both;
 }
 
 .quote-page .quote-featured-project-card--inline-gallery .project-gallery-stage.is-inline-changing-previous > img {
-  animation: image-page-turn-previous .42s cubic-bezier(.22, .61, .36, 1);
+  animation: quote-inline-gallery-fade .28s ease-out both;
 }
 
 .project-gallery-lightbox-stage.is-page-dragging > img,
@@ -18193,22 +18233,24 @@ body.showcase-page-body .completed-videos-section {
 /* Compact, shared vertical rhythm for construction banners and galleries. */
 @media (min-width: 768px) {
   body.showcase-page-body {
-    /* Match the vertical footprint of the project-detail summary banner. */
-    --showcase-compact-gap: 15px;
+    /* Match the desktop project-detail summary banner: the category hero and
+       completed-project banner should share its height and vertical rhythm. */
+    --showcase-banner-height: 203px;
+    --showcase-banner-padding: clamp(1.35rem, 2.5vw, 2rem);
   }
 
   body.showcase-page-body .project-showcase-hero,
   body.showcase-page-body .completed-projects-heading-band {
-    min-height: 0;
+    min-height: var(--showcase-banner-height);
     box-sizing: border-box;
     display: grid;
     place-items: center;
-    padding-top: var(--showcase-compact-gap) !important;
-    padding-bottom: var(--showcase-compact-gap) !important;
+    padding-top: var(--showcase-banner-padding) !important;
+    padding-bottom: var(--showcase-banner-padding) !important;
   }
 
   body.showcase-page-body .project-showcase-section > .container.has-construction-gallery {
-    padding-top: var(--showcase-compact-gap) !important;
+    padding-top: var(--showcase-banner-padding) !important;
   }
 
   body.showcase-page-body .project-showcase-section .construction-upload-gallery-grid,
@@ -18217,12 +18259,12 @@ body.showcase-page-body .completed-videos-section {
   }
 
   body.showcase-page-body .completed-projects-section > .container {
-    padding-top: var(--showcase-compact-gap) !important;
+    padding-top: var(--showcase-banner-padding) !important;
   }
 
   body.showcase-page-body .construction-upload-gallery-more {
-    padding-top: var(--showcase-compact-gap) !important;
-    padding-bottom: var(--showcase-compact-gap) !important;
+    padding-top: var(--showcase-banner-padding) !important;
+    padding-bottom: var(--showcase-banner-padding) !important;
   }
 }
 

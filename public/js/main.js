@@ -389,22 +389,52 @@ document.addEventListener('DOMContentLoaded', () => {
   // thumbnail for the real embed.
   document.querySelectorAll('[data-youtube-thumbnail]').forEach(frame => {
     const cover = frame.querySelector('.youtube-thumbnail-cover');
+    const fullscreenButton = frame.querySelector('[data-youtube-fullscreen]');
     if (!cover) return;
-    cover.addEventListener('click', () => {
+
+    const createIframe = () => {
       const videoUrl = frame.dataset.videoUrl || '';
       const videoId = videoUrl.match(/(?:youtu\.be\/|youtube(?:-nocookie)?\.com\/(?:watch\?(?:[^#&]+&)*v=|embed\/|shorts\/))([\w-]{11})/)?.[1];
-      if (!videoId) return;
+      if (!videoId) return null;
       const iframe = document.createElement('iframe');
       iframe.src = `https://www.youtube-nocookie.com/embed/${videoId}?autoplay=1&rel=0&modestbranding=1`;
       iframe.title = cover.getAttribute('aria-label') || 'Video YouTube Shome Luxury';
       iframe.loading = 'lazy';
-      iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share';
+      iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen; web-share';
       iframe.referrerPolicy = 'strict-origin-when-cross-origin';
       iframe.allowFullscreen = true;
       frame.replaceChildren(iframe);
       frame.classList.add('is-playing');
       iframe.focus();
+      return iframe;
+    };
+
+    const getActiveIframe = () => Array.from(frame.querySelectorAll('iframe'))
+      .find(iframe => !iframe.classList.contains('quote-desktop-youtube-iframe')) || null;
+
+    const requestFullscreen = iframe => {
+      if (!iframe) return;
+      const enterFullscreen = iframe.requestFullscreen || iframe.webkitRequestFullscreen;
+      if (enterFullscreen) {
+        Promise.resolve(enterFullscreen.call(iframe)).catch(() => {});
+        return;
+      }
+      // Older mobile browsers can still provide YouTube's own fullscreen
+      // control after opening the video directly.
+      const videoUrl = frame.dataset.videoUrl;
+      if (videoUrl) window.open(videoUrl, '_blank', 'noopener,noreferrer');
+    };
+
+    cover.addEventListener('click', () => {
+      createIframe();
     }, { once: true });
+
+    fullscreenButton?.addEventListener('click', event => {
+      event.preventDefault();
+      event.stopPropagation();
+      const iframe = getActiveIframe() || createIframe();
+      requestFullscreen(iframe);
+    });
   });
   document.dispatchEvent(new Event('shomeluxuryreviewcarouselready'));
 
