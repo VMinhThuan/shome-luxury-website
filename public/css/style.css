@@ -23817,3 +23817,28 @@ main.project-detail-page .project-info-banner .meta-value {
     margin: .35rem auto 0 !important;
   }
 }
+
+/* Gallery swipe transition: the outgoing image leaves in the swipe
+   direction while the next image enters from the opposite side. */
+.project-gallery-lightbox:not(.project-gallery-lightbox--grid) .project-gallery-lightbox-stage.is-lightbox-sliding > [data-gallery-lightbox-image],
+.project-gallery-lightbox:not(.project-gallery-lightbox--grid) .project-gallery-lightbox-stage.is-lightbox-sliding > [data-gallery-lightbox-preview] {
+  transition: transform .52s cubic-bezier(.22, .61, .36, 1), filter .52s ease, opacity .52s ease !important;
+  will-change: transform;
+}
+
+.project-gallery-lightbox:not(.project-gallery-lightbox--grid).is-swiping .project-gallery-lightbox-stage > [data-gallery-lightbox-preview],
+.project-gallery-lightbox:not(.project-gallery-lightbox--grid) .project-gallery-lightbox-stage.is-lightbox-sliding > [data-gallery-lightbox-preview] {
+  display: block !important;
+  visibility: visible !important;
+  z-index: 3 !important;
+  pointer-events: none !important;
+}
+
+.project-gallery-lightbox:not(.project-gallery-lightbox--grid).is-swiping .project-gallery-lightbox-stage > [data-gallery-lightbox-image],
+.project-gallery-lightbox:not(.project-gallery-lightbox--grid) .project-gallery-lightbox-stage.is-lightbox-sliding > [data-gallery-lightbox-image] {
+  z-index: 2 !important;
+}
+
+.project-gallery-lightbox:not(.project-gallery-lightbox--grid).is-swiping .project-gallery-lightbox-stage > img {
+  transition: none !important;
+}

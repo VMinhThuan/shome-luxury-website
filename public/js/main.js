@@ -1124,7 +1124,11 @@ document.addEventListener('DOMContentLoaded', () => {
       const liftProgress = Math.max(0, Math.min(1, lift));
       const liftY = Math.round(-8 * liftProgress);
       const liftScale = (1 + (0.022 * liftProgress)).toFixed(3);
-      image.style.transform = `translate3d(${offset}px, ${liftY}px, 0) scale3d(${liftScale}, ${liftScale}, 1)`;
+      image.style.setProperty(
+        'transform',
+        `translate3d(${offset}px, ${liftY}px, 0) scale3d(${liftScale}, ${liftScale}, 1)`,
+        'important'
+      );
     }
 
     function updateLightboxSwipePreview(index) {
@@ -1135,6 +1139,7 @@ document.addEventListener('DOMContentLoaded', () => {
       lightboxSwipePreviewIndex = normalizedIndex;
       preview.src = galleryImages[normalizedIndex];
       preview.alt = `${getProjectTitle()} - ảnh ${normalizedIndex + 1}`;
+      preview.style.setProperty('display', 'block', 'important');
       preview.style.visibility = 'visible';
       preloadGalleryImage(galleryImages[normalizedIndex]);
     }
@@ -1149,8 +1154,11 @@ document.addEventListener('DOMContentLoaded', () => {
       const offset = pendingLightboxSwipeOffsetX;
       const stageWidth = stage.clientWidth || window.innerWidth;
       const previewStart = offset < 0 ? stageWidth : -stageWidth;
+      const direction = offset < 0 ? 1 : -1;
+      updateLightboxSwipePreview(Number(galleryLightbox.dataset.galleryLightboxIndex || 0) + direction);
+      galleryLightbox.classList.add('is-swiping');
       setLightboxSlideTransform(image, offset, 1);
-      setLightboxSlideTransform(preview, previewStart + offset);
+      setLightboxSlideTransform(preview, previewStart + offset, 1);
     }
 
     function queueLightboxSwipeFrame() {
@@ -1173,6 +1181,8 @@ document.addEventListener('DOMContentLoaded', () => {
       setLightboxSlideTransform(image, 0);
       setLightboxSlideTransform(preview, 0);
       preview.style.visibility = 'hidden';
+      preview.style.removeProperty('display');
+      galleryLightbox?.classList.remove('is-swiping');
       lightboxSwipePreviewIndex = null;
       lightboxSwipeOffsetX = 0;
       pendingLightboxSwipeOffsetX = 0;
@@ -1341,6 +1351,8 @@ document.addEventListener('DOMContentLoaded', () => {
         lightboxSwipeOffsetX = Math.max(-window.innerWidth * 0.95, Math.min(window.innerWidth * 0.95, distance));
         if (Math.abs(distance) > 4) {
           event.preventDefault();
+          pendingLightboxSwipeOffsetX = lightboxSwipeOffsetX;
+          queueLightboxSwipeFrame();
         }
       });
       const finishLightboxPointer = event => {
@@ -1436,6 +1448,8 @@ document.addEventListener('DOMContentLoaded', () => {
         event.preventDefault();
         lightboxSwipeOffsetX = Math.max(-window.innerWidth * 0.95, Math.min(window.innerWidth * 0.95, distance));
         pendingLightboxSwipeOffsetX = lightboxSwipeOffsetX;
+        updateLightboxSwipePreview(Number(galleryLightbox.dataset.galleryLightboxIndex || 0) + (distance < 0 ? 1 : -1));
+        galleryLightbox.classList.add('is-swiping');
         queueLightboxSwipeFrame();
       }, { passive: false });
       stage?.addEventListener('touchend', event => {
@@ -1541,54 +1555,50 @@ document.addEventListener('DOMContentLoaded', () => {
         lightboxTransitionCleanupTimer = null;
       }
 
-      // Keep navigation on one centered image. The new bitmap enters with a
-      // short directional slide, scale lift, blur and fade for a consistent
-      // gallery transition without exposing a second bitmap beside it.
       stage.classList.remove('is-page-dragging', 'is-page-settling', 'is-page-lifted');
+      modal.classList.remove('is-swiping');
+      stage.classList.add('is-lightbox-sliding');
       stage.dataset.lightboxDragSettled = 'true';
-      preview.style.visibility = 'hidden';
-      image.style.visibility = 'hidden';
-      image.classList.remove('is-gallery-lightbox-fading', 'is-page-turn-next', 'is-page-turn-previous');
-      image.style.transform = '';
+      image.style.visibility = 'visible';
+      image.classList.remove('is-gallery-lightbox-fading', 'is-lightbox-transitioning', 'is-lightbox-transitioning-entered', 'is-page-turn-next', 'is-page-turn-previous');
 
       preloadGalleryImage(galleryImages[normalizedIndex]).then(() => {
         if (transitionToken !== lightboxImageTransitionToken) return;
 
-        image.src = galleryImages[normalizedIndex];
-        image.alt = `${getProjectTitle()} - ảnh ${normalizedIndex + 1}`;
-        const reveal = () => {
+        const stageWidth = stage.clientWidth || window.innerWidth;
+        const incomingStart = direction > 0 ? stageWidth : -stageWidth;
+        const outgoingEnd = direction > 0 ? -stageWidth : stageWidth;
+        preview.src = galleryImages[normalizedIndex];
+        preview.alt = `${getProjectTitle()} - ảnh ${normalizedIndex + 1}`;
+        preview.style.setProperty('display', 'block', 'important');
+        preview.style.visibility = 'visible';
+        setLightboxSlideTransform(image, 0, 1);
+        setLightboxSlideTransform(preview, incomingStart, 1);
+        void stage.offsetWidth;
+
+        window.requestAnimationFrame(() => {
           if (transitionToken !== lightboxImageTransitionToken) return;
+          setLightboxSlideTransform(image, outgoingEnd, 0);
+          setLightboxSlideTransform(preview, 0, 0);
+        });
+
+        lightboxTransitionCleanupTimer = window.setTimeout(() => {
+          lightboxTransitionCleanupTimer = null;
+          if (transitionToken !== lightboxImageTransitionToken) return;
+          image.src = galleryImages[normalizedIndex];
+          image.alt = `${getProjectTitle()} - ảnh ${normalizedIndex + 1}`;
           modal.dataset.galleryLightboxIndex = String(normalizedIndex);
           modal.querySelector('[data-gallery-lightbox-current]').textContent = String(normalizedIndex + 1).padStart(2, '0');
-          image.classList.remove('is-gallery-lightbox-fading', 'is-lightbox-transitioning', 'is-lightbox-transitioning-entered');
-          image.style.setProperty('--lightbox-transition-offset', direction > 0 ? '3.5%' : '-3.5%');
-          image.style.visibility = 'visible';
-          void image.offsetWidth;
-          image.classList.add('is-lightbox-transitioning');
-          window.requestAnimationFrame(() => {
-            if (transitionToken === lightboxImageTransitionToken) {
-              image.classList.add('is-lightbox-transitioning-entered');
-            }
-          });
-          lightboxTransitionCleanupTimer = window.setTimeout(() => {
-            lightboxTransitionCleanupTimer = null;
-            if (transitionToken !== lightboxImageTransitionToken) return;
-            image.classList.remove('is-lightbox-transitioning', 'is-lightbox-transitioning-entered');
-            image.style.removeProperty('--lightbox-transition-offset');
-          }, 520);
+          setLightboxSlideTransform(image, 0, 0);
+          setLightboxSlideTransform(preview, 0, 0);
+          preview.style.visibility = 'hidden';
+          preview.style.removeProperty('display');
+          stage.classList.remove('is-lightbox-sliding');
           updateLightboxPanLimits();
           applyLightboxZoom();
           preloadGalleryImage(galleryImages[(normalizedIndex + 1) % galleryImages.length]);
           preloadGalleryImage(galleryImages[(normalizedIndex - 1 + galleryImages.length) % galleryImages.length]);
-        };
-        if (typeof image.decode === 'function') {
-          image.decode().catch(() => {}).finally(reveal);
-        } else if (image.complete) {
-          reveal();
-        } else {
-          image.addEventListener('load', reveal, { once: true });
-          image.addEventListener('error', reveal, { once: true });
-        }
+        }, 520);
       });
     }
 
