@@ -1348,6 +1348,15 @@ document.addEventListener('DOMContentLoaded', () => {
       stage?.addEventListener('pointercancel', finishLightboxPointer);
       stage?.addEventListener('touchstart', event => {
         if (!event.touches?.length) return;
+        // Keep navigation controls as normal taps while the image is zoomed.
+        // preventDefault() on a button touch can suppress its click event on
+        // mobile Safari.
+        if (event.touches.length === 1 && event.target.closest('button')) {
+          lightboxTouchMode = null;
+          lightboxSwipeStartX = null;
+          lightboxPointerId = null;
+          return;
+        }
         if (event.touches.length >= 2) {
           event.preventDefault();
           lightboxPinchStartDistance = getLightboxTouchDistance(event.touches[0], event.touches[1]);
@@ -2498,6 +2507,12 @@ document.addEventListener('DOMContentLoaded', () => {
       });
       stage?.addEventListener('touchstart', event => {
         if (!event.touches?.length) return;
+        // Do not turn a navigation-button tap into an image-pan gesture.
+        if (event.touches.length === 1 && event.target.closest('button')) {
+          projectGalleryTouchMode = null;
+          projectGalleryPointerStartX = null;
+          return;
+        }
         if (event.touches.length >= 2) {
           event.preventDefault();
           projectGalleryPinchStartDistance = projectGalleryTouchDistance(event.touches[0], event.touches[1]);

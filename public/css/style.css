@@ -23506,6 +23506,73 @@ main.project-detail-page .project-detail-summary .project-detail-title {
   }
 }
 
+/* Final project-detail summary scale. Keep this rule after all responsive
+   overrides so the requested preview values are applied at every width. */
+main.project-detail-page .project-detail-summary .project-detail-title {
+  font-size: 16px !important;
+  line-height: 1.25 !important;
+}
+
+main.project-detail-page .project-info-banner .meta-label,
+main.project-detail-page .project-info-banner .meta-value {
+  font-size: 14.08px !important;
+  line-height: 1.2 !important;
+}
+
+/* Final mobile override: phone layout uses 14px for the project title and
+   12.8px for all four metadata labels and values. */
+@media (max-width: 767px) {
+  main.project-detail-page .project-detail-summary .project-detail-title {
+    font-size: 14px !important;
+  }
+
+  main.project-detail-page .project-info-banner .meta-label,
+  main.project-detail-page .project-info-banner .meta-value {
+    font-size: 12.8px !important;
+  }
+}
+
+/* Tighten the mobile project banner so the summary and first image sit
+   together without a large empty gap. */
+@media (max-width: 767px) {
+  main.project-detail-page .project-detail-header {
+    padding: .7rem 0 .2rem !important;
+  }
+
+  main.project-detail-page .project-detail-title-rule {
+    margin-top: .2rem !important;
+  }
+
+  main.project-detail-page .project-detail-summary .project-info-banner {
+    margin-bottom: .3rem !important;
+  }
+
+  main.project-detail-page .project-info-banner .meta-item {
+    min-height: 42px !important;
+    gap: .04rem !important;
+    padding-top: .1rem !important;
+    padding-bottom: .1rem !important;
+  }
+
+  main.project-detail-page > .container > .project-showcase-gallery {
+    margin-top: .25rem !important;
+  }
+}
+
+/* Mobile must use the smaller type scale requested for the phone layout. */
+@media (max-width: 767px) {
+  main.project-detail-page .project-detail-summary .project-detail-title {
+    font-size: 14px !important;
+    line-height: 1.25 !important;
+  }
+
+  main.project-detail-page .project-info-banner .meta-label,
+  main.project-detail-page .project-info-banner .meta-value {
+    font-size: 12.8px !important;
+    line-height: 1.2 !important;
+  }
+}
+
 /* Keep all project image banners visually uniform. The media frame already
    has a fixed 16:9 height; fill it so portrait and landscape uploads do not
    create different-looking banner heights or white side gutters. */
@@ -23580,5 +23647,30 @@ main.project-detail-page .project-detail-summary .project-detail-title {
 
   main.project-detail-page > .container > .project-showcase-gallery {
     margin-top: .45rem !important;
+  }
+}
+
+/* Last override for the project-detail preview scale. */
+main.project-detail-page .project-detail-summary .project-detail-title {
+  font-size: 16px !important;
+  line-height: 1.25 !important;
+}
+
+main.project-detail-page .project-info-banner .meta-label,
+main.project-detail-page .project-info-banner .meta-value {
+  font-size: 14.08px !important;
+  line-height: 1.2 !important;
+}
+
+/* Final mobile override: phone layout uses 14px for the project title and
+   12.8px for all four metadata labels and values. */
+@media (max-width: 767px) {
+  main.project-detail-page .project-detail-summary .project-detail-title {
+    font-size: 14px !important;
+  }
+
+  main.project-detail-page .project-info-banner .meta-label,
+  main.project-detail-page .project-info-banner .meta-value {
+    font-size: 12.8px !important;
   }
 }
