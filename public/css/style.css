@@ -23796,3 +23796,24 @@ main.project-detail-page .project-info-banner .meta-value {
     object-position: center center !important;
   }
 }
+
+/* Match the responsive-web title block to the mobile alignment: the title
+   and gold rule sit in one centered group with equal breathing room above
+   and below the group. */
+@media (min-width: 768px) {
+  main.project-detail-page .project-detail-header {
+    align-items: center !important;
+    justify-content: center !important;
+    padding: clamp(.85rem, 1.7vw, 1.25rem) 0 !important;
+  }
+
+  main.project-detail-page .project-detail-summary .project-detail-title {
+    width: 100% !important;
+    margin: 0 !important;
+    text-align: center !important;
+  }
+
+  main.project-detail-page .project-detail-title-rule {
+    margin: .35rem auto 0 !important;
+  }
+}
