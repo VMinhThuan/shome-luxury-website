@@ -23490,6 +23490,22 @@ main.project-detail-page .project-detail-summary .project-detail-title {
   }
 }
 
+/* Responsive/tablet detail summary scale. This also covers device-toolbar
+   previews wider than the phone breakpoint, where the older desktop rules
+   would otherwise keep the title and metadata too large. */
+@media (max-width: 1023px) {
+  main.project-detail-page .project-detail-summary .project-detail-title {
+    font-size: 16px !important;
+    line-height: 1.25 !important;
+  }
+
+  main.project-detail-page .project-info-banner .meta-label,
+  main.project-detail-page .project-info-banner .meta-value {
+    font-size: 13.024px !important;
+    line-height: 1.2 !important;
+  }
+}
+
 /* Keep all project image banners visually uniform. The media frame already
    has a fixed 16:9 height; fill it so portrait and landscape uploads do not
    create different-looking banner heights or white side gutters. */
@@ -23526,5 +23542,43 @@ main.project-detail-page .project-detail-summary .project-detail-title {
   .quote-page .quote-featured-project-card--inline-gallery .project-gallery-thumbnail.is-active {
     border-color: var(--accent-gold, #D2A044) !important;
     box-shadow: 0 0 0 1px rgba(210, 160, 68, .18) !important;
+  }
+}
+
+/* Final mobile sizing for the project-detail summary. Keep the four metadata
+   cells compact and prevent the dark summary banner from taking excessive
+   vertical space on small screens. */
+@media (max-width: 767px) {
+  main.project-detail-page .project-detail-summary .project-detail-title {
+    font-size: 16px !important;
+    line-height: 1.25 !important;
+    letter-spacing: -.02em !important;
+  }
+
+  main.project-detail-page .project-detail-header {
+    padding: 1.25rem 0 .35rem !important;
+  }
+
+  main.project-detail-page .project-detail-summary .project-info-banner {
+    margin-bottom: .65rem !important;
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+  }
+
+  main.project-detail-page .project-info-banner .meta-item {
+    min-height: 50px !important;
+    gap: .08rem !important;
+    padding-top: .2rem !important;
+    padding-bottom: .2rem !important;
+  }
+
+  main.project-detail-page .project-info-banner .meta-label,
+  main.project-detail-page .project-info-banner .meta-value {
+    font-size: 13.024px !important;
+    line-height: 1.2 !important;
+  }
+
+  main.project-detail-page > .container > .project-showcase-gallery {
+    margin-top: .45rem !important;
   }
 }
