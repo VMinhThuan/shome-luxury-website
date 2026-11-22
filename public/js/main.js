@@ -1016,6 +1016,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let lightboxTouchMode = null;
     let lightboxSafariGestureActive = false;
     let lightboxSafariGestureStartScale = 1;
+    let lightboxTransitionCleanupTimer = null;
     const galleryImagePreloads = new Map();
     let galleryTransitionToken = 0;
     let gallerySpringFrame = null;
@@ -1505,9 +1506,14 @@ document.addEventListener('DOMContentLoaded', () => {
       const transitionToken = ++lightboxImageTransitionToken;
       resetLightboxZoom();
 
-      // Keep navigation on one centered image. The old page-turn/lift motion
-      // moved two bitmaps across the stage and exposed part of the old image.
-      // The new image is simply revealed with a short opacity transition.
+      if (lightboxTransitionCleanupTimer !== null) {
+        window.clearTimeout(lightboxTransitionCleanupTimer);
+        lightboxTransitionCleanupTimer = null;
+      }
+
+      // Keep navigation on one centered image. The new bitmap enters with a
+      // short directional slide, scale lift, blur and fade for a consistent
+      // gallery transition without exposing a second bitmap beside it.
       stage.classList.remove('is-page-dragging', 'is-page-settling', 'is-page-lifted');
       stage.dataset.lightboxDragSettled = 'true';
       preview.style.visibility = 'hidden';
@@ -1524,10 +1530,22 @@ document.addEventListener('DOMContentLoaded', () => {
           if (transitionToken !== lightboxImageTransitionToken) return;
           modal.dataset.galleryLightboxIndex = String(normalizedIndex);
           modal.querySelector('[data-gallery-lightbox-current]').textContent = String(normalizedIndex + 1).padStart(2, '0');
+          image.classList.remove('is-gallery-lightbox-fading', 'is-lightbox-transitioning', 'is-lightbox-transitioning-entered');
+          image.style.setProperty('--lightbox-transition-offset', direction > 0 ? '3.5%' : '-3.5%');
           image.style.visibility = 'visible';
           void image.offsetWidth;
-          image.classList.add('is-gallery-lightbox-fading');
-          window.setTimeout(() => image.classList.remove('is-gallery-lightbox-fading'), 280);
+          image.classList.add('is-lightbox-transitioning');
+          window.requestAnimationFrame(() => {
+            if (transitionToken === lightboxImageTransitionToken) {
+              image.classList.add('is-lightbox-transitioning-entered');
+            }
+          });
+          lightboxTransitionCleanupTimer = window.setTimeout(() => {
+            lightboxTransitionCleanupTimer = null;
+            if (transitionToken !== lightboxImageTransitionToken) return;
+            image.classList.remove('is-lightbox-transitioning', 'is-lightbox-transitioning-entered');
+            image.style.removeProperty('--lightbox-transition-offset');
+          }, 520);
           updateLightboxPanLimits();
           applyLightboxZoom();
           preloadGalleryImage(galleryImages[(normalizedIndex + 1) % galleryImages.length]);

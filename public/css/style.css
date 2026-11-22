@@ -23532,15 +23532,38 @@ main.project-detail-page .project-info-banner .meta-value {
   }
 }
 
+/* Unified cinematic transition for the detail-page fullscreen viewer:
+   directional slide, a restrained scale lift, and a short soft blur/fade. */
+.project-gallery-lightbox:not(.project-gallery-lightbox--grid) .project-gallery-lightbox-stage > [data-gallery-lightbox-image].is-lightbox-transitioning {
+  transform: translate3d(var(--lightbox-transition-offset, 0), 0, 0) scale3d(.985, .985, 1) !important;
+  opacity: 0 !important;
+  filter: blur(2px) !important;
+  transition: transform .46s cubic-bezier(.22, .61, .36, 1), opacity .28s ease-out, filter .32s ease-out !important;
+}
+
+.project-gallery-lightbox:not(.project-gallery-lightbox--grid) .project-gallery-lightbox-stage > [data-gallery-lightbox-image].is-lightbox-transitioning.is-lightbox-transitioning-entered {
+  transform: translate3d(0, 0, 0) scale3d(1, 1, 1) !important;
+  opacity: 1 !important;
+  filter: none !important;
+}
+
 /* Tighten the mobile project banner so the summary and first image sit
    together without a large empty gap. */
 @media (max-width: 767px) {
   main.project-detail-page .project-detail-header {
-    padding: .7rem 0 .2rem !important;
+    align-items: center !important;
+    justify-content: center !important;
+    padding: .6rem 0 !important;
+  }
+
+  main.project-detail-page .project-detail-summary .project-detail-title {
+    width: 100% !important;
+    margin: 0 !important;
+    text-align: center !important;
   }
 
   main.project-detail-page .project-detail-title-rule {
-    margin-top: .2rem !important;
+    margin: .2rem auto 0 !important;
   }
 
   main.project-detail-page .project-detail-summary .project-info-banner {
