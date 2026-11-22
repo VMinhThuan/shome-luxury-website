@@ -25,6 +25,15 @@ const SOURCE_PRESERVING_IMAGE_KEYS = new Set([
   'quote_construction_cta_image'
 ]);
 
+// The three homepage hero banners are designed for large desktop screens.
+// Their legacy fallback files are 1376px wide, so using the fallback size as
+// the upload target would unnecessarily downscale a customer's 2K+ artwork.
+const HOMEPAGE_HERO_BANNER_KEYS = new Set([
+  'hero_banner_1',
+  'hero_banner_2',
+  'hero_banner_3'
+]);
+
 // These benefit icons keep their website defaults and are no longer
 // replaceable from the image-management screen.
 const HIDDEN_ADMIN_IMAGE_KEYS = new Set([
@@ -40,6 +49,9 @@ const HIDDEN_ADMIN_IMAGE_KEYS = new Set([
 ]);
 
 const preservesOriginalFile = slot => SOURCE_PRESERVING_IMAGE_KEYS.has(slot.image_key);
+const isHomepageHeroBanner = slot => slot.page_key === 'home'
+  && slot.section_key === 'hero'
+  && HOMEPAGE_HERO_BANNER_KEYS.has(slot.image_key);
 
 async function getSlotResizeTarget(slot, variant = 'desktop') {
   const cacheKey = `${slot.image_key}:${variant}`;
@@ -362,8 +374,19 @@ exports.updateImage = async (req, res, next) => {
     const variant = req.body?.variant === 'mobile' && slot.section_key === 'hero' ? 'mobile' : 'desktop';
 
     const folder = `shome-luxury/${slot.page_key || 'general'}`;
-    const resizeTarget = await getSlotResizeTarget(slot, variant);
-    const processed = await processImageBuffer(req.file.buffer, resizeTarget
+    const resizeTarget = isHomepageHeroBanner(slot)
+      ? null
+      : await getSlotResizeTarget(slot, variant);
+    const processed = await processImageBuffer(req.file.buffer, isHomepageHeroBanner(slot)
+      ? {
+          // Homepage hero banners use a real 2K ceiling. Sharp preserves the
+          // original dimensions below this ceiling and never upscales them.
+          resize_preset: 'project',
+          keep_aspect_ratio: 'true',
+          webp_lossless: req.file.mimetype === 'image/png' ? 'true' : 'false',
+          sharpness: '0'
+        }
+      : resizeTarget
       ? {
           // Page image uploads fit inside the slot's source dimensions. Sharp's
           // withoutEnlargement rule keeps smaller uploads untouched.

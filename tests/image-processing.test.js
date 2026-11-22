@@ -67,6 +67,7 @@ async function run() {
   assert.equal(projectWide.settings.quality, 85);
   const projectSmall = await processImageBuffer(await createInput('jpg', { width: 1200, height: 800 }), { resize_preset: 'project' });
   assert.deepEqual([projectSmall.optimized.width, projectSmall.optimized.height], [1200, 800]);
+  assert.equal(projectSmall.optimized.format, 'webp');
 
   // Vertical 2K tests: longest edge (height) limited to 2560px without cropping or stretching
   const verticalWide2k = await processImageBuffer(await createInput('jpg', { width: 2250, height: 4000 }), { resize_preset: '2k' });

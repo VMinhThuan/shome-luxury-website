@@ -57,8 +57,11 @@ const contentTypeForFormat = format => ({
   webp: 'image/webp'
 }[String(format || '').toLowerCase()] || 'application/octet-stream');
 
-const resultFromBuffer = ({ inputBuffer, inputFormat, inputWidth, inputHeight, outputBuffer, outputInfo, settings }) => {
-  const useOriginal = outputBuffer.length >= inputBuffer.length;
+const resultFromBuffer = ({ inputBuffer, inputFormat, inputWidth, inputHeight, outputBuffer, outputInfo, settings, preferOutput = false }) => {
+  // A resize target is a hard dimension/format requirement. Do not fall back
+  // to the original bytes merely because a high-quality WebP happens to be
+  // larger than the source file.
+  const useOriginal = !preferOutput && outputBuffer.length >= inputBuffer.length;
   const format = useOriginal ? inputFormat : outputInfo.format;
   const bytes = useOriginal ? inputBuffer.length : outputBuffer.length;
   const contentType = contentTypeForFormat(format);
@@ -298,7 +301,8 @@ async function processImageBuffer(inputBuffer, body = {}) {
     inputHeight: originalHeight,
     outputBuffer: data,
     outputInfo: info,
-    settings: options
+    settings: options,
+    preferOutput: hasResize
   });
   return {
     buffer: result.buffer,
