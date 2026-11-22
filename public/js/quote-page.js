@@ -383,7 +383,6 @@ document.addEventListener('DOMContentLoaded', () => {
             direction > 0 ? 'is-inline-changing-next' : direction < 0 ? 'is-inline-changing-previous' : 'is-inline-changing'
           );
         }
-        thumbnails?.querySelector('[data-quote-inline-thumb].is-active')?.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
       };
 
       gallery.querySelector('[data-quote-inline-prev]')?.addEventListener('click', () => show(activeIndex - 1, true, -1));
