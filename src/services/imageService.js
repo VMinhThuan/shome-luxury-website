@@ -3,6 +3,25 @@ const allSlots = require('../data/homeImageSlots');
 const subpageSlots = require('../data/subpageImageSlots');
 
 const configuredSlots = [...allSlots, ...subpageSlots];
+const APARTMENT_SUBPAGE_KEY = 'tk-nt-chung-cu';
+
+function apartmentFallbackScope(pageKey, subpageKey = null) {
+  const scope = String(subpageKey ? `${pageKey}:${subpageKey}` : pageKey || '');
+  if (scope === APARTMENT_SUBPAGE_KEY || scope === `quote:${APARTMENT_SUBPAGE_KEY}`) return null;
+  if (scope.startsWith('quote:tk-nt-')) return `quote:${APARTMENT_SUBPAGE_KEY}`;
+  if (scope.startsWith('tk-nt-')) return APARTMENT_SUBPAGE_KEY;
+  return null;
+}
+
+function getApartmentFallbackSlot(slot) {
+  const fallbackPageKey = apartmentFallbackScope(slot?.page_key);
+  if (!fallbackPageKey) return null;
+  return subpageSlots.find(candidate => candidate.page_key === fallbackPageKey && (
+    slot.parent_image_key
+      ? candidate.parent_image_key === slot.parent_image_key
+      : candidate.section_key === slot.section_key
+  )) || null;
+}
 
 function customReference(record, slot) {
   if (record?.custom_image_reference?.image_url) return record.custom_image_reference;
@@ -67,6 +86,10 @@ async function getPageImages(pageKey = null, subpageKey = null) {
   const subpageOverrides = scopedSubpageKey
     ? new Map(subpageSlots.filter(s => s.page_key === scopedSubpageKey).map(s => [s.parent_image_key, s]))
     : new Map();
+  const fallbackScope = apartmentFallbackScope(pageKey, subpageKey);
+  const fallbackSlots = fallbackScope
+    ? new Map(subpageSlots.filter(s => s.page_key === fallbackScope).map(s => [s.parent_image_key || s.section_key, s]))
+    : new Map();
   const targetSlots = pageKey && subpageKey
     ? parentSlots
     : pageKey
@@ -82,7 +105,13 @@ async function getPageImages(pageKey = null, subpageKey = null) {
     }
     return Object.fromEntries(targetSlots.flatMap(s => {
       const override = subpageOverrides.get(s.image_key);
-      const effectiveSlot = override && byKey.has(override.image_key) ? override : s;
+      const ownSlot = scopedSubpageKey ? override : s;
+      const fallbackSlot = fallbackSlots.get(scopedSubpageKey ? s.image_key : s.section_key);
+      const effectiveSlot = customReference(byKey.get(ownSlot?.image_key), ownSlot)
+        ? ownSlot
+        : customReference(byKey.get(fallbackSlot?.image_key), fallbackSlot)
+          ? fallbackSlot
+          : s;
       return [
         [s.image_key, resolve(effectiveSlot, byKey)],
         [`${s.image_key}__mobile`, resolveMobile(effectiveSlot, byKey)]
@@ -99,6 +128,7 @@ async function getPageImages(pageKey = null, subpageKey = null) {
 
 module.exports = {
   getPageImages,
+  getApartmentFallbackSlot,
   allSlots,
   subpageSlots
 };

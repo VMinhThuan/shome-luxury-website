@@ -11,6 +11,7 @@ const subpageList = subpageSlots.subpageList || [...new Map(subpageSlots.map(slo
 const { uploadToCloudinary, imageFormatsMatch, destroyCloudinaryImage } = require('../utils/cloudinary');
 const { processImageBuffer } = require('../utils/imageProcessing');
 const { IMAGE_MAX_FILE_SIZE } = require('../config/imageUpload');
+const { getApartmentFallbackSlot } = require('../services/imageService');
 
 const allConfiguredSlots = [...slots, ...subpageSlots];
 const slotByKey = new Map(allConfiguredSlots.map(slot => [slot.image_key, slot]));
@@ -102,6 +103,7 @@ const customMobileReferenceFor = (record, slot) => {
 
 function resolveState(slot, recordsByKey) {
   const parentSlot = slot.parent_image_key ? slotByKey.get(slot.parent_image_key) : null;
+  const fallbackSlot = getApartmentFallbackSlot(slot);
   const record = recordsByKey.get(slot.image_key);
   const custom = customReferenceFor(record, slot);
   const ownMobileCustom = customMobileReferenceFor(record, slot);
@@ -114,16 +116,19 @@ function resolveState(slot, recordsByKey) {
   const parentState = parentSlot && parentSlot.image_key !== slot.image_key
     ? resolveState(parentSlot, recordsByKey)
     : null;
+  const fallbackState = fallbackSlot && fallbackSlot.image_key !== slot.image_key
+    ? resolveState(fallbackSlot, recordsByKey)
+    : null;
 
   return {
     mode: 'custom',
     custom,
     sharedReference: null,
-    activeImageUrl: custom?.image_url || parentState?.activeImageUrl || slot.image_url,
-    activeCloudinaryPublicId: custom?.cloudinary_public_id || parentState?.activeCloudinaryPublicId || null,
+    activeImageUrl: custom?.image_url || fallbackState?.activeImageUrl || parentState?.activeImageUrl || slot.image_url,
+    activeCloudinaryPublicId: custom?.cloudinary_public_id || fallbackState?.activeCloudinaryPublicId || parentState?.activeCloudinaryPublicId || null,
     mobileCustom,
-    activeMobileImageUrl: mobileCustom?.image_url || parentState?.activeMobileImageUrl || slot.mobile_image_url || slot.image_url,
-    activeMobileCloudinaryPublicId: mobileCustom?.cloudinary_public_id || parentState?.activeMobileCloudinaryPublicId || null,
+    activeMobileImageUrl: mobileCustom?.image_url || fallbackState?.activeMobileImageUrl || parentState?.activeMobileImageUrl || slot.mobile_image_url || slot.image_url,
+    activeMobileCloudinaryPublicId: mobileCustom?.cloudinary_public_id || fallbackState?.activeMobileCloudinaryPublicId || parentState?.activeMobileCloudinaryPublicId || null,
     inheritedFrom: custom || !parentState ? null : {
       imageKey: parentSlot.image_key,
       label: parentSlot.label,

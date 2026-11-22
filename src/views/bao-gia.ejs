@@ -153,10 +153,8 @@
     .quote-page .quote-craft-group-heading::after { content: ''; flex: 1; height: 1px; background: #ddd7d0; }
     .quote-page .quote-craft-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
     .quote-page .quote-craft-card { min-width: 0; }
-    /* These craftsmanship assets are composed 3:2 collages. Keep the full
-       composite visible instead of cropping the top and bottom into 16:9. */
-    .quote-page .quote-craft-photo { position: relative; aspect-ratio: 3 / 2 !important; overflow: hidden; border-radius: 8px; background: #e6ddd2; }
-    .quote-page .quote-craft-photo img { display: block; width: 100%; height: 100%; max-width: none; object-fit: contain; object-position: center center; }
+    .quote-page .quote-craft-photo { position: relative; aspect-ratio: 16 / 9 !important; overflow: hidden; border-radius: 8px; background: #e6ddd2; }
+    .quote-page .quote-craft-photo img { display: block; width: 100%; height: 100%; max-width: none; object-fit: cover; object-position: center center; }
     @media (max-width: 559px) { .quote-page .quote-craftsmanship { padding: .75rem 0; }.quote-page .quote-craftsmanship-inner { width: calc(100% - 24px); }.quote-page .quote-craftsmanship-heading { margin-bottom: 1.3rem; }.quote-page .quote-craft-grid { gap: 6px; }.quote-page .quote-craft-group + .quote-craft-group { margin-top: 1.7rem; }.quote-page .quote-craft-group-heading { gap: .55rem; margin-bottom: .55rem; } }
     .quote-page .quote-handover-check { padding: clamp(2.25rem, 4.5vw, 4rem) 0; background: #fffdf9; }
     .quote-page .quote-handover-inner { width: min(720px, 100%); }
@@ -1083,10 +1081,6 @@
     ) {
       aspect-ratio: 16 / 9 !important;
     }
-
-    /* The craftsmanship cards use 3:2 composite detail boards. */
-    .quote-page .quote-craft-photo { aspect-ratio: 3 / 2 !important; }
-    .quote-page .quote-craft-photo img { object-fit: contain; }
 
     /* Double the desktop brand-video height while retaining the normal mobile ratio. */
     @media (min-width: 768px) {
