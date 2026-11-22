@@ -8,65 +8,6 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400&family=Playfair+Display:ital,wght@0,600;0,700;0,800;0,900;1,600&family=Great+Vibes&family=Alex+Brush&display=swap" rel="stylesheet" />
-  <script>
-    // A normal navigation to a quote route should start at the top. Keep the
-    // viewport there while the first layout is being built so Chrome cannot
-    // restore the previous page's position into the gallery section.
-    (() => {
-      if (window.location.hash) return;
-      const navigation = window.performance?.getEntriesByType?.('navigation')?.[0];
-      if (navigation?.type === 'back_forward') return;
-      if ('scrollRestoration' in window.history) window.history.scrollRestoration = 'manual';
-
-      const root = document.documentElement;
-      const previousScrollBehavior = root.style.scrollBehavior;
-      const previousOverflowAnchor = root.style.overflowAnchor;
-      const previousOverflowY = root.style.overflowY;
-      root.style.scrollBehavior = 'auto';
-      root.style.overflowAnchor = 'none';
-      root.style.overflowY = 'hidden';
-
-      let userStartedScrolling = false;
-      let initialLayoutPending = true;
-
-      const resetToTop = () => {
-        window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
-        root.scrollTop = 0;
-        if (document.body) document.body.scrollTop = 0;
-      };
-
-      const releaseScrollLock = () => {
-        if (!initialLayoutPending) return;
-        initialLayoutPending = false;
-        window.removeEventListener('scroll', keepAtTop);
-        window.removeEventListener('keydown', markKeyboardScroll);
-        root.style.scrollBehavior = previousScrollBehavior;
-        root.style.overflowAnchor = previousOverflowAnchor;
-        if (!userStartedScrolling) resetToTop();
-        root.style.overflowY = previousOverflowY;
-      };
-
-      const markUserScroll = () => {
-        userStartedScrolling = true;
-        releaseScrollLock();
-      };
-      const markKeyboardScroll = event => {
-        if (['ArrowDown', 'PageDown', ' ', 'End'].includes(event.key)) markUserScroll();
-      };
-      const keepAtTop = () => {
-        if (initialLayoutPending && !userStartedScrolling && (window.scrollY || root.scrollTop)) resetToTop();
-      };
-
-      window.addEventListener('wheel', markUserScroll, { once: true, passive: true });
-      window.addEventListener('touchstart', markUserScroll, { once: true, passive: true });
-      window.addEventListener('keydown', markKeyboardScroll, { passive: true });
-      window.addEventListener('scroll', keepAtTop, { passive: true });
-
-      resetToTop();
-      window.requestAnimationFrame(resetToTop);
-      window.addEventListener('load', releaseScrollLock, { once: true });
-    })();
-  </script>
   <link rel="stylesheet" href="/css/style.css?v=6.8.179" />
   <style>
     /* Alternating section backgrounds on quote page handled by style.css design system */
@@ -2947,7 +2888,7 @@
       .quote-page .quote-project-gallery-modal .quote-project-gallery-control.next { right: .55rem !important; }
     }
   </style>
-  <script src="/js/main.js?v=2.0.10" defer></script>
+  <script src="/js/main.js?v=2.0.11" defer></script>
   <script src="/js/quote-page.js?v=1.2.22" defer></script>
 </head>
 <body>
