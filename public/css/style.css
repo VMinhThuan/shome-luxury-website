@@ -23865,3 +23865,46 @@ main.project-detail-page .project-info-banner .meta-value {
 .project-detail-page .project-gallery-stage.is-sliding > img {
   transition: transform .52s cubic-bezier(.22, .61, .36, 1), filter .52s ease, opacity .52s ease !important;
 }
+
+/* Keep the lightbox frame stable while changing image ratios. Without a
+   stable frame, the incoming bitmap briefly paints at its intrinsic size and
+   then grows after layout, which creates the small-image flash. */
+.project-gallery-lightbox:not(.project-gallery-lightbox--grid) .project-gallery-lightbox-stage {
+  display: grid !important;
+  place-items: center !important;
+  width: min(calc(100vw - (var(--project-gallery-control-gutter) * 2)), 1280px) !important;
+  height: min(calc(100dvh - 2rem), 820px) !important;
+  max-width: calc(100vw - (var(--project-gallery-control-gutter) * 2)) !important;
+  max-height: calc(100dvh - 2rem) !important;
+  overflow: hidden !important;
+}
+
+.project-gallery-lightbox:not(.project-gallery-lightbox--grid) .project-gallery-lightbox-stage > [data-gallery-lightbox-image],
+.project-gallery-lightbox:not(.project-gallery-lightbox--grid) .project-gallery-lightbox-stage > [data-gallery-lightbox-preview] {
+  width: 100% !important;
+  height: 100% !important;
+  max-width: none !important;
+  max-height: none !important;
+  margin: 0 !important;
+  object-fit: contain !important;
+  object-position: center center !important;
+}
+
+.project-gallery-lightbox--grid .project-gallery-lightbox-stage.is-grid-sliding > [data-project-grid-lightbox-image],
+.project-gallery-lightbox--grid .project-gallery-lightbox-stage.is-grid-sliding > [data-project-grid-lightbox-preview] {
+  width: 100% !important;
+  height: 100% !important;
+  max-width: none !important;
+  max-height: none !important;
+  object-fit: contain !important;
+  object-position: center center !important;
+}
+
+@media (max-width: 767px) {
+  .project-gallery-lightbox:not(.project-gallery-lightbox--grid) .project-gallery-lightbox-stage {
+    width: 100vw !important;
+    height: 100dvh !important;
+    max-width: 100vw !important;
+    max-height: 100dvh !important;
+  }
+}
