@@ -19035,11 +19035,8 @@ main .home-faq-item p {
   position: relative;
   isolation: isolate;
   display: flow-root;
-  background: #211c17;
+  background: transparent;
   color: #fff;
-  /* Extend the dark fallback surface to both viewport edges without changing
-     the existing content container alignment. */
-  box-shadow: 0 0 0 100vmax #211c17;
   clip-path: inset(0 -100vmax);
 }
 
@@ -19055,7 +19052,7 @@ main .home-faq-item p {
 }
 
 .project-detail-summary::before {
-  z-index: -2;
+  z-index: 0;
   background: var(--project-detail-summary-image) center / cover no-repeat;
 }
 
@@ -20524,15 +20521,15 @@ main.project-detail-page {
 main.project-detail-page .project-detail-title {
   color: var(--content-heading-color, #1d1d1d) !important;
   font-family: var(--font-heading) !important;
-  font-size: var(--fs-section-title) !important;
+  font-size: 20px !important;
   font-weight: var(--content-heading-weight, 700) !important;
   line-height: 1.25 !important;
 }
 
 @media (max-width: 767px) {
   main.project-detail-page .project-detail-title {
-    font-size: var(--fs-section-title) !important;
-    line-height: 1.2 !important;
+    font-size: 18px !important;
+    line-height: 1.25 !important;
     white-space: normal !important;
   }
 

@@ -1442,6 +1442,18 @@ document.addEventListener('DOMContentLoaded', () => {
       image.style.setProperty('transform', `translate3d(${centeredTransform}, ${liftY}, 0) scale3d(${liftScale}, ${liftScale}, 1)`, 'important');
     };
 
+    const applyGalleryTransitionFrame = ({ heroImage, previewImage, heroX, previewX, revealProgress, blur }) => {
+      const progress = Math.max(0, Math.min(1, revealProgress));
+      const lift = 1 - progress;
+      const opacity = 1 - (progress * 0.015);
+
+      // Keep the incoming image on the exact same motion profile as the
+      // active image. Separate depth/opacity curves made the outside preview
+      // visibly lag and snap when the image ratio changed.
+      setGalleryImageTransform(heroImage, heroX, lift, 0, blur, opacity);
+      setGalleryImageTransform(previewImage, previewX, lift, 0, blur, opacity);
+    };
+
     function cancelGallerySpring() {
       if (gallerySpringFrame !== null) window.cancelAnimationFrame(gallerySpringFrame);
       gallerySpringFrame = null;
@@ -1458,7 +1470,7 @@ document.addEventListener('DOMContentLoaded', () => {
       let heroX = fromHero;
       let previewX = fromPreview;
       let heroVelocity = initialVelocity;
-      let previewVelocity = initialVelocity * 0.86;
+      let previewVelocity = initialVelocity;
       let lastTime = performance.now();
       const springStartTime = lastTime;
       const stiffness = 0.24;
@@ -1522,15 +1534,14 @@ document.addEventListener('DOMContentLoaded', () => {
       const previewStart = offset < 0 ? stageWidth : -stageWidth;
       const revealProgress = Math.min(1, Math.abs(offset) / Math.max(1, stageWidth));
       const motionBlur = Math.min(1.8, Math.abs(dragVelocityX) * 2.2);
-      setGalleryImageTransform(heroImage, offset, 1, 0, motionBlur, 1 - (revealProgress * 0.015));
-      setGalleryImageTransform(
+      applyGalleryTransitionFrame({
+        heroImage,
         previewImage,
-        previewStart + (offset * 0.86),
-        0,
-        1 - revealProgress,
-        motionBlur * 0.45,
-        0.96 + (revealProgress * 0.04),
-      );
+        heroX: offset,
+        previewX: previewStart + offset,
+        revealProgress,
+        blur: motionBlur,
+      });
     }
 
     function queueGalleryDragFrame() {
@@ -1582,7 +1593,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const targetHeroX = direction > 0 ? -stageWidth : stageWidth;
         stage.classList.add('is-sliding', 'is-lifted', 'is-springing');
         setGalleryImageTransform(heroImage, 0, 1, 0, 0, 1);
-        setGalleryImageTransform(previewImage, startPreviewX, 0, 1, 0, 0.96);
+        setGalleryImageTransform(previewImage, startPreviewX, 1, 0, 0, 1);
 
         const finish = async () => {
           if (slideToken !== galleryTransitionToken) {
@@ -1606,8 +1617,7 @@ document.addEventListener('DOMContentLoaded', () => {
           toPreview: 0,
           onFrame: (heroX, previewX, blur) => {
             const revealProgress = Math.min(1, Math.abs(previewX - startPreviewX) / Math.max(1, stageWidth));
-            setGalleryImageTransform(heroImage, heroX, 1 - revealProgress, 0, blur, 1 - (revealProgress * 0.015));
-            setGalleryImageTransform(previewImage, previewX, 0, 1 - revealProgress, blur * 0.45, 0.96 + (revealProgress * 0.04));
+            applyGalleryTransitionFrame({ heroImage, previewImage, heroX, previewX, revealProgress, blur });
           },
           onComplete: finish,
         });
@@ -1939,7 +1949,7 @@ document.addEventListener('DOMContentLoaded', () => {
           isGallerySliding = true;
           const slideToken = ++galleryTransitionToken;
           if (shouldChange) updateDragPreview(targetIndex);
-          const currentPreviewX = (offset < 0 ? stageWidth : -stageWidth) + (offset * 0.86);
+          const currentPreviewX = (offset < 0 ? stageWidth : -stageWidth) + offset;
           const targetHeroX = shouldChange ? -direction * stageWidth : 0;
           const targetPreviewX = shouldChange ? 0 : (offset < 0 ? stageWidth : -stageWidth);
           const initialVelocity = velocity * 16.667;
@@ -1954,15 +1964,14 @@ document.addEventListener('DOMContentLoaded', () => {
               const revealProgress = shouldChange
                 ? Math.min(1, Math.abs(previewX - (offset < 0 ? stageWidth : -stageWidth)) / Math.max(1, stageWidth))
                 : 0;
-              setGalleryImageTransform(heroImage, heroX, 1 - revealProgress, 0, blur, 1 - (revealProgress * 0.015));
-              setGalleryImageTransform(
-                dragPreview,
+              applyGalleryTransitionFrame({
+                heroImage,
+                previewImage: dragPreview,
+                heroX,
                 previewX,
-                0,
-                shouldChange ? 1 - revealProgress : 1,
-                blur * 0.45,
-                shouldChange ? 0.96 + (revealProgress * 0.04) : 0.96,
-              );
+                revealProgress,
+                blur,
+              });
             },
             onComplete: async () => {
               if (slideToken !== galleryTransitionToken) {
