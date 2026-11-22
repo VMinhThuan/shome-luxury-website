@@ -9,15 +9,33 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400&family=Playfair+Display:ital,wght@0,600;0,700;0,800;0,900;1,600&family=Great+Vibes&family=Alex+Brush&display=swap" rel="stylesheet" />
   <script>
-    // A normal navigation to a quote route should always start at the top.
-    // Keep the browser's position when the user deliberately goes back/forward.
+    // A normal navigation to a quote route should start at the top. Chrome can
+    // restore the old scroll position after the initial script runs, so apply
+    // one guarded reset after layout settles. Never interrupt a user's scroll.
     (() => {
       if (window.location.hash) return;
       const navigation = window.performance?.getEntriesByType?.('navigation')?.[0];
       if (navigation?.type === 'back_forward') return;
       if ('scrollRestoration' in window.history) window.history.scrollRestoration = 'manual';
-      window.scrollTo(0, 0);
-      window.requestAnimationFrame(() => window.scrollTo(0, 0));
+
+      let userStartedScrolling = false;
+      const markUserScroll = () => { userStartedScrolling = true; };
+      window.addEventListener('wheel', markUserScroll, { once: true, passive: true });
+      window.addEventListener('touchstart', markUserScroll, { once: true, passive: true });
+      window.addEventListener('keydown', event => {
+        if (['ArrowDown', 'PageDown', ' ', 'End'].includes(event.key)) userStartedScrolling = true;
+      }, { passive: true });
+
+      const resetToTop = () => {
+        if (userStartedScrolling) return;
+        window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
+        document.documentElement.scrollTop = 0;
+        if (document.body) document.body.scrollTop = 0;
+      };
+
+      resetToTop();
+      window.requestAnimationFrame(resetToTop);
+      window.addEventListener('load', resetToTop, { once: true });
     })();
   </script>
   <link rel="stylesheet" href="/css/style.css?v=6.8.178" />
