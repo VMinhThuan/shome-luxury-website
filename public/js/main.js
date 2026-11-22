@@ -1467,41 +1467,32 @@ document.addEventListener('DOMContentLoaded', () => {
         return;
       }
 
-      let heroX = fromHero;
-      let previewX = fromPreview;
-      let heroVelocity = initialVelocity;
-      let previewVelocity = initialVelocity;
-      let lastTime = performance.now();
-      const springStartTime = lastTime;
-      const stiffness = 0.24;
-      const damping = 0.65;
+      // A deterministic ease keeps both layers on one compositor-friendly
+      // path. The old per-image spring could overshoot differently, which was
+      // especially visible when a portrait image entered beside a landscape
+      // image during a swipe.
+      const animationStart = performance.now();
+      const animationDuration = 420;
+      const easeOutCubic = progress => 1 - Math.pow(1 - progress, 3);
       const finish = () => {
         gallerySpringFrame = null;
         onFrame(toHero, toPreview, 0);
         onComplete();
       };
       const frame = now => {
-        const deltaFrames = Math.min(2, Math.max(0.5, (now - lastTime) / 16.667));
-        lastTime = now;
+        const progress = Math.min(1, Math.max(0, (now - animationStart) / animationDuration));
+        const easedProgress = easeOutCubic(progress);
+        const heroX = fromHero + ((toHero - fromHero) * easedProgress);
+        const previewX = fromPreview + ((toPreview - fromPreview) * easedProgress);
 
-        heroVelocity += (toHero - heroX) * stiffness * deltaFrames;
-        previewVelocity += (toPreview - previewX) * stiffness * deltaFrames;
-        heroVelocity *= Math.pow(damping, deltaFrames);
-        previewVelocity *= Math.pow(damping, deltaFrames);
-        heroX += heroVelocity * deltaFrames;
-        previewX += previewVelocity * deltaFrames;
-
-        onFrame(heroX, previewX, Math.max(Math.abs(heroVelocity), Math.abs(previewVelocity)) / 8);
-        const settled = Math.abs(toHero - heroX) < 0.45
-          && Math.abs(toPreview - previewX) < 0.45
-          && Math.abs(heroVelocity) < 0.45
-          && Math.abs(previewVelocity) < 0.45;
-        if (settled || now - springStartTime > 700) {
+        onFrame(heroX, previewX, 0);
+        if (progress >= 1) {
           finish();
           return;
         }
         gallerySpringFrame = window.requestAnimationFrame(frame);
       };
+      onFrame(fromHero, fromPreview, 0);
       gallerySpringFrame = window.requestAnimationFrame(frame);
     }
 
@@ -1533,14 +1524,13 @@ document.addEventListener('DOMContentLoaded', () => {
       const stageWidth = stage.clientWidth;
       const previewStart = offset < 0 ? stageWidth : -stageWidth;
       const revealProgress = Math.min(1, Math.abs(offset) / Math.max(1, stageWidth));
-      const motionBlur = Math.min(1.8, Math.abs(dragVelocityX) * 2.2);
       applyGalleryTransitionFrame({
         heroImage,
         previewImage,
         heroX: offset,
         previewX: previewStart + offset,
         revealProgress,
-        blur: motionBlur,
+        blur: 0,
       });
     }
 

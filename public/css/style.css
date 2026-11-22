@@ -1458,15 +1458,6 @@ ol {
   filter: none;
 }
 
-.hero-v2-bg picture,
-.news-hero-image picture,
-.booking-hero-media picture,
-.recruitment-banner-card picture {
-  display: block;
-  width: 100%;
-  height: 100%;
-}
-
 .hero-v2-fade-overlay {
   position: absolute;
   inset: 0;
@@ -1476,12 +1467,19 @@ ol {
   pointer-events: none;
 }
 
+.hero-v2-bg picture,
+.news-hero-image picture,
+.booking-hero-media picture,
+.recruitment-banner-card picture {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
 @media (max-width: 767px) {
   .hero-v2-bg {
     border-radius: 0 !important;
   }
-
-  .hero-v2-fade-overlay { display: block; }
 }
 
 /* Hero Banner Slider Layout */
@@ -23367,4 +23365,18 @@ main :is(
   -webkit-text-stroke: .45px currentColor !important;
   text-stroke: .45px currentColor !important;
   text-shadow: 0 0 .2px currentColor !important;
+}
+
+/* Final project-detail title size: this rule intentionally stays last so
+   shared section-title rules cannot override the requested responsive scale. */
+main.project-detail-page .project-detail-summary .project-detail-title {
+  font-size: 20px !important;
+  line-height: 1.25 !important;
+}
+
+@media (max-width: 767px) {
+  main.project-detail-page .project-detail-summary .project-detail-title {
+    font-size: 18px !important;
+    line-height: 1.25 !important;
+  }
 }
