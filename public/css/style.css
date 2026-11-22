@@ -23532,6 +23532,47 @@ main.project-detail-page .project-info-banner .meta-value {
   }
 }
 
+/* The detail hero follows the same contain behavior on phones as on desktop,
+   so portrait/landscape images keep their exact composition and natural white
+   side space instead of being cropped. */
+@media (max-width: 767px) {
+  .project-detail-page .project-gallery-stage > img:not(.project-gallery-drag-preview) {
+    width: 100% !important;
+    height: auto !important;
+    max-width: 100% !important;
+    max-height: none !important;
+    object-fit: contain !important;
+  }
+
+  .project-detail-page .project-gallery-stage > img.project-gallery-drag-preview {
+    width: 100% !important;
+    height: 100% !important;
+    max-width: 100% !important;
+    max-height: none !important;
+    object-fit: contain !important;
+  }
+}
+
+/* Keep the mobile hero image full-width while preserving its original ratio;
+   the desktop rule above must not shrink it after the banner fix. */
+@media (max-width: 767px) {
+  .project-detail-page .project-gallery-stage > img:not(.project-gallery-drag-preview) {
+    width: 100% !important;
+    height: auto !important;
+    max-width: 100% !important;
+    max-height: none !important;
+    object-fit: contain !important;
+  }
+
+  .project-detail-page .project-gallery-stage > img.project-gallery-drag-preview {
+    width: 100% !important;
+    height: 100% !important;
+    max-width: 100% !important;
+    max-height: none !important;
+    object-fit: contain !important;
+  }
+}
+
 /* Unified cinematic transition for the detail-page fullscreen viewer:
    directional slide, a restrained scale lift, and a short soft blur/fade. */
 .project-gallery-lightbox:not(.project-gallery-lightbox--grid) .project-gallery-lightbox-stage > [data-gallery-lightbox-image].is-lightbox-transitioning {
@@ -23551,9 +23592,7 @@ main.project-detail-page .project-info-banner .meta-value {
    together without a large empty gap. */
 @media (max-width: 767px) {
   main.project-detail-page .project-detail-header {
-    align-items: center !important;
-    justify-content: center !important;
-    padding: .6rem 0 !important;
+    padding: 1.25rem 0 .35rem !important;
   }
 
   main.project-detail-page .project-detail-summary .project-detail-title {
@@ -23599,7 +23638,15 @@ main.project-detail-page .project-info-banner .meta-value {
 /* Keep all project image banners visually uniform. The media frame already
    has a fixed 16:9 height; fill it so portrait and landscape uploads do not
    create different-looking banner heights or white side gutters. */
-.project-detail-page .project-gallery-stage > img,
+.project-detail-page .project-gallery-stage > img {
+  width: auto !important;
+  height: auto !important;
+  max-width: 100% !important;
+  max-height: 100% !important;
+  object-fit: contain !important;
+  object-position: center center !important;
+}
+
 .project-showcase-section .project-card-gallery-stage > img.project-card-img,
 .quote-page .quote-featured-project-card--inline-gallery .project-gallery-stage > img {
   width: 100% !important;
