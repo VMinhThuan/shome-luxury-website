@@ -1746,7 +1746,7 @@ document.addEventListener('DOMContentLoaded', () => {
       // especially visible when a portrait image entered beside a landscape
       // image during a swipe.
       const animationStart = performance.now();
-      const animationDuration = 420;
+      const animationDuration = 520;
       const easeOutCubic = progress => 1 - Math.pow(1 - progress, 3);
       const finish = () => {
         gallerySpringFrame = null;
@@ -2302,6 +2302,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let projectGalleryLightbox = null;
     let projectGalleryImages = [];
     let projectGalleryIndex = 0;
+    let projectGalleryTransitionToken = 0;
     let projectGalleryPreviousFocus = null;
     let projectGalleryPointerStartX = null;
     let projectGalleryZoomScale = 1;
@@ -2319,6 +2320,32 @@ document.addEventListener('DOMContentLoaded', () => {
     let projectGalleryLastTapTime = 0;
     let projectGalleryLastTapX = 0;
     let projectGalleryLastTapY = 0;
+
+    const setProjectGallerySlideTransform = (element, offset = 0, lift = 0) => {
+      if (!element) return;
+      const liftProgress = Math.max(0, Math.min(1, lift));
+      const liftY = Math.round(-8 * liftProgress);
+      const liftScale = (1 + (0.022 * liftProgress)).toFixed(3);
+      element.style.setProperty(
+        'transform',
+        `translate3d(${offset}px, ${liftY}px, 0) scale3d(${liftScale}, ${liftScale}, 1)`,
+        'important'
+      );
+    };
+
+    const preloadProjectGalleryImage = src => new Promise(resolve => {
+      const preload = new Image();
+      let settled = false;
+      const finish = () => {
+        if (settled) return;
+        settled = true;
+        resolve();
+      };
+      preload.onload = finish;
+      preload.onerror = finish;
+      preload.src = src;
+      if (preload.complete) finish();
+    });
 
     const fitProjectGalleryLightboxImage = image => {
       if (!image?.naturalWidth || !image?.naturalHeight) return;
@@ -2714,23 +2741,70 @@ document.addEventListener('DOMContentLoaded', () => {
       const normalizedIndex = (index + projectGalleryImages.length) % projectGalleryImages.length;
       const modal = createProjectGalleryLightbox();
       const image = modal.querySelector('[data-project-grid-lightbox-image]');
+      const preview = modal.querySelector('[data-project-grid-lightbox-preview]');
+      const stage = modal.querySelector('[data-project-grid-lightbox-stage]');
       const current = projectGalleryImages[normalizedIndex];
+      if (!image || !preview || !stage || modal.classList.contains('is-grid-sliding')) return;
+
+      const transitionToken = ++projectGalleryTransitionToken;
       resetProjectGalleryZoom();
-      image.style.width = '';
-      image.style.height = '';
-      image.style.transform = '';
-      image.classList.remove('is-page-turn-next', 'is-page-turn-previous');
-      image.src = current.src;
-      image.alt = current.alt;
-      const reveal = () => {
-        fitProjectGalleryLightboxImage(image);
-        if (!direction) return;
-        void image.offsetWidth;
-        image.classList.add(direction > 0 ? 'is-page-turn-next' : 'is-page-turn-previous');
-      };
-      if (image.complete) reveal();
-      else image.addEventListener('load', reveal, { once: true });
-      projectGalleryIndex = normalizedIndex;
+      preview.style.visibility = 'hidden';
+      preview.style.removeProperty('display');
+      setProjectGallerySlideTransform(image, 0, 0);
+      setProjectGallerySlideTransform(preview, 0, 0);
+
+      if (!direction || !image.src) {
+        image.style.width = '';
+        image.style.height = '';
+        image.style.removeProperty('transform');
+        image.classList.remove('is-page-turn-next', 'is-page-turn-previous');
+        image.src = current.src;
+        image.alt = current.alt;
+        const reveal = () => {
+          fitProjectGalleryLightboxImage(image);
+          projectGalleryIndex = normalizedIndex;
+        };
+        if (image.complete) reveal();
+        else image.addEventListener('load', reveal, { once: true });
+        projectGalleryIndex = normalizedIndex;
+        return;
+      }
+
+      preloadProjectGalleryImage(current.src).then(() => {
+        if (transitionToken !== projectGalleryTransitionToken) return;
+        const stageWidth = stage.clientWidth || window.innerWidth;
+        const incomingStart = direction > 0 ? stageWidth : -stageWidth;
+        const outgoingEnd = direction > 0 ? -stageWidth : stageWidth;
+        modal.classList.add('is-grid-sliding');
+        image.style.visibility = 'visible';
+        preview.src = current.src;
+        preview.alt = current.alt;
+        preview.style.setProperty('display', 'block', 'important');
+        preview.style.visibility = 'visible';
+        setProjectGallerySlideTransform(image, 0, 1);
+        setProjectGallerySlideTransform(preview, incomingStart, 1);
+        void stage.offsetWidth;
+
+        window.requestAnimationFrame(() => {
+          if (transitionToken !== projectGalleryTransitionToken) return;
+          setProjectGallerySlideTransform(image, outgoingEnd, 0);
+          setProjectGallerySlideTransform(preview, 0, 0);
+        });
+
+        window.setTimeout(() => {
+          if (transitionToken !== projectGalleryTransitionToken) return;
+          image.src = current.src;
+          image.alt = current.alt;
+          image.style.visibility = 'visible';
+          setProjectGallerySlideTransform(image, 0, 0);
+          setProjectGallerySlideTransform(preview, 0, 0);
+          preview.style.visibility = 'hidden';
+          preview.style.removeProperty('display');
+          modal.classList.remove('is-grid-sliding');
+          fitProjectGalleryLightboxImage(image);
+          projectGalleryIndex = normalizedIndex;
+        }, 520);
+      });
     }
 
     function openProjectGalleryLightbox(tile) {

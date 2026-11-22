@@ -23842,3 +23842,26 @@ main.project-detail-page .project-info-banner .meta-value {
 .project-gallery-lightbox:not(.project-gallery-lightbox--grid).is-swiping .project-gallery-lightbox-stage > img {
   transition: none !important;
 }
+
+/* Use the same slide treatment for project-list lightboxes and the inline
+   detail gallery, so every project image transition follows one motion rule. */
+.project-gallery-lightbox--grid .project-gallery-lightbox-stage.is-grid-sliding > [data-project-grid-lightbox-image],
+.project-gallery-lightbox--grid .project-gallery-lightbox-stage.is-grid-sliding > [data-project-grid-lightbox-preview] {
+  transition: transform .52s cubic-bezier(.22, .61, .36, 1), filter .52s ease, opacity .52s ease !important;
+  will-change: transform;
+}
+
+.project-gallery-lightbox--grid .project-gallery-lightbox-stage.is-grid-sliding > [data-project-grid-lightbox-preview] {
+  display: block !important;
+  visibility: visible !important;
+  z-index: 3 !important;
+  pointer-events: none !important;
+}
+
+.project-gallery-lightbox--grid .project-gallery-lightbox-stage.is-grid-sliding > [data-project-grid-lightbox-image] {
+  z-index: 2 !important;
+}
+
+.project-detail-page .project-gallery-stage.is-sliding > img {
+  transition: transform .52s cubic-bezier(.22, .61, .36, 1), filter .52s ease, opacity .52s ease !important;
+}
