@@ -9093,6 +9093,30 @@ main.company-profile-page .company-profile-hero h1 {
   height: 100%;
 }
 
+/* CSS fallback for iOS Safari versions that reject fullscreen on an iframe
+   wrapper. It keeps the custom control usable without entering native video
+   fullscreen. */
+.youtube-thumbnail-card.is-custom-fullscreen {
+  position: fixed !important;
+  inset: 0 !important;
+  z-index: 2147483646;
+  width: 100vw !important;
+  height: 100dvh !important;
+  max-width: none;
+  aspect-ratio: auto;
+  border-radius: 0;
+  background: #000;
+}
+
+.youtube-thumbnail-card.is-custom-fullscreen iframe {
+  width: 100%;
+  height: 100%;
+}
+
+body.youtube-custom-fullscreen-open {
+  overflow: hidden !important;
+}
+
 .youtube-thumbnail-card:fullscreen .youtube-fullscreen-button,
 .youtube-thumbnail-card:-webkit-full-screen .youtube-fullscreen-button,
 .youtube-fullscreen-button.is-active {

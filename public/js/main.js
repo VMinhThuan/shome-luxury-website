@@ -397,12 +397,11 @@ document.addEventListener('DOMContentLoaded', () => {
       const videoId = videoUrl.match(/(?:youtu\.be\/|youtube(?:-nocookie)?\.com\/(?:watch\?(?:[^#&]+&)*v=|embed\/|shorts\/))([\w-]{11})/)?.[1];
       if (!videoId) return null;
       const iframe = document.createElement('iframe');
-      iframe.src = `https://www.youtube-nocookie.com/embed/${videoId}?autoplay=1&rel=0&modestbranding=1`;
+      iframe.src = `https://www.youtube-nocookie.com/embed/${videoId}?autoplay=1&rel=0&modestbranding=1&fs=0`;
       iframe.title = cover.getAttribute('aria-label') || 'Video YouTube Shome Luxury';
       iframe.loading = 'lazy';
-      iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen; web-share';
+      iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share';
       iframe.referrerPolicy = 'strict-origin-when-cross-origin';
-      iframe.allowFullscreen = true;
       frame.replaceChildren(iframe);
       if (fullscreenButton) frame.append(fullscreenButton);
       frame.classList.add('is-playing');
@@ -410,35 +409,66 @@ document.addEventListener('DOMContentLoaded', () => {
       return iframe;
     };
 
-    const getFullscreenElement = () => document.fullscreenElement || document.webkitFullscreenElement || null;
-    const updateFullscreenButton = () => {
-      if (!fullscreenButton) return;
-      const isFullscreen = getFullscreenElement() === frame;
-      fullscreenButton.classList.toggle('is-active', isFullscreen);
-      fullscreenButton.setAttribute('aria-label', isFullscreen ? 'Thoát toàn màn hình' : 'Mở video toàn màn hình');
-      fullscreenButton.title = isFullscreen ? 'Thoát toàn màn hình' : 'Mở video toàn màn hình';
+    const isNativeFullscreen = () => (
+      document.fullscreenElement === frame
+      || document.webkitFullscreenElement === frame
+    );
+
+    const setCssFullscreen = active => {
+      frame.classList.toggle('is-custom-fullscreen', active);
+      document.body.classList.toggle('youtube-custom-fullscreen-open', active);
+      if (fullscreenButton) {
+        fullscreenButton.classList.toggle('is-active', active);
+        fullscreenButton.setAttribute('aria-label', active ? 'Đóng video toàn màn hình' : 'Mở video toàn màn hình');
+        fullscreenButton.setAttribute('title', active ? 'Đóng video toàn màn hình' : 'Mở video toàn màn hình');
+      }
     };
 
-    const toggleFullscreen = async event => {
+    const exitVideoFullscreen = async () => {
+      if (isNativeFullscreen()) {
+        try {
+          if (document.exitFullscreen) await document.exitFullscreen();
+          else if (document.webkitExitFullscreen) document.webkitExitFullscreen();
+        } catch (error) {
+          console.warn('Unable to exit video fullscreen:', error);
+        }
+      }
+      setCssFullscreen(false);
+    };
+
+    fullscreenButton?.addEventListener('click', async event => {
       event.preventDefault();
       event.stopPropagation();
-      if (getFullscreenElement() === frame) {
-        if (document.exitFullscreen) await document.exitFullscreen().catch(() => {});
-        else if (document.webkitExitFullscreen) document.webkitExitFullscreen();
+
+      if (isNativeFullscreen() || frame.classList.contains('is-custom-fullscreen')) {
+        await exitVideoFullscreen();
         return;
       }
 
-      if (!frame.classList.contains('is-playing')) createIframe();
-      const enterFullscreen = frame.requestFullscreen || frame.webkitRequestFullscreen;
-      if (enterFullscreen) {
-        await Promise.resolve(enterFullscreen.call(frame)).catch(() => {});
-      }
-      updateFullscreenButton();
-    };
+      const iframe = createIframe();
+      if (!iframe) return;
 
-    fullscreenButton?.addEventListener('click', toggleFullscreen);
-    document.addEventListener('fullscreenchange', updateFullscreenButton);
-    document.addEventListener('webkitfullscreenchange', updateFullscreenButton);
+      try {
+        if (typeof frame.requestFullscreen === 'function') {
+          await frame.requestFullscreen();
+        } else if (typeof frame.webkitRequestFullscreen === 'function') {
+          frame.webkitRequestFullscreen();
+        } else {
+          setCssFullscreen(true);
+        }
+      } catch (error) {
+        // iOS Safari can reject fullscreen for an iframe/container in some
+        // versions. Keep the custom control usable with a viewport fallback.
+        setCssFullscreen(true);
+      }
+    });
+
+    const syncNativeFullscreen = () => {
+      if (!isNativeFullscreen()) setCssFullscreen(false);
+      fullscreenButton?.classList.toggle('is-active', isNativeFullscreen());
+    };
+    document.addEventListener('fullscreenchange', syncNativeFullscreen);
+    document.addEventListener('webkitfullscreenchange', syncNativeFullscreen);
 
     cover.addEventListener('click', () => {
       // Let YouTube own fullscreen state. Calling requestFullscreen() here
