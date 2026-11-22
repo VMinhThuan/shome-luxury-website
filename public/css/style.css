@@ -1468,7 +1468,12 @@ ol {
 }
 
 .hero-v2-fade-overlay {
-  display: none;
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  display: block;
+  background: rgba(0, 0, 0, 0.22);
+  pointer-events: none;
 }
 
 @media (max-width: 767px) {
@@ -1476,9 +1481,7 @@ ol {
     border-radius: 0 !important;
   }
 
-  .hero-v2-fade-overlay {
-    display: none !important;
-  }
+  .hero-v2-fade-overlay { display: block; }
 }
 
 /* Hero Banner Slider Layout */
@@ -19040,8 +19043,7 @@ main .home-faq-item p {
   clip-path: inset(0 -100vmax);
 }
 
-.project-detail-summary::before,
-.project-detail-summary::after {
+.project-detail-summary::before {
   position: absolute;
   top: 0;
   bottom: 0;
@@ -19055,11 +19057,6 @@ main .home-faq-item p {
 .project-detail-summary::before {
   z-index: -2;
   background: var(--project-detail-summary-image) center / cover no-repeat;
-}
-
-.project-detail-summary::after {
-  z-index: -1;
-  background: linear-gradient(105deg, rgba(18, 14, 11, .78), rgba(30, 23, 17, .56));
 }
 
 .project-detail-summary > * {
