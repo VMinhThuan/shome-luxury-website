@@ -52,9 +52,11 @@ const uploadToCloudinary = (fileBuffer, folderName = "shome-luxury/recruitment",
     const uploadOptions = {
       folder: folderName,
       resource_type: "image",
-      ...options
+      ...options,
+      // All application uploads are normalized before reaching Cloudinary.
+      // Keep this invariant here too so a future caller cannot store JPG/PNG.
+      format: 'webp'
     };
-    if (uploadOptions.format === undefined) uploadOptions.format = 'webp';
 
     const uploadStream = cloudinary.uploader.upload_stream(
       uploadOptions,

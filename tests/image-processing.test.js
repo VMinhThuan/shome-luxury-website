@@ -24,8 +24,7 @@ async function run() {
     assert.equal(metadata.height, 900);
   }
 
-  // Admin page uploads preserve the source dimensions and pixel quality while
-  // converting the file to WebP.
+  // Admin page uploads preserve dimensions below 2K while converting to WebP.
   const originalBackground = await processImageBuffer(png, { preserve_original_file: 'true' });
   assert.equal(originalBackground.buffer.equals(png), false);
   assert.equal(originalBackground.optimized.format, 'webp');
@@ -34,15 +33,15 @@ async function run() {
   assert.equal(originalBackground.settings.originalWebp, true);
 
   const existingWebp = await processImageBuffer(webp, { original_webp: 'true', quality: '1', sharpness: '100' });
-  assert.equal(existingWebp.buffer.equals(webp), true);
+  assert.equal(existingWebp.buffer.equals(webp), false);
   assert.equal(existingWebp.optimized.format, 'webp');
-  assert.equal(existingWebp.optimized.bytes, webp.length);
+  assert.equal(existingWebp.optimized.keptOriginal, false);
 
   const originalWebp = await processImageBuffer(await createInput('jpg', { width: 3200, height: 1800 }), { original_webp: 'true', resize_preset: '2k', quality: '40', sharpness: '100' });
-  assert.deepEqual([originalWebp.optimized.width, originalWebp.optimized.height], [3200, 1800]);
+  assert.deepEqual([originalWebp.optimized.width, originalWebp.optimized.height], [2048, 1152]);
   assert.equal(originalWebp.optimized.format, 'webp');
-  assert.equal(originalWebp.settings.quality, 100);
-  assert.equal(originalWebp.settings.sharpness, 0);
+  assert.equal(originalWebp.settings.quality, 40);
+  assert.equal(originalWebp.settings.sharpness, 100);
 
   const resized = await processImageBuffer(jpg, { keep_original_size: 'false', keep_aspect_ratio: 'true', width: '800', height: '800', quality: '95', sharpness: 'low' });
   assert.equal(resized.optimized.width, 800);
@@ -53,11 +52,17 @@ async function run() {
   assert.equal(notUpscaled.optimized.height, 900);
 
   const wide2k = await processImageBuffer(await createInput('jpg', { width: 4000, height: 2250 }), { resize_preset: '2k' });
-  assert.deepEqual([wide2k.optimized.width, wide2k.optimized.height], [2560, 1440]);
+  assert.deepEqual([wide2k.optimized.width, wide2k.optimized.height], [2048, 1152]);
   const standard2k = await processImageBuffer(await createInput('jpg', { width: 3000, height: 2000 }), { resize_preset: '2k' });
-  assert.deepEqual([standard2k.optimized.width, standard2k.optimized.height], [2560, 1707]);
+  assert.deepEqual([standard2k.optimized.width, standard2k.optimized.height], [2048, 1365]);
   const small2k = await processImageBuffer(await createInput('jpg', { width: 1920, height: 1080 }), { resize_preset: '2k' });
   assert.deepEqual([small2k.optimized.width, small2k.optimized.height], [1920, 1080]);
+
+  // The default upload path follows the same 2K rule even without a preset.
+  const defaultWide = await processImageBuffer(await createInput('jpg', { width: 4000, height: 2250 }));
+  assert.deepEqual([defaultWide.optimized.width, defaultWide.optimized.height], [2048, 1152]);
+  const defaultSmall = await processImageBuffer(await createInput('jpg', { width: 1200, height: 800 }));
+  assert.deepEqual([defaultSmall.optimized.width, defaultSmall.optimized.height], [1200, 800]);
 
   // Project CMS preset caps the longest edge at 2048px and keeps smaller
   // images unchanged without stretching them.
@@ -69,11 +74,11 @@ async function run() {
   assert.deepEqual([projectSmall.optimized.width, projectSmall.optimized.height], [1200, 800]);
   assert.equal(projectSmall.optimized.format, 'webp');
 
-  // Vertical 2K tests: longest edge (height) limited to 2560px without cropping or stretching
+  // Vertical 2K tests: longest edge (height) limited to 2048px without cropping or stretching
   const verticalWide2k = await processImageBuffer(await createInput('jpg', { width: 2250, height: 4000 }), { resize_preset: '2k' });
-  assert.deepEqual([verticalWide2k.optimized.width, verticalWide2k.optimized.height], [1440, 2560]);
+  assert.deepEqual([verticalWide2k.optimized.width, verticalWide2k.optimized.height], [1152, 2048]);
   const verticalStandard2k = await processImageBuffer(await createInput('jpg', { width: 2000, height: 3000 }), { resize_preset: '2k' });
-  assert.deepEqual([verticalStandard2k.optimized.width, verticalStandard2k.optimized.height], [1707, 2560]);
+  assert.deepEqual([verticalStandard2k.optimized.width, verticalStandard2k.optimized.height], [1365, 2048]);
   const verticalSmall2k = await processImageBuffer(await createInput('jpg', { width: 1080, height: 1920 }), { resize_preset: '2k' });
   assert.deepEqual([verticalSmall2k.optimized.width, verticalSmall2k.optimized.height], [1080, 1920]);
 
@@ -87,7 +92,7 @@ async function run() {
     quality: '80',
     sharpness: '45'
   });
-  assert.deepEqual([custom2k.optimized.width, custom2k.optimized.height], [2560, 1440]);
+  assert.deepEqual([custom2k.optimized.width, custom2k.optimized.height], [2048, 1152]);
   assert.equal(custom2k.settings.quality, 80);
   assert.equal(custom2k.settings.sharpness, 45);
 

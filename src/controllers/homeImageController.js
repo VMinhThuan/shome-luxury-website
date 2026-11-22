@@ -1,6 +1,5 @@
 const multer = require('multer');
 const path = require('path');
-const sharp = require('sharp');
 const HomeImage = require('../models/HomeImage');
 const slots = require('../data/homeImageSlots');
 const subpageSlots = require('../data/subpageImageSlots');
@@ -16,23 +15,6 @@ const { IMAGE_MAX_FILE_SIZE } = require('../config/imageUpload');
 const allConfiguredSlots = [...slots, ...subpageSlots];
 const slotByKey = new Map(allConfiguredSlots.map(slot => [slot.image_key, slot]));
 const publicDirectory = path.resolve(__dirname, '../../public');
-const slotResizeTargetCache = new Map();
-const SOURCE_PRESERVING_IMAGE_KEYS = new Set([
-  'about_showroom_background',
-  'why_choose_background',
-  'home_workshop_background',
-  'home_faq_background',
-  'quote_construction_cta_image'
-]);
-
-// The three homepage hero banners are designed for large desktop screens.
-// Their legacy fallback files are 1376px wide, so using the fallback size as
-// the upload target would unnecessarily downscale a customer's 2K+ artwork.
-const HOMEPAGE_HERO_BANNER_KEYS = new Set([
-  'hero_banner_1',
-  'hero_banner_2',
-  'hero_banner_3'
-]);
 
 // These benefit icons keep their website defaults and are no longer
 // replaceable from the image-management screen.
@@ -47,40 +29,6 @@ const HIDDEN_ADMIN_IMAGE_KEYS = new Set([
   'quote_benefit_icon_2',
   'quote_benefit_icon_3'
 ]);
-
-const preservesOriginalFile = slot => SOURCE_PRESERVING_IMAGE_KEYS.has(slot.image_key);
-const isHomepageHeroBanner = slot => slot.page_key === 'home'
-  && slot.section_key === 'hero'
-  && HOMEPAGE_HERO_BANNER_KEYS.has(slot.image_key);
-
-async function getSlotResizeTarget(slot, variant = 'desktop') {
-  const cacheKey = `${slot.image_key}:${variant}`;
-  if (slotResizeTargetCache.has(cacheKey)) return slotResizeTargetCache.get(cacheKey);
-  const sourceUrl = variant === 'mobile'
-    ? (slot.mobile_image_url || slot.image_url)
-    : slot.image_url;
-  // Most existing banners do not have a mobile source asset yet. In that
-  // case keep the uploaded mobile artwork's own dimensions instead of forcing
-  // it into the desktop frame; the browser will cover the responsive banner.
-  if (variant === 'mobile' && !slot.mobile_image_url) return null;
-  if (!sourceUrl?.startsWith('/images/')) return null;
-
-  const imagePath = path.resolve(publicDirectory, `.${sourceUrl}`);
-  if (!imagePath.startsWith(`${publicDirectory}${path.sep}`)) return null;
-
-  try {
-    const metadata = await sharp(imagePath).metadata();
-    const target = Number.isInteger(metadata.width) && Number.isInteger(metadata.height)
-      ? { width: metadata.width, height: metadata.height }
-      : null;
-    slotResizeTargetCache.set(cacheKey, target);
-    return target;
-  } catch (error) {
-    console.warn(`[Home image resize target] Cannot read ${sourceUrl}:`, error.message);
-    slotResizeTargetCache.set(cacheKey, null);
-    return null;
-  }
-}
 
 const subpageByKey = new Map();
 subpageSlots.forEach(slot => {
@@ -228,7 +176,8 @@ const serializeSlot = (slot, record, recordsByKey) => {
     shared_source: state.sharedSource,
     shared_source_label: null,
     shared_sources: [],
-    preserve_original_file: preservesOriginalFile(slot),
+    // Every slot uses the same 2K/WebP upload rule.
+    preserve_original_file: false,
     updated_at: record?.updated_at || null
   };
 };
@@ -253,7 +202,7 @@ const allRecords = async () => {
 exports.previewImage = async (req, res, next) => {
   try {
     if (!req.file) return res.status(400).json({ success: false, message: 'Vui lòng chọn ảnh JPG, PNG hoặc WebP để xem trước.' });
-    const processed = await processImageBuffer(req.file.buffer, { original_webp: 'true' });
+    const processed = await processImageBuffer(req.file.buffer);
     res.set({
       'Content-Type': processed.optimized.contentType,
       'Content-Length': String(processed.optimized.bytes),
@@ -374,37 +323,9 @@ exports.updateImage = async (req, res, next) => {
     const variant = req.body?.variant === 'mobile' && slot.section_key === 'hero' ? 'mobile' : 'desktop';
 
     const folder = `shome-luxury/${slot.page_key || 'general'}`;
-    const resizeTarget = isHomepageHeroBanner(slot)
-      ? null
-      : await getSlotResizeTarget(slot, variant);
-    const processed = await processImageBuffer(req.file.buffer, isHomepageHeroBanner(slot)
-      ? {
-          // Homepage hero banners use a real 2K ceiling. Sharp preserves the
-          // original dimensions below this ceiling and never upscales them.
-          resize_preset: 'project',
-          keep_aspect_ratio: 'true',
-          webp_lossless: req.file.mimetype === 'image/png' ? 'true' : 'false',
-          sharpness: '0'
-        }
-      : resizeTarget
-      ? {
-          // Page image uploads fit inside the slot's source dimensions. Sharp's
-          // withoutEnlargement rule keeps smaller uploads untouched.
-          keep_original_size: 'false',
-          keep_aspect_ratio: 'true',
-          width: String(resizeTarget.width),
-          height: String(resizeTarget.height),
-          quality: '100',
-          sharpness: '0',
-          webp_lossless: req.file.mimetype === 'image/png' ? 'true' : 'false'
-        }
-      : {
-          // If a legacy/remote default has no readable dimensions, preserve
-          // the safe existing behavior and only convert the upload to WebP.
-          original_webp: 'true'
-        });
-    // Cloudinary receives the already-processed buffer directly. Oversized
-    // images are reduced to the slot bounds; undersized images are never enlarged.
+    const processed = await processImageBuffer(req.file.buffer);
+    // Cloudinary receives the already-processed WebP directly. All slots,
+    // including legacy background and hero slots, use the same 2K rule.
     uploaded = await uploadToCloudinary(processed.buffer, folder, { format: processed.optimized.format });
     if (!imageFormatsMatch(uploaded.format, processed.optimized.format)) {
       throw new Error(`Cloudinary trả về định dạng ${uploaded.format || 'không xác định'}, mong đợi ${processed.optimized.format}. Ảnh cũ vẫn được giữ nguyên.`);

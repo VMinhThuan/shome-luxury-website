@@ -49,7 +49,7 @@ exports.uploadImages = async (req, res, next) => {
 
     const results = await mapWithConcurrency(req.files, GALLERY_UPLOAD_CONCURRENCY, async (file, index) => {
       try {
-        const processed = await processImageBuffer(file.buffer, { original_webp: 'true' });
+        const processed = await processImageBuffer(file.buffer);
         const result = await uploadToCloudinary(processed.buffer, `shome-luxury/construction-galleries/${pageKey}/${sectionKey}`, { format: processed.optimized.format });
         if (!imageFormatsMatch(result.format, processed.optimized.format)) {
           if (result.public_id) await destroyCloudinaryImage(result.public_id).catch(() => null);

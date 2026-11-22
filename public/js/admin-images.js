@@ -407,8 +407,7 @@
   function card(slot, order) {
     const article = create('article', 'image-slot');
     const displayOrder = Number(slot.display_order || slot.displayOrder || order);
-    const preservesOriginalFile = Boolean(slot.preserve_original_file);
-    article.dataset.preserveOriginalFile = String(preservesOriginalFile);
+    article.dataset.preserveOriginalFile = 'false';
 
     // Only the mobile pricing slot keeps a visible title in the quote-image
     // group; the other quote image cards remain clean and untitled.
@@ -433,17 +432,7 @@
     if (isResponsiveBanner) article.dataset.responsiveBanner = 'true';
 
     const formatNumber = value => Number(value || 0).toLocaleString('vi-VN');
-    const greatestCommonDivisor = (a, b) => {
-      let x = Math.abs(Math.round(a));
-      let y = Math.abs(Math.round(b));
-      while (y) [x, y] = [y, x % y];
-      return x || 1;
-    };
-    const ratioLabel = (width, height) => {
-      if (!width || !height) return '';
-      const divisor = greatestCommonDivisor(width, height);
-      return `${Math.round(width / divisor)}:${Math.round(height / divisor)}`;
-    };
+    const uploadRule = 'Cạnh dài tối đa 2.048 px · giữ nguyên tỷ lệ · không phóng to ảnh nhỏ · WebP';
 
     const createVariantEditor = variant => {
       const isMobileVariant = variant === 'mobile';
@@ -469,11 +458,9 @@
       editor.append(currentImageTitle, current, replacementNote);
 
       const displaySpec = create('div', 'image-display-spec');
-      const displaySpecTitle = create('strong', '', 'Khung hiển thị trên website');
+      const displaySpecTitle = create('strong', '', 'Quy tắc lưu ảnh');
       const displaySpecValue = create('span', 'image-display-spec-value', 'Đang tính kích thước...');
-      const displaySpecHint = create('small', '', preservesOriginalFile
-        ? 'Ảnh giữ nguyên toàn bộ nội dung, không cắt khung.'
-        : 'Ảnh lớn sẽ tự thu nhỏ; ảnh nhỏ không được phóng to khi lưu.');
+      const displaySpecHint = create('small', '', uploadRule);
       displaySpec.append(displaySpecTitle, displaySpecValue, displaySpecHint);
       editor.append(displaySpec);
 
@@ -519,31 +506,15 @@
       let file;
       let sourceUrl;
       let dimensions;
-      let targetDimensions;
 
       const fitMessage = () => {
-        if (!dimensions || !targetDimensions) return preservesOriginalFile
-          ? 'Tỷ lệ ảnh gốc được giữ nguyên.'
-          : '';
-        if (preservesOriginalFile) return 'Tỷ lệ ảnh gốc được giữ nguyên.';
-        const sourceRatio = dimensions.width / dimensions.height;
-        const targetRatio = targetDimensions.width / targetDimensions.height;
-        const difference = Math.abs(sourceRatio - targetRatio) / targetRatio;
-        if (difference <= .02) return 'Đúng tỷ lệ khung website, gần như không bị cắt.';
-        return sourceRatio > targetRatio
-          ? 'Ảnh rộng hơn khung: website sẽ cắt bớt hai bên.'
-          : 'Ảnh cao hơn khung: website sẽ cắt bớt phía trên và phía dưới.';
+        return uploadRule;
       };
       const updateDisplaySpec = () => {
-        if (!targetDimensions) return;
-        displaySpecValue.textContent = `${formatNumber(targetDimensions.width)} × ${formatNumber(targetDimensions.height)} px · Tỷ lệ ${ratioLabel(targetDimensions.width, targetDimensions.height)}`;
-        selectedPreview.style.aspectRatio = preservesOriginalFile
-          ? 'auto'
-          : `${targetDimensions.width} / ${targetDimensions.height}`;
-        if (dimensions) {
-          displaySpecHint.textContent = fitMessage();
-          displaySpecHint.classList.toggle('is-warning', !preservesOriginalFile && fitMessage().includes('cắt'));
-        }
+        displaySpecValue.textContent = uploadRule;
+        selectedPreview.style.aspectRatio = 'auto';
+        displaySpecHint.textContent = uploadRule;
+        displaySpecHint.classList.remove('is-warning');
       };
       const updateSelectedFileInfo = () => {
         if (!file || !dimensions) return;
@@ -556,14 +527,7 @@
         updateDisplaySpec();
       };
 
-      const targetImage = new Image();
-      targetImage.onload = () => {
-        targetDimensions = { width: targetImage.naturalWidth, height: targetImage.naturalHeight };
-        updateDisplaySpec();
-      };
-      targetImage.src = isMobileVariant
-        ? (slot.default_mobile_image_url || slot.default_image_url)
-        : slot.default_image_url;
+      updateDisplaySpec();
 
       const clearSelectedFile = () => {
         if (sourceUrl) URL.revokeObjectURL(sourceUrl);
@@ -578,9 +542,7 @@
         selectedPreview.removeAttribute('src');
         cancelSelectionBtn.hidden = true;
         fileLabelText.textContent = replacementUrl() ? '🔄 Đổi ảnh khác' : '📷 Chọn ảnh tải lên';
-        displaySpecHint.textContent = preservesOriginalFile
-          ? 'Ảnh giữ nguyên toàn bộ nội dung, không cắt khung.'
-          : 'Ảnh lớn sẽ tự thu nhỏ; ảnh nhỏ không được phóng to khi lưu.';
+        displaySpecHint.textContent = uploadRule;
         displaySpecHint.classList.remove('is-warning');
         setStatus('');
       };

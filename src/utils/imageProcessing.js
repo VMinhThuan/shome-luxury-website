@@ -3,6 +3,7 @@ const { IMAGE_WEBP_QUALITY } = require('../config/imageUpload');
 
 const MAX_INPUT_PIXELS = 40_000_000;
 const MAX_OUTPUT_PIXELS = 24_000_000;
+const MAX_IMAGE_EDGE = 2048;
 const ALLOWED_FORMATS = new Set(['jpeg', 'png', 'webp']);
 
 const isEnabled = (value, fallback = false) => {
@@ -50,88 +51,47 @@ function outputExtension(contentType) {
   }[contentType] || '.img';
 }
 
-const contentTypeForFormat = format => ({
-  jpeg: 'image/jpeg',
-  jpg: 'image/jpeg',
-  png: 'image/png',
-  webp: 'image/webp'
-}[String(format || '').toLowerCase()] || 'application/octet-stream');
-
-const resultFromBuffer = ({ inputBuffer, inputFormat, inputWidth, inputHeight, outputBuffer, outputInfo, settings, preferOutput = false }) => {
-  // A resize target is a hard dimension/format requirement. Do not fall back
-  // to the original bytes merely because a high-quality WebP happens to be
-  // larger than the source file.
-  const useOriginal = !preferOutput && outputBuffer.length >= inputBuffer.length;
-  const format = useOriginal ? inputFormat : outputInfo.format;
-  const bytes = useOriginal ? inputBuffer.length : outputBuffer.length;
-  const contentType = contentTypeForFormat(format);
+const resultFromBuffer = ({ inputFormat, outputBuffer, outputInfo, settings }) => {
+  // The output is always the processed WebP. Never fall back to the source
+  // bytes: doing so could keep JPG/PNG files or bypass the 2K edge limit when
+  // a high-quality WebP happens to be larger than the input.
+  const format = 'webp';
+  const bytes = outputBuffer.length;
+  const contentType = 'image/webp';
   return {
-    buffer: useOriginal ? inputBuffer : outputBuffer,
+    buffer: outputBuffer,
     optimized: {
-      width: useOriginal ? inputWidth : outputInfo.width,
-      height: useOriginal ? inputHeight : outputInfo.height,
+      width: outputInfo.width,
+      height: outputInfo.height,
       format,
       bytes,
       contentType,
       extension: outputExtension(contentType),
-      convertedToWebp: !useOriginal && format === 'webp',
-      keptOriginal: useOriginal
+      convertedToWebp: inputFormat !== 'webp',
+      keptOriginal: false
     },
-    settings: { ...settings, keptOriginal: useOriginal }
+    settings: { ...settings, keptOriginal: false }
   };
 };
 
 function outputOptionsFrom(body = {}) {
-  // Admin-managed page images preserve source dimensions and visual treatment.
-  // They are converted to WebP when that is smaller; otherwise the original
-  // JPG/PNG is retained to avoid increasing storage size.
-  if (isEnabled(body.original_webp)) {
-    return {
-      keepOriginalSize: true,
-      keepAspectRatio: true,
-      preserveOriginalFile: false,
-      originalWebp: true,
-      lossless: false,
-      width: null,
-      height: null,
-      resizePreset: null,
-      quality: 100,
-      sharpness: 0,
-      crop: null
-    };
-  }
-
-  // Source-preserving CMS images are customer-owned originals. When this mode
-  // is requested, do not resize, crop, or sharpen the uploaded file.
-  // Keep this legacy flag working while choosing the smaller representation.
-  if (isEnabled(body.preserve_original_file)) {
-    return {
-      keepOriginalSize: true,
-      keepAspectRatio: true,
-      preserveOriginalFile: false,
-      originalWebp: true,
-      lossless: false,
-      width: null,
-      height: null,
-      resizePreset: null,
-      quality: 100,
-      sharpness: 0,
-      crop: null
-    };
-  }
-
   const resizePreset = ['2k', 'project'].includes(body.resize_preset) ? body.resize_preset : null;
-  const presetMaxEdge = resizePreset === 'project' ? 2048 : 2560;
+  // `original_webp`, `preserve_original_file`, `2k`, and `project` are kept as
+  // backwards-compatible input flags, but all uploads now share this rule:
+  // WebP output with a maximum 2048px longest edge and no upscaling.
   const keepOriginalSize = resizePreset ? false : isEnabled(body.keep_original_size, true);
-  const keepAspectRatio = resizePreset ? true : isEnabled(body.keep_aspect_ratio, true);
+  const keepAspectRatio = true;
   const lossless = isEnabled(body.webp_lossless);
-  const width = resizePreset ? presetMaxEdge : keepOriginalSize ? null : numberInRange(body.width, 1, 7680);
-  const height = resizePreset ? presetMaxEdge : keepOriginalSize ? null : numberInRange(body.height, 1, 7680);
+  const requestedWidth = keepOriginalSize ? null : numberInRange(body.width, 1, 7680);
+  const requestedHeight = keepOriginalSize ? null : numberInRange(body.height, 1, 7680);
   const widthRequested = body.width !== undefined && body.width !== null && body.width !== '';
   const heightRequested = body.height !== undefined && body.height !== null && body.height !== '';
-  if (!keepOriginalSize && ((widthRequested && !width) || (heightRequested && !height) || (!width && !height))) {
+  if (!resizePreset && !keepOriginalSize && ((widthRequested && !requestedWidth) || (heightRequested && !requestedHeight) || (!requestedWidth && !requestedHeight))) {
     throw new Error('Chiều rộng và chiều cao cần nằm trong khoảng 1–7680 px.');
   }
+
+  const width = requestedWidth ? Math.min(requestedWidth, MAX_IMAGE_EDGE) : MAX_IMAGE_EDGE;
+  const height = requestedHeight ? Math.min(requestedHeight, MAX_IMAGE_EDGE) : MAX_IMAGE_EDGE;
 
   const quality = qualityFrom(body.quality);
   if (body.quality !== undefined && body.quality !== null && body.quality !== '' && !numberInRange(body.quality, 1, 100)) {
@@ -153,6 +113,7 @@ function outputOptionsFrom(body = {}) {
     keepOriginalSize,
     keepAspectRatio,
     preserveOriginalFile: false,
+    originalWebp: isEnabled(body.original_webp) || isEnabled(body.preserve_original_file),
     lossless,
     width,
     height,
@@ -179,70 +140,12 @@ async function processImageBuffer(inputBuffer, body = {}) {
   }
 
   const options = outputOptionsFrom(body);
-  const originalWidth = options.originalWebp
-    ? inputMetadata.width
-    : [5, 6, 7, 8].includes(inputMetadata.orientation) ? inputMetadata.height : inputMetadata.width;
-  const originalHeight = options.originalWebp
+  const originalWidth = [5, 6, 7, 8].includes(inputMetadata.orientation)
     ? inputMetadata.height
-    : [5, 6, 7, 8].includes(inputMetadata.orientation) ? inputMetadata.width : inputMetadata.height;
-
-  if (options.originalWebp) {
-    // This path is deliberately limited to format conversion. Do not rotate
-    // EXIF, change colourspace, resize, crop, sharpen, or apply any other
-    // image transform. An existing WebP is already in the requested format,
-    // so keep its bytes exactly as uploaded.
-    if (inputMetadata.format === 'webp') {
-      return {
-        buffer: inputBuffer,
-        original: {
-          width: originalWidth,
-          height: originalHeight,
-          format: inputMetadata.format,
-          bytes: inputBuffer.length
-        },
-        optimized: {
-          width: originalWidth,
-          height: originalHeight,
-          format: 'webp',
-          bytes: inputBuffer.length,
-          contentType: 'image/webp',
-          extension: '.webp',
-          convertedToWebp: false,
-          keptOriginal: true
-        },
-        settings: { ...options, keptOriginal: true }
-      };
-    }
-
-    const webpOptions = inputMetadata.format === 'png'
-      ? { lossless: true, effort: 6 }
-      : { quality: IMAGE_WEBP_QUALITY, effort: 6, smartSubsample: true };
-    const { data, info } = await sharp(inputBuffer, {
-      failOn: 'error',
-      limitInputPixels: MAX_INPUT_PIXELS
-    }).webp(webpOptions).toBuffer({ resolveWithObject: true });
-
-    const result = resultFromBuffer({
-      inputBuffer,
-      inputFormat: inputMetadata.format,
-      inputWidth: originalWidth,
-      inputHeight: originalHeight,
-      outputBuffer: data,
-      outputInfo: { ...info, format: 'webp' },
-      settings: options
-    });
-    return {
-      buffer: result.buffer,
-      original: {
-        width: originalWidth,
-        height: originalHeight,
-        format: inputMetadata.format,
-        bytes: inputBuffer.length
-      },
-      optimized: result.optimized,
-      settings: result.settings
-    };
-  }
+    : inputMetadata.width;
+  const originalHeight = [5, 6, 7, 8].includes(inputMetadata.orientation)
+    ? inputMetadata.width
+    : inputMetadata.height;
 
   let pipeline = sharp(inputBuffer, { failOn: 'error', limitInputPixels: MAX_INPUT_PIXELS }).rotate().toColourspace('srgb');
 
@@ -268,7 +171,9 @@ async function processImageBuffer(inputBuffer, body = {}) {
     pipeline = pipeline.extract(crop);
   }
 
-  const hasResize = !options.originalWebp && !options.keepOriginalSize && Boolean(options.width || options.height);
+  // Always apply the canonical max-edge resize. Sharp's withoutEnlargement
+  // preserves smaller source dimensions while keeping the aspect ratio.
+  const hasResize = Boolean(options.width || options.height);
   if (hasResize) {
     pipeline = pipeline.resize({
       width: options.width || undefined,
@@ -279,7 +184,7 @@ async function processImageBuffer(inputBuffer, body = {}) {
     });
   }
 
-  const sharpOptions = options.originalWebp ? null : sharpOptionsFromPercent(options.sharpness);
+  const sharpOptions = sharpOptionsFromPercent(options.sharpness);
   if (sharpOptions) {
     pipeline = pipeline.sharpen(sharpOptions);
   }
@@ -289,7 +194,7 @@ async function processImageBuffer(inputBuffer, body = {}) {
     : pipeline.webp({ quality: options.quality, effort: 6, smartSubsample: true });
 
   const { data, info } = await pipeline.toBuffer({ resolveWithObject: true });
-  const maxAllowedPixels = options.originalWebp ? MAX_INPUT_PIXELS : MAX_OUTPUT_PIXELS;
+  const maxAllowedPixels = MAX_OUTPUT_PIXELS;
   if (info.width * info.height > maxAllowedPixels) {
     throw new Error('Ảnh đầu ra vượt giới hạn 24 megapixel. Hãy giảm chiều rộng hoặc chiều cao.');
   }
@@ -297,12 +202,9 @@ async function processImageBuffer(inputBuffer, body = {}) {
   const result = resultFromBuffer({
     inputBuffer,
     inputFormat: inputMetadata.format,
-    inputWidth: originalWidth,
-    inputHeight: originalHeight,
     outputBuffer: data,
     outputInfo: info,
-    settings: options,
-    preferOutput: hasResize
+    settings: options
   });
   return {
     buffer: result.buffer,
@@ -322,6 +224,7 @@ module.exports = {
   outputOptionsFrom,
   sharpOptionsFromPercent,
   sharpnessPercentFrom,
+  MAX_IMAGE_EDGE,
   MAX_INPUT_PIXELS,
   MAX_OUTPUT_PIXELS
 };
