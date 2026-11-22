@@ -218,12 +218,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const setQuoteSlideTransform = (element, offset = 0, lift = 0) => {
       if (!element) return;
-      const liftProgress = Math.max(0, Math.min(1, lift));
-      const liftY = Math.round(-8 * liftProgress);
-      const liftScale = (1 + (0.022 * liftProgress)).toFixed(3);
       element.style.setProperty(
         'transform',
-        `translate3d(${offset}px, ${liftY}px, 0) scale3d(${liftScale}, ${liftScale}, 1)`,
+        `translate3d(${offset}px, 0, 0)`,
         'important'
       );
     };

@@ -1121,12 +1121,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function setLightboxSlideTransform(image, offset = 0, lift = 0) {
       if (!image) return;
-      const liftProgress = Math.max(0, Math.min(1, lift));
-      const liftY = Math.round(-8 * liftProgress);
-      const liftScale = (1 + (0.022 * liftProgress)).toFixed(3);
       image.style.setProperty(
         'transform',
-        `translate3d(${offset}px, ${liftY}px, 0) scale3d(${liftScale}, ${liftScale}, 1)`,
+        `translate3d(${offset}px, 0, 0)`,
         'important'
       );
     }
@@ -1690,16 +1687,13 @@ document.addEventListener('DOMContentLoaded', () => {
     const setGalleryImageTransform = (image, offset = '0%', lift = 0, depth = 0, blur = 0, opacity = 1) => {
       if (!image) return;
       const isMobileGallery = window.matchMedia?.('(max-width: 767px)').matches;
-      const liftProgress = Math.max(0, Math.min(1, lift));
-      const depthProgress = Math.max(0, Math.min(1, depth));
-      const liftY = `${Math.round(-8 * liftProgress)}px`;
-      const liftScale = (1 + (0.022 * liftProgress) + (0.06 * depthProgress)).toFixed(3);
-      const motionBlur = Math.max(0, Math.min(1.8, blur));
-      image.style.setProperty('--gallery-motion-blur', `${motionBlur.toFixed(2)}px`);
-      image.style.opacity = String(Math.max(0, Math.min(1, opacity)));
+      // Navigation is a horizontal slide only. Do not blur, fade, lift, or
+      // scale the bitmap while the next image is entering.
+      image.style.setProperty('--gallery-motion-blur', '0px');
+      image.style.opacity = '1';
       if (isMobileGallery) {
         const mobileOffset = offset === '0%' ? '0' : typeof offset === 'number' ? `${offset}px` : offset;
-        image.style.setProperty('transform', `translate3d(${mobileOffset}, ${liftY}, 0) scale3d(${liftScale}, ${liftScale}, 1)`, 'important');
+        image.style.setProperty('transform', `translate3d(${mobileOffset}, 0, 0)`, 'important');
         return;
       }
       // Keep every image centered from its own midpoint so a portrait/landscape
@@ -1713,7 +1707,7 @@ document.addEventListener('DOMContentLoaded', () => {
           : offset === '-100%'
             ? '-150%'
             : `calc(-50% + ${offset})`;
-      image.style.setProperty('transform', `translate3d(${centeredTransform}, ${liftY}, 0) scale3d(${liftScale}, ${liftScale}, 1)`, 'important');
+      image.style.setProperty('transform', `translate3d(${centeredTransform}, 0, 0)`, 'important');
     };
 
     const applyGalleryTransitionFrame = ({ heroImage, previewImage, heroX, previewX, revealProgress, blur }) => {
@@ -2323,12 +2317,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const setProjectGallerySlideTransform = (element, offset = 0, lift = 0) => {
       if (!element) return;
-      const liftProgress = Math.max(0, Math.min(1, lift));
-      const liftY = Math.round(-8 * liftProgress);
-      const liftScale = (1 + (0.022 * liftProgress)).toFixed(3);
       element.style.setProperty(
         'transform',
-        `translate3d(${offset}px, ${liftY}px, 0) scale3d(${liftScale}, ${liftScale}, 1)`,
+        `translate3d(${offset}px, 0, 0)`,
         'important'
       );
     };

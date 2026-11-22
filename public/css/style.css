@@ -14046,23 +14046,15 @@ main .section-v2-title,
 .quote-page .quote-featured-project-card--inline-gallery .project-gallery-thumbnail { min-width: 88px; }
 @keyframes quote-inline-gallery-fade { from { opacity: .72; } to { opacity: 1; } }
 
-/* The fullscreen viewer keeps its page-turn motion. The inline quote gallery
-   below intentionally uses only a soft opacity change. */
+/* All gallery changes use a horizontal slide only. Keep image scale stable. */
 @keyframes image-page-turn-next {
-  0% { opacity: .35; transform: translate3d(7%, 0, 0) scale(.985) rotateY(-2deg); filter: blur(1px); }
-  62% { opacity: 1; transform: translate3d(-.8%, 0, 0) scale(1.002) rotateY(.25deg); filter: blur(0); }
-  100% { opacity: 1; transform: translate3d(0, 0, 0) scale(1) rotateY(0); filter: none; }
+  from { transform: translate3d(7%, 0, 0); }
+  to { transform: translate3d(0, 0, 0); }
 }
 
 @keyframes image-page-turn-previous {
-  0% { opacity: .35; transform: translate3d(-7%, 0, 0) scale(.985) rotateY(2deg); filter: blur(1px); }
-  62% { opacity: 1; transform: translate3d(.8%, 0, 0) scale(1.002) rotateY(-.25deg); filter: blur(0); }
-  100% { opacity: 1; transform: translate3d(0, 0, 0) scale(1) rotateY(0); filter: none; }
-}
-
-.project-gallery-lightbox-stage,
-.quote-page .quote-project-gallery-stage {
-  perspective: 1200px;
+  from { transform: translate3d(-7%, 0, 0); }
+  to { transform: translate3d(0, 0, 0); }
 }
 
 .project-gallery-lightbox-stage > [data-gallery-lightbox-preview],
@@ -14766,6 +14758,14 @@ body.project-gallery-lightbox-open { overflow: hidden !important; }
   .quote-page .quote-project-gallery-count { right: 0.55rem !important; bottom: 0.55rem !important; font-size: 0.68rem !important; padding: 0.2rem 0.55rem !important; }
   .quote-page .quote-project-gallery-thumbnails { gap: 0.45rem !important; }
   .quote-page .quote-project-gallery-thumbnail { flex: 0 0 68px !important; width: 68px !important; border-radius: 7px !important; }
+}
+
+/* On mobile the quote lightbox keeps the image and navigation controls full
+   screen; the thumbnail rail is intentionally desktop-only. */
+@media (max-width: 767px) {
+  .quote-page .project-gallery-lightbox[data-quote-project-gallery-modal] .project-gallery-lightbox-thumbnails {
+    display: none !important;
+  }
 }
 
 /* Featured apartment projects — editorial one-card-per-row layout. */
@@ -23583,19 +23583,14 @@ main.project-detail-page .project-info-banner .meta-value {
   }
 }
 
-/* Unified cinematic transition for the detail-page fullscreen viewer:
-   directional slide, a restrained scale lift, and a short soft blur/fade. */
+/* Unified detail-page fullscreen viewer transition: horizontal slide only. */
 .project-gallery-lightbox:not(.project-gallery-lightbox--grid) .project-gallery-lightbox-stage > [data-gallery-lightbox-image].is-lightbox-transitioning {
-  transform: translate3d(var(--lightbox-transition-offset, 0), 0, 0) scale3d(.985, .985, 1) !important;
-  opacity: 0 !important;
-  filter: blur(2px) !important;
-  transition: transform .46s cubic-bezier(.22, .61, .36, 1), opacity .28s ease-out, filter .32s ease-out !important;
+  transform: translate3d(var(--lightbox-transition-offset, 0), 0, 0) !important;
+  transition: transform .46s cubic-bezier(.22, .61, .36, 1) !important;
 }
 
 .project-gallery-lightbox:not(.project-gallery-lightbox--grid) .project-gallery-lightbox-stage > [data-gallery-lightbox-image].is-lightbox-transitioning.is-lightbox-transitioning-entered {
-  transform: translate3d(0, 0, 0) scale3d(1, 1, 1) !important;
-  opacity: 1 !important;
-  filter: none !important;
+  transform: translate3d(0, 0, 0) !important;
 }
 
 /* Tighten the mobile project banner so the summary and first image sit
@@ -23822,7 +23817,7 @@ main.project-detail-page .project-info-banner .meta-value {
    direction while the next image enters from the opposite side. */
 .project-gallery-lightbox:not(.project-gallery-lightbox--grid) .project-gallery-lightbox-stage.is-lightbox-sliding > [data-gallery-lightbox-image],
 .project-gallery-lightbox:not(.project-gallery-lightbox--grid) .project-gallery-lightbox-stage.is-lightbox-sliding > [data-gallery-lightbox-preview] {
-  transition: transform .52s cubic-bezier(.22, .61, .36, 1), filter .52s ease, opacity .52s ease !important;
+  transition: transform .52s cubic-bezier(.22, .61, .36, 1) !important;
   will-change: transform;
 }
 
@@ -23847,7 +23842,7 @@ main.project-detail-page .project-info-banner .meta-value {
    detail gallery, so every project image transition follows one motion rule. */
 .project-gallery-lightbox--grid .project-gallery-lightbox-stage.is-grid-sliding > [data-project-grid-lightbox-image],
 .project-gallery-lightbox--grid .project-gallery-lightbox-stage.is-grid-sliding > [data-project-grid-lightbox-preview] {
-  transition: transform .52s cubic-bezier(.22, .61, .36, 1), filter .52s ease, opacity .52s ease !important;
+  transition: transform .52s cubic-bezier(.22, .61, .36, 1) !important;
   will-change: transform;
 }
 
@@ -23863,7 +23858,7 @@ main.project-detail-page .project-info-banner .meta-value {
 }
 
 .project-detail-page .project-gallery-stage.is-sliding > img {
-  transition: transform .52s cubic-bezier(.22, .61, .36, 1), filter .52s ease, opacity .52s ease !important;
+  transition: transform .52s cubic-bezier(.22, .61, .36, 1) !important;
 }
 
 /* Keep the lightbox frame stable while changing image ratios. Without a
@@ -23881,10 +23876,10 @@ main.project-detail-page .project-info-banner .meta-value {
 
 .project-gallery-lightbox:not(.project-gallery-lightbox--grid) .project-gallery-lightbox-stage > [data-gallery-lightbox-image],
 .project-gallery-lightbox:not(.project-gallery-lightbox--grid) .project-gallery-lightbox-stage > [data-gallery-lightbox-preview] {
-  width: 100% !important;
-  height: 100% !important;
-  max-width: none !important;
-  max-height: none !important;
+  width: auto !important;
+  height: auto !important;
+  max-width: 100% !important;
+  max-height: 100% !important;
   margin: 0 !important;
   object-fit: contain !important;
   object-position: center center !important;
@@ -23892,10 +23887,10 @@ main.project-detail-page .project-info-banner .meta-value {
 
 .project-gallery-lightbox--grid .project-gallery-lightbox-stage.is-grid-sliding > [data-project-grid-lightbox-image],
 .project-gallery-lightbox--grid .project-gallery-lightbox-stage.is-grid-sliding > [data-project-grid-lightbox-preview] {
-  width: 100% !important;
-  height: 100% !important;
-  max-width: none !important;
-  max-height: none !important;
+  width: auto !important;
+  height: auto !important;
+  max-width: 100% !important;
+  max-height: 100% !important;
   object-fit: contain !important;
   object-position: center center !important;
 }
@@ -23926,13 +23921,13 @@ main.project-detail-page .project-info-banner .meta-value {
 }
 
 @keyframes quote-inline-gallery-slide-next {
-  from { opacity: .96; transform: translate3d(7%, -6px, 0) scale3d(1.022, 1.022, 1); filter: blur(1px); }
-  to { opacity: 1; transform: translate3d(0, 0, 0) scale3d(1, 1, 1); filter: none; }
+  from { transform: translate3d(7%, 0, 0); }
+  to { transform: translate3d(0, 0, 0); }
 }
 
 @keyframes quote-inline-gallery-slide-previous {
-  from { opacity: .96; transform: translate3d(-7%, -6px, 0) scale3d(1.022, 1.022, 1); filter: blur(1px); }
-  to { opacity: 1; transform: translate3d(0, 0, 0) scale3d(1, 1, 1); filter: none; }
+  from { transform: translate3d(-7%, 0, 0); }
+  to { transform: translate3d(0, 0, 0); }
 }
 
 .quote-page .quote-featured-project-card--inline-gallery .project-gallery-stage.is-inline-changing-next > img {
