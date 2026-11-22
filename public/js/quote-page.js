@@ -1,3 +1,39 @@
+const quotePageHasHash = Boolean(window.location.hash);
+const resetQuotePageScroll = () => {
+  window.scrollTo(0, 0);
+  document.documentElement.scrollTop = 0;
+  document.body.scrollTop = 0;
+};
+
+// Quote submenu routes are separate pages. Prevent Chrome from carrying the
+// previous quote page's scroll position into the newly selected category.
+if (!quotePageHasHash) {
+  if ('scrollRestoration' in window.history) window.history.scrollRestoration = 'manual';
+  resetQuotePageScroll();
+  window.requestAnimationFrame(resetQuotePageScroll);
+  window.setTimeout(resetQuotePageScroll, 0);
+  window.addEventListener('load', resetQuotePageScroll, { once: true });
+  window.addEventListener('pageshow', resetQuotePageScroll, { once: true });
+}
+
+document.addEventListener('click', event => {
+  if (event.defaultPrevented || event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+  const link = event.target.closest('a[href]');
+  if (!link) return;
+  let destination;
+  try {
+    destination = new URL(link.href, window.location.href);
+  } catch (_) {
+    return;
+  }
+  if (destination.origin === window.location.origin
+    && destination.pathname.startsWith('/bao-gia')
+    && !destination.hash) {
+    if ('scrollRestoration' in window.history) window.history.scrollRestoration = 'manual';
+    resetQuotePageScroll();
+  }
+}, true);
+
 document.addEventListener('DOMContentLoaded', () => {
   // Match the project-detail gallery: thumbnail strips can be grabbed and
   // dragged horizontally with a mouse, trackpad or touch pointer. A drag must
@@ -176,21 +212,31 @@ document.addEventListener('DOMContentLoaded', () => {
     const show = async (index, direction = 0) => {
       const nextIndex = (index + images.length) % images.length;
       const requestToken = ++transitionToken;
+      image.style.visibility = 'hidden';
+      image.classList.remove('is-gallery-lightbox-fading', 'is-page-turn-next', 'is-page-turn-previous');
       await preload(images[nextIndex]);
       if (requestToken !== transitionToken) return;
 
       activeIndex = nextIndex;
       image.src = images[activeIndex];
       image.alt = `${modal.dataset.projectTitle} - ảnh ${activeIndex + 1}`;
-      image.classList.remove('is-page-turn-next', 'is-page-turn-previous');
+      const reveal = () => {
+        if (requestToken !== transitionToken) return;
+        image.style.visibility = 'visible';
+        image.classList.remove('is-gallery-lightbox-fading', 'is-page-turn-next', 'is-page-turn-previous');
+        if (direction) {
+          void image.offsetWidth;
+          image.classList.add('is-gallery-lightbox-fading');
+          window.setTimeout(() => image.classList.remove('is-gallery-lightbox-fading'), 280);
+        }
+      };
       if (preview) {
         preview.classList.remove('is-page-turn-next', 'is-page-turn-previous');
         preview.style.visibility = 'hidden';
       }
-      if (direction) {
-        void image.offsetWidth;
-        image.classList.add(direction > 0 ? 'is-page-turn-next' : 'is-page-turn-previous');
-      }
+      if (typeof image.decode === 'function') image.decode().catch(() => {}).finally(reveal);
+      else if (image.complete) reveal();
+      else image.addEventListener('load', reveal, { once: true });
       current.textContent = String(activeIndex + 1).padStart(2, '0');
       total.textContent = String(images.length).padStart(2, '0');
       thumbnails.querySelectorAll('button').forEach((button, buttonIndex) => button.classList.toggle('is-active', buttonIndex === activeIndex));

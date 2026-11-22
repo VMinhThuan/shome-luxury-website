@@ -389,7 +389,6 @@ document.addEventListener('DOMContentLoaded', () => {
   // thumbnail for the real embed.
   document.querySelectorAll('[data-youtube-thumbnail]').forEach(frame => {
     const cover = frame.querySelector('.youtube-thumbnail-cover');
-    const fullscreenButton = frame.querySelector('[data-youtube-fullscreen]');
     if (!cover) return;
 
     const createIframe = () => {
@@ -409,9 +408,6 @@ document.addEventListener('DOMContentLoaded', () => {
       return iframe;
     };
 
-    const getActiveIframe = () => Array.from(frame.querySelectorAll('iframe'))
-      .find(iframe => !iframe.classList.contains('quote-desktop-youtube-iframe')) || null;
-
     const requestFullscreen = iframe => {
       if (!iframe) return;
       const enterFullscreen = iframe.requestFullscreen || iframe.webkitRequestFullscreen;
@@ -426,15 +422,10 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     cover.addEventListener('click', () => {
-      createIframe();
+      const iframe = createIframe();
+      const isQuoteCompletedVideo = frame.closest('.quote-page .quote-completed-video-card');
+      if (isQuoteCompletedVideo && window.matchMedia?.('(max-width: 767px)').matches) requestFullscreen(iframe);
     }, { once: true });
-
-    fullscreenButton?.addEventListener('click', event => {
-      event.preventDefault();
-      event.stopPropagation();
-      const iframe = getActiveIframe() || createIframe();
-      requestFullscreen(iframe);
-    });
   });
   document.dispatchEvent(new Event('shomeluxuryreviewcarouselready'));
 
