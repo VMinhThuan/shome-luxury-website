@@ -1213,8 +1213,6 @@ document.addEventListener('DOMContentLoaded', () => {
         lightboxSwipeLastTime = lightboxSwipeStartTime;
         lightboxSwipeVelocityX = 0;
         lightboxSwipePreviewIndex = null;
-        stage.classList.add('is-page-dragging', 'is-page-lifted');
-        setLightboxSlideTransform(image, 0, 1);
         stage.setPointerCapture?.(event.pointerId);
       });
       stage?.addEventListener('pointermove', event => {
@@ -1234,11 +1232,6 @@ document.addEventListener('DOMContentLoaded', () => {
         lightboxSwipeOffsetX = Math.max(-window.innerWidth * 0.95, Math.min(window.innerWidth * 0.95, distance));
         if (Math.abs(distance) > 4) {
           event.preventDefault();
-          galleryLightbox?.classList.add('is-swiping');
-          const direction = distance < 0 ? 1 : -1;
-          updateLightboxSwipePreview(Number(galleryLightbox.dataset.galleryLightboxIndex || 0) + direction);
-          pendingLightboxSwipeOffsetX = lightboxSwipeOffsetX;
-          queueLightboxSwipeFrame();
         }
       });
       const finishLightboxPointer = event => {
@@ -1264,47 +1257,13 @@ document.addEventListener('DOMContentLoaded', () => {
           || (!cancelled && Math.abs(velocity) > 0.5 && Math.abs(distance) > 12);
 
         stage.classList.remove('is-page-dragging', 'is-page-lifted');
-        stage.classList.add('is-page-settling');
-        const settleOffset = shouldChange ? direction * stageWidth : 0;
-        setLightboxSlideTransform(image, shouldChange ? -settleOffset : 0);
-        const preview = stage.querySelector('[data-gallery-lightbox-preview]');
-        setLightboxSlideTransform(preview, shouldChange ? 0 : (distance < 0 ? stageWidth : -stageWidth));
-
-        const settle = async () => {
-          stage.classList.remove('is-page-settling');
-          if (!shouldChange) {
-            resetLightboxSwipePosition();
-            return;
-          }
-          const normalizedIndex = (targetIndex + galleryImages.length) % galleryImages.length;
-          const source = galleryImages[normalizedIndex];
-          await preloadGalleryImage(source);
-          image.src = source;
-          image.alt = `${getProjectTitle()} - ảnh ${normalizedIndex + 1}`;
-          if (typeof image.decode === 'function') await image.decode().catch(() => {});
-          galleryLightbox.dataset.galleryLightboxIndex = String(normalizedIndex);
-          galleryLightbox.querySelector('[data-gallery-lightbox-current]').textContent = String(normalizedIndex + 1).padStart(2, '0');
+        stage.dataset.lightboxDragSettled = 'true';
+        stage.releasePointerCapture?.(event.pointerId);
+        if (shouldChange) {
+          animateLightboxButtonSlide(targetIndex, direction);
+        } else {
           resetLightboxSwipePosition();
-          image.style.visibility = 'visible';
-          updateLightboxPanLimits();
-          applyLightboxZoom();
-          preloadGalleryImage(galleryImages[(normalizedIndex + 1) % galleryImages.length]);
-          preloadGalleryImage(galleryImages[(normalizedIndex - 1 + galleryImages.length) % galleryImages.length]);
-        };
-        const finishTransition = transitionEvent => {
-          if (transitionEvent && (transitionEvent.target !== preview || transitionEvent.propertyName !== 'transform')) return;
-          if (stage.dataset.lightboxDragSettled === 'true') return;
-          stage.dataset.lightboxDragSettled = 'true';
-          preview?.removeEventListener('transitionend', finishTransition);
-          if (lightboxSettleTimer !== null) {
-            window.clearTimeout(lightboxSettleTimer);
-            lightboxSettleTimer = null;
-          }
-          settle();
-        };
-        stage.dataset.lightboxDragSettled = 'false';
-        preview?.addEventListener('transitionend', finishTransition);
-        lightboxSettleTimer = window.setTimeout(() => finishTransition(), 520);
+        }
       };
       stage?.addEventListener('pointerup', finishLightboxPointer);
       stage?.addEventListener('pointercancel', finishLightboxPointer);
@@ -1324,55 +1283,48 @@ document.addEventListener('DOMContentLoaded', () => {
       const stage = modal?.querySelector('.project-gallery-lightbox-stage');
       const image = modal?.querySelector('[data-gallery-lightbox-image]');
       const preview = modal?.querySelector('[data-gallery-lightbox-preview]');
-      if (!modal || !stage || !image || !preview || stage.classList.contains('is-page-settling')) return;
+      if (!modal || !stage || !image || !preview) return;
 
       const normalizedIndex = (index + galleryImages.length) % galleryImages.length;
       const transitionToken = ++lightboxImageTransitionToken;
       resetLightboxZoom();
+
+      // Keep navigation on one centered image. The old page-turn/lift motion
+      // moved two bitmaps across the stage and exposed part of the old image.
+      // The new image is simply revealed with a short opacity transition.
+      stage.classList.remove('is-page-dragging', 'is-page-settling', 'is-page-lifted');
+      stage.dataset.lightboxDragSettled = 'true';
+      preview.style.visibility = 'hidden';
+      image.style.visibility = 'hidden';
+      image.classList.remove('is-gallery-lightbox-fading', 'is-page-turn-next', 'is-page-turn-previous');
+      image.style.transform = '';
+
       preloadGalleryImage(galleryImages[normalizedIndex]).then(() => {
         if (transitionToken !== lightboxImageTransitionToken) return;
 
-        const stageWidth = stage.clientWidth || window.innerWidth;
-        updateLightboxSwipePreview(normalizedIndex);
-        stage.classList.add('is-page-settling', 'is-page-lifted');
-        setLightboxSlideTransform(image, 0, 1);
-        setLightboxSlideTransform(preview, direction > 0 ? stageWidth : -stageWidth);
-        void image.offsetWidth;
-
-        let slideFinished = false;
-        const finish = async () => {
-          if (slideFinished) return;
-          slideFinished = true;
-          preview.removeEventListener('transitionend', onTransitionEnd);
-          if (lightboxSettleTimer !== null) {
-            window.clearTimeout(lightboxSettleTimer);
-            lightboxSettleTimer = null;
-          }
+        image.src = galleryImages[normalizedIndex];
+        image.alt = `${getProjectTitle()} - ảnh ${normalizedIndex + 1}`;
+        const reveal = () => {
           if (transitionToken !== lightboxImageTransitionToken) return;
-          image.src = galleryImages[normalizedIndex];
-          image.alt = `${getProjectTitle()} - ảnh ${normalizedIndex + 1}`;
-          if (typeof image.decode === 'function') await image.decode().catch(() => {});
           modal.dataset.galleryLightboxIndex = String(normalizedIndex);
           modal.querySelector('[data-gallery-lightbox-current]').textContent = String(normalizedIndex + 1).padStart(2, '0');
-          stage.classList.remove('is-page-settling', 'is-page-lifted');
-          resetLightboxSwipePosition();
           image.style.visibility = 'visible';
+          void image.offsetWidth;
+          image.classList.add('is-gallery-lightbox-fading');
+          window.setTimeout(() => image.classList.remove('is-gallery-lightbox-fading'), 280);
           updateLightboxPanLimits();
           applyLightboxZoom();
           preloadGalleryImage(galleryImages[(normalizedIndex + 1) % galleryImages.length]);
           preloadGalleryImage(galleryImages[(normalizedIndex - 1 + galleryImages.length) % galleryImages.length]);
         };
-        const onTransitionEnd = event => {
-          if (event.target === preview && event.propertyName === 'transform') finish();
-        };
-
-        window.requestAnimationFrame(() => {
-          stage.classList.remove('is-page-lifted');
-          setLightboxSlideTransform(image, direction > 0 ? -stageWidth : stageWidth);
-          setLightboxSlideTransform(preview, 0);
-        });
-        preview.addEventListener('transitionend', onTransitionEnd);
-        lightboxSettleTimer = window.setTimeout(finish, 520);
+        if (typeof image.decode === 'function') {
+          image.decode().catch(() => {}).finally(reveal);
+        } else if (image.complete) {
+          reveal();
+        } else {
+          image.addEventListener('load', reveal, { once: true });
+          image.addEventListener('error', reveal, { once: true });
+        }
       });
     }
 
@@ -1395,6 +1347,7 @@ document.addEventListener('DOMContentLoaded', () => {
       // image is loading. It is especially noticeable in the narrow lightbox
       // where a swipe can finish before the new image has been painted.
       image.style.visibility = 'hidden';
+      image.classList.remove('is-gallery-lightbox-fading');
       modal.querySelector('[data-gallery-lightbox-current]').textContent = String(normalizedIndex + 1).padStart(2, '0');
       modal.querySelector('[data-gallery-lightbox-total]').textContent = String(galleryImages.length).padStart(2, '0');
       modal.dataset.galleryLightboxIndex = String(normalizedIndex);
