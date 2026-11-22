@@ -23908,3 +23908,37 @@ main.project-detail-page .project-info-banner .meta-value {
     max-height: 100dvh !important;
   }
 }
+
+/* Quote-page galleries use the same directional slide motion on desktop and
+   mobile. The preview is revealed beside the current image for the modal;
+   inline cards use the matching incoming slide with the same easing. */
+.quote-page .project-gallery-lightbox-stage[data-quote-gallery-stage].is-quote-gallery-sliding > [data-quote-gallery-image],
+.quote-page .project-gallery-lightbox-stage[data-quote-gallery-stage].is-quote-gallery-sliding > [data-quote-gallery-preview] {
+  transition: transform .52s cubic-bezier(.22, .61, .36, 1), filter .52s ease, opacity .52s ease !important;
+  will-change: transform;
+}
+
+.quote-page .project-gallery-lightbox-stage[data-quote-gallery-stage].is-quote-gallery-sliding > [data-quote-gallery-preview] {
+  display: block !important;
+  visibility: visible !important;
+  z-index: 3 !important;
+  pointer-events: none !important;
+}
+
+@keyframes quote-inline-gallery-slide-next {
+  from { opacity: .96; transform: translate3d(7%, -6px, 0) scale3d(1.022, 1.022, 1); filter: blur(1px); }
+  to { opacity: 1; transform: translate3d(0, 0, 0) scale3d(1, 1, 1); filter: none; }
+}
+
+@keyframes quote-inline-gallery-slide-previous {
+  from { opacity: .96; transform: translate3d(-7%, -6px, 0) scale3d(1.022, 1.022, 1); filter: blur(1px); }
+  to { opacity: 1; transform: translate3d(0, 0, 0) scale3d(1, 1, 1); filter: none; }
+}
+
+.quote-page .quote-featured-project-card--inline-gallery .project-gallery-stage.is-inline-changing-next > img {
+  animation: quote-inline-gallery-slide-next .52s cubic-bezier(.22, .61, .36, 1) both !important;
+}
+
+.quote-page .quote-featured-project-card--inline-gallery .project-gallery-stage.is-inline-changing-previous > img {
+  animation: quote-inline-gallery-slide-previous .52s cubic-bezier(.22, .61, .36, 1) both !important;
+}

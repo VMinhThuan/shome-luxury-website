@@ -216,42 +216,79 @@ document.addEventListener('DOMContentLoaded', () => {
       return promise;
     };
 
-    const show = async (index, direction = 0) => {
-      const nextIndex = (index + images.length) % images.length;
-      const requestToken = ++transitionToken;
-      resetZoom();
-      image.style.visibility = 'hidden';
-      image.classList.remove('is-gallery-lightbox-fading', 'is-page-turn-next', 'is-page-turn-previous');
-      await preload(images[nextIndex]);
-      if (requestToken !== transitionToken) return;
+    const setQuoteSlideTransform = (element, offset = 0, lift = 0) => {
+      if (!element) return;
+      const liftProgress = Math.max(0, Math.min(1, lift));
+      const liftY = Math.round(-8 * liftProgress);
+      const liftScale = (1 + (0.022 * liftProgress)).toFixed(3);
+      element.style.setProperty(
+        'transform',
+        `translate3d(${offset}px, ${liftY}px, 0) scale3d(${liftScale}, ${liftScale}, 1)`,
+        'important'
+      );
+    };
 
-      activeIndex = nextIndex;
-      image.src = images[activeIndex];
-      image.alt = `${modal.dataset.projectTitle} - ảnh ${activeIndex + 1}`;
-      const reveal = () => {
-        if (requestToken !== transitionToken) return;
-        image.style.visibility = 'visible';
-        image.classList.remove('is-gallery-lightbox-fading', 'is-page-turn-next', 'is-page-turn-previous');
-        if (direction) {
-          void image.offsetWidth;
-          image.classList.add('is-gallery-lightbox-fading');
-          window.setTimeout(() => image.classList.remove('is-gallery-lightbox-fading'), 280);
-        }
-      };
-      if (preview) {
-        preview.classList.remove('is-page-turn-next', 'is-page-turn-previous');
-        preview.style.visibility = 'hidden';
-      }
-      if (typeof image.decode === 'function') image.decode().catch(() => {}).finally(reveal);
-      else if (image.complete) reveal();
-      else image.addEventListener('load', reveal, { once: true });
+    const updateGalleryUi = () => {
       current.textContent = String(activeIndex + 1).padStart(2, '0');
       total.textContent = String(images.length).padStart(2, '0');
-      thumbnails.querySelectorAll('button').forEach((button, buttonIndex) => button.classList.toggle('is-active', buttonIndex === activeIndex));
+      thumbnails.querySelectorAll('button').forEach((button, buttonIndex) => {
+        button.classList.toggle('is-active', buttonIndex === activeIndex);
+      });
       const activeThumb = thumbnails.querySelectorAll('button')[activeIndex];
       if (activeThumb && typeof activeThumb.scrollIntoView === 'function') {
         activeThumb.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
       }
+    };
+
+    const show = async (index, direction = 0) => {
+      const nextIndex = (index + images.length) % images.length;
+      const requestToken = ++transitionToken;
+      resetZoom();
+      await preload(images[nextIndex]);
+      if (requestToken !== transitionToken) return;
+
+      const slideDirection = direction || (nextIndex === activeIndex ? 0 : nextIndex > activeIndex ? 1 : -1);
+      if (!slideDirection || !image.src || !preview) {
+        activeIndex = nextIndex;
+        image.src = images[activeIndex];
+        image.alt = `${modal.dataset.projectTitle} - ảnh ${activeIndex + 1}`;
+        image.style.visibility = 'visible';
+        preview && (preview.style.visibility = 'hidden');
+        preview?.style.removeProperty('display');
+        updateGalleryUi();
+        return;
+      }
+
+      const stageWidth = stage.clientWidth || window.innerWidth;
+      const incomingStart = slideDirection > 0 ? stageWidth : -stageWidth;
+      const outgoingEnd = slideDirection > 0 ? -stageWidth : stageWidth;
+      stage.classList.add('is-quote-gallery-sliding');
+      image.style.visibility = 'visible';
+      preview.src = images[nextIndex];
+      preview.alt = `${modal.dataset.projectTitle} - ảnh ${nextIndex + 1}`;
+      preview.style.setProperty('display', 'block', 'important');
+      preview.style.visibility = 'visible';
+      setQuoteSlideTransform(image, 0, 1);
+      setQuoteSlideTransform(preview, incomingStart, 1);
+      void stage.offsetWidth;
+      window.requestAnimationFrame(() => {
+        if (requestToken !== transitionToken) return;
+        setQuoteSlideTransform(image, outgoingEnd, 0);
+        setQuoteSlideTransform(preview, 0, 0);
+      });
+
+      window.setTimeout(() => {
+        if (requestToken !== transitionToken) return;
+        activeIndex = nextIndex;
+        image.src = images[activeIndex];
+        image.alt = `${modal.dataset.projectTitle} - ảnh ${activeIndex + 1}`;
+        setQuoteSlideTransform(image, 0, 0);
+        setQuoteSlideTransform(preview, 0, 0);
+        preview.style.visibility = 'hidden';
+        preview.style.removeProperty('display');
+        stage.classList.remove('is-quote-gallery-sliding');
+        updateGalleryUi();
+      }, 520);
     };
 
     const close = () => {
