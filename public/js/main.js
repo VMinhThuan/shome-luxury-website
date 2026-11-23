@@ -436,6 +436,15 @@ document.addEventListener('DOMContentLoaded', () => {
       setCssFullscreen(false);
     };
 
+    // On mobile, keep fullscreen inside the existing wrapper instead of
+    // handing it to the browser/YouTube native fullscreen layer. The native
+    // layer can recreate the iframe when it closes, which loses playback
+    // state. The CSS fullscreen keeps the same iframe alive, so exiting only
+    // restores its layout and playback continues.
+    const shouldUseCustomFullscreen = () => (
+      window.matchMedia?.('(max-width: 767px)').matches === true
+    );
+
     fullscreenButton?.addEventListener('click', async event => {
       event.preventDefault();
       event.stopPropagation();
@@ -447,6 +456,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
       const iframe = createIframe();
       if (!iframe) return;
+
+      if (shouldUseCustomFullscreen()) {
+        setCssFullscreen(true);
+        return;
+      }
 
       try {
         if (typeof frame.requestFullscreen === 'function') {
