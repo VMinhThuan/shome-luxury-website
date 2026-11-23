@@ -43,6 +43,11 @@
   const fitImageToStage = image => {
     const { stage } = getElements();
     if (!image?.naturalWidth || !image.naturalHeight || !stage?.clientWidth || !stage.clientHeight) return;
+    if (stage.classList.contains('is-lightbox-sliding')) {
+      image.style.setProperty('width', '100%', 'important');
+      image.style.setProperty('height', '100%', 'important');
+      return;
+    }
     const scale = Math.min(
       stage.clientWidth / image.naturalWidth,
       stage.clientHeight / image.naturalHeight
@@ -189,6 +194,7 @@
     const incomingStart = direction > 0 ? stageWidth : -stageWidth;
     const outgoingEnd = direction > 0 ? -stageWidth : stageWidth;
     stage.classList.add('is-lightbox-sliding');
+    fitImageToStage(image);
     image.style.visibility = 'visible';
     preview.src = nextImage.src;
     preview.alt = nextImage.alt || `${state.title} - ảnh ${normalizedIndex + 1}`;
@@ -215,6 +221,7 @@
       preview.style.visibility = 'hidden';
       preview.style.removeProperty('display');
       stage.classList.remove('is-lightbox-sliding');
+      fitImageToStage(image);
       updateUi();
       updatePanLimits();
       preload(getImage(state.images[(normalizedIndex + 1) % state.images.length]).src);
