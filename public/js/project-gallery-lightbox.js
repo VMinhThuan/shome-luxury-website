@@ -380,6 +380,46 @@
     state.modal = modal;
 
     const { stage, image } = getElements();
+    const backdrop = modal.querySelector('[data-gallery-lightbox-close]');
+    let backdropTouchStartX = null;
+    let backdropTouchStartY = null;
+
+    // A swipe that starts on the dark area around the image can otherwise be
+    // interpreted by iOS Safari as its native browser back gesture. Keep that
+    // gesture inside the viewer and apply the same left-swipe-to-close rule.
+    backdrop?.addEventListener('touchstart', event => {
+      if (event.target !== backdrop || !event.touches?.length) return;
+      const touch = event.touches[0];
+      backdropTouchStartX = touch.clientX;
+      backdropTouchStartY = touch.clientY;
+      event.preventDefault();
+    }, { passive: false });
+    backdrop?.addEventListener('touchmove', event => {
+      if (event.target !== backdrop || backdropTouchStartX === null || !event.touches?.length) return;
+      const touch = event.touches[0];
+      const distanceX = touch.clientX - backdropTouchStartX;
+      const distanceY = touch.clientY - (backdropTouchStartY ?? touch.clientY);
+      if (Math.abs(distanceX) > Math.abs(distanceY) && Math.abs(distanceX) > 3) {
+        event.preventDefault();
+      }
+    }, { passive: false });
+    backdrop?.addEventListener('touchend', event => {
+      if (event.target !== backdrop || backdropTouchStartX === null || !event.changedTouches?.length) return;
+      const touch = event.changedTouches[0];
+      const distanceX = touch.clientX - backdropTouchStartX;
+      const distanceY = touch.clientY - (backdropTouchStartY ?? touch.clientY);
+      backdropTouchStartX = null;
+      backdropTouchStartY = null;
+      if (Math.abs(distanceX) > 40 && Math.abs(distanceX) > Math.abs(distanceY)) {
+        event.preventDefault();
+        if (distanceX < 0) close();
+      }
+    }, { passive: false });
+    backdrop?.addEventListener('touchcancel', () => {
+      backdropTouchStartX = null;
+      backdropTouchStartY = null;
+    }, { passive: true });
+
     modal.addEventListener('click', event => {
       if (event.target.closest('[data-gallery-lightbox-close]')) return close();
       if (event.target.closest('[data-gallery-lightbox-prev]')) return show(state.index - 1, -1);
