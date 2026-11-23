@@ -161,6 +161,14 @@ document.addEventListener('DOMContentLoaded', () => {
         return;
       }
 
+      const inlineInfo = event.target.closest('[data-quote-inline-open]');
+      const inlineInfoGallery = inlineInfo?.closest('[data-quote-inline-gallery]');
+      if (inlineInfoGallery) {
+        event.preventDefault();
+        open(inlineInfoGallery);
+        return;
+      }
+
       const inlineStage = event.target.closest('[data-quote-inline-stage]');
       const inlineGallery = inlineStage?.closest('[data-quote-inline-gallery]');
       const inlineControl = event.target.closest('[data-quote-inline-prev], [data-quote-inline-next], [data-quote-inline-thumb]');
@@ -171,6 +179,21 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     document.addEventListener('keydown', event => {
+      const trigger = event.target.closest?.('[data-quote-project-gallery]');
+      if (trigger && (event.key === 'Enter' || event.key === ' ')) {
+        event.preventDefault();
+        open(trigger);
+        return;
+      }
+
+      const inlineInfo = event.target.closest?.('[data-quote-inline-open]');
+      const inlineInfoGallery = inlineInfo?.closest('[data-quote-inline-gallery]');
+      if (inlineInfoGallery && (event.key === 'Enter' || event.key === ' ')) {
+        event.preventDefault();
+        open(inlineInfoGallery);
+        return;
+      }
+
       const inlineStage = event.target.closest?.('[data-quote-inline-stage]');
       const inlineGallery = inlineStage?.closest('[data-quote-inline-gallery]');
       if (inlineGallery && (event.key === 'Enter' || event.key === ' ')) {
