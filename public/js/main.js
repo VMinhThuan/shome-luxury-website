@@ -1896,6 +1896,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const heroImage = getHeroImage();
       const previewImage = getPreviewImage();
       if (!stage || !heroImage || !previewImage || dragPointerId === null) return;
+      if (window.matchMedia?.('(max-width: 767px)').matches) return;
 
       const offset = pendingDragOffsetX;
       const stageWidth = stage.clientWidth;
@@ -1941,6 +1942,42 @@ document.addEventListener('DOMContentLoaded', () => {
       pendingDragOffsetX = 0;
     }
 
+    // On mobile, keep the current image visible until the next bitmap is
+    // ready. This prevents a white gap while preload/decode is in progress.
+    // Desktop continues using the existing directional slide animation.
+    function showMobileGalleryImage(nextIndex) {
+      const heroImage = getHeroImage();
+      if (!heroImage || !galleryImages.length) return;
+      const normalizedIndex = (nextIndex + galleryImages.length) % galleryImages.length;
+      const slideToken = ++galleryTransitionToken;
+      const nextImage = new Image();
+      let settled = false;
+      isGallerySliding = true;
+      resetSlidePosition();
+
+      const finish = success => {
+        if (settled) return;
+        settled = true;
+        if (slideToken !== galleryTransitionToken) return;
+        if (success) {
+          activeGalleryIndex = normalizedIndex;
+          updateSlideImage(heroImage, galleryImages[activeGalleryIndex], activeGalleryIndex);
+          updateGalleryUi();
+          preloadGalleryImage(galleryImages[(activeGalleryIndex + 1) % galleryImages.length]);
+          preloadGalleryImage(galleryImages[(activeGalleryIndex - 1 + galleryImages.length) % galleryImages.length]);
+        }
+        resetSlidePosition();
+        isGallerySliding = false;
+      };
+
+      nextImage.decoding = 'sync';
+      nextImage.fetchPriority = 'high';
+      nextImage.onload = () => finish(true);
+      nextImage.onerror = () => finish(false);
+      nextImage.src = galleryImages[normalizedIndex];
+      if (nextImage.complete) finish(nextImage.naturalWidth > 0);
+    }
+
     function animateGalleryButtonSlide(nextIndex, direction = 1) {
       const stage = getGalleryStage();
       const heroImage = getHeroImage();
@@ -1948,6 +1985,10 @@ document.addEventListener('DOMContentLoaded', () => {
       if (!stage || !heroImage || !previewImage || isGallerySliding || galleryImages.length < 2) return;
 
       const normalizedIndex = (nextIndex + galleryImages.length) % galleryImages.length;
+      if (window.matchMedia?.('(max-width: 767px)').matches) {
+        showMobileGalleryImage(normalizedIndex);
+        return;
+      }
       const slideToken = ++galleryTransitionToken;
       isGallerySliding = true;
       preloadGalleryImage(galleryImages[normalizedIndex]).then(() => {
@@ -2118,6 +2159,10 @@ document.addEventListener('DOMContentLoaded', () => {
         return;
       }
       if (force) {
+        if (window.matchMedia?.('(max-width: 767px)').matches && nextGalleryIndex !== activeGalleryIndex) {
+          showMobileGalleryImage(nextGalleryIndex);
+          return;
+        }
         galleryTransitionToken += 1;
         activeGalleryIndex = nextGalleryIndex;
         updateSlideImage(heroImage, galleryImages[activeGalleryIndex], activeGalleryIndex);
@@ -2313,6 +2358,14 @@ document.addEventListener('DOMContentLoaded', () => {
           stage.classList.remove('is-dragging');
           stage.classList.add('is-sliding', 'is-springing');
           stage.classList.add('is-lifted');
+
+          if (window.matchMedia?.('(max-width: 767px)').matches) {
+            resetSlidePosition();
+            isGallerySliding = false;
+            if (shouldChange) showMobileGalleryImage(targetIndex);
+            return;
+          }
+
           isGallerySliding = true;
           const slideToken = ++galleryTransitionToken;
           if (shouldChange) updateDragPreview(targetIndex);

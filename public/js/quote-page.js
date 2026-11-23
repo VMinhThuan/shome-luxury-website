@@ -727,7 +727,28 @@ document.addEventListener('DOMContentLoaded', () => {
         });
       };
 
+      // Mobile keeps the current image visible until the next bitmap is
+      // ready, so changing gallery images never exposes a white gap. Desktop
+      // keeps the existing directional slide animation below.
+      const showMobileInlineImage = (nextIndex, requestToken) => {
+        const nextImage = new Image();
+        let settled = false;
+        const finish = success => {
+          if (settled) return;
+          settled = true;
+          if (requestToken !== transitionToken) return;
+          if (success) commitInlineImage(nextIndex, requestToken);
+        };
+        nextImage.decoding = 'sync';
+        nextImage.fetchPriority = 'high';
+        nextImage.onload = () => finish(true);
+        nextImage.onerror = () => finish(false);
+        nextImage.src = images[nextIndex];
+        if (nextImage.complete) finish(nextImage.naturalWidth > 0);
+      };
+
       const updateInlineDragVisuals = offset => {
+        if (window.matchMedia?.('(max-width: 767px)').matches) return;
         const stageWidth = stage.clientWidth || 1;
         if (Math.abs(offset) < 3) {
           setInlineTransform(image, 0);
@@ -750,6 +771,13 @@ document.addEventListener('DOMContentLoaded', () => {
         const previewStart = direction > 0 ? stageWidth : -stageWidth;
         const requestToken = ++transitionToken;
         stage.classList.remove('is-dragging');
+
+        if (window.matchMedia?.('(max-width: 767px)').matches) {
+          resetInlineSlide();
+          if (shouldChange) showMobileInlineImage(nextIndex, requestToken);
+          return;
+        }
+
         stage.classList.add('is-inline-sliding');
         animateInlineSlide({
           fromHero: distance,
@@ -768,6 +796,12 @@ document.addEventListener('DOMContentLoaded', () => {
         const nextIndex = (index + images.length) % images.length;
         const requestToken = ++transitionToken;
         resetInlineSlide();
+
+        if (window.matchMedia?.('(max-width: 767px)').matches) {
+          showMobileInlineImage(nextIndex, requestToken);
+          return;
+        }
+
         await preload(images[nextIndex]);
         if (requestToken !== transitionToken) return;
 
