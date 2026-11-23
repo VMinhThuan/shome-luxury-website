@@ -763,8 +763,9 @@ document.addEventListener('DOMContentLoaded', () => {
       thumbnails?.querySelectorAll('[data-quote-inline-thumb]').forEach(thumbnail => {
         thumbnail.addEventListener('click', () => {
           const nextIndex = Number(thumbnail.dataset.index) || 0;
-          const direction = nextIndex === activeIndex ? 0 : nextIndex > activeIndex ? 1 : -1;
-          show(nextIndex, true, direction);
+          // Match the project-detail gallery: thumbnail selection commits the
+          // chosen image immediately; only arrows/swipes use the slow slide.
+          show(nextIndex, false, 0);
         });
       });
       stage.addEventListener('keydown', event => {
