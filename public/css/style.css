@@ -24167,13 +24167,13 @@ main.project-detail-page .project-info-banner .meta-value {
    while keeping the active image and its controls fully opaque. */
 .project-gallery-lightbox:not(.project-gallery-lightbox--grid) .project-gallery-lightbox-backdrop,
 .project-gallery-lightbox--grid .project-gallery-lightbox-backdrop {
-  background: rgba(9, 8, 7, .62) !important;
+  background: rgba(9, 8, 7, .45) !important;
   backdrop-filter: blur(10px) !important;
   -webkit-backdrop-filter: blur(10px) !important;
 }
 
 .quote-page .quote-project-gallery-modal-backdrop {
-  background: rgba(0, 0, 0, .62) !important;
+  background: rgba(0, 0, 0, .45) !important;
   backdrop-filter: blur(10px) !important;
   -webkit-backdrop-filter: blur(10px) !important;
 }
