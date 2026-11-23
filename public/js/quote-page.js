@@ -593,7 +593,7 @@ document.addEventListener('DOMContentLoaded', () => {
       let dragOffsetX = 0;
       let touchStartX = null;
       let transitionToken = 0;
-      let transitionTimer = null;
+      let transitionFrame = null;
       let suppressStageClick = false;
 
       const preloadedImages = new Map();
@@ -629,15 +629,34 @@ document.addEventListener('DOMContentLoaded', () => {
       };
 
       const resetInlineSlide = () => {
-        if (transitionTimer !== null) {
-          window.clearTimeout(transitionTimer);
-          transitionTimer = null;
+        if (transitionFrame !== null) {
+          window.cancelAnimationFrame(transitionFrame);
+          transitionFrame = null;
         }
         setInlineTransform(image, 0);
         setInlineTransform(preview, 0);
         preview.style.display = 'none';
         preview.style.visibility = 'hidden';
         stage.classList.remove('is-inline-sliding');
+      };
+
+      const animateInlineSlide = ({ fromHero, fromPreview, toHero, toPreview, onComplete }) => {
+        const animationStart = performance.now();
+        const animationDuration = 520;
+        const easeOutCubic = progress => 1 - Math.pow(1 - progress, 3);
+        const frame = now => {
+          const progress = Math.min(1, Math.max(0, (now - animationStart) / animationDuration));
+          const easedProgress = easeOutCubic(progress);
+          setInlineTransform(image, fromHero + ((toHero - fromHero) * easedProgress));
+          setInlineTransform(preview, fromPreview + ((toPreview - fromPreview) * easedProgress));
+          if (progress >= 1) {
+            transitionFrame = null;
+            onComplete();
+            return;
+          }
+          transitionFrame = window.requestAnimationFrame(frame);
+        };
+        transitionFrame = window.requestAnimationFrame(frame);
       };
 
       const show = async (index, animate = true, direction = 0) => {
@@ -657,7 +676,6 @@ document.addEventListener('DOMContentLoaded', () => {
           preview.style.display = 'none';
           preview.style.visibility = 'hidden';
           stage.classList.remove('is-inline-sliding');
-          transitionTimer = null;
           if (current) current.textContent = String(activeIndex + 1).padStart(2, '0');
           if (total) total.textContent = String(images.length).padStart(2, '0');
           thumbnails?.querySelectorAll('[data-quote-inline-thumb]').forEach((thumbnail, thumbnailIndex) => {
@@ -682,19 +700,23 @@ document.addEventListener('DOMContentLoaded', () => {
         setInlineTransform(image, 0);
         setInlineTransform(preview, incomingStart);
         stage.classList.add('is-inline-sliding');
-        void stage.offsetWidth;
-        window.requestAnimationFrame(() => {
-          if (requestToken !== transitionToken) return;
-          setInlineTransform(image, outgoingEnd);
-          setInlineTransform(preview, 0);
+        animateInlineSlide({
+          fromHero: 0,
+          fromPreview: incomingStart,
+          toHero: outgoingEnd,
+          toPreview: 0,
+          onComplete: commit,
         });
-        transitionTimer = window.setTimeout(commit, 520);
       };
 
       gallery.querySelector('[data-quote-inline-prev]')?.addEventListener('click', () => show(activeIndex - 1, true, -1));
       gallery.querySelector('[data-quote-inline-next]')?.addEventListener('click', () => show(activeIndex + 1, true, 1));
       thumbnails?.querySelectorAll('[data-quote-inline-thumb]').forEach(thumbnail => {
-        thumbnail.addEventListener('click', () => show(Number(thumbnail.dataset.index) || 0));
+        thumbnail.addEventListener('click', () => {
+          const nextIndex = Number(thumbnail.dataset.index) || 0;
+          const direction = nextIndex === activeIndex ? 0 : nextIndex > activeIndex ? 1 : -1;
+          show(nextIndex, true, direction);
+        });
       });
       stage.addEventListener('keydown', event => {
         if (event.key === 'ArrowLeft') { event.preventDefault(); show(activeIndex - 1, true, -1); }
