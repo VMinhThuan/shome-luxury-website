@@ -19,6 +19,7 @@
     pointerPanStartX: 0,
     pointerPanStartY: 0,
     touchMode: null,
+    touchAxis: null,
     touchStartX: null,
     touchStartY: null,
     panStartX: 0,
@@ -73,6 +74,11 @@
     image.style.setProperty('transform', `translate3d(${offset}px, 0, 0)`, 'important');
   };
 
+  const setVerticalSwipeTransform = (image, offset = 0) => {
+    if (!image) return;
+    image.style.setProperty('transform', `translate3d(0, ${offset}px, 0)`, 'important');
+  };
+
   const resetSlidePosition = () => {
     const { image, preview } = getElements();
     if (!image || !preview) return;
@@ -113,6 +119,7 @@
     state.panLimitY = 0;
     state.pointerId = null;
     state.touchMode = null;
+    state.touchAxis = null;
     state.touchStartX = null;
     state.touchStartY = null;
     state.pinchStartDistance = null;
@@ -358,6 +365,7 @@
       if (!event.touches?.length) return;
       if (event.touches.length === 1 && event.target.closest('button')) {
         state.touchMode = null;
+        state.touchAxis = null;
         state.touchStartX = null;
         state.touchStartY = null;
         return;
@@ -367,6 +375,7 @@
         state.pinchStartDistance = touchDistance(event.touches[0], event.touches[1]);
         state.pinchStartScale = state.zoomScale;
         state.touchMode = 'pinch';
+        state.touchAxis = null;
         state.touchStartX = null;
         state.touchStartY = null;
         return;
@@ -382,6 +391,7 @@
         return;
       }
       state.touchMode = 'swipe';
+      state.touchAxis = null;
       state.touchStartX = touch.clientX;
       state.touchStartY = touch.clientY;
     }, { passive: false });
@@ -411,8 +421,12 @@
       const distanceX = event.touches[0].clientX - state.touchStartX;
       const distanceY = event.touches[0].clientY - (state.touchStartY ?? event.touches[0].clientY);
       if (Math.max(Math.abs(distanceX), Math.abs(distanceY)) < 4) return;
+      if (!state.touchAxis) {
+        state.touchAxis = Math.abs(distanceX) >= Math.abs(distanceY) ? 'horizontal' : 'vertical';
+      }
       event.preventDefault();
-      setSlideTransform(image, distanceX);
+      if (state.touchAxis === 'horizontal') setSlideTransform(image, distanceX);
+      else setVerticalSwipeTransform(image, distanceY);
     }, { passive: false });
     stage?.addEventListener('touchend', event => {
       if (state.pinchStartDistance !== null) {
@@ -424,22 +438,29 @@
       }
       if (state.touchMode === 'pan') {
         state.touchMode = null;
+        state.touchAxis = null;
         return;
       }
       if (state.touchMode !== 'swipe' || state.touchStartX === null || !event.changedTouches?.length) return;
       const distanceX = event.changedTouches[0].clientX - state.touchStartX;
       const distanceY = event.changedTouches[0].clientY - (state.touchStartY ?? event.changedTouches[0].clientY);
+      const axis = state.touchAxis || (Math.abs(distanceX) >= Math.abs(distanceY) ? 'horizontal' : 'vertical');
       state.touchMode = null;
+      state.touchAxis = null;
       state.touchStartX = null;
       state.touchStartY = null;
       setSlideTransform(image, 0);
-      if (Math.max(Math.abs(distanceX), Math.abs(distanceY)) > 40) {
+      if (axis === 'horizontal' && Math.abs(distanceX) > 40) {
+        event.preventDefault();
+        show(state.index + (distanceX < 0 ? 1 : -1), distanceX < 0 ? 1 : -1);
+      } else if (axis === 'vertical' && Math.abs(distanceY) > 40) {
         event.preventDefault();
         close();
       }
     }, { passive: false });
     stage?.addEventListener('touchcancel', () => {
       state.touchMode = null;
+      state.touchAxis = null;
       state.touchStartX = null;
       state.touchStartY = null;
       state.pinchStartDistance = null;

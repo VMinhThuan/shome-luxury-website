@@ -24076,3 +24076,23 @@ main.project-detail-page .project-info-banner .meta-value {
     transform: none !important;
   }
 }
+
+/* Quote inline galleries use the same two-image directional slide as the
+   project-detail gallery: the current image exits while the next image
+   enters from the swipe/button direction. */
+.quote-page .quote-featured-project-card--inline-gallery .project-gallery-stage.is-inline-sliding > [data-quote-inline-image],
+.quote-page .quote-featured-project-card--inline-gallery .project-gallery-stage.is-inline-sliding > [data-quote-inline-preview] {
+  transition: transform .52s cubic-bezier(.22, .61, .36, 1) !important;
+  will-change: transform;
+}
+
+.quote-page .quote-featured-project-card--inline-gallery .project-gallery-stage.is-inline-sliding > [data-quote-inline-preview] {
+  display: block !important;
+  visibility: visible !important;
+  z-index: 3 !important;
+  pointer-events: none !important;
+}
+
+.quote-page .quote-featured-project-card--inline-gallery .project-gallery-stage.is-inline-sliding > [data-quote-inline-image] {
+  z-index: 2 !important;
+}

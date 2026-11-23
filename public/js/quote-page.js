@@ -579,12 +579,21 @@ document.addEventListener('DOMContentLoaded', () => {
       if (!stage || !image || !images.length) return;
       enableHorizontalThumbnailDrag(thumbnails);
 
+      const preview = document.createElement('img');
+      preview.setAttribute('data-quote-inline-preview', '');
+      preview.alt = '';
+      preview.setAttribute('aria-hidden', 'true');
+      preview.draggable = false;
+      preview.style.display = 'none';
+      image.insertAdjacentElement('afterend', preview);
+
       let activeIndex = 0;
       let pointerStartX = null;
       let dragPointerId = null;
       let dragOffsetX = 0;
       let touchStartX = null;
       let transitionToken = 0;
+      let transitionTimer = null;
       let suppressStageClick = false;
 
       const preloadedImages = new Map();
@@ -615,29 +624,71 @@ document.addEventListener('DOMContentLoaded', () => {
         return promise;
       };
 
+      const setInlineTransform = (element, offset = 0) => {
+        element?.style.setProperty('transform', `translate3d(${offset}px, 0, 0)`, 'important');
+      };
+
+      const resetInlineSlide = () => {
+        if (transitionTimer !== null) {
+          window.clearTimeout(transitionTimer);
+          transitionTimer = null;
+        }
+        setInlineTransform(image, 0);
+        setInlineTransform(preview, 0);
+        preview.style.display = 'none';
+        preview.style.visibility = 'hidden';
+        stage.classList.remove('is-inline-sliding');
+      };
+
       const show = async (index, animate = true, direction = 0) => {
         const nextIndex = (index + images.length) % images.length;
         const requestToken = ++transitionToken;
+        resetInlineSlide();
         await preload(images[nextIndex]);
         if (requestToken !== transitionToken) return;
 
-        activeIndex = nextIndex;
-        image.src = images[activeIndex];
-        image.alt = `${gallery.dataset.projectTitle || 'Công trình Shome Luxury'} - ảnh ${activeIndex + 1}`;
-        if (current) current.textContent = String(activeIndex + 1).padStart(2, '0');
-        if (total) total.textContent = String(images.length).padStart(2, '0');
-        thumbnails?.querySelectorAll('[data-quote-inline-thumb]').forEach((thumbnail, thumbnailIndex) => {
-          const isActive = thumbnailIndex === activeIndex;
-          thumbnail.classList.toggle('is-active', isActive);
-          thumbnail.setAttribute('aria-current', isActive ? 'true' : 'false');
-        });
-        if (animate) {
-          stage.classList.remove('is-inline-changing', 'is-inline-changing-next', 'is-inline-changing-previous');
-          void image.offsetWidth;
-          stage.classList.add(
-            direction > 0 ? 'is-inline-changing-next' : direction < 0 ? 'is-inline-changing-previous' : 'is-inline-changing'
-          );
+        const commit = () => {
+          if (requestToken !== transitionToken) return;
+          activeIndex = nextIndex;
+          image.src = images[activeIndex];
+          image.alt = `${gallery.dataset.projectTitle || 'Công trình Shome Luxury'} - ảnh ${activeIndex + 1}`;
+          setInlineTransform(image, 0);
+          setInlineTransform(preview, 0);
+          preview.style.display = 'none';
+          preview.style.visibility = 'hidden';
+          stage.classList.remove('is-inline-sliding');
+          transitionTimer = null;
+          if (current) current.textContent = String(activeIndex + 1).padStart(2, '0');
+          if (total) total.textContent = String(images.length).padStart(2, '0');
+          thumbnails?.querySelectorAll('[data-quote-inline-thumb]').forEach((thumbnail, thumbnailIndex) => {
+            const isActive = thumbnailIndex === activeIndex;
+            thumbnail.classList.toggle('is-active', isActive);
+            thumbnail.setAttribute('aria-current', isActive ? 'true' : 'false');
+          });
+        };
+
+        if (!animate || !direction || !image.src) {
+          commit();
+          return;
         }
+
+        const stageWidth = stage.clientWidth || 1;
+        const incomingStart = direction > 0 ? stageWidth : -stageWidth;
+        const outgoingEnd = direction > 0 ? -stageWidth : stageWidth;
+        preview.src = images[nextIndex];
+        preview.alt = `${gallery.dataset.projectTitle || 'Công trình Shome Luxury'} - ảnh ${nextIndex + 1}`;
+        preview.style.display = 'block';
+        preview.style.visibility = 'visible';
+        setInlineTransform(image, 0);
+        setInlineTransform(preview, incomingStart);
+        stage.classList.add('is-inline-sliding');
+        void stage.offsetWidth;
+        window.requestAnimationFrame(() => {
+          if (requestToken !== transitionToken) return;
+          setInlineTransform(image, outgoingEnd);
+          setInlineTransform(preview, 0);
+        });
+        transitionTimer = window.setTimeout(commit, 520);
       };
 
       gallery.querySelector('[data-quote-inline-prev]')?.addEventListener('click', () => show(activeIndex - 1, true, -1));
