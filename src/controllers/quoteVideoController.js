@@ -32,6 +32,18 @@ class QuoteVideoController {
       return res.json({ success: true, data });
     } catch (error) { return next(error); }
   }
+
+  async updateMobileVisibility(req, res, next) {
+    try {
+      const pageKey = validatePageKey(pageKeyFromRequest(req));
+      const data = await quoteVideoService.updateMobileVisibility(
+        pageKey,
+        req.params.videoIndex,
+        req.body?.isVisible
+      );
+      return res.json({ success: true, data });
+    } catch (error) { return next(error); }
+  }
 }
 
 module.exports = new QuoteVideoController();

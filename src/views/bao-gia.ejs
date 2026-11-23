@@ -52,20 +52,6 @@
     .quote-page .quote-completed-video-card.is-hidden-extra { display: none !important; }
     .quote-page .quote-completed-video-card .quote-video-frame { position: relative; width: 100%; aspect-ratio: 16 / 9; background: #000; overflow: hidden; }
     .quote-page .quote-completed-video-card .quote-video-frame iframe { position: absolute; inset: 0; display: block; width: 100%; height: 100%; border: 0; pointer-events: auto; touch-action: manipulation; }
-    .quote-page .quote-completed-video-card .youtube-play-button { width: 3.4rem; height: 3.4rem; border: 0; border-radius: 0; background: transparent !important; box-shadow: none !important; }
-    .quote-page .quote-completed-video-card .youtube-play-button .youtube-play-icon { display: block; width: 100%; height: 100%; object-fit: contain; }
-    .quote-page .quote-completed-video-card .youtube-thumbnail-cover:hover .youtube-play-button,
-    .quote-page .quote-completed-video-card .youtube-thumbnail-cover:focus-visible .youtube-play-button { background: transparent !important; }
-    /* Responsive web uses the real YouTube embed; mobile keeps the lightweight
-       thumbnail interaction below. */
-    .quote-page .quote-completed-video-card .quote-desktop-youtube-iframe { display: none; }
-    @media (min-width: 768px) {
-      .quote-page .quote-completed-video-card .quote-desktop-youtube-iframe { position: absolute; inset: 0; display: block; width: 100%; height: 100%; border: 0; }
-      .quote-page .quote-completed-video-card .youtube-thumbnail-cover { display: none; }
-    }
-    @media (max-width: 767px) {
-      .quote-page .quote-completed-video-card .youtube-play-button { width: 3.1rem; height: 3.1rem; }
-    }
     .quote-page .quote-completed-video-meta { display: flex; align-items: center; gap: .75rem; padding: .85rem 1.15rem; background: #fffdfa; border-top: 1px solid #efe4d6; }
     .quote-page .quote-completed-ep-pill { display: inline-flex; align-items: center; padding: .2rem .55rem; border-radius: 6px; background: #211913; color: #f1c97a; font-size: clamp(.68rem, .9vw, .76rem); font-weight: 700; white-space: nowrap; flex-shrink: 0; }
     .quote-page .quote-completed-video-name { margin: 0; color: #1e1814; font-family: var(--font-heading); font-size: clamp(.88rem, 1.15vw, 1.02rem); font-weight: 700; line-height: 1.3; display: -webkit-box; -webkit-line-clamp: 1; -webkit-box-orient: vertical; overflow: hidden; }
@@ -83,12 +69,13 @@
       .quote-page .quote-completed { padding: 2.5rem 0; }
       /* Keep video cards flush with the same content edges as the workshop photo. */
       .quote-page .quote-completed-videos-grid {
-        grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+        grid-template-columns: minmax(0, 1fr) !important;
         width: 100%;
         gap: .65rem;
       }
       .quote-page .quote-completed-video-card { border-radius: 11px; }
       .quote-page .quote-completed-play { width: 46px; height: 46px; border-width: 2px; }
+      .quote-page .quote-completed-video-card--mobile-hidden { display: none !important; }
     }
     .quote-page .quote-capability { padding: clamp(3rem, 6vw, 5.5rem) 0; background: #fffdf9; }
     .quote-page .quote-workshop { width: 100%; max-width: var(--container-max); }
@@ -529,9 +516,10 @@
       .quote-page .quote-price-copy h3 { font-size: clamp(1.5rem, 2.1vw, 2rem); }
 
       .quote-page .quote-completed-videos,
-      .quote-page .quote-completed-videos-grid { width: 100%; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(.9rem, 1.7vw, 1.45rem); }
+      .quote-page .quote-completed-videos-grid { width: 100%; grid-template-columns: minmax(0, 1fr); gap: clamp(.9rem, 1.7vw, 1.45rem); }
       .quote-page .quote-completed-video,
       .quote-page .quote-completed-video-card { aspect-ratio: 16 / 9; }
+      .quote-page .quote-completed-video-card--mobile-hidden { display: none !important; }
 
       .quote-page .quote-workshop { width: 100%; }
       .quote-page .quote-workshop-gallery { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(.75rem, 1.4vw, 1.1rem); }
@@ -3188,37 +3176,18 @@
                 >
                   <div class="quote-completed-videos-grid">
                     <% (cat.videos || []).slice(0, 6).forEach((vid) => { %>
-                      <article class="quote-video-card quote-completed-video-card">
+                      <article class="quote-video-card quote-completed-video-card <%= vid.isMobileVisible === false ? 'quote-completed-video-card--mobile-hidden' : '' %>">
                         <div
-                          class="quote-video-frame youtube-thumbnail-card"
-                          data-youtube-thumbnail
-                          data-video-url="https://www.youtube.com/watch?v=<%= vid.videoId %>"
+                          class="quote-video-frame"
                         >
                           <iframe
-                            class="quote-desktop-youtube-iframe"
-                            src="https://www.youtube-nocookie.com/embed/<%= vid.videoId %>?rel=0&modestbranding=1&fs=0"
+                            src="https://www.youtube.com/embed/<%= vid.videoId %>?rel=0&modestbranding=1"
                             title="Video YouTube công trình hoàn thiện"
                             loading="lazy"
                             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                            allowfullscreen
                             referrerpolicy="strict-origin-when-cross-origin"
                           ></iframe>
-                          <button type="button" class="youtube-thumbnail-cover" aria-label="Phát video">
-                            <img
-                              class="youtube-thumbnail-image"
-                              src="https://i.ytimg.com/vi/<%= vid.videoId %>/maxresdefault.jpg"
-                              data-youtube-fallback="https://i.ytimg.com/vi/<%= vid.videoId %>/hqdefault.jpg"
-                              alt=""
-                              loading="lazy"
-                              decoding="async"
-                            />
-                            <span class="youtube-thumbnail-shade" aria-hidden="true"></span>
-                            <span class="youtube-play-button" aria-hidden="true">
-                              <img class="youtube-play-icon" src="/images/ytb.avif?v=2" alt="" />
-                            </span>
-                          </button>
-                          <button type="button" class="youtube-fullscreen-button" data-youtube-fullscreen aria-label="Mở video toàn màn hình" title="Mở video toàn màn hình">
-                            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 3H3v5M3 3l6 6M16 3h5v5M21 3l-6 6M8 21H3v-5M3 21l6-6M16 21h5v-5M21 21l-6-6" /></svg>
-                          </button>
                         </div>
                       </article>
                     <% }) %>
@@ -3231,37 +3200,18 @@
             <div class="quote-completed-container" id="quote-videos-<%= activeCategoryData.id %>">
               <div class="quote-completed-videos-grid">
                 <% (activeCategoryData.videos || []).slice(0, 6).forEach((vid) => { %>
-                  <article class="quote-video-card quote-completed-video-card">
+                  <article class="quote-video-card quote-completed-video-card <%= vid.isMobileVisible === false ? 'quote-completed-video-card--mobile-hidden' : '' %>">
                     <div
-                      class="quote-video-frame youtube-thumbnail-card"
-                      data-youtube-thumbnail
-                      data-video-url="https://www.youtube.com/watch?v=<%= vid.videoId %>"
+                      class="quote-video-frame"
                     >
                       <iframe
-                        class="quote-desktop-youtube-iframe"
-                        src="https://www.youtube-nocookie.com/embed/<%= vid.videoId %>?rel=0&modestbranding=1&fs=0"
+                        src="https://www.youtube.com/embed/<%= vid.videoId %>?rel=0&modestbranding=1"
                         title="Video YouTube công trình hoàn thiện"
                         loading="lazy"
                         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                        allowfullscreen
                         referrerpolicy="strict-origin-when-cross-origin"
                       ></iframe>
-                      <button type="button" class="youtube-thumbnail-cover" aria-label="Phát video">
-                        <img
-                          class="youtube-thumbnail-image"
-                          src="https://i.ytimg.com/vi/<%= vid.videoId %>/maxresdefault.jpg"
-                          data-youtube-fallback="https://i.ytimg.com/vi/<%= vid.videoId %>/hqdefault.jpg"
-                          alt=""
-                          loading="lazy"
-                          decoding="async"
-                        />
-                        <span class="youtube-thumbnail-shade" aria-hidden="true"></span>
-                        <span class="youtube-play-button" aria-hidden="true">
-                          <img class="youtube-play-icon" src="/images/ytb.avif?v=2" alt="" />
-                        </span>
-                      </button>
-                        <button type="button" class="youtube-fullscreen-button" data-youtube-fullscreen aria-label="Mở video toàn màn hình" title="Mở video toàn màn hình">
-                          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 3H3v5M3 3l6 6M16 3h5v5M21 3l-6 6M8 21H3v-5M3 21l6-6M16 21h5v-5M21 21l-6-6" /></svg>
-                        </button>
                     </div>
                   </article>
                 <% }) %>

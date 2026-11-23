@@ -71,7 +71,7 @@
   function renderQuoteVideoManager(data, pageKey) {
     if (!quoteVideoList) return;
     quoteVideoList.replaceChildren();
-    if (quoteVideoScope) quoteVideoScope.textContent = `${data.categoryName} · URL hiện tại của 6 video đang hiển thị trên trang này`;
+    if (quoteVideoScope) quoteVideoScope.textContent = `${data.categoryName} · 6 video desktop · ${data.mobileVisibleCount ?? 4}/4 video mobile đang bật`;
     (data.videos || []).forEach(video => {
       const card = create('article', 'admin-quote-video-card');
       const heading = create('div', 'admin-quote-video-card-heading');
@@ -79,6 +79,14 @@
       const state = create('span', video.isCustomized ? 'is-customized' : '', video.isCustomized ? 'Đã thay link riêng' : 'Đang dùng link mặc định');
       heading.append(title, state);
       const description = create('p', 'admin-quote-video-title', video.title || 'Video thước phim thực tế');
+      const mobileToggle = create(
+        'button',
+        `admin-quote-video-mobile-toggle${video.isMobileVisible ? ' is-enabled' : ''}`,
+        video.isMobileVisible ? 'Đang hiển thị trên mobile' : 'Đang ẩn trên mobile'
+      );
+      mobileToggle.type = 'button';
+      mobileToggle.setAttribute('aria-pressed', video.isMobileVisible ? 'true' : 'false');
+      mobileToggle.title = 'Bật/tắt video này trên giao diện mobile';
       const label = create('label', 'admin-quote-video-field', 'URL YouTube hiện tại');
       const input = create('input');
       input.type = 'url';
@@ -95,8 +103,24 @@
       reset.disabled = !video.isCustomized;
       actions.append(save, reset);
       const defaultNote = create('small', 'admin-quote-video-default', `Link mặc định: ${video.defaultUrl || ''}`);
-      card.append(heading, description, label, actions, defaultNote);
+      card.append(heading, mobileToggle, description, label, actions, defaultNote);
       quoteVideoList.append(card);
+
+      mobileToggle.onclick = async () => {
+        const nextVisibility = !video.isMobileVisible;
+        mobileToggle.disabled = true;
+        try {
+          await request(`/api/admin/quote-videos/${video.index}/mobile`, {
+            method: 'PATCH',
+            body: JSON.stringify({ pageKey, isVisible: nextVisibility })
+          });
+          setStatus(`${nextVisibility ? 'Đã bật' : 'Đã tắt'} video ${video.index + 1} trên mobile.`);
+          await syncQuoteVideoManager(pageKey);
+        } catch (error) {
+          setStatus(error.message, true);
+          mobileToggle.disabled = false;
+        }
+      };
 
       save.onclick = async () => {
         save.disabled = true;

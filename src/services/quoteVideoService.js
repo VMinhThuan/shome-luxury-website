@@ -1,7 +1,9 @@
 const QuoteVideoLink = require('../models/QuoteVideoLink');
+const QuoteVideoMobileVisibility = require('../models/QuoteVideoMobileVisibility');
 const completedVideosData = require('../data/completedVideosData');
 
 const MAX_VISIBLE_VIDEOS = 6;
+const MAX_MOBILE_VISIBLE_VIDEOS = 4;
 
 function quotePageCode(pageKey = '') {
   let value = String(pageKey || '').trim();
@@ -54,14 +56,15 @@ function canonicalYoutubeUrl(value) {
   return `https://www.youtube.com/watch?v=${videoId}`;
 }
 
-function videoWithUrl(video, videoUrl) {
+function videoWithUrl(video, videoUrl, isMobileVisible) {
   const videoId = youtubeIdFromUrl(videoUrl) || video.videoId;
   return {
     ...video,
     videoId,
     url: `https://www.youtube.com/watch?v=${videoId}`,
     embedUrl: `https://www.youtube-nocookie.com/embed/${videoId}?rel=0&modestbranding=1`,
-    thumbnail: `https://i.ytimg.com/vi/${videoId}/hqdefault.jpg`
+    thumbnail: `https://i.ytimg.com/vi/${videoId}/hqdefault.jpg`,
+    isMobileVisible
   };
 }
 
@@ -77,16 +80,34 @@ async function getOverrideMap(scopeKeys) {
   return new Map(rows.map(row => [`${row.scopeKey}:${row.videoIndex}`, row]));
 }
 
+async function getMobileVisibilityMap(scopeKeys) {
+  if (!scopeKeys.length) return new Map();
+  const rows = await QuoteVideoMobileVisibility.find({ scopeKey: { $in: scopeKeys } }).lean();
+  return new Map(rows.map(row => [`${row.scopeKey}:${row.videoIndex}`, row]));
+}
+
+function defaultMobileVisibility(videoIndex) {
+  return videoIndex < MAX_MOBILE_VISIBLE_VIDEOS;
+}
+
+function effectiveMobileVisibility(index, pageSetting, categorySetting) {
+  const setting = pageSetting || categorySetting;
+  return setting ? setting.isVisible === true : defaultMobileVisibility(index);
+}
+
 async function getAdminVideos(pageKey = 'quote') {
   const categoryId = categoryIdForPageKey(pageKey);
   const scopeKey = scopeKeyForPageKey(pageKey);
   const categoryScopeKey = `category:${categoryId}`;
   const overrides = await getOverrideMap([...new Set([scopeKey, categoryScopeKey])]);
+  const mobileVisibility = await getMobileVisibilityMap([...new Set([scopeKey, categoryScopeKey])]);
   const category = baseCategory(categoryId);
   const videos = (category.videos || []).slice(0, MAX_VISIBLE_VIDEOS).map((video, index) => {
     const pageOverride = overrides.get(`${scopeKey}:${index}`);
     const categoryOverride = overrides.get(`${categoryScopeKey}:${index}`);
     const override = pageOverride || categoryOverride;
+    const pageMobileSetting = mobileVisibility.get(`${scopeKey}:${index}`);
+    const categoryMobileSetting = mobileVisibility.get(`${categoryScopeKey}:${index}`);
     return {
       index,
       title: video.title,
@@ -94,10 +115,19 @@ async function getAdminVideos(pageKey = 'quote') {
       defaultUrl: video.url,
       url: override?.videoUrl || video.url,
       isCustomized: Boolean(override),
-      customizedAt: override?.updatedAt || null
+      customizedAt: override?.updatedAt || null,
+      isMobileVisible: effectiveMobileVisibility(index, pageMobileSetting, categoryMobileSetting),
+      isMobileVisibilityCustomized: Boolean(pageMobileSetting || categoryMobileSetting)
     };
   });
-  return { pageKey, scopeKey, categoryId, categoryName: category.name, videos };
+  return {
+    pageKey,
+    scopeKey,
+    categoryId,
+    categoryName: category.name,
+    mobileVisibleCount: videos.filter(video => video.isMobileVisible).length,
+    videos
+  };
 }
 
 async function getPublicVideosData(pageKey = '') {
@@ -108,20 +138,74 @@ async function getPublicVideosData(pageKey = '') {
   if (pageScopeKey.startsWith('page:')) scopeKeys.push(pageScopeKey);
   try {
     const overrides = await getOverrideMap([...new Set(scopeKeys)]);
+    const mobileVisibility = await getMobileVisibilityMap([...new Set(scopeKeys)]);
     data.categories = data.categories.map(category => {
       const videos = category.videos.map((video, index) => {
         const categoryOverride = overrides.get(`category:${category.id}:${index}`);
         const pageOverride = category.id === categoryId
           ? overrides.get(`${pageScopeKey}:${index}`)
           : null;
-        return videoWithUrl(video, pageOverride?.videoUrl || categoryOverride?.videoUrl || video.url);
+        const categoryMobileSetting = mobileVisibility.get(`category:${category.id}:${index}`);
+        const pageMobileSetting = category.id === categoryId
+          ? mobileVisibility.get(`${pageScopeKey}:${index}`)
+          : null;
+        return videoWithUrl(
+          video,
+          pageOverride?.videoUrl || categoryOverride?.videoUrl || video.url,
+          effectiveMobileVisibility(index, pageMobileSetting, categoryMobileSetting)
+        );
       });
       return { ...category, videos };
     });
   } catch (error) {
     console.error('[Quote video links] Failed to load overrides:', error.message);
+    data.categories = data.categories.map(category => ({
+      ...category,
+      videos: category.videos.map((video, index) => ({
+        ...video,
+        isMobileVisible: defaultMobileVisibility(index)
+      }))
+    }));
   }
   return data;
+}
+
+async function updateMobileVisibility(pageKey, videoIndex, isVisible) {
+  const index = Number(videoIndex);
+  if (!Number.isInteger(index) || index < 0 || index >= MAX_VISIBLE_VIDEOS) {
+    throw new Error('Vị trí video không hợp lệ.');
+  }
+  if (typeof isVisible !== 'boolean') {
+    throw new Error('Trạng thái hiển thị mobile không hợp lệ.');
+  }
+
+  const categoryId = categoryIdForPageKey(pageKey);
+  const category = baseCategory(categoryId);
+  if (!category.videos[index]) throw new Error('Video cần cập nhật không tồn tại.');
+
+  const scopeKey = scopeKeyForPageKey(pageKey);
+  const categoryScopeKey = `category:${categoryId}`;
+  const visibility = await getMobileVisibilityMap([...new Set([scopeKey, categoryScopeKey])]);
+  const videos = category.videos.slice(0, MAX_VISIBLE_VIDEOS);
+  const visibleCount = videos.reduce((count, _video, currentIndex) => {
+    const pageSetting = visibility.get(`${scopeKey}:${currentIndex}`);
+    const categorySetting = visibility.get(`${categoryScopeKey}:${currentIndex}`);
+    const currentVisible = currentIndex === index
+      ? isVisible
+      : effectiveMobileVisibility(currentIndex, pageSetting, categorySetting);
+    return count + (currentVisible ? 1 : 0);
+  }, 0);
+
+  if (visibleCount > MAX_MOBILE_VISIBLE_VIDEOS) {
+    throw new Error(`Chỉ được chọn tối đa ${MAX_MOBILE_VISIBLE_VIDEOS} video hiển thị trên mobile.`);
+  }
+
+  const row = await QuoteVideoMobileVisibility.findOneAndUpdate(
+    { scopeKey, videoIndex: index },
+    { $set: { isVisible, categoryId } },
+    { new: true, upsert: true, runValidators: true, setDefaultsOnInsert: true }
+  ).lean();
+  return { ...row, isMobileVisible: isVisible };
 }
 
 async function updateVideo(pageKey, videoIndex, videoUrl) {
@@ -161,5 +245,7 @@ module.exports = {
   getAdminVideos,
   getPublicVideosData,
   updateVideo,
-  resetVideo
+  resetVideo,
+  updateMobileVisibility,
+  MAX_MOBILE_VISIBLE_VIDEOS
 };

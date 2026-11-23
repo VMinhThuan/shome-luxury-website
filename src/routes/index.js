@@ -175,6 +175,7 @@ router.get('/api/admin/construction-videos', authenticateAdmin, constructionVide
 router.get('/api/admin/quote-videos', authenticateAdmin, quoteVideoController.getAdminVideos.bind(quoteVideoController));
 router.put('/api/admin/quote-videos/:videoIndex', authenticateAdmin, quoteVideoController.updateVideo.bind(quoteVideoController));
 router.delete('/api/admin/quote-videos/:videoIndex', authenticateAdmin, quoteVideoController.resetVideo.bind(quoteVideoController));
+router.patch('/api/admin/quote-videos/:videoIndex/mobile', authenticateAdmin, quoteVideoController.updateMobileVisibility.bind(quoteVideoController));
 router.get('/api/admin/construction-galleries', authenticateAdmin, constructionGalleryController.getAdmin);
 router.post('/api/admin/construction-galleries/:pageKey/:sectionKey', authenticateAdmin, constructionGalleryController.uploadMiddleware, constructionGalleryController.uploadImages);
 router.get('/api/admin/construction-galleries/:pageKey/:sectionKey/:imageId/download', authenticateAdmin, constructionGalleryController.downloadImage);
