@@ -24109,3 +24109,9 @@ main.project-detail-page .project-info-banner .meta-value {
   object-fit: contain !important;
   object-position: center center !important;
 }
+
+/* A lightbox image is a presentation of the list image, not a zoom canvas. */
+.project-gallery-lightbox:not(.project-gallery-lightbox--grid) .project-gallery-lightbox-stage:not(.is-lightbox-sliding) > [data-gallery-lightbox-image] {
+  transform: none !important;
+  cursor: default !important;
+}
