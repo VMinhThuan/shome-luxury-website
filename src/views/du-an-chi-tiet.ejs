@@ -10,8 +10,8 @@
 
   <!-- CSS Stylesheet -->
   <link rel="stylesheet" href="/css/style.css?v=6.8.213" />
-  <script src="/js/project-gallery-lightbox.js?v=1.0.9" defer></script>
-  <script src="/js/main.js?v=2.0.36" defer></script>
+  <script src="/js/project-gallery-lightbox.js?v=1.0.11" defer></script>
+  <script src="/js/main.js?v=2.0.37" defer></script>
 </head>
 <body>
 
@@ -24,7 +24,7 @@
   <!-- Main Content -->
   <main id="main-content" class="project-detail-page" data-project-slug="<%= project.slug %>">
     <div class="container">
-      <% const galleryImages = [...new Set([project.thumbnail, ...(project.gallery || [])].filter(Boolean))]; %>
+      <% const galleryImages = [...new Set((Array.isArray(project.gallery) && project.gallery.length ? project.gallery : [project.thumbnail]).filter(Boolean))]; %>
       <section class="project-detail-summary" aria-label="Tóm tắt dự án" style="--project-detail-summary-image: url('<%= projectDetailBackground || '/images/background/1793129513212_6043215661779559246_6043215661779559246_f2ba52d47d902705547739b26ef66555.jpg' %>');">
         <!-- Project Detail Header -->
         <header class="project-detail-header">

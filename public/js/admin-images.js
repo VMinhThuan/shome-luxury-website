@@ -83,7 +83,7 @@
     mobileReplaceSelect.replaceChildren(...enabledVideos.map(video => {
       const option = document.createElement('option');
       option.value = String(video.index);
-      option.textContent = `Video ${video.index + 1}${video.episode ? ` · Tập ${video.episode}` : ''}`;
+      option.textContent = `Video ${video.index + 1}`;
       return option;
     }));
     mobileReplaceModal.hidden = false;
@@ -114,10 +114,11 @@
     (data.videos || []).forEach(video => {
       const card = create('article', 'admin-quote-video-card');
       const heading = create('div', 'admin-quote-video-card-heading');
-      const title = create('h3', '', `Video ${video.index + 1}${video.episode ? ` · Tập ${video.episode}` : ''}`);
+      const title = create('h3', '', `Video ${video.index + 1}`);
       const state = create('span', video.isCustomized ? 'is-customized' : '', video.isCustomized ? 'Đã thay link riêng' : 'Đang dùng link mặc định');
       heading.append(title, state);
-      const description = create('p', 'admin-quote-video-title', video.title || 'Video thước phim thực tế');
+      const descriptionText = (video.title || 'Video thước phim thực tế').replace(/\s*\(Tập\s*\d+\)\s*$/i, '');
+      const description = create('p', 'admin-quote-video-title', descriptionText);
       const mobileToggle = create('label', 'admin-quote-video-mobile-switch');
       mobileToggle.title = 'Bật/tắt video này trên giao diện mobile';
       const mobileCheckbox = create('input');

@@ -44,17 +44,34 @@
   const fitImageToStage = image => {
     const { stage } = getElements();
     if (!image?.naturalWidth || !image.naturalHeight || !stage?.clientWidth || !stage.clientHeight) return;
-    if (stage.classList.contains('is-lightbox-sliding')) {
-      image.style.setProperty('width', '100%', 'important');
-      image.style.setProperty('height', '100%', 'important');
-      return;
-    }
     const scale = Math.min(
       stage.clientWidth / image.naturalWidth,
       stage.clientHeight / image.naturalHeight
     );
     image.style.setProperty('width', `${Math.max(1, Math.round(image.naturalWidth * scale))}px`, 'important');
     image.style.setProperty('height', `${Math.max(1, Math.round(image.naturalHeight * scale))}px`, 'important');
+  };
+
+  const waitForImageReady = image => {
+    if (!image) return Promise.resolve();
+    if (image.complete && image.naturalWidth) {
+      fitImageToStage(image);
+      return Promise.resolve();
+    }
+    return new Promise(resolve => {
+      let settled = false;
+      const finish = () => {
+        if (settled) return;
+        settled = true;
+        image.removeEventListener('load', finish);
+        image.removeEventListener('error', finish);
+        fitImageToStage(image);
+        resolve();
+      };
+      image.addEventListener('load', finish, { once: true });
+      image.addEventListener('error', finish, { once: true });
+      if (image.complete) finish();
+    });
   };
 
   const getImage = item => (typeof item === 'string' ? { src: item, alt: '' } : item);
@@ -251,8 +268,10 @@
     image.style.visibility = 'visible';
     preview.src = nextImage.src;
     preview.alt = nextImage.alt || `${state.title} - ảnh ${normalizedIndex + 1}`;
-    if (preview.complete) fitImageToStage(preview);
-    else preview.addEventListener('load', () => fitImageToStage(preview), { once: true });
+    await waitForImageReady(preview);
+    if (token !== state.transitionToken || state.modal?.hidden) return;
+    fitImageToStage(image);
+    fitImageToStage(preview);
     preview.style.setProperty('display', 'block', 'important');
     preview.style.visibility = 'visible';
     setSlideTransform(image, 0);
@@ -505,8 +524,22 @@
         return;
       }
       if (state.touchMode === 'pan') {
+        const panDistanceX = event.changedTouches?.[0]
+          ? event.changedTouches[0].clientX - (state.panStartX ?? event.changedTouches[0].clientX)
+          : 0;
+        const panDistanceY = event.changedTouches?.[0]
+          ? event.changedTouches[0].clientY - (state.panStartY ?? event.changedTouches[0].clientY)
+          : 0;
         state.touchMode = null;
         state.touchAxis = null;
+        // On mobile, a left swipe while the image is enlarged is treated as
+        // an accidental dismiss gesture. Return to the page/card that opened
+        // the viewer instead of navigating to another image.
+        if (panDistanceX < -40 && Math.abs(panDistanceX) > Math.abs(panDistanceY)) {
+          event.preventDefault();
+          return close();
+        }
+        applyZoom();
         return;
       }
       if (state.touchMode !== 'swipe' || state.touchStartX === null || !event.changedTouches?.length) return;
@@ -520,6 +553,7 @@
       setSlideTransform(image, 0);
       if (axis === 'horizontal' && Math.abs(distanceX) > 40) {
         event.preventDefault();
+        if (distanceX < 0) return close();
         show(state.index + (distanceX < 0 ? 1 : -1), distanceX < 0 ? 1 : -1);
       } else if (axis === 'vertical' && Math.abs(distanceY) > 40) {
         event.preventDefault();

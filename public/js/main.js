@@ -1031,7 +1031,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function getProjectGalleryImages(project) {
     const projectGallery = Array.isArray(project.gallery) ? project.gallery : [];
-    return [...new Set([project.thumbnail, ...projectGallery].filter(Boolean))];
+    return [...new Set((projectGallery.length ? projectGallery : [project.thumbnail]).filter(Boolean))];
   }
 
   function getProjectCardImage(project) {
