@@ -1655,11 +1655,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function openGalleryLightbox() {
       if (!galleryImages.length) return;
-      const modal = createGalleryLightbox();
-      modal.hidden = false;
-      document.body.classList.add('project-gallery-lightbox-open');
-      showLightboxImage(activeGalleryIndex);
-      modal.querySelector('.project-gallery-lightbox-close')?.focus();
+      window.SHomeProjectGalleryLightbox?.open({
+        images: galleryImages,
+        title: getProjectTitle(),
+        index: activeGalleryIndex,
+        trigger: getGalleryStage(),
+        variant: 'detail',
+      });
     }
 
     function closeGalleryLightbox() {

@@ -130,6 +130,58 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   })();
 
+  // Reuse the same fullscreen lightbox component as the project-detail page.
+  (function initSharedFeaturedProjectGallery() {
+    const lightbox = window.SHomeProjectGalleryLightbox;
+    if (!lightbox) return;
+
+    const open = trigger => {
+      let images = [];
+      try {
+        const encodedImages = trigger.hasAttribute('data-quote-inline-gallery');
+        const rawImages = trigger.dataset.galleryImages || '[]';
+        images = JSON.parse(encodedImages ? decodeURIComponent(rawImages) : rawImages).filter(Boolean);
+      } catch (_) {
+        images = [];
+      }
+      if (!images.length) return;
+      lightbox.open({
+        images,
+        title: trigger.dataset.projectTitle || 'Công trình Shome Luxury',
+        trigger,
+        variant: 'quote',
+      });
+    };
+
+    document.addEventListener('click', event => {
+      const trigger = event.target.closest('[data-quote-project-gallery]');
+      if (trigger) {
+        event.preventDefault();
+        open(trigger);
+        return;
+      }
+
+      const inlineStage = event.target.closest('[data-quote-inline-stage]');
+      const inlineGallery = inlineStage?.closest('[data-quote-inline-gallery]');
+      const inlineControl = event.target.closest('[data-quote-inline-prev], [data-quote-inline-next], [data-quote-inline-thumb]');
+      if (inlineGallery && !inlineControl && !inlineStage?.dataset.suppressClick) {
+        event.preventDefault();
+        open(inlineGallery);
+      }
+    });
+
+    document.addEventListener('keydown', event => {
+      const inlineStage = event.target.closest?.('[data-quote-inline-stage]');
+      const inlineGallery = inlineStage?.closest('[data-quote-inline-gallery]');
+      if (inlineGallery && (event.key === 'Enter' || event.key === ' ')) {
+        event.preventDefault();
+        open(inlineGallery);
+      }
+    });
+  })();
+
+  // Kept as a no-op compatibility shell for older server-rendered markup.
+  // The actual fullscreen viewer above is now shared with the detail page.
   (function initFeaturedProjectGallery() {
     const modal = document.querySelector('[data-quote-project-gallery-modal]');
     if (!modal) return;
