@@ -1571,6 +1571,131 @@
   .admin-quote-video-manager { padding: .9rem; }
 }
 
+.admin-quote-video-replace-modal[hidden] { display: none; }
+
+.admin-quote-video-replace-modal {
+  position: fixed;
+  z-index: 10000;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: 1rem;
+}
+
+.admin-quote-video-replace-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(32, 23, 15, .58);
+  backdrop-filter: blur(5px);
+}
+
+.admin-quote-video-replace-dialog {
+  position: relative;
+  width: min(100%, 31rem);
+  padding: 1.55rem;
+  border: 1px solid #ead5b6;
+  border-radius: 20px;
+  background: linear-gradient(145deg, #fffdf9 0%, #fff8ec 100%);
+  box-shadow: 0 24px 70px rgba(38, 25, 13, .28);
+  animation: adminQuoteVideoModalIn .2s ease-out;
+}
+
+.admin-quote-video-replace-icon {
+  display: grid;
+  width: 2.35rem;
+  height: 2.35rem;
+  margin-bottom: .8rem;
+  place-items: center;
+  border-radius: 50%;
+  color: #fff;
+  background: #caa25d;
+  font-size: 1.45rem;
+  font-weight: 700;
+}
+
+.admin-quote-video-replace-eyebrow {
+  margin: 0 0 .35rem;
+  color: #b47d2d;
+  font-size: .68rem;
+  font-weight: 800;
+  letter-spacing: .16em;
+}
+
+.admin-quote-video-replace-dialog h2 {
+  margin: 0;
+  color: #2d2117;
+  font-size: 1.35rem;
+}
+
+.admin-quote-video-replace-description {
+  margin: .55rem 0 1.15rem;
+  color: #776858;
+  font-size: .84rem;
+  line-height: 1.5;
+}
+
+.admin-quote-video-replace-field {
+  display: grid;
+  gap: .4rem;
+  color: #57483a;
+  font-size: .78rem;
+  font-weight: 800;
+}
+
+.admin-quote-video-replace-field select {
+  width: 100%;
+  min-height: 2.75rem;
+  padding: .6rem .75rem;
+  border: 1px solid #d9c5a7;
+  border-radius: 10px;
+  color: #33271e;
+  background: #fff;
+  font: inherit;
+  font-weight: 500;
+}
+
+.admin-quote-video-replace-field select:focus {
+  outline: 2px solid rgba(202, 162, 93, .35);
+  border-color: #caa25d;
+}
+
+.admin-quote-video-replace-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: .65rem;
+  margin-top: 1.35rem;
+}
+
+.admin-quote-video-replace-actions button {
+  min-height: 2.45rem;
+  padding: .55rem .9rem;
+  border-radius: 9px;
+  cursor: pointer;
+  font: inherit;
+  font-size: .78rem;
+  font-weight: 800;
+}
+
+.admin-quote-video-replace-cancel {
+  border: 1px solid #d8c4a7;
+  color: #6c5946;
+  background: #fff;
+}
+
+.admin-quote-video-replace-confirm {
+  border: 1px solid #caa25d;
+  color: #fff;
+  background: #b9893e;
+}
+
+.admin-quote-video-replace-actions button:hover { filter: brightness(.96); transform: translateY(-1px); }
+body.admin-quote-video-replace-open { overflow: hidden; }
+
+@keyframes adminQuoteVideoModalIn {
+  from { opacity: 0; transform: translateY(8px) scale(.98); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
 .image-pair.is-responsive-banner > .image-version {
   display: flex;
   min-width: 0;

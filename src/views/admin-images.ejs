@@ -2,10 +2,10 @@
 <html lang="vi">
 <head>
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title><%= title %></title><link rel="stylesheet" href="/css/style.css?v=6.8.154" /><link rel="stylesheet" href="/css/admin-image-header.css?v=1.0.0" /><link rel="stylesheet" href="/css/admin-images.css?v=1.1.10" /><link rel="stylesheet" href="/css/admin-images-pair.css?v=1.0.6" /><link rel="stylesheet" href="/css/admin-content.css?v=1.0.11" /><link rel="stylesheet" href="/css/admin-construction-galleries.css?v=1.0.3" />
+  <title><%= title %></title><link rel="stylesheet" href="/css/style.css?v=6.8.154" /><link rel="stylesheet" href="/css/admin-image-header.css?v=1.0.0" /><link rel="stylesheet" href="/css/admin-images.css?v=1.1.11" /><link rel="stylesheet" href="/css/admin-images-pair.css?v=1.0.6" /><link rel="stylesheet" href="/css/admin-content.css?v=1.0.11" /><link rel="stylesheet" href="/css/admin-construction-galleries.css?v=1.0.3" />
   <%- include('partials/site-favicon') %>
   <script src="/js/main.js?v=6.8.6" defer></script>
-  <script src="/js/admin-construction-galleries.js?v=1.0.5" defer></script><script src="/js/admin-images.js?v=1.1.29" defer></script><script src="/js/admin-content.js?v=1.2.4" defer></script>
+  <script src="/js/admin-construction-galleries.js?v=1.0.5" defer></script><script src="/js/admin-images.js?v=1.1.30" defer></script><script src="/js/admin-content.js?v=1.2.4" defer></script>
 </head>
 <body class="home-images-admin">
 <% const initialContentModule = typeof initialContent !== 'undefined' ? initialContent : null; %>
@@ -64,4 +64,23 @@
     <%- include('partials/admin-content-workspace', { currentModule: 'careers', currentModuleLabel: 'Tuyển dụng', embedded: true, lazy: false, managerId: 'admin-image-careers', initiallyHidden: initialContentModule !== 'careers' }) %>
     <%- include('partials/admin-content-workspace', { currentModule: 'articles', currentModuleLabel: 'Tin tức', embedded: true, lazy: false, managerId: 'admin-image-articles', initiallyHidden: initialContentModule !== 'articles' }) %>
   </section>
-</main></body></html>
+</main>
+
+<div class="admin-quote-video-replace-modal" data-quote-video-replace-modal hidden>
+  <div class="admin-quote-video-replace-backdrop" data-quote-video-replace-cancel></div>
+  <section class="admin-quote-video-replace-dialog" role="dialog" aria-modal="true" aria-labelledby="admin-quote-video-replace-title">
+    <div class="admin-quote-video-replace-icon" aria-hidden="true">↻</div>
+    <p class="admin-quote-video-replace-eyebrow">THAY THẾ VIDEO MOBILE</p>
+    <h2 id="admin-quote-video-replace-title">Chọn video muốn tắt</h2>
+    <p class="admin-quote-video-replace-description">Mobile chỉ hiển thị tối đa 4 video. Hãy chọn một video đang bật để thay bằng video bạn vừa chọn.</p>
+    <label class="admin-quote-video-replace-field">
+      <span>Video sẽ tắt trên mobile</span>
+      <select data-quote-video-replace-select></select>
+    </label>
+    <div class="admin-quote-video-replace-actions">
+      <button type="button" class="admin-quote-video-replace-cancel" data-quote-video-replace-cancel>Hủy</button>
+      <button type="button" class="admin-quote-video-replace-confirm" data-quote-video-replace-confirm>Thay thế video</button>
+    </div>
+  </section>
+</div>
+</body></html>

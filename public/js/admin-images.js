@@ -26,6 +26,10 @@
   const quoteVideoManager = $('[data-quote-video-manager]');
   const quoteVideoScope = $('[data-quote-video-scope]');
   const quoteVideoList = $('[data-quote-video-list]');
+  const mobileReplaceModal = $('[data-quote-video-replace-modal]');
+  const mobileReplaceSelect = $('[data-quote-video-replace-select]');
+  const mobileReplaceConfirm = $('[data-quote-video-replace-confirm]');
+  let mobileReplaceResolver = null;
   const contentManager = () => window.shomeContentManagers?.['admin-image-content'];
   const constructionGalleryManager = () => window.shomeConstructionGalleries;
   window.addEventListener('shome-content-manager-ready', event => {
@@ -64,6 +68,41 @@
     status.textContent = message || '';
     status.classList.toggle('error', bad);
   };
+
+  const closeMobileReplaceModal = value => {
+    if (!mobileReplaceModal) return;
+    mobileReplaceModal.hidden = true;
+    document.body.classList.remove('admin-quote-video-replace-open');
+    const resolver = mobileReplaceResolver;
+    mobileReplaceResolver = null;
+    resolver?.(value);
+  };
+
+  const openMobileReplaceModal = enabledVideos => {
+    if (!mobileReplaceModal || !mobileReplaceSelect) return Promise.resolve(null);
+    mobileReplaceSelect.replaceChildren(...enabledVideos.map(video => {
+      const option = document.createElement('option');
+      option.value = String(video.index);
+      option.textContent = `Video ${video.index + 1}${video.episode ? ` · Tập ${video.episode}` : ''}`;
+      return option;
+    }));
+    mobileReplaceModal.hidden = false;
+    document.body.classList.add('admin-quote-video-replace-open');
+    window.requestAnimationFrame(() => mobileReplaceSelect.focus());
+    return new Promise(resolve => { mobileReplaceResolver = resolve; });
+  };
+
+  mobileReplaceModal?.querySelectorAll('[data-quote-video-replace-cancel]').forEach(button => {
+    button.addEventListener('click', () => closeMobileReplaceModal(null));
+  });
+  mobileReplaceConfirm?.addEventListener('click', () => {
+    closeMobileReplaceModal(Number(mobileReplaceSelect?.value));
+  });
+  document.addEventListener('keydown', event => {
+    if (event.key === 'Escape' && mobileReplaceModal && !mobileReplaceModal.hidden) {
+      closeMobileReplaceModal(null);
+    }
+  });
 
   const isQuoteVideoPage = pageKey => pageKey === 'quote'
     || String(pageKey || '').startsWith('subpage:quote:');
@@ -110,37 +149,19 @@
       mobileCheckbox.onchange = async () => {
         const nextVisibility = mobileCheckbox.checked;
         let replacementIndex = null;
-
-        if (nextVisibility && !video.isMobileVisible) {
-          const enabledVideos = (data.videos || []).filter(item => item.isMobileVisible);
-          if (enabledVideos.length >= 4) {
-            const enabledLabels = enabledVideos
-              .map(item => `Video ${item.index + 1}${item.episode ? ` (Tập ${item.episode})` : ''}`)
-              .join(', ');
-            const shouldReplace = window.confirm(
-              `Đã có ${enabledVideos.length} video đang hiển thị trên mobile. Bạn muốn thay thế một video không?\n\nĐang bật: ${enabledLabels}`
-            );
-            if (!shouldReplace) {
-              mobileCheckbox.checked = false;
-              return;
-            }
-
-            const selectedVideo = window.prompt(
-              `Nhập số video muốn tắt để thay thế (chỉ chọn: ${enabledVideos.map(item => item.index + 1).join(', ')}):`,
-              String(enabledVideos[0].index + 1)
-            );
-            const selectedIndex = Number(selectedVideo) - 1;
-            if (!enabledVideos.some(item => item.index === selectedIndex)) {
-              setStatus('Chưa chọn video hợp lệ để tắt. Video mới chưa được bật.', true);
-              mobileCheckbox.checked = false;
-              return;
-            }
-            replacementIndex = selectedIndex;
-          }
-        }
-
         mobileCheckbox.disabled = true;
         try {
+          if (nextVisibility && !video.isMobileVisible) {
+            const enabledVideos = (data.videos || []).filter(item => item.isMobileVisible);
+            if (enabledVideos.length >= 4) {
+              replacementIndex = await openMobileReplaceModal(enabledVideos);
+              if (replacementIndex === null) {
+                mobileCheckbox.checked = false;
+                mobileCheckbox.disabled = false;
+                return;
+              }
+            }
+          }
           if (replacementIndex !== null) {
             await request(`/api/admin/quote-videos/${replacementIndex}/mobile`, {
               method: 'PATCH',
