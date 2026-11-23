@@ -493,6 +493,7 @@
       state.title = title;
       state.previousFocus = trigger || document.activeElement;
       modal.toggleAttribute('data-quote-project-gallery-modal', variant === 'quote');
+      modal.dataset.galleryVariant = variant;
       modal.hidden = false;
       document.body.classList.add('project-gallery-lightbox-open');
       show(index);

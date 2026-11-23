@@ -24115,3 +24115,38 @@ main.project-detail-page .project-info-banner .meta-value {
   transform: none !important;
   cursor: default !important;
 }
+
+/* Match the responsive list gallery frame. Detail thumbnails use a 4:3
+   stage with square source images contained in the middle, so opening a
+   thumbnail must preserve that same composition instead of using a tall
+   viewport-sized canvas. Quote cards use the list's 16:9 frame. */
+.project-gallery-lightbox:not(.project-gallery-lightbox--grid) .project-gallery-lightbox-stage {
+  height: auto !important;
+  aspect-ratio: 4 / 3 !important;
+  background: #fff !important;
+}
+
+.project-gallery-lightbox[data-gallery-variant="quote"]:not(.project-gallery-lightbox--grid) .project-gallery-lightbox-stage {
+  aspect-ratio: 16 / 9 !important;
+}
+
+@media (max-width: 1023px) {
+  .project-gallery-lightbox:not(.project-gallery-lightbox--grid) .project-gallery-lightbox-dialog {
+    width: min(calc(100vw - 1rem), 1280px) !important;
+    height: auto !important;
+    max-width: calc(100vw - 1rem) !important;
+    max-height: calc(100dvh - 1rem) !important;
+  }
+
+  .project-gallery-lightbox:not(.project-gallery-lightbox--grid) .project-gallery-lightbox-stage {
+    width: min(calc(100vw - 1rem), 1280px) !important;
+    height: auto !important;
+    max-width: calc(100vw - 1rem) !important;
+    max-height: calc(100dvh - 1rem) !important;
+    aspect-ratio: 4 / 3 !important;
+  }
+
+  .project-gallery-lightbox[data-gallery-variant="quote"]:not(.project-gallery-lightbox--grid) .project-gallery-lightbox-stage {
+    aspect-ratio: 16 / 9 !important;
+  }
+}
