@@ -138,6 +138,29 @@
     );
   };
 
+  const isQuoteDesktopViewer = () => (
+    state.modal?.dataset.galleryVariant === 'quote'
+    && window.matchMedia?.('(min-width: 768px)').matches
+  );
+
+  const prepareQuoteDesktopSwipePreview = distanceX => {
+    if (!isQuoteDesktopViewer()) return;
+    const { preview, stage } = getElements();
+    if (!preview || !state.images.length) return;
+    const direction = distanceX < 0 ? 1 : -1;
+    const nextIndex = (state.index + direction + state.images.length) % state.images.length;
+    const nextImage = getImage(state.images[nextIndex]);
+    preview.src = nextImage.src;
+    preview.alt = nextImage.alt || `${state.title} - ảnh ${nextIndex + 1}`;
+    preview.style.setProperty('display', 'block', 'important');
+    preview.style.setProperty('visibility', 'visible', 'important');
+    state.modal.classList.add('is-swiping');
+    preload(nextImage.src);
+    const stageWidth = stage?.clientWidth || window.innerWidth;
+    const previewStart = direction > 0 ? stageWidth : -stageWidth;
+    setSlideTransform(preview, previewStart + distanceX);
+  };
+
   const setVerticalSwipeTransform = (image, offset = 0) => {
     if (!image) return;
     image.style.setProperty('transform', `translate3d(0, ${offset}px, 0)`, 'important');
@@ -371,6 +394,10 @@
       fitImageToStage(image);
       updatePanLimits();
       applyZoom();
+      if (isQuoteDesktopViewer() && state.images.length > 1) {
+        preload(getImage(state.images[(state.index + 1) % state.images.length]).src);
+        preload(getImage(state.images[(state.index - 1 + state.images.length) % state.images.length]).src);
+      }
     };
     if (typeof image.decode === 'function') image.decode().catch(() => {}).finally(reveal);
     else if (image.complete) reveal();
@@ -530,6 +557,7 @@
       if (Math.abs(distance) < 4) return;
       event.preventDefault();
       setSlideTransform(image, distance);
+      prepareQuoteDesktopSwipePreview(distance);
     }, { passive: false });
     stage?.addEventListener('pointerup', event => {
       if (event.pointerType === 'touch') return;
@@ -541,13 +569,14 @@
       if (pointerStartX === null) return;
       const distance = event.clientX - pointerStartX;
       pointerStartX = null;
-      setSlideTransform(image, 0);
+      if (isQuoteDesktopViewer()) resetSlidePosition();
+      else setSlideTransform(image, 0);
       if (Math.abs(distance) >= 50) show(state.index + (distance < 0 ? 1 : -1), distance < 0 ? 1 : -1);
     });
     stage?.addEventListener('pointercancel', () => {
       pointerStartX = null;
       state.pointerId = null;
-      setSlideTransform(image, 0);
+      resetSlidePosition();
     });
 
     stage?.addEventListener('touchstart', event => {
@@ -614,7 +643,10 @@
         state.touchAxis = Math.abs(distanceX) >= Math.abs(distanceY) ? 'horizontal' : 'vertical';
       }
       event.preventDefault();
-      if (state.touchAxis === 'horizontal') setSlideTransform(image, distanceX);
+      if (state.touchAxis === 'horizontal') {
+        setSlideTransform(image, distanceX);
+        prepareQuoteDesktopSwipePreview(distanceX);
+      }
       else setVerticalSwipeTransform(image, distanceY);
     }, { passive: false });
     stage?.addEventListener('touchend', event => {
@@ -639,7 +671,8 @@
       state.touchAxis = null;
       state.touchStartX = null;
       state.touchStartY = null;
-      setSlideTransform(image, 0);
+      if (isQuoteDesktopViewer()) resetSlidePosition();
+      else setSlideTransform(image, 0);
       const isHorizontalSwipe = Math.abs(distanceX) > 40
         && Math.abs(distanceX) >= Math.abs(distanceY);
       if ((axis === 'horizontal' || isHorizontalSwipe) && Math.abs(distanceX) > 40) {
