@@ -1296,6 +1296,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function enableHorizontalThumbnailDrag(thumbnailStrip) {
       if (!thumbnailStrip || thumbnailStrip.dataset.dragEnabled === 'true') return;
+      // Let vertical phone swipes scroll the page instead of dragging the
+      // thumbnail rail horizontally.
+      if (window.matchMedia?.('(max-width: 767px)').matches) return;
       thumbnailStrip.dataset.dragEnabled = 'true';
       let pointerId = null;
       let startX = 0;

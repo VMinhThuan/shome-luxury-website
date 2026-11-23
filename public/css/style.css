@@ -23750,6 +23750,16 @@ main.project-detail-page .project-info-banner .meta-value {
     padding-right: 0 !important;
   }
 
+  /* Keep thumbnail touches on the page's vertical scroll axis. */
+  main.project-detail-page .project-gallery-thumbnails,
+  .quote-page .quote-featured-project-card--inline-gallery .project-gallery-thumbnails {
+    overflow-x: hidden !important;
+    overflow-y: visible !important;
+    overscroll-behavior-x: none !important;
+    touch-action: pan-y !important;
+    cursor: default !important;
+  }
+
   .quote-page .quote-featured-project-card--inline-gallery .project-gallery-thumbnail {
     box-sizing: border-box !important;
     border: 2px solid #d8d0c5 !important;
@@ -24151,6 +24161,21 @@ main.project-detail-page .project-info-banner .meta-value {
 
 .project-gallery-lightbox[data-gallery-variant="quote"]:not(.project-gallery-lightbox--grid) .project-gallery-lightbox-stage {
   aspect-ratio: 4 / 3 !important;
+}
+
+/* Dim the page behind enlarged project photos like the reference viewer,
+   while keeping the active image and its controls fully opaque. */
+.project-gallery-lightbox:not(.project-gallery-lightbox--grid) .project-gallery-lightbox-backdrop,
+.project-gallery-lightbox--grid .project-gallery-lightbox-backdrop {
+  background: rgba(9, 8, 7, .76) !important;
+  backdrop-filter: blur(10px) !important;
+  -webkit-backdrop-filter: blur(10px) !important;
+}
+
+.quote-page .quote-project-gallery-modal-backdrop {
+  background: rgba(0, 0, 0, .76) !important;
+  backdrop-filter: blur(10px) !important;
+  -webkit-backdrop-filter: blur(10px) !important;
 }
 
 @media (max-width: 1023px) {

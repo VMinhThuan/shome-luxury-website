@@ -78,6 +78,27 @@
 
   const getImage = item => (typeof item === 'string' ? { src: item, alt: '' } : item);
 
+  const getHorizontalSwipeTarget = distanceX => {
+    const isAndroid = /Android/i.test(navigator.userAgent || '');
+    const isSwipeLeft = distanceX < 0;
+    // Android Chrome can treat a left-edge swipe as browser Back. Keep the
+    // gesture inside the carousel and match iOS's wraparound from image 1
+    // to the final image instead of dismissing the lightbox.
+    if (isAndroid && isSwipeLeft && state.index === 0 && state.images.length > 1) {
+      return { index: state.images.length - 1, direction: -1 };
+    }
+    if (isAndroid) {
+      return {
+        index: state.index + (isSwipeLeft ? -1 : 1),
+        direction: isSwipeLeft ? -1 : 1,
+      };
+    }
+    return {
+      index: state.index + (isSwipeLeft ? 1 : -1),
+      direction: isSwipeLeft ? 1 : -1,
+    };
+  };
+
   const preload = src => {
     if (!src) return Promise.resolve();
     if (state.preloadCache.has(src)) return state.preloadCache.get(src);
@@ -619,9 +640,13 @@
       state.touchStartX = null;
       state.touchStartY = null;
       setSlideTransform(image, 0);
-      if (axis === 'horizontal' && Math.abs(distanceX) > 40) {
+      const isHorizontalSwipe = Math.abs(distanceX) > 40
+        && Math.abs(distanceX) >= Math.abs(distanceY);
+      if ((axis === 'horizontal' || isHorizontalSwipe) && Math.abs(distanceX) > 40) {
         event.preventDefault();
-        show(state.index + (distanceX < 0 ? 1 : -1), distanceX < 0 ? 1 : -1);
+        event.stopPropagation();
+        const target = getHorizontalSwipeTarget(distanceX);
+        show(target.index, target.direction);
       } else if (axis === 'vertical' && Math.abs(distanceY) > 40) {
         event.preventDefault();
         close();

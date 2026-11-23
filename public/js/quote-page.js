@@ -4,6 +4,8 @@ document.addEventListener('DOMContentLoaded', () => {
   // not accidentally activate the thumbnail that happened to be released on.
   const enableHorizontalThumbnailDrag = thumbnailStrip => {
     if (!thumbnailStrip || thumbnailStrip.dataset.dragEnabled === 'true') return;
+    // Keep mobile thumbnail touches from capturing the page's vertical swipe.
+    if (window.matchMedia?.('(max-width: 767px)').matches) return;
     thumbnailStrip.dataset.dragEnabled = 'true';
 
     let activePointerId = null;
