@@ -38,6 +38,11 @@ app.use(express.static(path.join(__dirname, "public"), {
   lastModified: true
 }));
 
+// Keep the conventional favicon path in sync with the current brand asset.
+app.get("/favicon.ico", (req, res) => {
+  res.sendFile(path.join(__dirname, "public", "favicon.png"));
+});
+
 // Facebook Feed does not depend on MongoDB. Keep this read-only endpoint
 // available even when the content database is unavailable.
 app.get("/api/facebook/posts", facebookController.getPosts);
