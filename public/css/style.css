@@ -23993,3 +23993,86 @@ main.project-detail-page .project-info-banner .meta-value {
 .quote-page .quote-featured-project-card--inline-gallery .project-gallery-stage.is-inline-changing-previous > img {
   animation: quote-inline-gallery-slide-previous .52s cubic-bezier(.22, .61, .36, 1) both !important;
 }
+
+/* Responsive gallery images should keep the same complete composition as the
+   list thumbnail. The old mobile lightbox used inset: 0 on an auto-sized
+   image, which made the replaced element fill the viewport and crop/zoom the
+   source. Let the image define the frame and constrain it to the viewport. */
+@media (max-width: 1023px) {
+  .project-gallery-lightbox:not(.project-gallery-lightbox--grid) {
+    padding: .5rem !important;
+  }
+
+  .project-gallery-lightbox:not(.project-gallery-lightbox--grid) .project-gallery-lightbox-dialog {
+    width: 100vw !important;
+    max-width: 100vw !important;
+    height: 100dvh !important;
+    max-height: 100dvh !important;
+  }
+
+  .project-gallery-lightbox:not(.project-gallery-lightbox--grid) .project-gallery-lightbox-stage {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) !important;
+    grid-template-rows: minmax(0, 1fr) !important;
+    place-items: center !important;
+    width: 100vw !important;
+    height: 100dvh !important;
+    max-width: 100vw !important;
+    max-height: 100dvh !important;
+    min-width: 0 !important;
+    min-height: 0 !important;
+    aspect-ratio: auto !important;
+    overflow: hidden !important;
+    border: 1px solid rgba(200, 155, 75, .35) !important;
+    border-radius: 12px !important;
+  }
+
+  .project-gallery-lightbox:not(.project-gallery-lightbox--grid) .project-gallery-lightbox-stage > [data-gallery-lightbox-image],
+  .project-gallery-lightbox:not(.project-gallery-lightbox--grid) .project-gallery-lightbox-stage > [data-gallery-lightbox-preview] {
+    position: relative !important;
+    inset: auto !important;
+    grid-area: 1 / 1 !important;
+    display: block !important;
+    width: auto !important;
+    height: auto !important;
+    max-width: 100% !important;
+    max-height: calc(100dvh - 1rem) !important;
+    margin: 0 !important;
+    object-fit: contain !important;
+    object-position: center center !important;
+    align-self: center !important;
+    justify-self: center !important;
+  }
+
+  .project-gallery-lightbox:not(.project-gallery-lightbox--grid) .project-gallery-lightbox-stage > [data-gallery-lightbox-preview] {
+    display: none !important;
+  }
+
+  /* Keep the list card faithful to the source image as well; do not apply
+     the desktop hover enlargement on touch-sized layouts. */
+  .project-card-image-wrapper,
+  .project-card-gallery-stage {
+    background: #fff !important;
+  }
+
+  .project-card-gallery-stage .project-card-img,
+  .project-card-img {
+    object-fit: contain !important;
+    object-position: center center !important;
+    transform: none !important;
+  }
+
+  .project-showcase-card:hover .project-card-img {
+    transform: none !important;
+  }
+
+  .quote-page .quote-featured-project-card--inline-gallery .project-gallery-stage {
+    background: #fff !important;
+  }
+
+  .quote-page .quote-featured-project-card--inline-gallery .project-gallery-stage > img {
+    object-fit: contain !important;
+    object-position: center center !important;
+    transform: none !important;
+  }
+}
