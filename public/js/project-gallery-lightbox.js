@@ -30,6 +30,7 @@
     pinchStartScale: 1,
     safariGestureActive: false,
     safariGestureStartScale: 1,
+    slideAnimationFrame: null,
   };
 
   const getElements = () => ({
@@ -95,9 +96,48 @@
     image.style.setProperty('transform', `translate3d(0, ${offset}px, 0)`, 'important');
   };
 
+  const setSlideAnimationEnabled = (image, enabled) => {
+    if (!image) return;
+    if (enabled) image.style.setProperty('transition', 'none', 'important');
+    else image.style.removeProperty('transition');
+  };
+
+  const animateLightboxSlide = ({ image, preview, fromImage, fromPreview, toImage, toPreview, onComplete }) => {
+    if (state.slideAnimationFrame !== null) {
+      window.cancelAnimationFrame(state.slideAnimationFrame);
+      state.slideAnimationFrame = null;
+    }
+    const animationStart = performance.now();
+    const animationDuration = 520;
+    const easeOutCubic = progress => 1 - Math.pow(1 - progress, 3);
+    const frame = now => {
+      const progress = Math.min(1, Math.max(0, (now - animationStart) / animationDuration));
+      const easedProgress = easeOutCubic(progress);
+      const imageOffset = fromImage + ((toImage - fromImage) * easedProgress);
+      const previewOffset = fromPreview + ((toPreview - fromPreview) * easedProgress);
+      setSlideTransform(image, imageOffset);
+      setSlideTransform(preview, previewOffset);
+      if (progress >= 1) {
+        state.slideAnimationFrame = null;
+        onComplete();
+        return;
+      }
+      state.slideAnimationFrame = window.requestAnimationFrame(frame);
+    };
+    setSlideTransform(image, fromImage);
+    setSlideTransform(preview, fromPreview);
+    state.slideAnimationFrame = window.requestAnimationFrame(frame);
+  };
+
   const resetSlidePosition = () => {
     const { image, preview } = getElements();
     if (!image || !preview) return;
+    if (state.slideAnimationFrame !== null) {
+      window.cancelAnimationFrame(state.slideAnimationFrame);
+      state.slideAnimationFrame = null;
+    }
+    setSlideAnimationEnabled(image, false);
+    setSlideAnimationEnabled(preview, false);
     setSlideTransform(image, 0);
     setSlideTransform(preview, 0);
     preview.style.visibility = 'hidden';
@@ -217,14 +257,17 @@
     preview.style.visibility = 'visible';
     setSlideTransform(image, 0);
     setSlideTransform(preview, incomingStart);
+    setSlideAnimationEnabled(image, true);
+    setSlideAnimationEnabled(preview, true);
     void stage.offsetWidth;
-    window.requestAnimationFrame(() => {
-      if (token !== state.transitionToken) return;
-      setSlideTransform(image, outgoingEnd);
-      setSlideTransform(preview, 0);
-    });
-
-    window.setTimeout(() => {
+    animateLightboxSlide({
+      image,
+      preview,
+      fromImage: 0,
+      fromPreview: incomingStart,
+      toImage: outgoingEnd,
+      toPreview: 0,
+      onComplete: () => {
       if (token !== state.transitionToken) return;
       state.index = normalizedIndex;
       image.src = nextImage.src;
@@ -234,12 +277,15 @@
       preview.style.visibility = 'hidden';
       preview.style.removeProperty('display');
       stage.classList.remove('is-lightbox-sliding');
+      setSlideAnimationEnabled(image, false);
+      setSlideAnimationEnabled(preview, false);
       fitImageToStage(image);
       updateUi();
       updatePanLimits();
       preload(getImage(state.images[(normalizedIndex + 1) % state.images.length]).src);
       preload(getImage(state.images[(normalizedIndex - 1 + state.images.length) % state.images.length]).src);
-    }, 520);
+      },
+    });
   };
 
   const show = async (index, direction = 0) => {
