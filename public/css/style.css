@@ -24150,3 +24150,32 @@ main.project-detail-page .project-info-banner .meta-value {
     aspect-ratio: 4 / 3 !important;
   }
 }
+
+/* Mobile lightbox: show the complete source image inside the viewport rather
+   than forcing it into the desktop 4:3 card frame. The shared JS still sets
+   the exact fitted pixel size, so pinch zoom scales this visible image. */
+@media (max-width: 767px) {
+  .project-gallery-lightbox:not(.project-gallery-lightbox--grid) .project-gallery-lightbox-dialog {
+    width: calc(100vw - 1rem) !important;
+    max-width: calc(100vw - 1rem) !important;
+    height: calc(100dvh - 1rem) !important;
+    max-height: calc(100dvh - 1rem) !important;
+  }
+
+  .project-gallery-lightbox:not(.project-gallery-lightbox--grid) .project-gallery-lightbox-stage {
+    width: 100% !important;
+    height: 100% !important;
+    max-width: 100% !important;
+    max-height: 100% !important;
+    aspect-ratio: auto !important;
+    border: 0 !important;
+    border-radius: 0 !important;
+    background: transparent !important;
+  }
+
+  .project-gallery-lightbox:not(.project-gallery-lightbox--grid) .project-gallery-lightbox-stage > [data-gallery-lightbox-image],
+  .project-gallery-lightbox:not(.project-gallery-lightbox--grid) .project-gallery-lightbox-stage > [data-gallery-lightbox-preview] {
+    max-width: 100% !important;
+    max-height: 100% !important;
+  }
+}
