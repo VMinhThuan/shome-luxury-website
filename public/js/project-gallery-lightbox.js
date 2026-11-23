@@ -31,6 +31,8 @@
     safariGestureActive: false,
     safariGestureStartScale: 1,
     slideAnimationFrame: null,
+    historyEntryActive: false,
+    pendingHistoryClose: false,
   };
 
   const getElements = () => ({
@@ -105,7 +107,14 @@
 
   const setSlideTransform = (image, offset = 0) => {
     if (!image) return;
-    image.style.setProperty('transform', `translate3d(${offset}px, 0, 0)`, 'important');
+    const isDesktopViewer = window.matchMedia?.('(min-width: 768px)').matches;
+    image.style.setProperty(
+      'transform',
+      isDesktopViewer
+        ? `translate3d(calc(-50% + ${offset}px), -50%, 0)`
+        : `translate3d(${offset}px, 0, 0)`,
+      'important'
+    );
   };
 
   const setVerticalSwipeTransform = (image, offset = 0) => {
@@ -178,9 +187,16 @@
   const applyZoom = () => {
     const { image } = getElements();
     if (!image) return;
-    image.style.transform = state.zoomScale > 1
-      ? `translate3d(${state.panX}px, ${state.panY}px, 0) scale3d(${state.zoomScale}, ${state.zoomScale}, 1)`
-      : '';
+    const isDesktopViewer = window.matchMedia?.('(min-width: 768px)').matches;
+    const transform = state.zoomScale > 1
+      ? isDesktopViewer
+        ? `translate3d(calc(-50% + ${state.panX}px), calc(-50% + ${state.panY}px), 0) scale3d(${state.zoomScale}, ${state.zoomScale}, 1)`
+        : `translate3d(${state.panX}px, ${state.panY}px, 0) scale3d(${state.zoomScale}, ${state.zoomScale}, 1)`
+      : isDesktopViewer
+        ? 'translate3d(-50%, -50%, 0)'
+        : '';
+    if (transform) image.style.setProperty('transform', transform, 'important');
+    else image.style.removeProperty('transform');
     image.classList.toggle('is-zoomed', state.zoomScale > 1);
   };
 
@@ -340,12 +356,19 @@
     else image.addEventListener('load', reveal, { once: true });
   };
 
-  const close = () => {
+  const close = (fromHistory = false) => {
     if (!state.modal || state.modal.hidden) return;
+    if (!fromHistory && state.historyEntryActive) {
+      state.pendingHistoryClose = true;
+      window.history.back();
+      return;
+    }
     state.transitionToken += 1;
     resetZoom();
     resetSlidePosition();
     state.modal.hidden = true;
+    state.historyEntryActive = false;
+    state.pendingHistoryClose = false;
     document.body.classList.remove('project-gallery-lightbox-open');
     const previousFocus = state.previousFocus;
     state.previousFocus = null;
@@ -412,7 +435,6 @@
       backdropTouchStartY = null;
       if (Math.abs(distanceX) > 40 && Math.abs(distanceX) > Math.abs(distanceY)) {
         event.preventDefault();
-        if (distanceX < 0) close();
       }
     }, { passive: false });
     backdrop?.addEventListener('touchcancel', () => {
@@ -424,6 +446,25 @@
       if (event.target.closest('[data-gallery-lightbox-close]')) return close();
       if (event.target.closest('[data-gallery-lightbox-prev]')) return show(state.index - 1, -1);
       if (event.target.closest('[data-gallery-lightbox-next]')) return show(state.index + 1, 1);
+    });
+    window.addEventListener('popstate', () => {
+      if (!state.historyEntryActive || !state.modal || state.modal.hidden) return;
+      if (state.pendingHistoryClose) {
+        state.historyEntryActive = false;
+        state.pendingHistoryClose = false;
+        close(true);
+        return;
+      }
+
+      // Keep Android's system Back gesture inside the open viewer. The
+      // viewer remains open; only its explicit close button exits it.
+      try {
+        window.history.pushState(
+          { ...(window.history.state || {}), shomeProjectGallery: true },
+          '',
+          window.location.href
+        );
+      } catch (_) {}
     });
     stage?.addEventListener('wheel', event => {
       event.preventDefault();
@@ -564,21 +605,8 @@
         return;
       }
       if (state.touchMode === 'pan') {
-        const panDistanceX = event.changedTouches?.[0]
-          ? event.changedTouches[0].clientX - (state.panStartX ?? event.changedTouches[0].clientX)
-          : 0;
-        const panDistanceY = event.changedTouches?.[0]
-          ? event.changedTouches[0].clientY - (state.panStartY ?? event.changedTouches[0].clientY)
-          : 0;
         state.touchMode = null;
         state.touchAxis = null;
-        // On mobile, a left swipe while the image is enlarged is treated as
-        // an accidental dismiss gesture. Return to the page/card that opened
-        // the viewer instead of navigating to another image.
-        if (panDistanceX < -40 && Math.abs(panDistanceX) > Math.abs(panDistanceY)) {
-          event.preventDefault();
-          return close();
-        }
         applyZoom();
         return;
       }
@@ -593,7 +621,6 @@
       setSlideTransform(image, 0);
       if (axis === 'horizontal' && Math.abs(distanceX) > 40) {
         event.preventDefault();
-        if (distanceX < 0) return close();
         show(state.index + (distanceX < 0 ? 1 : -1), distanceX < 0 ? 1 : -1);
       } else if (axis === 'vertical' && Math.abs(distanceY) > 40) {
         event.preventDefault();
@@ -653,6 +680,16 @@
       modal.dataset.galleryVariant = variant;
       modal.hidden = false;
       document.body.classList.add('project-gallery-lightbox-open');
+      try {
+        window.history.pushState(
+          { ...(window.history.state || {}), shomeProjectGallery: true },
+          '',
+          window.location.href
+        );
+        state.historyEntryActive = true;
+      } catch (_) {
+        state.historyEntryActive = false;
+      }
       show(index);
       modal.querySelector('.project-gallery-lightbox-close')?.focus();
     },

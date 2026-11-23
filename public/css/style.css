@@ -14715,6 +14715,20 @@ body.project-gallery-lightbox-open { overflow: hidden !important; }
 /* On the responsive desktop layout, keep detail-lightbox controls fixed
    outside the image. Mobile keeps its existing in-stage controls below. */
 @media (min-width: 768px) {
+  /* Keep both fullscreen layers over the exact same center point. The inline
+     detail gallery uses this geometry too, so changing aspect ratios cannot
+     make the incoming image appear from a different origin. */
+  .project-gallery-lightbox:not(.project-gallery-lightbox--grid) .project-gallery-lightbox-stage > [data-gallery-lightbox-image],
+  .project-gallery-lightbox:not(.project-gallery-lightbox--grid) .project-gallery-lightbox-stage > [data-gallery-lightbox-preview] {
+    position: absolute !important;
+    top: 50% !important;
+    left: 50% !important;
+    right: auto !important;
+    bottom: auto !important;
+    margin: 0 !important;
+    transform: translate3d(-50%, -50%, 0) !important;
+  }
+
   /* The stage's 3D perspective would create a containing block for fixed
      controls. Disable it on desktop so controls are truly viewport-fixed. */
   .project-gallery-lightbox:not(.project-gallery-lightbox--grid) .project-gallery-lightbox-stage {
