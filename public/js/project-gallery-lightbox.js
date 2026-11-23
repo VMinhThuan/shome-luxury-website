@@ -121,13 +121,10 @@
   const applyZoom = () => {
     const { image } = getElements();
     if (!image) return;
-    // The fullscreen viewer must render the same complete image as the list
-    // thumbnail. Do not scale or pan it beyond the contain frame.
-    state.zoomScale = 1;
-    state.panX = 0;
-    state.panY = 0;
-    image.style.removeProperty('transform');
-    image.classList.remove('is-zoomed');
+    image.style.transform = state.zoomScale > 1
+      ? `translate3d(${state.panX}px, ${state.panY}px, 0) scale3d(${state.zoomScale}, ${state.zoomScale}, 1)`
+      : '';
+    image.classList.toggle('is-zoomed', state.zoomScale > 1);
   };
 
   const resetZoom = () => {
@@ -150,9 +147,25 @@
     image?.classList.remove('is-zoomed');
   };
 
-  const setZoom = () => {
-    // Kept as a safe no-op for wheel/pinch handlers from older integrations.
-    resetZoom();
+  const setZoom = (scale, focusX = null, focusY = null) => {
+    const { image, stage } = getElements();
+    if (!image || !stage) return;
+    const nextScale = Math.min(3, Math.max(1, Number(scale) || 1));
+    if (nextScale === 1) {
+      resetZoom();
+      return;
+    }
+    const rect = stage.getBoundingClientRect();
+    const centerX = (focusX ?? (rect.left + rect.width / 2)) - rect.left - rect.width / 2;
+    const centerY = (focusY ?? (rect.top + rect.height / 2)) - rect.top - rect.height / 2;
+    const ratio = nextScale / state.zoomScale;
+    state.panX = centerX - ratio * (centerX - state.panX);
+    state.panY = centerY - ratio * (centerY - state.panY);
+    state.zoomScale = nextScale;
+    updatePanLimits();
+    state.panX = Math.max(-state.panLimitX, Math.min(state.panLimitX, state.panX));
+    state.panY = Math.max(-state.panLimitY, Math.min(state.panLimitY, state.panY));
+    applyZoom();
   };
 
   const touchDistance = (first, second) => Math.hypot(

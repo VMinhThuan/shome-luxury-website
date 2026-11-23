@@ -24110,16 +24110,16 @@ main.project-detail-page .project-info-banner .meta-value {
   object-position: center center !important;
 }
 
-/* A lightbox image is a presentation of the list image, not a zoom canvas. */
+/* Keep the initial lightbox composition faithful to the list image while
+   leaving the shared JS free to apply pinch/pan transforms. */
 .project-gallery-lightbox:not(.project-gallery-lightbox--grid) .project-gallery-lightbox-stage:not(.is-lightbox-sliding) > [data-gallery-lightbox-image] {
-  transform: none !important;
   cursor: default !important;
 }
 
 /* Match the responsive list gallery frame. Detail thumbnails use a 4:3
    stage with square source images contained in the middle, so opening a
    thumbnail must preserve that same composition instead of using a tall
-   viewport-sized canvas. Quote cards use the list's 16:9 frame. */
+   viewport-sized canvas. Both detail and quote use the same 4:3 frame. */
 .project-gallery-lightbox:not(.project-gallery-lightbox--grid) .project-gallery-lightbox-stage {
   height: auto !important;
   aspect-ratio: 4 / 3 !important;
@@ -24127,7 +24127,7 @@ main.project-detail-page .project-info-banner .meta-value {
 }
 
 .project-gallery-lightbox[data-gallery-variant="quote"]:not(.project-gallery-lightbox--grid) .project-gallery-lightbox-stage {
-  aspect-ratio: 16 / 9 !important;
+  aspect-ratio: 4 / 3 !important;
 }
 
 @media (max-width: 1023px) {
@@ -24147,6 +24147,6 @@ main.project-detail-page .project-info-banner .meta-value {
   }
 
   .project-gallery-lightbox[data-gallery-variant="quote"]:not(.project-gallery-lightbox--grid) .project-gallery-lightbox-stage {
-    aspect-ratio: 16 / 9 !important;
+    aspect-ratio: 4 / 3 !important;
   }
 }
