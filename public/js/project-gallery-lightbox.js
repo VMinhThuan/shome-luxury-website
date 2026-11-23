@@ -40,6 +40,17 @@
     total: state.modal?.querySelector('[data-gallery-lightbox-total]'),
   });
 
+  const fitImageToStage = image => {
+    const { stage } = getElements();
+    if (!image?.naturalWidth || !image.naturalHeight || !stage?.clientWidth || !stage.clientHeight) return;
+    const scale = Math.min(
+      stage.clientWidth / image.naturalWidth,
+      stage.clientHeight / image.naturalHeight
+    );
+    image.style.setProperty('width', `${Math.max(1, Math.round(image.naturalWidth * scale))}px`, 'important');
+    image.style.setProperty('height', `${Math.max(1, Math.round(image.naturalHeight * scale))}px`, 'important');
+  };
+
   const getImage = item => (typeof item === 'string' ? { src: item, alt: '' } : item);
 
   const preload = src => {
@@ -181,6 +192,8 @@
     image.style.visibility = 'visible';
     preview.src = nextImage.src;
     preview.alt = nextImage.alt || `${state.title} - ảnh ${normalizedIndex + 1}`;
+    if (preview.complete) fitImageToStage(preview);
+    else preview.addEventListener('load', () => fitImageToStage(preview), { once: true });
     preview.style.setProperty('display', 'block', 'important');
     preview.style.visibility = 'visible';
     setSlideTransform(image, 0);
@@ -233,6 +246,7 @@
     const reveal = () => {
       if (token !== state.transitionToken || state.modal?.hidden) return;
       image.style.visibility = 'visible';
+      fitImageToStage(image);
       updatePanLimits();
       applyZoom();
     };
@@ -294,6 +308,7 @@
       if (!event.target.closest('button')) setZoom(state.zoomScale > 1 ? 1 : 2, event.clientX, event.clientY);
     });
     image?.addEventListener('load', () => {
+      fitImageToStage(image);
       updatePanLimits();
       applyZoom();
     });
@@ -474,6 +489,8 @@
       state.touchMode = null;
     }, { passive: false });
     window.addEventListener('resize', () => {
+      fitImageToStage(getElements().image);
+      fitImageToStage(getElements().preview);
       updatePanLimits();
       state.panX = Math.max(-state.panLimitX, Math.min(state.panLimitX, state.panX));
       state.panY = Math.max(-state.panLimitY, Math.min(state.panLimitY, state.panY));
