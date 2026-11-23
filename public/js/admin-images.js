@@ -79,14 +79,15 @@
       const state = create('span', video.isCustomized ? 'is-customized' : '', video.isCustomized ? 'Đã thay link riêng' : 'Đang dùng link mặc định');
       heading.append(title, state);
       const description = create('p', 'admin-quote-video-title', video.title || 'Video thước phim thực tế');
-      const mobileToggle = create(
-        'button',
-        `admin-quote-video-mobile-toggle${video.isMobileVisible ? ' is-enabled' : ''}`,
-        video.isMobileVisible ? 'Đang hiển thị trên mobile' : 'Đang ẩn trên mobile'
-      );
-      mobileToggle.type = 'button';
-      mobileToggle.setAttribute('aria-pressed', video.isMobileVisible ? 'true' : 'false');
+      const mobileToggle = create('label', 'admin-quote-video-mobile-switch');
       mobileToggle.title = 'Bật/tắt video này trên giao diện mobile';
+      const mobileCheckbox = create('input');
+      mobileCheckbox.type = 'checkbox';
+      mobileCheckbox.checked = Boolean(video.isMobileVisible);
+      mobileCheckbox.setAttribute('aria-label', `${video.isMobileVisible ? 'Ẩn' : 'Hiển thị'} video ${video.index + 1} trên mobile`);
+      const mobileSlider = create('span', 'admin-quote-video-mobile-slider');
+      const mobileLabel = create('span', 'admin-quote-video-mobile-label', video.isMobileVisible ? 'Hiện trên mobile' : 'Ẩn trên mobile');
+      mobileToggle.append(mobileCheckbox, mobileSlider, mobileLabel);
       const label = create('label', 'admin-quote-video-field', 'URL YouTube hiện tại');
       const input = create('input');
       input.type = 'url';
@@ -106,9 +107,9 @@
       card.append(heading, mobileToggle, description, label, actions, defaultNote);
       quoteVideoList.append(card);
 
-      mobileToggle.onclick = async () => {
-        const nextVisibility = !video.isMobileVisible;
-        mobileToggle.disabled = true;
+      mobileCheckbox.onchange = async () => {
+        const nextVisibility = mobileCheckbox.checked;
+        mobileCheckbox.disabled = true;
         try {
           await request(`/api/admin/quote-videos/${video.index}/mobile`, {
             method: 'PATCH',
@@ -118,7 +119,8 @@
           await syncQuoteVideoManager(pageKey);
         } catch (error) {
           setStatus(error.message, true);
-          mobileToggle.disabled = false;
+          mobileCheckbox.checked = Boolean(video.isMobileVisible);
+          mobileCheckbox.disabled = false;
         }
       };
 

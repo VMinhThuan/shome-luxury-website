@@ -1431,29 +1431,65 @@
   line-height: 1.35;
 }
 
-.admin-quote-video-mobile-toggle {
+.admin-quote-video-mobile-switch {
   display: inline-flex;
   align-items: center;
-  min-height: 32px;
+  gap: .5rem;
   margin: .1rem 0 .75rem;
-  padding: .38rem .65rem;
-  border: 1px solid #d7c4a6;
-  border-radius: 999px;
   color: #735f47;
-  background: #fffaf3;
   cursor: pointer;
   font: inherit;
   font-size: .72rem;
   font-weight: 700;
 }
 
-.admin-quote-video-mobile-toggle.is-enabled {
-  border-color: #caa25d;
-  color: #fff;
+.admin-quote-video-mobile-switch input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.admin-quote-video-mobile-slider {
+  position: relative;
+  display: inline-block;
+  width: 42px;
+  height: 24px;
+  flex: 0 0 auto;
+  border-radius: 999px;
+  background: #d8cdbd;
+  transition: background-color .2s ease;
+}
+
+.admin-quote-video-mobile-slider::after {
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 1px 4px rgba(47, 33, 19, .25);
+  content: '';
+  transition: transform .2s ease;
+}
+
+.admin-quote-video-mobile-switch input:checked + .admin-quote-video-mobile-slider {
   background: #caa25d;
 }
 
-.admin-quote-video-mobile-toggle:disabled {
+.admin-quote-video-mobile-switch input:checked + .admin-quote-video-mobile-slider::after {
+  transform: translateX(18px);
+}
+
+.admin-quote-video-mobile-switch input:focus-visible + .admin-quote-video-mobile-slider {
+  outline: 2px solid rgba(202, 162, 93, .45);
+  outline-offset: 2px;
+}
+
+.admin-quote-video-mobile-switch input:disabled + .admin-quote-video-mobile-slider,
+.admin-quote-video-mobile-switch input:disabled ~ .admin-quote-video-mobile-label {
   cursor: wait;
   opacity: .55;
 }
