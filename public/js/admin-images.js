@@ -109,8 +109,44 @@
 
       mobileCheckbox.onchange = async () => {
         const nextVisibility = mobileCheckbox.checked;
+        let replacementIndex = null;
+
+        if (nextVisibility && !video.isMobileVisible) {
+          const enabledVideos = (data.videos || []).filter(item => item.isMobileVisible);
+          if (enabledVideos.length >= 4) {
+            const enabledLabels = enabledVideos
+              .map(item => `Video ${item.index + 1}${item.episode ? ` (Tập ${item.episode})` : ''}`)
+              .join(', ');
+            const shouldReplace = window.confirm(
+              `Đã có ${enabledVideos.length} video đang hiển thị trên mobile. Bạn muốn thay thế một video không?\n\nĐang bật: ${enabledLabels}`
+            );
+            if (!shouldReplace) {
+              mobileCheckbox.checked = false;
+              return;
+            }
+
+            const selectedVideo = window.prompt(
+              `Nhập số video muốn tắt để thay thế (chỉ chọn: ${enabledVideos.map(item => item.index + 1).join(', ')}):`,
+              String(enabledVideos[0].index + 1)
+            );
+            const selectedIndex = Number(selectedVideo) - 1;
+            if (!enabledVideos.some(item => item.index === selectedIndex)) {
+              setStatus('Chưa chọn video hợp lệ để tắt. Video mới chưa được bật.', true);
+              mobileCheckbox.checked = false;
+              return;
+            }
+            replacementIndex = selectedIndex;
+          }
+        }
+
         mobileCheckbox.disabled = true;
         try {
+          if (replacementIndex !== null) {
+            await request(`/api/admin/quote-videos/${replacementIndex}/mobile`, {
+              method: 'PATCH',
+              body: JSON.stringify({ pageKey, isVisible: false })
+            });
+          }
           await request(`/api/admin/quote-videos/${video.index}/mobile`, {
             method: 'PATCH',
             body: JSON.stringify({ pageKey, isVisible: nextVisibility })
