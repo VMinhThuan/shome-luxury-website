@@ -594,6 +594,7 @@ document.addEventListener('DOMContentLoaded', () => {
       let touchStartX = null;
       let transitionToken = 0;
       let transitionFrame = null;
+      let inlinePreviewIndex = null;
       let suppressStageClick = false;
 
       const preloadedImages = new Map();
@@ -638,6 +639,19 @@ document.addEventListener('DOMContentLoaded', () => {
         preview.style.display = 'none';
         preview.style.visibility = 'hidden';
         stage.classList.remove('is-inline-sliding');
+        inlinePreviewIndex = null;
+      };
+
+      const prepareInlinePreview = index => {
+        const nextIndex = (index + images.length) % images.length;
+        if (inlinePreviewIndex === nextIndex && preview.src) return nextIndex;
+        inlinePreviewIndex = nextIndex;
+        preview.src = images[nextIndex];
+        preview.alt = `${gallery.dataset.projectTitle || 'Công trình Shome Luxury'} - ảnh ${nextIndex + 1}`;
+        preview.style.display = 'block';
+        preview.style.visibility = 'visible';
+        preload(images[nextIndex]);
+        return nextIndex;
       };
 
       const animateInlineSlide = ({ fromHero, fromPreview, toHero, toPreview, onComplete }) => {
@@ -659,6 +673,63 @@ document.addEventListener('DOMContentLoaded', () => {
         transitionFrame = window.requestAnimationFrame(frame);
       };
 
+      const commitInlineImage = (nextIndex, requestToken) => {
+        if (requestToken !== transitionToken) return;
+        activeIndex = nextIndex;
+        image.src = images[activeIndex];
+        image.alt = `${gallery.dataset.projectTitle || 'Công trình Shome Luxury'} - ảnh ${activeIndex + 1}`;
+        setInlineTransform(image, 0);
+        setInlineTransform(preview, 0);
+        preview.style.display = 'none';
+        preview.style.visibility = 'hidden';
+        inlinePreviewIndex = null;
+        stage.classList.remove('is-inline-sliding');
+        if (current) current.textContent = String(activeIndex + 1).padStart(2, '0');
+        if (total) total.textContent = String(images.length).padStart(2, '0');
+        thumbnails?.querySelectorAll('[data-quote-inline-thumb]').forEach((thumbnail, thumbnailIndex) => {
+          const isActive = thumbnailIndex === activeIndex;
+          thumbnail.classList.toggle('is-active', isActive);
+          thumbnail.setAttribute('aria-current', isActive ? 'true' : 'false');
+        });
+      };
+
+      const updateInlineDragVisuals = offset => {
+        const stageWidth = stage.clientWidth || 1;
+        if (Math.abs(offset) < 3) {
+          setInlineTransform(image, 0);
+          return;
+        }
+        const direction = offset < 0 ? 1 : -1;
+        const nextIndex = prepareInlinePreview(activeIndex + direction);
+        const previewStart = direction > 0 ? stageWidth : -stageWidth;
+        setInlineTransform(image, offset);
+        setInlineTransform(preview, previewStart + offset);
+        stage.classList.add('is-inline-sliding');
+        return { direction, nextIndex, previewStart };
+      };
+
+      const settleInlineDrag = distance => {
+        const stageWidth = stage.clientWidth || 1;
+        const direction = distance < 0 ? 1 : -1;
+        const shouldChange = Math.abs(distance) > Math.min(60, stageWidth * 0.15);
+        const nextIndex = prepareInlinePreview(activeIndex + direction);
+        const previewStart = direction > 0 ? stageWidth : -stageWidth;
+        const requestToken = ++transitionToken;
+        stage.classList.remove('is-dragging');
+        stage.classList.add('is-inline-sliding');
+        animateInlineSlide({
+          fromHero: distance,
+          fromPreview: previewStart + distance,
+          toHero: shouldChange ? -direction * stageWidth : 0,
+          toPreview: shouldChange ? 0 : previewStart,
+          onComplete: () => {
+            if (requestToken !== transitionToken) return;
+            if (shouldChange) commitInlineImage(nextIndex, requestToken);
+            else resetInlineSlide();
+          },
+        });
+      };
+
       const show = async (index, animate = true, direction = 0) => {
         const nextIndex = (index + images.length) % images.length;
         const requestToken = ++transitionToken;
@@ -666,37 +737,15 @@ document.addEventListener('DOMContentLoaded', () => {
         await preload(images[nextIndex]);
         if (requestToken !== transitionToken) return;
 
-        const commit = () => {
-          if (requestToken !== transitionToken) return;
-          activeIndex = nextIndex;
-          image.src = images[activeIndex];
-          image.alt = `${gallery.dataset.projectTitle || 'Công trình Shome Luxury'} - ảnh ${activeIndex + 1}`;
-          setInlineTransform(image, 0);
-          setInlineTransform(preview, 0);
-          preview.style.display = 'none';
-          preview.style.visibility = 'hidden';
-          stage.classList.remove('is-inline-sliding');
-          if (current) current.textContent = String(activeIndex + 1).padStart(2, '0');
-          if (total) total.textContent = String(images.length).padStart(2, '0');
-          thumbnails?.querySelectorAll('[data-quote-inline-thumb]').forEach((thumbnail, thumbnailIndex) => {
-            const isActive = thumbnailIndex === activeIndex;
-            thumbnail.classList.toggle('is-active', isActive);
-            thumbnail.setAttribute('aria-current', isActive ? 'true' : 'false');
-          });
-        };
-
         if (!animate || !direction || !image.src) {
-          commit();
+          commitInlineImage(nextIndex, requestToken);
           return;
         }
 
         const stageWidth = stage.clientWidth || 1;
         const incomingStart = direction > 0 ? stageWidth : -stageWidth;
         const outgoingEnd = direction > 0 ? -stageWidth : stageWidth;
-        preview.src = images[nextIndex];
-        preview.alt = `${gallery.dataset.projectTitle || 'Công trình Shome Luxury'} - ảnh ${nextIndex + 1}`;
-        preview.style.display = 'block';
-        preview.style.visibility = 'visible';
+        prepareInlinePreview(nextIndex);
         setInlineTransform(image, 0);
         setInlineTransform(preview, incomingStart);
         stage.classList.add('is-inline-sliding');
@@ -705,7 +754,7 @@ document.addEventListener('DOMContentLoaded', () => {
           fromPreview: incomingStart,
           toHero: outgoingEnd,
           toPreview: 0,
-          onComplete: commit,
+          onComplete: () => commitInlineImage(nextIndex, requestToken),
         });
       };
 
@@ -736,7 +785,7 @@ document.addEventListener('DOMContentLoaded', () => {
         dragOffsetX = Math.max(-stage.clientWidth * 0.85, Math.min(stage.clientWidth * 0.85, event.clientX - pointerStartX));
         if (Math.abs(dragOffsetX) < 3) return;
         event.preventDefault();
-        image.style.setProperty('transform', `translateX(${dragOffsetX}px)`, 'important');
+        updateInlineDragVisuals(dragOffsetX);
       });
       const finishInlineDrag = event => {
         if (event.pointerId !== dragPointerId) return;
@@ -747,7 +796,6 @@ document.addEventListener('DOMContentLoaded', () => {
         dragPointerId = null;
         dragOffsetX = 0;
         stage.classList.remove('is-dragging');
-        image.style.removeProperty('transform');
         if (shouldChange) {
           suppressStageClick = true;
           stage.dataset.suppressClick = 'true';
@@ -755,8 +803,9 @@ document.addEventListener('DOMContentLoaded', () => {
             suppressStageClick = false;
             delete stage.dataset.suppressClick;
           }, 0);
-          show(activeIndex + (distance < 0 ? 1 : -1), true, distance < 0 ? 1 : -1);
         }
+        if (Math.abs(distance) >= 3) settleInlineDrag(distance);
+        else resetInlineSlide();
       };
       stage.addEventListener('pointerup', finishInlineDrag);
       stage.addEventListener('pointercancel', finishInlineDrag);
@@ -771,7 +820,7 @@ document.addEventListener('DOMContentLoaded', () => {
         dragOffsetX = Math.max(-stage.clientWidth * 0.85, Math.min(stage.clientWidth * 0.85, event.touches[0].clientX - touchStartX));
         if (Math.abs(dragOffsetX) < 3) return;
         event.preventDefault();
-        image.style.setProperty('transform', `translateX(${dragOffsetX}px)`, 'important');
+        updateInlineDragVisuals(dragOffsetX);
       }, { passive: false });
       stage.addEventListener('touchend', event => {
         if (touchStartX === null || !event.changedTouches?.length) return;
@@ -780,7 +829,6 @@ document.addEventListener('DOMContentLoaded', () => {
         touchStartX = null;
         dragOffsetX = 0;
         stage.classList.remove('is-dragging');
-        image.style.removeProperty('transform');
         if (shouldChange) {
           suppressStageClick = true;
           stage.dataset.suppressClick = 'true';
@@ -788,8 +836,9 @@ document.addEventListener('DOMContentLoaded', () => {
             suppressStageClick = false;
             delete stage.dataset.suppressClick;
           }, 0);
-          show(activeIndex + (distance < 0 ? 1 : -1), true, distance < 0 ? 1 : -1);
         }
+        if (Math.abs(distance) >= 3) settleInlineDrag(distance);
+        else resetInlineSlide();
       }, { passive: true });
       stage.addEventListener('click', event => {
         if (!suppressStageClick) return;
@@ -802,7 +851,7 @@ document.addEventListener('DOMContentLoaded', () => {
         touchStartX = null;
         dragOffsetX = 0;
         stage.classList.remove('is-dragging');
-        image.style.removeProperty('transform');
+        resetInlineSlide();
       }, { passive: true });
       show(0, false);
     });
