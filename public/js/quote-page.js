@@ -161,6 +161,17 @@ document.addEventListener('DOMContentLoaded', () => {
         return;
       }
 
+      const card = event.target.closest('[data-quote-card-gallery]');
+      const cardControl = event.target.closest(
+        '[data-quote-inline-prev], [data-quote-inline-next], [data-quote-inline-thumb], [data-quote-inline-thumbnails]'
+      );
+      if (card && !cardControl) {
+        const inlineGallery = card.querySelector('[data-quote-inline-gallery]');
+        event.preventDefault();
+        open(inlineGallery || card);
+        return;
+      }
+
       const inlineInfo = event.target.closest('[data-quote-inline-open]');
       const inlineInfoGallery = inlineInfo?.closest('[data-quote-inline-gallery]');
       if (inlineInfoGallery) {
