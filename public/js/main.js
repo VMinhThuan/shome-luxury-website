@@ -386,25 +386,115 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   // Keep the page light until the visitor chooses to play, then swap the
-  // thumbnail for the real embed.
+  // thumbnail for the real embed. Load the YouTube IFrame API once so each
+  // video can pause without replacing its iframe or resetting playback.
+  let youtubeIframeApiPromise = null;
+  const loadYoutubeIframeApi = () => {
+    if (window.YT?.Player) return Promise.resolve(window.YT);
+    if (youtubeIframeApiPromise) return youtubeIframeApiPromise;
+
+    youtubeIframeApiPromise = new Promise(resolve => {
+      const previousReadyHandler = window.onYouTubeIframeAPIReady;
+      window.onYouTubeIframeAPIReady = () => {
+        previousReadyHandler?.();
+        resolve(window.YT?.Player ? window.YT : null);
+      };
+
+      if (document.querySelector('script[data-youtube-iframe-api]')) return;
+
+      const script = document.createElement('script');
+      script.src = 'https://www.youtube.com/iframe_api';
+      script.async = true;
+      script.dataset.youtubeIframeApi = 'true';
+      script.onerror = () => resolve(null);
+      document.head.append(script);
+    });
+
+    return youtubeIframeApiPromise;
+  };
+
   document.querySelectorAll('[data-youtube-thumbnail]').forEach(frame => {
     const cover = frame.querySelector('.youtube-thumbnail-cover');
     const fullscreenButton = frame.querySelector('[data-youtube-fullscreen]');
     if (!cover) return;
 
+    let activeIframe = null;
+    let youtubePlayer = null;
+    let youtubePlayerPromise = null;
+
+    const initializeYoutubePlayer = iframe => {
+      if (!iframe) return Promise.resolve(null);
+      if (youtubePlayer) return Promise.resolve(youtubePlayer);
+      if (youtubePlayerPromise) return youtubePlayerPromise;
+
+      youtubePlayerPromise = loadYoutubeIframeApi().then(YT => {
+        if (!YT?.Player) return null;
+
+        return new Promise(resolve => {
+          let settled = false;
+          let player = null;
+          const finish = value => {
+            if (settled) return;
+            settled = true;
+            youtubePlayer = value;
+            resolve(value);
+          };
+
+          try {
+            player = new YT.Player(iframe, {
+              events: {
+                onReady: () => finish(player),
+                onError: () => finish(null)
+              }
+            });
+          } catch (error) {
+            console.warn('Unable to initialize YouTube IFrame API:', error);
+            finish(null);
+          }
+        });
+      }).catch(error => {
+        console.warn('Unable to load YouTube IFrame API:', error);
+        return null;
+      });
+
+      return youtubePlayerPromise;
+    };
+
+    const pauseYoutubeVideo = async () => {
+      const player = await initializeYoutubePlayer(activeIframe);
+      if (typeof player?.pauseVideo === 'function') player.pauseVideo();
+    };
+
     const createIframe = () => {
+      // Never replace a live player. Reusing this iframe preserves the current
+      // playback position when fullscreen is opened or closed repeatedly.
+      const existingIframe = frame.querySelector('iframe[data-shome-youtube-player]');
+      if (existingIframe) {
+        activeIframe = existingIframe;
+        frame.classList.add('is-playing');
+        if (fullscreenButton && !frame.contains(fullscreenButton)) frame.append(fullscreenButton);
+        initializeYoutubePlayer(existingIframe);
+        return existingIframe;
+      }
+
       const videoUrl = frame.dataset.videoUrl || '';
       const videoId = videoUrl.match(/(?:youtu\.be\/|youtube(?:-nocookie)?\.com\/(?:watch\?(?:[^#&]+&)*v=|embed\/|shorts\/))([\w-]{11})/)?.[1];
       if (!videoId) return null;
       const iframe = document.createElement('iframe');
-      iframe.src = `https://www.youtube-nocookie.com/embed/${videoId}?autoplay=1&rel=0&modestbranding=1&fs=0`;
+      const origin = window.location.origin && window.location.origin !== 'null'
+        ? `&origin=${encodeURIComponent(window.location.origin)}`
+        : '';
+      iframe.src = `https://www.youtube-nocookie.com/embed/${videoId}?autoplay=1&rel=0&modestbranding=1&fs=0&enablejsapi=1${origin}`;
       iframe.title = cover.getAttribute('aria-label') || 'Video YouTube Shome Luxury';
       iframe.loading = 'lazy';
+      iframe.dataset.shomeYoutubePlayer = 'true';
       iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share';
       iframe.referrerPolicy = 'strict-origin-when-cross-origin';
       frame.replaceChildren(iframe);
       if (fullscreenButton) frame.append(fullscreenButton);
       frame.classList.add('is-playing');
+      activeIframe = iframe;
+      initializeYoutubePlayer(iframe);
       iframe.focus();
       return iframe;
     };
@@ -433,6 +523,9 @@ document.addEventListener('DOMContentLoaded', () => {
           console.warn('Unable to exit video fullscreen:', error);
         }
       }
+      // Pause through the IFrame API while keeping the same iframe mounted.
+      // A later click on YouTube's play button resumes from this position.
+      await pauseYoutubeVideo();
       setCssFullscreen(false);
     };
 
