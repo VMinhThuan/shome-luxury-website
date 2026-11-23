@@ -24096,3 +24096,16 @@ main.project-detail-page .project-info-banner .meta-value {
 .quote-page .quote-featured-project-card--inline-gallery .project-gallery-stage.is-inline-sliding > [data-quote-inline-image] {
   z-index: 2 !important;
 }
+
+/* The opened image must use the same complete composition as its list
+   thumbnail. Fit both the current and incoming layers to the stage instead
+   of allowing their intrinsic bitmap size to enlarge the viewer. */
+.project-gallery-lightbox:not(.project-gallery-lightbox--grid) .project-gallery-lightbox-stage > [data-gallery-lightbox-image],
+.project-gallery-lightbox:not(.project-gallery-lightbox--grid) .project-gallery-lightbox-stage > [data-gallery-lightbox-preview] {
+  width: 100% !important;
+  height: 100% !important;
+  max-width: 100% !important;
+  max-height: 100% !important;
+  object-fit: contain !important;
+  object-position: center center !important;
+}
