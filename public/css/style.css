@@ -1103,8 +1103,8 @@ ol {
   position: fixed;
   inset: 0;
   background-color: rgba(0, 0, 0, 0.65);
-  backdrop-filter: blur(4px);
-  -webkit-backdrop-filter: blur(4px);
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
   z-index: 2000;
   opacity: 0;
   visibility: hidden;
@@ -6718,8 +6718,8 @@ main.company-profile-page .company-profile-hero h1 {
   position: fixed;
   inset: 0;
   background-color: rgba(0, 0, 0, 0.45);
-  backdrop-filter: blur(4px);
-  -webkit-backdrop-filter: blur(4px);
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
   z-index: 2400;
   opacity: 0;
   visibility: hidden;
@@ -8397,7 +8397,8 @@ main.company-profile-page .company-profile-hero h1 {
   width: 100vw;
   height: 100vh;
   background-color: rgba(0, 0, 0, 0.75);
-  backdrop-filter: blur(5px);
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
   z-index: 9999;
   display: flex;
   align-items: center;
@@ -14106,7 +14107,7 @@ main .section-v2-title,
 }
 .quote-page .quote-project-gallery-modal[hidden] { display: none !important; }
 .quote-page .quote-project-gallery-modal { position: fixed !important; inset: 0 !important; z-index: 99999 !important; display: flex !important; align-items: center !important; justify-content: center !important; padding: clamp(0.5rem, 1vw, 0.85rem) !important; box-sizing: border-box !important; width: 100vw !important; height: 100vh !important; }
-.quote-page .quote-project-gallery-modal-backdrop { position: absolute !important; inset: 0 !important; background: rgba(0, 0, 0, 0.7) !important; backdrop-filter: blur(12px) !important; -webkit-backdrop-filter: blur(12px) !important; }
+.quote-page .quote-project-gallery-modal-backdrop { position: absolute !important; inset: 0 !important; background: rgba(0, 0, 0, 0.7) !important; backdrop-filter: none !important; -webkit-backdrop-filter: none !important; }
 .quote-page .quote-project-gallery-dialog { position: relative !important; z-index: 2 !important; width: min(96vw, 154vh) !important; max-width: none !important; min-width: 0 !important; margin: 0 auto !important; display: flex !important; flex-direction: column !important; gap: 0.65rem !important; box-sizing: border-box !important; }
 .quote-page .quote-project-gallery-stage { position: relative !important; width: 100% !important; aspect-ratio: 16 / 9 !important; overflow: hidden !important; border-radius: 16px !important; background: #17120e !important; box-shadow: 0 16px 48px rgba(0, 0, 0, 0.6) !important; touch-action: pan-y !important; user-select: none !important; }
 .quote-page .quote-project-gallery-stage > img { display: block !important; width: 100% !important; height: 100% !important; object-fit: cover !important; user-select: none !important; }
@@ -14143,8 +14144,8 @@ body.quote-project-gallery-open { overflow: hidden !important; }
   position: absolute;
   inset: 0;
   background: rgba(9, 8, 7, .9);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
 }
 
 .project-gallery-lightbox-dialog {
@@ -24168,14 +24169,14 @@ main.project-detail-page .project-info-banner .meta-value {
 .project-gallery-lightbox:not(.project-gallery-lightbox--grid) .project-gallery-lightbox-backdrop,
 .project-gallery-lightbox--grid .project-gallery-lightbox-backdrop {
   background: rgba(9, 8, 7, .45) !important;
-  backdrop-filter: blur(2px) !important;
-  -webkit-backdrop-filter: blur(2px) !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
 }
 
 .quote-page .quote-project-gallery-modal-backdrop {
   background: rgba(0, 0, 0, .45) !important;
-  backdrop-filter: blur(2px) !important;
-  -webkit-backdrop-filter: blur(2px) !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
 }
 
 @media (max-width: 1023px) {
