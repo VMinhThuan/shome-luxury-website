@@ -1071,6 +1071,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let dragAxisLocked = false;
     let dragPreviewIndex = null;
     let dragPreviewReadyIndex = null;
+    let pendingMobileGalleryIndex = null;
     let dragFrame = null;
     let pendingDragOffsetX = 0;
     let suppressGalleryClick = false;
@@ -1971,6 +1972,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const slideToken = ++galleryTransitionToken;
       const nextImage = new Image();
       let settled = false;
+      pendingMobileGalleryIndex = normalizedIndex;
       isGallerySliding = true;
       resetSlidePosition();
 
@@ -1983,11 +1985,13 @@ document.addEventListener('DOMContentLoaded', () => {
         if (slideToken !== galleryTransitionToken) return;
         if (success) {
           activeGalleryIndex = normalizedIndex;
+          pendingMobileGalleryIndex = null;
           updateSlideImage(heroImage, galleryImages[activeGalleryIndex], activeGalleryIndex);
           updateGalleryUi();
           preloadGalleryImage(galleryImages[(activeGalleryIndex + 1) % galleryImages.length]);
           preloadGalleryImage(galleryImages[(activeGalleryIndex - 1 + galleryImages.length) % galleryImages.length]);
         }
+        if (!success) pendingMobileGalleryIndex = null;
         resetSlidePosition();
         isGallerySliding = false;
       };
@@ -2469,7 +2473,8 @@ document.addEventListener('DOMContentLoaded', () => {
           // wrong side and makes Chromium repaint the old image before the
           // new one.
           const visualDirection = distanceX < 0 ? 1 : -1;
-          const previewIndex = (activeGalleryIndex + step + galleryImages.length) % galleryImages.length;
+          const baseIndex = pendingMobileGalleryIndex ?? activeGalleryIndex;
+          const previewIndex = (baseIndex + step + galleryImages.length) % galleryImages.length;
           updateDragPreview(previewIndex);
           setGalleryImageTransform(heroImage, distanceX, 0);
           setGalleryImageTransform(
@@ -2481,7 +2486,7 @@ document.addEventListener('DOMContentLoaded', () => {
         };
 
         stage.addEventListener('touchstart', event => {
-          if (event.touches?.length !== 1 || isGallerySliding || galleryImages.length < 2) return;
+          if (event.touches?.length !== 1 || galleryImages.length < 2) return;
           if (event.target.closest('button')) return;
           const touch = event.touches[0];
           touchStartX = touch.clientX;
@@ -2518,6 +2523,7 @@ document.addEventListener('DOMContentLoaded', () => {
             && Math.abs(distanceX) > Math.min(60, (stage.clientWidth || window.innerWidth) * 0.15)
             && Math.abs(distanceX) > Math.abs(distanceY);
           const step = getTouchGalleryStep(distanceX);
+          const baseIndex = pendingMobileGalleryIndex ?? activeGalleryIndex;
           touchStartX = null;
           touchStartY = null;
           touchAxis = null;
@@ -2526,7 +2532,7 @@ document.addEventListener('DOMContentLoaded', () => {
             event.preventDefault();
             event.stopPropagation();
             window.setTimeout(() => { suppressGalleryClick = false; }, 0);
-            showMobileGalleryImage(activeGalleryIndex + step);
+            showMobileGalleryImage(baseIndex + step);
           } else {
             resetSlidePosition();
             window.setTimeout(() => { suppressGalleryClick = false; }, 0);

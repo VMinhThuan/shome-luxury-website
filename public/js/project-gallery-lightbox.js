@@ -405,6 +405,7 @@
   const close = (fromHistory = false) => {
     if (!state.modal || state.modal.hidden) return;
     if (!fromHistory && state.historyEntryActive) {
+      if (state.pendingHistoryClose) return;
       state.pendingHistoryClose = true;
       window.history.back();
       return;
@@ -690,7 +691,9 @@
       state.touchStartX = null;
       state.touchStartY = null;
       state.pinchStartDistance = null;
-      setSlideTransform(image, 0);
+      state.safariGestureActive = false;
+      state.safariGestureStartScale = 1;
+      resetSlidePosition();
       if (state.zoomScale <= 1) resetZoom();
       else applyZoom();
     }, { passive: true });
