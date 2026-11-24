@@ -2423,6 +2423,97 @@ document.addEventListener('DOMContentLoaded', () => {
         stage.addEventListener('pointerup', finishDrag);
         stage.addEventListener('pointercancel', finishDrag);
         stage.addEventListener('dragstart', event => event.preventDefault());
+
+        // Touch events are handled separately from pointer dragging because
+        // Android browsers do not enter the mouse/pen pointer path above.
+        // Lock to the dominant axis before cancelling the browser's gesture:
+        // horizontal swipes change images, vertical swipes keep page scroll.
+        let touchStartX = null;
+        let touchStartY = null;
+        let touchAxis = null;
+        let touchOffsetX = 0;
+
+        const getTouchGalleryStep = distanceX => {
+          const isAndroid = /Android/i.test(navigator.userAgent || '');
+          return isAndroid
+            ? (distanceX < 0 ? -1 : 1)
+            : (distanceX < 0 ? 1 : -1);
+        };
+
+        const updateMobileTouchPreview = distanceX => {
+          if (!window.matchMedia?.('(max-width: 767px)').matches) return;
+          const stageWidth = stage.clientWidth || window.innerWidth;
+          const direction = getTouchGalleryStep(distanceX);
+          updateDragPreview(activeGalleryIndex + direction);
+          dragPreview.style.visibility = 'visible';
+          setGalleryImageTransform(heroImage, distanceX, 0);
+          setGalleryImageTransform(
+            dragPreview,
+            (direction > 0 ? stageWidth : -stageWidth) + distanceX,
+            0
+          );
+        };
+
+        stage.addEventListener('touchstart', event => {
+          if (event.touches?.length !== 1 || isGallerySliding || galleryImages.length < 2) return;
+          if (event.target.closest('button')) return;
+          const touch = event.touches[0];
+          touchStartX = touch.clientX;
+          touchStartY = touch.clientY;
+          touchAxis = null;
+          touchOffsetX = 0;
+        }, { passive: true });
+
+        stage.addEventListener('touchmove', event => {
+          if (touchStartX === null || !event.touches?.length) return;
+          const touch = event.touches[0];
+          const distanceX = touch.clientX - touchStartX;
+          const distanceY = touch.clientY - (touchStartY ?? touch.clientY);
+          const absoluteX = Math.abs(distanceX);
+          const absoluteY = Math.abs(distanceY);
+          if (Math.max(absoluteX, absoluteY) < 8) return;
+          if (!touchAxis) {
+            if (absoluteX > absoluteY * 1.15) touchAxis = 'horizontal';
+            else if (absoluteY > absoluteX * 1.15) touchAxis = 'vertical';
+            else return;
+          }
+          if (touchAxis !== 'horizontal') return;
+          event.preventDefault();
+          touchOffsetX = Math.max(-stage.clientWidth * 0.9, Math.min(stage.clientWidth * 0.9, distanceX));
+          suppressGalleryClick = true;
+          updateMobileTouchPreview(touchOffsetX);
+        }, { passive: false });
+
+        stage.addEventListener('touchend', event => {
+          if (touchStartX === null || !event.changedTouches?.length) return;
+          const distanceX = touchOffsetX || event.changedTouches[0].clientX - touchStartX;
+          const distanceY = event.changedTouches[0].clientY - (touchStartY ?? event.changedTouches[0].clientY);
+          const shouldChange = touchAxis === 'horizontal'
+            && Math.abs(distanceX) > Math.min(60, (stage.clientWidth || window.innerWidth) * 0.15)
+            && Math.abs(distanceX) > Math.abs(distanceY);
+          const step = getTouchGalleryStep(distanceX);
+          touchStartX = null;
+          touchStartY = null;
+          touchAxis = null;
+          touchOffsetX = 0;
+          if (shouldChange) {
+            event.preventDefault();
+            event.stopPropagation();
+            window.setTimeout(() => { suppressGalleryClick = false; }, 0);
+            showMobileGalleryImage(activeGalleryIndex + step);
+          } else {
+            resetSlidePosition();
+            window.setTimeout(() => { suppressGalleryClick = false; }, 0);
+          }
+        }, { passive: false });
+
+        stage.addEventListener('touchcancel', () => {
+          touchStartX = null;
+          touchStartY = null;
+          touchAxis = null;
+          touchOffsetX = 0;
+          resetSlidePosition();
+        }, { passive: true });
       }
       startGalleryAutoplay();
     }
@@ -2464,6 +2555,8 @@ document.addEventListener('DOMContentLoaded', () => {
     let projectGalleryTransitionToken = 0;
     let projectGalleryPreviousFocus = null;
     let projectGalleryPointerStartX = null;
+    let projectGalleryPointerStartY = null;
+    let projectGalleryTouchAxis = null;
     let projectGalleryZoomScale = 1;
     let projectGalleryPanX = 0;
     let projectGalleryPanY = 0;
@@ -2580,6 +2673,8 @@ document.addEventListener('DOMContentLoaded', () => {
       projectGallerySafariGestureActive = false;
       projectGallerySafariGestureStartScale = 1;
       projectGalleryPointerStartX = null;
+      projectGalleryPointerStartY = null;
+      projectGalleryTouchAxis = null;
       projectGalleryLastTapTime = 0;
       projectGalleryLastTapX = 0;
       projectGalleryLastTapY = 0;
@@ -2752,6 +2847,8 @@ document.addEventListener('DOMContentLoaded', () => {
         if (event.touches.length === 1 && event.target.closest('button')) {
           projectGalleryTouchMode = null;
           projectGalleryPointerStartX = null;
+          projectGalleryPointerStartY = null;
+          projectGalleryTouchAxis = null;
           return;
         }
         if (event.touches.length >= 2) {
@@ -2760,6 +2857,8 @@ document.addEventListener('DOMContentLoaded', () => {
           projectGalleryPinchStartScale = projectGalleryZoomScale;
           projectGalleryTouchMode = 'pinch';
           projectGalleryPointerStartX = null;
+          projectGalleryPointerStartY = null;
+          projectGalleryTouchAxis = null;
           return;
         }
 
@@ -2788,6 +2887,8 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         projectGalleryTouchMode = 'swipe';
         projectGalleryPointerStartX = touch.clientX;
+        projectGalleryPointerStartY = touch.clientY;
+        projectGalleryTouchAxis = null;
       }, { passive: false });
       stage?.addEventListener('touchmove', event => {
         if (!event.touches?.length) return;
@@ -2812,7 +2913,16 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         if (projectGalleryTouchMode !== 'swipe' || projectGalleryPointerStartX === null) return;
         const distance = event.touches[0].clientX - projectGalleryPointerStartX;
-        if (Math.abs(distance) < 4) return;
+        const verticalDistance = event.touches[0].clientY - (projectGalleryPointerStartY ?? event.touches[0].clientY);
+        const absoluteX = Math.abs(distance);
+        const absoluteY = Math.abs(verticalDistance);
+        if (Math.max(absoluteX, absoluteY) < 8) return;
+        if (!projectGalleryTouchAxis) {
+          if (absoluteX > absoluteY * 1.15) projectGalleryTouchAxis = 'horizontal';
+          else if (absoluteY > absoluteX * 1.15) projectGalleryTouchAxis = 'vertical';
+          else return;
+        }
+        if (projectGalleryTouchAxis !== 'horizontal') return;
         event.preventDefault();
         stage.classList.add('is-page-dragging');
         image.style.transform = `translate3d(${distance}px, 0, 0)`;
@@ -2840,16 +2950,27 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         if (projectGalleryTouchMode !== 'swipe' || projectGalleryPointerStartX === null || !event.changedTouches?.length) return;
         const distance = event.changedTouches[0].clientX - projectGalleryPointerStartX;
+        const verticalDistance = event.changedTouches[0].clientY - (projectGalleryPointerStartY ?? event.changedTouches[0].clientY);
+        const isHorizontalSwipe = projectGalleryTouchAxis === 'horizontal'
+          && Math.abs(distance) >= 50
+          && Math.abs(distance) > Math.abs(verticalDistance);
+        const isAndroid = /Android/i.test(navigator.userAgent || '');
+        const direction = isAndroid
+          ? (distance < 0 ? -1 : 1)
+          : (distance < 0 ? 1 : -1);
         projectGalleryPointerStartX = null;
+        projectGalleryPointerStartY = null;
+        projectGalleryTouchAxis = null;
         projectGalleryTouchMode = null;
         stage.classList.remove('is-page-dragging');
         image.style.transition = 'transform .28s cubic-bezier(.22, .61, .36, 1)';
         image.style.transform = '';
         window.setTimeout(() => { image.style.transition = ''; }, 300);
-        if (Math.abs(distance) >= 50) {
-          showProjectGalleryLightboxImage(projectGalleryIndex + (distance < 0 ? 1 : -1), distance < 0 ? 1 : -1);
+        if (isHorizontalSwipe) {
+          event.preventDefault();
+          showProjectGalleryLightboxImage(projectGalleryIndex + direction, direction);
         }
-      }, { passive: true });
+      }, { passive: false });
       stage?.addEventListener('touchcancel', () => {
         projectGalleryPinchStartDistance = null;
         projectGalleryPinchStartScale = 1;
@@ -2857,6 +2978,8 @@ document.addEventListener('DOMContentLoaded', () => {
         projectGallerySafariGestureActive = false;
         projectGallerySafariGestureStartScale = 1;
         projectGalleryPointerStartX = null;
+        projectGalleryPointerStartY = null;
+        projectGalleryTouchAxis = null;
         stage.classList.remove('is-page-dragging');
         applyProjectGalleryZoom(image);
       }, { passive: true });

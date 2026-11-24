@@ -628,6 +628,8 @@ document.addEventListener('DOMContentLoaded', () => {
       let dragPointerId = null;
       let dragOffsetX = 0;
       let touchStartX = null;
+      let touchStartY = null;
+      let touchAxis = null;
       let transitionToken = 0;
       let transitionFrame = null;
       let inlinePreviewIndex = null;
@@ -765,9 +767,9 @@ document.addEventListener('DOMContentLoaded', () => {
         return { direction, nextIndex, previewStart };
       };
 
-      const settleInlineDrag = distance => {
+      const settleInlineDrag = (distance, requestedDirection = null) => {
         const stageWidth = stage.clientWidth || 1;
-        const direction = distance < 0 ? 1 : -1;
+        const direction = requestedDirection || (distance < 0 ? 1 : -1);
         const shouldChange = Math.abs(distance) > Math.min(60, stageWidth * 0.15);
         const nextIndex = prepareInlinePreview(activeIndex + direction);
         const previewStart = direction > 0 ? stageWidth : -stageWidth;
@@ -883,21 +885,45 @@ document.addEventListener('DOMContentLoaded', () => {
       stage.addEventListener('touchstart', event => {
         if (event.touches?.length !== 1) return;
         touchStartX = event.touches[0].clientX;
+        touchStartY = event.touches[0].clientY;
+        touchAxis = null;
         dragOffsetX = 0;
-        stage.classList.add('is-dragging');
       }, { passive: true });
       stage.addEventListener('touchmove', event => {
         if (touchStartX === null || !event.touches?.length) return;
-        dragOffsetX = Math.max(-stage.clientWidth * 0.85, Math.min(stage.clientWidth * 0.85, event.touches[0].clientX - touchStartX));
+        const touch = event.touches[0];
+        const distanceX = touch.clientX - touchStartX;
+        const distanceY = touch.clientY - (touchStartY ?? touch.clientY);
+        const absoluteX = Math.abs(distanceX);
+        const absoluteY = Math.abs(distanceY);
+        if (Math.max(absoluteX, absoluteY) < 8) return;
+        if (!touchAxis) {
+          if (absoluteX > absoluteY * 1.15) touchAxis = 'horizontal';
+          else if (absoluteY > absoluteX * 1.15) touchAxis = 'vertical';
+          else return;
+        }
+        if (touchAxis !== 'horizontal') return;
+        dragOffsetX = Math.max(-stage.clientWidth * 0.85, Math.min(stage.clientWidth * 0.85, distanceX));
         if (Math.abs(dragOffsetX) < 3) return;
         event.preventDefault();
+        stage.classList.add('is-dragging');
         updateInlineDragVisuals(dragOffsetX);
       }, { passive: false });
       stage.addEventListener('touchend', event => {
         if (touchStartX === null || !event.changedTouches?.length) return;
-        const distance = dragOffsetX || event.changedTouches[0].clientX - touchStartX;
-        const shouldChange = Math.abs(distance) > Math.min(60, stage.clientWidth * 0.15);
+        const touch = event.changedTouches[0];
+        const distance = dragOffsetX || touch.clientX - touchStartX;
+        const distanceY = touch.clientY - (touchStartY ?? touch.clientY);
+        const shouldChange = touchAxis === 'horizontal'
+          && Math.abs(distance) > Math.min(60, stage.clientWidth * 0.15)
+          && Math.abs(distance) > Math.abs(distanceY);
+        const isAndroid = /Android/i.test(navigator.userAgent || '');
+        const direction = isAndroid
+          ? (distance < 0 ? -1 : 1)
+          : (distance < 0 ? 1 : -1);
         touchStartX = null;
+        touchStartY = null;
+        touchAxis = null;
         dragOffsetX = 0;
         stage.classList.remove('is-dragging');
         if (shouldChange) {
@@ -908,9 +934,13 @@ document.addEventListener('DOMContentLoaded', () => {
             delete stage.dataset.suppressClick;
           }, 0);
         }
-        if (Math.abs(distance) >= 3) settleInlineDrag(distance);
-        else resetInlineSlide();
-      }, { passive: true });
+        if (shouldChange) {
+          event.preventDefault();
+          settleInlineDrag(distance, direction);
+        } else {
+          resetInlineSlide();
+        }
+      }, { passive: false });
       stage.addEventListener('click', event => {
         if (!suppressStageClick) return;
         event.preventDefault();
@@ -920,6 +950,8 @@ document.addEventListener('DOMContentLoaded', () => {
       }, true);
       stage.addEventListener('touchcancel', () => {
         touchStartX = null;
+        touchStartY = null;
+        touchAxis = null;
         dragOffsetX = 0;
         stage.classList.remove('is-dragging');
         resetInlineSlide();

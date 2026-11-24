@@ -81,21 +81,16 @@
   const getHorizontalSwipeTarget = distanceX => {
     const isAndroid = /Android/i.test(navigator.userAgent || '');
     const isSwipeLeft = distanceX < 0;
-    // Android Chrome can treat a left-edge swipe as browser Back. Keep the
-    // gesture inside the carousel and match iOS's wraparound from image 1
-    // to the final image instead of dismissing the lightbox.
-    if (isAndroid && isSwipeLeft && state.index === 0 && state.images.length > 1) {
-      return { index: state.images.length - 1, direction: -1 };
-    }
-    if (isAndroid) {
-      return {
-        index: state.index + (isSwipeLeft ? -1 : 1),
-        direction: isSwipeLeft ? -1 : 1,
-      };
-    }
+    const step = isAndroid
+      // Keep the Android gesture direction used by the mobile gallery: a
+      // left swipe means previous and a right swipe means next.
+      ? (isSwipeLeft ? -1 : 1)
+      // Desktop/iOS keep the conventional carousel direction.
+      : (isSwipeLeft ? 1 : -1);
+    const length = state.images.length;
     return {
-      index: state.index + (isSwipeLeft ? 1 : -1),
-      direction: isSwipeLeft ? 1 : -1,
+      index: (state.index + step + length) % length,
+      direction: step,
     };
   };
 
@@ -638,9 +633,13 @@
       if (state.touchMode !== 'swipe' || state.touchStartX === null) return;
       const distanceX = event.touches[0].clientX - state.touchStartX;
       const distanceY = event.touches[0].clientY - (state.touchStartY ?? event.touches[0].clientY);
-      if (Math.max(Math.abs(distanceX), Math.abs(distanceY)) < 4) return;
+      const absoluteX = Math.abs(distanceX);
+      const absoluteY = Math.abs(distanceY);
+      if (Math.max(absoluteX, absoluteY) < 8) return;
       if (!state.touchAxis) {
-        state.touchAxis = Math.abs(distanceX) >= Math.abs(distanceY) ? 'horizontal' : 'vertical';
+        if (absoluteX > absoluteY * 1.15) state.touchAxis = 'horizontal';
+        else if (absoluteY > absoluteX * 1.15) state.touchAxis = 'vertical';
+        else return;
       }
       event.preventDefault();
       if (state.touchAxis === 'horizontal') {
@@ -673,9 +672,10 @@
       state.touchStartY = null;
       if (isQuoteDesktopViewer()) resetSlidePosition();
       else setSlideTransform(image, 0);
-      const isHorizontalSwipe = Math.abs(distanceX) > 40
-        && Math.abs(distanceX) >= Math.abs(distanceY);
-      if ((axis === 'horizontal' || isHorizontalSwipe) && Math.abs(distanceX) > 40) {
+      const isHorizontalSwipe = axis === 'horizontal'
+        && Math.abs(distanceX) > 40
+        && Math.abs(distanceX) > Math.abs(distanceY);
+      if (isHorizontalSwipe) {
         event.preventDefault();
         event.stopPropagation();
         const target = getHorizontalSwipeTarget(distanceX);
