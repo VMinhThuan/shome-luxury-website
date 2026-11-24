@@ -1070,6 +1070,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let dragVelocityX = 0;
     let dragAxisLocked = false;
     let dragPreviewIndex = null;
+    let dragPreviewReadyIndex = null;
     let dragFrame = null;
     let pendingDragOffsetX = 0;
     let suppressGalleryClick = false;
@@ -1888,9 +1889,23 @@ document.addEventListener('DOMContentLoaded', () => {
       const normalizedIndex = (index + galleryImages.length) % galleryImages.length;
       if (dragPreviewIndex === normalizedIndex && previewImage.src) return;
       dragPreviewIndex = normalizedIndex;
-      previewImage.src = galleryImages[normalizedIndex];
+      dragPreviewReadyIndex = null;
+      previewImage.style.visibility = 'hidden';
+      const source = galleryImages[normalizedIndex];
+      const resolvedSource = new URL(source, document.baseURI).href;
+      const revealPreview = () => {
+        if (dragPreviewIndex !== normalizedIndex || previewImage.src !== resolvedSource) return;
+        dragPreviewReadyIndex = normalizedIndex;
+        previewImage.style.visibility = 'visible';
+      };
+      previewImage.addEventListener('load', revealPreview, { once: true });
+      previewImage.src = source;
       previewImage.alt = `${getProjectTitle()} - ảnh ${normalizedIndex + 1}`;
-      preloadGalleryImage(galleryImages[normalizedIndex]);
+      if (previewImage.complete && previewImage.naturalWidth) {
+        if (typeof previewImage.decode === 'function') previewImage.decode().catch(() => {}).finally(revealPreview);
+        else revealPreview();
+      }
+      preloadGalleryImage(source);
     }
 
     function applyGalleryDragFrame() {
@@ -1939,6 +1954,7 @@ document.addEventListener('DOMContentLoaded', () => {
       setGalleryImageTransform(previewImage, '100%', 0, 1, 0, 1);
       previewImage.style.visibility = 'hidden';
       dragPreviewIndex = null;
+      dragPreviewReadyIndex = null;
       if (dragFrame !== null) window.cancelAnimationFrame(dragFrame);
       dragFrame = null;
       dragOffsetX = 0;
@@ -1958,9 +1974,12 @@ document.addEventListener('DOMContentLoaded', () => {
       isGallerySliding = true;
       resetSlidePosition();
 
-      const finish = success => {
+      const finish = async success => {
         if (settled) return;
         settled = true;
+        if (success && typeof nextImage.decode === 'function') {
+          await nextImage.decode().catch(() => {});
+        }
         if (slideToken !== galleryTransitionToken) return;
         if (success) {
           activeGalleryIndex = normalizedIndex;
@@ -2443,15 +2462,22 @@ document.addEventListener('DOMContentLoaded', () => {
         const updateMobileTouchPreview = distanceX => {
           if (!window.matchMedia?.('(max-width: 767px)').matches) return;
           const stageWidth = stage.clientWidth || window.innerWidth;
-          const direction = getTouchGalleryStep(distanceX);
-          updateDragPreview(activeGalleryIndex + direction);
-          dragPreview.style.visibility = 'visible';
+          const step = getTouchGalleryStep(distanceX);
+          // Android keeps its existing previous/next ordering, but the
+          // visual layers must always follow the physical finger direction.
+          // Using the content step here places the incoming bitmap on the
+          // wrong side and makes Chromium repaint the old image before the
+          // new one.
+          const visualDirection = distanceX < 0 ? 1 : -1;
+          const previewIndex = (activeGalleryIndex + step + galleryImages.length) % galleryImages.length;
+          updateDragPreview(previewIndex);
           setGalleryImageTransform(heroImage, distanceX, 0);
           setGalleryImageTransform(
             dragPreview,
-            (direction > 0 ? stageWidth : -stageWidth) + distanceX,
+            (visualDirection > 0 ? stageWidth : -stageWidth) + distanceX,
             0
           );
+          if (dragPreviewReadyIndex === previewIndex) dragPreview.style.visibility = 'visible';
         };
 
         stage.addEventListener('touchstart', event => {
@@ -2955,9 +2981,10 @@ document.addEventListener('DOMContentLoaded', () => {
           && Math.abs(distance) >= 50
           && Math.abs(distance) > Math.abs(verticalDistance);
         const isAndroid = /Android/i.test(navigator.userAgent || '');
-        const direction = isAndroid
+        const step = isAndroid
           ? (distance < 0 ? -1 : 1)
           : (distance < 0 ? 1 : -1);
+        const visualDirection = distance < 0 ? 1 : -1;
         projectGalleryPointerStartX = null;
         projectGalleryPointerStartY = null;
         projectGalleryTouchAxis = null;
@@ -2968,7 +2995,7 @@ document.addEventListener('DOMContentLoaded', () => {
         window.setTimeout(() => { image.style.transition = ''; }, 300);
         if (isHorizontalSwipe) {
           event.preventDefault();
-          showProjectGalleryLightboxImage(projectGalleryIndex + direction, direction);
+          showProjectGalleryLightboxImage(projectGalleryIndex + step, visualDirection);
         }
       }, { passive: false });
       stage?.addEventListener('touchcancel', () => {

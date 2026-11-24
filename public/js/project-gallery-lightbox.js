@@ -90,7 +90,10 @@
     const length = state.images.length;
     return {
       index: (state.index + step + length) % length,
-      direction: step,
+      // Animation direction follows the finger, independently of which
+      // logical item Android selects. Mixing these directions makes the
+      // incoming image enter from the wrong side and causes a repaint flash.
+      direction: isSwipeLeft ? 1 : -1,
     };
   };
 
@@ -492,22 +495,12 @@
     });
     window.addEventListener('popstate', () => {
       if (!state.historyEntryActive || !state.modal || state.modal.hidden) return;
-      if (state.pendingHistoryClose) {
-        state.historyEntryActive = false;
-        state.pendingHistoryClose = false;
-        close(true);
-        return;
-      }
-
-      // Keep Android's system Back gesture inside the open viewer. The
-      // viewer remains open; only its explicit close button exits it.
-      try {
-        window.history.pushState(
-          { ...(window.history.state || {}), shomeProjectGallery: true },
-          '',
-          window.location.href
-        );
-      } catch (_) {}
+      // The lightbox adds one same-URL history entry when it opens. A browser
+      // Back action (including Android's edge-swipe gesture) consumes that
+      // entry, so close the viewer and stay on the page that opened it. Do
+      // not push the entry back: doing that sends Android to the previous
+      // menu/list page when the user only meant to leave the large image.
+      close(true);
     });
     stage?.addEventListener('wheel', event => {
       event.preventDefault();

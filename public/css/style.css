@@ -23996,6 +23996,28 @@ main.project-detail-page .project-info-banner .meta-value {
   }
 }
 
+/* Android Chromium can briefly repaint the previous bitmap when two gallery
+   layers reuse the same compositing surface during a touch swipe. Keep both
+   layers on stable GPU-backed surfaces so the old image never flashes over
+   the decoded incoming image. */
+.project-detail-page .project-gallery-stage > img,
+.quote-page .quote-featured-project-card--inline-gallery .project-gallery-stage > img,
+.project-gallery-lightbox-stage > img {
+  -webkit-backface-visibility: hidden !important;
+  backface-visibility: hidden !important;
+  transform-style: preserve-3d !important;
+}
+
+/* Match the mobile project title to the 16.8px quotation-card title and keep
+   the detail-page title visibly bold. This is intentionally last so older
+   responsive overrides cannot reduce it back to 14px. */
+@media (max-width: 767px) {
+  main.project-detail-page .project-detail-summary .project-detail-title {
+    font-size: 16.8px !important;
+    font-weight: 700 !important;
+  }
+}
+
 /* Quote-page galleries use the same directional slide motion on desktop and
    mobile. The preview is revealed beside the current image for the modal;
    inline cards use the matching incoming slide with the same easing. */
@@ -24231,4 +24253,12 @@ main.project-detail-page .project-info-banner .meta-value {
     max-width: 100% !important;
     max-height: 100% !important;
   }
+}
+
+/* Keep project-detail metadata labels prominent while making their values
+   lighter and less heavy for easier visual hierarchy on the dark banner. */
+main.project-detail-page .project-detail-summary .meta-value {
+  color: rgba(255, 255, 255, .72) !important;
+  -webkit-text-fill-color: rgba(255, 255, 255, .72) !important;
+  font-weight: 400 !important;
 }

@@ -737,9 +737,12 @@ document.addEventListener('DOMContentLoaded', () => {
       const showMobileInlineImage = (nextIndex, requestToken) => {
         const nextImage = new Image();
         let settled = false;
-        const finish = success => {
+        const finish = async success => {
           if (settled) return;
           settled = true;
+          if (success && typeof nextImage.decode === 'function') {
+            await nextImage.decode().catch(() => {});
+          }
           if (requestToken !== transitionToken) return;
           if (success) commitInlineImage(nextIndex, requestToken);
         };
@@ -767,12 +770,17 @@ document.addEventListener('DOMContentLoaded', () => {
         return { direction, nextIndex, previewStart };
       };
 
-      const settleInlineDrag = (distance, requestedDirection = null) => {
+      const settleInlineDrag = (distance, requestedStep = null) => {
         const stageWidth = stage.clientWidth || 1;
-        const direction = requestedDirection || (distance < 0 ? 1 : -1);
+        const step = requestedStep || (distance < 0 ? 1 : -1);
+        // The selected image can follow the Android ordering, while the
+        // animation itself must always follow the physical finger direction.
+        // Keeping those values separate prevents the old layer from snapping
+        // back through the incoming layer on Chromium.
+        const visualDirection = distance < 0 ? 1 : -1;
         const shouldChange = Math.abs(distance) > Math.min(60, stageWidth * 0.15);
-        const nextIndex = prepareInlinePreview(activeIndex + direction);
-        const previewStart = direction > 0 ? stageWidth : -stageWidth;
+        const nextIndex = prepareInlinePreview(activeIndex + step);
+        const previewStart = visualDirection > 0 ? stageWidth : -stageWidth;
         const requestToken = ++transitionToken;
         stage.classList.remove('is-dragging');
 
@@ -786,7 +794,7 @@ document.addEventListener('DOMContentLoaded', () => {
         animateInlineSlide({
           fromHero: distance,
           fromPreview: previewStart + distance,
-          toHero: shouldChange ? -direction * stageWidth : 0,
+          toHero: shouldChange ? -visualDirection * stageWidth : 0,
           toPreview: shouldChange ? 0 : previewStart,
           onComplete: () => {
             if (requestToken !== transitionToken) return;
@@ -918,7 +926,7 @@ document.addEventListener('DOMContentLoaded', () => {
           && Math.abs(distance) > Math.min(60, stage.clientWidth * 0.15)
           && Math.abs(distance) > Math.abs(distanceY);
         const isAndroid = /Android/i.test(navigator.userAgent || '');
-        const direction = isAndroid
+        const step = isAndroid
           ? (distance < 0 ? -1 : 1)
           : (distance < 0 ? 1 : -1);
         touchStartX = null;
@@ -936,7 +944,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         if (shouldChange) {
           event.preventDefault();
-          settleInlineDrag(distance, direction);
+          settleInlineDrag(distance, step);
         } else {
           resetInlineSlide();
         }
