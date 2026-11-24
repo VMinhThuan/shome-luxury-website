@@ -583,6 +583,12 @@
         state.touchStartY = null;
         return;
       }
+      // Android's edge-back gesture can otherwise win the race against a
+      // horizontal gallery swipe. The viewer already owns the full screen,
+      // so keep a one-finger gesture inside the viewer from its first event.
+      if (event.touches.length === 1 && /Android/i.test(navigator.userAgent || '')) {
+        event.preventDefault();
+      }
       if (event.touches.length >= 2) {
         event.preventDefault();
         state.pinchStartDistance = touchDistance(event.touches[0], event.touches[1]);

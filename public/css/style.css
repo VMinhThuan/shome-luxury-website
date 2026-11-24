@@ -14837,6 +14837,7 @@ body.project-gallery-lightbox-open { overflow: hidden !important; }
 /* A swipe belongs to the open viewer, not the browser history gesture. */
 .project-gallery-lightbox:not(.project-gallery-lightbox--grid) {
   overscroll-behavior: contain !important;
+  overscroll-behavior-x: none !important;
 }
 
 /* Keep iOS Safari's edge-swipe navigation inside the open image viewer. */
@@ -14844,6 +14845,7 @@ body.project-gallery-lightbox-open { overflow: hidden !important; }
 .project-gallery-lightbox:not(.project-gallery-lightbox--grid) .project-gallery-lightbox-backdrop,
 .project-gallery-lightbox:not(.project-gallery-lightbox--grid) .project-gallery-lightbox-dialog {
   touch-action: none !important;
+  overscroll-behavior-x: none !important;
   -webkit-user-select: none !important;
   user-select: none !important;
 }
