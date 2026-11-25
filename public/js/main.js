@@ -2519,7 +2519,9 @@ document.addEventListener('DOMContentLoaded', () => {
           // Keep the animation following the physical finger direction; only
           // the content ordering is reversed for this detail-gallery UX.
           const visualDirection = distanceX < 0 ? 1 : -1;
-          const baseIndex = pendingMobileGalleryIndex ?? activeGalleryIndex;
+          // Always resolve one swipe from the committed image. A stale
+          // pending preload must never turn image 1 -> image 12.
+          const baseIndex = activeGalleryIndex;
           const previewIndex = (baseIndex + step + galleryImages.length) % galleryImages.length;
           updateDragPreview(previewIndex);
           setGalleryImageTransform(heroImage, distanceX, 0);
@@ -2569,7 +2571,9 @@ document.addEventListener('DOMContentLoaded', () => {
             && Math.abs(distanceX) > Math.min(60, (stage.clientWidth || window.innerWidth) * 0.15)
             && Math.abs(distanceX) > Math.abs(distanceY);
           const step = getTouchGalleryStep(distanceX);
-          const baseIndex = pendingMobileGalleryIndex ?? activeGalleryIndex;
+          // Always resolve one swipe from the committed image. A stale
+          // pending preload must never turn image 1 -> image 12.
+          const baseIndex = activeGalleryIndex;
           touchStartX = null;
           touchStartY = null;
           touchAxis = null;
