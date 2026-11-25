@@ -1962,46 +1962,74 @@ document.addEventListener('DOMContentLoaded', () => {
       pendingDragOffsetX = 0;
     }
 
-    // On mobile, keep the current image visible until the next bitmap is
-    // ready. This prevents a white gap while preload/decode is in progress.
-    // Desktop continues using the existing directional slide animation.
-    function showMobileGalleryImage(nextIndex) {
+    // Mobile uses the same two-layer directional slide as desktop. The old
+    // mobile path reset the stage first and then swapped the bitmap after it
+    // loaded, which made a swipe look like a fade/jump instead of a slide.
+    async function showMobileGalleryImage(nextIndex, initialOffset = 0, visualDirection = null, animate = true) {
       const heroImage = getHeroImage();
-      if (!heroImage || !galleryImages.length) return;
+      const previewImage = getPreviewImage();
+      const stage = getGalleryStage();
+      if (!heroImage || !previewImage || !stage || !galleryImages.length) return;
       const normalizedIndex = (nextIndex + galleryImages.length) % galleryImages.length;
       const slideToken = ++galleryTransitionToken;
-      const nextImage = new Image();
-      let settled = false;
       pendingMobileGalleryIndex = normalizedIndex;
-      isGallerySliding = true;
-      resetSlidePosition();
 
-      const finish = async success => {
-        if (settled) return;
-        settled = true;
-        if (success && typeof nextImage.decode === 'function') {
-          await nextImage.decode().catch(() => {});
-        }
+      if (!animate) {
+        await preloadGalleryImage(galleryImages[normalizedIndex]);
         if (slideToken !== galleryTransitionToken) return;
-        if (success) {
-          activeGalleryIndex = normalizedIndex;
-          pendingMobileGalleryIndex = null;
-          updateSlideImage(heroImage, galleryImages[activeGalleryIndex], activeGalleryIndex);
-          updateGalleryUi();
-          preloadGalleryImage(galleryImages[(activeGalleryIndex + 1) % galleryImages.length]);
-          preloadGalleryImage(galleryImages[(activeGalleryIndex - 1 + galleryImages.length) % galleryImages.length]);
-        }
-        if (!success) pendingMobileGalleryIndex = null;
+        activeGalleryIndex = normalizedIndex;
+        pendingMobileGalleryIndex = null;
+        updateSlideImage(heroImage, galleryImages[activeGalleryIndex], activeGalleryIndex);
+        updateGalleryUi();
         resetSlidePosition();
         isGallerySliding = false;
-      };
+        return;
+      }
 
-      nextImage.decoding = 'sync';
-      nextImage.fetchPriority = 'high';
-      nextImage.onload = () => finish(true);
-      nextImage.onerror = () => finish(false);
-      nextImage.src = galleryImages[normalizedIndex];
-      if (nextImage.complete) finish(nextImage.naturalWidth > 0);
+      const stageWidth = stage.clientWidth || window.innerWidth;
+      const direction = visualDirection || (initialOffset < 0 ? 1 : -1);
+      const incomingStart = direction > 0 ? stageWidth : -stageWidth;
+      const fromHero = Math.max(-stageWidth * 0.9, Math.min(stageWidth * 0.9, initialOffset));
+      const fromPreview = incomingStart + fromHero;
+      const targetHero = direction > 0 ? -stageWidth : stageWidth;
+      const source = galleryImages[normalizedIndex];
+
+      previewImage.src = source;
+      previewImage.alt = `${getProjectTitle()} - ảnh ${normalizedIndex + 1}`;
+      previewImage.style.visibility = 'hidden';
+      await preloadGalleryImage(source);
+      if (slideToken !== galleryTransitionToken) return;
+      if (typeof previewImage.decode === 'function') await previewImage.decode().catch(() => {});
+      if (slideToken !== galleryTransitionToken) return;
+
+      isGallerySliding = true;
+      previewImage.style.visibility = 'visible';
+      stage.classList.add('is-sliding', 'is-lifted', 'is-springing');
+      setGalleryImageTransform(heroImage, fromHero, 0, 0, 0, 1);
+      setGalleryImageTransform(previewImage, fromPreview, 0, 0, 0, 1);
+
+      animateGallerySpring({
+        fromHero,
+        fromPreview,
+        toHero: targetHero,
+        toPreview: 0,
+        onFrame: (heroX, previewX, blur) => {
+          const revealProgress = Math.min(1, Math.abs(previewX - incomingStart) / Math.max(1, stageWidth));
+          applyGalleryTransitionFrame({ heroImage, previewImage, heroX, previewX, revealProgress, blur });
+        },
+        onComplete: async () => {
+          if (slideToken !== galleryTransitionToken) return;
+          activeGalleryIndex = normalizedIndex;
+          pendingMobileGalleryIndex = null;
+          updateSlideImage(heroImage, source, activeGalleryIndex);
+          if (typeof heroImage.decode === 'function') await heroImage.decode().catch(() => {});
+          updateGalleryUi();
+          resetSlidePosition();
+          isGallerySliding = false;
+          preloadGalleryImage(galleryImages[(activeGalleryIndex + 1) % galleryImages.length]);
+          preloadGalleryImage(galleryImages[(activeGalleryIndex - 1 + galleryImages.length) % galleryImages.length]);
+        },
+      });
     }
 
     function animateGalleryButtonSlide(nextIndex, direction = 1) {
@@ -2012,7 +2040,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
       const normalizedIndex = (nextIndex + galleryImages.length) % galleryImages.length;
       if (window.matchMedia?.('(max-width: 767px)').matches) {
-        showMobileGalleryImage(normalizedIndex);
+        showMobileGalleryImage(normalizedIndex, 0, direction, true);
         return;
       }
       const slideToken = ++galleryTransitionToken;
@@ -2186,7 +2214,7 @@ document.addEventListener('DOMContentLoaded', () => {
       }
       if (force) {
         if (window.matchMedia?.('(max-width: 767px)').matches && nextGalleryIndex !== activeGalleryIndex) {
-          showMobileGalleryImage(nextGalleryIndex);
+          showMobileGalleryImage(nextGalleryIndex, 0, null, false);
           return;
         }
         galleryTransitionToken += 1;
@@ -2386,9 +2414,11 @@ document.addEventListener('DOMContentLoaded', () => {
           stage.classList.add('is-lifted');
 
           if (window.matchMedia?.('(max-width: 767px)').matches) {
-            resetSlidePosition();
-            isGallerySliding = false;
-            if (shouldChange) showMobileGalleryImage(targetIndex);
+            if (shouldChange) showMobileGalleryImage(targetIndex, offset, direction, true);
+            else {
+              resetSlidePosition();
+              isGallerySliding = false;
+            }
             return;
           }
 
@@ -2532,7 +2562,7 @@ document.addEventListener('DOMContentLoaded', () => {
             event.preventDefault();
             event.stopPropagation();
             window.setTimeout(() => { suppressGalleryClick = false; }, 0);
-            showMobileGalleryImage(baseIndex + step);
+            showMobileGalleryImage(baseIndex + step, distanceX, distanceX < 0 ? 1 : -1, true);
           } else {
             resetSlidePosition();
             window.setTimeout(() => { suppressGalleryClick = false; }, 0);

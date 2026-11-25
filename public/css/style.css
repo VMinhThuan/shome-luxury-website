@@ -6433,6 +6433,26 @@ main.company-profile-page .company-profile-hero h1 {
   }
 }
 
+/* Android Chromium lets embedded cards claim the vertical gesture. Keep the
+   document as the only mobile scroll owner while preserving both card links. */
+@media (max-width: 767px) {
+  html.is-android .footer-col-fb .fb-card-box .facebook-feed-posts {
+    overflow: visible !important;
+    overscroll-behavior: auto !important;
+    touch-action: pan-y !important;
+    -webkit-overflow-scrolling: auto !important;
+  }
+
+  html.is-android .footer-col-map .map-card-box .card-iframe-wrapper {
+    touch-action: pan-y !important;
+    overscroll-behavior: auto !important;
+  }
+
+  html.is-android .footer-col-map .map-card-box .card-iframe-wrapper iframe {
+    pointer-events: none !important;
+  }
+}
+
 @media (min-width: 640px) and (max-width: 991px) {
   .footer-top-grid {
     display: grid;
@@ -13211,6 +13231,64 @@ html {
   width: 100% !important;
   height: auto !important;
   object-fit: contain !important;
+}
+
+/* Recruitment and news detail share the same fixed-header/article shell.
+   Keep both routes aligned on Chromium Android as well as iOS Safari. */
+.page-news-detail {
+  padding-top: var(--header-height-mobile, 70px);
+  background-color: #FAF9F6;
+  color: #332d26;
+  min-height: 100vh;
+}
+
+@media (min-width: 768px) {
+  .page-news-detail {
+    padding-top: var(--header-height-desktop, 90px);
+  }
+}
+
+@media (max-width: 767px) {
+  .page-recruitment-detail,
+  .page-news-detail {
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+    min-height: 100svh;
+  }
+
+  .page-recruitment-detail .recruitment-detail-main,
+  .page-news-detail .recruitment-detail-main {
+    min-width: 0;
+    padding-bottom: calc(2.5rem + 58px + env(safe-area-inset-bottom, 0px));
+  }
+
+  .page-recruitment-detail .job-detail-grid,
+  .page-news-detail .job-detail-grid,
+  .page-recruitment-detail .job-detail-content,
+  .page-news-detail .job-detail-content,
+  .page-recruitment-detail .job-article-body,
+  .page-news-detail .job-article-body {
+    min-width: 0;
+  }
+
+  .page-recruitment-detail .job-detail-title,
+  .page-news-detail .job-detail-title,
+  .page-recruitment-detail .job-detail-meta,
+  .page-news-detail .job-detail-meta,
+  .page-recruitment-detail .quick-info-card,
+  .page-news-detail .quick-info-card {
+    overflow-wrap: anywhere;
+  }
+
+  .page-recruitment-detail .quick-info-card > div,
+  .page-news-detail .quick-info-card > div {
+    min-width: 0;
+  }
+
+  .page-recruitment-detail .job-article-body img,
+  .page-news-detail .job-article-body img {
+    max-width: 100%;
+  }
 }
 
 /* Detail gallery outside the lightbox: preserve the source ratio and anchor

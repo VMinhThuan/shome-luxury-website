@@ -209,6 +209,13 @@
   </div>
 </footer>
 
+<script>
+  (function () {
+    if (/Android/i.test(navigator.userAgent || '')) {
+      document.documentElement.classList.add('is-android');
+    }
+  }());
+</script>
 <script src="/js/facebook-feed.js?v=1.0.7" defer></script>
 
 <%- include("consult-modal") %>

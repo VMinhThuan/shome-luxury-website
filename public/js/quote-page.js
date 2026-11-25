@@ -731,31 +731,56 @@ document.addEventListener('DOMContentLoaded', () => {
         });
       };
 
-      // Mobile keeps the current image visible until the next bitmap is
-      // ready, so changing gallery images never exposes a white gap. Desktop
-      // keeps the existing directional slide animation below.
-      const showMobileInlineImage = (nextIndex, requestToken) => {
-        const nextImage = new Image();
-        let settled = false;
-        const finish = async success => {
-          if (settled) return;
-          settled = true;
-          if (success && typeof nextImage.decode === 'function') {
-            await nextImage.decode().catch(() => {});
-          }
+      // Mobile uses the same two-layer slide as desktop. The old mobile path
+      // waited for the next bitmap and then replaced the current one in a
+      // single step, so the gallery jumped instead of following the finger.
+      const showMobileInlineImage = async (
+        nextIndex,
+        requestToken,
+        initialOffset = 0,
+        visualDirection = null,
+        animate = true
+      ) => {
+        const normalizedIndex = (nextIndex + images.length) % images.length;
+        if (!animate) {
+          await preload(images[normalizedIndex]);
           if (requestToken !== transitionToken) return;
-          if (success) commitInlineImage(nextIndex, requestToken);
-        };
-        nextImage.decoding = 'sync';
-        nextImage.fetchPriority = 'high';
-        nextImage.onload = () => finish(true);
-        nextImage.onerror = () => finish(false);
-        nextImage.src = images[nextIndex];
-        if (nextImage.complete) finish(nextImage.naturalWidth > 0);
+          commitInlineImage(normalizedIndex, requestToken);
+          return;
+        }
+
+        const stageWidth = stage.clientWidth || 1;
+        const direction = visualDirection || (initialOffset < 0 ? 1 : -1);
+        const incomingStart = direction > 0 ? stageWidth : -stageWidth;
+        const fromHero = Math.max(-stageWidth * 0.9, Math.min(stageWidth * 0.9, initialOffset));
+        const fromPreview = incomingStart + fromHero;
+        const targetHero = direction > 0 ? -stageWidth : stageWidth;
+        const source = images[normalizedIndex];
+
+        inlinePreviewIndex = normalizedIndex;
+        preview.src = source;
+        preview.alt = `${gallery.dataset.projectTitle || 'Công trình Shome Luxury'} - ảnh ${normalizedIndex + 1}`;
+        preview.style.display = 'block';
+        preview.style.visibility = 'hidden';
+        await preload(source);
+        if (requestToken !== transitionToken) return;
+        if (typeof preview.decode === 'function') await preview.decode().catch(() => {});
+        if (requestToken !== transitionToken) return;
+
+        preview.style.visibility = 'visible';
+        stage.classList.add('is-inline-sliding');
+        setInlineTransform(image, fromHero);
+        setInlineTransform(preview, fromPreview);
+        animateInlineSlide({
+          fromHero,
+          fromPreview,
+          toHero: targetHero,
+          toPreview: 0,
+          onComplete: () => commitInlineImage(normalizedIndex, requestToken),
+        });
       };
 
       const updateInlineDragVisuals = offset => {
-        if (window.matchMedia?.('(max-width: 767px)').matches) return;
         const stageWidth = stage.clientWidth || 1;
         if (Math.abs(offset) < 3) {
           setInlineTransform(image, 0);
@@ -785,8 +810,8 @@ document.addEventListener('DOMContentLoaded', () => {
         stage.classList.remove('is-dragging');
 
         if (window.matchMedia?.('(max-width: 767px)').matches) {
-          resetInlineSlide();
-          if (shouldChange) showMobileInlineImage(nextIndex, requestToken);
+          if (shouldChange) showMobileInlineImage(nextIndex, requestToken, distance, visualDirection, true);
+          else resetInlineSlide();
           return;
         }
 
@@ -810,7 +835,7 @@ document.addEventListener('DOMContentLoaded', () => {
         resetInlineSlide();
 
         if (window.matchMedia?.('(max-width: 767px)').matches) {
-          showMobileInlineImage(nextIndex, requestToken);
+          showMobileInlineImage(nextIndex, requestToken, 0, direction, animate && Boolean(direction));
           return;
         }
 
