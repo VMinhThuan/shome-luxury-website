@@ -24348,6 +24348,16 @@ main.project-detail-page .project-gallery-thumbnails > .project-gallery-thumbnai
   aspect-ratio: 16 / 9 !important;
 }
 
+/* Crop only the images rendered inside the thumbnail list. Hero images,
+   lightbox images and all other page images keep their existing fit. */
+main.project-detail-page .project-gallery-thumbnails > .project-gallery-thumbnail > img,
+.quote-page .quote-featured-project-card--inline-gallery .project-gallery-thumbnails > .project-gallery-thumbnail > img {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+  object-position: center center !important;
+}
+
 @media (max-width: 767px) {
   /* Horizontal gestures are handled by the gallery; vertical gestures must
      remain available for normal page scrolling. */
