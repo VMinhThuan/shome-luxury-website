@@ -2,30 +2,45 @@ document.addEventListener('DOMContentLoaded', () => {
   // Match the project-detail gallery: thumbnail strips can be grabbed and
   // dragged horizontally with a mouse, trackpad or touch pointer. A drag must
   // not accidentally activate the thumbnail that happened to be released on.
-  const enableHorizontalThumbnailDrag = thumbnailStrip => {
+  const enableHorizontalThumbnailDrag = (thumbnailStrip, onSwipe = null) => {
     if (!thumbnailStrip || thumbnailStrip.dataset.dragEnabled === 'true') return;
-    // Keep mobile thumbnail touches from capturing the page's vertical swipe.
-    if (window.matchMedia?.('(max-width: 767px)').matches) return;
     thumbnailStrip.dataset.dragEnabled = 'true';
 
     let activePointerId = null;
     let pointerStartX = 0;
+    let pointerStartY = 0;
     let scrollStartX = 0;
     let isDragging = false;
+    let axis = null;
     let suppressClick = false;
 
     thumbnailStrip.addEventListener('pointerdown', event => {
       if (!event.isPrimary || (event.button !== undefined && event.button !== 0)) return;
       activePointerId = event.pointerId;
       pointerStartX = event.clientX;
+      pointerStartY = event.clientY;
       scrollStartX = thumbnailStrip.scrollLeft;
       isDragging = false;
+      axis = null;
       thumbnailStrip.setPointerCapture?.(activePointerId);
     });
 
     thumbnailStrip.addEventListener('pointermove', event => {
       if (event.pointerId !== activePointerId) return;
       const distance = event.clientX - pointerStartX;
+      const verticalDistance = event.clientY - pointerStartY;
+      if (event.pointerType === 'touch' && !axis) {
+        if (Math.max(Math.abs(distance), Math.abs(verticalDistance)) < 8) return;
+        if (Math.abs(verticalDistance) > Math.abs(distance) * 1.15) {
+          axis = 'vertical';
+          thumbnailStrip.releasePointerCapture?.(activePointerId);
+          activePointerId = null;
+          return;
+        }
+        if (Math.abs(distance) <= Math.abs(verticalDistance) * 1.15) return;
+        axis = 'horizontal';
+      }
+      if (axis === 'vertical') return;
       if (!isDragging && Math.abs(distance) < 5) return;
       if (!isDragging) {
         isDragging = true;
@@ -37,6 +52,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const finishDrag = event => {
       if (event.pointerId !== activePointerId) return;
+      const distance = event.clientX - pointerStartX;
+      const shouldSwipe = isDragging && axis !== 'vertical' && Math.abs(distance) >= 40;
+      if (shouldSwipe && onSwipe) onSwipe(distance);
       if (isDragging) suppressClick = true;
       if (thumbnailStrip.hasPointerCapture?.(activePointerId)) {
         thumbnailStrip.releasePointerCapture(activePointerId);
@@ -613,7 +631,10 @@ document.addEventListener('DOMContentLoaded', () => {
       const total = gallery.querySelector('[data-quote-inline-total]');
       const thumbnails = gallery.querySelector('[data-quote-inline-thumbnails]');
       if (!stage || !image || !images.length) return;
-      enableHorizontalThumbnailDrag(thumbnails);
+      enableHorizontalThumbnailDrag(thumbnails, distance => {
+        const step = distance < 0 ? 1 : -1;
+        show(activeIndex + step, true, step);
+      });
 
       const preview = document.createElement('img');
       preview.setAttribute('data-quote-inline-preview', '');

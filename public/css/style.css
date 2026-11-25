@@ -24347,3 +24347,32 @@ main.project-detail-page .project-gallery-thumbnails > .project-gallery-thumbnai
 .quote-page .quote-featured-project-card--inline-gallery .project-gallery-thumbnails > .project-gallery-thumbnail {
   aspect-ratio: 16 / 9 !important;
 }
+
+@media (max-width: 767px) {
+  /* Horizontal gestures are handled by the gallery; vertical gestures must
+     remain available for normal page scrolling. */
+  main.project-detail-page .project-gallery-thumbnails,
+  .quote-page .quote-featured-project-card--inline-gallery .project-gallery-thumbnails {
+    touch-action: pan-y !important;
+  }
+}
+
+/* Detail articles use the page surface directly on every viewport. Keep the
+   smaller quick-info and CTA cards intact; only remove the outer white shell
+   so the article aligns with the header/menu content width. */
+.page-recruitment-detail .job-detail-content,
+.page-news-detail .job-detail-content {
+  width: 100% !important;
+  padding: 0 !important;
+  background: transparent !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+}
+
+@media (max-width: 767px) {
+  .page-recruitment-detail .job-detail-grid,
+  .page-news-detail .job-detail-grid {
+    gap: 0 !important;
+  }
+}
