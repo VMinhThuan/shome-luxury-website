@@ -24404,6 +24404,7 @@ main.project-detail-page .project-gallery-thumbnails > .project-gallery-thumbnai
 
   .project-detail-page .project-gallery-stage.is-sliding > .project-gallery-drag-preview {
     display: block !important;
+    visibility: visible !important;
     z-index: 3 !important;
     pointer-events: none !important;
     will-change: transform;
