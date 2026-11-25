@@ -24395,4 +24395,36 @@ main.project-detail-page .project-gallery-thumbnails > .project-gallery-thumbnai
   .project-detail-page .project-gallery-stage.is-springing > img {
     transition: none !important;
   }
+
+  /* Match the quote gallery stacking order: the incoming bitmap must sit
+     above the outgoing bitmap throughout the slide. */
+  .project-detail-page .project-gallery-stage.is-sliding > [data-detail-image] {
+    z-index: 2 !important;
+  }
+
+  .project-detail-page .project-gallery-stage.is-sliding > .project-gallery-drag-preview {
+    display: block !important;
+    z-index: 3 !important;
+    pointer-events: none !important;
+    will-change: transform;
+  }
+}
+
+/* Desktop detail page: give the five related cards and footer the same
+   breathing room as the header's inner container. Keep the phone layout
+   untouched. */
+@media (min-width: 768px) {
+  .project-detail-page .related-projects-section {
+    padding-bottom: clamp(2rem, 3vw, 3rem) !important;
+  }
+
+  .project-detail-page .related-projects-section > .container,
+  body.project-detail-page-body .site-footer > .footer-container {
+    padding-right: clamp(1.5rem, 2vw, 2.5rem) !important;
+    padding-left: clamp(1.5rem, 2vw, 2.5rem) !important;
+  }
+
+  body.project-detail-page-body .site-footer {
+    padding-top: clamp(2.25rem, 3vw, 3rem) !important;
+  }
 }
