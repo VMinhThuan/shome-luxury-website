@@ -703,13 +703,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
       const prepareInlinePreview = index => {
         const nextIndex = (index + images.length) % images.length;
-        if (inlinePreviewIndex === nextIndex && preview.src) return nextIndex;
+        if (inlinePreviewIndex === nextIndex && preview.src) {
+          if (preview.complete && preview.naturalWidth) preview.style.visibility = 'visible';
+          return nextIndex;
+        }
         inlinePreviewIndex = nextIndex;
         preview.src = images[nextIndex];
         preview.alt = `${gallery.dataset.projectTitle || 'Công trình Shome Luxury'} - ảnh ${nextIndex + 1}`;
         preview.style.display = 'block';
-        preview.style.visibility = 'visible';
-        preload(images[nextIndex]);
+        preview.style.visibility = 'hidden';
+        preload(images[nextIndex]).then(() => {
+          if (inlinePreviewIndex === nextIndex && preview.src) preview.style.visibility = 'visible';
+        });
         return nextIndex;
       };
 
@@ -810,6 +815,14 @@ document.addEventListener('DOMContentLoaded', () => {
         const direction = offset < 0 ? 1 : -1;
         const nextIndex = prepareInlinePreview(activeIndex + direction);
         const previewStart = direction > 0 ? stageWidth : -stageWidth;
+        const previewReady = inlinePreviewIndex === nextIndex && preview.complete && preview.naturalWidth;
+        if (!previewReady) {
+          // Never move the current image away while the incoming bitmap is
+          // still empty; this prevents a white flash during a fast swipe.
+          setInlineTransform(image, 0);
+          setInlineTransform(preview, previewStart);
+          return { direction, nextIndex, previewStart };
+        }
         setInlineTransform(image, offset);
         setInlineTransform(preview, previewStart + offset);
         stage.classList.add('is-inline-sliding');
@@ -971,10 +984,9 @@ document.addEventListener('DOMContentLoaded', () => {
         const shouldChange = touchAxis === 'horizontal'
           && Math.abs(distance) > Math.min(60, stage.clientWidth * 0.15)
           && Math.abs(distance) > Math.abs(distanceY);
-        const isAndroid = /Android/i.test(navigator.userAgent || '');
-        const step = isAndroid
-          ? (distance < 0 ? -1 : 1)
-          : (distance < 0 ? 1 : -1);
+        // Match the detail-gallery gesture ordering: a leftward drag
+        // advances to the next image, while the opposite drag goes back.
+        const step = distance < 0 ? 1 : -1;
         touchStartX = null;
         touchStartY = null;
         touchAxis = null;
@@ -1011,6 +1023,8 @@ document.addEventListener('DOMContentLoaded', () => {
         resetInlineSlide();
       }, { passive: true });
       show(0, false);
+      preload(images[1 % images.length]);
+      preload(images[(images.length - 1 + images.length) % images.length]);
     });
   })();
 

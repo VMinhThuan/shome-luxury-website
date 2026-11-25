@@ -1895,6 +1895,29 @@ document.addEventListener('DOMContentLoaded', () => {
       gallerySpringFrame = window.requestAnimationFrame(frame);
     }
 
+    // Keep the mobile detail gallery identical to the quotation gallery:
+    // both layers are moved by one RAF/easing loop, without the legacy spring
+    // lift/filter path that can expose the white stage during a fast swipe.
+    function animateMobileGallerySlide({ heroImage, previewImage, fromHero, fromPreview, toHero, toPreview, onComplete }) {
+      cancelGallerySpring();
+      const animationStart = performance.now();
+      const animationDuration = 520;
+      const easeOutCubic = progress => 1 - Math.pow(1 - progress, 3);
+      const frame = now => {
+        const progress = Math.min(1, Math.max(0, (now - animationStart) / animationDuration));
+        const easedProgress = easeOutCubic(progress);
+        setGalleryImageTransform(heroImage, fromHero + ((toHero - fromHero) * easedProgress));
+        setGalleryImageTransform(previewImage, fromPreview + ((toPreview - fromPreview) * easedProgress));
+        if (progress >= 1) {
+          gallerySpringFrame = null;
+          onComplete();
+          return;
+        }
+        gallerySpringFrame = window.requestAnimationFrame(frame);
+      };
+      gallerySpringFrame = window.requestAnimationFrame(frame);
+    }
+
     const getPointerTime = event => (
       typeof event.timeStamp === 'number' && event.timeStamp > 0
         ? event.timeStamp
@@ -2021,19 +2044,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
       isGallerySliding = true;
       previewImage.style.visibility = 'visible';
-      stage.classList.add('is-sliding', 'is-lifted', 'is-springing');
+      stage.classList.add('is-sliding');
       setGalleryImageTransform(heroImage, fromHero, 0, 0, 0, 1);
       setGalleryImageTransform(previewImage, fromPreview, 0, 0, 0, 1);
 
-      animateGallerySpring({
+      animateMobileGallerySlide({
+        heroImage,
+        previewImage,
         fromHero,
         fromPreview,
         toHero: targetHero,
         toPreview: 0,
-        onFrame: (heroX, previewX, blur) => {
-          const revealProgress = Math.min(1, Math.abs(previewX - incomingStart) / Math.max(1, stageWidth));
-          applyGalleryTransitionFrame({ heroImage, previewImage, heroX, previewX, revealProgress, blur });
-        },
         onComplete: async () => {
           if (slideToken !== galleryTransitionToken) return;
           activeGalleryIndex = normalizedIndex;
@@ -2525,7 +2546,10 @@ document.addEventListener('DOMContentLoaded', () => {
           const baseIndex = activeGalleryIndex;
           const previewIndex = (baseIndex + step + galleryImages.length) % galleryImages.length;
           updateDragPreview(previewIndex);
-          setGalleryImageTransform(heroImage, distanceX, 0);
+          const previewReady = dragPreviewReadyIndex === previewIndex;
+          // Keep the current bitmap in place until the incoming bitmap is
+          // ready, so a quick swipe never reveals the white stage background.
+          setGalleryImageTransform(heroImage, previewReady ? distanceX : 0, 0);
           setGalleryImageTransform(
             dragPreview,
             (visualDirection > 0 ? stageWidth : -stageWidth) + distanceX,
