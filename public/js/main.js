@@ -2253,7 +2253,7 @@ document.addEventListener('DOMContentLoaded', () => {
       selectGalleryImage(0, true);
       updateDetailGalleryControlPosition();
       enableHorizontalThumbnailDrag(gallery.querySelector('[data-gallery-thumbnails]'), distance => {
-        const step = distance > 0 ? 1 : -1;
+        const step = distance < 0 ? 1 : -1;
         selectGalleryImage(activeGalleryIndex + step, false, step);
       });
       gallery.addEventListener('click', event => {
@@ -2350,8 +2350,9 @@ document.addEventListener('DOMContentLoaded', () => {
         const dragPreview = stage.querySelector('[data-gallery-drag-preview]');
 
         function getDragIndex(offset) {
-          // Detail-gallery ordering: drag right for next, left for previous.
-          const step = offset > 0 ? 1 : -1;
+          // Match the touch gesture direction used by the detail gallery:
+          // a leftward gallery drag advances to the next image.
+          const step = offset < 0 ? 1 : -1;
           return (activeGalleryIndex + step + galleryImages.length) % galleryImages.length;
         }
 
@@ -2510,7 +2511,7 @@ document.addEventListener('DOMContentLoaded', () => {
         let touchAxis = null;
         let touchOffsetX = 0;
 
-        const getTouchGalleryStep = distanceX => distanceX > 0 ? 1 : -1;
+        const getTouchGalleryStep = distanceX => distanceX < 0 ? 1 : -1;
 
         const updateMobileTouchPreview = distanceX => {
           if (!window.matchMedia?.('(max-width: 767px)').matches) return;
