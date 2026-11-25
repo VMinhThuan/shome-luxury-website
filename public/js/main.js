@@ -2335,7 +2335,10 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         stage.addEventListener('pointerdown', event => {
-          if (isGallerySliding || galleryImages.length < 2 || !event.isPrimary || (event.button !== undefined && event.button !== 0)) return;
+          // Touch devices also emit Pointer Events. Mobile has a dedicated
+          // touchstart/touchend path below; letting this pointer path run as
+          // well advances the gallery twice for one swipe (3 -> 5).
+          if (event.pointerType === 'touch' || isGallerySliding || galleryImages.length < 2 || !event.isPrimary || (event.button !== undefined && event.button !== 0)) return;
           if (event.target.closest('button')) return;
           dragPointerId = event.pointerId;
           dragStartX = event.clientX;
