@@ -2253,7 +2253,7 @@ document.addEventListener('DOMContentLoaded', () => {
       selectGalleryImage(0, true);
       updateDetailGalleryControlPosition();
       enableHorizontalThumbnailDrag(gallery.querySelector('[data-gallery-thumbnails]'), distance => {
-        const step = distance < 0 ? 1 : -1;
+        const step = distance > 0 ? 1 : -1;
         selectGalleryImage(activeGalleryIndex + step, false, step);
       });
       gallery.addEventListener('click', event => {
@@ -2350,7 +2350,8 @@ document.addEventListener('DOMContentLoaded', () => {
         const dragPreview = stage.querySelector('[data-gallery-drag-preview]');
 
         function getDragIndex(offset) {
-          const step = offset < 0 ? 1 : -1;
+          // Detail-gallery ordering: drag right for next, left for previous.
+          const step = offset > 0 ? 1 : -1;
           return (activeGalleryIndex + step + galleryImages.length) % galleryImages.length;
         }
 
@@ -2509,22 +2510,14 @@ document.addEventListener('DOMContentLoaded', () => {
         let touchAxis = null;
         let touchOffsetX = 0;
 
-        const getTouchGalleryStep = distanceX => {
-          const isAndroid = /Android/i.test(navigator.userAgent || '');
-          return isAndroid
-            ? (distanceX < 0 ? -1 : 1)
-            : (distanceX < 0 ? 1 : -1);
-        };
+        const getTouchGalleryStep = distanceX => distanceX > 0 ? 1 : -1;
 
         const updateMobileTouchPreview = distanceX => {
           if (!window.matchMedia?.('(max-width: 767px)').matches) return;
           const stageWidth = stage.clientWidth || window.innerWidth;
           const step = getTouchGalleryStep(distanceX);
-          // Android keeps its existing previous/next ordering, but the
-          // visual layers must always follow the physical finger direction.
-          // Using the content step here places the incoming bitmap on the
-          // wrong side and makes Chromium repaint the old image before the
-          // new one.
+          // Keep the animation following the physical finger direction; only
+          // the content ordering is reversed for this detail-gallery UX.
           const visualDirection = distanceX < 0 ? 1 : -1;
           const baseIndex = pendingMobileGalleryIndex ?? activeGalleryIndex;
           const previewIndex = (baseIndex + step + galleryImages.length) % galleryImages.length;
