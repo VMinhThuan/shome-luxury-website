@@ -24340,3 +24340,10 @@ main.project-detail-page .project-detail-summary .meta-value {
   -webkit-text-fill-color: rgba(255, 255, 255, .72) !important;
   font-weight: 400 !important;
 }
+
+/* Thumbnail list only: use a 16:9 frame on both responsive layouts. Keep
+   the hero image, article images and lightbox dimensions unchanged. */
+main.project-detail-page .project-gallery-thumbnails > .project-gallery-thumbnail,
+.quote-page .quote-featured-project-card--inline-gallery .project-gallery-thumbnails > .project-gallery-thumbnail {
+  aspect-ratio: 16 / 9 !important;
+}
