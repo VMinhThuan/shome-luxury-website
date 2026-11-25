@@ -24376,3 +24376,13 @@ main.project-detail-page .project-gallery-thumbnails > .project-gallery-thumbnai
     gap: 0 !important;
   }
 }
+
+/* The detail gallery is driven frame-by-frame while the finger moves. Do not
+   layer a second CSS transition over those frames on mobile; the quote-page
+   gallery already uses this same compositor behavior. */
+@media (max-width: 767px) {
+  .project-detail-page .project-gallery-stage.is-sliding > img,
+  .project-detail-page .project-gallery-stage.is-springing > img {
+    transition: none !important;
+  }
+}
