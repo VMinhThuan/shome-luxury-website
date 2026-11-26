@@ -24482,3 +24482,11 @@ main.project-detail-page .project-gallery-thumbnails > .project-gallery-thumbnai
     padding-top: clamp(2.25rem, 3vw, 3rem) !important;
   }
 }
+
+/* Quote lightbox: keep letterboxed areas dark so the enlarged photo does not
+   appear inside a white frame. Other detail and gallery viewers are unchanged. */
+.project-gallery-lightbox[data-gallery-variant="quote"] .project-gallery-lightbox-stage {
+  background: #000 !important;
+  border: 0 !important;
+  box-shadow: none !important;
+}
