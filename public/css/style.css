@@ -14,7 +14,6 @@
   font-style: normal;
   font-display: swap;
 }
-
 /* Keep the original Xưởng sản xuất banner composition independent of the
    homepage hero. This only applies on phone-sized screens. */
 @media (max-width: 767px) {
@@ -60,7 +59,6 @@
     line-height: 1.35;
   }
 }
-
 :root {
   /* Color Palette */
   --bg-primary: #FAF9F6;
@@ -29133,62 +29131,4 @@ main.project-detail-page .project-gallery-thumbnails>.project-gallery-thumbnail>
   }
 }
 
-/* On phones the quotation-page project gallery should use the full viewport
-   width. Keep the source ratio in normal flow so square/portrait photos grow
-   vertically without being cropped inside the card's old 16:9 frame. */
-@media (max-width: 767px) {
-  .quote-page .quote-featured-project-card--inline-gallery {
-    overflow: visible !important;
-    border-right: 0 !important;
-    border-left: 0 !important;
-    border-radius: 0 !important;
-  }
-
-  .quote-page .quote-featured-project-card--inline-gallery .quote-featured-project-gallery {
-    width: 100vw !important;
-    max-width: none !important;
-    margin-right: calc(50% - 50vw) !important;
-    margin-left: calc(50% - 50vw) !important;
-  }
-
-  .quote-page .quote-featured-project-card--inline-gallery .project-gallery-stage {
-    display: block !important;
-    width: 100vw !important;
-    max-width: none !important;
-    height: auto !important;
-    min-height: 0 !important;
-    aspect-ratio: auto !important;
-    overflow: hidden !important;
-    border-radius: 0 !important;
-  }
-
-  .quote-page .quote-featured-project-card--inline-gallery .project-gallery-stage > [data-quote-inline-image] {
-    position: relative !important;
-    inset: auto !important;
-    display: block !important;
-    width: 100% !important;
-    height: auto !important;
-    max-width: none !important;
-    max-height: none !important;
-    margin: 0 !important;
-    object-fit: contain !important;
-    object-position: center center !important;
-  }
-
-  .quote-page .quote-featured-project-card--inline-gallery .project-gallery-stage > [data-quote-inline-preview] {
-    position: absolute !important;
-    inset: 0 !important;
-    display: block !important;
-    width: 100% !important;
-    height: 100% !important;
-    max-width: none !important;
-    max-height: none !important;
-    margin: 0 !important;
-    object-fit: contain !important;
-    object-position: center center !important;
-  }
-
-  .quote-page .quote-featured-project-card--inline-gallery .project-gallery-control {
-    display: grid !important;
-  }
-}
+/* End of stylesheet. */
