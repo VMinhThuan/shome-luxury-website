@@ -941,11 +941,55 @@ document.addEventListener('DOMContentLoaded', () => {
         });
       };
 
+      let pressedThumbnail = null;
+      let thumbnailStartX = 0;
+      let thumbnailStartY = 0;
+      let thumbnailMoved = false;
+      let suppressThumbnailClick = false;
+
+      thumbnails?.addEventListener('pointerdown', event => {
+        const thumbnail = event.target.closest?.('[data-quote-inline-thumb]');
+        if (!thumbnail || !thumbnails.contains(thumbnail)) return;
+        pressedThumbnail = thumbnail;
+        thumbnailStartX = event.clientX;
+        thumbnailStartY = event.clientY;
+        thumbnailMoved = false;
+      }, true);
+      thumbnails?.addEventListener('pointermove', event => {
+        if (!pressedThumbnail) return;
+        thumbnailMoved = thumbnailMoved
+          || Math.hypot(event.clientX - thumbnailStartX, event.clientY - thumbnailStartY) >= 8;
+      }, true);
+      thumbnails?.addEventListener('pointerup', event => {
+        if (!pressedThumbnail) return;
+        const thumbnail = pressedThumbnail;
+        const shouldSelect = !thumbnailMoved;
+        pressedThumbnail = null;
+        thumbnailMoved = false;
+        if (!shouldSelect) return;
+        const nextIndex = Number(thumbnail.dataset.index);
+        if (!Number.isInteger(nextIndex)) return;
+        suppressThumbnailClick = true;
+        window.setTimeout(() => { suppressThumbnailClick = false; }, 0);
+        event.preventDefault();
+        selectInlineThumbnail(nextIndex);
+      }, true);
+      thumbnails?.addEventListener('pointercancel', () => {
+        pressedThumbnail = null;
+        thumbnailMoved = false;
+      }, true);
+
       gallery.querySelector('[data-quote-inline-prev]')?.addEventListener('click', () => show(activeIndex - 1, true, -1));
       gallery.querySelector('[data-quote-inline-next]')?.addEventListener('click', () => show(activeIndex + 1, true, 1));
       // Handle thumbnail selection at the rail level so clicks on either the
       // button or its nested image always resolve to the exact data-index.
       thumbnails?.addEventListener('click', event => {
+        if (suppressThumbnailClick) {
+          event.preventDefault();
+          event.stopPropagation();
+          suppressThumbnailClick = false;
+          return;
+        }
         const thumbnail = event.target.closest?.('[data-quote-inline-thumb]');
         if (!thumbnail || !thumbnails.contains(thumbnail)) return;
         event.preventDefault();

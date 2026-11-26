@@ -184,6 +184,10 @@
     && window.matchMedia?.('(min-width: 768px)').matches
   );
 
+  const isDesktopLightboxViewer = () => (
+    window.matchMedia?.('(min-width: 768px)').matches
+  );
+
   const prepareQuoteDesktopSwipePreview = distanceX => {
     if (!isQuoteDesktopViewer()) return;
     const { preview, stage } = getElements();
@@ -240,7 +244,7 @@
     state.slideAnimationFrame = window.requestAnimationFrame(frame);
   };
 
-  const animateQuoteDesktopFade = async ({ image, preview, stage, normalizedIndex, nextImage, token }) => {
+  const animateDesktopFade = async ({ image, preview, stage, normalizedIndex, nextImage, token }) => {
     resetZoom();
     resetSlidePosition();
     image.style.visibility = 'visible';
@@ -416,8 +420,8 @@
     const nextImage = getImage(state.images[normalizedIndex]);
     const token = ++state.transitionToken;
     const startImageOffset = isQuoteDesktopViewer() ? Number(dragOffset) || 0 : 0;
-    if (isQuoteDesktopViewer()) {
-      await animateQuoteDesktopFade({ image, preview, stage, normalizedIndex, nextImage, token });
+    if (isDesktopLightboxViewer()) {
+      await animateDesktopFade({ image, preview, stage, normalizedIndex, nextImage, token });
       return;
     }
     resetZoom();
@@ -682,7 +686,7 @@
       const distance = event.clientX - pointerStartX;
       if (Math.abs(distance) < 4) return;
       event.preventDefault();
-      if (isQuoteDesktopViewer()) return;
+      if (isDesktopLightboxViewer()) return;
       setSlideTransform(image, distance);
       prepareQuoteDesktopSwipePreview(distance);
     }, { passive: false });
@@ -784,7 +788,7 @@
       }
       event.preventDefault();
       if (state.touchAxis === 'horizontal') {
-        if (isQuoteDesktopViewer()) return;
+        if (isDesktopLightboxViewer()) return;
         setSlideTransform(image, distanceX);
         prepareQuoteDesktopSwipePreview(distanceX);
       }
