@@ -23297,6 +23297,16 @@ main.project-detail-page .project-detail-summary {
     height: 235px !important;
     min-height: 235px !important;
     max-height: 235px !important;
+    flex: 0 0 235px !important;
+    align-self: flex-start !important;
+  }
+
+  .site-footer .footer-col-fb .fb-card-box > .card-iframe-wrapper,
+  .site-footer .footer-col-map .map-card-box > .card-iframe-wrapper {
+    height: auto !important;
+    min-height: 0 !important;
+    flex: 1 1 auto !important;
+    overflow: hidden !important;
   }
 
   .site-footer .footer-factory-list li > span {
