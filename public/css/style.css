@@ -8576,7 +8576,7 @@ main.company-profile-page .company-profile-hero h1 {
   margin: 1.25rem 0;
   border-radius: 8px;
   overflow: hidden;
-  background: #F4F4F4;
+  background: transparent;
 }
 
 .old-web-article .article-main-img {
@@ -8598,7 +8598,7 @@ main.company-profile-page .company-profile-hero h1 {
 }
 
 .ftoc-box {
-  background: #FFFAF0;
+  background: #ffffff;
   border: 1px dashed #D2A044;
   border-radius: 8px;
   padding: 0.85rem 1.15rem;
@@ -8660,7 +8660,8 @@ main.company-profile-page .company-profile-hero h1 {
 }
 
 .article-contact-block {
-  background: #F9F8F5;
+  background: #ffffff;
+  border: 1px solid rgba(200, 155, 75, 0.25);
   border-left: 4px solid #D2A044;
   padding: 1rem 1.25rem;
   border-radius: 0 8px 8px 0;
@@ -12515,7 +12516,7 @@ html {
    ========================================================================== */
 .page-recruitment-detail {
   padding-top: var(--header-height-mobile, 70px);
-  background-color: #FAF9F6;
+  background-color: #ffffff;
   color: #332d26;
   min-height: 100vh;
 }
@@ -12527,7 +12528,8 @@ html {
 }
 
 .recruitment-detail-main {
-  padding: 1.25rem 0 2.5rem;
+  background-color: #ffffff;
+  padding: 1.25rem 0 1.25rem;
 }
 
 /* Breadcrumbs & Back bar */
@@ -12658,10 +12660,11 @@ html {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 0.75rem;
-  background: #fbf8f3;
+  background: #ffffff;
   border: 1px solid rgba(200, 155, 75, 0.2);
   border-radius: 10px;
   padding: 1rem;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.03);
 }
 
 @media (min-width: 640px) {
@@ -12674,6 +12677,7 @@ html {
   display: flex;
   align-items: center;
   gap: 0.65rem;
+  background: #ffffff;
 }
 
 .quick-info-card .info-icon {
@@ -12942,7 +12946,7 @@ html {
 }
 
 .other-job-card:hover {
-  background: #fbf8f3;
+  background: #f5f5f5;
 }
 
 .other-job-card img {
@@ -13237,7 +13241,7 @@ html {
    Keep both routes aligned on Chromium Android as well as iOS Safari. */
 .page-news-detail {
   padding-top: var(--header-height-mobile, 70px);
-  background-color: #FAF9F6;
+  background-color: #ffffff;
   color: #332d26;
   min-height: 100vh;
 }
@@ -13254,12 +13258,13 @@ html {
     -webkit-text-size-adjust: 100%;
     text-size-adjust: 100%;
     min-height: 100svh;
+    background-color: #ffffff;
   }
 
   .page-recruitment-detail .recruitment-detail-main,
   .page-news-detail .recruitment-detail-main {
     min-width: 0;
-    padding-bottom: calc(2.5rem + 58px + env(safe-area-inset-bottom, 0px));
+    padding-bottom: 1.25rem;
   }
 
   .page-recruitment-detail .job-detail-grid,
