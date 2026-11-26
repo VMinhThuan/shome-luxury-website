@@ -7,6 +7,7 @@ const connectDB = require("./src/config/db");
 const routes = require("./src/routes");
 const facebookController = require("./src/controllers/facebookController");
 const { hostnameRouting } = require("./src/middleware/hostnameRouting");
+const { titleCaseVi } = require("./src/utils/textFormatting");
 
 const app = express();
 const PORT = process.env.PORT || 3030;
@@ -26,6 +27,7 @@ app.use(hostnameRouting);
 // Set view engine to EJS
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "src/views"));
+app.locals.titleCaseVi = titleCaseVi;
 
 // Body parser
 app.use(express.json());

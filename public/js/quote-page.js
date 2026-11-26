@@ -899,14 +899,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
       gallery.querySelector('[data-quote-inline-prev]')?.addEventListener('click', () => show(activeIndex - 1, true, -1));
       gallery.querySelector('[data-quote-inline-next]')?.addEventListener('click', () => show(activeIndex + 1, true, 1));
-      thumbnails?.querySelectorAll('[data-quote-inline-thumb]').forEach(thumbnail => {
-        thumbnail.addEventListener('click', () => {
-          const nextIndex = Number(thumbnail.dataset.index) || 0;
-          // Match the project-detail gallery: thumbnail selection commits the
-          // chosen image immediately; only arrows/swipes use the slow slide.
-          show(nextIndex, false, 0);
-        });
-      });
+      // Handle thumbnail selection at the rail level so it remains reliable
+      // on responsive layouts where the card and drag handlers also receive
+      // the same pointer/click sequence.
+      thumbnails?.addEventListener('click', event => {
+        const thumbnail = event.target.closest?.('[data-quote-inline-thumb]');
+        if (!thumbnail || !thumbnails.contains(thumbnail)) return;
+        event.preventDefault();
+        event.stopPropagation();
+        const nextIndex = Number(thumbnail.dataset.index) || 0;
+        // Thumbnail selection commits immediately; only arrows/swipes animate.
+        show(nextIndex, false, 0);
+      }, true);
       stage.addEventListener('keydown', event => {
         if (event.key === 'ArrowLeft') { event.preventDefault(); show(activeIndex - 1, true, -1); }
         if (event.key === 'ArrowRight') { event.preventDefault(); show(activeIndex + 1, true, 1); }

@@ -33,11 +33,11 @@
     <section class="project-showcase-hero <%= pageImages && pageImages[`subpage_${activeCategoryCode}_hero_banner`] ? 'has-managed-image' : '' %>" style="--showcase-hero-image: url('<%= pageImages && pageImages[`subpage_${activeCategoryCode}_hero_banner`] ? pageImages[`subpage_${activeCategoryCode}_hero_banner`] : '' %>'); --showcase-hero-image-mobile: url('<%= pageImages && (pageImages[`subpage_${activeCategoryCode}_hero_banner__mobile`] || pageImages[`subpage_${activeCategoryCode}_hero_banner`]) ? (pageImages[`subpage_${activeCategoryCode}_hero_banner__mobile`] || pageImages[`subpage_${activeCategoryCode}_hero_banner`]) : '' %>');">
       <div class="container">
         <div class="showcase-header-text">
-          <span class="eyebrow-text">─── <%= pageConfig.eyebrow %> ───</span>
+          <span class="eyebrow-text">─── <%= titleCaseVi(pageConfig.eyebrow) %> ───</span>
           <h1 class="showcase-title">
-            <span class="title-main <%= pageConfig.titleMainClass || '' %>"><%= pageConfig.titleMain %></span>
+          <span class="title-main <%= pageConfig.titleMainClass || '' %>"><%= titleCaseVi(pageConfig.titleMain) %></span>
             <% if (pageConfig.titleScript) { %>
-              <span class="title-script font-script"><%= pageConfig.titleScript %></span>
+              <span class="title-script font-script"><%= titleCaseVi(pageConfig.titleScript) %></span>
             <% } %>
           </h1>
           <% if (pageConfig.description) { %>
@@ -93,8 +93,8 @@
           </div>
           <% if (hasMoreVideos) { %>
             <div class="construction-video-more <%= hasMoreDesktopVideos ? 'has-more-desktop' : 'has-more-mobile' %>">
-              <button class="construction-video-more-button" type="button" data-expand-grid="construction-video-grid" aria-controls="construction-video-grid" aria-expanded="false" data-more-text="XEM THÊM" data-less-text="THU GỌN">
-                XEM THÊM
+              <button class="construction-video-more-button" type="button" data-expand-grid="construction-video-grid" aria-controls="construction-video-grid" aria-expanded="false" data-more-text="Xem Thêm" data-less-text="Thu Gọn">
+                Xem Thêm
               </button>
             </div>
           <% } %>
@@ -125,11 +125,11 @@
                data-limit="6">
             <button class="construction-video-more-button project-load-more-button" type="button"
                     aria-controls="project-list-container" aria-expanded="false">
-              XEM THÊM
+              Xem Thêm
             </button>
             <button class="construction-video-more-button project-collapse-button" type="button"
                     aria-controls="project-list-container" hidden>
-              THU GỌN
+              Thu Gọn
             </button>
             <span class="project-pagination-status" role="status" aria-live="polite"></span>
           </div>
@@ -144,8 +144,8 @@
         <div class="completed-projects-heading-band" style="--completed-heading-image: url('<%= completedHeadingImage %>');">
           <div class="container">
             <header class="completed-projects-heading">
-              <p>─── NHỮNG HÌNH ẢNH HOÀN CÔNG TIÊU BIỂU ───</p>
-              <h2 class="<%= pageConfig.completedTitleScript === 'Nhà Cấp 4' ? 'completed-title--nha-cap-4' : '' %>"><%= pageConfig.completedTitleMain || 'HOÀN CÔNG NỘI THẤT' %> <em class="font-script"><%= pageConfig.completedTitleScript || 'Chung Cư' %></em></h2>
+              <p>─── Những Hình Ảnh Hoàn Công Tiêu Biểu ───</p>
+              <h2 class="<%= pageConfig.completedTitleScript === 'Nhà Cấp 4' ? 'completed-title--nha-cap-4' : '' %>"><%= titleCaseVi(pageConfig.completedTitleMain || 'Hoàn Công Nội Thất') %> <em class="font-script"><%= titleCaseVi(pageConfig.completedTitleScript || 'Chung Cư') %></em></h2>
               <strong><%= pageConfig.completedDescription || 'Những hình ảnh thực tế sau khi hoàn thiện, mang đến không gian sống sang trọng, tinh tế và đúng “chất” của từng gia chủ.' %></strong>
             </header>
           </div>

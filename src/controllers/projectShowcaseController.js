@@ -5,6 +5,7 @@ const navigationData = require('../data/navigationData');
 const constructionGalleryService = require('../services/constructionGalleryService');
 const { getPageImages } = require('../services/imageService');
 const { PROJECT_CATEGORY_PATHS } = require('../data/publicRoutes');
+const { titleCaseVi } = require('../utils/textFormatting');
 
 const createConstructionConfig = ({ titleMain, titleScript, completedProjectCategory, description }) => ({
   eyebrow: 'HÌNH ẢNH ĐANG THI CÔNG',
@@ -289,7 +290,7 @@ class ProjectShowcaseController {
         });
       }
 
-      const pageTitle = `${pageConfig.titleMain} ${pageConfig.titleScript} | LUXURY HOME`.trim();
+      const pageTitle = `${titleCaseVi(pageConfig.titleMain)} ${titleCaseVi(pageConfig.titleScript)} | LUXURY HOME`.trim();
       const pageImages = await getPageImages(categoryCode);
 
       return res.render('cong-trinh', {
@@ -357,10 +358,11 @@ class ProjectShowcaseController {
         : null;
 
       return res.render('du-an-chi-tiet', {
-        title: `${project.title} | LUXURY HOME`,
+        title: `${titleCaseVi(project.title)} | LUXURY HOME`,
         headerSlogan: 'Nâng tầm cuộc sống',
         navigation: navigationData,
         project,
+        projectDisplayTitle: titleCaseVi(project.title),
         breadcrumbs,
         relatedProjects,
         // Keep the detail banner aligned with the banner shown on the

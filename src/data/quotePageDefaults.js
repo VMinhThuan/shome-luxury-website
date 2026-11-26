@@ -1,6 +1,6 @@
 module.exports = {
   hero: {
-    eyebrow: 'BÁO GIÁ THIẾT KẾ & THI CÔNG',
+    eyebrow: 'Báo Giá Thiết Kế & Thi Công',
     title: 'Chung cư trọn gói',
     script: 'Nội thất',
     description: 'Kiến tạo không gian sống thượng lưu với dấu ấn riêng của bạn.',
@@ -23,7 +23,7 @@ module.exports = {
     isVisible: true
   },
   categories: {
-    eyebrow: 'KHÔNG GIAN ĐƯỢC KIẾN TẠO',
+    eyebrow: 'Không Gian Được Kiến Tạo',
     title: 'Thiết kế theo',
     script: 'câu chuyện của bạn',
     description: 'Khám phá các công trình thực tế theo từng loại hình không gian.',
@@ -81,7 +81,7 @@ module.exports = {
     isVisible: true
   },
   pricing: {
-    eyebrow: 'BÁO GIÁ THAM KHẢO',
+    eyebrow: 'Báo Giá Tham Khảo',
     title: 'Thiết kế thi công nội thất',
     script: 'Chung cư',
     description: 'Minh bạch chi phí - Tối ưu ngân sách - Hiệu quả vượt mong đợi',
@@ -93,7 +93,7 @@ module.exports = {
     isVisible: true
   },
   constructionCta: {
-    eyebrow: 'THI CÔNG NỘI THẤT',
+    eyebrow: 'Thi Công Nội Thất',
     title: 'Miễn phí thiết kế',
     description: 'Khi ký hợp đồng thi công trọn gói',
     image: '/images/quote-construction-interior.png',
@@ -102,7 +102,7 @@ module.exports = {
     isVisible: true
   },
   process: {
-    eyebrow: 'QUY TRÌNH LÀM VIỆC',
+    eyebrow: 'Quy Trình Làm Việc',
     title: 'Đơn giản để',
     script: 'bạn luôn chủ động',
     items: [
@@ -114,7 +114,7 @@ module.exports = {
     isVisible: true
   },
   estimate: {
-    eyebrow: 'NHẬN DỰ TOÁN',
+    eyebrow: 'Nhận Dự Toán',
     title: 'Bắt đầu câu chuyện',
     script: 'không gian của bạn',
     description: 'Để lại thông tin, Shome Luxury sẽ liên hệ tư vấn và gửi dự toán phù hợp trong thời gian sớm nhất.',
@@ -123,7 +123,7 @@ module.exports = {
     isVisible: true
   },
   faq: {
-    eyebrow: 'GIẢI ĐÁP',
+    eyebrow: 'Giải Đáp',
     title: 'Câu hỏi thường',
     script: 'gặp',
     items: [

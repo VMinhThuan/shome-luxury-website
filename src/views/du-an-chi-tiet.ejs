@@ -24,11 +24,12 @@
   <!-- Main Content -->
   <main id="main-content" class="project-detail-page" data-project-slug="<%= project.slug %>">
     <div class="container">
+      <% const displayProjectTitle = projectDisplayTitle || titleCaseVi(project.title); %>
       <% const galleryImages = [...new Set((Array.isArray(project.gallery) && project.gallery.length ? project.gallery : [project.thumbnail]).filter(Boolean))]; %>
       <section class="project-detail-summary" aria-label="Tóm tắt dự án" style="--project-detail-summary-image: url('<%= projectDetailBackground || '/images/background/1793129513212_6043215661779559246_6043215661779559246_f2ba52d47d902705547739b26ef66555.jpg' %>');">
         <!-- Project Detail Header -->
         <header class="project-detail-header">
-          <h1 class="project-detail-title" data-project-field="title"><%= project.title %></h1>
+          <h1 class="project-detail-title" data-project-field="title"><%= displayProjectTitle %></h1>
           <span class="project-detail-title-rule" aria-hidden="true"></span>
         </header>
 
@@ -64,10 +65,10 @@
           </div>
         </aside>
       </section>
-      <section class="project-showcase-gallery" data-project-gallery aria-label="Thư viện ảnh công trình <%= project.title %>">
+      <section class="project-showcase-gallery" data-project-gallery aria-label="Thư viện ảnh công trình <%= displayProjectTitle %>">
         <div class="project-gallery-stage" data-gallery-open tabindex="0" aria-label="Bấm để xem ảnh phóng to">
           <% if (galleryImages.length) { %>
-            <img src="<%= galleryImages[0] %>" alt="<%= project.title %> - ảnh 1" class="hero-img" data-detail-image loading="eager" draggable="false" />
+            <img src="<%= galleryImages[0] %>" alt="<%= displayProjectTitle %> - ảnh 1" class="hero-img" data-detail-image loading="eager" draggable="false" />
             <img class="project-gallery-drag-preview" data-gallery-drag-preview alt="" aria-hidden="true" draggable="false" />
           <% } else { %>
             <div class="project-gallery-empty">Công trình chưa có hình ảnh</div>
@@ -84,7 +85,7 @@
         <div class="project-gallery-thumbnails" data-gallery-thumbnails role="list" aria-label="Chọn ảnh công trình">
           <% galleryImages.forEach((imgUrl, idx) => { %>
             <button class="project-gallery-thumbnail <%= idx === 0 ? 'is-active' : '' %>" type="button" data-gallery-thumb data-index="<%= idx %>" aria-label="Xem ảnh <%= idx + 1 %>" aria-current="<%= idx === 0 ? 'true' : 'false' %>" role="listitem">
-              <img src="<%= imgUrl %>" alt="<%= project.title %> - thumbnail <%= idx + 1 %>" loading="lazy" draggable="false" />
+              <img src="<%= imgUrl %>" alt="<%= displayProjectTitle %> - thumbnail <%= idx + 1 %>" loading="lazy" draggable="false" />
             </button>
           <% }); %>
         </div>
@@ -96,7 +97,7 @@
       <section class="related-projects-section">
         <div class="container">
           <div class="related-projects-heading">
-            <h2 class="section-title">DỰ ÁN LIÊN QUAN</h2>
+            <h2 class="section-title">Dự Án Liên Quan</h2>
           </div>
           <div class="project-list-vertical" data-related-projects-carousel>
             <% relatedProjects.forEach(relProj => { %>

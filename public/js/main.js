@@ -1,3 +1,15 @@
+function titleCaseVi(value) {
+  const text = String(value ?? '').trim();
+  if (!text) return '';
+  let formatted = text
+    .toLocaleLowerCase('vi-VN')
+    .replace(/(^|[^\p{L}\p{N}])([\p{L}])/gu, (_, prefix, letter) => `${prefix}${letter.toLocaleUpperCase('vi-VN')}`);
+  [['shome luxury', 'SHOME LUXURY'], ['s home luxury', 'SHome Luxury'], ['vnđ', 'VNĐ'], ['cnc', 'CNC'], ['pdf', 'PDF'], ['hn', 'HN'], ['zalo', 'Zalo'], ['youtube', 'YouTube'], ['facebook', 'Facebook']].forEach(([source, replacement]) => {
+    formatted = formatted.replace(new RegExp(`\\b${source}\\b`, 'gi'), replacement);
+  });
+  return formatted;
+}
+
 document.addEventListener('DOMContentLoaded', () => {
   // 1. MOBILE DRAWER TOGGLE & BODY SCROLL LOCK
   const hamburgerBtn = document.getElementById('hamburgerBtn');
@@ -2642,7 +2654,7 @@ document.addEventListener('DOMContentLoaded', () => {
               if (formattedCost) element.textContent = formattedCost;
               return;
             }
-            if (project[field]) element.textContent = project[field];
+            if (project[field]) element.textContent = field === 'title' ? titleCaseVi(project[field]) : project[field];
           });
 
           updateGallery(getProjectGalleryImages(project), project.title || 'Công trình Shome Luxury');
@@ -3247,7 +3259,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const projectDetailUrl = `/cong-trinh/${encodeURIComponent(project.slug || '')}`;
 
 
-    const safeTitle = escapeHtml(project.title);
+    const safeTitle = escapeHtml(titleCaseVi(project.title));
     const primaryImage = getProjectCardImage(project);
     const imageHtml = primaryImage
       ? `<img src="${escapeHtml(primaryImage)}" alt="${safeTitle}" class="project-card-img" loading="lazy" decoding="async" style="object-position: 50% 50%;" />`

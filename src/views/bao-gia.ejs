@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400&family=Playfair+Display:ital,wght@0,600;0,700;0,800;0,900;1,600&family=Great+Vibes&family=Alex+Brush&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="/css/style.css?v=6.8.232" />
+  <link rel="stylesheet" href="/css/style.css?v=6.8.240" />
   <script src="/js/project-gallery-lightbox.js?v=1.0.24" defer></script>
   <style>
     /* Alternating section backgrounds on quote page handled by style.css design system */
@@ -520,7 +520,7 @@
       .quote-page .quote-price-copy h3 { font-size: clamp(1.5rem, 2.1vw, 2rem); }
 
       .quote-page .quote-completed-videos,
-      .quote-page .quote-completed-videos-grid { width: 100%; grid-template-columns: minmax(0, 1fr); gap: clamp(.9rem, 1.7vw, 1.45rem); }
+      .quote-page .quote-completed-videos-grid { width: 100%; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(.9rem, 1.7vw, 1.45rem); }
       .quote-page .quote-completed-video,
       .quote-page .quote-completed-video-card { aspect-ratio: 16 / 9; }
       .quote-page .quote-completed-video-card--mobile-hidden { display: none !important; }
@@ -1485,18 +1485,34 @@
        let the card background provide clean space around portrait images. */
     .quote-page .quote-featured-project-card--inline-gallery .project-gallery-stage {
       background: #fff !important;
+      background-color: #fff !important;
       cursor: zoom-in;
     }
     .quote-page .quote-featured-project-card--inline-gallery .project-gallery-stage > img {
-      background: #fff !important;
+      background: transparent !important;
       object-fit: contain !important;
       object-position: center center !important;
     }
+    .quote-page .quote-featured-project-card--inline-gallery .project-gallery-stage-shade,
+    .quote-page #cong-trinh-thiet-ke-moi .project-gallery-stage-shade,
+    .quote-page .project-gallery-stage-shade {
+      display: none !important;
+      visibility: hidden !important;
+      opacity: 0 !important;
+      background: none !important;
+    }
+    .quote-page .quote-featured-project-card--inline-gallery .project-gallery-stage::before,
+    .quote-page .quote-featured-project-card--inline-gallery .project-gallery-stage::after {
+      display: none !important;
+      content: none !important;
+      background: none !important;
+    }
     .quote-page .quote-project-gallery-stage {
       background: #fff !important;
+      background-color: #fff !important;
     }
     .quote-page .quote-project-gallery-stage > img {
-      background: #fff !important;
+      background: transparent !important;
       object-fit: contain !important;
       object-position: center center !important;
     }
@@ -2344,7 +2360,7 @@
       overflow: hidden;
       border: 0;
       border-radius: 8px;
-      background: #2e2923;
+      background: #f5f5f5;
       box-shadow: none;
     }
     .quote-page .quote-category-overview .quote-featured-project-card:hover {
@@ -2366,7 +2382,9 @@
       background: transparent;
     }
     .quote-page .quote-category-overview .quote-featured-project-image::after {
-      background: linear-gradient(180deg, rgba(13, 10, 7, .02) 25%, rgba(13, 10, 7, .12) 52%, rgba(13, 10, 7, .72) 100%);
+      display: none !important;
+      content: none !important;
+      background: none !important;
     }
     .quote-page .quote-category-overview .quote-featured-project-image img {
       width: 100%;
@@ -2388,8 +2406,8 @@
       padding: clamp(.75rem, 2vw, 1.5rem);
       color: #fff;
       text-align: center;
-      text-shadow: 0 2px 4px rgba(0, 0, 0, .9);
-      background: linear-gradient(180deg, transparent 22%, rgba(13, 10, 7, .1) 45%, rgba(13, 10, 7, .48) 100%);
+      text-shadow: 0 2px 5px rgba(0, 0, 0, .95), 0 1px 2px rgba(0, 0, 0, .95);
+      background: none !important;
       pointer-events: none;
     }
     .quote-page .quote-category-overview .quote-featured-project-info h3 {
@@ -2886,7 +2904,7 @@
     }
   </style>
   <script src="/js/main.js?v=2.0.44" defer></script>
-  <script src="/js/quote-page.js?v=1.2.40" defer></script>
+  <script src="/js/quote-page.js?v=1.2.41" defer></script>
 </head>
 <body>
   <% const quoteProjectUrls = { 'tk-kt-nha-cap-4': '/thiet-ke-cong-trinh/thiet-ke-kien-truc/thiet-ke-kien-truc-nha-cap-4', 'tk-kt-nha-pho': '/thiet-ke-cong-trinh/thiet-ke-kien-truc/thiet-ke-kien-truc-nha-pho', 'tk-kt-biet-thu': '/thiet-ke-cong-trinh/thiet-ke-kien-truc/thiet-ke-kien-truc-biet-thu', 'tk-kt-villa': '/thiet-ke-cong-trinh/thiet-ke-kien-truc/thiet-ke-kien-truc-villa', 'tk-nt-chung-cu': '/thiet-ke-noi-that/thiet-ke-noi-that-chung-cu', 'tk-nt-nha-pho': '/thiet-ke-noi-that/thiet-ke-noi-that-nha-pho', 'tk-nt-biet-thu': '/thiet-ke-noi-that/thiet-ke-noi-that-biet-thu', 'tk-nt-van-phong': '/thiet-ke-noi-that/thiet-ke-noi-that-van-phong' }; const dynamicProjectUrl = quoteProjectUrls[selectedCategory?.code] || '/thiet-ke-cong-trinh'; %>
@@ -2919,7 +2937,7 @@
     <% if (sections.benefits?.isVisible !== false) { %>
       <section class="quote-section quote-benefits">
         <div class="container">
-          <header class="quote-heading quote-heading-center quote-benefits-heading"><p class="quote-kicker"><%= sections.benefits.title %></p><h2><%= sections.benefits.script %></h2><p><%= sections.benefits.description %></p></header>
+          <header class="quote-heading quote-heading-center quote-benefits-heading"><p class="quote-kicker"><%= titleCaseVi(sections.benefits.title) %></p><h2><%= titleCaseVi(sections.benefits.script) %></h2><p><%= sections.benefits.description %></p></header>
           <div class="quote-benefit-grid">
             <% sections.benefits.items.filter(item => item.isVisible !== false).forEach((item, index) => { %>
               <% const benefitIcons = [
@@ -2927,7 +2945,7 @@
                 (locals.quoteImages && quoteImages.quote_benefit_icon_2) || '/images/icon-2-bg.png',
                 (locals.quoteImages && quoteImages.quote_benefit_icon_3) || '/images/ic3-bg.png'
               ]; %>
-              <article class="quote-benefit-card"><span class="quote-number">0<%= index + 1 %></span><div class="quote-benefit-icon" aria-hidden="true"><img src="<%= benefitIcons[index] %>" alt="" /></div><div class="quote-benefit-copy"><h3><%= item.title %></h3><p><%= item.description %></p></div></article>
+              <article class="quote-benefit-card"><span class="quote-number">0<%= index + 1 %></span><div class="quote-benefit-icon" aria-hidden="true"><img src="<%= benefitIcons[index] %>" alt="" /></div><div class="quote-benefit-copy"><h3><%= titleCaseVi(item.title) %></h3><p><%= item.description %></p></div></article>
             <% }) %>
           </div>
         </div>
@@ -2938,8 +2956,8 @@
       <section class="quote-section quote-pricing" id="bao-gia-tham-khao">
         <div class="container">
           <header class="quote-heading quote-heading-center">
-            <p class="quote-kicker"><%= sections.pricing.eyebrow %></p>
-            <h2><%= quotePricingTitle || sections.pricing.title %> <em><%= featuredCategoryName || sections.pricing.script %></em></h2>
+            <p class="quote-kicker"><%= titleCaseVi(sections.pricing.eyebrow) %></p>
+            <h2><%= titleCaseVi(quotePricingTitle || sections.pricing.title) %> <em><%= titleCaseVi(featuredCategoryName || sections.pricing.script) %></em></h2>
             <p><%= sections.pricing.description %></p>
           </header>
           <div class="quote-pricing-list">
@@ -2957,14 +2975,14 @@
                  const hasMobileCardImage = Boolean(mobileCardImage && mobileCardImage !== defaultMobileImage);
             %>
               <article class="quote-price-card">
-                <div class="quote-price-image<%= hasMobileCardImage ? '' : ' quote-price-image--mobile-empty' %>" role="img" aria-label="<%= item.title %>" style="background-image: url('<%= cardImage %>'); background-size: cover; background-position: center;">
+                <div class="quote-price-image<%= hasMobileCardImage ? '' : ' quote-price-image--mobile-empty' %>" role="img" aria-label="<%= titleCaseVi(item.title) %>" style="background-image: url('<%= cardImage %>'); background-size: cover; background-position: center;">
                   <picture>
                     <% if (hasMobileCardImage) { %><source media="(max-width: 767px)" srcset="<%= mobileCardImage %>" /><% } %>
-                    <img src="<%= cardImage %>" alt="<%= item.title %>" loading="lazy" />
+                    <img src="<%= cardImage %>" alt="<%= titleCaseVi(item.title) %>" loading="lazy" />
                   </picture>
                 </div>
                 <div class="quote-price-copy">
-                  <span class="quote-price-title"><%= item.title %></span>
+                  <span class="quote-price-title"><%= titleCaseVi(item.title) %></span>
                   <h3><span class="quote-price-prefix">Chỉ từ</span><span class="quote-price-amount"><%= item.price || '' %></span></h3>
                   <p><%= item.description %></p>
                   <span class="quote-price-area">Diện tích <%= (item.area || '').replace(/^70 - 100m²$/, '= 70 - 100m²') %></span>
@@ -3025,7 +3043,7 @@
                     tabindex="0"
                     aria-label="Xem thư viện ảnh dự án <%= project.title %>"
                   >
-                    <h3><%= project.title %></h3>
+                    <h3><%= titleCaseVi(project.title) %></h3>
                     <dl>
                       <div><dt>Diện tích:</dt><dd><%= project.area || 'Đang cập nhật' %></dd></div>
                       <div><dt>Chi phí:</dt><dd><%= costLabel %></dd></div>
@@ -3052,8 +3070,8 @@
       <section class="quote-brand-video">
         <div class="container">
           <header class="quote-video-heading">
-            <p><%= sections.brandVideo.eyebrow %></p>
-            <h2><%= brandVideoTitle %></h2>
+            <p><%= titleCaseVi(sections.brandVideo.eyebrow) %></p>
+            <h2><%= titleCaseVi(brandVideoTitle) %></h2>
             <strong><%= sections.brandVideo.description %></strong>
           </header>
           <div class="quote-video-card">
@@ -3102,7 +3120,6 @@
                       <% } else { %>
                         <div class="project-gallery-empty">Công trình chưa có hình ảnh</div>
                       <% } %>
-                      <div class="project-gallery-stage-shade" aria-hidden="true"></div>
                       <div class="project-gallery-count" aria-live="polite"><span data-quote-inline-current><%= galleryImages.length ? '01' : '00' %></span><span>/</span><span data-quote-inline-total><%= String(galleryImages.length).padStart(2, '0') %></span></div>
                       <button class="project-gallery-control previous" type="button" data-quote-inline-prev aria-label="Ảnh trước" <%= galleryImages.length < 2 ? 'hidden' : '' %>>
                         <svg viewBox="0 0 24 24" aria-hidden="true"><polyline points="15 18 9 12 15 6"></polyline></svg>
@@ -3126,7 +3143,7 @@
                     tabindex="0"
                     aria-label="Xem thư viện ảnh dự án <%= project.title %>"
                   >
-                    <h3><%= project.title %></h3>
+                    <h3><%= titleCaseVi(project.title) %></h3>
                     <dl>
                       <div><dt>Diện tích:</dt><dd><%= project.area || 'Đang cập nhật' %></dd></div>
                       <div><dt>Chi phí:</dt><dd><%= costLabel %></dd></div>
@@ -3276,7 +3293,7 @@
       <section class="quote-capability">
         <div class="container quote-workshop">
           <header class="quote-workshop-heading">
-            <h2><%= sections.capability.eyebrow %> <em><%= sections.capability.title %></em></h2>
+            <h2><%= titleCaseVi(sections.capability.eyebrow) %> <em><%= titleCaseVi(sections.capability.title) %></em></h2>
             <p><%= sections.capability.description %></p>
           </header>
           <div class="quote-workshop-gallery">
@@ -3286,7 +3303,7 @@
             %>
               <figure>
                 <img src="<%= galleryImage %>" alt="<%= item.alt %>" loading="lazy" />
-                <figcaption><%= item.title %><% if (item.description) { %><span><%= item.description %></span><% } %></figcaption>
+                <figcaption><%= titleCaseVi(item.title) %><% if (item.description) { %><span><%= item.description %></span><% } %></figcaption>
               </figure>
             <% }) %>
           </div>

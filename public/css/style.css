@@ -13352,8 +13352,9 @@ html {
   visibility: visible;
 }
 
-.project-detail-page .project-gallery-stage-shade {
-  display: none;
+.project-detail-page .project-gallery-stage-shade,
+.quote-page .project-gallery-stage-shade {
+  display: none !important;
 }
 
 @media (max-width: 767px) {
@@ -14126,7 +14127,7 @@ main .section-v2-title,
 .quote-page .quote-featured-project-card--inline-gallery:hover .project-gallery-stage > img { transform: translateX(0); }
 .quote-page .quote-featured-project-card--inline-gallery .project-gallery-stage.is-inline-changing > img { animation: quote-inline-gallery-fade .24s ease; }
 .quote-page .quote-featured-project-card--inline-gallery .quote-featured-project-overlay { z-index: 4; pointer-events: none; }
-.quote-page .quote-featured-project-card--inline-gallery .project-gallery-thumbnails { margin: .75rem 1rem .15rem; }
+.quote-page .quote-featured-project-card--inline-gallery .project-gallery-thumbnails { margin: .75rem 0 .15rem; }
 .quote-page .quote-featured-project-card--inline-gallery .project-gallery-thumbnail { min-width: 88px; }
 @keyframes quote-inline-gallery-fade { from { opacity: .72; } to { opacity: 1; } }
 
@@ -18329,7 +18330,7 @@ main :is(
   .quote-free-estimate-copy h2,
   .quote-final-faq h2
 ) {
-  text-transform: lowercase !important;
+  text-transform: none !important;
 }
 
 main :is(
@@ -18383,6 +18384,12 @@ main :is(
 }
 
 main :is(.font-script, [class^="script-"], [class*="-script-"], [class$="-script"], h1 em, h2 em) {
+  text-transform: none !important;
+}
+
+/* Public content uses authored title case. Admin workspaces keep their
+   existing compact uppercase treatment. */
+body:not(.project-admin-page):not(.quote-admin-page):not(.admin-dashboard-page):not(.home-images-admin):not(.video-admin-page):not(.content-cms-page) :is(main, .site-footer) * {
   text-transform: none !important;
 }
 
@@ -18937,9 +18944,6 @@ main :is(.hero-script-subtitle, .recruitment-hero-script, .recruitment-hero-bott
 .home-page .hero-slider--fade .hero-slide.is-exiting {
   z-index: 1;
   opacity: 0;
-  transition-delay: 0s;
-}
-
 .home-page .hero-slider--fade .hero-v2-bg img {
   transform: scale(1.035);
   transition: transform 5.5s linear;
@@ -23455,6 +23459,50 @@ body.page-news #main-content > .news-hero-full-bleed {
 /* Keep portrait sources centered in the quote-page project-card crop. */
 .quote-page .quote-category-overview .quote-featured-project-image img {
   object-position: center center !important;
+}
+
+/* Remove black overlay on featured project cards in quote overview section */
+.quote-page .quote-category-overview .quote-featured-project-card {
+  background: #f5f5f5 !important;
+}
+
+.quote-page .quote-category-overview .quote-featured-project-image::after {
+  display: none !important;
+  content: none !important;
+  background: none !important;
+}
+
+.quote-page .quote-category-overview .quote-featured-project-info {
+  background: none !important;
+}
+
+/* Remove black overlay and shading on featured project cards in quote category section */
+.quote-page .quote-featured-project-card--inline-gallery .project-gallery-stage-shade,
+.quote-page #cong-trinh-thiet-ke-moi .project-gallery-stage-shade {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  background: none !important;
+}
+
+.quote-page .quote-featured-project-card--inline-gallery .project-gallery-stage,
+.quote-page #cong-trinh-thiet-ke-moi .project-gallery-stage {
+  background: #ffffff !important;
+  background-color: #ffffff !important;
+}
+
+.quote-page .quote-featured-project-card--inline-gallery .project-gallery-stage::before,
+.quote-page .quote-featured-project-card--inline-gallery .project-gallery-stage::after,
+.quote-page #cong-trinh-thiet-ke-moi .project-gallery-stage::before,
+.quote-page #cong-trinh-thiet-ke-moi .project-gallery-stage::after {
+  display: none !important;
+  content: none !important;
+  background: none !important;
+}
+
+.quote-page .quote-featured-project-card--inline-gallery .project-gallery-stage > img,
+.quote-page #cong-trinh-thiet-ke-moi .project-gallery-stage > img {
+  background: transparent !important;
 }
 
 /* Keep gallery thumbnails visually consistent with the full image: portrait
