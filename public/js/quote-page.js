@@ -759,7 +759,9 @@ document.addEventListener('DOMContentLoaded', () => {
         activeIndex = nextIndex;
         image.src = images[activeIndex];
         image.alt = `${gallery.dataset.projectTitle || 'Công trình Shome Luxury'} - ảnh ${activeIndex + 1}`;
-        setInlineTransform(image, 0);
+        // Keep the old bitmap outside the stage until the new src has
+        // painted. Centering it before that point can reveal a thin old-image
+        // strip when the two photos use different aspect ratios.
         setInlineTransform(preview, 0);
 
         // The preview is already the next decoded image. Keep it visible
@@ -768,6 +770,8 @@ document.addEventListener('DOMContentLoaded', () => {
         await waitForInlineImage(image);
         if (requestToken !== transitionToken) return;
 
+        setInlineTransform(image, 0);
+        await new Promise(resolve => window.requestAnimationFrame(resolve));
         preview.style.display = 'none';
         preview.style.visibility = 'hidden';
         inlinePreviewIndex = null;

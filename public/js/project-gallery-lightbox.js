@@ -396,11 +396,16 @@
         // image element has painted the same bitmap. Replacing src and
         // hiding the preview in the same frame briefly exposed the dark
         // stage between slides.
-        setSlideTransform(image, 0);
+        // Leave the old bitmap outside the stage while the new src paints;
+        // moving it back to center first can expose a thin strip when the
+        // incoming image has a different aspect ratio.
+        setSlideTransform(image, outgoingEnd);
         setSlideTransform(preview, 0);
         await waitForImageReady(image);
         if (token !== state.transitionToken || state.modal?.hidden) return;
 
+        setSlideTransform(image, 0);
+        await new Promise(resolve => window.requestAnimationFrame(resolve));
         preview.style.visibility = 'hidden';
         preview.style.removeProperty('display');
         stage.classList.remove('is-lightbox-sliding');
