@@ -24483,10 +24483,13 @@ main.project-detail-page .project-gallery-thumbnails > .project-gallery-thumbnai
   }
 }
 
-/* Quote lightbox: keep letterboxed areas dark so the enlarged photo does not
-   appear inside a white frame. Other detail and gallery viewers are unchanged. */
+/* Quote lightbox: size the frame to the source image so the enlarged photo
+   is shown by itself without a white or colored surround. */
 .project-gallery-lightbox[data-gallery-variant="quote"] .project-gallery-lightbox-stage {
-  background: #000 !important;
+  width: fit-content !important;
+  height: fit-content !important;
+  aspect-ratio: auto !important;
+  background: transparent !important;
   border: 0 !important;
   box-shadow: none !important;
 }

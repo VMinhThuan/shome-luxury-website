@@ -45,7 +45,30 @@
 
   const fitImageToStage = image => {
     const { stage } = getElements();
-    if (!image?.naturalWidth || !image.naturalHeight || !stage?.clientWidth || !stage.clientHeight) return;
+    if (!image?.naturalWidth || !image.naturalHeight || !stage) return;
+
+    if (state.modal?.dataset.galleryVariant === 'quote') {
+      const preview = getElements().preview;
+      const isPreview = image === preview;
+      const maxWidth = Math.max(1, Math.min(window.innerWidth - 32, 1280));
+      const maxHeight = Math.max(1, Math.min(window.innerHeight - 32, 820));
+      const scale = isPreview && stage.clientWidth && stage.clientHeight
+        ? Math.min(stage.clientWidth / image.naturalWidth, stage.clientHeight / image.naturalHeight, 1)
+        : Math.min(maxWidth / image.naturalWidth, maxHeight / image.naturalHeight, 1);
+      const width = Math.max(1, Math.round(image.naturalWidth * scale));
+      const height = Math.max(1, Math.round(image.naturalHeight * scale));
+
+      if (!isPreview) {
+        stage.style.setProperty('width', `${width}px`, 'important');
+        stage.style.setProperty('height', `${height}px`, 'important');
+      }
+      image.style.setProperty('width', `${width}px`, 'important');
+      image.style.setProperty('height', `${height}px`, 'important');
+      return;
+    }
+
+    if (!stage.clientWidth || !stage.clientHeight) return;
+
     const scale = Math.min(
       stage.clientWidth / image.naturalWidth,
       stage.clientHeight / image.naturalHeight
