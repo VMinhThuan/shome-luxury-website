@@ -927,16 +927,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
       gallery.querySelector('[data-quote-inline-prev]')?.addEventListener('click', () => show(activeIndex - 1, true, -1));
       gallery.querySelector('[data-quote-inline-next]')?.addEventListener('click', () => show(activeIndex + 1, true, 1));
-      // Handle each thumbnail directly so the selected index cannot be
-      // replaced by the parent card/gallery click handler.
-      thumbnails?.querySelectorAll('[data-quote-inline-thumb]').forEach(thumbnail => {
-        thumbnail.addEventListener('click', event => {
-          event.preventDefault();
-          event.stopPropagation();
-          const nextIndex = Number(event.currentTarget.dataset.index) || 0;
-          show(nextIndex, false, 0);
-        }, true);
-      });
+      // Handle thumbnail selection at the rail level so clicks on either the
+      // button or its nested image always resolve to the exact data-index.
+      thumbnails?.addEventListener('click', event => {
+        const thumbnail = event.target.closest?.('[data-quote-inline-thumb]');
+        if (!thumbnail || !thumbnails.contains(thumbnail)) return;
+        event.preventDefault();
+        event.stopPropagation();
+        const nextIndex = Number(thumbnail.dataset.index);
+        if (!Number.isInteger(nextIndex)) return;
+        show(nextIndex, false, 0);
+      }, true);
       stage.addEventListener('keydown', event => {
         if (event.key === 'ArrowLeft') { event.preventDefault(); show(activeIndex - 1, true, -1); }
         if (event.key === 'ArrowRight') { event.preventDefault(); show(activeIndex + 1, true, 1); }
