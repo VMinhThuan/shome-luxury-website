@@ -240,6 +240,49 @@
     state.slideAnimationFrame = window.requestAnimationFrame(frame);
   };
 
+  const animateQuoteDesktopFade = async ({ image, preview, stage, normalizedIndex, nextImage, token }) => {
+    resetZoom();
+    resetSlidePosition();
+    image.style.visibility = 'visible';
+    await preload(nextImage.src);
+    if (token !== state.transitionToken || state.modal?.hidden) return;
+
+    preview.src = nextImage.src;
+    preview.alt = nextImage.alt || `${state.title} - ảnh ${normalizedIndex + 1}`;
+    preview.style.setProperty('display', 'block', 'important');
+    preview.style.setProperty('opacity', '0', 'important');
+    preview.style.setProperty('transition', 'opacity .28s ease', 'important');
+    await waitForImageReady(preview, { preserveStage: true });
+    if (token !== state.transitionToken || state.modal?.hidden) return;
+
+    preview.style.visibility = 'visible';
+    void preview.offsetWidth;
+    await new Promise(resolve => window.requestAnimationFrame(resolve));
+    if (token !== state.transitionToken || state.modal?.hidden) return;
+    preview.style.setProperty('opacity', '1', 'important');
+    await new Promise(resolve => window.setTimeout(resolve, 280));
+    if (token !== state.transitionToken || state.modal?.hidden) return;
+
+    image.src = nextImage.src;
+    image.alt = nextImage.alt || `${state.title} - ảnh ${normalizedIndex + 1}`;
+    await waitForImageReady(image, { preserveStage: true });
+    if (token !== state.transitionToken || state.modal?.hidden) return;
+
+    state.index = normalizedIndex;
+    preview.style.visibility = 'hidden';
+    preview.style.removeProperty('display');
+    preview.style.removeProperty('opacity');
+    preview.style.removeProperty('transition');
+    stage.classList.remove('is-lightbox-sliding');
+    fitImageToStage(image);
+    updateUi();
+    updatePanLimits();
+    updateCountPosition();
+    updateDesktopControlPosition();
+    preload(getImage(state.images[(normalizedIndex + 1) % state.images.length]).src);
+    preload(getImage(state.images[(normalizedIndex - 1 + state.images.length) % state.images.length]).src);
+  };
+
   const resetSlidePosition = () => {
     const { image, preview } = getElements();
     if (!image || !preview) return;
@@ -373,6 +416,10 @@
     const nextImage = getImage(state.images[normalizedIndex]);
     const token = ++state.transitionToken;
     const startImageOffset = isQuoteDesktopViewer() ? Number(dragOffset) || 0 : 0;
+    if (isQuoteDesktopViewer()) {
+      await animateQuoteDesktopFade({ image, preview, stage, normalizedIndex, nextImage, token });
+      return;
+    }
     resetZoom();
     if (startImageOffset) setSlideTransform(image, startImageOffset);
     await preload(nextImage.src);
@@ -635,6 +682,7 @@
       const distance = event.clientX - pointerStartX;
       if (Math.abs(distance) < 4) return;
       event.preventDefault();
+      if (isQuoteDesktopViewer()) return;
       setSlideTransform(image, distance);
       prepareQuoteDesktopSwipePreview(distance);
     }, { passive: false });
@@ -736,6 +784,7 @@
       }
       event.preventDefault();
       if (state.touchAxis === 'horizontal') {
+        if (isQuoteDesktopViewer()) return;
         setSlideTransform(image, distanceX);
         prepareQuoteDesktopSwipePreview(distanceX);
       }

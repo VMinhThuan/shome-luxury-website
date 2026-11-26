@@ -925,6 +925,22 @@ document.addEventListener('DOMContentLoaded', () => {
         });
       };
 
+      const selectInlineThumbnail = index => {
+        const nextIndex = (index + images.length) % images.length;
+        transitionToken += 1;
+        resetInlineSlide();
+        activeIndex = nextIndex;
+        image.src = images[activeIndex];
+        image.alt = `${gallery.dataset.projectTitle || 'Công trình Shome Luxury'} - ảnh ${activeIndex + 1}`;
+        if (current) current.textContent = String(activeIndex + 1).padStart(2, '0');
+        if (total) total.textContent = String(images.length).padStart(2, '0');
+        thumbnails?.querySelectorAll('[data-quote-inline-thumb]').forEach((thumbnail, thumbnailIndex) => {
+          const isActive = thumbnailIndex === activeIndex;
+          thumbnail.classList.toggle('is-active', isActive);
+          thumbnail.setAttribute('aria-current', isActive ? 'true' : 'false');
+        });
+      };
+
       gallery.querySelector('[data-quote-inline-prev]')?.addEventListener('click', () => show(activeIndex - 1, true, -1));
       gallery.querySelector('[data-quote-inline-next]')?.addEventListener('click', () => show(activeIndex + 1, true, 1));
       // Handle thumbnail selection at the rail level so clicks on either the
@@ -936,7 +952,7 @@ document.addEventListener('DOMContentLoaded', () => {
         event.stopPropagation();
         const nextIndex = Number(thumbnail.dataset.index);
         if (!Number.isInteger(nextIndex)) return;
-        show(nextIndex, false, 0);
+        selectInlineThumbnail(nextIndex);
       }, true);
       stage.addEventListener('keydown', event => {
         if (event.key === 'ArrowLeft') { event.preventDefault(); show(activeIndex - 1, true, -1); }
