@@ -386,24 +386,32 @@
       fromPreview: incomingStart,
       toImage: outgoingEnd,
       toPreview: 0,
-      onComplete: () => {
-      if (token !== state.transitionToken) return;
-      state.index = normalizedIndex;
-      image.src = nextImage.src;
-      image.alt = nextImage.alt || `${state.title} - ảnh ${normalizedIndex + 1}`;
-      setSlideTransform(image, 0);
-      setSlideTransform(preview, 0);
-      preview.style.visibility = 'hidden';
-      preview.style.removeProperty('display');
-      stage.classList.remove('is-lightbox-sliding');
-      setSlideAnimationEnabled(image, false);
-      setSlideAnimationEnabled(preview, false);
-      fitImageToStage(image);
-      updateUi();
-      updatePanLimits();
-      updateDesktopControlPosition();
-      preload(getImage(state.images[(normalizedIndex + 1) % state.images.length]).src);
-      preload(getImage(state.images[(normalizedIndex - 1 + state.images.length) % state.images.length]).src);
+      onComplete: async () => {
+        if (token !== state.transitionToken) return;
+        state.index = normalizedIndex;
+        image.src = nextImage.src;
+        image.alt = nextImage.alt || `${state.title} - ảnh ${normalizedIndex + 1}`;
+
+        // Keep the decoded preview above the main image until the reused
+        // image element has painted the same bitmap. Replacing src and
+        // hiding the preview in the same frame briefly exposed the dark
+        // stage between slides.
+        setSlideTransform(image, 0);
+        setSlideTransform(preview, 0);
+        await waitForImageReady(image);
+        if (token !== state.transitionToken || state.modal?.hidden) return;
+
+        preview.style.visibility = 'hidden';
+        preview.style.removeProperty('display');
+        stage.classList.remove('is-lightbox-sliding');
+        setSlideAnimationEnabled(image, false);
+        setSlideAnimationEnabled(preview, false);
+        fitImageToStage(image);
+        updateUi();
+        updatePanLimits();
+        updateDesktopControlPosition();
+        preload(getImage(state.images[(normalizedIndex + 1) % state.images.length]).src);
+        preload(getImage(state.images[(normalizedIndex - 1 + state.images.length) % state.images.length]).src);
       },
     });
   };

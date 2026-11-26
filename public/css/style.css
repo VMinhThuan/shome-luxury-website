@@ -29040,3 +29040,105 @@ main.project-detail-page .project-gallery-thumbnails>.project-gallery-thumbnail>
     pointer-events: none !important;
   }
 }
+
+/* Keep the project-detail lightbox as a true full-image viewer on desktop.
+   The legacy 4:3 frame above is useful for inline galleries, but it makes
+   the enlarged detail image look smaller than the quote-page viewer. */
+@media (min-width: 768px) {
+  .project-gallery-lightbox:not([data-gallery-variant="quote"]):not(.project-gallery-lightbox--grid) .project-gallery-lightbox-dialog {
+    width: fit-content !important;
+    max-width: 100% !important;
+    max-height: calc(100dvh - 2rem) !important;
+  }
+
+  .project-gallery-lightbox:not([data-gallery-variant="quote"]):not(.project-gallery-lightbox--grid) .project-gallery-lightbox-stage {
+    display: block !important;
+    width: fit-content !important;
+    height: fit-content !important;
+    max-width: calc(100vw - 10rem) !important;
+    max-height: calc(100dvh - 2rem) !important;
+    aspect-ratio: auto !important;
+    overflow: visible !important;
+    border: 0 !important;
+    border-radius: 0 !important;
+    background: transparent !important;
+    box-shadow: none !important;
+  }
+
+  .project-gallery-lightbox:not([data-gallery-variant="quote"]):not(.project-gallery-lightbox--grid) .project-gallery-lightbox-stage > [data-gallery-lightbox-image],
+  .project-gallery-lightbox:not([data-gallery-variant="quote"]):not(.project-gallery-lightbox--grid) .project-gallery-lightbox-stage > [data-gallery-lightbox-preview] {
+    position: absolute !important;
+    top: 50% !important;
+    left: 50% !important;
+    right: auto !important;
+    bottom: auto !important;
+    width: auto !important;
+    height: auto !important;
+    max-width: calc(100vw - 10rem) !important;
+    max-height: calc(100dvh - 2rem) !important;
+    margin: 0 !important;
+    object-fit: contain !important;
+    object-position: center center !important;
+    transform: translate3d(-50%, -50%, 0) !important;
+  }
+}
+
+/* On phones the quotation-page project gallery should use the full viewport
+   width. Keep the source ratio in normal flow so square/portrait photos grow
+   vertically without being cropped inside the card's old 16:9 frame. */
+@media (max-width: 767px) {
+  .quote-page .quote-featured-project-card--inline-gallery {
+    overflow: visible !important;
+    border-right: 0 !important;
+    border-left: 0 !important;
+    border-radius: 0 !important;
+  }
+
+  .quote-page .quote-featured-project-card--inline-gallery .quote-featured-project-gallery {
+    width: 100vw !important;
+    max-width: none !important;
+    margin-right: calc(50% - 50vw) !important;
+    margin-left: calc(50% - 50vw) !important;
+  }
+
+  .quote-page .quote-featured-project-card--inline-gallery .project-gallery-stage {
+    display: block !important;
+    width: 100vw !important;
+    max-width: none !important;
+    height: auto !important;
+    min-height: 0 !important;
+    aspect-ratio: auto !important;
+    overflow: hidden !important;
+    border-radius: 0 !important;
+  }
+
+  .quote-page .quote-featured-project-card--inline-gallery .project-gallery-stage > [data-quote-inline-image] {
+    position: relative !important;
+    inset: auto !important;
+    display: block !important;
+    width: 100% !important;
+    height: auto !important;
+    max-width: none !important;
+    max-height: none !important;
+    margin: 0 !important;
+    object-fit: contain !important;
+    object-position: center center !important;
+  }
+
+  .quote-page .quote-featured-project-card--inline-gallery .project-gallery-stage > [data-quote-inline-preview] {
+    position: absolute !important;
+    inset: 0 !important;
+    display: block !important;
+    width: 100% !important;
+    height: 100% !important;
+    max-width: none !important;
+    max-height: none !important;
+    margin: 0 !important;
+    object-fit: contain !important;
+    object-position: center center !important;
+  }
+
+  .quote-page .quote-featured-project-card--inline-gallery .project-gallery-control {
+    display: grid !important;
+  }
+}

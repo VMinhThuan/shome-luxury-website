@@ -688,6 +688,23 @@ document.addEventListener('DOMContentLoaded', () => {
         element?.style.setProperty('transform', `translate3d(${offset}px, 0, 0)`, 'important');
       };
 
+      const waitForInlineImage = element => {
+        if (!element) return Promise.resolve();
+        if (element.complete && element.naturalWidth) return Promise.resolve();
+        return new Promise(resolve => {
+          let settled = false;
+          const finish = () => {
+            if (settled) return;
+            settled = true;
+            element.removeEventListener('load', finish);
+            element.removeEventListener('error', finish);
+            resolve();
+          };
+          element.addEventListener('load', finish, { once: true });
+          element.addEventListener('error', finish, { once: true });
+        });
+      };
+
       const resetInlineSlide = () => {
         if (transitionFrame !== null) {
           window.cancelAnimationFrame(transitionFrame);
@@ -737,13 +754,20 @@ document.addEventListener('DOMContentLoaded', () => {
         transitionFrame = window.requestAnimationFrame(frame);
       };
 
-      const commitInlineImage = (nextIndex, requestToken) => {
+      const commitInlineImage = async (nextIndex, requestToken) => {
         if (requestToken !== transitionToken) return;
         activeIndex = nextIndex;
         image.src = images[activeIndex];
         image.alt = `${gallery.dataset.projectTitle || 'Công trình Shome Luxury'} - ảnh ${activeIndex + 1}`;
         setInlineTransform(image, 0);
         setInlineTransform(preview, 0);
+
+        // The preview is already the next decoded image. Keep it visible
+        // until the reused main image element finishes painting, otherwise
+        // the stage can flash its background for one frame after a slide.
+        await waitForInlineImage(image);
+        if (requestToken !== transitionToken) return;
+
         preview.style.display = 'none';
         preview.style.visibility = 'hidden';
         inlinePreviewIndex = null;
