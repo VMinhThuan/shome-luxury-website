@@ -1,3 +1,4 @@
+<% const displayArticleTitle = titleCaseVi(article.title); %>
 <!DOCTYPE html>
 <html lang="vi">
 <head>
@@ -34,8 +35,8 @@
         <article>
           <!-- Article Header Information -->
           <header class="job-detail-header">
-            <span class="job-detail-badge"><%= article.category || 'TIN TỨC' %></span>
-            <h1 class="job-detail-title"><%= article.title %></h1>
+            <span class="job-detail-badge"><%= article.category || 'Tin tức' %></span>
+            <h1 class="job-detail-title"><%= displayArticleTitle %></h1>
             
             <div class="job-detail-meta">
               <span><strong>Tác giả:</strong> <%= article.author || 'Lê Sang' %></span>
@@ -107,12 +108,12 @@
                 <p class="article-intro"><%= article.summary %></p>
                 <% if (article.thumbnail) { %>
                   <div class="article-image-box">
-                    <img src="<%= article.thumbnail %>" alt="<%= article.title %>" class="article-main-img" />
+                    <img src="<%= article.thumbnail %>" alt="<%= displayArticleTitle %>" class="article-main-img" />
                   </div>
                 <% } %>
                 
                 <% article.sections.forEach(function(sec) { %>
-                  <h2 id="<%= sec.id || '' %>" class="article-heading"><%= sec.title %></h2>
+                  <h2 id="<%= sec.id || '' %>" class="article-heading"><%= titleCaseVi(sec.title) %></h2>
                   <% if (sec.items && sec.items.length) { %>
                     <ul class="article-list">
                       <% sec.items.forEach(function(item) { %>

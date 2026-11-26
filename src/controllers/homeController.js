@@ -1,6 +1,7 @@
 const navigationData = require("../data/navigationData");
 const { getPageImages } = require("../services/imageService");
 const articleService = require('../services/articleService');
+const { titleCaseVi } = require('../utils/textFormatting');
 
 exports.getHomePage = async (req, res, next) => {
   try {
@@ -256,7 +257,7 @@ exports.getNewsDetailPage = async (req, res, next) => {
     const result = await articleService.list({ public: true, limit: 100 });
     const otherArticles = result.rows.filter(a => a.id !== article.id).slice(0, 4);
     return res.render("tin-tuc-detail", {
-      title: `${article.title} | SHOME LUXURY`,
+      title: `${titleCaseVi(article.title)} | SHOME LUXURY`,
       headerSlogan: "Nâng tầm cuộc sống",
       navigation: navigationData,
       article,

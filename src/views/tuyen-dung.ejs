@@ -168,11 +168,11 @@
           <div class="job-card-v2" onclick="window.location.href='/tuyen-dung/${job.id}'" style="cursor: pointer;">
             <a href="/tuyen-dung/${job.id}" class="job-card-thumb-link">
               <div class="job-card-thumb">
-                <img src="${job.thumbnail}" alt="${job.title}" loading="lazy" width="400" height="250" />
+                <img src="${job.thumbnail}" alt="${job.displayTitle || job.title}" loading="lazy" width="400" height="250" />
               </div>
             </a>
             <div class="job-card-body">
-              <h3 class="job-card-title"><a href="/tuyen-dung/${job.id}">${job.title}</a></h3>
+              <h3 class="job-card-title"><a href="/tuyen-dung/${job.id}">${job.displayTitle || job.title}</a></h3>
               <p class="job-card-summary">${job.summary || ''}</p>
               
               <div class="job-card-footer">

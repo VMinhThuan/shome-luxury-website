@@ -1,7 +1,7 @@
 module.exports = [
   {
     id: "tho-lap-dat",
-    title: "TUYỂN DỤNG THỢ LẮP ĐẶT NỘI THẤT",
+    title: "Tuyển dụng thợ lắp đặt nội thất",
     author: "Lê Sang",
     date: "29/06/2024",
     category: "Tuyển dụng",
@@ -128,7 +128,7 @@ module.exports = [
   },
   {
     id: "giam-sat-thi-cong",
-    title: "TUYỂN DỤNG GIÁM SÁT THI CÔNG NỘI THẤT VÀ KIẾN TRÚC (HOT)",
+    title: "Tuyển dụng giám sát thi công nội thất và kiến trúc (Hot)",
     author: "Lê Sang",
     date: "15/07/2024",
     category: "Tuyển dụng",
@@ -255,7 +255,7 @@ module.exports = [
   },
   {
     id: "thiet-ke-noi-that",
-    title: "TUYỂN DỤNG THIẾT KẾ NỘI THẤT",
+    title: "Tuyển dụng thiết kế nội thất",
     author: "Lê Sang",
     date: "10/06/2024",
     category: "Tuyển dụng",
@@ -354,7 +354,7 @@ module.exports = [
   },
   {
     id: "nhan-vien-du-toan",
-    title: "TUYỂN DỤNG NHÂN VIÊN DỰ TOÁN NỘI THẤT VÀ KIẾN TRÚC",
+    title: "Tuyển dụng nhân viên dự toán nội thất và kiến trúc",
     author: "Lê Sang",
     date: "20/06/2024",
     category: "Tuyển dụng",
@@ -452,7 +452,7 @@ module.exports = [
   },
   {
     id: "nhan-vien-kinh-doanh",
-    title: "TUYỂN DỤNG NHÂN VIÊN KINH DOANH",
+    title: "Tuyển dụng nhân viên kinh doanh",
     author: "Lê Sang",
     date: "05/07/2024",
     category: "Tuyển dụng",
@@ -549,7 +549,7 @@ module.exports = [
   },
   {
     id: "ky-thuat-cnc",
-    title: "TUYỂN DỤNG KỸ THUẬT VIÊN LẬP TRÌNH CNC NỘI THẤT",
+    title: "Tuyển dụng kỹ thuật viên lập trình CNC nội thất",
     author: "Lê Sang",
     date: "12/07/2024",
     category: "Tuyển dụng",

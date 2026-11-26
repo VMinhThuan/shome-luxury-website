@@ -2,6 +2,28 @@
   const mountRoots = [...document.querySelectorAll('[data-content-manager]')];
   if (!mountRoots.length) return;
 
+  const titleCaseVi = value => {
+    const text = String(value ?? '').trim();
+    if (!text) return '';
+    let formatted = text.toLocaleLowerCase('vi-VN').replace(/(^|[^\p{L}\p{N}])([\p{L}])/gu, (_, prefix, letter) => (
+      `${prefix}${letter.toLocaleUpperCase('vi-VN')}`
+    ));
+    [
+      ['shome luxury', 'SHOME LUXURY'],
+      ['s home luxury', 'SHome Luxury'],
+      ['vnđ', 'VNĐ'],
+      ['cnc', 'CNC'],
+      ['pdf', 'PDF'],
+      ['hn', 'HN'],
+      ['zalo', 'Zalo'],
+      ['youtube', 'YouTube'],
+      ['facebook', 'Facebook']
+    ].forEach(([source, replacement]) => {
+      formatted = formatted.replace(new RegExp(`\\b${source}\\b`, 'gi'), replacement);
+    });
+    return formatted;
+  };
+
   const moduleConfigs = {
     'design-projects': { title: 'Thiết kế công trình', description: 'Quản lý công trình thiết kế kiến trúc và nội thất, danh mục, hình ảnh, gallery và trạng thái xuất bản.', kind: 'project', root: 'thiet-ke-cong-trinh' },
     'construction-projects': { title: 'Thi công công trình', description: 'Quản lý công trình thi công thực tế, phân loại menu, hình ảnh, tiến độ và liên kết thiết kế.', kind: 'project', root: 'thi-cong-cong-trinh' },
@@ -201,7 +223,7 @@
         ? `<button type="button" data-edit="${id}">Sửa</button>`
         : `<button type="button" data-edit="${id}">Sửa</button>`;
       const projectMeta = config.kind === 'project' ? `<td>${projectMetaMarkup(row)}</td>` : '';
-      return `<tr><td>${thumb}</td><td>${escapeHtml(row.title || 'Chưa có tiêu đề')}</td>${projectMeta}<td>${escapeHtml(categoryText(row))}</td><td>${order}</td><td>${status}</td><td>${formatDate(row.updatedAt || row.date)}</td><td><div class="content-cms-actions"><a href="${publicUrl(row)}" target="_blank" rel="noopener">Xem</a>${editAction}<button type="button" data-duplicate="${id}">Nhân bản</button><button type="button" data-publish="${id}" data-published="${published}">${published ? 'Ẩn' : 'Xuất bản'}</button><button type="button" class="danger" data-delete="${id}">Xóa</button></div></td></tr>`;
+      return `<tr><td>${thumb}</td><td>${escapeHtml(titleCaseVi(row.title || 'Chưa có tiêu đề'))}</td>${projectMeta}<td>${escapeHtml(categoryText(row))}</td><td>${order}</td><td>${status}</td><td>${formatDate(row.updatedAt || row.date)}</td><td><div class="content-cms-actions"><a href="${publicUrl(row)}" target="_blank" rel="noopener">Xem</a>${editAction}<button type="button" data-duplicate="${id}">Nhân bản</button><button type="button" data-publish="${id}" data-published="${published}">${published ? 'Ẩn' : 'Xuất bản'}</button><button type="button" class="danger" data-delete="${id}">Xóa</button></div></td></tr>`;
     }).join('');
   }
 
@@ -731,7 +753,7 @@
       result.data.forEach(row => {
         const option = document.createElement('option');
         option.value = row._id || row.id;
-        option.textContent = row.title;
+        option.textContent = titleCaseVi(row.title);
         designProjectField.append(option);
       });
     } catch (error) { designProjectField.disabled = true; }

@@ -1,12 +1,14 @@
 const navigationData = require("../data/navigationData");
 const { getPageImages } = require("../services/imageService");
 const careerService = require('../services/careerService');
+const { titleCaseVi } = require('../utils/textFormatting');
 
 // Helper to normalize job data with both 'image' and 'thumbnail' fields
 const formatJobItem = (job) => {
   const imageUrl = job.thumbnail || job.image || job.imageUrl || "/images/banner-tuyendung.png";
   return {
     ...job,
+    displayTitle: titleCaseVi(job.title),
     image: imageUrl,
     thumbnail: imageUrl
   };
@@ -24,7 +26,7 @@ exports.getRecruitmentPage = async (req, res, next) => {
         const otherResult = await careerService.list({ public: true, limit: 5 });
         const otherJobs = otherResult.rows.filter(item => item.id !== job.id).slice(0, 4).map(formatJobItem);
         return res.render("tuyen-dung-detail", {
-          title: `${job.title} | SHOME LUXURY`,
+          title: `${job.displayTitle} | SHOME LUXURY`,
           headerSlogan: "Nâng tầm cuộc sống",
           navigation: navigationData,
           job: job,

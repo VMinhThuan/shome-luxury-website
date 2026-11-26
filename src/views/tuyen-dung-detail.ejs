@@ -1,10 +1,11 @@
+<% const displayJobTitle = titleCaseVi(job.title); %>
 <!DOCTYPE html>
 <html lang="vi">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <title><%= title %></title>
-  <meta name="description" content="Chi tiết bài tuyển dụng <%= job.title %> tại SHOME LUXURY - Môi trường làm việc chuyên nghiệp, đãi ngộ hấp dẫn." />
+  <meta name="description" content="Chi tiết bài tuyển dụng <%= displayJobTitle %> tại SHOME LUXURY - Môi trường làm việc chuyên nghiệp, đãi ngộ hấp dẫn." />
   <meta name="theme-color" content="#171717" />
   <%- include("partials/site-favicon") %>
 
@@ -34,8 +35,8 @@
         <article>
           <!-- Job Header Information -->
           <header class="job-detail-header">
-            <span class="job-detail-badge"><%= job.isHot ? 'ĐANG HOT' : 'TUYỂN DỤNG' %></span>
-            <h1 class="job-detail-title"><%= job.title %></h1>
+            <span class="job-detail-badge"><%= job.isHot ? 'Đang hot' : 'Tuyển dụng' %></span>
+            <h1 class="job-detail-title"><%= displayJobTitle %></h1>
             
             <div class="job-detail-meta">
               <span><strong>Người đăng:</strong> <%= job.author || 'Lê Sang' %></span>
@@ -108,12 +109,12 @@
                 <p class="article-intro"><%= job.summary %></p>
                 <% if (job.thumbnail) { %>
                   <div class="article-image-box">
-                    <img src="<%= job.thumbnail %>" alt="<%= job.title %>" class="article-main-img" />
+                    <img src="<%= job.thumbnail %>" alt="<%= displayJobTitle %>" class="article-main-img" />
                   </div>
                 <% } %>
                 
                 <% job.sections.forEach(function(sec) { %>
-                  <h2 id="<%= sec.id || '' %>" class="article-heading"><%= sec.title %></h2>
+                  <h2 id="<%= sec.id || '' %>" class="article-heading"><%= titleCaseVi(sec.title) %></h2>
                   <% if (sec.items && sec.items.length) { %>
                     <ul class="article-list">
                       <% sec.items.forEach(function(item) { %>
@@ -129,7 +130,7 @@
           <!-- Application Bottom Box -->
           <div class="job-detail-apply-box">
             <div class="apply-box-header">
-              <h3>Ứng tuyển vị trí <%= job.title %></h3>
+              <h3>Ứng tuyển vị trí <%= displayJobTitle %></h3>
               <p>Hãy gửi CV của bạn để trở thành một phần của đại gia đình SHOME LUXURY!</p>
             </div>
 
@@ -160,7 +161,7 @@
             </div>
 
             <div class="apply-box-actions">
-              <a href="mailto:shomeluxurydesign@gmail.com?subject=Ứng tuyển <%= encodeURIComponent(job.title) %>" class="btn-cta-gold-full">
+              <a href="mailto:shomeluxurydesign@gmail.com?subject=Ứng tuyển <%= encodeURIComponent(displayJobTitle) %>" class="btn-cta-gold-full">
                 Nộp hồ sơ ngay qua Email
               </a>
               <a href="https://zalo.me/0799997700" target="_blank" rel="noopener" class="btn-cta-zalo">
