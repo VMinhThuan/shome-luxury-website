@@ -184,8 +184,8 @@
     && window.matchMedia?.('(min-width: 768px)').matches
   );
 
-  const prepareQuoteDesktopSwipePreview = distanceX => {
-    if (!isQuoteDesktopViewer()) return;
+  const prepareDesktopSwipePreview = distanceX => {
+    if (!window.matchMedia?.('(min-width: 768px)').matches) return;
     const { preview, stage } = getElements();
     if (!preview || !state.images.length) return;
     const direction = distanceX < 0 ? 1 : -1;
@@ -256,10 +256,25 @@
     state.modal?.classList.remove('is-swiping', 'is-lightbox-sliding');
   };
 
+  const updateCountPosition = () => {
+    const { image, stage } = getElements();
+    const count = state.modal?.querySelector('.project-gallery-lightbox-count');
+    if (!image || !stage || !count) return;
+    const imageRect = image.getBoundingClientRect();
+    const stageRect = stage.getBoundingClientRect();
+    if (!imageRect.width || !imageRect.height || !stageRect.width || !stageRect.height) return;
+
+    count.style.setProperty('top', 'auto', 'important');
+    count.style.setProperty('left', 'auto', 'important');
+    count.style.setProperty('right', `${Math.max(12, stageRect.right - imageRect.right + 14)}px`, 'important');
+    count.style.setProperty('bottom', `${Math.max(12, stageRect.bottom - imageRect.bottom + 14)}px`, 'important');
+  };
+
   const updateUi = () => {
     const { current, total } = getElements();
     if (current) current.textContent = String(state.index + 1).padStart(2, '0');
     if (total) total.textContent = String(state.images.length).padStart(2, '0');
+    updateCountPosition();
   };
 
   const updatePanLimits = () => {
@@ -351,13 +366,16 @@
     applyZoom();
   };
 
-  const animateTo = async (index, direction) => {
+  const animateTo = async (index, direction, dragOffset = 0) => {
     const { image, preview, stage } = getElements();
     if (!image || !preview || !stage || !state.images.length) return;
     const normalizedIndex = (index + state.images.length) % state.images.length;
     const nextImage = getImage(state.images[normalizedIndex]);
     const token = ++state.transitionToken;
+    const isDesktopSwipe = window.matchMedia?.('(min-width: 768px)').matches;
+    const startImageOffset = isDesktopSwipe ? Number(dragOffset) || 0 : 0;
     resetZoom();
+    if (startImageOffset) setSlideTransform(image, startImageOffset);
     await preload(nextImage.src);
     if (token !== state.transitionToken || state.modal?.hidden) return;
 
@@ -367,10 +385,12 @@
     stage.classList.add('is-lightbox-sliding');
     fitImageToStage(image);
     image.style.visibility = 'visible';
+    const previewWasReady = preview.style.visibility === 'visible'
+      && preview.getAttribute('src') === nextImage.src;
     preview.src = nextImage.src;
     preview.alt = nextImage.alt || `${state.title} - ảnh ${normalizedIndex + 1}`;
     preview.style.setProperty('display', 'block', 'important');
-    preview.style.visibility = 'hidden';
+    if (!previewWasReady) preview.style.visibility = 'hidden';
     await waitForImageReady(preview, { preserveStage: true });
     if (token !== state.transitionToken || state.modal?.hidden) return;
     fitImageToStage(image);
@@ -387,16 +407,16 @@
       stage.style.setProperty('height', `${stageHeight}px`, 'important');
     }
     preview.style.visibility = 'visible';
-    setSlideTransform(image, 0);
-    setSlideTransform(preview, incomingStart);
+    setSlideTransform(image, startImageOffset);
+    setSlideTransform(preview, incomingStart + startImageOffset);
     setSlideAnimationEnabled(image, true);
     setSlideAnimationEnabled(preview, true);
     void stage.offsetWidth;
     animateLightboxSlide({
       image,
       preview,
-      fromImage: 0,
-      fromPreview: incomingStart,
+      fromImage: startImageOffset,
+      fromPreview: incomingStart + startImageOffset,
       toImage: outgoingEnd,
       toPreview: 0,
       onComplete: async () => {
@@ -427,6 +447,7 @@
         fitImageToStage(image);
         updateUi();
         updatePanLimits();
+        updateCountPosition();
         updateDesktopControlPosition();
         preload(getImage(state.images[(normalizedIndex + 1) % state.images.length]).src);
         preload(getImage(state.images[(normalizedIndex - 1 + state.images.length) % state.images.length]).src);
@@ -434,13 +455,13 @@
     });
   };
 
-  const show = async (index, direction = 0) => {
+  const show = async (index, direction = 0, dragOffset = 0) => {
     const { image, preview } = getElements();
     if (!image || !state.images.length) return;
     const normalizedIndex = (index + state.images.length) % state.images.length;
     const nextImage = getImage(state.images[normalizedIndex]);
     if (direction && image.src) {
-      await animateTo(normalizedIndex, direction);
+      await animateTo(normalizedIndex, direction, dragOffset);
       return;
     }
 
@@ -461,8 +482,9 @@
       fitImageToStage(image);
       updatePanLimits();
       applyZoom();
+      updateCountPosition();
       updateDesktopControlPosition();
-      if (isQuoteDesktopViewer() && state.images.length > 1) {
+      if (window.matchMedia?.('(min-width: 768px)').matches && state.images.length > 1) {
         preload(getImage(state.images[(state.index + 1) % state.images.length]).src);
         preload(getImage(state.images[(state.index - 1 + state.images.length) % state.images.length]).src);
       }
@@ -617,7 +639,7 @@
       if (Math.abs(distance) < 4) return;
       event.preventDefault();
       setSlideTransform(image, distance);
-      prepareQuoteDesktopSwipePreview(distance);
+      prepareDesktopSwipePreview(distance);
     }, { passive: false });
     stage?.addEventListener('pointerup', event => {
       if (event.pointerType === 'touch') return;
@@ -629,9 +651,11 @@
       if (pointerStartX === null) return;
       const distance = event.clientX - pointerStartX;
       pointerStartX = null;
-      if (isQuoteDesktopViewer()) resetSlidePosition();
-      else setSlideTransform(image, 0);
-      if (Math.abs(distance) >= 50) show(state.index + (distance < 0 ? 1 : -1), distance < 0 ? 1 : -1);
+      const shouldNavigate = Math.abs(distance) >= 50;
+      if (!shouldNavigate || !window.matchMedia?.('(min-width: 768px)').matches) {
+        resetSlidePosition();
+      }
+      if (shouldNavigate) show(state.index + (distance < 0 ? 1 : -1), distance < 0 ? 1 : -1, distance);
     });
     stage?.addEventListener('pointercancel', () => {
       pointerStartX = null;
@@ -715,7 +739,7 @@
       event.preventDefault();
       if (state.touchAxis === 'horizontal') {
         setSlideTransform(image, distanceX);
-        prepareQuoteDesktopSwipePreview(distanceX);
+        prepareDesktopSwipePreview(distanceX);
       }
       else setVerticalSwipeTransform(image, distanceY);
     }, { passive: false });
@@ -741,16 +765,17 @@
       state.touchAxis = null;
       state.touchStartX = null;
       state.touchStartY = null;
-      if (isQuoteDesktopViewer()) resetSlidePosition();
-      else setSlideTransform(image, 0);
       const isHorizontalSwipe = axis === 'horizontal'
         && Math.abs(distanceX) > 40
         && Math.abs(distanceX) > Math.abs(distanceY);
+      if (!isHorizontalSwipe || !window.matchMedia?.('(min-width: 768px)').matches) {
+        resetSlidePosition();
+      }
       if (isHorizontalSwipe) {
         event.preventDefault();
         event.stopPropagation();
         const target = getHorizontalSwipeTarget(distanceX);
-        show(target.index, target.direction);
+        show(target.index, target.direction, window.matchMedia?.('(min-width: 768px)').matches ? distanceX : 0);
       } else if (axis === 'vertical' && Math.abs(distanceY) > 40) {
         event.preventDefault();
         close();
@@ -793,6 +818,7 @@
       state.panX = Math.max(-state.panLimitX, Math.min(state.panLimitX, state.panX));
       state.panY = Math.max(-state.panLimitY, Math.min(state.panLimitY, state.panY));
       applyZoom();
+      updateCountPosition();
     });
     return modal;
   };
