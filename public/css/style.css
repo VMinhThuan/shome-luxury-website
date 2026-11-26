@@ -28540,6 +28540,13 @@ main.project-detail-page .project-info-banner .meta-value {
   will-change: transform;
 }
 
+/* Clip both layers to the stable viewer frame while they cross. The stage is
+   sized to the larger fitted layer by JS before the animation starts, so an
+   aspect-ratio change cannot reveal a sliver of the outgoing image. */
+.project-gallery-lightbox:not(.project-gallery-lightbox--grid) .project-gallery-lightbox-stage.is-lightbox-sliding {
+  overflow: hidden !important;
+}
+
 .project-gallery-lightbox:not(.project-gallery-lightbox--grid).is-swiping .project-gallery-lightbox-stage>[data-gallery-lightbox-preview],
 .project-gallery-lightbox:not(.project-gallery-lightbox--grid) .project-gallery-lightbox-stage.is-lightbox-sliding>[data-gallery-lightbox-preview] {
   display: block !important;

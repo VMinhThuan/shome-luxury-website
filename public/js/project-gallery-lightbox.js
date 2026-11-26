@@ -57,7 +57,7 @@
     });
   };
 
-  const fitImageToStage = image => {
+  const fitImageToStage = (image, { preserveStage = false } = {}) => {
     const { stage } = getElements();
     if (!image?.naturalWidth || !image.naturalHeight || !stage) return;
 
@@ -77,7 +77,7 @@
       const width = Math.max(1, Math.round(image.naturalWidth * scale));
       const height = Math.max(1, Math.round(image.naturalHeight * scale));
 
-      if (!isPreview) {
+      if (!isPreview && !preserveStage) {
         stage.style.setProperty('width', `${width}px`, 'important');
         stage.style.setProperty('height', `${height}px`, 'important');
       }
@@ -96,10 +96,10 @@
     image.style.setProperty('height', `${Math.max(1, Math.round(image.naturalHeight * scale))}px`, 'important');
   };
 
-  const waitForImageReady = image => {
+  const waitForImageReady = (image, options = {}) => {
     if (!image) return Promise.resolve();
     if (image.complete && image.naturalWidth) {
-      fitImageToStage(image);
+      fitImageToStage(image, options);
       return Promise.resolve();
     }
     return new Promise(resolve => {
@@ -109,7 +109,7 @@
         settled = true;
         image.removeEventListener('load', finish);
         image.removeEventListener('error', finish);
-        fitImageToStage(image);
+        fitImageToStage(image, options);
         resolve();
       };
       image.addEventListener('load', finish, { once: true });
@@ -368,11 +368,23 @@
     image.style.visibility = 'visible';
     preview.src = nextImage.src;
     preview.alt = nextImage.alt || `${state.title} - ảnh ${normalizedIndex + 1}`;
-    await waitForImageReady(preview);
+    preview.style.setProperty('display', 'block', 'important');
+    preview.style.visibility = 'hidden';
+    await waitForImageReady(preview, { preserveStage: true });
     if (token !== state.transitionToken || state.modal?.hidden) return;
     fitImageToStage(image);
-    fitImageToStage(preview);
-    preview.style.setProperty('display', 'block', 'important');
+    fitImageToStage(preview, { preserveStage: true });
+
+    // Keep the stage large enough for both layers for the whole transition.
+    // If it follows the incoming image while the layers are moving, a ratio
+    // change can move the center point and expose a thin strip of the old
+    // bitmap at the edge of the viewer.
+    if (isQuoteDesktopViewer() || (window.matchMedia?.('(min-width: 768px)').matches && state.modal?.dataset.galleryVariant !== 'quote')) {
+      const stageWidth = Math.max(image.offsetWidth, preview.offsetWidth);
+      const stageHeight = Math.max(image.offsetHeight, preview.offsetHeight);
+      stage.style.setProperty('width', `${stageWidth}px`, 'important');
+      stage.style.setProperty('height', `${stageHeight}px`, 'important');
+    }
     preview.style.visibility = 'visible';
     setSlideTransform(image, 0);
     setSlideTransform(preview, incomingStart);
@@ -401,7 +413,7 @@
         // incoming image has a different aspect ratio.
         setSlideTransform(image, outgoingEnd);
         setSlideTransform(preview, 0);
-        await waitForImageReady(image);
+        await waitForImageReady(image, { preserveStage: true });
         if (token !== state.transitionToken || state.modal?.hidden) return;
 
         setSlideTransform(image, 0);
