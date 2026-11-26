@@ -23240,14 +23240,26 @@ main.project-detail-page .project-detail-summary {
   }
 }
 
-/* Keep the Facebook and map cards at the same 16:9 footprint on phones. */
+/* Keep the Facebook and map cards at the same compact footprint on phones.
+   The old fixed height is intentional: the Facebook preview must not grow
+   from its feed content and become taller than the map card. */
 @media (max-width: 767px) {
   .site-footer .footer-col-fb .fb-card-box,
   .site-footer .footer-col-map .map-card-box {
-    height: auto !important;
+    height: 190px !important;
+    min-height: 190px !important;
+    max-height: 190px !important;
+    aspect-ratio: auto !important;
+    box-sizing: border-box !important;
+    overflow: hidden !important;
+  }
+
+  .site-footer .footer-col-fb .fb-card-box > .card-iframe-wrapper,
+  .site-footer .footer-col-map .map-card-box > .card-iframe-wrapper {
     min-height: 0 !important;
-    max-height: none !important;
-    aspect-ratio: 16 / 9 !important;
+    height: auto !important;
+    flex: 1 1 auto !important;
+    overflow: hidden !important;
   }
 }
 
@@ -24371,18 +24383,23 @@ main.project-detail-page .project-info-banner .meta-value {
    than forcing it into the desktop 4:3 card frame. The shared JS still sets
    the exact fitted pixel size, so pinch zoom scales this visible image. */
 @media (max-width: 767px) {
+  /* Restore the original edge-to-edge phone viewer. */
+  .project-gallery-lightbox:not(.project-gallery-lightbox--grid) {
+    padding: 0 !important;
+  }
+
   .project-gallery-lightbox:not(.project-gallery-lightbox--grid) .project-gallery-lightbox-dialog {
-    width: calc(100vw - 1rem) !important;
-    max-width: calc(100vw - 1rem) !important;
-    height: calc(100dvh - 1rem) !important;
-    max-height: calc(100dvh - 1rem) !important;
+    width: 100vw !important;
+    max-width: 100vw !important;
+    height: 100dvh !important;
+    max-height: 100dvh !important;
   }
 
   .project-gallery-lightbox:not(.project-gallery-lightbox--grid) .project-gallery-lightbox-stage {
-    width: 100% !important;
-    height: 100% !important;
-    max-width: 100% !important;
-    max-height: 100% !important;
+    width: 100vw !important;
+    height: 100dvh !important;
+    max-width: 100vw !important;
+    max-height: 100dvh !important;
     aspect-ratio: auto !important;
     border: 0 !important;
     border-radius: 0 !important;
@@ -24391,8 +24408,34 @@ main.project-detail-page .project-info-banner .meta-value {
 
   .project-gallery-lightbox:not(.project-gallery-lightbox--grid) .project-gallery-lightbox-stage > [data-gallery-lightbox-image],
   .project-gallery-lightbox:not(.project-gallery-lightbox--grid) .project-gallery-lightbox-stage > [data-gallery-lightbox-preview] {
-    max-width: 100% !important;
-    max-height: 100% !important;
+    max-width: 100vw !important;
+    max-height: 100dvh !important;
+  }
+}
+
+/* The quote lightbox has a later desktop source-sized rule; keep its phone
+   presentation edge-to-edge as well. */
+@media (max-width: 767px) {
+  .project-gallery-lightbox[data-gallery-variant="quote"] .project-gallery-lightbox-dialog,
+  .project-gallery-lightbox[data-gallery-variant="quote"] .project-gallery-lightbox-stage {
+    width: 100vw !important;
+    max-width: 100vw !important;
+  }
+
+  .project-gallery-lightbox[data-gallery-variant="quote"] .project-gallery-lightbox-dialog {
+    height: 100dvh !important;
+    max-height: 100dvh !important;
+  }
+
+  .project-gallery-lightbox[data-gallery-variant="quote"] .project-gallery-lightbox-stage {
+    height: 100dvh !important;
+    max-height: 100dvh !important;
+    border-radius: 0 !important;
+  }
+
+  .project-gallery-lightbox[data-gallery-variant="quote"] .project-gallery-lightbox-stage > img {
+    max-width: 100vw !important;
+    max-height: 100dvh !important;
   }
 }
 
@@ -24427,6 +24470,36 @@ main.project-detail-page .project-gallery-thumbnails > .project-gallery-thumbnai
   main.project-detail-page .project-gallery-thumbnails,
   .quote-page .quote-featured-project-card--inline-gallery .project-gallery-thumbnails {
     touch-action: pan-y !important;
+  }
+}
+
+/* Keep the factory activity carousel in its original two-card mobile layout.
+   Explicit sizing prevents the cards from falling back to full-width images
+   and becoming excessively tall on responsive phones. */
+@media (max-width: 767px) {
+  .quote-page .quote-factory-activity-track {
+    display: flex !important;
+    gap: .7rem !important;
+    width: 100% !important;
+    overflow-x: auto !important;
+  }
+
+  .quote-page .quote-factory-activity-card {
+    flex: 0 0 calc((100% - .7rem) / 2) !important;
+    width: calc((100% - .7rem) / 2) !important;
+    max-width: calc((100% - .7rem) / 2) !important;
+  }
+
+  .quote-page .quote-factory-activity-card figure {
+    width: 100% !important;
+    aspect-ratio: 16 / 10 !important;
+  }
+
+  .quote-page .quote-factory-activity-card img {
+    width: 100% !important;
+    height: 100% !important;
+    aspect-ratio: auto !important;
+    object-fit: cover !important;
   }
 }
 
@@ -24502,4 +24575,139 @@ main.project-detail-page .project-gallery-thumbnails > .project-gallery-thumbnai
   background: transparent !important;
   border: 0 !important;
   box-shadow: none !important;
+}
+
+/* Restore the responsive-web detail viewer: the frame follows the fitted
+   source image and both layers can travel horizontally during navigation.
+   The phone layout intentionally keeps the rules above unchanged. */
+@media (min-width: 768px) {
+  .project-gallery-lightbox:not([data-gallery-variant="quote"]):not(.project-gallery-lightbox--grid) {
+    padding: 1rem !important;
+    --project-gallery-control-gutter: clamp(4.5rem, 8vw, 6rem);
+  }
+
+  .project-gallery-lightbox:not([data-gallery-variant="quote"]):not(.project-gallery-lightbox--grid) .project-gallery-lightbox-backdrop {
+    background: rgba(9, 8, 7, .7) !important;
+  }
+
+  .project-gallery-lightbox:not([data-gallery-variant="quote"]):not(.project-gallery-lightbox--grid) .project-gallery-lightbox-dialog {
+    align-items: center !important;
+    width: fit-content !important;
+    max-width: 100% !important;
+    max-height: calc(100dvh - 2rem) !important;
+  }
+
+  .project-gallery-lightbox:not([data-gallery-variant="quote"]):not(.project-gallery-lightbox--grid) .project-gallery-lightbox-stage {
+    display: grid !important;
+    align-self: center !important;
+    width: fit-content !important;
+    max-width: calc(100vw - (var(--project-gallery-control-gutter) * 2)) !important;
+    height: fit-content !important;
+    max-height: calc(100dvh - 2rem) !important;
+    aspect-ratio: auto !important;
+    overflow: visible !important;
+    border: 0 !important;
+    border-radius: 0 !important;
+    background: transparent !important;
+    box-shadow: none !important;
+  }
+
+  .project-gallery-lightbox:not([data-gallery-variant="quote"]):not(.project-gallery-lightbox--grid) .project-gallery-lightbox-stage > [data-gallery-lightbox-image],
+  .project-gallery-lightbox:not([data-gallery-variant="quote"]):not(.project-gallery-lightbox--grid) .project-gallery-lightbox-stage > [data-gallery-lightbox-preview] {
+    position: absolute !important;
+    top: 50% !important;
+    left: 50% !important;
+    right: auto !important;
+    bottom: auto !important;
+    width: auto !important;
+    height: auto !important;
+    max-width: calc(100vw - (var(--project-gallery-control-gutter) * 2)) !important;
+    max-height: calc(100dvh - 2rem) !important;
+    margin: 0 !important;
+    object-fit: contain !important;
+    object-position: center center !important;
+    transform: translate3d(-50%, -50%, 0) !important;
+  }
+
+  .project-gallery-lightbox:not([data-gallery-variant="quote"]):not(.project-gallery-lightbox--grid) .project-gallery-lightbox-stage > [data-gallery-lightbox-preview] {
+    display: block !important;
+    visibility: hidden;
+    z-index: 3 !important;
+    pointer-events: none !important;
+  }
+
+  .project-gallery-lightbox:not([data-gallery-variant="quote"]):not(.project-gallery-lightbox--grid) .project-gallery-lightbox-stage > [data-gallery-lightbox-image] {
+    z-index: 2 !important;
+  }
+
+  /* Historical responsive-web placement: controls follow the fitted image
+     edges instead of staying at the viewport edges. */
+  .project-gallery-lightbox:not([data-gallery-variant="quote"]):not(.project-gallery-lightbox--grid) .project-gallery-lightbox-stage {
+    perspective: none !important;
+  }
+
+  .project-gallery-lightbox:not([data-gallery-variant="quote"]):not(.project-gallery-lightbox--grid) :is(.project-gallery-lightbox-close, .project-gallery-lightbox-control) {
+    position: fixed !important;
+  }
+
+  .project-gallery-lightbox:not([data-gallery-variant="quote"]):not(.project-gallery-lightbox--grid) .project-gallery-lightbox-control.previous {
+    top: 50% !important;
+    left: max(1rem, calc(var(--project-gallery-image-left, 50vw) - 4.875rem)) !important;
+    right: auto !important;
+    transform: translateY(-50%) !important;
+  }
+
+  .project-gallery-lightbox:not([data-gallery-variant="quote"]):not(.project-gallery-lightbox--grid) .project-gallery-lightbox-control.next {
+    top: 50% !important;
+    left: min(calc(100vw - 4.875rem), calc(var(--project-gallery-image-right, 50vw) + 1rem)) !important;
+    right: auto !important;
+    transform: translateY(-50%) !important;
+  }
+
+  .project-gallery-lightbox:not([data-gallery-variant="quote"]):not(.project-gallery-lightbox--grid) .project-gallery-lightbox-close {
+    top: max(1rem, var(--project-gallery-image-top, 1rem)) !important;
+    left: min(calc(100vw - 4.875rem), calc(var(--project-gallery-image-right, 50vw) + 1rem)) !important;
+    right: auto !important;
+  }
+}
+
+/* Restore the historical compact assurance-card rhythm on quote phones.
+   Keep this scoped to the quote page so the mobile cards elsewhere remain
+   unchanged. */
+@media (max-width: 767px) {
+  .quote-page .quote-benefit-grid {
+    gap: .3rem !important;
+  }
+
+  .quote-page .quote-benefit-card {
+    grid-template-columns: 34px minmax(0, 1fr) !important;
+    min-height: 52px !important;
+    padding: .3rem .48rem !important;
+    border-radius: 9px !important;
+    box-sizing: border-box !important;
+  }
+
+  .quote-page .quote-benefit-icon {
+    width: 28px !important;
+    height: 28px !important;
+  }
+
+  .quote-page .quote-benefit-copy {
+    min-height: 0 !important;
+    padding-left: .34rem !important;
+    align-self: center !important;
+  }
+
+  .quote-page .quote-benefit-copy h3,
+  .quote-page .quote-benefit-card h3 {
+    margin-bottom: .12rem !important;
+    font-size: clamp(.82rem, 3.85vw, 1rem) !important;
+    line-height: 1.08 !important;
+  }
+
+  .quote-page .quote-benefit-copy p,
+  .quote-page .quote-benefit-card p {
+    font-size: clamp(.62rem, 2.7vw, .72rem) !important;
+    line-height: 1.22 !important;
+  }
 }

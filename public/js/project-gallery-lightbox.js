@@ -43,14 +43,30 @@
     total: state.modal?.querySelector('[data-gallery-lightbox-total]'),
   });
 
+  const updateDesktopControlPosition = () => {
+    if (!state.modal || state.modal.hidden || state.modal.dataset.galleryVariant === 'quote') return;
+    if (!window.matchMedia?.('(min-width: 768px)').matches) return;
+    const { stage } = getElements();
+    if (!stage) return;
+    window.requestAnimationFrame(() => {
+      if (!state.modal || state.modal.hidden) return;
+      const rect = stage.getBoundingClientRect();
+      state.modal.style.setProperty('--project-gallery-image-left', `${rect.left}px`);
+      state.modal.style.setProperty('--project-gallery-image-right', `${rect.right}px`);
+      state.modal.style.setProperty('--project-gallery-image-top', `${rect.top}px`);
+    });
+  };
+
   const fitImageToStage = image => {
     const { stage } = getElements();
     if (!image?.naturalWidth || !image.naturalHeight || !stage) return;
 
-    if (state.modal?.dataset.galleryVariant === 'quote') {
+    const isDesktopDetailViewer = state.modal?.dataset.galleryVariant !== 'quote'
+      && window.matchMedia?.('(min-width: 768px)').matches;
+    if (state.modal?.dataset.galleryVariant === 'quote' || isDesktopDetailViewer) {
       const preview = getElements().preview;
       const isPreview = image === preview;
-      const maxWidth = Math.max(1, Math.min(window.innerWidth - 32, 1280));
+      const maxWidth = Math.max(1, Math.min(window.innerWidth - 160, 1280));
       const maxHeight = Math.max(1, Math.min(window.innerHeight - 32, 820));
       const scale = isPreview && stage.clientWidth && stage.clientHeight
         ? Math.min(stage.clientWidth / image.naturalWidth, stage.clientHeight / image.naturalHeight, 1)
@@ -382,6 +398,7 @@
       fitImageToStage(image);
       updateUi();
       updatePanLimits();
+      updateDesktopControlPosition();
       preload(getImage(state.images[(normalizedIndex + 1) % state.images.length]).src);
       preload(getImage(state.images[(normalizedIndex - 1 + state.images.length) % state.images.length]).src);
       },
@@ -415,6 +432,7 @@
       fitImageToStage(image);
       updatePanLimits();
       applyZoom();
+      updateDesktopControlPosition();
       if (isQuoteDesktopViewer() && state.images.length > 1) {
         preload(getImage(state.images[(state.index + 1) % state.images.length]).src);
         preload(getImage(state.images[(state.index - 1 + state.images.length) % state.images.length]).src);
@@ -471,6 +489,7 @@
       </div>`;
     document.body.append(modal);
     state.modal = modal;
+    window.addEventListener('resize', updateDesktopControlPosition);
 
     const { stage, image } = getElements();
     const backdrop = modal.querySelector('[data-gallery-lightbox-close]');
