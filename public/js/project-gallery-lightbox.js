@@ -64,16 +64,16 @@
     const isDesktopDetailViewer = state.modal?.dataset.galleryVariant !== 'quote'
       && window.matchMedia?.('(min-width: 768px)').matches;
     if (state.modal?.dataset.galleryVariant === 'quote' || isDesktopDetailViewer) {
-      const preview = getElements().preview;
-      const isPreview = image === preview;
       // Desktop reserves room for the side controls; the phone viewer must
       // use the old edge-to-edge fit and only keep a small safe gutter.
       const isDesktopViewer = window.matchMedia?.('(min-width: 768px)').matches;
       const maxWidth = Math.max(1, Math.min(window.innerWidth - (isDesktopViewer ? 160 : 32), 1280));
       const maxHeight = Math.max(1, Math.min(window.innerHeight - 32, 820));
-      const scale = isPreview && stage.clientWidth && stage.clientHeight
-        ? Math.min(stage.clientWidth / image.naturalWidth, stage.clientHeight / image.naturalHeight, 1)
-        : Math.min(maxWidth / image.naturalWidth, maxHeight / image.naturalHeight, 1);
+      // Both layers must use the same viewport fit. Fitting the preview to
+      // the current stage makes the next image briefly smaller (or larger)
+      // when its aspect ratio differs, then it jumps when it becomes the
+      // main image on mobile.
+      const scale = Math.min(maxWidth / image.naturalWidth, maxHeight / image.naturalHeight, 1);
       const width = Math.max(1, Math.round(image.naturalWidth * scale));
       const height = Math.max(1, Math.round(image.naturalHeight * scale));
 
