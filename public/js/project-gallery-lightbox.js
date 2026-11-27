@@ -68,9 +68,7 @@
       // use the full viewport width so the photo reaches both mobile edges.
       const isPreview = image === getElements().preview;
       const isDesktopViewer = window.matchMedia?.('(min-width: 768px)').matches;
-      const isResponsiveWebViewer = window.matchMedia?.(
-        '(min-width: 768px) and (max-width: 1023px)'
-      ).matches;
+      const isResponsiveWebViewer = window.matchMedia?.('(min-width: 768px)').matches;
       const maxWidth = isResponsiveWebViewer
         ? Math.max(1, window.innerWidth)
         : Math.max(1, Math.min(window.innerWidth - (isDesktopViewer ? 160 : 0), 1280));
@@ -200,6 +198,10 @@
   );
 
   const isDesktopLightboxViewer = () => (
+    window.matchMedia?.('(min-width: 768px)').matches
+  );
+
+  const isResponsiveWebViewer = () => (
     window.matchMedia?.('(min-width: 768px)').matches
   );
 
@@ -463,7 +465,7 @@
     // If it follows the incoming image while the layers are moving, a ratio
     // change can move the center point and expose a thin strip of the old
     // bitmap at the edge of the viewer.
-    if (isQuoteDesktopViewer() || (window.matchMedia?.('(min-width: 768px)').matches && state.modal?.dataset.galleryVariant !== 'quote')) {
+    if (!isResponsiveWebViewer() && (isQuoteDesktopViewer() || (window.matchMedia?.('(min-width: 768px)').matches && state.modal?.dataset.galleryVariant !== 'quote'))) {
       const stageWidth = Math.max(image.offsetWidth, preview.offsetWidth);
       const stageHeight = Math.max(image.offsetHeight, preview.offsetHeight);
       stage.style.setProperty('width', `${stageWidth}px`, 'important');

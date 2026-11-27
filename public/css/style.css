@@ -29230,10 +29230,9 @@ main.project-detail-page .project-gallery-thumbnails>.project-gallery-thumbnail>
   }
 }
 
-/* Tablet/web-responsive lightbox: use the complete viewport from 768px to
-   1023px. Mobile keeps its existing rules above, and desktop keeps the
-   centered image geometry from the desktop rules. */
-@media (min-width: 768px) and (max-width: 1023px) {
+/* Web-responsive lightbox: use the complete viewport from 768px upward.
+   Mobile keeps its existing rules above. */
+@media (min-width: 768px) {
   .project-gallery-lightbox:not(.project-gallery-lightbox--grid) {
     inset: 0 !important;
     padding: 0 !important;
