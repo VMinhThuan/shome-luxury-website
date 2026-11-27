@@ -68,20 +68,21 @@
       // use the full viewport width so the photo reaches both mobile edges.
       const isPreview = image === getElements().preview;
       const isDesktopViewer = window.matchMedia?.('(min-width: 768px)').matches;
-      const stageStyles = window.getComputedStyle(stage);
-      const cssMaxWidth = Number.parseFloat(stageStyles.maxWidth);
-      const cssMaxHeight = Number.parseFloat(stageStyles.maxHeight);
+      const availableWidth = Math.max(1, window.innerWidth * 0.96);
+      const availableHeight = Math.max(1, window.innerHeight * 0.96);
       const maxWidth = isDesktopViewer
-        ? Math.max(1, Number.isFinite(cssMaxWidth) ? cssMaxWidth : window.innerWidth)
+        ? availableWidth
         : Math.max(1, Math.min(window.innerWidth, 1280));
       const maxHeight = isDesktopViewer
-        ? Math.max(1, Number.isFinite(cssMaxHeight) ? cssMaxHeight : window.innerHeight)
+        ? availableHeight
         : Math.max(1, Math.min(window.innerHeight, 820));
       // Both layers must use the same viewport fit. Fitting the preview to
       // the current stage makes the next image briefly smaller (or larger)
       // when its aspect ratio differs, then it jumps when it becomes the
       // main image on mobile.
-      const scale = Math.min(maxWidth / image.naturalWidth, maxHeight / image.naturalHeight, 1);
+      const scale = isDesktopViewer
+        ? Math.min(maxWidth / image.naturalWidth, maxHeight / image.naturalHeight)
+        : Math.min(maxWidth / image.naturalWidth, maxHeight / image.naturalHeight, 1);
       const width = Math.max(1, Math.round(image.naturalWidth * scale));
       const height = Math.max(1, Math.round(image.naturalHeight * scale));
 

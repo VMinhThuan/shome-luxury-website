@@ -29089,16 +29089,16 @@ main.project-detail-page .project-gallery-thumbnails>.project-gallery-thumbnail>
 @media (min-width: 768px) {
   .project-gallery-lightbox:not([data-gallery-variant="quote"]):not(.project-gallery-lightbox--grid) .project-gallery-lightbox-dialog {
     width: fit-content !important;
-    max-width: 100% !important;
-    max-height: calc(100dvh - 2rem) !important;
+    max-width: 96vw !important;
+    max-height: 96dvh !important;
   }
 
   .project-gallery-lightbox:not([data-gallery-variant="quote"]):not(.project-gallery-lightbox--grid) .project-gallery-lightbox-stage {
     display: block !important;
     width: fit-content !important;
     height: fit-content !important;
-    max-width: calc(100vw - 10rem) !important;
-    max-height: calc(100dvh - 2rem) !important;
+    max-width: 96vw !important;
+    max-height: 96dvh !important;
     aspect-ratio: auto !important;
     overflow: visible !important;
     border: 0 !important;
@@ -29116,8 +29116,8 @@ main.project-detail-page .project-gallery-thumbnails>.project-gallery-thumbnail>
     bottom: auto !important;
     width: auto !important;
     height: auto !important;
-    max-width: calc(100vw - 10rem) !important;
-    max-height: calc(100dvh - 2rem) !important;
+    max-width: 96vw !important;
+    max-height: 96dvh !important;
     margin: 0 !important;
     object-fit: contain !important;
     object-position: center center !important;
@@ -29132,16 +29132,16 @@ main.project-detail-page .project-gallery-thumbnails>.project-gallery-thumbnail>
 @media (min-width: 768px) {
   .project-gallery-lightbox[data-gallery-variant="quote"]:not(.project-gallery-lightbox--grid) .project-gallery-lightbox-dialog {
     width: fit-content !important;
-    max-width: 100% !important;
-    max-height: calc(100dvh - 2rem) !important;
+    max-width: 96vw !important;
+    max-height: 96dvh !important;
   }
 
   .project-gallery-lightbox[data-gallery-variant="quote"]:not(.project-gallery-lightbox--grid) .project-gallery-lightbox-stage {
     display: block !important;
     width: fit-content !important;
     height: fit-content !important;
-    max-width: calc(100vw - 10rem) !important;
-    max-height: calc(100dvh - 2rem) !important;
+    max-width: 96vw !important;
+    max-height: 96dvh !important;
     aspect-ratio: auto !important;
     overflow: visible !important;
     border: 0 !important;
@@ -29159,8 +29159,8 @@ main.project-detail-page .project-gallery-thumbnails>.project-gallery-thumbnail>
     bottom: auto !important;
     width: auto !important;
     height: auto !important;
-    max-width: calc(100vw - 10rem) !important;
-    max-height: calc(100dvh - 2rem) !important;
+    max-width: 96vw !important;
+    max-height: 96dvh !important;
     margin: 0 !important;
     object-fit: contain !important;
     object-position: center center !important;
