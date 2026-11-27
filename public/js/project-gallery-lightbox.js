@@ -97,8 +97,13 @@
           stage.style.setProperty('height', `${height}px`, 'important');
         }
       }
-      image.style.setProperty('width', `${width}px`, 'important');
-      image.style.setProperty('height', `${height}px`, 'important');
+      if (isResponsiveWebViewer) {
+        image.style.removeProperty('width');
+        image.style.removeProperty('height');
+      } else {
+        image.style.setProperty('width', `${width}px`, 'important');
+        image.style.setProperty('height', `${height}px`, 'important');
+      }
       return;
     }
 
