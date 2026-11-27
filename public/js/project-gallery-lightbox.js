@@ -68,42 +68,22 @@
       // use the full viewport width so the photo reaches both mobile edges.
       const isPreview = image === getElements().preview;
       const isDesktopViewer = window.matchMedia?.('(min-width: 768px)').matches;
-      const isResponsiveWebViewer = window.matchMedia?.('(min-width: 768px)').matches;
-      const maxWidth = isResponsiveWebViewer
-        ? Math.max(1, window.innerWidth)
-        : Math.max(1, Math.min(window.innerWidth - (isDesktopViewer ? 160 : 0), 1280));
-      const maxHeight = isResponsiveWebViewer
-        ? Number.POSITIVE_INFINITY
-        : Math.max(1, Math.min(window.innerHeight - (isDesktopViewer ? 32 : 0), 820));
+      const maxWidth = Math.max(1, Math.min(window.innerWidth - (isDesktopViewer ? 160 : 0), 1280));
+      const maxHeight = Math.max(1, Math.min(window.innerHeight - (isDesktopViewer ? 32 : 0), 820));
       // Both layers must use the same viewport fit. Fitting the preview to
       // the current stage makes the next image briefly smaller (or larger)
       // when its aspect ratio differs, then it jumps when it becomes the
       // main image on mobile.
-      const scale = isResponsiveWebViewer
-        ? maxWidth / image.naturalWidth
-        : Math.min(maxWidth / image.naturalWidth, maxHeight / image.naturalHeight, 1);
+      const scale = Math.min(maxWidth / image.naturalWidth, maxHeight / image.naturalHeight, 1);
       const width = Math.max(1, Math.round(image.naturalWidth * scale));
       const height = Math.max(1, Math.round(image.naturalHeight * scale));
 
       if (!isPreview && !preserveStage) {
-        if (isResponsiveWebViewer) {
-          // Tablet/web-responsive keeps the lightbox frame locked to the
-          // viewport while the image is fitted inside it.
-          stage.style.removeProperty('width');
-          stage.style.removeProperty('height');
-        } else {
-          // Preserve the existing desktop and mobile stage sizing.
-          stage.style.setProperty('width', `${width}px`, 'important');
-          stage.style.setProperty('height', `${height}px`, 'important');
-        }
+        stage.style.setProperty('width', `${width}px`, 'important');
+        stage.style.setProperty('height', `${height}px`, 'important');
       }
-      if (isResponsiveWebViewer) {
-        image.style.removeProperty('width');
-        image.style.removeProperty('height');
-      } else {
-        image.style.setProperty('width', `${width}px`, 'important');
-        image.style.setProperty('height', `${height}px`, 'important');
-      }
+      image.style.setProperty('width', `${width}px`, 'important');
+      image.style.setProperty('height', `${height}px`, 'important');
       return;
     }
 
@@ -205,10 +185,6 @@
   );
 
   const isDesktopLightboxViewer = () => (
-    window.matchMedia?.('(min-width: 768px)').matches
-  );
-
-  const isResponsiveWebViewer = () => (
     window.matchMedia?.('(min-width: 768px)').matches
   );
 
@@ -472,7 +448,7 @@
     // If it follows the incoming image while the layers are moving, a ratio
     // change can move the center point and expose a thin strip of the old
     // bitmap at the edge of the viewer.
-    if (!isResponsiveWebViewer() && (isQuoteDesktopViewer() || (window.matchMedia?.('(min-width: 768px)').matches && state.modal?.dataset.galleryVariant !== 'quote'))) {
+    if (isQuoteDesktopViewer() || (window.matchMedia?.('(min-width: 768px)').matches && state.modal?.dataset.galleryVariant !== 'quote')) {
       const stageWidth = Math.max(image.offsetWidth, preview.offsetWidth);
       const stageHeight = Math.max(image.offsetHeight, preview.offsetHeight);
       stage.style.setProperty('width', `${stageWidth}px`, 'important');
