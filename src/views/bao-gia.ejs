@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400&family=Playfair+Display:ital,wght@0,600;0,700;0,800;0,900;1,600&family=Great+Vibes&family=Alex+Brush&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="/css/style.css?v=6.8.255" />
+  <link rel="stylesheet" href="/css/style.css?v=6.8.256" />
   <script src="/js/project-gallery-lightbox.js?v=1.0.41" defer></script>
   <style>
     /* Alternating section backgrounds on quote page handled by style.css design system */
@@ -2696,6 +2696,13 @@
         line-height: 1.2 !important;
         text-transform: none !important;
         white-space: normal !important;
+      }
+
+      /* Keep the brand-video title at the requested mobile size. This page
+         has inline responsive rules after the shared stylesheet, so the
+         specific selector must be declared here as well. */
+      #main-content.quote-page .quote-brand-video .quote-video-heading h2 {
+        font-size: 15px !important;
       }
 
       .quote-page :is(
