@@ -17911,7 +17911,7 @@ body.quote-project-gallery-open {
   position: relative;
   z-index: 1;
   display: flex;
-  width: min(1280px, 100%);
+  width: 100%;
   max-height: 100%;
   flex-direction: column;
   gap: .7rem;
@@ -17921,7 +17921,7 @@ body.quote-project-gallery-open {
   position: relative;
   display: grid;
   width: 100%;
-  height: min(78vh, 820px);
+  height: 78vh;
   place-items: center;
   overflow: hidden;
   border: 1px solid rgba(200, 155, 75, .35);
@@ -18654,8 +18654,8 @@ body.project-gallery-lightbox-open {
 .project-gallery-lightbox[data-quote-project-gallery-modal] .project-gallery-lightbox-stage {
   display: grid !important;
   place-items: center !important;
-  width: min(calc(100vw - 2rem), 1280px) !important;
-  height: min(calc(100dvh - 2rem), 820px) !important;
+  width: calc(100vw - 2rem) !important;
+  height: calc(100dvh - 2rem) !important;
   max-width: calc(100vw - 2rem) !important;
   max-height: calc(100dvh - 2rem) !important;
   overflow: hidden !important;
@@ -28618,8 +28618,8 @@ main.project-detail-page .project-info-banner .meta-value {
 .project-gallery-lightbox:not(.project-gallery-lightbox--grid) .project-gallery-lightbox-stage {
   display: grid !important;
   place-items: center !important;
-  width: min(calc(100vw - (var(--project-gallery-control-gutter) * 2)), 1280px) !important;
-  height: min(calc(100dvh - 2rem), 820px) !important;
+  width: calc(100vw - (var(--project-gallery-control-gutter) * 2)) !important;
+  height: calc(100dvh - 2rem) !important;
   max-width: calc(100vw - (var(--project-gallery-control-gutter) * 2)) !important;
   max-height: calc(100dvh - 2rem) !important;
   overflow: hidden !important;
@@ -28876,14 +28876,14 @@ main.project-detail-page .project-info-banner .meta-value {
 
 @media (max-width: 1023px) {
   .project-gallery-lightbox:not(.project-gallery-lightbox--grid) .project-gallery-lightbox-dialog {
-    width: min(calc(100vw - 1rem), 1280px) !important;
+    width: calc(100vw - 1rem) !important;
     height: auto !important;
     max-width: calc(100vw - 1rem) !important;
     max-height: calc(100dvh - 1rem) !important;
   }
 
   .project-gallery-lightbox:not(.project-gallery-lightbox--grid) .project-gallery-lightbox-stage {
-    width: min(calc(100vw - 1rem), 1280px) !important;
+    width: calc(100vw - 1rem) !important;
     height: auto !important;
     max-width: calc(100vw - 1rem) !important;
     max-height: calc(100dvh - 1rem) !important;
