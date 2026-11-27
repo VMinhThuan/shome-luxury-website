@@ -22689,6 +22689,19 @@ main :is(.text-accent-brown,
   }
 }
 
+/* Explicit mobile heading overrides for browsers with cached/older cascade
+   rules on the homepage title spans. */
+@media (max-width: 767px) {
+  body.home-page main .brand-story-title .story-title-script,
+  body.home-page main .brand-story-title .story-title-main,
+  body.home-page main .customer-stories-title .customer-stories-script,
+  body.home-page main .customer-stories-title .customer-stories-main,
+  body.home-page main .why-choose-title .why-choose-script,
+  body.home-page main .why-choose-title .why-choose-main {
+    font-size: 24px !important;
+  }
+}
+
 /* Sub-page banners share the same half-viewport desktop frame as the News
    banner. Homepage keeps its independent slider proportions. */
 @media (min-width: 768px) {
