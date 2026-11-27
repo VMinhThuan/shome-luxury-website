@@ -68,14 +68,15 @@
       // use the full viewport width so the photo reaches both mobile edges.
       const isPreview = image === getElements().preview;
       const isDesktopViewer = window.matchMedia?.('(min-width: 768px)').matches;
-      const maxWidth = Math.max(1, Math.min(
-        window.innerWidth - (isDesktopViewer ? 160 : 0),
-        isDesktopViewer ? 1280 : window.innerWidth
-      ));
-      const maxHeight = Math.max(
-        1,
-        isDesktopViewer ? Math.min(window.innerHeight - 32, 820) : window.innerHeight
-      );
+      const isResponsiveWebViewer = window.matchMedia?.(
+        '(min-width: 768px) and (max-width: 1023px)'
+      ).matches;
+      const maxWidth = isResponsiveWebViewer
+        ? Math.max(1, window.innerWidth)
+        : Math.max(1, Math.min(window.innerWidth - (isDesktopViewer ? 160 : 0), 1280));
+      const maxHeight = isResponsiveWebViewer
+        ? Math.max(1, window.innerHeight)
+        : Math.max(1, Math.min(window.innerHeight - (isDesktopViewer ? 32 : 0), 820));
       // Both layers must use the same viewport fit. Fitting the preview to
       // the current stage makes the next image briefly smaller (or larger)
       // when its aspect ratio differs, then it jumps when it becomes the
@@ -85,15 +86,15 @@
       const height = Math.max(1, Math.round(image.naturalHeight * scale));
 
       if (!isPreview && !preserveStage) {
-        if (isDesktopViewer) {
-          stage.style.setProperty('width', `${width}px`, 'important');
-          stage.style.setProperty('height', `${height}px`, 'important');
-        } else {
-          // Mobile keeps the stage locked to the viewport. Only the image is
-          // fitted to it, so resizing the responsive screen never leaves a
-          // letterboxed lightbox frame behind the photo.
+        if (isResponsiveWebViewer) {
+          // Tablet/web-responsive keeps the lightbox frame locked to the
+          // viewport while the image is fitted inside it.
           stage.style.removeProperty('width');
           stage.style.removeProperty('height');
+        } else {
+          // Preserve the existing desktop and mobile stage sizing.
+          stage.style.setProperty('width', `${width}px`, 'important');
+          stage.style.setProperty('height', `${height}px`, 'important');
         }
       }
       image.style.setProperty('width', `${width}px`, 'important');
