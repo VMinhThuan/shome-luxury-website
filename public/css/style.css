@@ -22675,6 +22675,20 @@ main :is(.text-accent-brown,
   }
 }
 
+/* Keep the homepage mobile heading words aligned at the requested 24px size. */
+@media (max-width: 767px) {
+  .home-page main :is(
+    .customer-stories-script,
+    .customer-stories-main,
+    .story-title-script,
+    .story-title-main,
+    .why-choose-script,
+    .why-choose-main
+  ) {
+    font-size: 24px !important;
+  }
+}
+
 /* Sub-page banners share the same half-viewport desktop frame as the News
    banner. Homepage keeps its independent slider proportions. */
 @media (min-width: 768px) {
@@ -27563,7 +27577,7 @@ main.project-detail-page .project-detail-summary {
 
 @media (max-width: 767px) {
   .quote-page .quote-brand-video .quote-video-heading h2 {
-    font-size: 12.183px !important;
+    font-size: 15px !important;
   }
 }
 
@@ -28894,6 +28908,16 @@ main.project-detail-page .project-info-banner .meta-value {
   .project-gallery-lightbox:not(.project-gallery-lightbox--grid) .project-gallery-lightbox-stage>[data-gallery-lightbox-preview] {
     max-width: 100% !important;
     max-height: 100% !important;
+  }
+}
+
+/* Match the homepage's tighter mobile section rhythm across the remaining
+   pages while preserving each page's full-width hero/banner frame. */
+@media (max-width: 767px) {
+  body:not(.home-page) main#main-content > section:not(.hero-section-v2):not(.subpage-banner-frame):not(.project-showcase-hero):not(.company-profile-hero):not(.project-detail-summary),
+  body:not(.home-page) main.main-content > section:not(.recruitment-banner-section) {
+    padding-top: 1rem !important;
+    padding-bottom: 1rem !important;
   }
 }
 
