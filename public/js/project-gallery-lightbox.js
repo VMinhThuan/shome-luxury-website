@@ -73,13 +73,15 @@
         ? Math.max(1, window.innerWidth)
         : Math.max(1, Math.min(window.innerWidth - (isDesktopViewer ? 160 : 0), 1280));
       const maxHeight = isResponsiveWebViewer
-        ? Math.max(1, window.innerHeight)
+        ? Number.POSITIVE_INFINITY
         : Math.max(1, Math.min(window.innerHeight - (isDesktopViewer ? 32 : 0), 820));
       // Both layers must use the same viewport fit. Fitting the preview to
       // the current stage makes the next image briefly smaller (or larger)
       // when its aspect ratio differs, then it jumps when it becomes the
       // main image on mobile.
-      const scale = Math.min(maxWidth / image.naturalWidth, maxHeight / image.naturalHeight, 1);
+      const scale = isResponsiveWebViewer
+        ? maxWidth / image.naturalWidth
+        : Math.min(maxWidth / image.naturalWidth, maxHeight / image.naturalHeight, 1);
       const width = Math.max(1, Math.round(image.naturalWidth * scale));
       const height = Math.max(1, Math.round(image.naturalHeight * scale));
 
